@@ -311,6 +311,51 @@ const iniciarVoz = async () => {
 
     const data = await response.json();
     console.log("Voice session:", data);
+const pc = new RTCPeerConnection();
+peerConnectionRef.current = pc;
+
+const audio = new Audio();
+audio.autoplay = true;
+audioRef.current = audio;
+pc.ontrack = (event) => {
+  audio.srcObject = event.streams[0];
+};
+const stream = await navigator.mediaDevices.getUserMedia({
+  audio: true,
+});
+
+stream.getTracks().forEach((track) => {
+  pc.addTrack(track, stream);
+});
+const dc = pc.createDataChannel("oai-events");
+const offer = await pc.createOffer();
+await pc.setLocalDescription(offer);
+const token = data.value;
+const sdpResponse = await fetch(
+  "https://api.openai.com/v1/realtime/calls",
+  {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/sdp",
+    },
+    body: offer.sdp,
+  }
+);
+const answerSdp = await sdpResponse.text();
+
+await pc.setRemoteDescription({
+  type: "answer",
+  sdp: answerSdp,
+});
+dc.onopen = () => {
+  dc.send(
+    JSON.stringify({
+      type: "response.create",
+    })
+  );
+};
+
   } catch (error) {
     console.error("Error al iniciar voz:", error);
   }
