@@ -305,6 +305,16 @@ useEffect(() => {
 const audioRef = useRef<HTMLAudioElement | null>(null);
 const iniciarVoz = async () => {
   try {
+if (peerConnectionRef.current) {
+  peerConnectionRef.current.close();
+  peerConnectionRef.current = null;
+}
+
+if (audioRef.current) {
+  audioRef.current.pause();
+  audioRef.current.srcObject = null;
+  audioRef.current = null;
+}
     const response = await fetch("/api/voice", {
       method: "POST",
     });
