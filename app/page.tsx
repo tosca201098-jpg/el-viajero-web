@@ -301,7 +301,7 @@ useEffect(() => {
 
   return () => clearInterval(intervalo);
 }, []);
-const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
+
 const audioRef = useRef<HTMLAudioElement | null>(null);
 const iniciarVoz = async () => {
   try {
