@@ -346,6 +346,9 @@ stream.getTracks().forEach((track) => {
   pc.addTrack(track, stream);
 });
 const dc = pc.createDataChannel("oai-events");
+dc.onmessage = (event) => {
+  console.log("Evento IA:", event.data);
+};
 dc.onopen = () => {
 setVozActiva(true);
   dc.send(
