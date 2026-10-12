@@ -328,6 +328,13 @@ stream.getTracks().forEach((track) => {
   pc.addTrack(track, stream);
 });
 const dc = pc.createDataChannel("oai-events");
+dc.onopen = () => {
+  dc.send(
+    JSON.stringify({
+      type: "response.create",
+    })
+  );
+};
 const offer = await pc.createOffer();
 await pc.setLocalDescription(offer);
 const token = data.value;
@@ -348,13 +355,6 @@ await pc.setRemoteDescription({
   type: "answer",
   sdp: answerSdp,
 });
-dc.onopen = () => {
-  dc.send(
-    JSON.stringify({
-      type: "response.create",
-    })
-  );
-};
 
   } catch (error) {
     console.error("Error al iniciar voz:", error);
