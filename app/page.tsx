@@ -347,7 +347,20 @@ stream.getTracks().forEach((track) => {
 });
 const dc = pc.createDataChannel("oai-events");
 dc.onmessage = (event) => {
-  console.log("Evento IA:", event.data);
+  const evento = JSON.parse(event.data);
+  console.log("Evento IA:", evento);
+
+  if (evento.type === "conversation.item.input_audio_transcription.completed") {
+    const texto = evento.transcript?.toLowerCase() || "";
+
+    const destino = destinations.find((d) =>
+      texto.includes(d.name.toLowerCase())
+    );
+
+    if (destino) {
+      setDestinoSeleccionado(destino);
+    }
+  }
 };
 dc.onopen = () => {
 setVozActiva(true);
