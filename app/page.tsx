@@ -304,6 +304,13 @@ useEffect(() => {
 
 const audioRef = useRef<HTMLAudioElement | null>(null);
 const [vozActiva, setVozActiva] = useState(false);
+const apagarVoz = () => {
+  peerConnectionRef.current?.close();
+  peerConnectionRef.current = null;
+  audioRef.current?.pause();
+  audioRef.current = null;
+  setVozActiva(false);
+};
 const iniciarVoz = async () => {
   try {
 if (peerConnectionRef.current) {
