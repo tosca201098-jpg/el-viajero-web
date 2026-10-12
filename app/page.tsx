@@ -552,7 +552,7 @@ await pc.setRemoteDescription({
                 className={`rounded-2xl border px-6 py-4 text-2xl transition ${
   vozActiva
     ? "animate-pulse border-green-300 bg-green-500/40"
-    : "border-cyan-300/30 bg-cyan-300/10 hover:bg-cyan-300/20"
+    : "border-red-400 bg-red-500/40 hover:bg-red-500/50"
 }`}
               >
                 🎙️
