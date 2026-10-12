@@ -340,6 +340,7 @@ stream.getTracks().forEach((track) => {
 });
 const dc = pc.createDataChannel("oai-events");
 dc.onopen = () => {
+setVozActiva(true);
   dc.send(
     JSON.stringify({
       type: "response.create",
@@ -548,7 +549,11 @@ await pc.setRemoteDescription({
                 onClick={iniciarVoz}
        
                 aria-label="Hablar con Destino AI"
-                className="rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-4 text-2xl transition hover:bg-cyan-300/20"
+                className={`rounded-2xl border px-6 py-4 text-2xl transition ${
+  vozActiva
+    ? "animate-pulse border-green-300 bg-green-500/40"
+    : "border-cyan-300/30 bg-cyan-300/10 hover:bg-cyan-300/20"
+}`}
               >
                 🎙️
               </button>
