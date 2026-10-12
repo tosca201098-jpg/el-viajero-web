@@ -292,6 +292,7 @@ const nombresFondos = [
 export default function Home() {
   const [fondoActual, setFondoActual] = useState(0);
   const [temporada, setTemporada] = useState("primavera");
+const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
 
 useEffect(() => {
   const intervalo = setInterval(() => {
@@ -300,6 +301,20 @@ useEffect(() => {
 
   return () => clearInterval(intervalo);
 }, []);
+const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
+const audioRef = useRef<HTMLAudioElement | null>(null);
+const iniciarVoz = async () => {
+  try {
+    const response = await fetch("/api/voice", {
+      method: "POST",
+    });
+
+    const data = await response.json();
+    console.log("Voice session:", data);
+  } catch (error) {
+    console.error("Error al iniciar voz:", error);
+  }
+};
   const [mensaje, setMensaje] = useState("");
   const [destinoSeleccionado, setDestinoSeleccionado] =
     useState<Destination | null>(null);
@@ -474,19 +489,8 @@ useEffect(() => {
 
               <button
                 type="button"
-                onClick={() => {
-                  fetch("/api/voice", {
-                    method: "POST",
-                  })
-                  .then((response) => response.text())
-                    .then((data) => {
-                      console.log(data);
-                      alert(JSON.stringify(data));
-                    })
-                    .catch((error) => {
-                      alert("Error: " + error.message);
-                    });
-                }}
+                onClick={iniciarVoz}
+       
                 aria-label="Hablar con Destino AI"
                 className="rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-4 text-2xl transition hover:bg-cyan-300/20"
               >
