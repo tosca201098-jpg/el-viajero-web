@@ -553,7 +553,7 @@ await pc.setRemoteDescription({
 
               <button
                 type="button"
-                onClick={iniciarVoz}
+                onClick={vozActiva ? apagarVoz : iniciarVoz}
        
                 aria-label="Hablar con Destino AI"
                 className={`rounded-2xl border px-6 py-4 text-2xl transition ${
