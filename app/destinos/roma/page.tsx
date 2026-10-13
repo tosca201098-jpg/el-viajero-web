@@ -2,7 +2,7 @@
 
 export default function RomaPage() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen bg-[#F7F2E8] text-stone-800">
       <section className="mx-auto max-w-7xl px-6 py-20">
         <a
           href="/temporadas/primavera"
@@ -12,7 +12,7 @@ export default function RomaPage() {
         </a>
         
         <div className="mt-16">
-          <p className="text-sm font-bold tracking-[0.35em] text-cyan-300">
+          <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
             ITALIA
           </p>
 
@@ -25,12 +25,12 @@ export default function RomaPage() {
   
 
           <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-    <p className="text-sm text-cyan-300">🗓️ Estancia recomendada</p>
+    <p className="text-sm text-cyan-800">🗓️ Estancia recomendada</p>
     <p className="mt-2 font-bold">3–4 días</p>
   </div>
 
   <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
-    <p className="text-sm text-cyan-300">📍 País</p>
+    <p className="text-sm text-cyan-800">📍 País</p>
     <p className="mt-2 font-bold">Italia 🇮🇹</p>
   </div>
 </div>
