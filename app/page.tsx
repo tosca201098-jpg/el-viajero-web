@@ -412,7 +412,7 @@ await pc.setRemoteDescription({
   const [destinoSeleccionado, setDestinoSeleccionado] =
     useState<Destination | null>(null);
 
-  const [modal, setModal] = useState<"vuelos" | "hoteles" | null>(null);
+  const [modal, setModal] = useState<"vuelos" | "hoteles" | "paquete" | null>(null);
 
   // VUELOS
   const [origen, setOrigen] = useState("");
@@ -457,7 +457,14 @@ await pc.setRemoteDescription({
     setModal("vuelos");
     setDestinoSeleccionado(null);
   }
-
+function abrirPaquete(destino = "") {
+  if (destino) {
+    setDestinoVuelo(destino);
+    setDestinoHotel(destino);
+  }
+  setModal("paquete");
+  setDestinoSeleccionado(null);
+}
   function abrirHoteles(destino = "") {
     if (destino) setDestinoHotel(destino);
     setModal("hoteles");
