@@ -32,8 +32,8 @@ tools: [
       properties: {
 origen: { type: "string" },
         destino: { type: "string" },
-        fecha_ida: { type: "string" },
-        fecha_vuelta: { type: "string" },
+        fecha_ida: { type: "string", description: "Fecha en formato YYYY-MM-DD" },
+fecha_vuelta: { type: "string", description: "Fecha en formato YYYY-MM-DD" },
         viajeros: { type: "number" },
         servicio: {
           type: "string",
