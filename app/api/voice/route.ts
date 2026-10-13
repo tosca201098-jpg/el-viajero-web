@@ -30,6 +30,7 @@ tools: [
     parameters: {
       type: "object",
       properties: {
+origen: { type: "string" },
         destino: { type: "string" },
         fecha_ida: { type: "string" },
         fecha_vuelta: { type: "string" },
@@ -40,6 +41,7 @@ tools: [
         },
       },
       required: [
+"origen",
         "destino",
         "fecha_ida",
         "fecha_vuelta",
