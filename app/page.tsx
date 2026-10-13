@@ -379,11 +379,27 @@ setHuespedes(datos.viajeros);
     }
   }
 };
+let saludoEnviado = false;
 dc.onopen = () => {
 setVozActiva(true);
+  if (saludoEnviado) return;
+  saludoEnviado = true;
+
+  const horaLocal = new Date().getHours();
+  const saludo =
+    horaLocal >= 6 && horaLocal < 12
+      ? "Hola, buenos días"
+      : horaLocal >= 12 && horaLocal < 20
+        ? "Hola, buenas tardes"
+        : "Hola, buenas noches";
+
   dc.send(
     JSON.stringify({
       type: "response.create",
+      response: {
+        instructions: `Inicia esta sesión de voz diciendo exactamente: "${saludo}. ¿En qué puedo ayudarte con tu viaje?". No añadas nada más en esta intervención. Este saludo es solo para el inicio de la sesión; no lo repitas durante la conversación.`,
+        tool_choice: "none",
+      },
     })
   );
 };
