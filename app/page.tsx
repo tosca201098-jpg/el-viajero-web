@@ -707,19 +707,6 @@ function abrirPaquete(destino = "") {
               >
                 🎙️
               </button>
-              <input
-                value={mensaje}
-                onChange={(e) => setMensaje(e.target.value)}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") explorarConIA();
-                }}
-                aria-label="Cuéntame qué viaje quieres"
-                placeholder="Ejemplo: Quiero viajar a Tokio..."
-                className="mt-6 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none placeholder:text-stone-500 focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20"
-              />
-              <button type="button" onClick={explorarConIA} className="mt-4 w-full rounded-2xl bg-blue-600 px-6 py-4 font-bold text-white transition hover:bg-blue-700">
-                Explorar con IA →
-              </button>
               <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs font-medium text-stone-700">
                 <span>✓ Ideas personalizadas</span>
                 <span>✓ Ahorra tiempo</span>
