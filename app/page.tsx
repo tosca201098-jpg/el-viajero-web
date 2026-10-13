@@ -1138,21 +1138,25 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
           </div>
         </div>
       )}
+
 {/* MODAL VUELO + HOTEL */}
 {modal === "paquete" && (
   <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 p-4 backdrop-blur-md">
     <div className="mx-auto my-8 max-w-4xl rounded-[30px] border border-white/10 bg-slate-950 p-6 shadow-2xl md:p-9">
+
       <div className="mb-8 flex items-start justify-between gap-5">
         <div>
           <p className="text-sm font-bold tracking-[0.25em] text-cyan-300">
             EL VIAJERO
           </p>
+
           <h2 className="mt-2 text-3xl font-black md:text-4xl">
             ✈️🏨 Vuelo + Hotel
           </h2>
         </div>
 
         <button
+          type="button"
           onClick={() => setModal(null)}
           className="rounded-full bg-white px-4 py-2 font-bold text-slate-950"
         >
@@ -1160,12 +1164,131 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
         </button>
       </div>
 
-      <p className="text-slate-300">
-        Busca tu vuelo y hotel juntos en un solo paquete.
-      </p>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          setMensajeVuelos(
+            "El buscador de Vuelo + Hotel está preparado. Conectaremos las ofertas reales mediante la API."
+          );
+        }}
+      >
+        <div className="grid gap-4 md:grid-cols-2">
+
+          <label>
+            <span className="mb-2 block text-sm text-slate-300">
+              Origen
+            </span>
+            <input
+              required
+              value={origen}
+              onChange={(e) => setOrigen(e.target.value)}
+              placeholder="Barcelona"
+              className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none focus:border-cyan-300/50"
+            />
+          </label>
+
+          <label>
+            <span className="mb-2 block text-sm text-slate-300">
+              Destino
+            </span>
+            <input
+              required
+              value={destinoVuelo}
+              onChange={(e) => {
+                setDestinoVuelo(e.target.value);
+                setDestinoHotel(e.target.value);
+              }}
+              placeholder="Roma"
+              className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none focus:border-cyan-300/50"
+            />
+          </label>
+
+          <label>
+            <span className="mb-2 block text-sm text-slate-300">
+              Fecha de ida
+            </span>
+            <input
+              required
+              type="date"
+              value={fechaIda}
+              onChange={(e) => {
+                setFechaIda(e.target.value);
+                setEntrada(e.target.value);
+              }}
+              className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none focus:border-cyan-300/50"
+            />
+          </label>
+
+          <label>
+            <span className="mb-2 block text-sm text-slate-300">
+              Fecha de vuelta
+            </span>
+            <input
+              required
+              type="date"
+              value={fechaVuelta}
+              onChange={(e) => {
+                setFechaVuelta(e.target.value);
+                setSalida(e.target.value);
+              }}
+              className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none focus:border-cyan-300/50"
+            />
+          </label>
+
+          <label>
+            <span className="mb-2 block text-sm text-slate-300">
+              Viajeros
+            </span>
+            <input
+              required
+              type="number"
+              min="1"
+              value={pasajeros}
+              onChange={(e) => {
+                const cantidad = Number(e.target.value);
+                setPasajeros(cantidad);
+                setHuespedes(cantidad);
+              }}
+              className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none"
+            />
+          </label>
+
+          <label>
+            <span className="mb-2 block text-sm text-slate-300">
+              Habitaciones
+            </span>
+            <input
+              required
+              type="number"
+              min="1"
+              value={habitaciones}
+              onChange={(e) =>
+                setHabitaciones(Number(e.target.value))
+              }
+              className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none"
+            />
+          </label>
+
+        </div>
+
+        <button
+          type="submit"
+          className="mt-6 w-full rounded-xl bg-cyan-300 px-6 py-4 font-black text-slate-950 transition hover:bg-cyan-200"
+        >
+          ✈️🏨 Buscar Vuelo + Hotel
+        </button>
+      </form>
+
+      {mensajeVuelos && (
+        <div className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-5 leading-7 text-cyan-100">
+          {mensajeVuelos}
+        </div>
+      )}
+
     </div>
   </div>
 )}
+        
     </main>
   );
 }
