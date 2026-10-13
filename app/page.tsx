@@ -367,6 +367,8 @@ setDestinoVuelo(destino.name);
 setDestinoHotel(destino.name);
 setFechaIda(datos.fecha_ida);
 setFechaVuelta(datos.fecha_vuelta);
+setEntrada(datos.fecha_ida);
+setSalida(datos.fecha_vuelta);
 setPasajeros(datos.viajeros);
       setDestinoSeleccionado(destino);
     }
