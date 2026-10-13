@@ -703,9 +703,16 @@ function abrirPaquete(destino = "") {
                 onClick={vozActiva ? apagarVoz : iniciarVoz}
                 aria-label={vozActiva ? "Apagar voz" : "Hablar con mi agente de viajes"}
                 aria-pressed={vozActiva}
-                className={`mt-7 flex h-28 w-28 items-center justify-center rounded-full bg-blue-600 text-5xl text-white shadow-xl transition hover:bg-blue-700 ${vozActiva ? "animate-pulse ring-4 ring-blue-300" : ""}`}
+                className={`relative mt-7 flex h-28 w-28 items-center justify-center rounded-full bg-blue-600 text-5xl text-white shadow-xl transition hover:bg-blue-700 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
               >
-                🎙️
+                {vozActiva && (
+                  <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-full">
+                    <span className="absolute inset-0 animate-ping rounded-full border-2 border-blue-500 [animation-duration:2s]" />
+                    <span className="absolute inset-0 animate-ping rounded-full border-2 border-blue-400 [animation-delay:650ms] [animation-duration:2s]" />
+                    <span className="absolute inset-0 animate-ping rounded-full border-2 border-blue-300 [animation-delay:1300ms] [animation-duration:2s]" />
+                  </span>
+                )}
+                <span className="relative z-10">🎙️</span>
               </button>
               <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs font-medium text-stone-700">
                 <span>✓ Ideas personalizadas</span>
