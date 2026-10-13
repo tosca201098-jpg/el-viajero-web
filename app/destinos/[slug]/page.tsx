@@ -12,7 +12,7 @@ export default function DestinoPage() {
     .join(" ");
 
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen bg-[#F7F2E8] text-stone-800">
       <section className="mx-auto max-w-7xl px-6 py-20">
         <a
           href="/temporadas/primavera"
@@ -26,7 +26,7 @@ export default function DestinoPage() {
             {nombre}
           </h1>
 
-          <p className="mt-6 text-lg text-slate-300">
+          <p className="mt-6 text-lg text-stone-700">
             Descubre qué ver, dónde alojarte y cómo organizar tu viaje.
           </p>
         </div>
