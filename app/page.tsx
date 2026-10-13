@@ -638,19 +638,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
 </button>
           </div>
 
-          <div className="mt-9 flex flex-wrap justify-center gap-3 text-sm text-slate-300">
-            <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">
-              🌍 Destinos reales
-            </span>
-
-            <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">
-              🎙️ Asistente por voz
-            </span>
-
-            <span className="rounded-full border border-white/10 bg-white/5 px-4 py-2">
-              ✨ Viajes personalizados
-            </span>
-          </div>
+              
         </div>
       </section>
 
