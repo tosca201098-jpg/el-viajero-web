@@ -828,46 +828,6 @@ function abrirPaquete(destino = "") {
 </button>
   </div>
 </section>
-      {/* RECOMENDACIONES */}
-      <section className="relative z-10 border-y border-white/10 bg-white/[0.03]">
-        <div className="mx-auto max-w-7xl px-6 py-24">
-          <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-7 text-white">
-              <div className="text-4xl">🧭</div>
-              <h3 className="mt-5 text-xl font-bold">
-                Recomendaciones inteligentes
-              </h3>
-              <p className="mt-3 leading-7 text-slate-400">
-                Descubre lugares y experiencias según el tipo de viaje que
-                quieras realizar.
-              </p>
-            </div>
-
-            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-7 text-white">
-              <div className="text-4xl">✈️</div>
-              <h3 className="mt-5 text-xl font-bold">
-                Compara tus vuelos
-              </h3>
-              <p className="mt-3 leading-7 text-slate-400">
-                El buscador quedará conectado a información real cuando
-                añadamos el proveedor de vuelos.
-              </p>
-            </div>
-
-            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-7 text-white">
-              <div className="text-4xl">🏨</div>
-              <h3 className="mt-5 text-xl font-bold">
-                Encuentra alojamiento
-              </h3>
-              <p className="mt-3 leading-7 text-slate-400">
-                Busca hoteles por destino, fechas, huéspedes y habitaciones
-                desde la misma web.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* CTA FINAL */}
       <section className="relative z-10 px-6 py-28 text-center">
         <div className="mx-auto max-w-4xl rounded-[36px] border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 to-violet-500/10 p-8 backdrop-blur-xl md:p-14">
