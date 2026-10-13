@@ -1138,6 +1138,34 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
           </div>
         </div>
       )}
+{/* MODAL VUELO + HOTEL */}
+{modal === "paquete" && (
+  <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 p-4 backdrop-blur-md">
+    <div className="mx-auto my-8 max-w-4xl rounded-[30px] border border-white/10 bg-slate-950 p-6 shadow-2xl md:p-9">
+      <div className="mb-8 flex items-start justify-between gap-5">
+        <div>
+          <p className="text-sm font-bold tracking-[0.25em] text-cyan-300">
+            EL VIAJERO
+          </p>
+          <h2 className="mt-2 text-3xl font-black md:text-4xl">
+            ✈️🏨 Vuelo + Hotel
+          </h2>
+        </div>
+
+        <button
+          onClick={() => setModal(null)}
+          className="rounded-full bg-white px-4 py-2 font-bold text-slate-950"
+        >
+          ×
+        </button>
+      </div>
+
+      <p className="text-slate-300">
+        Busca tu vuelo y hotel juntos en un solo paquete.
+      </p>
+    </div>
+  </div>
+)}
     </main>
   );
 }
