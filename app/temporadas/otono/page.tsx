@@ -1,6 +1,6 @@
 export default function OtonoPage() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen bg-[#F7F2E8] text-stone-800">
       <section className="mx-auto max-w-7xl px-6 py-20">
         <a
           href="/"
@@ -10,7 +10,7 @@ export default function OtonoPage() {
         </a>
 
         <div className="mt-14">
-          <p className="text-sm font-bold tracking-[0.35em] text-cyan-300">
+          <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
             🍂 OTOÑO
           </p>
 
@@ -18,7 +18,7 @@ export default function OtonoPage() {
             Los mejores destinos para viajar en otoño
           </h1>
 
-          <p className="mt-6 max-w-3xl text-lg text-slate-300">
+          <p className="mt-6 max-w-3xl text-lg text-stone-700">
             Descubre destinos ideales para disfrutar de paisajes de otoño,
             ciudades con encanto, naturaleza y escapadas inolvidables.
           </p>
