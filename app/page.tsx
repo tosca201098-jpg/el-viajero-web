@@ -619,6 +619,11 @@ await pc.setRemoteDescription({
             >
               🏨 Buscar hoteles
             </button>
+<button
+  className="rounded-2xl border border-white/15 bg-white/[0.06] px-7 py-4 font-semibold backdrop-blur-xl transition hover:border-cyan-300/40 hover:bg-white/10"
+>
+  ✈️🏨 Vuelo + Hotel
+</button>
           </div>
 
           <div className="mt-9 flex flex-wrap justify-center gap-3 text-sm text-slate-300">
