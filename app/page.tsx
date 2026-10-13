@@ -362,6 +362,7 @@ dc.onmessage = (event) => {
     );
 
     if (destino) {
+setOrigen(datos.origen);
 setDestinoVuelo(destino.name);
 setDestinoHotel(destino.name);
 setFechaIda(datos.fecha_ida);
