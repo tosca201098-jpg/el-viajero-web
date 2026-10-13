@@ -370,6 +370,7 @@ setFechaVuelta(datos.fecha_vuelta);
 setEntrada(datos.fecha_ida);
 setSalida(datos.fecha_vuelta);
 setPasajeros(datos.viajeros);
+setHuespedes(datos.viajeros);
       setDestinoSeleccionado(destino);
     }
   }
