@@ -492,7 +492,7 @@ function abrirPaquete(destino = "") {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-slate-950 text-white">
+    <main className="min-h-screen overflow-hidden bg-[#F7F2E8] text-stone-800">
       {/* FONDOS DE CIUDADES */}
 {fondos.map((fondo, index) => (
   <div
@@ -504,7 +504,7 @@ function abrirPaquete(destino = "") {
   />
 ))}
 
-<div className="fixed inset-0 z-0 bg-slate-950/60" />
+<div className="fixed inset-0 z-0 bg-[#F7F2E8]/90" />
       {/* FONDO ANIMADO */}
       <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
         <div className="absolute -left-40 -top-40 h-[500px] w-[500px] animate-pulse rounded-full bg-cyan-500/20 blur-[120px]" />
@@ -513,7 +513,7 @@ function abrirPaquete(destino = "") {
       </div>
 
       {/* NAVEGACIÓN */}
-      <nav className="fixed left-0 right-0 top-0 z-40 border-b border-white/10 bg-slate-950/70 backdrop-blur-xl">
+      <nav className="fixed left-0 right-0 top-0 z-40 border-b border-white/10 bg-[#F7F2E8]/70 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
           <button
             type="button"
@@ -532,7 +532,7 @@ function abrirPaquete(destino = "") {
                   .getElementById("destinos")
                   ?.scrollIntoView({ behavior: "smooth" })
               }
-              className="transition hover:text-cyan-300"
+              className="transition hover:text-cyan-800"
             >
               Destinos
             </button>
@@ -569,14 +569,14 @@ function abrirPaquete(destino = "") {
           <div className="mt-5 inline-flex items-center rounded-full border border-white/20 bg-black/30 px-4 py-2 text-sm text-white backdrop-blur-md">
   📍 {nombresFondos[fondoActual]}
 </div>
-          <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-slate-300 md:text-xl">
+          <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-stone-700 md:text-xl">
             Tu asistente inteligente para descubrir destinos, organizar tu
             viaje y encontrar vuelos y hoteles.
           </p>
 
           {/* BUSCADOR IA */}
           <div className="mx-auto mt-10 max-w-3xl rounded-[32px] border border-cyan-300/20 bg-white/[0.07] p-5 shadow-2xl backdrop-blur-2xl">
-            <p className="mb-4 text-left text-sm font-medium text-cyan-200">
+            <p className="mb-4 text-left text-sm font-medium text-cyan-800">
               ¿A dónde quieres viajar?
             </p>
 
@@ -648,7 +648,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
         className="relative z-10 mx-auto max-w-7xl px-6 py-24"
       >
         <div className="mb-12 text-center">
-          <p className="text-sm font-bold tracking-[0.35em] text-cyan-300">
+          <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
             INSPÍRATE
           </p>
 
@@ -656,7 +656,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
             Destinos que te encantarán
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-slate-400">
+          <p className="mx-auto mt-5 max-w-2xl text-stone-700">
             Descubre algunos de los destinos más fascinantes y empieza a
             preparar tu próxima aventura.
           </p>
@@ -682,21 +682,21 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
                     {destino.emoji} {destino.country}
                   </p>
 
-                  <h3 className="mt-1 text-3xl font-black">
+                  <h3 className="mt-1 text-3xl font-black text-white">
                     {destino.name}
                   </h3>
                 </div>
               </div>
 
               <div className="p-6">
-                <p className="min-h-[72px] leading-6 text-slate-300">
+                <p className="min-h-[72px] leading-6 text-stone-700">
                   {destino.description}
                 </p>
 
                 <button
                   type="button"
                   onClick={() => setDestinoSeleccionado(destino)}
-                  className="mt-6 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-5 py-3 font-semibold text-cyan-200 transition hover:bg-cyan-300 hover:text-slate-950"
+                  className="mt-6 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-5 py-3 font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950"
                 >
                   Explorar {destino.name} →
                 </button>
@@ -708,7 +708,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
 {/* VIAJAR SEGÚN LA TEMPORADA */}
 <section className="relative z-10 mx-auto max-w-7xl px-6 py-24">
   <div className="mb-12 text-center">
-    <p className="text-sm font-bold tracking-[0.35em] text-cyan-300">
+    <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
       ELIGE EL MOMENTO PERFECTO
     </p>
 
@@ -716,7 +716,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
       Dónde viajar según la temporada
     </h2>
 
-    <p className="mx-auto mt-5 max-w-2xl text-slate-300">
+    <p className="mx-auto mt-5 max-w-2xl text-stone-700">
       Descubre destinos ideales para cada época del año.
     </p>
   </div>
@@ -755,7 +755,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
       <section className="relative z-10 border-y border-white/10 bg-white/[0.03]">
         <div className="mx-auto max-w-7xl px-6 py-24">
           <div className="grid gap-6 md:grid-cols-3">
-            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-7">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-7 text-white">
               <div className="text-4xl">🧭</div>
               <h3 className="mt-5 text-xl font-bold">
                 Recomendaciones inteligentes
@@ -766,7 +766,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
               </p>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-7">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-7 text-white">
               <div className="text-4xl">✈️</div>
               <h3 className="mt-5 text-xl font-bold">
                 Compara tus vuelos
@@ -777,7 +777,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
               </p>
             </div>
 
-            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-7">
+            <div className="rounded-3xl border border-white/10 bg-slate-900/60 p-7 text-white">
               <div className="text-4xl">🏨</div>
               <h3 className="mt-5 text-xl font-bold">
                 Encuentra alojamiento
@@ -794,7 +794,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
       {/* CTA FINAL */}
       <section className="relative z-10 px-6 py-28 text-center">
         <div className="mx-auto max-w-4xl rounded-[36px] border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 to-violet-500/10 p-8 backdrop-blur-xl md:p-14">
-          <p className="text-sm font-bold tracking-[0.3em] text-cyan-300">
+          <p className="text-sm font-bold tracking-[0.3em] text-cyan-800">
             TU PRÓXIMA AVENTURA
           </p>
 
@@ -802,7 +802,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
             El mundo está esperando
           </h2>
 
-          <p className="mx-auto mt-5 max-w-xl leading-7 text-slate-300">
+          <p className="mx-auto mt-5 max-w-xl leading-7 text-stone-700">
             Elige un destino y empieza a construir tu viaje con El. VIAJERO.
           </p>
 
@@ -819,16 +819,16 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
       </section>
 
       {/* FOOTER */}
-      <footer className="relative z-10 border-t border-white/10 px-6 py-10 text-center text-sm text-slate-500">
+      <footer className="relative z-10 border-t border-white/10 px-6 py-10 text-center text-sm text-stone-700">
         <p>
-          DESTINO <span className="text-cyan-300">AI</span> · Tu compañero
+          DESTINO <span className="text-cyan-800">AI</span> · Tu compañero
           inteligente de viaje
         </p>
       </footer>
 
       {/* MODAL DESTINO */}
       {destinoSeleccionado && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 p-4 backdrop-blur-md">
+        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 text-white p-4 backdrop-blur-md">
           <div className="mx-auto my-8 max-w-3xl overflow-hidden rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl">
             <div className="relative h-72 md:h-96">
               <img
@@ -907,7 +907,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
 
       {/* MODAL VUELOS */}
       {modal === "vuelos" && (
-        <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 p-4 backdrop-blur-md">
+        <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 text-white p-4 backdrop-blur-md">
           <div className="mx-auto my-8 max-w-4xl rounded-[30px] border border-white/10 bg-slate-950 p-6 shadow-2xl md:p-9">
             <div className="mb-8 flex items-start justify-between gap-5">
               <div>
@@ -1018,7 +1018,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
 
       {/* MODAL HOTELES */}
       {modal === "hoteles" && (
-        <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 p-4 backdrop-blur-md">
+        <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 text-white p-4 backdrop-blur-md">
           <div className="mx-auto my-8 max-w-4xl rounded-[30px] border border-white/10 bg-slate-950 p-6 shadow-2xl md:p-9">
             <div className="mb-8 flex items-start justify-between gap-5">
               <div>
@@ -1133,7 +1133,7 @@ onClick={() => abrirPaquete(destinoSeleccionado?.name || "")}className="rounded-
 
 {/* MODAL VUELO + HOTEL */}
 {modal === "paquete" && (
-  <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 p-4 backdrop-blur-md">
+  <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 text-white p-4 backdrop-blur-md">
     <div className="mx-auto my-8 max-w-4xl rounded-[30px] border border-white/10 bg-slate-950 p-6 shadow-2xl md:p-9">
 
       <div className="mb-8 flex items-start justify-between gap-5">
