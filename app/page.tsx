@@ -798,7 +798,7 @@ await pc.setRemoteDescription({
           </h2>
 
           <p className="mx-auto mt-5 max-w-xl leading-7 text-slate-300">
-            Elige un destino y empieza a construir tu viaje con DestinIA.
+            Elige un destino y empieza a construir tu viaje con El. VIAJERO.
           </p>
 
           <button
@@ -907,7 +907,7 @@ await pc.setRemoteDescription({
             <div className="mb-8 flex items-start justify-between gap-5">
               <div>
                 <p className="text-sm font-bold tracking-[0.25em] text-cyan-300">
-                DestinIA
+                EL VIAJERO
                 </p>
                 <h2 className="mt-2 text-3xl font-black md:text-4xl">
                   ✈️ Buscar vuelos
@@ -1018,7 +1018,7 @@ await pc.setRemoteDescription({
             <div className="mb-8 flex items-start justify-between gap-5">
               <div>
                 <p className="text-sm font-bold tracking-[0.25em] text-cyan-300">
-                DestinIA
+                EL VIAJERO
                 </p>
                 <h2 className="mt-2 text-3xl font-black md:text-4xl">
                   🏨 Buscar hoteles
