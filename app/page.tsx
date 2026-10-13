@@ -371,7 +371,11 @@ setEntrada(datos.fecha_ida);
 setSalida(datos.fecha_vuelta);
 setPasajeros(datos.viajeros);
 setHuespedes(datos.viajeros);
-      setDestinoSeleccionado(destino);
+     if (datos.servicio === "ambos") {
+  abrirPaquete(destino.name);
+} else {
+  setDestinoSeleccionado(destino);
+}
     }
   }
 };
