@@ -350,11 +350,15 @@ dc.onmessage = (event) => {
   const evento = JSON.parse(event.data);
   console.log("Evento IA:", evento);
 
-  if (evento.type === "conversation.item.input_audio_transcription.completed") {
-    const texto = evento.transcript?.toLowerCase() || "";
+  if (evento.type === "response.function_call_arguments.done") {
+    if (evento.name !== "buscar_viaje") return;
 
-    const destino = destinations.find((d) =>
-      texto.includes(d.name.toLowerCase())
+    const datos = JSON.parse(evento.arguments);
+
+    const destino = destinations.find(
+      (d) =>
+        d.name.toLowerCase() ===
+        datos.destino?.trim().toLowerCase()
     );
 
     if (destino) {
