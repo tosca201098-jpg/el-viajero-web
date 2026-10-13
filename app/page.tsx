@@ -603,14 +603,14 @@ await pc.setRemoteDescription({
           {/* BOTONES VUELOS HOTELES */}
           <div className="mt-7 flex flex-wrap justify-center gap-4">
             <button
-              onClick={() => abrirVuelos()}
+              onClick={() => abrirVuelos(destinoSeleccionado?.name || "")}
               className="rounded-2xl border border-white/15 bg-white/[0.06] px-7 py-4 font-semibold backdrop-blur-xl transition hover:border-cyan-300/40 hover:bg-white/10"
             >
               ✈️ Buscar vuelos
             </button>
 
             <button
-              onClick={() => abrirHoteles()}
+              onClick={() => abrirHoteles(destinoSeleccionado?.name || "")}
               className="rounded-2xl border border-white/15 bg-white/[0.06] px-7 py-4 font-semibold backdrop-blur-xl transition hover:border-cyan-300/40 hover:bg-white/10"
             >
               🏨 Buscar hoteles
