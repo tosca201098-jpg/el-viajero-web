@@ -267,7 +267,7 @@ const destinosPrimavera = [
 ];
 export default function PrimaveraPage() {
   return (
-    <main className="min-h-screen bg-slate-950 text-white">
+    <main className="min-h-screen bg-[#F7F2E8] text-stone-800">
       <section className="mx-auto max-w-7xl px-6 py-20">
         <a
           href="/"
@@ -277,7 +277,7 @@ export default function PrimaveraPage() {
         </a>
 
         <div className="mt-14">
-          <p className="text-sm font-bold tracking-[0.35em] text-cyan-300">
+          <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
             🌸 PRIMAVERA
           </p>
 
@@ -285,14 +285,14 @@ export default function PrimaveraPage() {
             Los mejores destinos para viajar en primavera
           </h1>
 
-          <p className="mt-6 max-w-3xl text-lg text-slate-300">
+          <p className="mt-6 max-w-3xl text-lg text-stone-700">
             Descubre lugares ideales para disfrutar del buen tiempo, la
             naturaleza, las ciudades y los paisajes más espectaculares de la
             primavera.
           </p>
         </div>
         <div className="mt-16">
-  <p className="text-sm font-bold tracking-[0.35em] text-cyan-300">
+  <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
     DESTINOS RECOMENDADOS
   </p>
 
