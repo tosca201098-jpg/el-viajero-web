@@ -762,13 +762,13 @@ function abrirPaquete(destino = "") {
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-full grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5">
+        <div className="mx-auto grid max-w-full grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
           {destinations.map((destino) => (
             <article
               key={destino.name}
               className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30"
             >
-              <div className="relative h-72 overflow-hidden lg:h-56 xl:h-[216px]">
+              <div className="relative h-52 overflow-hidden sm:h-48 lg:h-36">
                 <img
                   src={destino.image}
                   alt={`${destino.name}, ${destino.country}`}
@@ -777,26 +777,26 @@ function abrirPaquete(destino = "") {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
 
-                <div className="absolute bottom-5 left-5">
-                  <p className="text-sm text-cyan-200">
+                <div className="absolute bottom-3 left-3 right-3">
+                  <p className="text-sm leading-4 text-cyan-200">
                     {destino.emoji} {destino.country}
                   </p>
 
-                  <h3 className="mt-1 text-3xl font-black text-white">
+                  <h3 className="mt-1 text-xl leading-6 font-black text-white lg:text-lg lg:leading-5">
                     {destino.name}
                   </h3>
                 </div>
               </div>
 
-              <div className="p-6 lg:px-3 lg:py-3">
-                <p className="min-h-[72px] leading-6 text-stone-700 lg:min-h-0 lg:leading-5">
+              <div className="p-3 lg:p-2.5">
+                <p className="text-sm leading-5 text-stone-700">
                   {destino.description}
                 </p>
 
                 <button
                   type="button"
                   onClick={() => setDestinoSeleccionado(destino)}
-                  className="mt-6 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-5 py-3 font-semibold lg:mt-2 lg:px-2 lg:py-2 lg:leading-5 text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950"
+                  className="mt-2 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-2 py-1.5 text-sm leading-5 font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950"
                 >
                   Explorar {destino.name} →
                 </button>
@@ -821,31 +821,31 @@ function abrirPaquete(destino = "") {
     </p>
   </div>
 
-  <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
 
     <button
   onClick={() => (window.location.href = "/temporadas/primavera")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] p-5 font-bold backdrop-blur-xl lg:px-5 lg:py-3"
+  className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm leading-5 font-bold backdrop-blur-xl"
 >
       🌸 Primavera
     </button>
 
     <button
   onClick={() => (window.location.href = "/temporadas/verano")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] p-5 font-bold backdrop-blur-xl lg:px-5 lg:py-3"
+  className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm leading-5 font-bold backdrop-blur-xl"
 >
       ☀️ Verano
     </button>
     <button
   onClick={() => (window.location.href = "/temporadas/otono")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] p-5 font-bold backdrop-blur-xl lg:px-5 lg:py-3"
+  className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm leading-5 font-bold backdrop-blur-xl"
 >
   🍂 Otoño
 </button>
 
 <button
   onClick={() => (window.location.href = "/temporadas/invierno")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] p-5 font-bold backdrop-blur-xl lg:px-5 lg:py-3"
+  className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm leading-5 font-bold backdrop-blur-xl"
 >
   ❄️ Invierno
 </button>
