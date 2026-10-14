@@ -1,6 +1,7 @@
 "use client";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import AuthDialog from "./components/AuthDialog";
 
 type Destination = {
   name: string;
@@ -276,6 +277,7 @@ const fondos = [
   "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1600&q=85",
 ];
 export default function Home() {
+  const [authMode, setAuthMode] = useState<"signup" | "signin" | null>(null);
   const [fondoActual, setFondoActual] = useState(0);
   const [temporada, setTemporada] = useState("primavera");
 const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
@@ -529,12 +531,14 @@ function abrirPaquete(destino = "") {
           <div className="flex shrink-0 flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3">
             <button
               type="button"
+              onClick={() => setAuthMode("signup")}
               className="whitespace-nowrap rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm"
             >
               Crear cuenta
             </button>
             <button
               type="button"
+              onClick={() => setAuthMode("signin")}
               className="whitespace-nowrap rounded-lg px-2 py-1 text-xs font-medium text-stone-700 transition hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 sm:px-3 sm:py-2 sm:text-sm"
             >
               Iniciar sesión
@@ -1312,6 +1316,7 @@ function abrirPaquete(destino = "") {
   </div>
 )}
         
+      {authMode && <AuthDialog key={authMode} mode={authMode} onClose={() => setAuthMode(null)} />}
     </main>
   );
 }
