@@ -48,7 +48,9 @@ export default function AuthDialog({ mode, onClose }: {
 
       if (result.error) {
         const code = result.error.code;
-        if (code === "invalid_credentials") {
+        if (code?.startsWith("PGRST") || result.error.status === 404) {
+          setError("El acceso a cuentas tiene una ruta de Supabase incorrecta. Revisa la URL del proyecto.");
+        } else if (code === "invalid_credentials") {
           setError("Correo o contraseña incorrectos.");
         } else if (code === "email_not_confirmed") {
           setError("Confirma tu correo antes de iniciar sesión.");
