@@ -766,9 +766,9 @@ function abrirPaquete(destino = "") {
           {destinations.map((destino) => (
             <article
               key={destino.name}
-              className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30"
+              className="group flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30"
             >
-              <div className="relative h-52 overflow-hidden sm:h-48 lg:h-36">
+              <div className="relative h-[180px] shrink-0 overflow-hidden sm:h-[164px] lg:h-[124px]">
                 <img
                   src={destino.image}
                   alt={`${destino.name}, ${destino.country}`}
@@ -777,26 +777,26 @@ function abrirPaquete(destino = "") {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
 
-                <div className="absolute bottom-3 left-3 right-3">
-                  <p className="text-sm leading-4 text-cyan-200">
+                <div className="absolute bottom-2.5 left-2.5 right-2.5">
+                  <p className="text-[13px] leading-4 text-cyan-200">
                     {destino.emoji} {destino.country}
                   </p>
 
-                  <h3 className="mt-1 text-xl leading-6 font-black text-white lg:text-lg lg:leading-5">
+                  <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5">
                     {destino.name}
                   </h3>
                 </div>
               </div>
 
-              <div className="p-3 lg:p-2.5">
-                <p className="text-sm leading-5 text-stone-700">
+              <div className="flex flex-1 flex-col p-2.5 lg:p-2">
+                <p className="flex-1 text-[13px] leading-[18px] text-stone-700">
                   {destino.description}
                 </p>
 
                 <button
                   type="button"
                   onClick={() => setDestinoSeleccionado(destino)}
-                  className="mt-2 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-2 py-1.5 text-sm leading-5 font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950"
+                  className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950"
                 >
                   Explorar {destino.name} →
                 </button>
@@ -825,27 +825,27 @@ function abrirPaquete(destino = "") {
 
     <button
   onClick={() => (window.location.href = "/temporadas/primavera")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm leading-5 font-bold backdrop-blur-xl"
+  className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
 >
       🌸 Primavera
     </button>
 
     <button
   onClick={() => (window.location.href = "/temporadas/verano")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm leading-5 font-bold backdrop-blur-xl"
+  className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
 >
       ☀️ Verano
     </button>
     <button
   onClick={() => (window.location.href = "/temporadas/otono")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm leading-5 font-bold backdrop-blur-xl"
+  className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
 >
   🍂 Otoño
 </button>
 
 <button
   onClick={() => (window.location.href = "/temporadas/invierno")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] px-3 py-2.5 text-sm leading-5 font-bold backdrop-blur-xl"
+  className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
 >
   ❄️ Invierno
 </button>
