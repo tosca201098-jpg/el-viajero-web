@@ -557,18 +557,19 @@ function abrirPaquete(destino = "") {
       </nav>
 
       {/* PORTADA */}
-      <section className="relative z-10 flex min-h-screen items-center justify-center px-6 pb-16 pt-28">
+      <section className="relative z-10 flex items-center justify-center px-6 pb-10 pt-24 md:pb-12 md:pt-24 lg:pt-20">
         <div className="mx-auto w-full max-w-5xl text-center">
-         
-        <img
-  src="https://i.ibb.co/qwy6gvm/file-00000000c0d4821099521df6da250944.png"
-  alt="El vIAjero"
-  className="mx-auto mb-4 h-32 w-44 object-contain"
-/>
-          <h1 className="text-6xl font-black tracking-tight md:text-8xl lg:text-9xl">
-        EL V<span className="text-blue-500">IA</span>JERO
+          <img
+            src="https://i.ibb.co/qwy6gvm/file-00000000c0d4821099521df6da250944.png"
+            alt="El vIAjero"
+            className="mx-auto mb-2 h-20 w-28 object-contain sm:h-24 sm:w-32 lg:h-24 lg:w-36"
+          />
+          <h1 className="text-[clamp(2rem,7.5vw,6.5rem)] font-black leading-none tracking-tight">
+            <span className="text-stone-900">EL</span>{" "}
+            <span className="bg-gradient-to-r from-blue-600 to-teal-400 bg-clip-text text-transparent">VIAJERO</span>
           </h1>
-          <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-stone-700 md:text-xl">
+          <div aria-hidden="true" className="mx-auto mt-3 h-1 w-14 rounded-full bg-blue-500 md:mt-4 md:w-16" />
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-6 text-stone-700 sm:text-lg sm:leading-7 md:mt-5 md:text-xl">
             Tu asistente inteligente para descubrir destinos, organizar tu
             viaje y encontrar vuelos y hoteles.
           </p>
