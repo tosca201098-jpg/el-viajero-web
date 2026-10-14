@@ -275,20 +275,6 @@ const fondos = [
   // Tailandia
   "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1600&q=85",
 ];
-const nombresFondos = [
-  "París, Francia",
-  "Tokio, Japón",
-  "Nueva York, Estados Unidos",
-  "Maldivas",
-  "Roma, Italia",
-  "Santorini, Grecia",
-  "Bali, Indonesia",
-  "Dubái, Emiratos Árabes Unidos",
-  "Londres, Reino Unido",
-  "Islandia",
-  "Suiza",
-  "Tailandia",
-];
 export default function Home() {
   const [fondoActual, setFondoActual] = useState(0);
   const [temporada, setTemporada] = useState("primavera");
@@ -582,9 +568,6 @@ function abrirPaquete(destino = "") {
           <h1 className="text-6xl font-black tracking-tight md:text-8xl lg:text-9xl">
         EL V<span className="text-blue-500">IA</span>JERO
           </h1>
-          <div className="mt-5 inline-flex items-center rounded-full border border-white/20 bg-black/30 px-4 py-2 text-sm text-white backdrop-blur-md">
-  📍 {nombresFondos[fondoActual]}
-</div>
           <p className="mx-auto mt-7 max-w-2xl text-lg leading-8 text-stone-700 md:text-xl">
             Tu asistente inteligente para descubrir destinos, organizar tu
             viaje y encontrar vuelos y hoteles.
