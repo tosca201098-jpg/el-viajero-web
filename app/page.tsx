@@ -526,33 +526,6 @@ function abrirPaquete(destino = "") {
           >
            EL V<span className="text-blue-500">IA</span>JERO
           </button>
-
-          <div className="hidden items-center gap-7 text-sm text-blue-500 md:flex">
-            <button
-              onClick={() =>
-                document
-                  .getElementById("destinos")
-                  ?.scrollIntoView({ behavior: "smooth" })
-              }
-              className="transition hover:text-cyan-800"
-            >
-              Destinos
-            </button>
-
-            <button
-              onClick={() => abrirVuelos()}
-              className="transition hover:text-cyan-300"
-            >
-              Vuelos
-            </button>
-
-            <button
-              onClick={() => abrirHoteles()}
-              className="transition hover:text-cyan-300"
-            >
-              Hoteles
-            </button>
-          </div>
         </div>
       </nav>
 
