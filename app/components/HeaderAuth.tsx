@@ -82,7 +82,7 @@ export default function HeaderAuth({ onOpenAuth }: {
           <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} disabled:opacity-60`}>
             {signingOut ? "Cerrando sesión…" : "Cerrar sesión"}
           </button>
-          {error && <p role="alert" className="max-w-48 text-right text-xs text-red-700">{error}</p>}
+          {error && !accountOpen && <p role="alert" className="max-w-48 text-right text-xs text-red-700">{error}</p>}
         </>
       ) : (
         <>
@@ -105,8 +105,21 @@ export default function HeaderAuth({ onOpenAuth }: {
             <h2 id="account-dialog-title" className="text-2xl font-black">Mi cuenta</h2>
             <button type="button" onClick={() => setAccountOpen(false)} aria-label="Cerrar" className="rounded-lg px-3 py-2 text-xl hover:bg-stone-200 focus-visible:ring-2 focus-visible:ring-blue-600">×</button>
           </div>
-          <p className="mt-5 text-sm font-semibold">Correo electrónico</p>
-          <p className="mt-1 break-all text-sm text-stone-700">{session.user.email}</p>
+          <div className="mt-5 rounded-2xl border border-stone-200 bg-white/60 p-4">
+            <p className="text-sm font-semibold">Correo electrónico</p>
+            <p className="mt-1 break-all text-sm text-stone-700">{session.user.email}</p>
+          </div>
+          <section aria-labelledby="account-trips-title" className="mt-5 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
+            <h3 id="account-trips-title" className="text-lg font-bold text-stone-800">Mis viajes</h3>
+            {/* Replace this empty state with saved trips when that feature is available. */}
+            <p className="mt-2 text-sm leading-6 text-stone-700">Todavía no tienes viajes guardados.</p>
+          </section>
+          <div className="mt-6 border-t border-stone-200 pt-4">
+            {error && <p role="alert" className="mb-3 text-sm text-red-700">{error}</p>}
+            <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} w-full border border-stone-300 disabled:opacity-60`}>
+              {signingOut ? "Cerrando sesión…" : "Cerrar sesión"}
+            </button>
+          </div>
         </dialog>
       )}
     </div>
