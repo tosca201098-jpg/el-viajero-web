@@ -592,80 +592,80 @@ function abrirPaquete(destino = "") {
 
           {/* BUSCADOR IA */}
           <div className="mx-auto mt-10 grid w-full overflow-hidden rounded-[36px] border border-stone-200 bg-[#F7F2E8]/95 text-left shadow-2xl backdrop-blur-2xl md:grid-cols-2">
-            <div className="p-6 md:p-8">
+            <div className="px-6 py-4 md:px-8 md:py-6">
               <h2 className="text-2xl font-black text-stone-800">✈️ Buscar tu viaje</h2>
-              <div className="mt-6 grid grid-cols-3 gap-2">
+              <div className="mt-4 grid grid-cols-3 gap-2">
                 <input type="radio" name="buscador-servicio" id="buscador-vuelos" className="peer/vuelos sr-only" defaultChecked />
                 <input type="radio" name="buscador-servicio" id="buscador-hoteles" className="peer/hoteles sr-only" />
                 <input type="radio" name="buscador-servicio" id="buscador-paquete" className="peer/paquete sr-only" />
 
-                <label htmlFor="buscador-vuelos" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-3 text-center text-sm font-bold text-stone-700 transition peer-checked/vuelos:border-blue-600 peer-checked/vuelos:bg-blue-600 peer-checked/vuelos:text-white peer-focus-visible/vuelos:ring-2 peer-focus-visible/vuelos:ring-blue-600">
+                <label htmlFor="buscador-vuelos" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-2 text-center text-sm font-bold text-stone-700 transition peer-checked/vuelos:border-blue-600 peer-checked/vuelos:bg-blue-600 peer-checked/vuelos:text-white peer-focus-visible/vuelos:ring-2 peer-focus-visible/vuelos:ring-blue-600">
                   ✈️ Vuelos
                 </label>
-                <label htmlFor="buscador-hoteles" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-3 text-center text-sm font-bold text-stone-700 transition peer-checked/hoteles:border-blue-600 peer-checked/hoteles:bg-blue-600 peer-checked/hoteles:text-white peer-focus-visible/hoteles:ring-2 peer-focus-visible/hoteles:ring-blue-600">
+                <label htmlFor="buscador-hoteles" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-2 text-center text-sm font-bold text-stone-700 transition peer-checked/hoteles:border-blue-600 peer-checked/hoteles:bg-blue-600 peer-checked/hoteles:text-white peer-focus-visible/hoteles:ring-2 peer-focus-visible/hoteles:ring-blue-600">
                   🏨 Hoteles
                 </label>
-                <label htmlFor="buscador-paquete" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-3 text-center text-sm font-bold text-stone-700 transition peer-checked/paquete:border-blue-600 peer-checked/paquete:bg-blue-600 peer-checked/paquete:text-white peer-focus-visible/paquete:ring-2 peer-focus-visible/paquete:ring-blue-600">
+                <label htmlFor="buscador-paquete" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-2 text-center text-sm font-bold text-stone-700 transition peer-checked/paquete:border-blue-600 peer-checked/paquete:bg-blue-600 peer-checked/paquete:text-white peer-focus-visible/paquete:ring-2 peer-focus-visible/paquete:ring-blue-600">
                   ✈️🏨 Vuelo + Hotel
                 </label>
-                <form onSubmit={buscarVuelos} className="col-span-3 mt-4 hidden peer-checked/vuelos:block">
-                  <div className="grid gap-4 sm:grid-cols-2">
+                <form onSubmit={buscarVuelos} className="col-span-3 mt-3 hidden peer-checked/vuelos:block">
+                  <div className="grid gap-x-4 gap-y-3 sm:grid-cols-2">
                       <label className="block text-sm font-semibold text-stone-700">
                         Origen
-                        <input required value={origen} onChange={(e) => setOrigen(e.target.value)} placeholder="Madrid" className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required value={origen} onChange={(e) => setOrigen(e.target.value)} placeholder="Madrid" className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Destino
-                        <input required value={destinoVuelo} onChange={(e) => setDestinoVuelo(e.target.value)} placeholder="París" className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required value={destinoVuelo} onChange={(e) => setDestinoVuelo(e.target.value)} placeholder="París" className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Fecha de ida
-                        <input required type="date" value={fechaIda} onChange={(e) => setFechaIda(e.target.value)} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="date" value={fechaIda} onChange={(e) => setFechaIda(e.target.value)} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Fecha de vuelta
-                        <input required type="date" value={fechaVuelta} onChange={(e) => setFechaVuelta(e.target.value)} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="date" value={fechaVuelta} onChange={(e) => setFechaVuelta(e.target.value)} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Viajeros
-                        <input required type="number" min={1} max={9} value={pasajeros} onChange={(e) => setPasajeros(Number(e.target.value))} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="number" min={1} max={9} value={pasajeros} onChange={(e) => setPasajeros(Number(e.target.value))} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                   </div>
-                  <button type="submit" className="mt-6 w-full rounded-2xl bg-blue-600 px-6 py-4 text-lg font-bold text-white transition hover:bg-blue-700">
+                  <button type="submit" className="mt-4 w-full rounded-2xl bg-blue-600 px-6 py-3 text-lg font-bold text-white transition hover:bg-blue-700">
                     🔍 Buscar
                   </button>
                   {mensajeVuelos && (
-                    <p role="status" className="mt-4 rounded-xl bg-blue-50 p-4 text-sm leading-6 text-blue-900">{mensajeVuelos}</p>
+                    <p role="status" className="mt-3 rounded-xl bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">{mensajeVuelos}</p>
                   )}
                 </form>
-                <form onSubmit={buscarHoteles} className="col-span-3 mt-4 hidden peer-checked/hoteles:block">
-                  <div className="grid gap-4 sm:grid-cols-2">
+                <form onSubmit={buscarHoteles} className="col-span-3 mt-3 hidden peer-checked/hoteles:block">
+                  <div className="grid gap-x-4 gap-y-3 sm:grid-cols-2">
                       <label className="block text-sm font-semibold text-stone-700">
                         Destino
-                        <input required value={destinoHotel} onChange={(e) => setDestinoHotel(e.target.value)} placeholder="Barcelona" className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required value={destinoHotel} onChange={(e) => setDestinoHotel(e.target.value)} placeholder="Barcelona" className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Entrada
-                        <input required type="date" value={entrada} onChange={(e) => setEntrada(e.target.value)} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="date" value={entrada} onChange={(e) => setEntrada(e.target.value)} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Salida
-                        <input required type="date" value={salida} onChange={(e) => setSalida(e.target.value)} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="date" value={salida} onChange={(e) => setSalida(e.target.value)} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Huéspedes
-                        <input required type="number" min={1} max={10} value={huespedes} onChange={(e) => setHuespedes(Number(e.target.value))} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="number" min={1} max={10} value={huespedes} onChange={(e) => setHuespedes(Number(e.target.value))} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Habitaciones
-                        <input required type="number" min={1} max={5} value={habitaciones} onChange={(e) => setHabitaciones(Number(e.target.value))} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="number" min={1} max={5} value={habitaciones} onChange={(e) => setHabitaciones(Number(e.target.value))} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                   </div>
-                  <button type="submit" className="mt-6 w-full rounded-2xl bg-blue-600 px-6 py-4 text-lg font-bold text-white transition hover:bg-blue-700">
+                  <button type="submit" className="mt-4 w-full rounded-2xl bg-blue-600 px-6 py-3 text-lg font-bold text-white transition hover:bg-blue-700">
                     🔍 Buscar
                   </button>
                   {mensajeHoteles && (
-                    <p role="status" className="mt-4 rounded-xl bg-blue-50 p-4 text-sm leading-6 text-blue-900">{mensajeHoteles}</p>
+                    <p role="status" className="mt-3 rounded-xl bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">{mensajeHoteles}</p>
                   )}
                 </form>
                 <form onSubmit={(e) => {
@@ -673,45 +673,45 @@ function abrirPaquete(destino = "") {
                       setMensajeVuelos(
                         "El buscador de Vuelo + Hotel está preparado. Conectaremos las ofertas reales mediante la API."
                       );
-                    }} className="col-span-3 mt-4 hidden peer-checked/paquete:block">
-                  <div className="grid gap-4 sm:grid-cols-2">
+                    }} className="col-span-3 mt-3 hidden peer-checked/paquete:block">
+                  <div className="grid gap-x-4 gap-y-3 sm:grid-cols-2">
                       <label className="block text-sm font-semibold text-stone-700">
                         Origen
-                        <input required value={origen} onChange={(e) => setOrigen(e.target.value)} placeholder="Barcelona" className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required value={origen} onChange={(e) => setOrigen(e.target.value)} placeholder="Barcelona" className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Destino
-                        <input required value={destinoVuelo} onChange={(e) => { setDestinoVuelo(e.target.value); setDestinoHotel(e.target.value); }} placeholder="Roma" className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required value={destinoVuelo} onChange={(e) => { setDestinoVuelo(e.target.value); setDestinoHotel(e.target.value); }} placeholder="Roma" className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Fecha de ida
-                        <input required type="date" value={fechaIda} onChange={(e) => { setFechaIda(e.target.value); setEntrada(e.target.value); }} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="date" value={fechaIda} onChange={(e) => { setFechaIda(e.target.value); setEntrada(e.target.value); }} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Fecha de vuelta
-                        <input required type="date" value={fechaVuelta} onChange={(e) => { setFechaVuelta(e.target.value); setSalida(e.target.value); }} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="date" value={fechaVuelta} onChange={(e) => { setFechaVuelta(e.target.value); setSalida(e.target.value); }} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Viajeros
-                        <input required type="number" min={1} value={pasajeros} onChange={(e) => { const cantidad = Number(e.target.value); setPasajeros(cantidad); setHuespedes(cantidad); }} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="number" min={1} value={pasajeros} onChange={(e) => { const cantidad = Number(e.target.value); setPasajeros(cantidad); setHuespedes(cantidad); }} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-sm font-semibold text-stone-700">
                         Habitaciones
-                        <input required type="number" min={1} value={habitaciones} onChange={(e) => setHabitaciones(Number(e.target.value))} className="mt-2 w-full rounded-xl border border-stone-300 bg-white px-4 py-3 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+                        <input required type="number" min={1} value={habitaciones} onChange={(e) => setHabitaciones(Number(e.target.value))} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-4 py-2 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                   </div>
-                  <button type="submit" className="mt-6 w-full rounded-2xl bg-blue-600 px-6 py-4 text-lg font-bold text-white transition hover:bg-blue-700">
+                  <button type="submit" className="mt-4 w-full rounded-2xl bg-blue-600 px-6 py-3 text-lg font-bold text-white transition hover:bg-blue-700">
                     🔍 Buscar
                   </button>
                   {mensajeVuelos && (
-                    <p role="status" className="mt-4 rounded-xl bg-blue-50 p-4 text-sm leading-6 text-blue-900">{mensajeVuelos}</p>
+                    <p role="status" className="mt-3 rounded-xl bg-blue-50 px-4 py-3 text-sm leading-6 text-blue-900">{mensajeVuelos}</p>
                   )}
                 </form>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center border-t border-stone-200 bg-blue-50/70 p-6 text-center md:border-l md:border-t-0 md:p-8">
+            <div className="flex flex-col items-center justify-center border-t border-stone-200 bg-blue-50/70 px-6 py-4 text-center md:border-l md:border-t-0 md:px-8 md:py-6">
               <h2 className="text-2xl font-black text-stone-800">✨ Hablar con mi agente de viajes</h2>
-              <p className="mt-4 max-w-sm leading-7 text-stone-700">
+              <p className="mt-3 max-w-sm leading-7 text-stone-700">
                 Cuéntame qué tipo de viaje quieres y te ayudaré a encontrar las mejores opciones.
               </p>
               <button
@@ -719,7 +719,7 @@ function abrirPaquete(destino = "") {
                 onClick={vozActiva ? apagarVoz : iniciarVoz}
                 aria-label={vozActiva ? "Apagar voz" : "Hablar con mi agente de viajes"}
                 aria-pressed={vozActiva}
-                className={`relative mt-7 flex h-28 w-28 items-center justify-center rounded-full bg-blue-600 text-5xl text-white shadow-xl transition hover:bg-blue-700 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
+                className={`relative mt-5 flex h-28 w-28 items-center justify-center rounded-full bg-blue-600 text-5xl text-white shadow-xl transition hover:bg-blue-700 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
               >
                 {vozActiva && (
                   <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-full">
@@ -730,7 +730,7 @@ function abrirPaquete(destino = "") {
                 )}
                 <span className="relative z-10">🎙️</span>
               </button>
-              <div className="mt-6 flex flex-wrap justify-center gap-x-4 gap-y-2 text-xs font-medium text-stone-700">
+              <div className="mt-4 flex flex-wrap justify-center gap-x-4 gap-y-1.5 text-xs font-medium text-stone-700">
                 <span>✓ Ideas personalizadas</span>
                 <span>✓ Ahorra tiempo</span>
                 <span>✓ Las mejores recomendaciones</span>
