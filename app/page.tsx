@@ -670,9 +670,9 @@ function abrirPaquete(destino = "") {
                 </form>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center border-t border-stone-200 bg-blue-50/70 px-6 py-2 text-center md:border-l md:border-t-0 md:px-8 md:py-2">
-              <h2 className="text-xl leading-6 font-black text-stone-800">✨ Hablar con mi agente de viajes</h2>
-              <p className="mt-2 max-w-sm text-sm leading-5 text-stone-700">
+            <div className="flex flex-col items-center justify-center border-t border-stone-200 bg-blue-50/70 px-6 py-2 text-center md:border-l md:border-t-0 md:px-8 md:py-2 max-sm:py-1">
+              <h2 className="text-xl leading-6 font-black text-stone-800 max-sm:my-0 max-sm:text-lg max-sm:leading-5">✨ Hablar con mi agente de viajes</h2>
+              <p className="mt-2 max-w-sm text-sm leading-5 text-stone-700 max-sm:mt-1 max-sm:leading-[18px]">
                 Cuéntame qué tipo de viaje quieres y te ayudaré a encontrar las mejores opciones.
               </p>
               <button
@@ -680,7 +680,7 @@ function abrirPaquete(destino = "") {
                 onClick={vozActiva ? apagarVoz : iniciarVoz}
                 aria-label={vozActiva ? "Apagar voz" : "Hablar con mi agente de viajes"}
                 aria-pressed={vozActiva}
-                className={`relative mt-2 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl text-white shadow-xl transition hover:bg-blue-700 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
+                className={`relative mt-2 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl text-white shadow-xl transition hover:bg-blue-700 max-sm:mt-1 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
               >
                 {vozActiva && (
                   <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-full">
@@ -691,7 +691,7 @@ function abrirPaquete(destino = "") {
                 )}
                 <span className="relative z-10">🎙️</span>
               </button>
-              <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs font-medium text-stone-700">
+              <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs font-medium text-stone-700 max-sm:mt-1 max-sm:gap-y-0.5">
                 <span>✓ Ideas personalizadas</span>
                 <span>✓ Ahorra tiempo</span>
                 <span>✓ Las mejores recomendaciones</span>
