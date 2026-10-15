@@ -857,33 +857,6 @@ function abrirPaquete(destino = "") {
 </button>
   </div>
 </section>
-      {/* CTA FINAL */}
-      <section className="relative z-10 px-6 py-28 text-center">
-        <div className="mx-auto max-w-4xl rounded-[36px] border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 to-violet-500/10 p-8 backdrop-blur-xl md:p-14">
-          <p className="text-sm font-bold tracking-[0.3em] text-cyan-800">
-            {t("cta.eyebrow")}
-          </p>
-
-          <h2 className="mt-5 text-4xl font-black md:text-6xl">
-            {t("cta.title")}
-          </h2>
-
-          <p className="mx-auto mt-5 max-w-xl leading-7 text-stone-700">
-            {t("cta.description")}
-          </p>
-
-          <button
-            type="button"
-            onClick={() =>
-              window.scrollTo({ top: 0, behavior: "smooth" })
-            }
-            className="mt-8 rounded-2xl bg-cyan-300 px-8 py-4 font-bold text-slate-950 transition hover:bg-cyan-200"
-          >
-            {t("cta.start")}
-          </button>
-        </div>
-      </section>
-
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-white/10 px-6 py-10 text-center text-sm text-stone-700">
         <p>
