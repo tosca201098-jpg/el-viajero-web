@@ -5,7 +5,7 @@ import type { Session } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import SavedTrips from "./SavedTrips";
 
-const primaryButton = "whitespace-nowrap rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm";
+const primaryButton = "whitespace-nowrap rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm max-sm:min-h-[44px] max-sm:px-2";
 const secondaryButton = "whitespace-nowrap rounded-lg px-2 py-1 text-xs font-medium text-stone-700 transition hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 sm:px-3 sm:py-2 sm:text-sm";
 
 export default function HeaderAuth({ onOpenAuth }: {
@@ -72,15 +72,15 @@ export default function HeaderAuth({ onOpenAuth }: {
   }
 
   return (
-    <div className="flex shrink-0 flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3">
+    <div className="flex shrink-0 flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3 max-sm:flex-row max-sm:items-center">
       {!ready ? (
-        <span role="status" aria-label="Comprobando sesión" className="h-16 w-28 sm:h-9 sm:w-56" />
+        <span role="status" aria-label="Comprobando sesión" className="h-16 w-28 sm:h-9 sm:w-56 max-sm:h-11 max-sm:w-44" />
       ) : session ? (
         <>
           <button type="button" onClick={() => setAccountOpen(true)} className={primaryButton}>
             Mi cuenta
           </button>
-          <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} disabled:opacity-60`}>
+          <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} disabled:opacity-60 max-sm:min-h-[44px] max-sm:py-2`}>
             {signingOut ? "Cerrando sesión…" : "Cerrar sesión"}
           </button>
           {error && !accountOpen && <p role="alert" className="max-w-48 text-right text-xs text-red-700">{error}</p>}
@@ -90,7 +90,7 @@ export default function HeaderAuth({ onOpenAuth }: {
           <button type="button" onClick={() => onOpenAuth("signup")} className={primaryButton}>
             Crear cuenta
           </button>
-          <button type="button" onClick={() => onOpenAuth("signin")} className={secondaryButton}>
+          <button type="button" onClick={() => onOpenAuth("signin")} className={`${secondaryButton} max-sm:min-h-[44px] max-sm:py-2`}>
             Iniciar sesión
           </button>
         </>

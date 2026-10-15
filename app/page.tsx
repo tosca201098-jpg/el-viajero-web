@@ -519,13 +519,13 @@ function abrirPaquete(destino = "") {
 
       {/* NAVEGACIÓN */}
       <nav className="fixed left-0 right-0 top-0 z-40 border-b border-white/10 bg-[#F7F2E8]/70 backdrop-blur-xl lg:ring-1 lg:ring-inset lg:ring-blue-600/40">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 max-sm:px-3 max-sm:py-2">
           <button
             type="button"
             onClick={() =>
               window.scrollTo({ top: 0, behavior: "smooth" })
             }
-            className="text-xl font-black tracking-tight"
+            className="text-xl font-black tracking-tight max-sm:text-base"
           >
            EL V<span className="text-blue-500">IA</span>JERO
           </button>
@@ -534,25 +534,25 @@ function abrirPaquete(destino = "") {
       </nav>
 
       {/* PORTADA */}
-      <section className="relative z-10 flex items-center justify-center px-6 pb-10 pt-24 md:pb-12 md:pt-24 lg:pb-6 lg:pt-[72px]">
+      <section className="relative z-10 flex items-center justify-center px-6 pb-10 pt-24 md:pb-12 md:pt-24 lg:pb-6 lg:pt-[72px] max-sm:pb-6 max-sm:pt-[68px]">
         <div className="mx-auto w-full max-w-5xl text-center">
           <img
             src="https://i.ibb.co/qwy6gvm/file-00000000c0d4821099521df6da250944.png"
             alt="El vIAjero"
-            className="mx-auto mb-2 h-20 w-28 object-contain sm:h-24 sm:w-32 lg:mb-1 lg:h-16 lg:w-28"
+            className="mx-auto mb-2 h-20 w-28 object-contain sm:h-24 sm:w-32 lg:mb-1 lg:h-16 lg:w-28 max-sm:mb-1 max-sm:h-10 max-sm:w-14"
           />
-          <h1 className="text-[clamp(2rem,7.5vw,6.5rem)] font-black leading-none tracking-tight lg:text-[clamp(3.5rem,6vw,5rem)]">
+          <h1 className="text-[clamp(2rem,7.5vw,6.5rem)] font-black leading-none tracking-tight lg:text-[clamp(3.5rem,6vw,5rem)] max-sm:text-[clamp(1.75rem,7vw,1.875rem)]">
             <span className="text-stone-900">EL</span>{" "}
             <span className="bg-gradient-to-r from-blue-600 to-teal-400 bg-clip-text text-transparent">VIAJERO</span>
           </h1>
-          <div aria-hidden="true" className="mx-auto mt-3 h-1 w-14 rounded-full bg-blue-500 md:mt-4 md:w-16 lg:mt-2" />
-          <p className="mx-auto mt-4 max-w-2xl text-base leading-6 text-stone-700 sm:text-lg sm:leading-7 md:mt-5 md:text-xl lg:mt-3 lg:leading-6">
+          <div aria-hidden="true" className="mx-auto mt-3 h-1 w-14 rounded-full bg-blue-500 md:mt-4 md:w-16 lg:mt-2 max-sm:mt-2" />
+          <p className="mx-auto mt-4 max-w-2xl text-base leading-6 text-stone-700 sm:text-lg sm:leading-7 md:mt-5 md:text-xl lg:mt-3 lg:leading-6 max-sm:mt-2 max-sm:text-sm max-sm:leading-5">
             Tu asistente inteligente para descubrir destinos, organizar tu
             viaje y encontrar vuelos y hoteles.
           </p>
 
           {/* BUSCADOR IA */}
-          <div className="mx-auto mt-10 grid w-full overflow-hidden rounded-[36px] border border-stone-200 bg-[#F7F2E8]/95 text-left shadow-2xl backdrop-blur-2xl md:grid-cols-2 lg:mt-4 lg:border-blue-600">
+          <div className="mx-auto mt-10 grid w-full overflow-hidden rounded-[36px] border border-stone-200 bg-[#F7F2E8]/95 text-left shadow-2xl backdrop-blur-2xl md:grid-cols-2 lg:mt-4 lg:border-blue-600 max-sm:mt-4">
             <div className="px-6 py-2 md:px-8 md:py-2">
               <h2 className="text-xl leading-6 font-black text-stone-800">✈️ Buscar tu viaje</h2>
               <div className="mt-2 grid grid-cols-3 gap-x-2 gap-y-1">
