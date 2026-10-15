@@ -134,7 +134,7 @@ const destinosPrimavera = [
     nombre: "Estambul",
     pais: "Turquía",
     imagen:
-      "https://source.unsplash.com/1200x800/?istanbul,turkey",
+      "https://images.unsplash.com/photo-1756760910079-3952b792b0ef?auto=format&fit=crop&w=1200&q=80",
     descripcion:
       "Tulipanes, mezquitas, mercados y el fascinante Bósforo.",
   },
@@ -190,7 +190,7 @@ const destinosPrimavera = [
     nombre: "Capadocia",
     pais: "Turquía",
     imagen:
-      "https://source.unsplash.com/1200x800/?cappadocia,turkey,balloons",
+      "https://images.unsplash.com/photo-1664875965544-9df4ee71e73a?auto=format&fit=crop&w=1200&q=80",
     descripcion:
       "Paisajes únicos y vuelos en globo sobre sus famosos valles.",
   },
@@ -206,7 +206,7 @@ const destinosPrimavera = [
     nombre: "Washington D. C.",
     pais: "Estados Unidos",
     imagen:
-      "https://source.unsplash.com/1200x800/?washington-dc,cherry-blossom",
+      "https://images.unsplash.com/photo-1742393993572-54d8fb7ac667?auto=format&fit=crop&w=1200&q=80",
     descripcion:
       "Famosa por sus espectaculares cerezos en flor.",
   },
@@ -222,7 +222,7 @@ const destinosPrimavera = [
     nombre: "Seúl",
     pais: "Corea del Sur",
     imagen:
-      "https://source.unsplash.com/1200x800/?seoul,korea,spring",
+      "https://images.unsplash.com/photo-1745687237545-c9975e7035f4?auto=format&fit=crop&w=1200&q=80",
     descripcion:
       "Cerezos en flor, palacios y modernos barrios urbanos.",
   },
@@ -230,7 +230,7 @@ const destinosPrimavera = [
     nombre: "Jeju",
     pais: "Corea del Sur",
     imagen:
-      "https://source.unsplash.com/1200x800/?jeju,korea",
+      "https://images.unsplash.com/photo-1785686856914-828bceeb9e64?auto=format&fit=crop&w=1200&q=80",
     descripcion:
       "Campos de flores, volcanes y espectaculares paisajes costeros.",
   },
@@ -262,7 +262,7 @@ const destinosPrimavera = [
     nombre: "Valle del Loira",
     pais: "Francia",
     imagen:
-      "https://source.unsplash.com/1200x800/?loire,valley,france,castle",
+      "https://images.unsplash.com/photo-1526816229784-65d5d54ac8bc?auto=format&fit=crop&w=1200&q=80",
     descripcion:
       "Castillos, jardines y paisajes verdes en plena primavera.",
   },
