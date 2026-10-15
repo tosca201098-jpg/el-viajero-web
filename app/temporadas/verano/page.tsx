@@ -5,96 +5,112 @@ const destinosVerano = [
   {
     nombre: "Dubrovnik",
     pais: "Croacia",
+    categoria: "🌊 Costa y mar",
     imagen: "https://images.unsplash.com/photo-1692502561614-71acca6650e3?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Murallas medievales y un Adriático de aguas cristalinas.",
   },
   {
     nombre: "Santorini",
     pais: "Grecia",
+    categoria: "🌊 Costa y mar",
     imagen: "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Pueblos blancos, cúpulas azules y atardeceres sobre la caldera.",
   },
   {
     nombre: "Mallorca",
     pais: "España",
+    categoria: "🏖️ Playa",
     imagen: "https://images.unsplash.com/photo-1672264430465-781cd9154896?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Calas turquesas, pueblos mediterráneos y rutas junto al mar.",
   },
   {
     nombre: "Algarve",
     pais: "Portugal",
+    categoria: "🏖️ Playa",
     imagen: "https://images.unsplash.com/photo-1621971913709-377f53807c6a?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Acantilados dorados, playas y pueblos marineros.",
   },
   {
     nombre: "Dolomitas",
     pais: "Italia",
+    categoria: "🥾 Montaña y senderismo",
     imagen: "https://images.unsplash.com/photo-1724420965593-a8c905943269?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Cumbres imponentes, lagos alpinos y senderos de montaña.",
   },
   {
     nombre: "Islandia",
     pais: "Islandia",
+    categoria: "🌋 Naturaleza",
     imagen: "https://images.unsplash.com/photo-1504829857797-ddff29c27927?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Cascadas, glaciares y paisajes volcánicos bajo largos días de luz.",
   },
   {
     nombre: "Islas Lofoten",
     pais: "Noruega",
+    categoria: "🥾 Montaña y senderismo",
     imagen: "https://images.unsplash.com/photo-1767381522355-b1a129a2c30c?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Pueblos pesqueros y montañas que emergen del mar.",
   },
   {
     nombre: "Edimburgo",
     pais: "Escocia",
+    categoria: "🏛️ Historia y ciudad",
     imagen: "https://images.unsplash.com/photo-1563273026-9c3919cc9fa7?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Castillo, calles históricas y colinas para explorar en verano.",
   },
   {
     nombre: "Banff",
     pais: "Canadá",
+    categoria: "🥾 Montaña y senderismo",
     imagen: "https://images.unsplash.com/photo-1632764727060-af92af33b59e?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Lagos turquesas y senderos entre las Montañas Rocosas.",
   },
   {
     nombre: "Vancouver",
     pais: "Canadá",
+    categoria: "🌋 Naturaleza",
     imagen: "https://images.unsplash.com/photo-1730661906876-18bfc6e95f2f?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Una ciudad entre el Pacífico y las montañas, llena de naturaleza.",
   },
   {
     nombre: "Cusco y Machu Picchu",
     pais: "Perú",
+    categoria: "🏛️ Historia y ciudad",
     imagen: "https://images.unsplash.com/photo-1586876387176-b7fd0d320d14?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Herencia inca y paisajes andinos en un viaje inolvidable.",
   },
   {
     nombre: "Bali",
     pais: "Indonesia",
+    categoria: "🏖️ Playa",
     imagen: "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Templos, arrozales y playas tropicales para desconectar.",
   },
   {
     nombre: "Zanzíbar",
     pais: "Tanzania",
+    categoria: "🏖️ Playa",
     imagen: "https://images.unsplash.com/photo-1575999502951-4ab25b5ca889?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Playas de arena blanca y cultura suajili junto al Índico.",
   },
   {
     nombre: "Curaçao",
     pais: "Caribe neerlandés",
+    categoria: "🏖️ Playa",
     imagen: "https://images.unsplash.com/photo-1636517031771-46f4032c895f?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Casas de colores, calas caribeñas y arrecifes de coral.",
   },
   {
     nombre: "Riviera Albanesa / Ksamil",
     pais: "Albania",
+    categoria: "🏖️ Playa",
     imagen: "https://images.unsplash.com/photo-1653982969536-0909d14df1ec?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Aguas transparentes y pueblos costeros del sur de Albania.",
   },
   {
     nombre: "Split",
     pais: "Croacia",
+    categoria: "🌊 Costa y mar",
     imagen: "https://images.unsplash.com/photo-1660496852715-8d92403ca83f?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Historia romana, paseo marítimo y acceso a las islas dálmatas.",
   },
@@ -239,6 +255,11 @@ export default function VeranoPage() {
             </h3>
           </div>
         </div>
+        <div className="flex h-[60px] items-center px-2 py-2 sm:h-[52px] sm:px-4">
+          <span className="inline-flex max-w-full rounded-full border border-cyan-800/20 bg-cyan-50 px-2 py-1 text-[11px] font-semibold leading-3.5 text-cyan-900 sm:px-2.5 sm:text-xs">
+            {destino.categoria}
+          </span>
+        </div>
       </article>
     );
   })}
@@ -283,7 +304,10 @@ export default function VeranoPage() {
               </div>
             </div>
             <div className="p-5 max-sm:p-4 sm:p-7">
-              <p className="text-base leading-6 text-slate-300 max-sm:text-sm max-sm:leading-5 sm:text-lg sm:leading-7">
+              <span className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100 sm:text-sm">
+                {destinoSeleccionado.categoria}
+              </span>
+              <p className="mt-3 text-base leading-6 text-slate-300 max-sm:text-sm max-sm:leading-5 sm:text-lg sm:leading-7">
                 {destinoSeleccionado.descripcion}
               </p>
               <h3 className="mt-6 text-lg font-bold max-sm:mt-4 max-sm:text-base max-sm:leading-5 sm:text-xl">✨ 4 lugares recomendados para visitar</h3>
