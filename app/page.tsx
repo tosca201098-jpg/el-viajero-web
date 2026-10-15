@@ -19,6 +19,28 @@ type Destination = {
   recommendations: string[];
 };
 
+type FlightOffer = {
+  origin: string;
+  destination: string;
+  price: number;
+  departureAt: string | null;
+  returnAt: string | null;
+  airline: string | null;
+  transfers: number | null;
+  offerUrl: string | null;
+};
+
+type FlightSearchState =
+  | { status: "idle" }
+  | { status: "loading" }
+  | { status: "error"; key: TranslationKey }
+  | {
+      status: "success";
+      origin: { name: string; code: string };
+      destination: { name: string; code: string };
+      results: FlightOffer[];
+    };
+
 const destinations: Destination[] = [
   {
     name: "París",
@@ -299,7 +321,7 @@ const fondos = [
   "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1600&q=85",
 ];
 export default function Home() {
-  const { t, text } = useLanguage();
+  const { t, text, language } = useLanguage();
   const destinationsCarouselRef = useRef<HTMLDivElement | null>(null);
   const [authMode, setAuthMode] = useState<"signup" | "signin" | null>(null);
   const [fondoActual, setFondoActual] = useState(0);
@@ -453,6 +475,7 @@ await pc.setRemoteDescription({
   const [fechaVuelta, setFechaVuelta] = useState("");
   const [pasajeros, setPasajeros] = useState(1);
   const [mensajeVuelos, setMensajeVuelos] = useState("");
+  const [flightSearch, setFlightSearch] = useState<FlightSearchState>({ status: "idle" });
 
   // HOTELES
   const [destinoHotel, setDestinoHotel] = useState("");
@@ -599,11 +622,111 @@ function abrirPaquete(destino = "") {
     setDestinoSeleccionado(null);
   }
 
-  function buscarVuelos(e: FormEvent<HTMLFormElement>) {
+  async function buscarVuelos(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    if (flightSearch.status === "loading") return;
+    if (!origen.trim() || !destinoVuelo.trim() || !fechaIda || !fechaVuelta || !Number.isInteger(pasajeros) || pasajeros < 1 || pasajeros > 9) {
+      setFlightSearch({ status: "error", key: "search.flightInvalidSearch" });
+      return;
+    }
+    if (fechaVuelta < fechaIda) {
+      setFlightSearch({ status: "error", key: "search.flightInvalidDates" });
+      return;
+    }
 
-    setMensajeVuelos(
-      "El buscador está preparado. Conectaremos los precios y vuelos reales mediante la API en el último paso."
+    setFlightSearch({ status: "loading" });
+    const params = new URLSearchParams({
+      origin: origen.trim(),
+      destination: destinoVuelo.trim(),
+      departureDate: fechaIda,
+      returnDate: fechaVuelta,
+      travelers: String(pasajeros),
+    });
+
+    try {
+      const response = await fetch(`/api/travelpayouts/flights?${params}`, { cache: "no-store" });
+      const data = await response.json();
+      if (!response.ok || data.success !== true) {
+        const errorKeys: Record<string, TranslationKey> = {
+          invalid_search: "search.flightInvalidSearch",
+          invalid_dates: "search.flightInvalidDates",
+          unknown_origin: "search.flightUnknownOrigin",
+          unknown_destination: "search.flightUnknownDestination",
+        };
+        setFlightSearch({ status: "error", key: errorKeys[data.error] ?? "search.flightSearchError" });
+        return;
+      }
+      if (!Array.isArray(data.results) || !data.origin || !data.destination) {
+        setFlightSearch({ status: "error", key: "search.flightSearchError" });
+        return;
+      }
+      setFlightSearch({
+        status: "success",
+        origin: data.origin,
+        destination: data.destination,
+        results: data.results,
+      });
+    } catch {
+      setFlightSearch({ status: "error", key: "search.flightSearchError" });
+    }
+  }
+
+  function renderFlightSearchFeedback(inModal = false) {
+    if (flightSearch.status === "idle") return null;
+    const panel = inModal
+      ? "mt-3 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-100"
+      : "mt-3 rounded-xl border border-blue-200 bg-blue-50 p-3 text-blue-950";
+    if (flightSearch.status === "loading" || flightSearch.status === "error") {
+      return (
+        <p role={flightSearch.status === "error" ? "alert" : "status"} className={panel}>
+          {flightSearch.status === "loading" ? t("search.searchingFlights") : t(flightSearch.key)}
+        </p>
+      );
+    }
+
+    const formatDate = (value: string) => {
+      const date = new Date(`${value.slice(0, 10)}T00:00:00Z`);
+      return Number.isNaN(date.getTime())
+        ? value.slice(0, 10)
+        : new Intl.DateTimeFormat(language, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(date);
+    };
+    return (
+      <div className={panel}>
+        <h3 className="text-sm font-bold">{t("search.recentPrices")}</h3>
+        {flightSearch.results.length === 0 ? (
+          <p role="status" className="mt-2 text-sm leading-5">{t("search.noRecentPrices")}</p>
+        ) : (
+          <div className="mt-2 grid gap-2">
+            {flightSearch.results.map((flight, index) => (
+              <div key={`${flight.departureAt ?? "flight"}-${index}`} className={inModal
+                ? "rounded-lg border border-white/15 bg-slate-900/70 p-3 text-sm"
+                : "rounded-lg border border-blue-100 bg-white p-3 text-sm"}>
+                <div className="flex flex-wrap items-center justify-between gap-1">
+                  <span className="min-w-0 break-words font-bold">{flightSearch.origin.name} ({flight.origin}) → {flightSearch.destination.name} ({flight.destination})</span>
+                  <span className={inModal ? "font-black text-cyan-200" : "font-black text-blue-700"}>
+                    {new Intl.NumberFormat(language, { style: "currency", currency: "EUR" }).format(flight.price)}
+                  </span>
+                </div>
+                <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs">
+                  {flight.departureAt && <span>{t("search.flightDeparture")}: {formatDate(flight.departureAt)}</span>}
+                  {flight.returnAt && <span>{t("search.flightReturn")}: {formatDate(flight.returnAt)}</span>}
+                  {flight.airline && <span>{t("search.flightAirline")}: {flight.airline}</span>}
+                  {flight.transfers !== null && <span>{t("search.flightStops")}: {flight.transfers}</span>}
+                </div>
+                {flight.offerUrl && (
+                  <a href={flight.offerUrl} target="_blank" rel="noopener noreferrer sponsored"
+                    className={inModal
+                      ? "mt-2 inline-flex min-h-[44px] items-center rounded-lg border border-cyan-300/60 px-3 py-1 text-xs font-bold text-cyan-100"
+                      : "mt-2 inline-flex min-h-[44px] items-center rounded-lg border border-blue-500 px-3 py-1 text-xs font-bold text-blue-700"}>
+                    {t("search.viewOffer")}
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        )}
+        <p className="mt-2 text-xs leading-4 opacity-80">{t("search.recentPricesNote")}</p>
+      </div>
     );
   }
 
@@ -713,13 +836,11 @@ function abrirPaquete(destino = "") {
                         <input required type="number" min={1} max={9} value={pasajeros} onChange={(e) => setPasajeros(Number(e.target.value))} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                   </div>
-                  <button type="submit" className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700">
-                    🔍 {t("search.submit")}
+                  <button type="submit" disabled={flightSearch.status === "loading"} className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60">
+                    🔍 {flightSearch.status === "loading" ? t("search.searchingFlights") : t("search.submit")}
                   </button>
                   {renderSaveTripAction("vuelo")}
-                  {mensajeVuelos && (
-                    <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{text(mensajeVuelos)}</p>
-                  )}
+                  {renderFlightSearchFeedback()}
                 </form>
                 <form onSubmit={buscarHoteles} className="col-span-3 mt-1 max-sm:mt-0.5 hidden peer-checked/hoteles:block">
                   <div className="grid gap-x-4 gap-y-1 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:gap-x-2 max-sm:[&>label:last-child:nth-child(odd)]:col-span-2">
@@ -1141,18 +1262,15 @@ function abrirPaquete(destino = "") {
 
               <button
                 type="submit"
-                className="mt-6 w-full rounded-xl bg-cyan-300 px-6 py-4 font-black text-slate-950 transition hover:bg-cyan-200"
+                disabled={flightSearch.status === "loading"}
+                className="mt-6 w-full rounded-xl bg-cyan-300 px-6 py-4 font-black text-slate-950 transition hover:bg-cyan-200 disabled:cursor-wait disabled:opacity-60"
               >
-                {t("search.findFlights")}
+                {flightSearch.status === "loading" ? t("search.searchingFlights") : t("search.findFlights")}
               </button>
               {renderSaveTripAction("vuelo", true)}
             </form>
 
-            {mensajeVuelos && (
-              <div className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-5 leading-7 text-cyan-100">
-                {text(mensajeVuelos)}
-              </div>
-            )}
+            {renderFlightSearchFeedback(true)}
           </div>
         </div>
       )}
