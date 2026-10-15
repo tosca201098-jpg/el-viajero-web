@@ -217,7 +217,7 @@ const destinations: Destination[] = [
     country: "Egipto",
     emoji: "🇪🇬",
     image:
-      "https://images.unsplash.com/photo-1539650116574-75c0c6d73f6e?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1632836388763-3a52d354cd7e?auto=format&fit=crop&w=1200&q=80",
     description:
       "Una puerta a la historia del antiguo Egipto, con pirámides, mercados y una cultura fascinante.",
     recommendations: [
@@ -225,6 +225,21 @@ const destinations: Destination[] = [
       "Gran Esfinge",
       "Museo Egipcio",
       "Khan el-Khalili",
+    ],
+  },
+  {
+    name: "Sídney",
+    country: "Australia",
+    emoji: "🇦🇺",
+    image:
+      "https://images.unsplash.com/photo-1683606095922-cda452e83878?auto=format&fit=crop&w=1200&q=80",
+    description:
+      "La Ópera, el puerto y las playas hacen de Sídney una ciudad llena de lugares inolvidables.",
+    recommendations: [
+      "Ópera de Sídney",
+      "Harbour Bridge",
+      "Bondi Beach",
+      "The Rocks",
     ],
   },
   {
@@ -925,7 +940,7 @@ function abrirPaquete(destino = "") {
                       key={recomendacion}
                       className="rounded-2xl border border-white/10 bg-white/5 p-4 text-slate-300"
                     >
-                      📍 {recomendacion}
+                      📍 {text(recomendacion)}
                     </div>
                   )
                 )}
