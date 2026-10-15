@@ -4,6 +4,7 @@ import { useLanguage } from "./components/LanguageProvider";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import AuthDialog from "./components/AuthDialog";
+import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
 import HeaderAuth from "./components/HeaderAuth";
 import LanguageSelector from "./components/LanguageSelector";
 import { getSupabaseClient } from "@/lib/supabase/client";
@@ -893,14 +894,8 @@ function abrirPaquete(destino = "") {
                 </label>
                 <form onSubmit={buscarVuelos} className="col-span-3 mt-1 max-sm:mt-0.5 hidden peer-checked/vuelos:block">
                   <div className="grid gap-x-4 gap-y-1 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:gap-x-2 max-sm:[&>label:last-child:nth-child(odd)]:col-span-2">
-                      <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        {t("search.origin")}
-                        <input required value={origen} onChange={(e) => setOrigen(e.target.value)} placeholder="Madrid" className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
-                      </label>
-                      <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        {t("search.destination")}
-                        <input required value={destinoVuelo} onChange={(e) => setDestinoVuelo(e.target.value)} placeholder="París" className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
-                      </label>
+                      <FlightLocationAutocomplete label={t("search.origin")} value={origen} onChange={setOrigen} placeholder="Madrid" variant="main" />
+                      <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={setDestinoVuelo} placeholder="París" variant="main" />
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
                         {t("search.departureDate")}
                         <input required type="date" value={fechaIda} onChange={(e) => setFechaIda(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
@@ -1279,31 +1274,9 @@ function abrirPaquete(destino = "") {
 
             <form onSubmit={buscarVuelos}>
               <div className="grid gap-4 md:grid-cols-2">
-                <label>
-                  <span className="mb-2 block text-sm text-slate-300">
-                    {t("search.origin")}
-                  </span>
-                  <input
-                    required
-                    value={origen}
-                    onChange={(e) => setOrigen(e.target.value)}
-                    placeholder="Madrid"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none focus:border-cyan-300/50"
-                  />
-                </label>
+                <FlightLocationAutocomplete label={t("search.origin")} value={origen} onChange={setOrigen} placeholder="Madrid" variant="modal" />
 
-                <label>
-                  <span className="mb-2 block text-sm text-slate-300">
-                    {t("search.destination")}
-                  </span>
-                  <input
-                    required
-                    value={destinoVuelo}
-                    onChange={(e) => setDestinoVuelo(e.target.value)}
-                    placeholder="París"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none focus:border-cyan-300/50"
-                  />
-                </label>
+                <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={setDestinoVuelo} placeholder="París" variant="modal" />
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">
