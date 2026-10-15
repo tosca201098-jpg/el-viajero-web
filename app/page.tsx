@@ -476,6 +476,12 @@ await pc.setRemoteDescription({
   const [pasajeros, setPasajeros] = useState(1);
   const [mensajeVuelos, setMensajeVuelos] = useState("");
   const [flightSearch, setFlightSearch] = useState<FlightSearchState>({ status: "idle" });
+  const flightRequestIdRef = useRef(0);
+
+  useEffect(() => {
+    flightRequestIdRef.current += 1;
+    setFlightSearch((current) => current.status === "idle" ? current : { status: "idle" });
+  }, [origen, destinoVuelo, fechaIda, fechaVuelta, pasajeros]);
 
   // HOTELES
   const [destinoHotel, setDestinoHotel] = useState("");
@@ -634,6 +640,7 @@ function abrirPaquete(destino = "") {
       return;
     }
 
+    const requestId = ++flightRequestIdRef.current;
     setFlightSearch({ status: "loading" });
     const params = new URLSearchParams({
       origin: origen.trim(),
@@ -646,6 +653,7 @@ function abrirPaquete(destino = "") {
     try {
       const response = await fetch(`/api/travelpayouts/flights?${params}`, { cache: "no-store" });
       const data = await response.json();
+      if (requestId !== flightRequestIdRef.current) return;
       if (!response.ok || data.success !== true) {
         const errorKeys: Record<string, TranslationKey> = {
           invalid_search: "search.flightInvalidSearch",
@@ -667,7 +675,9 @@ function abrirPaquete(destino = "") {
         results: data.results,
       });
     } catch {
-      setFlightSearch({ status: "error", key: "search.flightSearchError" });
+      if (requestId === flightRequestIdRef.current) {
+        setFlightSearch({ status: "error", key: "search.flightSearchError" });
+      }
     }
   }
 
