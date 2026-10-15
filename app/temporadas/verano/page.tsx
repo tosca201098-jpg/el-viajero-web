@@ -161,7 +161,7 @@ export default function VeranoPage() {
 
         <div className="mt-10 sm:mt-12 lg:mt-7">
           <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
-            🌸 PRIMAVERA
+            ☀️ VERANO
           </p>
         </div>
         <div className="mt-4 sm:mt-5 lg:mt-4">
