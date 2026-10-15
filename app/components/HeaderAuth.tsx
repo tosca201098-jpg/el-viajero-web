@@ -1,16 +1,19 @@
 "use client";
 
+import { useLanguage } from "./LanguageProvider";
+
 import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import SavedTrips from "./SavedTrips";
 
-const primaryButton = "whitespace-nowrap rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm max-sm:min-h-[44px] max-sm:px-2";
-const secondaryButton = "whitespace-nowrap rounded-lg px-2 py-1 text-xs font-medium text-stone-700 transition hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 sm:px-3 sm:py-2 sm:text-sm";
+const primaryButton = "whitespace-nowrap max-sm:whitespace-normal max-sm:leading-[14px] max-sm:max-w-[92px] rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm max-sm:min-h-[44px] max-sm:px-2";
+const secondaryButton = "whitespace-nowrap max-sm:whitespace-normal max-sm:leading-[14px] max-sm:max-w-[92px] rounded-lg px-2 py-1 text-xs font-medium text-stone-700 transition hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 sm:px-3 sm:py-2 sm:text-sm";
 
 export default function HeaderAuth({ onOpenAuth }: {
   onOpenAuth: (mode: "signup" | "signin") => void;
 }) {
+  const { t, text } = useLanguage();
   const [session, setSession] = useState<Session | null>(null);
   const [ready, setReady] = useState(false);
   const [signingOut, setSigningOut] = useState(false);
@@ -72,26 +75,26 @@ export default function HeaderAuth({ onOpenAuth }: {
   }
 
   return (
-    <div className="flex shrink-0 flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3 max-sm:flex-row max-sm:items-center">
+    <div className="flex min-w-0 flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3 max-sm:flex-row max-sm:items-center">
       {!ready ? (
-        <span role="status" aria-label="Comprobando sesión" className="h-16 w-28 sm:h-9 sm:w-56 max-sm:h-11 max-sm:w-44" />
+        <span role="status" aria-label={t("auth.checking")} className="h-16 w-28 sm:h-9 sm:w-56 max-sm:h-11 max-sm:w-44" />
       ) : session ? (
         <>
           <button type="button" onClick={() => setAccountOpen(true)} className={primaryButton}>
-            Mi cuenta
+            {t("account.title")}
           </button>
           <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} disabled:opacity-60 max-sm:min-h-[44px] max-sm:py-2`}>
-            {signingOut ? "Cerrando sesión…" : "Cerrar sesión"}
+            {signingOut ? t("auth.signingOut") : t("auth.signout")}
           </button>
-          {error && !accountOpen && <p role="alert" className="max-w-48 text-right text-xs text-red-700">{error}</p>}
+          {error && !accountOpen && <p role="alert" className="max-w-48 text-right text-xs text-red-700">{text(error)}</p>}
         </>
       ) : (
         <>
           <button type="button" onClick={() => onOpenAuth("signup")} className={primaryButton}>
-            Crear cuenta
+            {t("auth.signup")}
           </button>
           <button type="button" onClick={() => onOpenAuth("signin")} className={`${secondaryButton} max-sm:min-h-[44px] max-sm:py-2`}>
-            Iniciar sesión
+            {t("auth.signin")}
           </button>
         </>
       )}
@@ -103,21 +106,21 @@ export default function HeaderAuth({ onOpenAuth }: {
           className="fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-[28px] border border-stone-200 bg-[#F7F2E8] p-6 text-left text-stone-800 shadow-2xl backdrop:bg-black/50 sm:p-8"
         >
           <div className="flex items-center justify-between gap-4">
-            <h2 id="account-dialog-title" className="text-2xl font-black">Mi cuenta</h2>
-            <button type="button" onClick={() => setAccountOpen(false)} aria-label="Cerrar" className="rounded-lg px-3 py-2 text-xl hover:bg-stone-200 focus-visible:ring-2 focus-visible:ring-blue-600">×</button>
+            <h2 id="account-dialog-title" className="text-2xl font-black">{t("account.title")}</h2>
+            <button type="button" onClick={() => setAccountOpen(false)} aria-label={t("common.close")} className="rounded-lg px-3 py-2 text-xl hover:bg-stone-200 focus-visible:ring-2 focus-visible:ring-blue-600">×</button>
           </div>
           <div className="mt-5 rounded-2xl border border-stone-200 bg-white/60 p-4">
-            <p className="text-sm font-semibold">Correo electrónico</p>
+            <p className="text-sm font-semibold">{t("auth.email")}</p>
             <p className="mt-1 break-all text-sm text-stone-700">{session.user.email}</p>
           </div>
           <section aria-labelledby="account-trips-title" className="mt-5 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
-            <h3 id="account-trips-title" className="text-lg font-bold text-stone-800">Mis viajes</h3>
+            <h3 id="account-trips-title" className="text-lg font-bold text-stone-800">{t("trips.title")}</h3>
             <SavedTrips key={session.user.id} />
           </section>
           <div className="mt-6 border-t border-stone-200 pt-4">
-            {error && <p role="alert" className="mb-3 text-sm text-red-700">{error}</p>}
+            {error && <p role="alert" className="mb-3 text-sm text-red-700">{text(error)}</p>}
             <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} w-full border border-stone-300 disabled:opacity-60`}>
-              {signingOut ? "Cerrando sesión…" : "Cerrar sesión"}
+              {signingOut ? t("auth.signingOut") : t("auth.signout")}
             </button>
           </div>
         </dialog>

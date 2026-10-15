@@ -2,6 +2,7 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
+import LanguageProvider from './components/LanguageProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -30,10 +31,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="es">
     <body className={inter.className}>
   
-  {children}
+  <LanguageProvider>{children}</LanguageProvider>
   <Script
   src="https://unpkg.com/@tavus/embed@latest"
   strategy="afterInteractive"

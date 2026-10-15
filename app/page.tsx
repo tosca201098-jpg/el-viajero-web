@@ -1,8 +1,11 @@
 "use client";
 
+import { useLanguage } from "./components/LanguageProvider";
+
 import { FormEvent, useEffect, useRef, useState } from "react";
 import AuthDialog from "./components/AuthDialog";
 import HeaderAuth from "./components/HeaderAuth";
+import LanguageSelector from "./components/LanguageSelector";
 
 type Destination = {
   name: string;
@@ -278,6 +281,7 @@ const fondos = [
   "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1600&q=85",
 ];
 export default function Home() {
+  const { t, text } = useLanguage();
   const destinationsCarouselRef = useRef<HTMLDivElement | null>(null);
   const [authMode, setAuthMode] = useState<"signup" | "signin" | null>(null);
   const [fondoActual, setFondoActual] = useState(0);
@@ -526,11 +530,14 @@ function abrirPaquete(destino = "") {
             onClick={() =>
               window.scrollTo({ top: 0, behavior: "smooth" })
             }
-            className="text-xl font-black tracking-tight max-sm:text-base"
+            className="shrink-0 text-xl font-black tracking-tight max-sm:text-sm"
           >
            EL V<span className="text-blue-500">IA</span>JERO
           </button>
-          <HeaderAuth onOpenAuth={setAuthMode} />
+          <div className="flex min-w-0 items-center gap-1 sm:gap-3">
+            <HeaderAuth onOpenAuth={setAuthMode} />
+            <LanguageSelector />
+          </div>
         </div>
       </nav>
 
@@ -548,86 +555,85 @@ function abrirPaquete(destino = "") {
           </h1>
           <div aria-hidden="true" className="mx-auto mt-3 h-1 w-14 rounded-full bg-blue-500 md:mt-4 md:w-16 lg:mt-2 max-sm:mt-1" />
           <p className="mx-auto mt-4 max-w-2xl text-base leading-6 text-stone-700 sm:text-lg sm:leading-7 md:mt-5 md:text-xl lg:mt-3 lg:leading-6 max-sm:mt-1.5 max-sm:text-sm max-sm:leading-[18px]">
-            Tu asistente inteligente para descubrir destinos, organizar tu
-            viaje y encontrar vuelos y hoteles.
+            {t("hero.description")}
           </p>
 
           {/* BUSCADOR IA */}
           <div className="mx-auto mt-10 grid w-full overflow-hidden rounded-[36px] border border-stone-200 bg-[#F7F2E8]/95 text-left shadow-2xl backdrop-blur-2xl md:grid-cols-2 lg:mt-4 lg:border-blue-600 max-sm:mt-3">
             <div className="px-6 py-2 md:px-8 md:py-2 max-sm:py-1">
-              <h2 className="text-xl leading-6 font-black text-stone-800">✈️ Buscar tu viaje</h2>
+              <h2 className="text-xl leading-6 font-black text-stone-800">✈️ {t("search.title")}</h2>
               <div className="mt-2 grid grid-cols-3 gap-x-2 gap-y-1 max-sm:mt-1">
                 <input type="radio" name="buscador-servicio" id="buscador-vuelos" className="peer/vuelos sr-only" defaultChecked />
                 <input type="radio" name="buscador-servicio" id="buscador-hoteles" className="peer/hoteles sr-only" />
                 <input type="radio" name="buscador-servicio" id="buscador-paquete" className="peer/paquete sr-only" />
 
                 <label htmlFor="buscador-vuelos" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-1 text-center text-sm font-bold text-stone-700 max-sm:flex max-sm:min-h-[44px] max-sm:items-center max-sm:justify-center max-sm:px-1 max-sm:py-1 max-sm:text-xs max-sm:leading-[14px] transition peer-checked/vuelos:border-blue-600 peer-checked/vuelos:bg-blue-600 peer-checked/vuelos:text-white peer-focus-visible/vuelos:ring-2 peer-focus-visible/vuelos:ring-blue-600">
-                  ✈️ Vuelos
+                  ✈️ {t("search.flights")}
                 </label>
                 <label htmlFor="buscador-hoteles" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-1 text-center text-sm font-bold text-stone-700 max-sm:flex max-sm:min-h-[44px] max-sm:items-center max-sm:justify-center max-sm:px-1 max-sm:py-1 max-sm:text-xs max-sm:leading-[14px] transition peer-checked/hoteles:border-blue-600 peer-checked/hoteles:bg-blue-600 peer-checked/hoteles:text-white peer-focus-visible/hoteles:ring-2 peer-focus-visible/hoteles:ring-blue-600">
-                  🏨 Hoteles
+                  🏨 {t("search.hotels")}
                 </label>
                 <label htmlFor="buscador-paquete" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-1 text-center text-sm font-bold text-stone-700 max-sm:flex max-sm:min-h-[44px] max-sm:items-center max-sm:justify-center max-sm:px-1 max-sm:py-1 max-sm:text-xs max-sm:leading-[14px] transition peer-checked/paquete:border-blue-600 peer-checked/paquete:bg-blue-600 peer-checked/paquete:text-white peer-focus-visible/paquete:ring-2 peer-focus-visible/paquete:ring-blue-600">
-                  ✈️🏨 Vuelo + Hotel
+                  ✈️🏨 {t("trips.package")}
                 </label>
                 <form onSubmit={buscarVuelos} className="col-span-3 mt-1 max-sm:mt-0.5 hidden peer-checked/vuelos:block">
                   <div className="grid gap-x-4 gap-y-1 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:gap-x-2 max-sm:[&>label:last-child:nth-child(odd)]:col-span-2">
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Origen
+                        {t("search.origin")}
                         <input required value={origen} onChange={(e) => setOrigen(e.target.value)} placeholder="Madrid" className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Destino
+                        {t("search.destination")}
                         <input required value={destinoVuelo} onChange={(e) => setDestinoVuelo(e.target.value)} placeholder="París" className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Fecha de ida
+                        {t("search.departureDate")}
                         <input required type="date" value={fechaIda} onChange={(e) => setFechaIda(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Fecha de vuelta
+                        {t("search.returnDate")}
                         <input required type="date" value={fechaVuelta} onChange={(e) => setFechaVuelta(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Viajeros
+                        {t("search.travelers")}
                         <input required type="number" min={1} max={9} value={pasajeros} onChange={(e) => setPasajeros(Number(e.target.value))} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                   </div>
                   <button type="submit" className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700">
-                    🔍 Buscar
+                    🔍 {t("search.submit")}
                   </button>
                   {mensajeVuelos && (
-                    <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{mensajeVuelos}</p>
+                    <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{text(mensajeVuelos)}</p>
                   )}
                 </form>
                 <form onSubmit={buscarHoteles} className="col-span-3 mt-1 max-sm:mt-0.5 hidden peer-checked/hoteles:block">
                   <div className="grid gap-x-4 gap-y-1 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:gap-x-2 max-sm:[&>label:last-child:nth-child(odd)]:col-span-2">
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Destino
+                        {t("search.destination")}
                         <input required value={destinoHotel} onChange={(e) => setDestinoHotel(e.target.value)} placeholder="Barcelona" className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Entrada
+                        {t("search.checkIn")}
                         <input required type="date" value={entrada} onChange={(e) => setEntrada(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Salida
+                        {t("search.checkOut")}
                         <input required type="date" value={salida} onChange={(e) => setSalida(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Huéspedes
+                        {t("search.guests")}
                         <input required type="number" min={1} max={10} value={huespedes} onChange={(e) => setHuespedes(Number(e.target.value))} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Habitaciones
+                        {t("search.rooms")}
                         <input required type="number" min={1} max={5} value={habitaciones} onChange={(e) => setHabitaciones(Number(e.target.value))} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                   </div>
                   <button type="submit" className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700">
-                    🔍 Buscar
+                    🔍 {t("search.submit")}
                   </button>
                   {mensajeHoteles && (
-                    <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{mensajeHoteles}</p>
+                    <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{text(mensajeHoteles)}</p>
                   )}
                 </form>
                 <form onSubmit={(e) => {
@@ -638,48 +644,48 @@ function abrirPaquete(destino = "") {
                     }} className="col-span-3 mt-1 max-sm:mt-0.5 hidden peer-checked/paquete:block">
                   <div className="grid gap-x-4 gap-y-1 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:gap-x-2 max-sm:[&>label:last-child:nth-child(odd)]:col-span-2">
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Origen
+                        {t("search.origin")}
                         <input required value={origen} onChange={(e) => setOrigen(e.target.value)} placeholder="Barcelona" className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Destino
+                        {t("search.destination")}
                         <input required value={destinoVuelo} onChange={(e) => { setDestinoVuelo(e.target.value); setDestinoHotel(e.target.value); }} placeholder="Roma" className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Fecha de ida
+                        {t("search.departureDate")}
                         <input required type="date" value={fechaIda} onChange={(e) => { setFechaIda(e.target.value); setEntrada(e.target.value); }} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Fecha de vuelta
+                        {t("search.returnDate")}
                         <input required type="date" value={fechaVuelta} onChange={(e) => { setFechaVuelta(e.target.value); setSalida(e.target.value); }} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Viajeros
+                        {t("search.travelers")}
                         <input required type="number" min={1} value={pasajeros} onChange={(e) => { const cantidad = Number(e.target.value); setPasajeros(cantidad); setHuespedes(cantidad); }} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        Habitaciones
+                        {t("search.rooms")}
                         <input required type="number" min={1} value={habitaciones} onChange={(e) => setHabitaciones(Number(e.target.value))} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                   </div>
                   <button type="submit" className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700">
-                    🔍 Buscar
+                    🔍 {t("search.submit")}
                   </button>
                   {mensajeVuelos && (
-                    <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{mensajeVuelos}</p>
+                    <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{text(mensajeVuelos)}</p>
                   )}
                 </form>
               </div>
             </div>
             <div className="flex flex-col items-center justify-center border-t border-stone-200 bg-blue-50/70 px-6 py-2 text-center md:border-l md:border-t-0 md:px-8 md:py-2 max-sm:py-1">
-              <h2 className="text-xl leading-6 font-black text-stone-800 max-sm:my-0 max-sm:text-lg max-sm:leading-5">✨ Hablar con mi agente de viajes</h2>
+              <h2 className="text-xl leading-6 font-black text-stone-800 max-sm:my-0 max-sm:text-lg max-sm:leading-5">✨ {t("voice.title")}</h2>
               <p className="mt-2 max-w-sm text-sm leading-5 text-stone-700 max-sm:mt-1 max-sm:leading-[18px]">
-                Cuéntame qué tipo de viaje quieres y te ayudaré a encontrar las mejores opciones.
+                {t("voice.description")}
               </p>
               <button
                 type="button"
                 onClick={vozActiva ? apagarVoz : iniciarVoz}
-                aria-label={vozActiva ? "Apagar voz" : "Hablar con mi agente de viajes"}
+                aria-label={vozActiva ? t("voice.stop") : t("voice.title")}
                 aria-pressed={vozActiva}
                 className={`relative mt-2 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl text-white shadow-xl transition hover:bg-blue-700 max-sm:mt-1 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
               >
@@ -693,9 +699,9 @@ function abrirPaquete(destino = "") {
                 <span className="relative z-10">🎙️</span>
               </button>
               <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs font-medium text-stone-700 max-sm:mt-1 max-sm:gap-y-0.5">
-                <span>✓ Ideas personalizadas</span>
-                <span>✓ Ahorra tiempo</span>
-                <span>✓ Las mejores recomendaciones</span>
+                <span>✓ {t("voice.ideas")}</span>
+                <span>✓ {t("voice.time")}</span>
+                <span>✓ {t("voice.recommendations")}</span>
               </div>
             </div>
           </div>
@@ -711,12 +717,11 @@ function abrirPaquete(destino = "") {
       >
         <div className="mb-12 text-center max-sm:mb-4">
           <h2 className="text-4xl font-black md:text-6xl">
-            Destinos que te encantarán
+            {t("destinations.title")}
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl text-stone-700">
-            Descubre algunos de los destinos más fascinantes y empieza a
-            preparar tu próxima aventura.
+            {t("destinations.description")}
           </p>
         </div>
 
@@ -724,7 +729,7 @@ function abrirPaquete(destino = "") {
         <div className="mb-2 flex justify-end sm:hidden max-sm:absolute max-sm:-right-3 max-sm:top-1/2 max-sm:z-10 max-sm:mb-0 max-sm:-translate-y-1/2">
           <button
             type="button"
-            aria-label="Ver siguientes destinos"
+            aria-label={t("destinations.next")}
             aria-controls="destinations-carousel"
             onClick={() => {
               const carousel = destinationsCarouselRef.current;
@@ -744,7 +749,7 @@ function abrirPaquete(destino = "") {
           ref={destinationsCarouselRef}
           id="destinations-carousel"
           role="region"
-          aria-label="Destinos para explorar"
+          aria-label={t("destinations.region")}
           tabIndex={0}
           className="mx-auto grid max-w-full gap-2 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 md:landscape:grid-cols-4 xl:grid-cols-4"
         >
@@ -775,7 +780,7 @@ function abrirPaquete(destino = "") {
 
               <div className="flex flex-1 flex-col p-2.5 lg:p-2 max-sm:p-2">
                 <p className="flex-1 text-[13px] leading-[18px] text-stone-700 max-sm:line-clamp-2 max-sm:h-8 max-sm:flex-none max-sm:text-xs max-sm:leading-4">
-                  {destino.description}
+                  {text(destino.description)}
                 </p>
 
                 <button
@@ -783,7 +788,7 @@ function abrirPaquete(destino = "") {
                   onClick={() => setDestinoSeleccionado(destino)}
                   className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950 max-sm:mt-1 max-sm:min-h-[44px] max-sm:px-1 max-sm:py-0 max-sm:text-xs max-sm:leading-4"
                 >
-                  Explorar {destino.name} →
+                  {t("destinations.explore", { destination: destino.name })}
                 </button>
               </div>
             </article>
@@ -795,15 +800,15 @@ function abrirPaquete(destino = "") {
 <section className="relative z-10 mx-auto max-w-7xl px-6 py-24">
   <div className="mb-12 text-center">
     <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
-      ELIGE EL MOMENTO PERFECTO
+      {t("season.eyebrow")}
     </p>
 
     <h2 className="mt-4 text-4xl font-black md:text-6xl">
-      Dónde viajar según la temporada
+      {t("season.title")}
     </h2>
 
     <p className="mx-auto mt-5 max-w-2xl text-stone-700">
-      Descubre destinos ideales para cada época del año.
+      {t("season.description")}
     </p>
   </div>
 
@@ -813,27 +818,27 @@ function abrirPaquete(destino = "") {
   onClick={() => (window.location.href = "/temporadas/primavera")}
   className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
 >
-      🌸 Primavera
+      🌸 {t("season.spring")}
     </button>
 
     <button
   onClick={() => (window.location.href = "/temporadas/verano")}
   className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
 >
-      ☀️ Verano
+      ☀️ {t("season.summer")}
     </button>
     <button
   onClick={() => (window.location.href = "/temporadas/otono")}
   className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
 >
-  🍂 Otoño
+  🍂 {t("season.autumn")}
 </button>
 
 <button
   onClick={() => (window.location.href = "/temporadas/invierno")}
   className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
 >
-  ❄️ Invierno
+  ❄️ {t("season.winter")}
 </button>
   </div>
 </section>
@@ -841,15 +846,15 @@ function abrirPaquete(destino = "") {
       <section className="relative z-10 px-6 py-28 text-center">
         <div className="mx-auto max-w-4xl rounded-[36px] border border-cyan-300/20 bg-gradient-to-br from-cyan-500/10 to-violet-500/10 p-8 backdrop-blur-xl md:p-14">
           <p className="text-sm font-bold tracking-[0.3em] text-cyan-800">
-            TU PRÓXIMA AVENTURA
+            {t("cta.eyebrow")}
           </p>
 
           <h2 className="mt-5 text-4xl font-black md:text-6xl">
-            El mundo está esperando
+            {t("cta.title")}
           </h2>
 
           <p className="mx-auto mt-5 max-w-xl leading-7 text-stone-700">
-            Elige un destino y empieza a construir tu viaje con El. VIAJERO.
+            {t("cta.description")}
           </p>
 
           <button
@@ -859,7 +864,7 @@ function abrirPaquete(destino = "") {
             }
             className="mt-8 rounded-2xl bg-cyan-300 px-8 py-4 font-bold text-slate-950 transition hover:bg-cyan-200"
           >
-            Empezar ahora ↑
+            {t("cta.start")}
           </button>
         </div>
       </section>
@@ -867,8 +872,7 @@ function abrirPaquete(destino = "") {
       {/* FOOTER */}
       <footer className="relative z-10 border-t border-white/10 px-6 py-10 text-center text-sm text-stone-700">
         <p>
-          DESTINO <span className="text-cyan-800">AI</span> · Tu compañero
-          inteligente de viaje
+          DESTINO <span className="text-cyan-800">AI</span> · {t("footer.companion")}
         </p>
       </footer>
 
@@ -907,11 +911,11 @@ function abrirPaquete(destino = "") {
 
             <div className="p-7 md:p-9">
               <p className="text-lg leading-8 text-slate-300">
-                {destinoSeleccionado.description}
+                {text(destinoSeleccionado.description)}
               </p>
 
               <h3 className="mt-8 text-xl font-bold">
-                ✨ Recomendaciones
+                ✨ {t("destinations.recommendations")}
               </h3>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
@@ -934,7 +938,7 @@ function abrirPaquete(destino = "") {
                   }
                   className="rounded-2xl bg-cyan-300 px-6 py-4 font-bold text-slate-950"
                 >
-                  ✈️ Buscar vuelos
+                  ✈️ {t("search.findFlights")}
                 </button>
 
                 <button
@@ -943,7 +947,7 @@ function abrirPaquete(destino = "") {
                   }
                   className="rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-4 font-bold text-cyan-200"
                 >
-                  🏨 Buscar hoteles
+                  🏨 {t("search.findHotels")}
                 </button>
               </div>
             </div>
@@ -961,7 +965,7 @@ function abrirPaquete(destino = "") {
                 EL VIAJERO
                 </p>
                 <h2 className="mt-2 text-3xl font-black md:text-4xl">
-                  ✈️ Buscar vuelos
+                  ✈️ {t("search.findFlights")}
                 </h2>
               </div>
 
@@ -977,7 +981,7 @@ function abrirPaquete(destino = "") {
               <div className="grid gap-4 md:grid-cols-2">
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">
-                    Origen
+                    {t("search.origin")}
                   </span>
                   <input
                     required
@@ -990,7 +994,7 @@ function abrirPaquete(destino = "") {
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">
-                    Destino
+                    {t("search.destination")}
                   </span>
                   <input
                     required
@@ -1003,7 +1007,7 @@ function abrirPaquete(destino = "") {
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">
-                    Fecha de ida
+                    {t("search.departureDate")}
                   </span>
                   <input
                     required
@@ -1016,7 +1020,7 @@ function abrirPaquete(destino = "") {
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">
-                    Fecha de vuelta
+                    {t("search.returnDate")}
                   </span>
                   <input
                     required
@@ -1029,7 +1033,7 @@ function abrirPaquete(destino = "") {
 
                 <label className="md:col-span-2">
                   <span className="mb-2 block text-sm text-slate-300">
-                    Pasajeros
+                    {t("search.passengers")}
                   </span>
                   <input
                     required
@@ -1049,13 +1053,13 @@ function abrirPaquete(destino = "") {
                 type="submit"
                 className="mt-6 w-full rounded-xl bg-cyan-300 px-6 py-4 font-black text-slate-950 transition hover:bg-cyan-200"
               >
-                Buscar vuelos
+                {t("search.findFlights")}
               </button>
             </form>
 
             {mensajeVuelos && (
               <div className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-5 leading-7 text-cyan-100">
-                {mensajeVuelos}
+                {text(mensajeVuelos)}
               </div>
             )}
           </div>
@@ -1072,7 +1076,7 @@ function abrirPaquete(destino = "") {
                 EL VIAJERO
                 </p>
                 <h2 className="mt-2 text-3xl font-black md:text-4xl">
-                  🏨 Buscar hoteles
+                  🏨 {t("search.findHotels")}
                 </h2>
               </div>
 
@@ -1088,7 +1092,7 @@ function abrirPaquete(destino = "") {
               <div className="grid gap-4 md:grid-cols-2">
                 <label className="md:col-span-2">
                   <span className="mb-2 block text-sm text-slate-300">
-                    Destino
+                    {t("search.destination")}
                   </span>
                   <input
                     required
@@ -1101,7 +1105,7 @@ function abrirPaquete(destino = "") {
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">
-                    Entrada
+                    {t("search.checkIn")}
                   </span>
                   <input
                     required
@@ -1114,7 +1118,7 @@ function abrirPaquete(destino = "") {
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">
-                    Salida
+                    {t("search.checkOut")}
                   </span>
                   <input
                     required
@@ -1127,7 +1131,7 @@ function abrirPaquete(destino = "") {
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">
-                    Huéspedes
+                    {t("search.guests")}
                   </span>
                   <input
                     required
@@ -1144,7 +1148,7 @@ function abrirPaquete(destino = "") {
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">
-                    Habitaciones
+                    {t("search.rooms")}
                   </span>
                   <input
                     required
@@ -1164,13 +1168,13 @@ function abrirPaquete(destino = "") {
                 type="submit"
                 className="mt-6 w-full rounded-xl bg-cyan-300 px-6 py-4 font-black text-slate-950 transition hover:bg-cyan-200"
               >
-                Buscar hoteles
+                {t("search.findHotels")}
               </button>
             </form>
 
             {mensajeHoteles && (
               <div className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-5 leading-7 text-cyan-100">
-                {mensajeHoteles}
+                {text(mensajeHoteles)}
               </div>
             )}
           </div>
@@ -1189,7 +1193,7 @@ function abrirPaquete(destino = "") {
           </p>
 
           <h2 className="mt-2 text-3xl font-black md:text-4xl">
-            ✈️🏨 Vuelo + Hotel
+            ✈️🏨 {t("trips.package")}
           </h2>
         </div>
 
@@ -1214,7 +1218,7 @@ function abrirPaquete(destino = "") {
 
           <label>
             <span className="mb-2 block text-sm text-slate-300">
-              Origen
+              {t("search.origin")}
             </span>
             <input
               required
@@ -1227,7 +1231,7 @@ function abrirPaquete(destino = "") {
 
           <label>
             <span className="mb-2 block text-sm text-slate-300">
-              Destino
+              {t("search.destination")}
             </span>
             <input
               required
@@ -1243,7 +1247,7 @@ function abrirPaquete(destino = "") {
 
           <label>
             <span className="mb-2 block text-sm text-slate-300">
-              Fecha de ida
+              {t("search.departureDate")}
             </span>
             <input
               required
@@ -1259,7 +1263,7 @@ function abrirPaquete(destino = "") {
 
           <label>
             <span className="mb-2 block text-sm text-slate-300">
-              Fecha de vuelta
+              {t("search.returnDate")}
             </span>
             <input
               required
@@ -1275,7 +1279,7 @@ function abrirPaquete(destino = "") {
 
           <label>
             <span className="mb-2 block text-sm text-slate-300">
-              Viajeros
+              {t("search.travelers")}
             </span>
             <input
               required
@@ -1293,7 +1297,7 @@ function abrirPaquete(destino = "") {
 
           <label>
             <span className="mb-2 block text-sm text-slate-300">
-              Habitaciones
+              {t("search.rooms")}
             </span>
             <input
               required
@@ -1313,13 +1317,13 @@ function abrirPaquete(destino = "") {
           type="submit"
           className="mt-6 w-full rounded-xl bg-cyan-300 px-6 py-4 font-black text-slate-950 transition hover:bg-cyan-200"
         >
-          ✈️🏨 Buscar Vuelo + Hotel
+          ✈️🏨 {t("search.findPackage")}
         </button>
       </form>
 
       {mensajeVuelos && (
         <div className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-5 leading-7 text-cyan-100">
-          {mensajeVuelos}
+          {text(mensajeVuelos)}
         </div>
       )}
 

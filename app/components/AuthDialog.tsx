@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "./LanguageProvider";
+
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { getSupabaseClient } from "@/lib/supabase/client";
 
@@ -9,6 +11,7 @@ export default function AuthDialog({ mode, onClose }: {
   mode: AuthMode;
   onClose: () => void;
 }) {
+  const { t, text } = useLanguage();
   const dialogRef = useRef<HTMLDialogElement>(null);
   const submittingRef = useRef(false);
   const [email, setEmail] = useState("");
@@ -90,26 +93,26 @@ export default function AuthDialog({ mode, onClose }: {
       className="fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-[28px] border border-stone-200 bg-[#F7F2E8] p-6 text-stone-800 shadow-2xl backdrop:bg-black/50 sm:p-8"
     >
       <div className="flex items-center justify-between gap-4">
-        <h2 id="auth-dialog-title" className="text-2xl font-black">{title}</h2>
-        <button type="button" onClick={onClose} aria-label="Cerrar" className="rounded-lg px-3 py-2 text-xl hover:bg-stone-200 focus-visible:ring-2 focus-visible:ring-blue-600">×</button>
+        <h2 id="auth-dialog-title" className="text-2xl font-black">{text(title)}</h2>
+        <button type="button" onClick={onClose} aria-label={t("common.close")} className="rounded-lg px-3 py-2 text-xl hover:bg-stone-200 focus-visible:ring-2 focus-visible:ring-blue-600">×</button>
       </div>
       {message ? (
         <div className="mt-5">
-          <p role="status" className="text-sm leading-6 text-blue-900">{message}</p>
-          <button type="button" onClick={onClose} className="mt-5 w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-600">Cerrar</button>
+          <p role="status" className="text-sm leading-6 text-blue-900">{text(message)}</p>
+          <button type="button" onClick={onClose} className="mt-5 w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-600">{t("common.close")}</button>
         </div>
       ) : (
         <form onSubmit={submit} aria-busy={pending} className="mt-5 space-y-4">
           <label className="block text-sm font-semibold">
-            Correo electrónico
+            {t("auth.email")}
             <input autoFocus required type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} disabled={pending} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-3 py-2 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
           </label>
           <label className="block text-sm font-semibold">
-            Contraseña
+            {t("auth.password")}
             <input required type="password" autoComplete={signup ? "new-password" : "current-password"} minLength={signup ? 6 : undefined} value={password} onChange={(event) => setPassword(event.target.value)} disabled={pending} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-3 py-2 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
           </label>
-          {error && <p role="alert" className="text-sm leading-5 text-red-700">{error}</p>}
-          <button type="submit" disabled={pending} className="w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-60">{pending ? "Procesando…" : title}</button>
+          {error && <p role="alert" className="text-sm leading-5 text-red-700">{text(error)}</p>}
+          <button type="submit" disabled={pending} className="w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-60">{pending ? t("auth.processing") : text(title)}</button>
         </form>
       )}
     </dialog>

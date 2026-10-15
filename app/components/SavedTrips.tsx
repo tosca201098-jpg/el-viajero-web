@@ -1,5 +1,7 @@
 "use client";
 
+import { useLanguage } from "./LanguageProvider";
+
 import { useEffect, useRef, useState } from "react";
 import { deleteSavedTrip, listSavedTrips, type SavedTrip, type TripService } from "@/lib/supabase/saved-trips";
 
@@ -15,6 +17,7 @@ function formatDate(date: string) {
 }
 
 export default function SavedTrips() {
+  const { t, text } = useLanguage();
   const [trips, setTrips] = useState<SavedTrip[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
@@ -59,35 +62,35 @@ export default function SavedTrips() {
     }
   }
 
-  if (loading) return <p role="status" className="mt-2 text-sm leading-6 text-stone-700">Cargando tus viajes…</p>;
+  if (loading) return <p role="status" className="mt-2 text-sm leading-6 text-stone-700">{t("trips.loading")}</p>;
 
   if (loadError) return (
     <div className="mt-2">
-      <p role="alert" className="text-sm leading-6 text-red-700">{loadError}</p>
-      <button type="button" onClick={() => setRetry((current) => current + 1)} className="mt-2 rounded-lg px-2 py-1 text-sm font-semibold text-blue-700 hover:bg-blue-100 focus-visible:ring-2 focus-visible:ring-blue-600">Reintentar</button>
+      <p role="alert" className="text-sm leading-6 text-red-700">{text(loadError)}</p>
+      <button type="button" onClick={() => setRetry((current) => current + 1)} className="mt-2 rounded-lg px-2 py-1 text-sm font-semibold text-blue-700 hover:bg-blue-100 focus-visible:ring-2 focus-visible:ring-blue-600">{t("trips.retry")}</button>
     </div>
   );
 
   return (
     <>
-      {deleteError && <p role="alert" className="mt-2 text-sm leading-6 text-red-700">{deleteError}</p>}
+      {deleteError && <p role="alert" className="mt-2 text-sm leading-6 text-red-700">{text(deleteError)}</p>}
       {trips.length === 0 ? (
-        <p className="mt-2 text-sm leading-6 text-stone-700">Todavía no tienes viajes guardados.</p>
+        <p className="mt-2 text-sm leading-6 text-stone-700">{t("trips.empty")}</p>
       ) : (
         <ul className="mt-3 space-y-3">
           {trips.map((trip) => (
             <li key={trip.id} className="rounded-xl border border-stone-200 bg-white/80 p-3">
               <h4 className="break-words text-base font-bold text-stone-800">{trip.destination}</h4>
               <dl className="mt-2 grid grid-cols-1 gap-2 text-sm sm:grid-cols-2">
-                <div><dt className="font-semibold">Origen</dt><dd className="break-words text-stone-700">{trip.origin || "No especificado"}</dd></div>
-                <div><dt className="font-semibold">Destino</dt><dd className="break-words text-stone-700">{trip.destination}</dd></div>
-                <div><dt className="font-semibold">{trip.service_type === "hotel" ? "Entrada" : "Ida"}</dt><dd className="text-stone-700">{formatDate(trip.departure_date)}</dd></div>
-                <div><dt className="font-semibold">{trip.service_type === "hotel" ? "Salida" : "Vuelta"}</dt><dd className="text-stone-700">{trip.return_date ? formatDate(trip.return_date) : "Sin fecha"}</dd></div>
-                <div><dt className="font-semibold">Viajeros</dt><dd className="text-stone-700">{trip.travelers}</dd></div>
-                <div><dt className="font-semibold">Servicio</dt><dd className="text-stone-700">{serviceLabels[trip.service_type]}</dd></div>
+                <div><dt className="font-semibold">{t("search.origin")}</dt><dd className="break-words text-stone-700">{trip.origin || t("trips.unspecified")}</dd></div>
+                <div><dt className="font-semibold">{t("search.destination")}</dt><dd className="break-words text-stone-700">{trip.destination}</dd></div>
+                <div><dt className="font-semibold">{trip.service_type === "hotel" ? t("search.checkIn") : t("trips.departure")}</dt><dd className="text-stone-700">{formatDate(trip.departure_date)}</dd></div>
+                <div><dt className="font-semibold">{trip.service_type === "hotel" ? t("search.checkOut") : t("trips.return")}</dt><dd className="text-stone-700">{trip.return_date ? formatDate(trip.return_date) : t("trips.noDate")}</dd></div>
+                <div><dt className="font-semibold">{t("search.travelers")}</dt><dd className="text-stone-700">{trip.travelers}</dd></div>
+                <div><dt className="font-semibold">{t("trips.service")}</dt><dd className="text-stone-700">{text(serviceLabels[trip.service_type])}</dd></div>
               </dl>
-              <button type="button" onClick={() => removeTrip(trip.id)} disabled={removingId !== null} aria-label={`Eliminar viaje a ${trip.destination}`} className="mt-3 rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-semibold text-stone-700 hover:border-red-300 hover:text-red-700 focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-60">
-                {removingId === trip.id ? "Eliminando…" : "Eliminar viaje"}
+              <button type="button" onClick={() => removeTrip(trip.id)} disabled={removingId !== null} aria-label={t("trips.deleteLabel", { destination: trip.destination })} className="mt-3 rounded-lg border border-stone-300 px-3 py-1.5 text-sm font-semibold text-stone-700 hover:border-red-300 hover:text-red-700 focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-60">
+                {removingId === trip.id ? t("trips.deleting") : t("trips.delete")}
               </button>
             </li>
           ))}
