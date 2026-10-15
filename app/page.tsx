@@ -896,22 +896,22 @@ function abrirPaquete(destino = "") {
         </div>
       </section>
 {/* VIAJAR SEGÚN LA TEMPORADA */}
-<section className="relative z-10 mx-auto max-w-7xl px-6 py-24">
-  <div className="mb-12 text-center">
+<section className="relative z-10 mx-auto max-w-7xl px-6 pb-6 pt-12 sm:pb-8 sm:pt-14 lg:pt-16">
+  <div className="mb-5 text-center sm:mb-6">
     <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
       {t("season.eyebrow")}
     </p>
 
-    <h2 className="mt-4 text-4xl font-black md:text-6xl">
+    <h2 className="mt-2 text-3xl font-black leading-tight md:text-5xl">
       {t("season.title")}
     </h2>
 
-    <p className="mx-auto mt-5 max-w-2xl text-stone-700">
+    <p className="mx-auto mt-2 max-w-2xl text-stone-700">
       {t("season.description")}
     </p>
   </div>
 
-  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+  <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
 
     <button
   onClick={() => (window.location.href = "/temporadas/primavera")}
