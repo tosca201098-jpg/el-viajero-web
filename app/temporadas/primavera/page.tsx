@@ -267,6 +267,26 @@ const destinosPrimavera = [
       "Castillos, jardines y paisajes verdes en plena primavera.",
   },
 ];
+
+const destinosPrimaveraSeleccionados = new Set([
+  "Tokio",
+  "Kioto",
+  "Ámsterdam",
+  "París",
+  "Sevilla",
+  "Córdoba",
+  "Lisboa",
+  "Madeira",
+  "Roma",
+  "Florencia",
+  "Estambul",
+  "Capadocia",
+  "Washington D. C.",
+  "Seúl",
+  "Jeju",
+  "Valle del Loira",
+]);
+
 export default function PrimaveraPage() {
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
@@ -319,7 +339,9 @@ export default function PrimaveraPage() {
     tabIndex={0}
     className="grid max-w-full gap-3 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:gap-2 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 lg:mx-auto lg:max-w-5xl lg:grid-cols-4"
   >
-  {destinosPrimavera.map((destino) => {
+  {destinosPrimavera
+    .filter((destino) => destinosPrimaveraSeleccionados.has(destino.nombre))
+    .map((destino) => {
     const slug = destino.nombre
       .toLowerCase()
       .normalize("NFD")
