@@ -284,6 +284,13 @@ const destinations: Destination[] = [
     ],
   },
 ];
+
+function findDestinationCard(name: string) {
+  const normalizedName = name.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase();
+  return destinations.find((destination) =>
+    destination.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase() === normalizedName
+  );
+}
 const fondos = [
   // París
   "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1600&q=85",
@@ -494,7 +501,10 @@ await pc.setRemoteDescription({
     document.body.style.overflow = "hidden";
     flightResultsCloseRef.current?.focus();
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setFlightResultsOpen(false);
+      if (event.key === "Escape") {
+        setFlightResultsOpen(false);
+        setDestinoSeleccionado(null);
+      }
     };
     document.addEventListener("keydown", handleEscape);
     return () => {
@@ -632,6 +642,7 @@ await pc.setRemoteDescription({
 
   function abrirVuelos(destino = "") {
     if (destino) setDestinoVuelo(destino);
+    setFlightResultsOpen(false);
     setModal("vuelos");
     setDestinoSeleccionado(null);
   }
@@ -645,6 +656,7 @@ function abrirPaquete(destino = "") {
 }
   function abrirHoteles(destino = "") {
     if (destino) setDestinoHotel(destino);
+    setFlightResultsOpen(false);
     setModal("hoteles");
     setDestinoSeleccionado(null);
   }
@@ -703,6 +715,7 @@ function abrirPaquete(destino = "") {
         query,
       });
       if (data.results.length > 0) {
+        setDestinoSeleccionado(findDestinationCard(query.destination) ?? null);
         setModal(null);
         setFlightResultsOpen(true);
       }
@@ -738,6 +751,59 @@ function abrirPaquete(destino = "") {
       : new Intl.DateTimeFormat(language, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(date);
   }
 
+  function closeDestinationDetail() {
+    setDestinoSeleccionado(null);
+    setFlightResultsOpen(false);
+  }
+
+  function renderFlightOffers(inDestinationCard = false) {
+    if (!flightResultsOpen || flightSearch.status !== "success" || flightSearch.results.length === 0) return null;
+    return (
+      <section className={inDestinationCard ? "mt-8 border-t border-white/10 pt-6" : "mt-5"}>
+        <h3 className={inDestinationCard ? "text-xl font-bold text-white" : "text-lg font-black text-slate-900 sm:text-xl"}>
+          ✈️ {t("search.recentFlights")}
+        </h3>
+        {inDestinationCard && (
+          <p className="mt-2 text-sm leading-6 text-slate-300">
+            {flightSearch.query.origin} → {flightSearch.query.destination} · {formatFlightDate(flightSearch.query.departureDate)} – {formatFlightDate(flightSearch.query.returnDate)} · {flightSearch.query.travelers} {t("search.travelers").toLocaleLowerCase(language)}
+          </p>
+        )}
+        <div className="mt-3 grid gap-3">
+          {flightSearch.results.map((flight, index) => (
+            <article key={`${flight.departureAt ?? "flight"}-${index}`} className={inDestinationCard
+              ? "rounded-2xl border border-white/10 bg-white/5 p-4"
+              : "rounded-2xl border border-blue-100 bg-white p-4 shadow-sm"}>
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <p className="min-w-0 break-words text-sm font-bold">{flightSearch.origin.name} ({flight.origin}) → {flightSearch.destination.name} ({flight.destination})</p>
+                <p className={inDestinationCard ? "text-lg font-black text-cyan-200" : "text-lg font-black text-blue-700"}>
+                  {new Intl.NumberFormat(language, { style: "currency", currency: "EUR" }).format(flight.price)}
+                </p>
+              </div>
+              <div className={inDestinationCard
+                ? "mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-300 sm:text-sm"
+                : "mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 sm:text-sm"}>
+                {flight.departureAt && <span>{t("search.flightDeparture")}: {formatFlightDate(flight.departureAt)}</span>}
+                {flight.returnAt && <span>{t("search.flightReturn")}: {formatFlightDate(flight.returnAt)}</span>}
+                {flight.airline && <span>{t("search.flightAirline")}: {flight.airline}</span>}
+                {flight.transfers !== null && <span>{t("search.flightStops")}: {flight.transfers}</span>}
+              </div>
+              {flight.offerUrl && (
+                <a href={flight.offerUrl} target="_blank" rel="noopener noreferrer sponsored" className={inDestinationCard
+                  ? "mt-3 inline-flex min-h-[44px] items-center rounded-lg border border-cyan-300/60 px-3 py-1 text-xs font-bold text-cyan-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+                  : "mt-3 inline-flex min-h-[44px] items-center rounded-lg border border-blue-500 px-3 py-1 text-xs font-bold text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"}>
+                  {t("search.viewOffer")}
+                </a>
+              )}
+            </article>
+          ))}
+        </div>
+        <p className={inDestinationCard ? "mt-4 text-xs leading-5 text-slate-400" : "mt-4 text-xs leading-5 text-slate-500"}>
+          {t("search.recentPricesNote")}
+        </p>
+      </section>
+    );
+  }
+
   function buscarHoteles(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
@@ -747,8 +813,7 @@ function abrirPaquete(destino = "") {
   }
 
   const flightDestinationCard = flightSearch.status === "success"
-    ? destinations.find((item) => item.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase() ===
-      flightSearch.query.destination.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase())
+    ? findDestinationCard(flightSearch.query.destination)
     : undefined;
 
   return (
@@ -1102,8 +1167,15 @@ function abrirPaquete(destino = "") {
 
       {/* MODAL DESTINO */}
       {destinoSeleccionado && (
-        <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 text-white p-4 backdrop-blur-md">
-          <div className="mx-auto my-8 max-w-3xl overflow-hidden rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl">
+        <div
+          className={flightResultsOpen
+            ? "fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-3 text-white backdrop-blur-md sm:p-4"
+            : "fixed inset-0 z-50 overflow-y-auto bg-black/80 p-4 text-white backdrop-blur-md"}
+          onClick={(event) => { if (event.target === event.currentTarget) closeDestinationDetail(); }}
+        >
+          <div role="dialog" aria-modal="true" aria-labelledby="destination-detail-title" className={flightResultsOpen
+            ? "w-full max-w-3xl max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl sm:max-h-[calc(100dvh-2rem)]"
+            : "mx-auto my-8 max-w-3xl overflow-hidden rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl"}>
             <div className="relative h-72 md:h-96">
               <img
                 src={destinoSeleccionado.image}
@@ -1114,8 +1186,10 @@ function abrirPaquete(destino = "") {
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/20" />
 
               <button
+                ref={flightResultsOpen ? flightResultsCloseRef : undefined}
                 type="button"
-                onClick={() => setDestinoSeleccionado(null)}
+                onClick={closeDestinationDetail}
+                aria-label={t("common.close")}
                 className="absolute right-5 top-5 rounded-full bg-black/60 px-4 py-2 font-bold backdrop-blur"
               >
                 ✕
@@ -1127,7 +1201,7 @@ function abrirPaquete(destino = "") {
                   {destinoSeleccionado.country}
                 </p>
 
-                <h2 className="text-4xl font-black md:text-5xl">
+                <h2 id="destination-detail-title" className="text-4xl font-black md:text-5xl">
                   {destinoSeleccionado.name}
                 </h2>
               </div>
@@ -1154,6 +1228,8 @@ function abrirPaquete(destino = "") {
                   )
                 )}
               </div>
+
+              {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}
 
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
                 <button
@@ -1555,7 +1631,7 @@ function abrirPaquete(destino = "") {
   </div>
 )}
         
-      {flightResultsOpen && flightSearch.status === "success" && flightSearch.results.length > 0 && (
+      {flightResultsOpen && flightSearch.status === "success" && flightSearch.results.length > 0 && !flightDestinationCard && (
         <div
           className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/80 p-3 backdrop-blur-sm sm:p-6"
           onClick={(event) => { if (event.target === event.currentTarget) setFlightResultsOpen(false); }}
@@ -1567,9 +1643,6 @@ function abrirPaquete(destino = "") {
             className="w-full max-w-3xl max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain rounded-[26px] border border-blue-300/50 bg-white text-slate-900 shadow-2xl sm:max-h-[calc(100dvh-3rem)]"
           >
             <div className="relative min-h-[132px] overflow-hidden bg-gradient-to-r from-blue-700 to-cyan-600 text-white sm:min-h-[180px]">
-              {flightDestinationCard && (
-                <img src={flightDestinationCard.image} alt={flightSearch.query.destination} className="absolute inset-0 h-full w-full object-cover" />
-              )}
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/35 to-slate-950/20" />
               <button
                 ref={flightResultsCloseRef}
@@ -1597,29 +1670,7 @@ function abrirPaquete(destino = "") {
                 <div className="col-span-2 sm:col-span-4"><span className="text-xs text-slate-500">{t("search.travelers")}: </span><span className="font-semibold">{flightSearch.query.travelers}</span></div>
               </div>
 
-              <h3 className="mt-5 text-lg font-black text-slate-900 sm:mt-6 sm:text-xl">{t("search.recentFlights")}</h3>
-              <div className="mt-3 grid gap-3">
-                {flightSearch.results.map((flight, index) => (
-                  <article key={`${flight.departureAt ?? "flight"}-${index}`} className="rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <p className="min-w-0 break-words text-sm font-bold">{flightSearch.origin.name} ({flight.origin}) → {flightSearch.destination.name} ({flight.destination})</p>
-                      <p className="text-lg font-black text-blue-700">{new Intl.NumberFormat(language, { style: "currency", currency: "EUR" }).format(flight.price)}</p>
-                    </div>
-                    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 sm:text-sm">
-                      {flight.departureAt && <span>{t("search.flightDeparture")}: {formatFlightDate(flight.departureAt)}</span>}
-                      {flight.returnAt && <span>{t("search.flightReturn")}: {formatFlightDate(flight.returnAt)}</span>}
-                      {flight.airline && <span>{t("search.flightAirline")}: {flight.airline}</span>}
-                      {flight.transfers !== null && <span>{t("search.flightStops")}: {flight.transfers}</span>}
-                    </div>
-                    {flight.offerUrl && (
-                      <a href={flight.offerUrl} target="_blank" rel="noopener noreferrer sponsored" className="mt-3 inline-flex min-h-[44px] items-center rounded-lg border border-blue-500 px-3 py-1 text-xs font-bold text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
-                        {t("search.viewOffer")}
-                      </a>
-                    )}
-                  </article>
-                ))}
-              </div>
-              <p className="mt-4 text-xs leading-5 text-slate-500">{t("search.recentPricesNote")}</p>
+              {renderFlightOffers()}
             </div>
           </section>
         </div>
