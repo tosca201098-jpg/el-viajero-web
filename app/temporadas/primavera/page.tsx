@@ -272,7 +272,7 @@ export default function PrimaveraPage() {
 
   return (
     <main className="min-h-screen bg-[#F7F2E8] text-stone-800">
-      <section className="mx-auto max-w-7xl px-6 py-20">
+      <section className="mx-auto max-w-7xl px-6 py-20 lg:py-12">
         <a
           href="/"
           className="inline-flex rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold backdrop-blur-md"
@@ -280,30 +280,30 @@ export default function PrimaveraPage() {
           ← Volver a Destino AI
         </a>
 
-        <div className="mt-10 sm:mt-12">
+        <div className="mt-10 sm:mt-12 lg:mt-7">
           <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
             🌸 PRIMAVERA
           </p>
 
-          <h1 className="mt-3 text-3xl font-black leading-tight md:text-5xl">
+          <h1 className="mt-3 text-3xl font-black leading-tight md:text-5xl lg:text-4xl">
             Los mejores destinos para viajar en primavera
           </h1>
 
-          <p className="mt-3 max-w-3xl text-lg text-stone-700">
+          <p className="mt-3 max-w-3xl text-lg text-stone-700 lg:mt-2">
             Descubre lugares ideales para disfrutar del buen tiempo, la
             naturaleza, las ciudades y los paisajes más espectaculares de la
             primavera.
           </p>
         </div>
-        <div className="mt-10 sm:mt-12">
+        <div className="mt-10 sm:mt-12 lg:mt-8">
   <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
     DESTINOS RECOMENDADOS
   </p>
 
-  <h2 className="mt-3 text-3xl font-black md:text-5xl">
+  <h2 className="mt-3 text-3xl font-black md:text-5xl lg:text-4xl">
     Lugares increíbles para visitar esta primavera
   </h2>
-  <div className="relative mt-5 sm:mt-8">
+  <div className="relative mt-5 sm:mt-8 lg:mt-5">
   <button
     type="button"
     aria-label="Ver más destinos de primavera"
@@ -327,7 +327,7 @@ export default function PrimaveraPage() {
     role="region"
     aria-label="Destinos recomendados para primavera"
     tabIndex={0}
-    className="grid max-w-full gap-3 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:gap-2 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 lg:grid-cols-4"
+    className="grid max-w-full gap-3 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:gap-2 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 lg:mx-auto lg:max-w-5xl lg:grid-cols-4"
   >
   {destinosPrimavera.map((destino) => {
     const slug = destino.nombre
@@ -345,7 +345,7 @@ export default function PrimaveraPage() {
         }}
         className="group min-w-0 cursor-pointer overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 max-sm:snap-start max-sm:hover:translate-y-0"
       >
-        <div className="relative h-72 overflow-hidden max-sm:h-[104px]">
+        <div className="relative h-72 overflow-hidden max-sm:h-[104px] lg:h-56">
           <img
             src={destino.imagen}
             alt={`${destino.nombre}, ${destino.pais}`}
@@ -354,12 +354,12 @@ export default function PrimaveraPage() {
 
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
 
-          <div className="absolute bottom-0 left-0 p-5 max-sm:p-2">
+          <div className="absolute bottom-0 left-0 p-5 max-sm:p-2 lg:p-4">
             <p className="text-sm font-semibold text-cyan-300 max-sm:text-xs max-sm:leading-4">
               {destino.pais}
             </p>
 
-            <h3 className="mt-1 text-2xl font-black text-white max-sm:mt-0.5 max-sm:text-sm max-sm:leading-4">
+            <h3 className="mt-1 text-2xl font-black text-white max-sm:mt-0.5 max-sm:text-sm max-sm:leading-4 lg:text-xl">
               {destino.nombre}
             </h3>
           </div>
