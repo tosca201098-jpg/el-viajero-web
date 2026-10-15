@@ -465,6 +465,24 @@ await pc.setRemoteDescription({
   const savingTripRef = useRef(false);
   const [saveFeedback, setSaveFeedback] = useState<Partial<Record<TripService, { kind: "error" | "success"; key: TranslationKey; fields?: TranslationKey[] }>>>({});
 
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const service = params.get("primaveraServicio");
+    const destination = params.get("destino")?.trim();
+    if (!destination || (service !== "vuelo" && service !== "hotel" && service !== "ambos")) return;
+
+    const tab = service === "ambos" ? "paquete" : service === "hotel" ? "hoteles" : "vuelos";
+    const radio = document.getElementById(`buscador-${tab}`) as HTMLInputElement | null;
+    if (radio) radio.checked = true;
+    if (service === "hotel") {
+      setDestinoHotel(destination);
+    } else {
+      setDestinoVuelo(destination);
+      if (service === "ambos") setDestinoHotel(destination);
+    }
+    requestAnimationFrame(() => document.getElementById("buscador")?.scrollIntoView({ block: "start" }));
+  }, []);
+
   async function saveCurrentTrip(service: TripService) {
     if (savingTripRef.current) return;
 
@@ -655,7 +673,7 @@ function abrirPaquete(destino = "") {
           </p>
 
           {/* BUSCADOR IA */}
-          <div className="mx-auto mt-10 grid w-full overflow-hidden rounded-[36px] border border-stone-200 bg-[#F7F2E8]/95 text-left shadow-2xl backdrop-blur-2xl md:grid-cols-2 lg:mt-4 lg:border-blue-600 max-sm:mt-3">
+          <div id="buscador" className="mx-auto mt-10 grid w-full scroll-mt-20 overflow-hidden rounded-[36px] border border-stone-200 bg-[#F7F2E8]/95 text-left shadow-2xl backdrop-blur-2xl md:grid-cols-2 lg:mt-4 lg:border-blue-600 max-sm:mt-3">
             <div className="px-6 py-2 md:px-8 md:py-2 max-sm:py-1">
               <h2 className="text-xl leading-6 font-black text-stone-800">✈️ {t("search.title")}</h2>
               <div className="mt-2 grid grid-cols-3 gap-x-2 gap-y-1 max-sm:mt-1">
