@@ -630,7 +630,7 @@ function abrirPaquete(destino = "") {
           >
            EL V<span className="text-blue-500">IA</span>JERO
           </button>
-          <div className="flex min-w-0 items-center gap-1 sm:gap-3">
+          <div className="flex min-w-0 items-center gap-1 sm:gap-3 max-sm:gap-0.5">
             <HeaderAuth onOpenAuth={setAuthMode} />
             <LanguageSelector />
           </div>
