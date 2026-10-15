@@ -12,6 +12,7 @@ function FlagIcon({ locale }: { locale: Locale }) {
     {locale === "de" && <><path d="M0 0h24v5.33H0z" /><path fill="#DD0000" d="M0 5.33h24v5.34H0z" /><path fill="#FFCE00" d="M0 10.67h24V16H0z" /></>}
     {locale === "it" && <><path fill="#009246" d="M0 0h8v16H0z" /><path fill="#fff" d="M8 0h8v16H8z" /><path fill="#CE2B37" d="M16 0h8v16h-8z" /></>}
     {locale === "pt" && <><path fill="#006600" d="M0 0h10v16H0z" /><path fill="#FF0000" d="M10 0h14v16H10z" /><circle cx="10" cy="8" r="3.3" fill="#FFCC00" /><path fill="#fff" d="M8.5 6.5h3v3h-3z" /><path fill="#003399" d="M9.5 7h1v2h-1z" /></>}
+    {locale === "ca" && <><path fill="#FCDD09" d="M0 0h24v16H0z" /><path fill="#DA121A" d="M0 1.78h24v1.78H0zM0 5.33h24v1.78H0zM0 8.89h24v1.78H0zM0 12.44h24v1.78H0z" /></>}
   </svg>;
 }
 
