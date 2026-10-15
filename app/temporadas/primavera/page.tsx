@@ -1,4 +1,6 @@
 "use client";
+import { useRef } from "react";
+
 const destinosPrimavera = [
   {
     nombre: "Tokio",
@@ -266,6 +268,8 @@ const destinosPrimavera = [
   },
 ];
 export default function PrimaveraPage() {
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
   return (
     <main className="min-h-screen bg-[#F7F2E8] text-stone-800">
       <section className="mx-auto max-w-7xl px-6 py-20">
@@ -276,30 +280,55 @@ export default function PrimaveraPage() {
           ← Volver a Destino AI
         </a>
 
-        <div className="mt-14">
+        <div className="mt-10 sm:mt-12">
           <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
             🌸 PRIMAVERA
           </p>
 
-          <h1 className="mt-4 text-4xl font-black md:text-6xl">
+          <h1 className="mt-3 text-3xl font-black leading-tight md:text-5xl">
             Los mejores destinos para viajar en primavera
           </h1>
 
-          <p className="mt-6 max-w-3xl text-lg text-stone-700">
+          <p className="mt-3 max-w-3xl text-lg text-stone-700">
             Descubre lugares ideales para disfrutar del buen tiempo, la
             naturaleza, las ciudades y los paisajes más espectaculares de la
             primavera.
           </p>
         </div>
-        <div className="mt-16">
+        <div className="mt-10 sm:mt-12">
   <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
     DESTINOS RECOMENDADOS
   </p>
 
-  <h2 className="mt-4 text-3xl font-black md:text-5xl">
+  <h2 className="mt-3 text-3xl font-black md:text-5xl">
     Lugares increíbles para visitar esta primavera
   </h2>
-  <div className="mt-8 grid grid-cols-5 gap-3">
+  <div className="relative mt-5 sm:mt-8">
+  <button
+    type="button"
+    aria-label="Ver más destinos de primavera"
+    aria-controls="primavera-carousel"
+    onClick={() => {
+      const carousel = carouselRef.current;
+      const card = carousel?.querySelector("article");
+      if (!carousel || !card) return;
+      carousel.scrollBy({
+        left: card.getBoundingClientRect().width + 8,
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+      });
+    }}
+    className="absolute right-0 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-cyan-800/20 bg-white/70 text-xl text-cyan-800 shadow-sm transition hover:bg-white sm:hidden"
+  >
+    <span aria-hidden="true">→</span>
+  </button>
+  <div
+    ref={carouselRef}
+    id="primavera-carousel"
+    role="region"
+    aria-label="Destinos recomendados para primavera"
+    tabIndex={0}
+    className="grid max-w-full gap-3 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:gap-2 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 lg:grid-cols-4"
+  >
   {destinosPrimavera.map((destino) => {
     const slug = destino.nombre
       .toLowerCase()
@@ -314,9 +343,9 @@ export default function PrimaveraPage() {
         onClick={() => {
           window.location.href = `/destinos/${slug}`;
         }}
-        className="group cursor-pointer overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30"
+        className="group min-w-0 cursor-pointer overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 max-sm:snap-start max-sm:hover:translate-y-0"
       >
-        <div className="relative h-72 overflow-hidden">
+        <div className="relative h-72 overflow-hidden max-sm:h-[104px]">
           <img
             src={destino.imagen}
             alt={`${destino.nombre}, ${destino.pais}`}
@@ -325,12 +354,12 @@ export default function PrimaveraPage() {
 
           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
 
-          <div className="absolute bottom-0 left-0 p-5">
-            <p className="text-sm font-semibold text-cyan-300">
+          <div className="absolute bottom-0 left-0 p-5 max-sm:p-2">
+            <p className="text-sm font-semibold text-cyan-300 max-sm:text-xs max-sm:leading-4">
               {destino.pais}
             </p>
 
-            <h3 className="mt-1 text-2xl font-black text-white">
+            <h3 className="mt-1 text-2xl font-black text-white max-sm:mt-0.5 max-sm:text-sm max-sm:leading-4">
               {destino.nombre}
             </h3>
           </div>
@@ -338,6 +367,7 @@ export default function PrimaveraPage() {
       </article>
     );
   })}
+</div>
 </div>
 </div>
       </section>
