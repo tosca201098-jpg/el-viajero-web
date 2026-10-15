@@ -915,29 +915,29 @@ function abrirPaquete(destino = "") {
 
     <button
   onClick={() => (window.location.href = "/temporadas/primavera")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
+  className="flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2.5 text-[15px] leading-5 font-bold backdrop-blur-xl sm:px-3"
 >
-      🌸 {t("season.spring")}
+      <span aria-hidden="true" className="text-xl leading-none">🌸</span> {t("season.spring")}
     </button>
 
     <button
   onClick={() => (window.location.href = "/temporadas/verano")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
+  className="flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2.5 text-[15px] leading-5 font-bold backdrop-blur-xl sm:px-3"
 >
-      ☀️ {t("season.summer")}
+      <span aria-hidden="true" className="text-xl leading-none">☀️</span> {t("season.summer")}
     </button>
     <button
   onClick={() => (window.location.href = "/temporadas/otono")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
+  className="flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2.5 text-[15px] leading-5 font-bold backdrop-blur-xl sm:px-3"
 >
-  🍂 {t("season.autumn")}
+  <span aria-hidden="true" className="text-xl leading-none">🍂</span> {t("season.autumn")}
 </button>
 
 <button
   onClick={() => (window.location.href = "/temporadas/invierno")}
-  className="rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2 text-[13px] leading-[18px] font-bold backdrop-blur-xl"
+  className="flex min-h-11 items-center justify-center gap-1.5 rounded-2xl border border-white/15 bg-white/[0.07] px-2.5 py-2.5 text-[15px] leading-5 font-bold backdrop-blur-xl sm:px-3"
 >
-  ❄️ {t("season.winter")}
+  <span aria-hidden="true" className="text-xl leading-none">❄️</span> {t("season.winter")}
 </button>
   </div>
 </section>
