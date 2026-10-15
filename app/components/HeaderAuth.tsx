@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import SavedTrips from "./SavedTrips";
 
 const primaryButton = "whitespace-nowrap rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm";
 const secondaryButton = "whitespace-nowrap rounded-lg px-2 py-1 text-xs font-medium text-stone-700 transition hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 sm:px-3 sm:py-2 sm:text-sm";
@@ -111,8 +112,7 @@ export default function HeaderAuth({ onOpenAuth }: {
           </div>
           <section aria-labelledby="account-trips-title" className="mt-5 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
             <h3 id="account-trips-title" className="text-lg font-bold text-stone-800">Mis viajes</h3>
-            {/* Replace this empty state with saved trips when that feature is available. */}
-            <p className="mt-2 text-sm leading-6 text-stone-700">Todavía no tienes viajes guardados.</p>
+            <SavedTrips key={session.user.id} />
           </section>
           <div className="mt-6 border-t border-stone-200 pt-4">
             {error && <p role="alert" className="mb-3 text-sm text-red-700">{error}</p>}
