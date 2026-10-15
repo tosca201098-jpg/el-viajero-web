@@ -8,6 +8,7 @@ import HeaderAuth from "./components/HeaderAuth";
 import LanguageSelector from "./components/LanguageSelector";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/saved-trips";
+import type { TranslationKey } from "@/lib/i18n/translations";
 
 type Destination = {
   name: string;
@@ -462,7 +463,7 @@ await pc.setRemoteDescription({
   const [mensajeHoteles, setMensajeHoteles] = useState("");
   const [savingTrip, setSavingTrip] = useState<TripService | null>(null);
   const savingTripRef = useRef(false);
-  const [saveFeedback, setSaveFeedback] = useState<Partial<Record<TripService, { kind: "error" | "success"; message: string }>>>({});
+  const [saveFeedback, setSaveFeedback] = useState<Partial<Record<TripService, { kind: "error" | "success"; key: TranslationKey; fields?: TranslationKey[] }>>>({});
 
   async function saveCurrentTrip(service: TripService) {
     if (savingTripRef.current) return;
@@ -476,19 +477,19 @@ await pc.setRemoteDescription({
       travelers: isHotel ? huespedes : pasajeros,
       service_type: service,
     };
-    const missing = [
-      ...(!isHotel && !trip.origin ? [t("search.origin")] : []),
-      ...(!trip.destination ? [t("search.destination")] : []),
-      ...(!trip.departure_date ? [t(isHotel ? "search.checkIn" : "search.departureDate")] : []),
-      ...(!trip.return_date ? [t(isHotel ? "search.checkOut" : "search.returnDate")] : []),
-      ...(!Number.isInteger(trip.travelers) || trip.travelers < 1 ? [t(isHotel ? "search.guests" : "search.travelers")] : []),
+    const missing: TranslationKey[] = [
+      ...(!isHotel && !trip.origin ? ["search.origin" as const] : []),
+      ...(!trip.destination ? ["search.destination" as const] : []),
+      ...(!trip.departure_date ? [isHotel ? "search.checkIn" as const : "search.departureDate" as const] : []),
+      ...(!trip.return_date ? [isHotel ? "search.checkOut" as const : "search.returnDate" as const] : []),
+      ...(!Number.isInteger(trip.travelers) || trip.travelers < 1 ? [isHotel ? "search.guests" as const : "search.travelers" as const] : []),
     ];
     if (missing.length) {
-      setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", message: t("search.saveMissing", { fields: missing.join(", ") }) } }));
+      setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", key: "search.saveMissing", fields: missing } }));
       return;
     }
     if (trip.return_date && trip.return_date < trip.departure_date) {
-      setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", message: t("search.saveInvalidDates") } }));
+      setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", key: "search.saveInvalidDates" } }));
       return;
     }
 
@@ -499,15 +500,15 @@ await pc.setRemoteDescription({
       const { data: { session }, error } = await getSupabaseClient().auth.getSession();
       if (error) throw error;
       if (!session) {
-        setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", message: t("search.signInToSave") } }));
+        setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", key: "search.signInToSave" } }));
         return;
       }
       await saveTrip(trip);
-      setSaveFeedback((current) => ({ ...current, [service]: { kind: "success", message: t("search.tripSaved") } }));
+      setSaveFeedback((current) => ({ ...current, [service]: { kind: "success", key: "search.tripSaved" } }));
     } catch (error) {
-      const message = error instanceof Error && error.message === "Inicia sesión para acceder a tus viajes."
-        ? t("search.signInToSave") : t("search.saveError");
-      setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", message } }));
+      const key = error instanceof Error && error.message === "Inicia sesión para acceder a tus viajes."
+        ? "search.signInToSave" : "search.saveError";
+      setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", key } }));
     } finally {
       savingTripRef.current = false;
       setSavingTrip(null);
@@ -532,7 +533,7 @@ await pc.setRemoteDescription({
           <p role={feedback.kind === "error" ? "alert" : "status"} className={inModal
             ? `mt-2 rounded-xl px-3 py-2 text-sm ${feedback.kind === "error" ? "bg-red-950/60 text-red-100" : "bg-cyan-300/10 text-cyan-100"}`
             : `mt-1.5 rounded-xl px-3 py-2 text-sm ${feedback.kind === "error" ? "bg-red-50 text-red-800" : "bg-blue-50 text-blue-900"}`}>
-            {feedback.message}
+            {t(feedback.key, { fields: feedback.fields?.map((field) => t(field)).join(", ") ?? "" })}
           </p>
         )}
       </>
