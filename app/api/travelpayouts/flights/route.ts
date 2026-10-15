@@ -50,12 +50,15 @@ async function resolveCity(input: string): Promise<City | null> {
         typeof place.code !== 'string' ||
         !/^[A-Z]{3}$/.test(place.code)
       ) return false;
+      const normalizedInput = normalize(cityInput);
+      const normalizedName = normalize(place.name);
       const nameMatches =
-        normalize(place.name) === normalize(cityInput) ||
+        normalizedName === normalizedInput ||
+        ` ${normalizedName} `.includes(` ${normalizedInput} `) ||
         place.code.toLowerCase() === cityInput.toLowerCase() ||
         (Array.isArray(place.index_strings) &&
           place.index_strings.some(
-            (alias: unknown) => typeof alias === 'string' && normalize(alias) === normalize(cityInput)
+            (alias: unknown) => typeof alias === 'string' && normalize(alias) === normalizedInput
           ));
       const countryMatches = !countryInput ||
         (typeof place.country_name === 'string' && normalize(place.country_name) === normalize(countryInput)) ||
