@@ -53,8 +53,10 @@ export default function LanguageSelector() {
         aria-haspopup="menu" aria-expanded={open} aria-controls={open ? menuId : undefined}
         onClick={() => setOpen((current) => !current)}
         onKeyDown={(event) => { if (event.key === "ArrowDown") { event.preventDefault(); setOpen(true); } }}
-        className="flex h-11 w-11 items-center justify-center rounded-full border border-stone-300/70 bg-white/40 text-lg text-stone-700 transition hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
-        <FlagIcon locale={language} />
+        className="flex h-11 w-11 items-center justify-center rounded-full border border-stone-300/70 bg-white/40 text-lg text-stone-700 transition hover:bg-white/80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 max-sm:border-transparent max-sm:bg-transparent">
+        <span className="flex h-full w-full items-center justify-center rounded-full max-sm:h-9 max-sm:w-9 max-sm:border max-sm:border-stone-300/70 max-sm:bg-white/40">
+          <FlagIcon locale={language} />
+        </span>
       </button>
       {open && <div id={menuId} role="menu" aria-label={t("language.choose")} onKeyDown={onKeyDown}
         className="absolute right-0 top-full z-50 mt-2 w-44 max-w-[calc(100vw-1.5rem)] rounded-2xl border border-stone-200 bg-[#F7F2E8] p-1.5 text-sm text-stone-800 shadow-xl">
