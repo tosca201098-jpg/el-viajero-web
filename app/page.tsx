@@ -765,7 +765,7 @@ function abrirPaquete(destino = "") {
         </h3>
         {inDestinationCard && (
           <p className="mt-2 text-sm leading-6 text-slate-300">
-            {flightSearch.query.origin} → {flightSearch.query.destination} · {formatFlightDate(flightSearch.query.departureDate)} – {formatFlightDate(flightSearch.query.returnDate)} · {flightSearch.query.travelers} {t("search.travelers").toLocaleLowerCase(language)}
+            {flightSearch.query.origin} → {flightSearch.query.destination} · {formatFlightDate(flightSearch.query.departureDate)} – {formatFlightDate(flightSearch.query.returnDate)} · {t("search.travelers")}: {flightSearch.query.travelers}
           </p>
         )}
         <div className="mt-3 grid gap-3">
