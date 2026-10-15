@@ -278,6 +278,7 @@ const fondos = [
   "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1600&q=85",
 ];
 export default function Home() {
+  const destinationsCarouselRef = useRef<HTMLDivElement | null>(null);
   const [authMode, setAuthMode] = useState<"signup" | "signin" | null>(null);
   const [fondoActual, setFondoActual] = useState(0);
   const [temporada, setTemporada] = useState("primavera");
@@ -723,13 +724,39 @@ function abrirPaquete(destino = "") {
           </p>
         </div>
 
-        <div className="mx-auto grid max-w-full grid-cols-1 gap-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6">
+        <div className="mb-2 flex justify-end sm:hidden">
+          <button
+            type="button"
+            aria-label="Ver siguientes destinos"
+            aria-controls="destinations-carousel"
+            onClick={() => {
+              const carousel = destinationsCarouselRef.current;
+              const card = carousel?.querySelector("article");
+              if (!carousel || !card) return;
+              carousel.scrollBy({
+                left: card.getBoundingClientRect().width + 8,
+                behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+              });
+            }}
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-cyan-800/20 bg-white/60 text-xl text-cyan-800 transition hover:bg-white"
+          >
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+        <div
+          ref={destinationsCarouselRef}
+          id="destinations-carousel"
+          role="region"
+          aria-label="Destinos para explorar"
+          tabIndex={0}
+          className="mx-auto grid max-w-full gap-2 max-sm:auto-cols-[60%] max-sm:grid-flow-col max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 md:landscape:grid-cols-4 xl:grid-cols-4"
+        >
           {destinations.map((destino) => (
             <article
               key={destino.name}
-              className="group flex flex-col overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30"
+              className="group flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 max-sm:snap-start max-sm:hover:translate-y-0"
             >
-              <div className="relative h-[180px] shrink-0 overflow-hidden sm:h-[164px] lg:h-[124px]">
+              <div className="relative h-[180px] shrink-0 overflow-hidden sm:h-[164px] lg:h-[124px] max-sm:h-[120px]">
                 <img
                   src={destino.image}
                   alt={`${destino.name}, ${destino.country}`}
@@ -739,25 +766,25 @@ function abrirPaquete(destino = "") {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
 
                 <div className="absolute bottom-2.5 left-2.5 right-2.5">
-                  <p className="text-[13px] leading-4 text-cyan-200">
+                  <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs">
                     {destino.emoji} {destino.country}
                   </p>
 
-                  <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5">
+                  <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-base max-sm:leading-[18px]">
                     {destino.name}
                   </h3>
                 </div>
               </div>
 
-              <div className="flex flex-1 flex-col p-2.5 lg:p-2">
-                <p className="flex-1 text-[13px] leading-[18px] text-stone-700">
+              <div className="flex flex-1 flex-col p-2.5 lg:p-2 max-sm:p-2">
+                <p className="flex-1 text-[13px] leading-[18px] text-stone-700 max-sm:text-xs max-sm:leading-4">
                   {destino.description}
                 </p>
 
                 <button
                   type="button"
                   onClick={() => setDestinoSeleccionado(destino)}
-                  className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950"
+                  className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950 max-sm:min-h-[44px] max-sm:text-xs max-sm:leading-4"
                 >
                   Explorar {destino.name} →
                 </button>
