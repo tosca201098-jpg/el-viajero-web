@@ -710,11 +710,7 @@ function abrirPaquete(destino = "") {
         className="relative z-10 mx-auto max-w-7xl px-6 py-24"
       >
         <div className="mb-12 text-center max-sm:mb-4">
-          <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
-            INSPÍRATE
-          </p>
-
-          <h2 className="mt-4 text-4xl font-black md:text-6xl">
+          <h2 className="text-4xl font-black md:text-6xl">
             Destinos que te encantarán
           </h2>
 
