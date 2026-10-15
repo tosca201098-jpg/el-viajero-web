@@ -284,25 +284,15 @@ export default function PrimaveraPage() {
           <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
             🌸 PRIMAVERA
           </p>
-
-          <h1 className="mt-3 text-3xl font-black leading-tight md:text-5xl lg:text-4xl">
-            Los mejores destinos para viajar en primavera
-          </h1>
-
-          <p className="mt-3 max-w-3xl text-lg text-stone-700 lg:mt-2">
-            Descubre lugares ideales para disfrutar del buen tiempo, la
-            naturaleza, las ciudades y los paisajes más espectaculares de la
-            primavera.
-          </p>
         </div>
-        <div className="mt-10 sm:mt-12 lg:mt-8">
+        <div className="mt-4 sm:mt-5 lg:mt-4">
   <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
     DESTINOS RECOMENDADOS
   </p>
 
-  <h2 className="mt-3 text-3xl font-black md:text-5xl lg:text-4xl">
+  <h1 className="mt-3 text-3xl font-black md:text-5xl lg:text-4xl">
     Lugares increíbles para visitar esta primavera
-  </h2>
+  </h1>
   <div className="relative mt-5 sm:mt-8 lg:mt-5">
   <button
     type="button"
