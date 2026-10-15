@@ -5,96 +5,112 @@ const destinosOtono = [
   {
     nombre: "Kioto",
     pais: "Japón",
+    categoria: "🍁 Follaje otoñal",
     imagen: "https://images.unsplash.com/photo-1764604186461-07354b3b1c68?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Templos y jardines envueltos en los tonos rojos del otoño.",
   },
   {
     nombre: "Tōhoku",
     pais: "Japón",
+    categoria: "🍁 Follaje otoñal",
     imagen: "https://images.unsplash.com/photo-1699356302651-c3354b04dd28?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Gargantas, lagos y bosques que brillan con el follaje otoñal.",
   },
   {
     nombre: "Seúl",
     pais: "Corea del Sur",
+    categoria: "🍂 Otoño urbano",
     imagen: "https://images.unsplash.com/photo-1768006378015-2cb810dbeb90?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Palacios y parques urbanos entre colores dorados y rojos.",
   },
   {
     nombre: "Pokhara y Annapurna",
     pais: "Nepal",
+    categoria: "🥾 Montaña y senderismo",
     imagen: "https://images.unsplash.com/photo-1604153352266-ac3a5fc876a5?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Lagos serenos y senderos del Himalaya bajo cielos despejados.",
   },
   {
     nombre: "Nueva Inglaterra",
     pais: "Estados Unidos",
+    categoria: "🍁 Follaje otoñal",
     imagen: "https://images.unsplash.com/photo-1634175598198-fed5994f155f?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Rutas panorámicas, pueblos históricos y bosques de mil colores.",
   },
   {
     nombre: "Nueva York",
     pais: "Estados Unidos",
+    categoria: "🍂 Otoño urbano",
     imagen: "https://images.unsplash.com/photo-1769517250320-d52d1b286379?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Central Park se tiñe de otoño entre barrios y rascacielos.",
   },
   {
     nombre: "Quebec",
     pais: "Canadá",
+    categoria: "🍁 Follaje otoñal",
     imagen: "https://images.unsplash.com/photo-1761209355645-8d3457131cb5?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Calles empedradas y vistas al San Lorenzo entre hojas otoñales.",
   },
   {
     nombre: "Oaxaca",
     pais: "México",
+    categoria: "🎭 Cultura y tradición",
     imagen: "https://images.unsplash.com/photo-1666749278240-85d122a30959?auto=format&fit=crop&w=1200&q=80",
     descripcion: "A finales de octubre y principios de noviembre, el Día de Muertos llena la ciudad de color y tradición.",
   },
   {
     nombre: "Highlands de Escocia",
     pais: "Escocia",
+    categoria: "🍁 Follaje otoñal",
     imagen: "https://images.unsplash.com/photo-1472494060377-5e98f58af1c2?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Valles, lagos y castillos entre montañas de tonos cobrizos.",
   },
   {
     nombre: "Borgoña",
     pais: "Francia",
+    categoria: "🍷 Gastronomía y vendimia",
     imagen: "https://images.unsplash.com/photo-1755497901305-6d60606671eb?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Viñedos, pueblos de piedra y gastronomía en tiempo de vendimia.",
   },
   {
     nombre: "Umbría",
     pais: "Italia",
+    categoria: "🍷 Gastronomía y vendimia",
     imagen: "https://images.unsplash.com/photo-1607727562102-9319ef500e24?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Ciudades medievales y colinas tranquilas en el corazón de Italia.",
   },
   {
     nombre: "Lago Bohinj",
     pais: "Eslovenia",
+    categoria: "🍁 Follaje otoñal",
     imagen: "https://images.unsplash.com/photo-1609751007951-151fdacfa96e?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Un lago alpino rodeado de montañas y senderos de otoño.",
   },
   {
     nombre: "Montenegro",
     pais: "Montenegro",
+    categoria: "🥾 Montaña y senderismo",
     imagen: "https://images.unsplash.com/photo-1642356775128-fc3bd3a43459?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Bahías históricas y montañas espectaculares con clima suave.",
   },
   {
     nombre: "Fez",
     pais: "Marruecos",
+    categoria: "🎭 Cultura y tradición",
     imagen: "https://images.unsplash.com/photo-1767936925033-9a5b59925613?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Medinas, artesanía y arquitectura para explorar con temperaturas agradables.",
   },
   {
     nombre: "Menorca",
     pais: "España",
+    categoria: "🌊 Costa y mar",
     imagen: "https://images.unsplash.com/photo-1747752419759-8b96c167d6db?auto=format&fit=crop&w=1200&q=80",
     descripcion: "En septiembre y octubre, calas tranquilas y pueblos con menos visitantes.",
   },
   {
     nombre: "Luxor y el Nilo",
     pais: "Egipto",
+    categoria: "🏛️ Historia y ciudad",
     imagen: "https://images.unsplash.com/photo-1678388103971-25c5d15c85eb?auto=format&fit=crop&w=1200&q=80",
     descripcion: "A finales de otoño, especialmente en noviembre, el Nilo y los templos se disfrutan con clima suave.",
   },
@@ -239,6 +255,11 @@ export default function OtonoPage() {
             </h3>
           </div>
         </div>
+        <div className="flex h-[60px] items-center px-2 py-2 sm:h-[52px] sm:px-4">
+          <span className="inline-flex max-w-full rounded-full border border-cyan-800/20 bg-cyan-50 px-2 py-1 text-[11px] font-semibold leading-3.5 text-cyan-900 sm:px-2.5 sm:text-xs">
+            {destino.categoria}
+          </span>
+        </div>
       </article>
     );
   })}
@@ -283,7 +304,10 @@ export default function OtonoPage() {
               </div>
             </div>
             <div className="p-5 max-sm:p-4 sm:p-7">
-              <p className="text-base leading-6 text-slate-300 max-sm:text-sm max-sm:leading-5 sm:text-lg sm:leading-7">
+              <span className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100 sm:text-sm">
+                {destinoSeleccionado.categoria}
+              </span>
+              <p className="mt-3 text-base leading-6 text-slate-300 max-sm:text-sm max-sm:leading-5 sm:text-lg sm:leading-7">
                 {destinoSeleccionado.descripcion}
               </p>
               <h3 className="mt-6 text-lg font-bold max-sm:mt-4 max-sm:text-base max-sm:leading-5 sm:text-xl">✨ 4 lugares recomendados para visitar</h3>
