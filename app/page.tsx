@@ -709,7 +709,7 @@ function abrirPaquete(destino = "") {
         id="destinos"
         className="relative z-10 mx-auto max-w-7xl px-6 py-24"
       >
-        <div className="mb-12 text-center">
+        <div className="mb-12 text-center max-sm:mb-4">
           <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
             INSPÍRATE
           </p>
@@ -724,7 +724,8 @@ function abrirPaquete(destino = "") {
           </p>
         </div>
 
-        <div className="mb-2 flex justify-end sm:hidden">
+        <div className="contents max-sm:relative max-sm:block">
+        <div className="mb-2 flex justify-end sm:hidden max-sm:absolute max-sm:-right-3 max-sm:top-1/2 max-sm:z-10 max-sm:mb-0 max-sm:-translate-y-1/2">
           <button
             type="button"
             aria-label="Ver siguientes destinos"
@@ -749,14 +750,14 @@ function abrirPaquete(destino = "") {
           role="region"
           aria-label="Destinos para explorar"
           tabIndex={0}
-          className="mx-auto grid max-w-full gap-2 max-sm:auto-cols-[60%] max-sm:grid-flow-col max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 md:landscape:grid-cols-4 xl:grid-cols-4"
+          className="mx-auto grid max-w-full gap-2 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 md:landscape:grid-cols-4 xl:grid-cols-4"
         >
           {destinations.map((destino) => (
             <article
               key={destino.name}
               className="group flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 max-sm:snap-start max-sm:hover:translate-y-0"
             >
-              <div className="relative h-[180px] shrink-0 overflow-hidden sm:h-[164px] lg:h-[124px] max-sm:h-[120px]">
+              <div className="relative h-[180px] shrink-0 overflow-hidden sm:h-[164px] lg:h-[124px] max-sm:h-[104px]">
                 <img
                   src={destino.image}
                   alt={`${destino.name}, ${destino.country}`}
@@ -765,32 +766,33 @@ function abrirPaquete(destino = "") {
 
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
 
-                <div className="absolute bottom-2.5 left-2.5 right-2.5">
-                  <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs">
+                <div className="absolute bottom-2.5 left-2.5 right-2.5 max-sm:bottom-2 max-sm:left-2 max-sm:right-2">
+                  <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs max-sm:leading-[14px]">
                     {destino.emoji} {destino.country}
                   </p>
 
-                  <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-base max-sm:leading-[18px]">
+                  <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-sm max-sm:leading-4">
                     {destino.name}
                   </h3>
                 </div>
               </div>
 
               <div className="flex flex-1 flex-col p-2.5 lg:p-2 max-sm:p-2">
-                <p className="flex-1 text-[13px] leading-[18px] text-stone-700 max-sm:text-xs max-sm:leading-4">
+                <p className="flex-1 text-[13px] leading-[18px] text-stone-700 max-sm:line-clamp-2 max-sm:h-8 max-sm:flex-none max-sm:text-xs max-sm:leading-4">
                   {destino.description}
                 </p>
 
                 <button
                   type="button"
                   onClick={() => setDestinoSeleccionado(destino)}
-                  className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950 max-sm:min-h-[44px] max-sm:text-xs max-sm:leading-4"
+                  className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950 max-sm:mt-1 max-sm:min-h-[44px] max-sm:px-1 max-sm:py-0 max-sm:text-xs max-sm:leading-4"
                 >
                   Explorar {destino.name} →
                 </button>
               </div>
             </article>
           ))}
+        </div>
         </div>
       </section>
 {/* VIAJAR SEGÚN LA TEMPORADA */}
