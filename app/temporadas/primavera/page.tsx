@@ -5,6 +5,7 @@ const destinosPrimavera = [
   {
     nombre: "Tokio",
     pais: "Japón",
+    categoria: "🌸 Cerezos en flor",
     imagen:
       "https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Cerezos en flor, templos y barrios llenos de vida.",
@@ -12,6 +13,7 @@ const destinosPrimavera = [
   {
     nombre: "Kioto",
     pais: "Japón",
+    categoria: "🌸 Cerezos en flor",
     imagen:
       "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=1200&q=80",
     descripcion:
@@ -20,6 +22,7 @@ const destinosPrimavera = [
   {
     nombre: "Ámsterdam",
     pais: "Países Bajos",
+    categoria: "🌷 Flores y jardines",
     imagen:
       "https://images.unsplash.com/photo-1534351590666-13e3e96b5017?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Canales, tulipanes y parques llenos de color.",
@@ -27,6 +30,7 @@ const destinosPrimavera = [
   {
     nombre: "París",
     pais: "Francia",
+    categoria: "🌷 Flores y jardines",
     imagen:
       "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Jardines florecidos, terrazas y paseos junto al Sena.",
@@ -34,6 +38,7 @@ const destinosPrimavera = [
   {
     nombre: "Sevilla",
     pais: "España",
+    categoria: "🌼 Primavera y cultura",
     imagen:
       "https://images.unsplash.com/photo-1654122675648-51310a647f2d?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Azahar, buen clima y una primavera llena de ambiente.",
@@ -41,6 +46,7 @@ const destinosPrimavera = [
   {
     nombre: "Córdoba",
     pais: "España",
+    categoria: "🌼 Primavera y cultura",
     imagen:
       "https://images.pexels.com/photos/7861201/pexels-photo-7861201.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion:
@@ -49,12 +55,14 @@ const destinosPrimavera = [
   {
     nombre: "Granada",
     pais: "España",
+    categoria: "🌼 Primavera y cultura",
     imagen: "https://images.pexels.com/photos/34135490/pexels-photo-34135490.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion: "La Alhambra, jardines y paisajes espectaculares.",
   },
   {
     nombre: "Lisboa",
     pais: "Portugal",
+    categoria: "🌼 Primavera y cultura",
     imagen: "https://images.pexels.com/photos/1534560/pexels-photo-1534560.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion:
       "Miradores, barrios con encanto y agradables días de sol.",
@@ -62,12 +70,14 @@ const destinosPrimavera = [
   {
     nombre: "Madeira",
     pais: "Portugal",
+    categoria: "🌋 Naturaleza",
     imagen: "https://images.pexels.com/photos/35062415/pexels-photo-35062415.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion: "Flores, montañas, senderos y naturaleza exuberante.",
   },
   {
     nombre: "Roma",
     pais: "Italia",
+    categoria: "🏛️ Historia y ciudad",
     imagen: "https://images.pexels.com/photos/36845881/pexels-photo-36845881.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion:
       "Historia, plazas y terrazas antes de la llegada del calor.",
@@ -75,12 +85,14 @@ const destinosPrimavera = [
   {
     nombre: "Florencia",
     pais: "Italia",
+    categoria: "🏛️ Historia y ciudad",
     imagen: "https://images.pexels.com/photos/36860750/pexels-photo-36860750.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion: "Arte renacentista, jardines y paisajes de la Toscana.",
   },
   {
     nombre: "Venecia",
     pais: "Italia",
+    categoria: "🏛️ Historia y ciudad",
     imagen: "https://images.pexels.com/photos/39573144/pexels-photo-39573144.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion:
       "Canales y calles históricas con temperaturas más suaves.",
@@ -88,6 +100,7 @@ const destinosPrimavera = [
   {
     nombre: "Santorini",
     pais: "Grecia",
+    categoria: "🌊 Costa y mar",
     imagen: "https://images.pexels.com/photos/31462811/pexels-photo-31462811.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion:
       "Pueblos blancos, vistas al mar y menos aglomeraciones.",
@@ -95,6 +108,7 @@ const destinosPrimavera = [
   {
     nombre: "Atenas",
     pais: "Grecia",
+    categoria: "🏛️ Historia y ciudad",
     imagen: "https://images.pexels.com/photos/38752583/pexels-photo-38752583.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion:
       "Ruinas antiguas y clima ideal para recorrer la ciudad.",
@@ -102,6 +116,7 @@ const destinosPrimavera = [
   {
     nombre: "Dubrovnik",
     pais: "Croacia",
+    categoria: "🌊 Costa y mar",
     imagen: "https://images.pexels.com/photos/15553023/pexels-photo-15553023.jpeg?auto=compress&cs=tinysrgb&w=1200",
     descripcion:
       "Murallas históricas y espectaculares vistas al Adriático.",
@@ -109,6 +124,7 @@ const destinosPrimavera = [
   {
     nombre: "Praga",
     pais: "República Checa",
+    categoria: "🌼 Primavera y cultura",
     imagen:
       "https://source.unsplash.com/1200x800/?prague,czech",
     descripcion:
@@ -117,6 +133,7 @@ const destinosPrimavera = [
   {
     nombre: "Viena",
     pais: "Austria",
+    categoria: "🌷 Flores y jardines",
     imagen:
       "https://source.unsplash.com/1200x800/?vienna,austria",
     descripcion:
@@ -125,6 +142,7 @@ const destinosPrimavera = [
   {
     nombre: "Budapest",
     pais: "Hungría",
+    categoria: "🌼 Primavera y cultura",
     imagen:
       "https://source.unsplash.com/1200x800/?budapest,hungary",
     descripcion:
@@ -133,6 +151,7 @@ const destinosPrimavera = [
   {
     nombre: "Estambul",
     pais: "Turquía",
+    categoria: "🎭 Cultura y tradición",
     imagen:
       "https://images.unsplash.com/photo-1756760910079-3952b792b0ef?auto=format&fit=crop&w=1200&q=80",
     descripcion:
@@ -141,6 +160,7 @@ const destinosPrimavera = [
   {
     nombre: "Londres",
     pais: "Reino Unido",
+    categoria: "🌷 Flores y jardines",
     imagen:
       "https://source.unsplash.com/1200x800/?london,england",
     descripcion:
@@ -149,6 +169,7 @@ const destinosPrimavera = [
   {
     nombre: "Edimburgo",
     pais: "Escocia",
+    categoria: "🌼 Primavera y cultura",
     imagen:
       "https://source.unsplash.com/1200x800/?edinburgh,scotland",
     descripcion:
@@ -157,6 +178,7 @@ const destinosPrimavera = [
   {
     nombre: "Dublín",
     pais: "Irlanda",
+    categoria: "🌼 Primavera y cultura",
     imagen:
       "https://source.unsplash.com/1200x800/?dublin,ireland",
     descripcion:
@@ -165,6 +187,7 @@ const destinosPrimavera = [
   {
     nombre: "Copenhague",
     pais: "Dinamarca",
+    categoria: "🌷 Flores y jardines",
     imagen:
       "https://source.unsplash.com/1200x800/?copenhagen,denmark",
     descripcion:
@@ -173,6 +196,7 @@ const destinosPrimavera = [
   {
     nombre: "Marrakech",
     pais: "Marruecos",
+    categoria: "🌼 Primavera y cultura",
     imagen:
       "https://source.unsplash.com/1200x800/?marrakech,morocco",
     descripcion:
@@ -181,6 +205,7 @@ const destinosPrimavera = [
   {
     nombre: "Chefchaouen",
     pais: "Marruecos",
+    categoria: "🎭 Cultura y tradición",
     imagen:
       "https://source.unsplash.com/1200x800/?chefchaouen,morocco",
     descripcion:
@@ -189,6 +214,7 @@ const destinosPrimavera = [
   {
     nombre: "Capadocia",
     pais: "Turquía",
+    categoria: "🌋 Naturaleza",
     imagen:
       "https://images.unsplash.com/photo-1664875965544-9df4ee71e73a?auto=format&fit=crop&w=1200&q=80",
     descripcion:
@@ -197,6 +223,7 @@ const destinosPrimavera = [
   {
     nombre: "Nueva York",
     pais: "Estados Unidos",
+    categoria: "🌼 Primavera y cultura",
     imagen:
       "https://source.unsplash.com/1200x800/?new-york,central-park",
     descripcion:
@@ -205,6 +232,7 @@ const destinosPrimavera = [
   {
     nombre: "Washington D. C.",
     pais: "Estados Unidos",
+    categoria: "🌸 Cerezos en flor",
     imagen:
       "https://images.unsplash.com/photo-1742393993572-54d8fb7ac667?auto=format&fit=crop&w=1200&q=80",
     descripcion:
@@ -213,6 +241,7 @@ const destinosPrimavera = [
   {
     nombre: "Vancouver",
     pais: "Canadá",
+    categoria: "🌷 Flores y jardines",
     imagen:
       "https://source.unsplash.com/1200x800/?vancouver,canada",
     descripcion:
@@ -221,6 +250,7 @@ const destinosPrimavera = [
   {
     nombre: "Seúl",
     pais: "Corea del Sur",
+    categoria: "🌸 Cerezos en flor",
     imagen:
       "https://images.unsplash.com/photo-1745687237545-c9975e7035f4?auto=format&fit=crop&w=1200&q=80",
     descripcion:
@@ -229,6 +259,7 @@ const destinosPrimavera = [
   {
     nombre: "Jeju",
     pais: "Corea del Sur",
+    categoria: "🌷 Flores y jardines",
     imagen:
       "https://images.unsplash.com/photo-1785686856914-828bceeb9e64?auto=format&fit=crop&w=1200&q=80",
     descripcion:
@@ -237,6 +268,7 @@ const destinosPrimavera = [
   {
     nombre: "Taipéi",
     pais: "Taiwán",
+    categoria: "🌼 Primavera y cultura",
     imagen:
       "https://source.unsplash.com/1200x800/?taipei,taiwan",
     descripcion:
@@ -245,6 +277,7 @@ const destinosPrimavera = [
   {
     nombre: "Bali",
     pais: "Indonesia",
+    categoria: "🌋 Naturaleza",
     imagen:
       "https://source.unsplash.com/1200x800/?bali,indonesia",
     descripcion:
@@ -253,6 +286,7 @@ const destinosPrimavera = [
   {
     nombre: "Petra",
     pais: "Jordania",
+    categoria: "🏛️ Historia y ciudad",
     imagen:
       "https://source.unsplash.com/1200x800/?petra,jordan",
     descripcion:
@@ -261,6 +295,7 @@ const destinosPrimavera = [
   {
     nombre: "Valle del Loira",
     pais: "Francia",
+    categoria: "🌷 Flores y jardines",
     imagen:
       "https://images.unsplash.com/photo-1526816229784-65d5d54ac8bc?auto=format&fit=crop&w=1200&q=80",
     descripcion:
@@ -427,6 +462,11 @@ export default function PrimaveraPage() {
             </h3>
           </div>
         </div>
+        <div className="flex h-[60px] items-center px-2 py-2 sm:h-[52px] sm:px-4">
+          <span className="inline-flex max-w-full rounded-full border border-cyan-800/20 bg-cyan-50 px-2 py-1 text-[11px] font-semibold leading-3.5 text-cyan-900 sm:px-2.5 sm:text-xs">
+            {destino.categoria}
+          </span>
+        </div>
       </article>
     );
   })}
@@ -471,7 +511,10 @@ export default function PrimaveraPage() {
               </div>
             </div>
             <div className="p-5 max-sm:p-4 sm:p-7">
-              <p className="text-base leading-6 text-slate-300 max-sm:text-sm max-sm:leading-5 sm:text-lg sm:leading-7">
+              <span className="inline-flex rounded-full border border-cyan-300/30 bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-100 sm:text-sm">
+                {destinoSeleccionado.categoria}
+              </span>
+              <p className="mt-3 text-base leading-6 text-slate-300 max-sm:text-sm max-sm:leading-5 sm:text-lg sm:leading-7">
                 {destinoSeleccionado.descripcion}
               </p>
               <h3 className="mt-6 text-lg font-bold max-sm:mt-4 max-sm:text-base max-sm:leading-5 sm:text-xl">✨ 4 lugares recomendados para visitar</h3>
