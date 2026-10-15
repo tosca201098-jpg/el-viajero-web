@@ -552,7 +552,7 @@ function abrirPaquete(destino = "") {
           </p>
 
           {/* BUSCADOR IA */}
-          <div className="mx-auto mt-10 grid w-full overflow-hidden rounded-[36px] border border-stone-200 bg-[#F7F2E8]/95 text-left shadow-2xl backdrop-blur-2xl md:grid-cols-2 lg:mt-4">
+          <div className="mx-auto mt-10 grid w-full overflow-hidden rounded-[36px] border border-stone-200 bg-[#F7F2E8]/95 text-left shadow-2xl backdrop-blur-2xl md:grid-cols-2 lg:mt-4 lg:border-blue-600">
             <div className="px-6 py-2 md:px-8 md:py-2">
               <h2 className="text-xl leading-6 font-black text-stone-800">✈️ Buscar tu viaje</h2>
               <div className="mt-2 grid grid-cols-3 gap-x-2 gap-y-1">
