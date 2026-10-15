@@ -39,6 +39,7 @@ type FlightSearchState =
       origin: { name: string; code: string };
       destination: { name: string; code: string };
       results: FlightOffer[];
+      query: { origin: string; destination: string; departureDate: string; returnDate: string; travelers: number };
     };
 
 const destinations: Destination[] = [
@@ -476,12 +477,32 @@ await pc.setRemoteDescription({
   const [pasajeros, setPasajeros] = useState(1);
   const [mensajeVuelos, setMensajeVuelos] = useState("");
   const [flightSearch, setFlightSearch] = useState<FlightSearchState>({ status: "idle" });
+  const [flightResultsOpen, setFlightResultsOpen] = useState(false);
   const flightRequestIdRef = useRef(0);
+  const flightResultsCloseRef = useRef<HTMLButtonElement | null>(null);
+  const flightSearchSubmitRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     flightRequestIdRef.current += 1;
     setFlightSearch((current) => current.status === "idle" ? current : { status: "idle" });
+    setFlightResultsOpen(false);
   }, [origen, destinoVuelo, fechaIda, fechaVuelta, pasajeros]);
+
+  useEffect(() => {
+    if (!flightResultsOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    flightResultsCloseRef.current?.focus();
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setFlightResultsOpen(false);
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleEscape);
+      flightSearchSubmitRef.current?.focus();
+    };
+  }, [flightResultsOpen]);
 
   // HOTELES
   const [destinoHotel, setDestinoHotel] = useState("");
@@ -630,6 +651,7 @@ function abrirPaquete(destino = "") {
 
   async function buscarVuelos(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    flightSearchSubmitRef.current = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
     if (flightSearch.status === "loading") return;
     if (!origen.trim() || !destinoVuelo.trim() || !fechaIda || !fechaVuelta || !Number.isInteger(pasajeros) || pasajeros < 1 || pasajeros > 9) {
       setFlightSearch({ status: "error", key: "search.flightInvalidSearch" });
@@ -641,13 +663,18 @@ function abrirPaquete(destino = "") {
     }
 
     const requestId = ++flightRequestIdRef.current;
+    setFlightResultsOpen(false);
     setFlightSearch({ status: "loading" });
-    const params = new URLSearchParams({
+    const query = {
       origin: origen.trim(),
       destination: destinoVuelo.trim(),
       departureDate: fechaIda,
       returnDate: fechaVuelta,
-      travelers: String(pasajeros),
+      travelers: pasajeros,
+    };
+    const params = new URLSearchParams({
+      ...query,
+      travelers: String(query.travelers),
     });
 
     try {
@@ -672,8 +699,13 @@ function abrirPaquete(destino = "") {
         status: "success",
         origin: data.origin,
         destination: data.destination,
-        results: data.results,
+        results: [...data.results].sort((a: FlightOffer, b: FlightOffer) => a.price - b.price),
+        query,
       });
+      if (data.results.length > 0) {
+        setModal(null);
+        setFlightResultsOpen(true);
+      }
     } catch {
       if (requestId === flightRequestIdRef.current) {
         setFlightSearch({ status: "error", key: "search.flightSearchError" });
@@ -694,50 +726,16 @@ function abrirPaquete(destino = "") {
       );
     }
 
-    const formatDate = (value: string) => {
-      const date = new Date(`${value.slice(0, 10)}T00:00:00Z`);
-      return Number.isNaN(date.getTime())
-        ? value.slice(0, 10)
-        : new Intl.DateTimeFormat(language, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(date);
-    };
-    return (
-      <div className={panel}>
-        <h3 className="text-sm font-bold">{t("search.recentPrices")}</h3>
-        {flightSearch.results.length === 0 ? (
-          <p role="status" className="mt-2 text-sm leading-5">{t("search.noRecentPrices")}</p>
-        ) : (
-          <div className="mt-2 grid gap-2">
-            {flightSearch.results.map((flight, index) => (
-              <div key={`${flight.departureAt ?? "flight"}-${index}`} className={inModal
-                ? "rounded-lg border border-white/15 bg-slate-900/70 p-3 text-sm"
-                : "rounded-lg border border-blue-100 bg-white p-3 text-sm"}>
-                <div className="flex flex-wrap items-center justify-between gap-1">
-                  <span className="min-w-0 break-words font-bold">{flightSearch.origin.name} ({flight.origin}) → {flightSearch.destination.name} ({flight.destination})</span>
-                  <span className={inModal ? "font-black text-cyan-200" : "font-black text-blue-700"}>
-                    {new Intl.NumberFormat(language, { style: "currency", currency: "EUR" }).format(flight.price)}
-                  </span>
-                </div>
-                <div className="mt-1 flex flex-wrap gap-x-3 gap-y-1 text-xs">
-                  {flight.departureAt && <span>{t("search.flightDeparture")}: {formatDate(flight.departureAt)}</span>}
-                  {flight.returnAt && <span>{t("search.flightReturn")}: {formatDate(flight.returnAt)}</span>}
-                  {flight.airline && <span>{t("search.flightAirline")}: {flight.airline}</span>}
-                  {flight.transfers !== null && <span>{t("search.flightStops")}: {flight.transfers}</span>}
-                </div>
-                {flight.offerUrl && (
-                  <a href={flight.offerUrl} target="_blank" rel="noopener noreferrer sponsored"
-                    className={inModal
-                      ? "mt-2 inline-flex min-h-[44px] items-center rounded-lg border border-cyan-300/60 px-3 py-1 text-xs font-bold text-cyan-100"
-                      : "mt-2 inline-flex min-h-[44px] items-center rounded-lg border border-blue-500 px-3 py-1 text-xs font-bold text-blue-700"}>
-                    {t("search.viewOffer")}
-                  </a>
-                )}
-              </div>
-            ))}
-          </div>
-        )}
-        <p className="mt-2 text-xs leading-4 opacity-80">{t("search.recentPricesNote")}</p>
-      </div>
-    );
+    return flightSearch.results.length === 0
+      ? <p role="status" className={panel}>{t("search.noRecentPrices")}</p>
+      : null;
+  }
+
+  function formatFlightDate(value: string) {
+    const date = new Date(`${value.slice(0, 10)}T00:00:00Z`);
+    return Number.isNaN(date.getTime())
+      ? value.slice(0, 10)
+      : new Intl.DateTimeFormat(language, { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" }).format(date);
   }
 
   function buscarHoteles(e: FormEvent<HTMLFormElement>) {
@@ -747,6 +745,11 @@ function abrirPaquete(destino = "") {
       "El buscador está preparado. Conectaremos la disponibilidad y los precios reales mediante la API en el último paso."
     );
   }
+
+  const flightDestinationCard = flightSearch.status === "success"
+    ? destinations.find((item) => item.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase() ===
+      flightSearch.query.destination.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase())
+    : undefined;
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F7F2E8] text-stone-800">
@@ -1552,6 +1555,76 @@ function abrirPaquete(destino = "") {
   </div>
 )}
         
+      {flightResultsOpen && flightSearch.status === "success" && flightSearch.results.length > 0 && (
+        <div
+          className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/80 p-3 backdrop-blur-sm sm:p-6"
+          onClick={(event) => { if (event.target === event.currentTarget) setFlightResultsOpen(false); }}
+        >
+          <section
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="flight-results-title"
+            className="w-full max-w-3xl max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain rounded-[26px] border border-blue-300/50 bg-white text-slate-900 shadow-2xl sm:max-h-[calc(100dvh-3rem)]"
+          >
+            <div className="relative min-h-[132px] overflow-hidden bg-gradient-to-r from-blue-700 to-cyan-600 text-white sm:min-h-[180px]">
+              {flightDestinationCard && (
+                <img src={flightDestinationCard.image} alt={flightSearch.query.destination} className="absolute inset-0 h-full w-full object-cover" />
+              )}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/35 to-slate-950/20" />
+              <button
+                ref={flightResultsCloseRef}
+                type="button"
+                onClick={() => setFlightResultsOpen(false)}
+                aria-label={t("common.close")}
+                className="absolute right-3 top-3 z-10 flex h-11 w-11 items-center justify-center rounded-full bg-slate-950/65 text-xl font-bold text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 sm:right-5 sm:top-5"
+              >
+                ×
+              </button>
+              <div className="relative flex min-h-[132px] flex-col justify-end p-5 pr-16 sm:min-h-[180px] sm:p-7">
+                <p className="text-xs font-bold tracking-[0.18em] text-cyan-100">EL VIAJERO</p>
+                <h2 id="flight-results-title" className="mt-1 break-words text-3xl font-black leading-tight sm:text-4xl">
+                  {flightSearch.query.destination}
+                </h2>
+              </div>
+            </div>
+
+            <div className="p-4 sm:p-7">
+              <div className="grid grid-cols-2 gap-x-4 gap-y-3 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm sm:grid-cols-4">
+                <div><p className="text-xs text-slate-500">{t("search.origin")}</p><p className="break-words font-semibold">{flightSearch.query.origin}</p></div>
+                <div><p className="text-xs text-slate-500">{t("search.destination")}</p><p className="break-words font-semibold">{flightSearch.query.destination}</p></div>
+                <div><p className="text-xs text-slate-500">{t("search.departureDate")}</p><p className="font-semibold">{formatFlightDate(flightSearch.query.departureDate)}</p></div>
+                <div><p className="text-xs text-slate-500">{t("search.returnDate")}</p><p className="font-semibold">{formatFlightDate(flightSearch.query.returnDate)}</p></div>
+                <div className="col-span-2 sm:col-span-4"><span className="text-xs text-slate-500">{t("search.travelers")}: </span><span className="font-semibold">{flightSearch.query.travelers}</span></div>
+              </div>
+
+              <h3 className="mt-5 text-lg font-black text-slate-900 sm:mt-6 sm:text-xl">{t("search.recentFlights")}</h3>
+              <div className="mt-3 grid gap-3">
+                {flightSearch.results.map((flight, index) => (
+                  <article key={`${flight.departureAt ?? "flight"}-${index}`} className="rounded-2xl border border-blue-100 bg-white p-4 shadow-sm">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="min-w-0 break-words text-sm font-bold">{flightSearch.origin.name} ({flight.origin}) → {flightSearch.destination.name} ({flight.destination})</p>
+                      <p className="text-lg font-black text-blue-700">{new Intl.NumberFormat(language, { style: "currency", currency: "EUR" }).format(flight.price)}</p>
+                    </div>
+                    <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 sm:text-sm">
+                      {flight.departureAt && <span>{t("search.flightDeparture")}: {formatFlightDate(flight.departureAt)}</span>}
+                      {flight.returnAt && <span>{t("search.flightReturn")}: {formatFlightDate(flight.returnAt)}</span>}
+                      {flight.airline && <span>{t("search.flightAirline")}: {flight.airline}</span>}
+                      {flight.transfers !== null && <span>{t("search.flightStops")}: {flight.transfers}</span>}
+                    </div>
+                    {flight.offerUrl && (
+                      <a href={flight.offerUrl} target="_blank" rel="noopener noreferrer sponsored" className="mt-3 inline-flex min-h-[44px] items-center rounded-lg border border-blue-500 px-3 py-1 text-xs font-bold text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
+                        {t("search.viewOffer")}
+                      </a>
+                    )}
+                  </article>
+                ))}
+              </div>
+              <p className="mt-4 text-xs leading-5 text-slate-500">{t("search.recentPricesNote")}</p>
+            </div>
+          </section>
+        </div>
+      )}
+
       {authMode && <AuthDialog key={authMode} mode={authMode} onClose={() => setAuthMode(null)} />}
     </main>
   );
