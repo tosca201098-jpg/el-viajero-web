@@ -6,6 +6,8 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import AuthDialog from "./components/AuthDialog";
 import HeaderAuth from "./components/HeaderAuth";
 import LanguageSelector from "./components/LanguageSelector";
+import { getSupabaseClient } from "@/lib/supabase/client";
+import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/saved-trips";
 
 type Destination = {
   name: string;
@@ -458,6 +460,84 @@ await pc.setRemoteDescription({
   const [huespedes, setHuespedes] = useState(2);
   const [habitaciones, setHabitaciones] = useState(1);
   const [mensajeHoteles, setMensajeHoteles] = useState("");
+  const [savingTrip, setSavingTrip] = useState<TripService | null>(null);
+  const savingTripRef = useRef(false);
+  const [saveFeedback, setSaveFeedback] = useState<Partial<Record<TripService, { kind: "error" | "success"; message: string }>>>({});
+
+  async function saveCurrentTrip(service: TripService) {
+    if (savingTripRef.current) return;
+
+    const isHotel = service === "hotel";
+    const trip: NewSavedTrip = {
+      origin: isHotel ? null : origen.trim(),
+      destination: (isHotel ? destinoHotel : destinoVuelo).trim(),
+      departure_date: isHotel ? entrada : fechaIda,
+      return_date: isHotel ? salida : fechaVuelta,
+      travelers: isHotel ? huespedes : pasajeros,
+      service_type: service,
+    };
+    const missing = [
+      ...(!isHotel && !trip.origin ? [t("search.origin")] : []),
+      ...(!trip.destination ? [t("search.destination")] : []),
+      ...(!trip.departure_date ? [t(isHotel ? "search.checkIn" : "search.departureDate")] : []),
+      ...(!trip.return_date ? [t(isHotel ? "search.checkOut" : "search.returnDate")] : []),
+      ...(!Number.isInteger(trip.travelers) || trip.travelers < 1 ? [t(isHotel ? "search.guests" : "search.travelers")] : []),
+    ];
+    if (missing.length) {
+      setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", message: t("search.saveMissing", { fields: missing.join(", ") }) } }));
+      return;
+    }
+    if (trip.return_date && trip.return_date < trip.departure_date) {
+      setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", message: t("search.saveInvalidDates") } }));
+      return;
+    }
+
+    savingTripRef.current = true;
+    setSavingTrip(service);
+    setSaveFeedback((current) => ({ ...current, [service]: undefined }));
+    try {
+      const { data: { session }, error } = await getSupabaseClient().auth.getSession();
+      if (error) throw error;
+      if (!session) {
+        setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", message: t("search.signInToSave") } }));
+        return;
+      }
+      await saveTrip(trip);
+      setSaveFeedback((current) => ({ ...current, [service]: { kind: "success", message: t("search.tripSaved") } }));
+    } catch (error) {
+      const message = error instanceof Error && error.message === "Inicia sesión para acceder a tus viajes."
+        ? t("search.signInToSave") : t("search.saveError");
+      setSaveFeedback((current) => ({ ...current, [service]: { kind: "error", message } }));
+    } finally {
+      savingTripRef.current = false;
+      setSavingTrip(null);
+    }
+  }
+
+  function renderSaveTripAction(service: TripService, inModal = false) {
+    const feedback = saveFeedback[service];
+    return (
+      <>
+        <button
+          type="button"
+          onClick={() => void saveCurrentTrip(service)}
+          disabled={savingTrip !== null}
+          className={inModal
+            ? "mt-3 min-h-[44px] w-full rounded-xl border border-cyan-300/70 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 disabled:cursor-wait disabled:opacity-60"
+            : "mt-1.5 min-h-[44px] w-full rounded-2xl border border-blue-600 bg-white/70 px-4 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 disabled:cursor-wait disabled:opacity-60"}
+        >
+          ♡ {savingTrip === service ? t("search.savingTrip") : t("search.saveTrip")}
+        </button>
+        {feedback && (
+          <p role={feedback.kind === "error" ? "alert" : "status"} className={inModal
+            ? `mt-2 rounded-xl px-3 py-2 text-sm ${feedback.kind === "error" ? "bg-red-950/60 text-red-100" : "bg-cyan-300/10 text-cyan-100"}`
+            : `mt-1.5 rounded-xl px-3 py-2 text-sm ${feedback.kind === "error" ? "bg-red-50 text-red-800" : "bg-blue-50 text-blue-900"}`}>
+            {feedback.message}
+          </p>
+        )}
+      </>
+    );
+  }
 
   function explorarConIA() {
     const texto = mensaje.trim();
@@ -617,6 +697,7 @@ function abrirPaquete(destino = "") {
                   <button type="submit" className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700">
                     🔍 {t("search.submit")}
                   </button>
+                  {renderSaveTripAction("vuelo")}
                   {mensajeVuelos && (
                     <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{text(mensajeVuelos)}</p>
                   )}
@@ -647,6 +728,7 @@ function abrirPaquete(destino = "") {
                   <button type="submit" className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700">
                     🔍 {t("search.submit")}
                   </button>
+                  {renderSaveTripAction("hotel")}
                   {mensajeHoteles && (
                     <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{text(mensajeHoteles)}</p>
                   )}
@@ -686,6 +768,7 @@ function abrirPaquete(destino = "") {
                   <button type="submit" className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700">
                     🔍 {t("search.submit")}
                   </button>
+                  {renderSaveTripAction("ambos")}
                   {mensajeVuelos && (
                     <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{text(mensajeVuelos)}</p>
                   )}
@@ -1043,6 +1126,7 @@ function abrirPaquete(destino = "") {
               >
                 {t("search.findFlights")}
               </button>
+              {renderSaveTripAction("vuelo", true)}
             </form>
 
             {mensajeVuelos && (
@@ -1158,6 +1242,7 @@ function abrirPaquete(destino = "") {
               >
                 {t("search.findHotels")}
               </button>
+              {renderSaveTripAction("hotel", true)}
             </form>
 
             {mensajeHoteles && (
@@ -1307,6 +1392,7 @@ function abrirPaquete(destino = "") {
         >
           ✈️🏨 {t("search.findPackage")}
         </button>
+        {renderSaveTripAction("ambos", true)}
       </form>
 
       {mensajeVuelos && (
