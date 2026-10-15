@@ -7,7 +7,7 @@ import type { Session } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import SavedTrips from "./SavedTrips";
 
-const primaryButton = "whitespace-nowrap max-sm:whitespace-normal max-sm:leading-[14px] max-sm:max-w-[92px] rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm max-sm:min-h-[44px] max-sm:px-2";
+const primaryButton = "whitespace-nowrap max-sm:whitespace-normal max-sm:leading-[14px] max-sm:max-w-[92px] rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm max-sm:min-h-[44px] max-sm:px-1.5";
 const secondaryButton = "whitespace-nowrap max-sm:whitespace-normal max-sm:leading-[14px] max-sm:max-w-[92px] rounded-lg px-2 py-1 text-xs font-medium text-stone-700 transition hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 sm:px-3 sm:py-2 sm:text-sm";
 
 export default function HeaderAuth({ onOpenAuth }: {
@@ -75,7 +75,7 @@ export default function HeaderAuth({ onOpenAuth }: {
   }
 
   return (
-    <div className="flex min-w-0 flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3 max-sm:flex-row max-sm:items-center">
+    <div className="flex min-w-0 flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3 max-sm:flex-row max-sm:items-center max-sm:gap-0.5">
       {!ready ? (
         <span role="status" aria-label={t("auth.checking")} className="h-16 w-28 sm:h-9 sm:w-56 max-sm:h-11 max-sm:w-44" />
       ) : session ? (
