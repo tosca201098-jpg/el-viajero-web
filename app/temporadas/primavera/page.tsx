@@ -436,7 +436,7 @@ export default function PrimaveraPage() {
       </section>
       {destinoSeleccionado && detalleSeleccionado && (
         <div
-          className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 p-3 text-white backdrop-blur-sm sm:p-6"
+          className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 p-3 text-white backdrop-blur-sm max-sm:flex max-sm:items-center max-sm:overflow-hidden max-sm:p-2 sm:p-6"
           onMouseDown={(event) => {
             if (event.target === event.currentTarget) cerrarDetalle();
           }}
@@ -445,9 +445,9 @@ export default function PrimaveraPage() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="primavera-detalle-titulo"
-            className="mx-auto my-3 max-w-3xl overflow-hidden rounded-[28px] border border-white/10 bg-slate-950 shadow-2xl sm:my-6"
+            className="mx-auto my-3 max-w-3xl overflow-hidden rounded-[28px] border border-white/10 bg-slate-950 shadow-2xl max-sm:my-0 max-sm:max-h-[calc(100dvh-1rem)] max-sm:w-full max-sm:overflow-x-hidden max-sm:overflow-y-auto sm:my-6"
           >
-            <div className="relative h-52 sm:h-72">
+            <div className="relative h-52 max-sm:h-[140px] sm:h-72">
               <img
                 src={destinoSeleccionado.imagen}
                 alt={`${destinoSeleccionado.nombre}, ${destinoSeleccionado.pais}`}
@@ -463,36 +463,36 @@ export default function PrimaveraPage() {
               >
                 ✕
               </button>
-              <div className="absolute bottom-4 left-5 sm:bottom-6 sm:left-7">
-                <p className="font-semibold text-cyan-200">{destinoSeleccionado.pais}</p>
-                <h2 id="primavera-detalle-titulo" className="mt-1 text-3xl font-black sm:text-4xl">
+              <div className="absolute bottom-4 left-5 max-sm:bottom-3 max-sm:left-4 sm:bottom-6 sm:left-7">
+                <p className="font-semibold text-cyan-200 max-sm:text-sm">{destinoSeleccionado.pais}</p>
+                <h2 id="primavera-detalle-titulo" className="mt-1 text-3xl font-black max-sm:mt-0.5 max-sm:text-2xl max-sm:leading-7 sm:text-4xl">
                   {destinoSeleccionado.nombre}
                 </h2>
               </div>
             </div>
-            <div className="p-5 sm:p-7">
-              <p className="text-base leading-6 text-slate-300 sm:text-lg sm:leading-7">
+            <div className="p-5 max-sm:p-4 sm:p-7">
+              <p className="text-base leading-6 text-slate-300 max-sm:text-sm max-sm:leading-5 sm:text-lg sm:leading-7">
                 {destinoSeleccionado.descripcion}
               </p>
-              <h3 className="mt-6 text-lg font-bold sm:text-xl">✨ 4 lugares recomendados para visitar</h3>
-              <div className="mt-3 grid gap-2 sm:grid-cols-2">
+              <h3 className="mt-6 text-lg font-bold max-sm:mt-4 max-sm:text-base max-sm:leading-5 sm:text-xl">✨ 4 lugares recomendados para visitar</h3>
+              <div className="mt-3 grid gap-2 max-sm:mt-2 max-sm:grid-cols-2 max-sm:gap-1.5 sm:grid-cols-2">
                 {detalleSeleccionado.lugares.map((lugar) => (
-                  <div key={lugar} className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200 sm:text-base">
+                  <div key={lugar} className="rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-sm text-slate-200 max-sm:px-2.5 max-sm:py-2 max-sm:text-[13px] max-sm:leading-4 sm:text-base">
                     📍 {lugar}
                   </div>
                 ))}
               </div>
-              <p className="mt-5 rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 font-semibold text-cyan-100">
+              <p className="mt-5 rounded-xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-3 font-semibold text-cyan-100 max-sm:mt-3 max-sm:px-3 max-sm:py-2 max-sm:text-sm max-sm:leading-5">
                 🗓️ Estancia recomendada: {detalleSeleccionado.dias} días
               </p>
-              <div className="mt-5 grid gap-2 sm:grid-cols-3">
-                <a href={`/?primaveraServicio=vuelo&destino=${encodeURIComponent(destinoSeleccionado.nombre)}#buscador`} className="flex min-h-11 items-center justify-center rounded-xl bg-cyan-300 px-3 py-3 text-center text-sm font-bold text-slate-950 transition hover:bg-cyan-200">
-                  ✈️ Buscar vuelos
+              <div className="mt-5 grid gap-2 max-sm:mt-3 max-sm:grid-cols-3 max-sm:gap-1.5 sm:grid-cols-3">
+                <a href={`/?primaveraServicio=vuelo&destino=${encodeURIComponent(destinoSeleccionado.nombre)}#buscador`} className="flex min-h-11 items-center justify-center rounded-xl bg-cyan-300 px-3 py-3 text-center text-sm font-bold text-slate-950 transition hover:bg-cyan-200 max-sm:px-1 max-sm:py-2 max-sm:text-xs max-sm:leading-4">
+                  <span className="sm:hidden">✈️ Vuelo</span><span className="max-sm:hidden">✈️ Buscar vuelos</span>
                 </a>
-                <a href={`/?primaveraServicio=hotel&destino=${encodeURIComponent(destinoSeleccionado.nombre)}#buscador`} className="flex min-h-11 items-center justify-center rounded-xl border border-cyan-300/40 bg-cyan-300/10 px-3 py-3 text-center text-sm font-bold text-cyan-100 transition hover:bg-cyan-300/20">
-                  🏨 Buscar hoteles
+                <a href={`/?primaveraServicio=hotel&destino=${encodeURIComponent(destinoSeleccionado.nombre)}#buscador`} className="flex min-h-11 items-center justify-center rounded-xl border border-cyan-300/40 bg-cyan-300/10 px-3 py-3 text-center text-sm font-bold text-cyan-100 transition hover:bg-cyan-300/20 max-sm:px-1 max-sm:py-2 max-sm:text-xs max-sm:leading-4">
+                  <span className="sm:hidden">🏨 Hotel</span><span className="max-sm:hidden">🏨 Buscar hoteles</span>
                 </a>
-                <a href={`/?primaveraServicio=ambos&destino=${encodeURIComponent(destinoSeleccionado.nombre)}#buscador`} className="flex min-h-11 items-center justify-center rounded-xl border border-cyan-300/40 bg-cyan-300/10 px-3 py-3 text-center text-sm font-bold text-cyan-100 transition hover:bg-cyan-300/20">
+                <a href={`/?primaveraServicio=ambos&destino=${encodeURIComponent(destinoSeleccionado.nombre)}#buscador`} className="flex min-h-11 items-center justify-center rounded-xl border border-cyan-300/40 bg-cyan-300/10 px-3 py-3 text-center text-sm font-bold text-cyan-100 transition hover:bg-cyan-300/20 max-sm:px-1 max-sm:py-2 max-sm:text-xs max-sm:leading-4">
                   ✈️🏨 Vuelo + Hotel
                 </a>
               </div>
