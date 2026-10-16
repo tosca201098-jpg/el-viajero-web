@@ -1259,13 +1259,6 @@ function abrirPaquete(destino = "") {
 </button>
   </div>
 </section>
-      {/* FOOTER */}
-      <footer className="relative z-10 border-t border-white/10 px-6 py-10 text-center text-sm text-stone-700">
-        <p>
-          DESTINO <span className="text-cyan-800">AI</span> · {t("footer.companion")}
-        </p>
-      </footer>
-
       {/* MODAL DESTINO */}
       {destinoSeleccionado && (
         <div
