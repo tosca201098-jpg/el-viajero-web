@@ -971,9 +971,8 @@ function abrirPaquete(destino = "") {
             alt="El vIAjero"
             className="mx-auto mb-2 h-20 w-28 object-contain sm:h-24 sm:w-32 lg:mb-1 lg:h-16 lg:w-28 max-sm:mb-0 max-sm:h-8 max-sm:w-12"
           />
-          <h1 className="text-[clamp(2rem,7.5vw,6.5rem)] font-black leading-none tracking-tight lg:text-[clamp(3.5rem,6vw,5rem)] max-sm:text-[clamp(1.75rem,7vw,1.875rem)]">
-            <span className="text-stone-900">EL</span>{" "}
-            <span className="bg-gradient-to-r from-blue-600 to-teal-400 bg-clip-text text-transparent">VIAJERO</span>
+          <h1 className="text-[clamp(2rem,7.5vw,6.5rem)] font-black leading-none tracking-tight text-stone-900 lg:text-[clamp(3.5rem,6vw,5rem)] max-sm:text-[clamp(1.75rem,7vw,1.875rem)]">
+            EL V<span className="text-blue-500">IA</span>JERO
           </h1>
           <div aria-hidden="true" className="mx-auto mt-3 h-1 w-14 rounded-full bg-blue-500 md:mt-4 md:w-16 lg:mt-2 max-sm:mt-1" />
           <p className="mx-auto mt-4 max-w-2xl text-base leading-6 text-stone-700 sm:text-lg sm:leading-7 md:mt-5 md:text-xl lg:mt-3 lg:leading-6 max-sm:mt-1.5 max-sm:text-sm max-sm:leading-[18px]">
