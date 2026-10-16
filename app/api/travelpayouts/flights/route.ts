@@ -1,6 +1,8 @@
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
+import { findDestinationProfile } from '@/lib/destinations';
+
 type City = { name: string; code: string };
 type RecordValue = Record<string, unknown>;
 
@@ -27,51 +29,57 @@ function errorResponse(error: string, status: number) {
 
 async function resolveCity(input: string): Promise<City | null> {
   const [cityInput, countryInput] = input.split(',').map((part) => part.trim());
-  const url = new URL('https://autocomplete.travelpayouts.com/places2');
-  url.searchParams.set('term', cityInput);
-  url.searchParams.set('locale', 'es');
-  url.searchParams.set('types[]', 'city');
+  const spanishProfile = !countryInput || ['espana', 'es'].includes(normalize(countryInput))
+    ? findDestinationProfile({ name: cityInput }) : undefined;
+  const terms = Array.from(new Set([cityInput, ...(spanishProfile?.aliases ?? []), ...(spanishProfile?.iataCodes ?? [])]));
+  let nameMatch: City | null = null;
 
-  const response = await fetch(url, {
-    cache: 'no-store',
-    signal: AbortSignal.timeout(8000),
-  });
-  if (!response.ok) throw new Error('City lookup failed');
+  for (const term of terms) {
+    const url = new URL('https://autocomplete.travelpayouts.com/places2');
+    url.searchParams.set('term', term);
+    url.searchParams.set('locale', 'es');
+    url.searchParams.set('types[]', 'city');
 
-  const payload: unknown = await response.json();
-  if (!Array.isArray(payload)) throw new Error('Invalid city lookup response');
+    const response = await fetch(url, { cache: 'no-store', signal: AbortSignal.timeout(8000) });
+    if (!response.ok) throw new Error('City lookup failed');
+    const payload: unknown = await response.json();
+    if (!Array.isArray(payload)) throw new Error('Invalid city lookup response');
 
-  const matches = payload
-    .filter(isRecord)
-    .filter((place) => {
-      if (
-        place.type !== 'city' ||
-        typeof place.name !== 'string' ||
-        typeof place.code !== 'string' ||
-        !/^[A-Z]{3}$/.test(place.code)
-      ) return false;
-      const normalizedInput = normalize(cityInput);
-      const normalizedName = normalize(place.name);
-      const nameMatches =
-        normalizedName === normalizedInput ||
-        ` ${normalizedName} `.includes(` ${normalizedInput} `) ||
-        place.code.toLowerCase() === cityInput.toLowerCase() ||
-        (Array.isArray(place.index_strings) &&
-          place.index_strings.some(
-            (alias: unknown) => typeof alias === 'string' && normalize(alias) === normalizedInput
-          ));
-      const countryMatches = !countryInput ||
+    const cities = payload.filter(isRecord).filter((place) =>
+      place.type === 'city' && typeof place.name === 'string' &&
+      typeof place.code === 'string' && /^[A-Z]{3}$/.test(place.code) &&
+      (!countryInput ||
         (typeof place.country_name === 'string' && normalize(place.country_name) === normalize(countryInput)) ||
-        (typeof place.country_code === 'string' && normalize(place.country_code) === normalize(countryInput));
-      return nameMatches && countryMatches;
-    })
-    .sort((a, b) =>
-      (typeof b.weight === 'number' ? b.weight : 0) -
-      (typeof a.weight === 'number' ? a.weight : 0)
+        (typeof place.country_code === 'string' && normalize(place.country_code) === normalize(countryInput)))
     );
 
-  const city = matches[0];
-  return city ? { name: city.name as string, code: city.code as string } : null;
+    // The provider can return another country for the same city name (e.g. Córdoba).
+    // Match the official Spanish IATA code before accepting a name match.
+    const byIata = spanishProfile && cities.find((place) =>
+      place.country_code === 'ES' && spanishProfile.iataCodes.includes(place.code as string));
+    if (byIata) return { name: byIata.name as string, code: byIata.code as string };
+
+    if (!nameMatch && term === cityInput) {
+      const normalizedInput = normalize(cityInput);
+      const match = cities.filter((place) => {
+        const normalizedName = normalize(place.name as string);
+        return normalizedName === normalizedInput ||
+          ` ${normalizedName} `.includes(` ${normalizedInput} `) ||
+          (place.code as string).toLowerCase() === cityInput.toLowerCase() ||
+          (Array.isArray(place.index_strings) && place.index_strings.some(
+            (alias: unknown) => typeof alias === 'string' && normalize(alias) === normalizedInput));
+      }).sort((a, b) =>
+        (typeof b.weight === 'number' ? b.weight : 0) -
+        (typeof a.weight === 'number' ? a.weight : 0))[0];
+      if (match) {
+        nameMatch = { name: match.name as string, code: match.code as string };
+        if (spanishProfile && match.country_code === 'ES') return nameMatch;
+      }
+    }
+    if (!spanishProfile) return nameMatch;
+  }
+
+  return nameMatch;
 }
 
 function offerUrl(value: unknown) {
