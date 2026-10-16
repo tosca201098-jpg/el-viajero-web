@@ -37,6 +37,16 @@ type FlightOffer = {
   offerUrl: string | null;
 };
 
+type SearchBudget = { amount: number; type: "total" | "por_persona" };
+type FlightQuery = {
+  origin: string;
+  destination: string;
+  departureDate: string;
+  returnDate: string;
+  travelers: number;
+  budget?: SearchBudget;
+};
+
 type FlightSearchState =
   | { status: "idle" }
   | { status: "loading" }
@@ -46,7 +56,7 @@ type FlightSearchState =
       origin: { name: string; code: string };
       destination: { name: string; code: string };
       results: FlightOffer[];
-      query: { origin: string; destination: string; departureDate: string; returnDate: string; travelers: number };
+      query: FlightQuery;
     };
 
 const destinations: Destination[] = [
@@ -422,6 +432,10 @@ dc.onmessage = (event) => {
       const servicio = datos.servicio === "hotel" || datos.servicio === "ambos" ? datos.servicio : "vuelo";
       const tabId = servicio === "hotel" ? "buscador-hoteles"
         : servicio === "ambos" ? "buscador-paquete" : "buscador-vuelos";
+      const budget: SearchBudget | undefined = typeof datos.presupuesto === "number" &&
+        Number.isFinite(datos.presupuesto) && datos.presupuesto > 0 &&
+        (datos.tipo_presupuesto === "total" || datos.tipo_presupuesto === "por_persona")
+        ? { amount: datos.presupuesto, type: datos.tipo_presupuesto } : undefined;
 
       setOrigen(origenCanonico);
       setDestinoVuelo(destino.name);
@@ -433,6 +447,7 @@ dc.onmessage = (event) => {
       setPasajeros(datos.viajeros);
       setHuespedes(datos.viajeros);
       setFlightResultsOpen(false);
+      setNonFlightVoiceBudget(servicio === "vuelo" || !budget ? null : { destination: destino.name, service: servicio, budget });
       (document.getElementById(tabId) as HTMLInputElement | null)?.click();
 
       if (servicio === "ambos") {
@@ -440,6 +455,16 @@ dc.onmessage = (event) => {
       } else {
         setModal(null);
         setDestinoSeleccionado(destino);
+        if (servicio === "vuelo" && budget) {
+          setPendingVoiceFlightSearch({
+            origin: origenCanonico,
+            destination: destino.name,
+            departureDate: datos.fecha_ida,
+            returnDate: datos.fecha_vuelta,
+            travelers: datos.viajeros,
+            budget,
+          });
+        }
       }
     }
   }
@@ -508,6 +533,10 @@ await pc.setRemoteDescription({
   const [mensajeVuelos, setMensajeVuelos] = useState("");
   const [flightSearch, setFlightSearch] = useState<FlightSearchState>({ status: "idle" });
   const [flightResultsOpen, setFlightResultsOpen] = useState(false);
+  const [pendingVoiceFlightSearch, setPendingVoiceFlightSearch] = useState<FlightQuery | null>(null);
+  const [nonFlightVoiceBudget, setNonFlightVoiceBudget] = useState<{
+    destination: string; service: "hotel" | "ambos"; budget: SearchBudget;
+  } | null>(null);
   const flightRequestIdRef = useRef(0);
   const flightResultsCloseRef = useRef<HTMLButtonElement | null>(null);
   const flightSearchSubmitRef = useRef<HTMLElement | null>(null);
@@ -686,13 +715,24 @@ function abrirPaquete(destino = "") {
 
   async function buscarVuelos(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    flightSearchSubmitRef.current = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
     if (flightSearch.status === "loading") return;
-    if (!origen.trim() || !destinoVuelo.trim() || !fechaIda || !fechaVuelta || !Number.isInteger(pasajeros) || pasajeros < 1 || pasajeros > 9) {
+    flightSearchSubmitRef.current = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
+    void runFlightSearch({
+      origin: origen.trim(),
+      destination: destinoVuelo.trim(),
+      departureDate: fechaIda,
+      returnDate: fechaVuelta,
+      travelers: pasajeros,
+    });
+  }
+
+  async function runFlightSearch(query: FlightQuery) {
+    if (!query.origin || !query.destination || !query.departureDate || !query.returnDate ||
+      !Number.isInteger(query.travelers) || query.travelers < 1 || query.travelers > 9) {
       setFlightSearch({ status: "error", key: "search.flightInvalidSearch" });
       return;
     }
-    if (fechaVuelta < fechaIda) {
+    if (query.returnDate < query.departureDate) {
       setFlightSearch({ status: "error", key: "search.flightInvalidDates" });
       return;
     }
@@ -700,17 +740,17 @@ function abrirPaquete(destino = "") {
     const requestId = ++flightRequestIdRef.current;
     setFlightResultsOpen(false);
     setFlightSearch({ status: "loading" });
-    const query = {
-      origin: origen.trim(),
-      destination: destinoVuelo.trim(),
-      departureDate: fechaIda,
-      returnDate: fechaVuelta,
-      travelers: pasajeros,
-    };
     const params = new URLSearchParams({
-      ...query,
+      origin: query.origin,
+      destination: query.destination,
+      departureDate: query.departureDate,
+      returnDate: query.returnDate,
       travelers: String(query.travelers),
     });
+    if (query.budget) {
+      params.set("budget", String(query.budget.amount));
+      params.set("budgetType", query.budget.type);
+    }
 
     try {
       const response = await fetch(`/api/travelpayouts/flights?${params}`, { cache: "no-store" });
@@ -740,7 +780,7 @@ function abrirPaquete(destino = "") {
         results: [...data.results].sort((a: FlightOffer, b: FlightOffer) => a.price - b.price),
         query,
       });
-      if (libraryDestination || data.results.length > 0) {
+      if (libraryDestination || data.results.length > 0 || query.budget) {
         setDestinoSeleccionado(destinationCard ?? null);
         setModal(null);
         setFlightResultsOpen(true);
@@ -751,6 +791,12 @@ function abrirPaquete(destino = "") {
       }
     }
   }
+
+  useEffect(() => {
+    if (!pendingVoiceFlightSearch) return;
+    void runFlightSearch(pendingVoiceFlightSearch);
+    setPendingVoiceFlightSearch(null);
+  }, [pendingVoiceFlightSearch]);
 
   function renderFlightSearchFeedback(inModal = false) {
     if (flightSearch.status === "idle") return null;
@@ -766,8 +812,25 @@ function abrirPaquete(destino = "") {
     }
 
     return flightSearch.results.length === 0 && !flightResultsOpen
-      ? <p role="status" className={panel}>{t("search.noRecentPrices")}</p>
+      ? <p role="status" className={panel}>{noFlightResultsMessage(flightSearch.query.budget)}</p>
       : null;
+  }
+
+  function formatBudgetAmount(amount: number) {
+    return new Intl.NumberFormat(language, { style: "currency", currency: "EUR" }).format(amount);
+  }
+
+  function budgetLabel(budget: SearchBudget) {
+    return <>{t("search.budgetUpTo", { amount: formatBudgetAmount(budget.amount) })}{budget.type === "por_persona" && ` ${t("search.budgetPerPerson")}`}</>;
+  }
+
+  function noFlightResultsMessage(budget?: SearchBudget) {
+    return budget
+      ? t("search.noFlightsWithinBudget", {
+          amount: formatBudgetAmount(budget.amount),
+          scope: budget.type === "por_persona" ? ` ${t("search.budgetPerPerson")}` : "",
+        })
+      : t("search.noRecentPrices");
   }
 
   function formatFlightDate(value: string) {
@@ -783,7 +846,8 @@ function abrirPaquete(destino = "") {
   }
 
   function renderFlightOffers(inDestinationCard = false) {
-    if (!flightResultsOpen || flightSearch.status !== "success" || (!inDestinationCard && flightSearch.results.length === 0)) return null;
+    if (!flightResultsOpen || flightSearch.status !== "success" ||
+      (!inDestinationCard && flightSearch.results.length === 0 && !flightSearch.query.budget)) return null;
     return (
       <section className={inDestinationCard ? "mt-8 border-t border-white/10 pt-6" : "mt-5"}>
         <h3 className={inDestinationCard ? "text-xl font-bold text-white" : "text-lg font-black text-slate-900 sm:text-xl"}>
@@ -794,9 +858,16 @@ function abrirPaquete(destino = "") {
             {flightSearch.query.origin} → {flightSearch.query.destination} · {formatFlightDate(flightSearch.query.departureDate)} – {formatFlightDate(flightSearch.query.returnDate)} · {t("search.travelers")}: {flightSearch.query.travelers}
           </p>
         )}
+        {!inDestinationCard && flightSearch.query.budget && (
+          <p className="mt-2 text-sm font-semibold text-blue-700">
+            {budgetLabel(flightSearch.query.budget)}
+          </p>
+        )}
         {flightSearch.results.length === 0 ? (
-          <p role="status" className="mt-3 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-100">
-            {t("search.noRecentPrices")}
+          <p role="status" className={inDestinationCard
+            ? "mt-3 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-100"
+            : "mt-3 rounded-xl border border-blue-200 bg-blue-50 p-3 text-blue-950"}>
+            {noFlightResultsMessage(flightSearch.query.budget)}
           </p>
         ) : <div className="mt-3 grid gap-3">
           {flightSearch.results.map((flight, index) => (
@@ -847,6 +918,10 @@ function abrirPaquete(destino = "") {
   const flightDestinationCard = flightSearch.status === "success"
     ? findFlightDestination(flightSearch.destination.code, flightSearch.destination.name, flightSearch.query.destination)
     : undefined;
+  const cardBudget = flightResultsOpen && flightSearch.status === "success"
+    ? flightSearch.query.budget
+    : nonFlightVoiceBudget?.service === "hotel" && nonFlightVoiceBudget.destination === destinoSeleccionado?.name
+      ? nonFlightVoiceBudget.budget : undefined;
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F7F2E8] text-stone-800">
@@ -1247,6 +1322,11 @@ function abrirPaquete(destino = "") {
               <p className="text-lg leading-8 text-slate-300">
                 {text(destinoSeleccionado.description)}
               </p>
+              {cardBudget && (
+                <p className="mt-4 rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-semibold text-cyan-100">
+                  {budgetLabel(cardBudget)}
+                </p>
+              )}
 
               <h3 className="mt-8 text-xl font-bold">
                 ✨ {t("destinations.recommendations")}
@@ -1397,6 +1477,9 @@ function abrirPaquete(destino = "") {
                 <h2 className="mt-2 text-3xl font-black md:text-4xl">
                   🏨 {t("search.findHotels")}
                 </h2>
+                {nonFlightVoiceBudget?.service === "hotel" && nonFlightVoiceBudget.destination === destinoHotel && (
+                  <p className="mt-2 text-sm font-semibold text-cyan-200">{budgetLabel(nonFlightVoiceBudget.budget)}</p>
+                )}
               </div>
 
               <button
@@ -1515,6 +1598,9 @@ function abrirPaquete(destino = "") {
           <h2 className="mt-2 text-3xl font-black md:text-4xl">
             ✈️🏨 {t("trips.package")}
           </h2>
+          {nonFlightVoiceBudget?.service === "ambos" && nonFlightVoiceBudget.destination === destinoVuelo && (
+            <p className="mt-2 text-sm font-semibold text-cyan-200">{budgetLabel(nonFlightVoiceBudget.budget)}</p>
+          )}
         </div>
 
         <button
@@ -1652,7 +1738,8 @@ function abrirPaquete(destino = "") {
   </div>
 )}
         
-      {flightResultsOpen && flightSearch.status === "success" && flightSearch.results.length > 0 && !flightDestinationCard && (
+      {flightResultsOpen && flightSearch.status === "success" &&
+        (flightSearch.results.length > 0 || flightSearch.query.budget) && !flightDestinationCard && (
         <div
           className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/80 p-3 backdrop-blur-sm sm:p-6"
           onClick={(event) => { if (event.target === event.currentTarget) setFlightResultsOpen(false); }}

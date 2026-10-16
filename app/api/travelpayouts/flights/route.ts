@@ -99,7 +99,7 @@ function offerUrl(value: unknown) {
     const url = new URL(value, 'https://www.aviasales.com');
     return url.protocol === 'https:' && !url.username && !url.password &&
       (url.hostname === 'www.aviasales.com' || url.hostname === 'aviasales.com') &&
-      url.pathname.startsWith('/search/')
+      (url.pathname.startsWith('/search/') || /^\/[A-Z]{3}\d{4}[A-Z]{3}\d{1,5}$/.test(url.pathname))
       ? url.toString()
       : null;
   } catch {
@@ -117,12 +117,18 @@ export async function GET(request: Request) {
   const departureDate = params.get('departureDate') ?? '';
   const returnDate = params.get('returnDate') ?? '';
   const travelers = Number(params.get('travelers'));
+  const budgetInput = params.get('budget');
+  const budgetType = params.get('budgetType');
+  const budget = budgetInput === null ? null : Number(budgetInput);
 
   if (
     !originInput || !destinationInput ||
     originInput.length > 100 || destinationInput.length > 100 ||
     !validDate(departureDate) || !validDate(returnDate) ||
-    !Number.isInteger(travelers) || travelers < 1 || travelers > 9
+    !Number.isInteger(travelers) || travelers < 1 || travelers > 9 ||
+    (budget !== null && (!Number.isFinite(budget) || budget <= 0 || budget > 10000000 ||
+      (budgetType !== 'total' && budgetType !== 'por_persona'))) ||
+    (budget === null && budgetType !== null)
   ) return errorResponse('invalid_search', 400);
   if (returnDate < departureDate) return errorResponse('invalid_dates', 400);
 
@@ -147,15 +153,27 @@ export async function GET(request: Request) {
     if (!origin) return errorResponse('unknown_origin', 422);
     if (!destination) return errorResponse('unknown_destination', 422);
 
-    const url = new URL('https://api.travelpayouts.com/aviasales/v3/prices_for_dates');
+    const maxPrice = budget === null ? null : budgetType === 'total' ? budget / travelers : budget;
+    if (maxPrice !== null && maxPrice < 1) {
+      return Response.json({ success: true, origin, destination, results: [] },
+        { headers: { 'Cache-Control': 'no-store' } });
+    }
+
+    const url = new URL(budget === null
+      ? 'https://api.travelpayouts.com/aviasales/v3/prices_for_dates'
+      : 'https://api.travelpayouts.com/aviasales/v3/search_by_price_range');
     url.searchParams.set('origin', origin.code);
     url.searchParams.set('destination', destination.code);
-    url.searchParams.set('departure_at', departureDate);
-    url.searchParams.set('return_at', returnDate);
     url.searchParams.set('one_way', 'false');
     url.searchParams.set('currency', 'EUR');
-    url.searchParams.set('sorting', 'price');
-    url.searchParams.set('limit', '10');
+    url.searchParams.set('limit', budget === null ? '10' : '100');
+    if (budget === null) {
+      url.searchParams.set('departure_at', departureDate);
+      url.searchParams.set('return_at', returnDate);
+      url.searchParams.set('sorting', 'price');
+    } else {
+      url.searchParams.set('value_max', String(Math.floor(maxPrice! * 100) / 100));
+    }
 
     const response = await fetch(url, {
       headers: { Accept: 'application/json', 'X-Access-Token': token },
@@ -172,9 +190,11 @@ export async function GET(request: Request) {
       return errorResponse('provider_unavailable', 502);
     }
 
-    const results = payload.data.slice(0, 10).filter(isRecord).map((flight) => ({
-      origin: typeof flight.origin === 'string' && /^[A-Z]{3}$/.test(flight.origin) ? flight.origin : origin.code,
-      destination: typeof flight.destination === 'string' && /^[A-Z]{3}$/.test(flight.destination) ? flight.destination : destination.code,
+    const results = (budget === null ? payload.data.slice(0, 10) : payload.data).filter(isRecord).map((flight) => ({
+      origin: typeof flight.origin_code === 'string' && /^[A-Z]{3}$/.test(flight.origin_code) ? flight.origin_code
+        : typeof flight.origin === 'string' && /^[A-Z]{3}$/.test(flight.origin) ? flight.origin : origin.code,
+      destination: typeof flight.destination_code === 'string' && /^[A-Z]{3}$/.test(flight.destination_code) ? flight.destination_code
+        : typeof flight.destination === 'string' && /^[A-Z]{3}$/.test(flight.destination) ? flight.destination : destination.code,
       price: typeof flight.price === 'number' && Number.isFinite(flight.price) && flight.price > 0 ? flight.price : null,
       departureAt: typeof flight.departure_at === 'string' && /^\d{4}-\d{2}-\d{2}/.test(flight.departure_at) ? flight.departure_at : null,
       returnAt: typeof flight.return_at === 'string' && /^\d{4}-\d{2}-\d{2}/.test(flight.return_at) ? flight.return_at : null,
@@ -182,8 +202,10 @@ export async function GET(request: Request) {
       transfers: typeof flight.transfers === 'number' && Number.isInteger(flight.transfers) && flight.transfers >= 0 ? flight.transfers : null,
       offerUrl: offerUrl(flight.link),
     })).filter((flight) =>
-      flight.price !== null && flight.origin === origin.code && flight.destination === destination.code
-    );
+      flight.price !== null && flight.origin === origin.code && flight.destination === destination.code &&
+      (maxPrice === null || (flight.price <= maxPrice && flight.departureAt?.slice(0, 10) === departureDate &&
+        (!flight.returnAt || flight.returnAt.slice(0, 10) === returnDate)))
+    ).sort((a, b) => a.price! - b.price!).slice(0, 10);
 
     return Response.json(
       { success: true, origin, destination, results },
