@@ -721,6 +721,9 @@ function abrirPaquete(destino = "") {
         setFlightSearch({ status: "error", key: "search.flightSearchError" });
         return;
       }
+      const destinationCard = findFlightDestination(data.destination.code, data.destination.name, query.destination);
+      const libraryDestination = findDestinationProfile({ iataCode: data.destination.code, name: data.destination.name })
+        ?? findDestinationProfile({ name: query.destination });
       setFlightSearch({
         status: "success",
         origin: data.origin,
@@ -728,8 +731,8 @@ function abrirPaquete(destino = "") {
         results: [...data.results].sort((a: FlightOffer, b: FlightOffer) => a.price - b.price),
         query,
       });
-      if (data.results.length > 0) {
-        setDestinoSeleccionado(findFlightDestination(data.destination.code, data.destination.name, query.destination) ?? null);
+      if (libraryDestination || data.results.length > 0) {
+        setDestinoSeleccionado(destinationCard ?? null);
         setModal(null);
         setFlightResultsOpen(true);
       }
@@ -753,7 +756,7 @@ function abrirPaquete(destino = "") {
       );
     }
 
-    return flightSearch.results.length === 0
+    return flightSearch.results.length === 0 && !flightResultsOpen
       ? <p role="status" className={panel}>{t("search.noRecentPrices")}</p>
       : null;
   }
@@ -771,7 +774,7 @@ function abrirPaquete(destino = "") {
   }
 
   function renderFlightOffers(inDestinationCard = false) {
-    if (!flightResultsOpen || flightSearch.status !== "success" || flightSearch.results.length === 0) return null;
+    if (!flightResultsOpen || flightSearch.status !== "success" || (!inDestinationCard && flightSearch.results.length === 0)) return null;
     return (
       <section className={inDestinationCard ? "mt-8 border-t border-white/10 pt-6" : "mt-5"}>
         <h3 className={inDestinationCard ? "text-xl font-bold text-white" : "text-lg font-black text-slate-900 sm:text-xl"}>
@@ -782,7 +785,11 @@ function abrirPaquete(destino = "") {
             {flightSearch.query.origin} → {flightSearch.query.destination} · {formatFlightDate(flightSearch.query.departureDate)} – {formatFlightDate(flightSearch.query.returnDate)} · {t("search.travelers")}: {flightSearch.query.travelers}
           </p>
         )}
-        <div className="mt-3 grid gap-3">
+        {flightSearch.results.length === 0 ? (
+          <p role="status" className="mt-3 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-100">
+            {t("search.noRecentPrices")}
+          </p>
+        ) : <div className="mt-3 grid gap-3">
           {flightSearch.results.map((flight, index) => (
             <article key={`${flight.departureAt ?? "flight"}-${index}`} className={inDestinationCard
               ? "rounded-2xl border border-white/10 bg-white/5 p-4"
@@ -810,10 +817,12 @@ function abrirPaquete(destino = "") {
               )}
             </article>
           ))}
-        </div>
-        <p className={inDestinationCard ? "mt-4 text-xs leading-5 text-slate-400" : "mt-4 text-xs leading-5 text-slate-500"}>
-          {t("search.recentPricesNote")}
-        </p>
+        </div>}
+        {flightSearch.results.length > 0 && (
+          <p className={inDestinationCard ? "mt-4 text-xs leading-5 text-slate-400" : "mt-4 text-xs leading-5 text-slate-500"}>
+            {t("search.recentPricesNote")}
+          </p>
+        )}
       </section>
     );
   }
