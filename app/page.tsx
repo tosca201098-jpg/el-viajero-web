@@ -10,14 +10,20 @@ import LanguageSelector from "./components/LanguageSelector";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/saved-trips";
 import type { TranslationKey } from "@/lib/i18n/translations";
+import { findDestinationProfile, normalizeDestinationName } from "@/lib/destinations";
 
 type Destination = {
   name: string;
   country: string;
-  emoji: string;
+  emoji?: string;
   image: string;
   description: string;
   recommendations: string[];
+  recommendedStay?: string;
+  imageSource?: string;
+  imageCredit?: string;
+  imageLicense?: string;
+  imageLicenseUrl?: string;
 };
 
 type FlightOffer = {
@@ -287,10 +293,17 @@ const destinations: Destination[] = [
 ];
 
 function findDestinationCard(name: string) {
-  const normalizedName = name.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase();
+  const normalizedName = normalizeDestinationName(name);
   return destinations.find((destination) =>
-    destination.name.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLocaleLowerCase() === normalizedName
+    normalizeDestinationName(destination.name) === normalizedName
   );
+}
+
+function findFlightDestination(iataCode: string, resolvedName: string, searchedName: string): Destination | undefined {
+  return findDestinationProfile({ iataCode, name: resolvedName })
+    ?? findDestinationProfile({ name: searchedName })
+    ?? findDestinationCard(resolvedName)
+    ?? findDestinationCard(searchedName);
 }
 const fondos = [
   // París
@@ -716,7 +729,7 @@ function abrirPaquete(destino = "") {
         query,
       });
       if (data.results.length > 0) {
-        setDestinoSeleccionado(findDestinationCard(query.destination) ?? null);
+        setDestinoSeleccionado(findFlightDestination(data.destination.code, data.destination.name, query.destination) ?? null);
         setModal(null);
         setFlightResultsOpen(true);
       }
@@ -814,7 +827,7 @@ function abrirPaquete(destino = "") {
   }
 
   const flightDestinationCard = flightSearch.status === "success"
-    ? findDestinationCard(flightSearch.query.destination)
+    ? findFlightDestination(flightSearch.destination.code, flightSearch.destination.name, flightSearch.query.destination)
     : undefined;
 
   return (
@@ -1203,6 +1216,16 @@ function abrirPaquete(destino = "") {
             </div>
 
             <div className="p-7 md:p-9">
+              {destinoSeleccionado.imageSource && (
+                <p className="mb-3 text-xs text-slate-400">
+                  <a href={destinoSeleccionado.imageSource} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
+                    {destinoSeleccionado.imageCredit ? `Foto: ${destinoSeleccionado.imageCredit}` : "Foto"}
+                  </a>
+                  {destinoSeleccionado.imageLicense && destinoSeleccionado.imageLicenseUrl && (
+                    <> · <a href={destinoSeleccionado.imageLicenseUrl} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">{destinoSeleccionado.imageLicense}</a></>
+                  )}
+                </p>
+              )}
               <p className="text-lg leading-8 text-slate-300">
                 {text(destinoSeleccionado.description)}
               </p>
@@ -1223,6 +1246,13 @@ function abrirPaquete(destino = "") {
                   )
                 )}
               </div>
+
+              {destinoSeleccionado.recommendedStay && (
+                <p className="mt-5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-300">
+                  <span className="font-semibold text-white">{t("destinations.recommendedStay")}:</span>{" "}
+                  {destinoSeleccionado.recommendedStay}
+                </p>
+              )}
 
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}
 
