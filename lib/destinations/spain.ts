@@ -1,6 +1,8 @@
 import type { DestinationProfile } from "./index";
 
 // Spanish destinations are data only; the homepage cards remain unchanged.
+// iataCodes are verified Travelpayouts locations. auxiliaryCodes preserve Aena
+// identifiers that must never be sent to the flight-pricing endpoint.
 export const spainDestinations: DestinationProfile[] = [
   {
     "name": "A Coruña",
@@ -40,6 +42,13 @@ export const spainDestinations: DestinationProfile[] = [
       "Plaza Mayor"
     ],
     "recommendedStay": "3–4 días",
+    "aliases": [
+      "Madrid-Cuatro Vientos",
+      "Cuatro Vientos"
+    ],
+    "auxiliaryCodes": [
+      "LECU"
+    ],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Madrid_-_Sky_Bar_360%C2%BA_(Hotel_Riu_Plaza_Espa%C3%B1a),_vistas_19.jpg",
     "imageCredit": "Zarateman",
     "imageLicense": "CC0",
@@ -546,7 +555,12 @@ export const spainDestinations: DestinationProfile[] = [
     ],
     "recommendedStay": "2–4 días",
     "aliases": [
-      "Palma"
+      "Palma",
+      "Son Bonet"
+    ],
+    "auxiliaryCodes": [
+      "SBO",
+      "LESB"
     ],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Kathedrale_von_Palma.jpg",
     "imageCredit": "Thomas Wolf, www.foto-tw.de",
@@ -825,5 +839,63 @@ export const spainDestinations: DestinationProfile[] = [
     "imageCredit": "Turol Jones",
     "imageLicense": "CC BY 2.0",
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  {
+    "name": "Albacete",
+    "country": "España",
+    "iataCodes": ["ABC"],
+    "aliases": ["Aeropuerto de Albacete"],
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Puerta_de_Hierros_de_Albacete.jpg/960px-Puerta_de_Hierros_de_Albacete.jpg",
+    "description": "Una ciudad manchega de plazas, museos y buena gastronomía, ideal para explorar también sus alrededores.",
+    "recommendations": ["Pasaje de Lodares", "Catedral de San Juan Bautista", "Museo de la Cuchillería", "Parque Abelardo Sánchez"],
+    "recommendedStay": "1–2 días",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Puerta_de_Hierros_de_Albacete.jpg",
+    "imageCredit": "Angel Aroca Escámez",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "name": "Burgos",
+    "country": "España",
+    "iataCodes": ["RGS"],
+    "aliases": ["Aeropuerto de Burgos"],
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/98/Burgos_city_view_facing_south_east.jpg/960px-Burgos_city_view_facing_south_east.jpg",
+    "description": "Patrimonio gótico, paseos junto al Arlanzón y una puerta de entrada a la historia de Castilla.",
+    "recommendations": ["Catedral de Burgos", "Monasterio de las Huelgas", "Museo de la Evolución Humana", "Mirador del Castillo"],
+    "recommendedStay": "2–3 días",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Burgos_city_view_facing_south_east.jpg",
+    "imageCredit": "Jardoz",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  {
+    "name": "Huesca",
+    "country": "España",
+    "iataCodes": [],
+    "auxiliaryCodes": ["HSK"],
+    "aliases": ["Huesca-Pirineos", "Monflorite-Huesca"],
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Bell_tower_of_the_cathedral_of_Huesca_03.jpg/960px-Bell_tower_of_the_cathedral_of_Huesca_03.jpg",
+    "description": "Casco histórico y paisajes prepirenaicos desde los que descubrir la provincia de Huesca.",
+    "recommendations": ["Catedral de Huesca", "Monasterio de San Pedro el Viejo", "Castillo de Loarre", "Valle de Tena"],
+    "recommendedStay": "2–4 días",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Bell_tower_of_the_cathedral_of_Huesca_03.jpg",
+    "imageCredit": "Kent Wang",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  {
+    "name": "Sabadell",
+    "country": "España",
+    "iataCodes": [],
+    "auxiliaryCodes": ["QSA"],
+    "aliases": ["Aeropuerto de Sabadell"],
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Sabadell_-_Eix_Maci%C3%A0.jpg/960px-Sabadell_-_Eix_Maci%C3%A0.jpg",
+    "description": "Una ciudad catalana con parques, patrimonio industrial y espacios culturales cerca de Barcelona.",
+    "recommendations": ["Parc de Catalunya", "Torre de l'Aigua", "Museu d'Història de Sabadell", "Mercat Central"],
+    "recommendedStay": "1–2 días",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Sabadell_-_Eix_Maci%C3%A0.jpg",
+    "imageCredit": "Xavigivax",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   }
 ];

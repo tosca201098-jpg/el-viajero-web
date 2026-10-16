@@ -31,7 +31,10 @@ async function resolveCity(input: string): Promise<City | null> {
   const [cityInput, countryInput] = input.split(',').map((part) => part.trim());
   const spanishProfile = !countryInput || ['espana', 'es'].includes(normalize(countryInput))
     ? findDestinationProfile({ name: cityInput }) : undefined;
-  const terms = Array.from(new Set([cityInput, ...(spanishProfile?.aliases ?? []), ...(spanishProfile?.iataCodes ?? [])]));
+  const isProfileAlias = spanishProfile && normalize(cityInput) !== normalize(spanishProfile.name);
+  const terms = Array.from(new Set(isProfileAlias
+    ? [...(spanishProfile.iataCodes ?? []), cityInput, ...(spanishProfile.aliases ?? [])]
+    : [cityInput, ...(spanishProfile?.iataCodes ?? []), ...(spanishProfile?.aliases ?? [])]));
   let nameMatch: City | null = null;
 
   for (const term of terms) {
@@ -116,6 +119,20 @@ export async function GET(request: Request) {
   if (returnDate < departureDate) return errorResponse('invalid_dates', 400);
 
   try {
+    const [destinationName, destinationCountry] = destinationInput.split(',').map((part) => part.trim());
+    const knownDestination = !destinationCountry || ['espana', 'es'].includes(normalize(destinationCountry))
+      ? findDestinationProfile({ name: destinationName }) : undefined;
+    if (knownDestination && knownDestination.iataCodes.length === 0) {
+      const origin = await resolveCity(originInput);
+      if (!origin) return errorResponse('unknown_origin', 422);
+      return Response.json({
+        success: true,
+        origin,
+        destination: { name: knownDestination.name, code: '' },
+        results: [],
+      }, { headers: { 'Cache-Control': 'no-store' } });
+    }
+
     const [origin, destination] = await Promise.all([
       resolveCity(originInput),
       resolveCity(destinationInput),

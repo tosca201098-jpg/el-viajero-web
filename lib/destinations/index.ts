@@ -9,6 +9,8 @@ export type DestinationProfile = {
   recommendations: [string, string, string, string];
   recommendedStay: string;
   aliases?: string[];
+  // Airport identifiers not accepted by Travelpayouts; never use for flight pricing.
+  auxiliaryCodes?: string[];
   imageSource?: string;
   imageCredit?: string;
   imageLicense?: string;
@@ -36,6 +38,6 @@ export function findDestinationProfile({ iataCode, name }: {
   const normalized = name ? normalizeDestinationName(name) : "";
   if (!normalized) return undefined;
   return destinationProfiles.find((destination) =>
-    [destination.name, ...(destination.aliases ?? [])]
+    [destination.name, ...(destination.aliases ?? []), ...(destination.auxiliaryCodes ?? [])]
       .some((candidate) => normalizeDestinationName(candidate) === normalized));
 }
