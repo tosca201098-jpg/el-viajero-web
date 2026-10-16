@@ -9,6 +9,10 @@ const source = fs.readFileSync(path.join(__dirname, '../app/api/travelpayouts/fl
 const compiled = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
 }).outputText;
+const placesSource = fs.readFileSync(path.join(__dirname, '../lib/travelpayouts/places.ts'), 'utf8');
+const placesCompiled = ts.transpileModule(placesSource, {
+  compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
+}).outputText;
 const token = 'server-only-test-token';
 const ticket = (departure, back, price, suffix = '') => ({
   origin: 'BCN', destination: 'MAD', price,
@@ -38,10 +42,16 @@ function setup(provider) {
     calls.push(url);
     return { ok: true, json: async () => ({ success: true, currency: 'eur', data: provider(url) }) };
   };
+  const placesExports = {};
+  vm.runInNewContext(placesCompiled, {
+    exports: placesExports, require: () => ({ findDestinationProfile: () => undefined }),
+    fetch, URL, AbortSignal,
+  });
   const exports = {};
   vm.runInNewContext(compiled, {
     exports, require: (id) => id === '@/lib/destinations'
-      ? { findDestinationProfile: () => undefined } : require(id),
+      ? { findDestinationProfile: () => undefined } : id === '@/lib/travelpayouts/places'
+        ? placesExports : require(id),
     fetch, URL, Request, Response, AbortSignal, process: { env: { TRAVELPAYOUTS_API_TOKEN: token } },
   }, { filename: 'flights/route.ts' });
   const search = async (parameters) => {

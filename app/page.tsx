@@ -60,6 +60,15 @@ type FlightSearchState =
       query: FlightQuery;
     };
 
+type DiscoverResult = {
+  destination: { code: string; name: string; country: string; image: string; recommendedStay: string };
+  offer: FlightOffer;
+};
+type DiscoverState =
+  | { status: "idle" | "loading" }
+  | { status: "error"; key: TranslationKey }
+  | { status: "success"; origin: { name: string; code: string }; results: DiscoverResult[] };
+
 const destinations: Destination[] = [
   {
     name: "París",
@@ -533,6 +542,10 @@ await pc.setRemoteDescription({
   const [pasajeros, setPasajeros] = useState(1);
   const [flexibleDates, setFlexibleDates] = useState(false);
   const [flexDays, setFlexDays] = useState<1 | 3 | 7>(3);
+  const [discoverMode, setDiscoverMode] = useState(false);
+  const [discoverBudget, setDiscoverBudget] = useState("");
+  const [discoverBudgetType, setDiscoverBudgetType] = useState<"total" | "por_persona">("por_persona");
+  const [discoverState, setDiscoverState] = useState<DiscoverState>({ status: "idle" });
   const [mensajeVuelos, setMensajeVuelos] = useState("");
   const [flightSearch, setFlightSearch] = useState<FlightSearchState>({ status: "idle" });
   const [flightResultsOpen, setFlightResultsOpen] = useState(false);
@@ -541,6 +554,7 @@ await pc.setRemoteDescription({
     destination: string; service: "hotel" | "ambos"; budget: SearchBudget;
   } | null>(null);
   const flightRequestIdRef = useRef(0);
+  const discoverRequestIdRef = useRef(0);
   const flightResultsCloseRef = useRef<HTMLButtonElement | null>(null);
   const flightSearchSubmitRef = useRef<HTMLElement | null>(null);
 
@@ -549,6 +563,11 @@ await pc.setRemoteDescription({
     setFlightSearch((current) => current.status === "idle" ? current : { status: "idle" });
     setFlightResultsOpen(false);
   }, [origen, destinoVuelo, fechaIda, fechaVuelta, pasajeros, flexibleDates, flexDays]);
+
+  useEffect(() => {
+    discoverRequestIdRef.current += 1;
+    setDiscoverState({ status: "idle" });
+  }, [origen, fechaIda, fechaVuelta, pasajeros, discoverBudget, discoverBudgetType, discoverMode]);
 
   useEffect(() => {
     if (!flightResultsOpen) return;
@@ -728,6 +747,48 @@ function abrirPaquete(destino = "") {
       travelers: pasajeros,
       ...(flexibleDates ? { flexDays } : {}),
     });
+  }
+
+  async function discoverDestinations(e: FormEvent<HTMLFormElement>) {
+    e.preventDefault();
+    if (discoverState.status === "loading") return;
+    const budget = Number(discoverBudget);
+    if (!origen.trim() || !fechaIda || !fechaVuelta || fechaVuelta < fechaIda ||
+      !Number.isInteger(pasajeros) || pasajeros < 1 || pasajeros > 9 ||
+      !Number.isFinite(budget) || budget <= 0) {
+      setDiscoverState({ status: "error", key: "search.discoverInvalid" });
+      return;
+    }
+    const requestId = ++discoverRequestIdRef.current;
+    setDiscoverState({ status: "loading" });
+    const params = new URLSearchParams({ origin: origen.trim(), departureDate: fechaIda,
+      returnDate: fechaVuelta, travelers: String(pasajeros), budget: String(budget), budgetType: discoverBudgetType });
+    try {
+      const response = await fetch(`/api/travelpayouts/discover?${params}`, { cache: "no-store" });
+      const data = await response.json();
+      if (requestId !== discoverRequestIdRef.current) return;
+      if (!response.ok || data.success !== true || !Array.isArray(data.results) || !data.origin) {
+        setDiscoverState({ status: "error", key: data.error === "unknown_origin"
+          ? "search.flightUnknownOrigin" : "search.discoverError" });
+        return;
+      }
+      setDiscoverState({ status: "success", origin: data.origin, results: data.results });
+    } catch {
+      if (requestId === discoverRequestIdRef.current) setDiscoverState({ status: "error", key: "search.discoverError" });
+    }
+  }
+
+  function openDiscoveredDestination(result: DiscoverResult, origin: { name: string; code: string }) {
+    const profile = findDestinationProfile({ iataCode: result.destination.code });
+    if (!profile) return;
+    flightSearchSubmitRef.current = document.getElementById("discover-submit");
+    setFlightSearch({ status: "success", origin,
+      destination: { name: profile.name, code: result.destination.code }, results: [result.offer],
+      query: { origin: origen.trim(), destination: profile.name, departureDate: fechaIda,
+        returnDate: fechaVuelta, travelers: pasajeros } });
+    setDestinoSeleccionado(profile);
+    setModal(null);
+    setFlightResultsOpen(true);
   }
 
   async function runFlightSearch(query: FlightQuery) {
@@ -1014,10 +1075,14 @@ function abrirPaquete(destino = "") {
                 <label htmlFor="buscador-paquete" className="cursor-pointer rounded-xl border border-stone-300 bg-white px-2 py-1 text-center text-sm font-bold text-stone-700 max-sm:flex max-sm:min-h-[44px] max-sm:items-center max-sm:justify-center max-sm:px-1 max-sm:py-1 max-sm:text-xs max-sm:leading-[14px] transition peer-checked/paquete:border-blue-600 peer-checked/paquete:bg-blue-600 peer-checked/paquete:text-white peer-focus-visible/paquete:ring-2 peer-focus-visible/paquete:ring-blue-600">
                   ✈️🏨 {t("trips.package")}
                 </label>
-                <form onSubmit={buscarVuelos} className="col-span-3 mt-1 max-sm:mt-0.5 hidden peer-checked/vuelos:block">
+                <form onSubmit={discoverMode ? discoverDestinations : buscarVuelos} className="col-span-3 mt-1 max-sm:mt-0.5 hidden peer-checked/vuelos:block">
+                  <label className="mb-1 inline-flex min-h-9 cursor-pointer items-center gap-2 text-xs font-bold text-blue-800">
+                    <input type="checkbox" checked={discoverMode} onChange={(event) => setDiscoverMode(event.target.checked)} className="h-4 w-4 accent-blue-600" />
+                    🌍 {t("search.discoverMode")}
+                  </label>
                   <div className="grid gap-x-4 gap-y-1 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:gap-x-2 max-sm:[&>label:last-child:nth-child(odd)]:col-span-2">
                       <FlightLocationAutocomplete label={t("search.origin")} value={origen} onChange={setOrigen} placeholder="Madrid" variant="main" />
-                      <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={setDestinoVuelo} placeholder="París" variant="main" />
+                      {!discoverMode && <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={setDestinoVuelo} placeholder="París" variant="main" />}
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
                         {t("search.departureDate")}
                         <input required type="date" value={fechaIda} onChange={(e) => setFechaIda(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
@@ -1026,7 +1091,7 @@ function abrirPaquete(destino = "") {
                         {t("search.returnDate")}
                         <input required type="date" value={fechaVuelta} onChange={(e) => setFechaVuelta(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
-                      <div className="col-span-2 mt-0.5">
+                      {!discoverMode && <div className="col-span-2 mt-0.5">
                         <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 text-xs font-semibold text-stone-700">
                           <input type="checkbox" checked={flexibleDates} onChange={(event) => setFlexibleDates(event.target.checked)} className="h-4 w-4 shrink-0 accent-blue-600" />
                           {t("search.flexibleDates")}
@@ -1039,17 +1104,36 @@ function abrirPaquete(destino = "") {
                             </span>
                           </label>)}
                         </fieldset>}
-                      </div>
+                      </div>}
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:col-span-2 max-sm:min-w-0 max-sm:leading-[14px]">
                         {t("search.travelers")}
                         <input required type="number" min={1} max={9} value={pasajeros} onChange={(e) => setPasajeros(Number(e.target.value))} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
+                      {discoverMode && <>
+                        <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0">
+                          {t("search.discoverBudget")}
+                          <input required type="number" min="1" max="10000000" step="0.01" inputMode="decimal"
+                            value={discoverBudget} onChange={(event) => setDiscoverBudget(event.target.value)}
+                            className="mt-0.5 w-full max-sm:h-11 max-sm:min-h-[44px] rounded-xl border border-stone-300 bg-white px-4 py-1 text-sm text-stone-800 outline-none focus:border-blue-600" />
+                        </label>
+                        <fieldset className="flex flex-wrap items-end gap-1.5" aria-label={t("search.discoverBudgetType")}>
+                          {(["total", "por_persona"] as const).map((type) => <label key={type} className="cursor-pointer">
+                            <input type="radio" name="discover-budget-type" checked={discoverBudgetType === type}
+                              onChange={() => setDiscoverBudgetType(type)} className="peer sr-only" />
+                            <span className="inline-flex min-h-10 items-center rounded-lg border border-blue-300 bg-white px-3 text-xs font-semibold text-blue-800 peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600">
+                              {t(type === "total" ? "search.discoverTotal" : "search.discoverPerPerson")}
+                            </span>
+                          </label>)}
+                        </fieldset>
+                      </>}
                   </div>
-                  <button type="submit" disabled={flightSearch.status === "loading"} className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60">
-                    🔍 {flightSearch.status === "loading" ? t("search.searchingFlights") : t("search.submit")}
+                  <button id={discoverMode ? "discover-submit" : undefined} type="submit" disabled={discoverMode ? discoverState.status === "loading" : flightSearch.status === "loading"} className="mt-2 w-full max-sm:mt-1 max-sm:min-h-[44px] rounded-2xl bg-blue-600 px-6 py-1.5 text-sm leading-5 font-bold text-white transition hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60">
+                    🔍 {discoverMode ? t(discoverState.status === "loading" ? "search.discoverLoading" : "search.discoverSubmit")
+                      : flightSearch.status === "loading" ? t("search.searchingFlights") : t("search.submit")}
                   </button>
-                  {renderSaveTripAction("vuelo")}
-                  {renderFlightSearchFeedback()}
+                  {!discoverMode && renderSaveTripAction("vuelo")}
+                  {!discoverMode && renderFlightSearchFeedback()}
+                  {discoverMode && discoverState.status === "error" && <p role="alert" className="mt-2 rounded-xl border border-blue-200 bg-blue-50 p-3 text-sm text-blue-950">{t(discoverState.key)}</p>}
                 </form>
                 <form onSubmit={buscarHoteles} className="col-span-3 mt-1 max-sm:mt-0.5 hidden peer-checked/hoteles:block">
                   <div className="grid gap-x-4 gap-y-1 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:gap-x-2 max-sm:[&>label:last-child:nth-child(odd)]:col-span-2">
@@ -1152,8 +1236,36 @@ function abrirPaquete(destino = "") {
               </div>
             </div>
           </div>
-
-              
+          {discoverMode && discoverState.status === "success" && (
+            <div className="mt-5 text-left" aria-live="polite">
+              {discoverState.results.length === 0 ? (
+                <p role="status" className="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-950">
+                  {t("search.discoverEmpty")}
+                </p>
+              ) : <>
+                <h2 className="mb-3 text-xl font-black text-stone-900">{t("search.discoverResults")}</h2>
+                <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                  {discoverState.results.map((result) => (
+                    <button key={result.destination.code} type="button"
+                      onClick={() => openDiscoveredDestination(result, discoverState.origin)}
+                      className="group min-w-0 overflow-hidden rounded-2xl border border-blue-200 bg-white text-left shadow-sm transition hover:border-blue-500 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
+                      <img src={result.destination.image} alt={result.destination.name} loading="lazy"
+                        className="h-32 w-full object-cover sm:h-36" />
+                      <span className="block p-3">
+                        <span className="block text-lg font-black text-stone-900">{result.destination.name}</span>
+                        <span className="block text-xs text-stone-600">{result.destination.country}</span>
+                        <span className="mt-2 block text-base font-bold text-blue-700">✈️ {t("search.discoverFrom")} {new Intl.NumberFormat(language, { style: "currency", currency: "EUR" }).format(result.offer.price)}</span>
+                        <span className="mt-1 block text-xs text-stone-700">{formatFlightDate(result.offer.departureAt!)} → {formatFlightDate(result.offer.returnAt!)}</span>
+                        <span className="mt-1 block text-xs text-stone-600">{t("destinations.recommendedStay")}: {result.destination.recommendedStay}</span>
+                        <span className="mt-2 inline-flex min-h-9 items-center rounded-lg border border-blue-500 px-3 text-xs font-bold text-blue-700 group-hover:bg-blue-50">{t("search.discoverView")}</span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+                <p className="mt-3 text-xs text-stone-600">{t("search.recentPricesNote")} {t("search.discoverBudgetNote")}</p>
+              </>}
+            </div>
+          )}
         </div>
       </section>
 
