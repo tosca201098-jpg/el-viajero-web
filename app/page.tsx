@@ -411,27 +411,36 @@ dc.onmessage = (event) => {
 
     const datos = JSON.parse(evento.arguments);
 
-    const destino = destinations.find(
-      (d) =>
-        d.name.toLowerCase() ===
-        datos.destino?.trim().toLowerCase()
-    );
+    const destinoSolicitado = typeof datos.destino === "string" ? datos.destino.trim() : "";
+    const destino = findDestinationProfile({ iataCode: destinoSolicitado, name: destinoSolicitado })
+      ?? findDestinationCard(destinoSolicitado);
 
     if (destino) {
-setOrigen(datos.origen);
-setDestinoVuelo(destino.name);
-setDestinoHotel(destino.name);
-setFechaIda(datos.fecha_ida);
-setFechaVuelta(datos.fecha_vuelta);
-setEntrada(datos.fecha_ida);
-setSalida(datos.fecha_vuelta);
-setPasajeros(datos.viajeros);
-setHuespedes(datos.viajeros);
-     if (datos.servicio === "ambos") {
-  abrirPaquete(destino.name);
-} else {
-  setDestinoSeleccionado(destino);
-}
+      const origenSolicitado = typeof datos.origen === "string" ? datos.origen.trim() : "";
+      const origenCanonico = findDestinationProfile({ iataCode: origenSolicitado, name: origenSolicitado })?.name
+        ?? origenSolicitado;
+      const servicio = datos.servicio === "hotel" || datos.servicio === "ambos" ? datos.servicio : "vuelo";
+      const tabId = servicio === "hotel" ? "buscador-hoteles"
+        : servicio === "ambos" ? "buscador-paquete" : "buscador-vuelos";
+
+      setOrigen(origenCanonico);
+      setDestinoVuelo(destino.name);
+      setDestinoHotel(destino.name);
+      setFechaIda(datos.fecha_ida);
+      setFechaVuelta(datos.fecha_vuelta);
+      setEntrada(datos.fecha_ida);
+      setSalida(datos.fecha_vuelta);
+      setPasajeros(datos.viajeros);
+      setHuespedes(datos.viajeros);
+      setFlightResultsOpen(false);
+      (document.getElementById(tabId) as HTMLInputElement | null)?.click();
+
+      if (servicio === "ambos") {
+        abrirPaquete(destino.name);
+      } else {
+        setModal(null);
+        setDestinoSeleccionado(destino);
+      }
     }
   }
 };
