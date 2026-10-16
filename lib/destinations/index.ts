@@ -1,4 +1,5 @@
 import { spainDestinations } from "./spain";
+import { portugalDestinations } from "./portugal";
 
 export type DestinationProfile = {
   name: string;
@@ -17,7 +18,7 @@ export type DestinationProfile = {
   imageLicenseUrl?: string;
 };
 
-export const destinationProfiles: DestinationProfile[] = [...spainDestinations];
+export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations];
 
 export function normalizeDestinationName(value: string): string {
   return value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")

@@ -27,14 +27,22 @@ function errorResponse(error: string, status: number) {
   );
 }
 
+function matchingDestinationProfile(city: string, country?: string) {
+  const profile = findDestinationProfile({ name: city });
+  if (!profile || !country) return profile;
+  const countryCode = profile.country === 'España' ? 'es' : profile.country === 'Portugal' ? 'pt' : '';
+  return [normalize(profile.country), countryCode].includes(normalize(country)) ? profile : undefined;
+}
+
 async function resolveCity(input: string): Promise<City | null> {
   const [cityInput, countryInput] = input.split(',').map((part) => part.trim());
-  const spanishProfile = !countryInput || ['espana', 'es'].includes(normalize(countryInput))
-    ? findDestinationProfile({ name: cityInput }) : undefined;
-  const isProfileAlias = spanishProfile && normalize(cityInput) !== normalize(spanishProfile.name);
+  const destinationProfile = matchingDestinationProfile(cityInput, countryInput);
+  const profileCountryCode = destinationProfile?.country === 'España' ? 'ES'
+    : destinationProfile?.country === 'Portugal' ? 'PT' : null;
+  const isProfileAlias = destinationProfile && normalize(cityInput) !== normalize(destinationProfile.name);
   const terms = Array.from(new Set(isProfileAlias
-    ? [...(spanishProfile.iataCodes ?? []), cityInput, ...(spanishProfile.aliases ?? [])]
-    : [cityInput, ...(spanishProfile?.iataCodes ?? []), ...(spanishProfile?.aliases ?? [])]));
+    ? [...destinationProfile.iataCodes, cityInput, ...(destinationProfile.aliases ?? [])]
+    : [cityInput, ...(destinationProfile?.iataCodes ?? []), ...(destinationProfile?.aliases ?? [])]));
   let nameMatch: City | null = null;
 
   for (const term of terms) {
@@ -56,10 +64,10 @@ async function resolveCity(input: string): Promise<City | null> {
         (typeof place.country_code === 'string' && normalize(place.country_code) === normalize(countryInput)))
     );
 
-    // The provider can return another country for the same city name (e.g. Córdoba).
-    // Match the official Spanish IATA code before accepting a name match.
-    const byIata = spanishProfile && cities.find((place) =>
-      place.country_code === 'ES' && spanishProfile.iataCodes.includes(place.code as string));
+    // The provider can return another country for the same city name.
+    // Match the destination's verified code and country before accepting a name match.
+    const byIata = destinationProfile && cities.find((place) =>
+      place.country_code === profileCountryCode && destinationProfile.iataCodes.includes(place.code as string));
     if (byIata) return { name: byIata.name as string, code: byIata.code as string };
 
     if (!nameMatch && term === cityInput) {
@@ -76,10 +84,10 @@ async function resolveCity(input: string): Promise<City | null> {
         (typeof a.weight === 'number' ? a.weight : 0))[0];
       if (match) {
         nameMatch = { name: match.name as string, code: match.code as string };
-        if (spanishProfile && match.country_code === 'ES') return nameMatch;
+        if (destinationProfile && match.country_code === profileCountryCode) return nameMatch;
       }
     }
-    if (!spanishProfile) return nameMatch;
+    if (!destinationProfile) return nameMatch;
   }
 
   return nameMatch;
@@ -120,8 +128,7 @@ export async function GET(request: Request) {
 
   try {
     const [destinationName, destinationCountry] = destinationInput.split(',').map((part) => part.trim());
-    const knownDestination = !destinationCountry || ['espana', 'es'].includes(normalize(destinationCountry))
-      ? findDestinationProfile({ name: destinationName }) : undefined;
+    const knownDestination = matchingDestinationProfile(destinationName, destinationCountry);
     if (knownDestination && knownDestination.iataCodes.length === 0) {
       const origin = await resolveCity(originInput);
       if (!origin) return errorResponse('unknown_origin', 422);
