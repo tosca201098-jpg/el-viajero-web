@@ -15,9 +15,9 @@ function load(file, dependencies = {}, globals = {}) {
 }
 const translations = load('lib/i18n/translations.ts');
 
-test('six dictionaries, fallback, interpolation and user text', () => {
+test('seven dictionaries, fallback, interpolation and user text', () => {
   const { locales, dictionaries, translate, translateText, isLocale } = translations;
-  assert.equal(locales.length, 6);
+  assert.equal(locales.length, 7);
   for (const { code } of locales) {
     assert.ok(isLocale(code));
     for (const key of Object.keys(dictionaries.es)) assert.ok(dictionaries[code][key], `${code}: ${key}`);

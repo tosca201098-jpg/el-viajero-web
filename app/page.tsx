@@ -45,6 +45,7 @@ type FlightQuery = {
   returnDate: string;
   travelers: number;
   budget?: SearchBudget;
+  flexDays?: 1 | 3 | 7;
 };
 
 type FlightSearchState =
@@ -530,6 +531,8 @@ await pc.setRemoteDescription({
   const [fechaIda, setFechaIda] = useState("");
   const [fechaVuelta, setFechaVuelta] = useState("");
   const [pasajeros, setPasajeros] = useState(1);
+  const [flexibleDates, setFlexibleDates] = useState(false);
+  const [flexDays, setFlexDays] = useState<1 | 3 | 7>(3);
   const [mensajeVuelos, setMensajeVuelos] = useState("");
   const [flightSearch, setFlightSearch] = useState<FlightSearchState>({ status: "idle" });
   const [flightResultsOpen, setFlightResultsOpen] = useState(false);
@@ -545,7 +548,7 @@ await pc.setRemoteDescription({
     flightRequestIdRef.current += 1;
     setFlightSearch((current) => current.status === "idle" ? current : { status: "idle" });
     setFlightResultsOpen(false);
-  }, [origen, destinoVuelo, fechaIda, fechaVuelta, pasajeros]);
+  }, [origen, destinoVuelo, fechaIda, fechaVuelta, pasajeros, flexibleDates, flexDays]);
 
   useEffect(() => {
     if (!flightResultsOpen) return;
@@ -723,6 +726,7 @@ function abrirPaquete(destino = "") {
       departureDate: fechaIda,
       returnDate: fechaVuelta,
       travelers: pasajeros,
+      ...(flexibleDates ? { flexDays } : {}),
     });
   }
 
@@ -751,6 +755,7 @@ function abrirPaquete(destino = "") {
       params.set("budget", String(query.budget.amount));
       params.set("budgetType", query.budget.type);
     }
+    if (query.flexDays) params.set("flexDays", String(query.flexDays));
 
     try {
       const response = await fetch(`/api/travelpayouts/flights?${params}`, { cache: "no-store" });
@@ -848,6 +853,7 @@ function abrirPaquete(destino = "") {
   function renderFlightOffers(inDestinationCard = false) {
     if (!flightResultsOpen || flightSearch.status !== "success" ||
       (!inDestinationCard && flightSearch.results.length === 0 && !flightSearch.query.budget)) return null;
+    const flexible = flightSearch.query.flexDays !== undefined;
     return (
       <section className={inDestinationCard ? "mt-8 border-t border-white/10 pt-6" : "mt-5"}>
         <h3 className={inDestinationCard ? "text-xl font-bold text-white" : "text-lg font-black text-slate-900 sm:text-xl"}>
@@ -874,6 +880,15 @@ function abrirPaquete(destino = "") {
             <article key={`${flight.departureAt ?? "flight"}-${index}`} className={inDestinationCard
               ? "rounded-2xl border border-white/10 bg-white/5 p-4"
               : "rounded-2xl border border-blue-100 bg-white p-4 shadow-sm"}>
+              {flexible && flight.departureAt && flight.returnAt && (
+                <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
+                  {index === 0 && <span className="rounded-full bg-cyan-400 px-2 py-0.5 text-xs font-bold text-slate-950">{t("search.bestPrice")}</span>}
+                  {index === 0 && flight.departureAt.slice(0, 10) === flightSearch.query.departureDate &&
+                    flight.returnAt.slice(0, 10) === flightSearch.query.returnDate &&
+                    <span className="rounded-full border border-current px-2 py-0.5 text-xs font-semibold">{t("search.originalDates")}</span>}
+                  <span className="font-bold">{formatFlightDate(flight.departureAt)} → {formatFlightDate(flight.returnAt)}</span>
+                </div>
+              )}
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="min-w-0 break-words text-sm font-bold">{flightSearch.origin.name} ({flight.origin}) → {flightSearch.destination.name} ({flight.destination})</p>
                 <p className={inDestinationCard ? "text-lg font-black text-cyan-200" : "text-lg font-black text-blue-700"}>
@@ -883,8 +898,8 @@ function abrirPaquete(destino = "") {
               <div className={inDestinationCard
                 ? "mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-300 sm:text-sm"
                 : "mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 sm:text-sm"}>
-                {flight.departureAt && <span>{t("search.flightDeparture")}: {formatFlightDate(flight.departureAt)}</span>}
-                {flight.returnAt && <span>{t("search.flightReturn")}: {formatFlightDate(flight.returnAt)}</span>}
+                {!flexible && flight.departureAt && <span>{t("search.flightDeparture")}: {formatFlightDate(flight.departureAt)}</span>}
+                {!flexible && flight.returnAt && <span>{t("search.flightReturn")}: {formatFlightDate(flight.returnAt)}</span>}
                 {flight.airline && <span>{t("search.flightAirline")}: {flight.airline}</span>}
                 {flight.transfers !== null && <span>{t("search.flightStops")}: {flight.transfers}</span>}
               </div>
@@ -1011,7 +1026,21 @@ function abrirPaquete(destino = "") {
                         {t("search.returnDate")}
                         <input required type="date" value={fechaVuelta} onChange={(e) => setFechaVuelta(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
-                      <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
+                      <div className="col-span-2 mt-0.5">
+                        <label className="inline-flex min-h-10 cursor-pointer items-center gap-2 text-xs font-semibold text-stone-700">
+                          <input type="checkbox" checked={flexibleDates} onChange={(event) => setFlexibleDates(event.target.checked)} className="h-4 w-4 shrink-0 accent-blue-600" />
+                          {t("search.flexibleDates")}
+                        </label>
+                        {flexibleDates && <fieldset className="flex flex-wrap gap-1.5" aria-label={t("search.flexibleDates")}>
+                          {([1, 3, 7] as const).map((days) => <label key={days} className="cursor-pointer">
+                            <input type="radio" name="flight-flex-days" value={days} checked={flexDays === days} onChange={() => setFlexDays(days)} className="peer sr-only" />
+                            <span className="inline-flex min-h-9 items-center justify-center rounded-lg border border-blue-300 bg-white px-3 text-xs font-semibold text-blue-800 peer-checked:border-blue-600 peer-checked:bg-blue-600 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-blue-600">
+                              {t(days === 1 ? "search.flexible1" : days === 3 ? "search.flexible3" : "search.flexible7")}
+                            </span>
+                          </label>)}
+                        </fieldset>}
+                      </div>
+                      <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:col-span-2 max-sm:min-w-0 max-sm:leading-[14px]">
                         {t("search.travelers")}
                         <input required type="number" min={1} max={9} value={pasajeros} onChange={(e) => setPasajeros(Number(e.target.value))} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
