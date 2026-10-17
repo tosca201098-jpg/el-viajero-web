@@ -143,6 +143,7 @@ const entries = [
   ["itinerary.creating", "Creando tu itinerario…", "Creating your itinerary…", "Création de votre itinéraire…", "Dein Reiseplan wird erstellt…", "Creazione del tuo itinerario…", "A criar o teu roteiro…", "Creant el teu itinerari…"],
   ["itinerary.regenerate", "↻ Crear otro itinerario", "↻ Create another itinerary", "↻ Créer un autre itinéraire", "↻ Anderen Reiseplan erstellen", "↻ Crea un altro itinerario", "↻ Criar outro roteiro", "↻ Crea un altre itinerari"],
   ["itinerary.duration", "Duración del itinerario", "Itinerary length", "Durée de l’itinéraire", "Dauer des Reiseplans", "Durata dell’itinerario", "Duração do roteiro", "Durada de l’itinerari"],
+  ["itinerary.oneDay", "1 día", "1 day", "1 jour", "1 Tag", "1 giorno", "1 dia", "1 dia"],
   ["itinerary.days", "{count} días", "{count} days", "{count} jours", "{count} Tage", "{count} giorni", "{count} dias", "{count} dies"],
   ["itinerary.day", "Día {number}", "Day {number}", "Jour {number}", "Tag {number}", "Giorno {number}", "Dia {number}", "Dia {number}"],
   ["itinerary.morning", "Mañana", "Morning", "Matin", "Morgen", "Mattina", "Manhã", "Matí"],

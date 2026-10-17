@@ -336,6 +336,20 @@ await pc.setRemoteDescription({
     };
   }, [flightResultsOpen]);
 
+  useEffect(() => {
+    if (!destinoSeleccionado || flightResultsOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setDestinoSeleccionado(null);
+    };
+    document.addEventListener("keydown", handleEscape);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, [destinoSeleccionado, flightResultsOpen]);
+
   // HOTELES
   const [destinoHotel, setDestinoHotel] = useState("");
   const [entrada, setEntrada] = useState("");
@@ -1191,12 +1205,10 @@ function abrirPaquete(destino = "") {
         <div
           className={flightResultsOpen
             ? "fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-3 text-white backdrop-blur-md sm:p-4"
-            : "fixed inset-0 z-50 overflow-y-auto bg-black/80 p-4 text-white backdrop-blur-md"}
+            : "fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 text-white backdrop-blur-md sm:p-4"}
           onClick={(event) => { if (event.target === event.currentTarget) closeDestinationDetail(); }}
         >
-          <div role="dialog" aria-modal="true" aria-labelledby="destination-detail-title" className={flightResultsOpen
-            ? "w-full max-w-3xl max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl sm:max-h-[calc(100dvh-2rem)]"
-            : "mx-auto my-8 max-h-[calc(100dvh-4rem)] max-w-3xl overflow-y-auto overscroll-contain rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl"}>
+          <div role="dialog" aria-modal="true" aria-labelledby="destination-detail-title" className="max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl sm:max-h-[calc(100dvh-2rem)]">
             <div className="relative h-72 md:h-96">
               <img
                 src={destinoSeleccionado.image}

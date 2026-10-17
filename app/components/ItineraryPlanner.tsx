@@ -33,6 +33,8 @@ export default function ItineraryPlanner({ destination, context }: {
 
   useEffect(() => () => controllerRef.current?.abort(), []);
 
+  const dayLabel = (count: number) => count === 1 ? t("itinerary.oneDay") : t("itinerary.days", { count });
+
   async function generate() {
     if (busyRef.current) return;
     busyRef.current = true;
@@ -85,7 +87,7 @@ export default function ItineraryPlanner({ destination, context }: {
     <section className="mt-6 min-w-0 rounded-2xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 sm:p-5" aria-label={t("itinerary.create")}>
       {hasDates ? (
         <p className="mb-3 text-sm text-slate-300">
-          {t("itinerary.duration")}: <span className="font-semibold text-white">{t("itinerary.days", { count: Math.min(7, calendarDays) })}</span>
+          {t("itinerary.duration")}: <span className="font-semibold text-white">{dayLabel(Math.min(7, calendarDays))}</span>
           {calendarDays > 7 && <span className="mt-1 block text-xs text-slate-400">{t("itinerary.maxDays")}</span>}
         </p>
       ) : (
@@ -93,7 +95,7 @@ export default function ItineraryPlanner({ destination, context }: {
           <legend className="mb-2 text-sm font-semibold text-slate-200">{t("itinerary.duration")}</legend>
           <div className="grid grid-cols-7 gap-1.5">
             {([1, 2, 3, 4, 5, 6, 7] as const).map((day) => (
-              <button key={day} type="button" aria-label={t("itinerary.days", { count: day })}
+              <button key={day} type="button" aria-label={dayLabel(day)}
                 aria-pressed={selectedDays === day} onClick={() => { setSelectedDays(day); setItinerary(null); setError(false); variationRef.current = 0; }} disabled={loading}
                 className={`min-h-[44px] min-w-0 rounded-lg border text-sm font-semibold ${selectedDays === day
                   ? "border-cyan-300 bg-cyan-300 text-slate-950" : "border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10"}`}>
