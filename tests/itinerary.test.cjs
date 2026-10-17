@@ -135,6 +135,29 @@ test('API failure returns a safe error without exposing the server key', async (
   assert.equal(await response.text(), '{"error":"generation_failed"}');
 });
 
+test('401 diagnostics classify the provider error without logging any key fragment', async () => {
+  const logs = [];
+  let upstreamAuth;
+  const route = load('app/api/itinerary/route.ts', { '@/lib/itinerary/server': server }, {
+    Request, Response, AbortSignal,
+    console: { error: (...parts) => logs.push(parts.join(' ')) },
+    process: { env: { OPENAI_API_KEY: '  sk-test-private-key  ' } },
+    fetch: async (_url, options) => {
+      upstreamAuth = options.headers.Authorization;
+      return Response.json({ error: { type: 'invalid_request_error', code: null,
+        message: 'Incorrect API key provided: sk-test-private-key' } }, { status: 401 });
+    },
+  });
+  const response = await route.POST(new Request('http://localhost/api/itinerary', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload('Lisboa', 3)),
+  }));
+  assert.equal(upstreamAuth, 'Bearer sk-test-private-key');
+  assert.equal(response.status, 502);
+  assert.deepEqual(logs, ['Itinerary upstream response 401 invalid_api_key surrounding_whitespace']);
+  assert.ok(!logs.join(' ').includes('sk-test-private-key'));
+  assert.equal(await response.text(), '{"error":"generation_failed"}');
+});
+
 test('API success returns only the validated itinerary', async () => {
   let upstreamBody;
   const result = itinerary(2);

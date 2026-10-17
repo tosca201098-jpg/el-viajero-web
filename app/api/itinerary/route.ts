@@ -2,6 +2,29 @@ import { buildItineraryResponseRequest, extractItinerary, validateItineraryReque
 
 export const maxDuration = 60;
 
+function upstreamFailureCategory(value: unknown): string {
+  if (!value || typeof value !== "object" || !("error" in value)) return "unclassified";
+  const error = value.error;
+  if (!error || typeof error !== "object") return "unclassified";
+  const code = "code" in error && typeof error.code === "string" ? error.code : "";
+  if (code === "ip_not_authorized") return "ip_not_authorized";
+  if (code === "invalid_api_key") return "invalid_api_key";
+  const message = "message" in error && typeof error.message === "string" ? error.message : "";
+  if (/incorrect api key|invalid api key/i.test(message)) return "invalid_api_key";
+  if (/ip (address )?not authorized|ip allowlist/i.test(message)) return "ip_not_authorized";
+  if (/must be a member of an organization|not a member of (the )?(organization|project)/i.test(message)) return "organization_membership";
+  if (/missing api key|did not provide an api key|didn't provide an api key/i.test(message)) return "missing_api_key";
+  if (/permission|not authorized for this (organization|project)/i.test(message)) return "access_denied";
+  return "unclassified";
+}
+
+function credentialFormat(value: string): string {
+  if (/^Bearer\s/i.test(value)) return "bearer_prefix_in_value";
+  if (/^["']|["']$/.test(value)) return "quoted_value";
+  if (value !== value.trim()) return "surrounding_whitespace";
+  return "plain_value";
+}
+
 export async function POST(request: Request) {
   const length = Number(request.headers.get("content-length"));
   if (Number.isFinite(length) && length > 8_000) {
@@ -14,7 +37,8 @@ export async function POST(request: Request) {
     const validated = validateItineraryRequest(JSON.parse(raw));
     if (!validated) return Response.json({ error: "invalid_request" }, { status: 400 });
 
-    const apiKey = process.env.OPENAI_API_KEY;
+    const rawApiKey = process.env.OPENAI_API_KEY;
+    const apiKey = rawApiKey?.trim();
     if (!apiKey) return Response.json({ error: "temporarily_unavailable" }, { status: 503 });
 
     const response = await fetch("https://api.openai.com/v1/responses", {
@@ -26,12 +50,8 @@ export async function POST(request: Request) {
     });
     if (!response.ok) {
       const upstream: unknown = await response.json().catch(() => null);
-      const error = upstream && typeof upstream === "object" && "error" in upstream ? upstream.error : null;
-      const type = error && typeof error === "object" && "type" in error && typeof error.type === "string"
-        ? error.type.slice(0, 80) : "unknown";
-      const code = error && typeof error === "object" && "code" in error && typeof error.code === "string"
-        ? error.code.slice(0, 80) : "unknown";
-      console.error("Itinerary upstream response", response.status, type, code);
+      console.error("Itinerary upstream response", response.status,
+        upstreamFailureCategory(upstream), credentialFormat(rawApiKey ?? ""));
       return Response.json({ error: "generation_failed" }, { status: 502 });
     }
     const data: unknown = await response.json();
