@@ -12,6 +12,8 @@ import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/sa
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { findDestinationProfile, normalizeDestinationName } from "@/lib/destinations";
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
+import { formatMonthName } from "@/lib/destinations/seasonality";
+import { spanishMonthSlugs } from "@/lib/destinations/months";
 
 type Destination = {
   name: string;
@@ -606,6 +608,12 @@ await pc.setRemoteDescription({
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
+    const profileName = params.get("ficha")?.trim();
+    if (profileName) {
+      const profile = findDestinationProfile({ name: profileName });
+      if (profile) setDestinoSeleccionado(profile);
+      return;
+    }
     const service = params.get("primaveraServicio");
     const destination = params.get("destino")?.trim();
     if (!destination || (service !== "vuelo" && service !== "hotel" && service !== "ambos")) return;
@@ -1406,6 +1414,23 @@ function abrirPaquete(destino = "") {
 </button>
   </div>
 </section>
+      <section className="relative z-10 mx-auto max-w-7xl px-6 pb-10 pt-4 sm:pb-12">
+        <div className="mb-4">
+          <h2 className="text-2xl font-black leading-tight sm:text-3xl">{t("monthly.homeTitle")}</h2>
+          <p className="mt-1 text-sm text-stone-700 sm:text-base">{t("monthly.homeDescription")}</p>
+        </div>
+        <div className="-mx-6 flex snap-x snap-mandatory gap-2 overflow-x-auto px-6 pb-2 sm:mx-0 sm:grid sm:grid-cols-4 sm:overflow-visible sm:px-0 lg:grid-cols-6">
+          {spanishMonthSlugs.map((slug, index) => (
+            <a
+              key={slug}
+              href={`/viajes-baratos/${slug}`}
+              className="flex min-h-[44px] min-w-[7.5rem] shrink-0 snap-start items-center justify-center rounded-xl border border-blue-600/35 bg-white/60 px-3 py-2 text-sm font-semibold text-blue-800 transition-colors hover:border-blue-600 hover:bg-blue-50 sm:min-w-0"
+            >
+              {formatMonthName(index + 1, language)}
+            </a>
+          ))}
+        </div>
+      </section>
       {/* MODAL DESTINO */}
       {destinoSeleccionado && (
         <div

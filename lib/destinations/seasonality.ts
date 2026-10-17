@@ -1,6 +1,6 @@
 import type { Locale } from "@/lib/i18n/translations";
 
-function monthName(month: number, locale: Locale): string {
+export function formatMonthName(month: number, locale: Locale): string {
   const value = new Intl.DateTimeFormat(locale, { month: "long", timeZone: "UTC" })
     .format(new Date(Date.UTC(2020, month - 1, 1)));
   return value;
@@ -22,15 +22,15 @@ export function formatMonthRanges(months: number[], locale: Locale): string {
     else groups.push([month]);
   }
   const label = groups.map((group) => group.length === 1
-    ? monthName(group[0], locale)
-    : `${monthName(group[0], locale)} – ${monthName(group[group.length - 1], locale)}`)
+    ? formatMonthName(group[0], locale)
+    : `${formatMonthName(group[0], locale)} – ${formatMonthName(group[group.length - 1], locale)}`)
     .join(" · ");
   return label.charAt(0).toLocaleUpperCase(locale) + label.slice(1);
 }
 
 // Keeps the locale's own conjunction ("y", "and", "et", etc.) for quiet-month lists.
 export function formatMonthList(months: number[], locale: Locale): string {
-  const names = uniqueSortedMonths(months).map((month) => monthName(month, locale));
+  const names = uniqueSortedMonths(months).map((month) => formatMonthName(month, locale));
   if (!names.length) return "";
   const label = new Intl.ListFormat(locale, { style: "long", type: "conjunction" }).format(names);
   return label.charAt(0).toLocaleUpperCase(locale) + label.slice(1);
