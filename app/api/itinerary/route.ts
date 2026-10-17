@@ -7,13 +7,16 @@ function upstreamFailureCategory(value: unknown): string {
   const error = value.error;
   if (!error || typeof error !== "object") return "unclassified";
   const code = "code" in error && typeof error.code === "string" ? error.code : "";
-  if (code === "ip_not_authorized") return "ip_not_authorized";
+  const type = "type" in error && typeof error.type === "string" ? error.type : "";
+  if (code === "ip_not_authorized" || type === "ip_not_authorized") return "ip_not_authorized";
   if (code === "invalid_api_key") return "invalid_api_key";
   const message = "message" in error && typeof error.message === "string" ? error.message : "";
+  if (/\bip\b.{0,80}(not authori[sz]ed|allowlist|permission)|\bip\b.{0,30}blocked/i.test(message)) return "ip_not_authorized";
   if (/incorrect api key|invalid api key/i.test(message)) return "invalid_api_key";
-  if (/ip (address )?not authorized|ip allowlist/i.test(message)) return "ip_not_authorized";
   if (/must be a member of an organization|not a member of (the )?(organization|project)/i.test(message)) return "organization_membership";
   if (/missing api key|did not provide an api key|didn't provide an api key/i.test(message)) return "missing_api_key";
+  if (/(api key|key).{0,80}(read.only|permission|scope)|read.only.{0,80}(api key|key)/i.test(message)) return "key_permission";
+  if (/model.{0,80}(access|permission|not available)/i.test(message)) return "model_access";
   if (/permission|not authorized for this (organization|project)/i.test(message)) return "access_denied";
   return "unclassified";
 }
