@@ -19,6 +19,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Monte de San Pedro"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "La Coruña"
     ],
@@ -42,6 +45,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Plaza Mayor"
     ],
     "recommendedStay": "3–4 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11],
+    "highSeasonMonths": [7,8,12],
     "aliases": [
       "Madrid-Cuatro Vientos",
       "Cuatro Vientos"
@@ -69,6 +75,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Isla de Tabarca"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [3,4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Alicante,_Spain.jpg",
     "imageCredit": "Bfoto.ru",
     "imageLicense": "CC BY-SA 3.0",
@@ -89,6 +98,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Playa de los Genoveses"
     ],
     "recommendedStay": "2–4 días",
+    "bestMonths": [3,4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Alcazaba_1,_Almeria,_Spain.jpg",
     "imageCredit": "Jebulon",
     "imageLicense": "CC0",
@@ -109,6 +121,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Costa de Gijón"
     ],
     "recommendedStay": "4–6 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "Oviedo"
     ],
@@ -132,6 +147,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Torre de Espantaperros"
     ],
     "recommendedStay": "1–2 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Badajoz_desde_la_Torre_de_Espantaperros.jpg",
     "imageCredit": "Alonso de Mendoza",
     "imageLicense": "CC BY-SA 4.0",
@@ -152,6 +170,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Monte Artxanda"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Vista_de_la_R%C3%ADa_de_Bilbao_y_el_Museo_Guggenheim_desde_el_Puente_de_la_Salve.jpg",
     "imageCredit": "Makoki20",
     "imageLicense": "CC0",
@@ -172,6 +193,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Playas de Papagayo"
     ],
     "recommendedStay": "4–6 días",
+    "bestMonths": [3,4,5,6,9,10,11],
+    "lowSeasonMonths": [5,6,9,10],
+    "highSeasonMonths": [1,2,7,8,12],
     "aliases": [
       "Arrecife"
     ],
@@ -194,7 +218,10 @@ export const spainDestinations: DestinationProfile[] = [
       "Alcázar de los Reyes Cristianos",
       "Puente Romano"
     ],
-    "recommendedStay": "2–3 días"
+    "recommendedStay": "2–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
   },
   {
     "name": "El Hierro",
@@ -211,6 +238,9 @@ export const spainDestinations: DestinationProfile[] = [
       "La Restinga"
     ],
     "recommendedStay": "3–5 días",
+    "bestMonths": [3,4,5,6,9,10,11],
+    "lowSeasonMonths": [5,6,9,10],
+    "highSeasonMonths": [1,2,7,8,12],
     "aliases": [
       "Valverde"
     ],
@@ -234,6 +264,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Catedral de Granada"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Granada_(25987961022).jpg",
     "imageCredit": "Brett Hodnett",
     "imageLicense": "CC BY-SA 2.0",
@@ -254,6 +287,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Playa de Cofete"
     ],
     "recommendedStay": "4–6 días",
+    "bestMonths": [3,4,5,6,9,10,11],
+    "lowSeasonMonths": [5,6,9,10],
+    "highSeasonMonths": [1,2,7,8,12],
     "aliases": [
       "Puerto del Rosario"
     ],
@@ -277,6 +313,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Murallas de Girona"
     ],
     "recommendedStay": "1–2 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Girona_des_de_l_aire_edited.jpg",
     "imageCredit": "Patronat de Turisme Costa Brava Pirineu de Girona",
     "imageLicense": "CC BY-SA 3.0",
@@ -297,6 +336,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Puerto de Mogán"
     ],
     "recommendedStay": "4–6 días",
+    "bestMonths": [3,4,5,6,9,10,11],
+    "lowSeasonMonths": [5,6,9,10],
+    "highSeasonMonths": [1,2,7,8,12],
     "aliases": [
       "Las Palmas de Gran Canaria"
     ],
@@ -320,6 +362,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Ses Salines"
     ],
     "recommendedStay": "3–5 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,3,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "Eivissa"
     ],
@@ -343,6 +388,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Parque Regional de Calblanque"
     ],
     "recommendedStay": "3–5 días",
+    "bestMonths": [3,4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "Murcia"
     ],
@@ -366,6 +414,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Real Escuela Andaluza del Arte Ecuestre"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [3,4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "Jerez"
     ],
@@ -388,7 +439,10 @@ export const spainDestinations: DestinationProfile[] = [
       "Barrio Gótico",
       "Las Ramblas"
     ],
-    "recommendedStay": "3–4 días"
+    "recommendedStay": "3–4 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
   },
   {
     "name": "La Gomera",
@@ -405,6 +459,9 @@ export const spainDestinations: DestinationProfile[] = [
       "San Sebastián de La Gomera"
     ],
     "recommendedStay": "3–5 días",
+    "bestMonths": [3,4,5,6,9,10,11],
+    "lowSeasonMonths": [5,6,9,10],
+    "highSeasonMonths": [1,2,7,8,12],
     "aliases": [
       "San Sebastián de La Gomera"
     ],
@@ -428,6 +485,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Volcán de San Antonio"
     ],
     "recommendedStay": "4–6 días",
+    "bestMonths": [3,4,5,6,9,10,11],
+    "lowSeasonMonths": [5,6,9,10],
+    "highSeasonMonths": [1,2,7,8,12],
     "aliases": [
       "Santa Cruz de La Palma"
     ],
@@ -451,6 +511,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Barrio Húmedo"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Catedral_G%C3%B3tica_de_Le%C3%B3n_edited.jpg",
     "imageCredit": "David Jiménez Llanes",
     "imageLicense": "CC BY-SA 3.0",
@@ -471,6 +534,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Bodegas de La Rioja"
     ],
     "recommendedStay": "1–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Old_Town_Plaza_-_Logrono_-_La_Rioja_-_Spain_(14576256386)_edited.jpg",
     "imageCredit": "Adam Jones from Kelowna, BC, Canada",
     "imageLicense": "CC BY-SA 2.0",
@@ -491,6 +557,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Playas de Melilla"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [3,4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:(Melilla)_Aterrizando_en_Melilla_(16668390111).jpg",
     "imageCredit": "JJ Merelo",
     "imageLicense": "CC BY-SA 2.0",
@@ -511,6 +580,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Camí de Cavalls"
     ],
     "recommendedStay": "4–6 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,3,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "Mahón"
     ],
@@ -534,6 +606,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Playa de la Malagueta"
     ],
     "recommendedStay": "2–4 días",
+    "bestMonths": [3,4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Da_Gibralfaro_(cropped)2.jpg",
     "imageCredit": "Kiban",
     "imageLicense": "CC BY-SA 3.0",
@@ -554,6 +629,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Es Baluard"
     ],
     "recommendedStay": "2–4 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,3,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "Palma",
       "Son Bonet"
@@ -582,6 +660,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Murallas de Pamplona"
     ],
     "recommendedStay": "1–2 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Monumento_a_los_Fueros_(Pamplona).jpg",
     "imageCredit": "José Luis Filpo Cabana",
     "imageLicense": "CC BY-SA 4.0",
@@ -602,6 +683,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Playas de la Costa Daurada"
     ],
     "recommendedStay": "2–4 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "Reus"
     ],
@@ -625,6 +709,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Casa de las Conchas"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
     "imageSource": "https://commons.wikimedia.org/wiki/File:68436-Salamanca_(49093713952)_edited.jpg",
     "imageCredit": "xiquinhosilva from Cacau",
     "imageLicense": "CC BY 2.0",
@@ -645,6 +732,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Peine del Viento"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "Donostia"
     ],
@@ -668,6 +758,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Parque de la Alameda"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Santiago_Cathedral_2021_-_west_panorama.jpg",
     "imageCredit": "Fernando Pascullo",
     "imageLicense": "CC BY-SA 4.0",
@@ -688,6 +781,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Faro de Cabo Mayor"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:El_Palacio_de_la_Magdalena_(2).jpg",
     "imageCredit": "Noreenlam",
     "imageLicense": "CC BY-SA 3.0",
@@ -708,6 +804,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Triana"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Sevilla_Cathedral_-_Southeast.jpg",
     "imageCredit": "Ingo Mehling",
     "imageLicense": "CC BY-SA 4.0",
@@ -729,6 +828,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Acantilados de Los Gigantes"
     ],
     "recommendedStay": "4–6 días",
+    "bestMonths": [3,4,5,6,9,10,11],
+    "lowSeasonMonths": [5,6,9,10],
+    "highSeasonMonths": [1,2,7,8,12],
     "aliases": [
       "Santa Cruz de Tenerife"
     ],
@@ -752,6 +854,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Playa de la Malvarrosa"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Malvarrosa_Beach,_Valencia,_Spain_(29812271043).jpg",
     "imageCredit": "Boris  Dzhingarov",
     "imageLicense": "CC BY 2.0",
@@ -772,6 +877,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Iglesia de San Pablo"
     ],
     "recommendedStay": "1–2 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Ciudad_de_Valladolid,_desde_el_aire_edited.jpg",
     "imageCredit": "User:Queninosta",
     "imageLicense": "CC BY-SA 3.0",
@@ -792,6 +900,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Pazo Quiñones de León"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Pazo_Qui%C3%B1ones_de_Le%C3%B3n,_Castrelos_edited.jpg",
     "imageCredit": "HombreDHojalata",
     "imageLicense": "CC BY-SA 3.0",
@@ -812,6 +923,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Museo Artium"
     ],
     "recommendedStay": "1–2 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "aliases": [
       "Vitoria"
     ],
@@ -835,6 +949,9 @@ export const spainDestinations: DestinationProfile[] = [
       "Puente de Piedra"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Zaragoza_-_Bas%C3%ADlica_del_Pilar_y_r%C3%ADo_Ebro.jpg",
     "imageCredit": "Turol Jones",
     "imageLicense": "CC BY 2.0",
@@ -849,6 +966,9 @@ export const spainDestinations: DestinationProfile[] = [
     "description": "Una ciudad manchega de plazas, museos y buena gastronomía, ideal para explorar también sus alrededores.",
     "recommendations": ["Pasaje de Lodares", "Catedral de San Juan Bautista", "Museo de la Cuchillería", "Parque Abelardo Sánchez"],
     "recommendedStay": "1–2 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Puerta_de_Hierros_de_Albacete.jpg",
     "imageCredit": "Angel Aroca Escámez",
     "imageLicense": "CC BY-SA 3.0",
@@ -863,6 +983,9 @@ export const spainDestinations: DestinationProfile[] = [
     "description": "Patrimonio gótico, paseos junto al Arlanzón y una puerta de entrada a la historia de Castilla.",
     "recommendations": ["Catedral de Burgos", "Monasterio de las Huelgas", "Museo de la Evolución Humana", "Mirador del Castillo"],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Burgos_city_view_facing_south_east.jpg",
     "imageCredit": "Jardoz",
     "imageLicense": "CC BY-SA 3.0",
@@ -878,6 +1001,9 @@ export const spainDestinations: DestinationProfile[] = [
     "description": "Casco histórico y paisajes prepirenaicos desde los que descubrir la provincia de Huesca.",
     "recommendations": ["Catedral de Huesca", "Monasterio de San Pedro el Viejo", "Castillo de Loarre", "Valle de Tena"],
     "recommendedStay": "2–4 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Bell_tower_of_the_cathedral_of_Huesca_03.jpg",
     "imageCredit": "Kent Wang",
     "imageLicense": "CC BY-SA 4.0",
@@ -893,6 +1019,9 @@ export const spainDestinations: DestinationProfile[] = [
     "description": "Una ciudad catalana con parques, patrimonio industrial y espacios culturales cerca de Barcelona.",
     "recommendations": ["Parc de Catalunya", "Torre de l'Aigua", "Museu d'Història de Sabadell", "Mercat Central"],
     "recommendedStay": "1–2 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11],
+    "highSeasonMonths": [7,8,12],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Sabadell_-_Eix_Maci%C3%A0.jpg",
     "imageCredit": "Xavigivax",
     "imageLicense": "CC BY-SA 3.0",

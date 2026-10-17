@@ -9,6 +9,11 @@ export type DestinationProfile = {
   description: string;
   recommendations: [string, string, string, string];
   recommendedStay: string;
+  // Tourist guidance, not a prediction or guarantee of flight or hotel prices.
+  bestMonths?: number[];
+  lowSeasonMonths?: number[];
+  highSeasonMonths?: number[];
+  seasonalityNote?: string;
   aliases?: string[];
   // Airport identifiers not accepted by Travelpayouts; never use for flight pricing.
   auxiliaryCodes?: string[];
@@ -19,6 +24,19 @@ export type DestinationProfile = {
 };
 
 export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations];
+
+export type DestinationMonthCategory = "best" | "quiet" | "either";
+
+// Reusable for the future month pages. "quiet" means lower usual visitor demand,
+// never a claim that prices will be cheaper in that month.
+export function getDestinationsForMonth(month: number, category: DestinationMonthCategory = "either"): DestinationProfile[] {
+  if (!Number.isInteger(month) || month < 1 || month > 12) return [];
+  return destinationProfiles.filter((destination) => {
+    const best = destination.bestMonths?.includes(month) ?? false;
+    const quiet = destination.lowSeasonMonths?.includes(month) ?? false;
+    return category === "best" ? best : category === "quiet" ? quiet : best || quiet;
+  });
+}
 
 export function normalizeDestinationName(value: string): string {
   return value.trim().normalize("NFD").replace(/[\u0300-\u036f]/g, "")

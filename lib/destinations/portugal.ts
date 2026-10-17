@@ -20,6 +20,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Castillo de San Jorge"
     ],
     "recommendedStay": "3–4 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11],
+    "highSeasonMonths": [7,8,12],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Lisboa_-_Portugal_(52597836992).jpg",
     "imageCredit": "Vitor Oliveira from Torres Vedras, PORTUGAL",
     "imageLicense": "CC BY-SA 2.0",
@@ -44,6 +47,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Bodegas de Vila Nova de Gaia"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11],
+    "highSeasonMonths": [7,8,12],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Puente_Don_Luis_I,_Oporto,_Portugal,_2012-05-09,_DD_13.JPG",
     "imageCredit": "Diego Delso",
     "imageLicense": "CC BY-SA 3.0",
@@ -68,6 +74,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Lagos"
     ],
     "recommendedStay": "4–6 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:2021_12_12_arne_mueseler_08_17_0576.jpg",
     "imageCredit": "Arne Müseler",
     "imageLicense": "CC BY-SA 3.0 de",
@@ -92,6 +101,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Piscinas naturales de Porto Moniz"
     ],
     "recommendedStay": "5–7 días",
+    "bestMonths": [3,4,5,6,9,10,11],
+    "lowSeasonMonths": [2,3,11],
+    "highSeasonMonths": [7,8,12],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Funchal,_Jardins_da_Quinta_Vigia_(lookout).jpg",
     "imageCredit": "Dr. Thomas Liptak",
     "imageLicense": "CC BY-SA 4.0",
@@ -116,6 +128,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Pico do Castelo"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Porto_santo_strand_5-2007.jpg",
     "imageCredit": "Hedwig Storch",
     "imageLicense": "CC BY-SA 3.0",
@@ -141,6 +156,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Mértola"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,7,8,12],
+    "highSeasonMonths": [4,5,9,10],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Beja_Nostra_Senora_de_Concei%C3%A7ao.JPG",
     "imageCredit": "Patrice78500",
     "imageLicense": "CC BY-SA 3.0",
@@ -167,6 +185,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Furnas"
     ],
     "recommendedStay": "4–6 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Ayuntamiento,_Ponta_Delgada,_isla_de_San_Miguel,_Azores,_Portugal,_2020-07-29,_DD_126-128_HDR.jpg",
     "imageCredit": "Diego Delso",
     "imageLicense": "CC BY-SA 4.0",
@@ -191,6 +212,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Vila do Porto"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Pico_Alto_SMA_16.jpg",
     "imageCredit": "Dreizung",
     "imageLicense": "CC BY-SA 4.0",
@@ -215,6 +239,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Vulcão dos Capelinhos"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Iglesia_de_Nuestra_Se%C3%B1ora_de_las_Angustias,_Horta,_Isla_de_Fayal,_Azores,_Portugal,_2020-07-26,_DD_52.jpg",
     "imageCredit": "Diego Delso",
     "imageLicense": "CC BY-SA 4.0",
@@ -239,6 +266,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Lagoa Negra"
     ],
     "recommendedStay": "3–4 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:The_Flores_island_collection_XX_(48893624238).jpg",
     "imageCredit": "Pedro from Maia (Porto), Portugal",
     "imageLicense": "CC BY 2.0",
@@ -264,6 +294,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Praia da Vitória"
     ],
     "recommendedStay": "3–4 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Ayuntamiento,_Angra_do_Hero%C3%ADsmo,_isla_de_Terceira,_Azores,_Portugal,_2020-07-25,_DD_12.jpg",
     "imageCredit": "Diego Delso",
     "imageLicense": "CC BY-SA 4.0",
@@ -288,6 +321,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Museu dos Baleeiros"
     ],
     "recommendedStay": "3–4 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Madalena_do_Pico_-_panoramio_(8).jpg",
     "imageCredit": "JCNazza",
     "imageLicense": "CC BY 3.0",
@@ -313,6 +349,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Pico da Esperança"
     ],
     "recommendedStay": "3–4 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Ponta_dos_Rosais,_ilha_de_S%C3%A3o_Jorge,_A%C3%A7ores,_Portugal.jpg",
     "imageCredit": "José Luís Ávila Silveira/Pedro Noronha e Costa",
     "imageLicense": "Public domain"
@@ -336,6 +375,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Termas do Carapacho"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Caldeira_da_Graciosa,_vulc%C3%A3o_visto_da_localidade_da_Faj%C3%A3_(Santa_Cruz_da_Graciosa),_ilha_Graciosa,_A%C3%A7ores,_Portugal.JPG",
     "imageCredit": "José Luís Ávila Silveira/Pedro Noronha e Costa",
     "imageLicense": "Public domain"
@@ -359,6 +401,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Centro de Interpretación de Aves Silvestres"
     ],
     "recommendedStay": "1–2 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Azoren_Corvo.jpg",
     "imageCredit": "Dreizung",
     "imageLicense": "Public domain"
@@ -381,6 +426,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Parque Marechal Carmona"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11],
+    "highSeasonMonths": [7,8,12],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Cascais_-_Santa_Marta_(53854018150).jpg",
     "imageCredit": "Jorge Franganillo",
     "imageLicense": "CC BY 2.0",
@@ -404,6 +452,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Museo Abade de Baçal"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Cruzeiro_do_Outeiro_4_(cropped).jpg",
     "imageCredit": "Reis Quarteu",
     "imageLicense": "CC BY-SA 4.0",
@@ -427,6 +478,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Fisgas de Ermelo"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Monumento_a_Carvalho_Ara%C3%BAjo_-_Vila_Real_-_Portugal_(117679264).jpg",
     "imageCredit": "Vitor Oliveira from Torres Vedras, PORTUGAL",
     "imageLicense": "CC BY-SA 2.0",
@@ -450,6 +504,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Ecopista do Dão"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:S%C3%A9_de_Viseu_IMG_20141226_155323-Pano_(36162491774).jpg",
     "imageCredit": "nborges from Portugal",
     "imageLicense": "CC BY 2.0",
@@ -473,6 +530,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Alvor"
     ],
     "recommendedStay": "2–4 días",
+    "bestMonths": [5,6,9,10],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Col%C3%A9gio_dos_Jesu%C3%ADtas_(2).jpg",
     "imageCredit": "Joseolgon",
     "imageLicense": "CC BY-SA 4.0",
@@ -497,6 +557,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Jardín de Santa Bárbara"
     ],
     "recommendedStay": "2–3 días",
+    "bestMonths": [4,5,6,9,10],
+    "lowSeasonMonths": [1,2,11],
+    "highSeasonMonths": [7,8,12],
     "imageSource": "https://commons.wikimedia.org/wiki/File:Braga_-_Cathedral_(Se)_-_panoramio.jpg",
     "imageCredit": "Michael Paraskevas",
     "imageLicense": "CC BY-SA 3.0",
@@ -521,6 +584,9 @@ export const portugalDestinations: DestinationProfile[] = [
       "Fuerte de São Francisco"
     ],
     "recommendedStay": "1–2 días",
+    "bestMonths": [5,6,7,8,9],
+    "lowSeasonMonths": [1,2,11,12],
+    "highSeasonMonths": [7,8],
     "imageSource": "https://commons.wikimedia.org/wiki/File:C%C3%A2mara_Municipal_de_Chaves_-_Portugal_(16757364810).jpg",
     "imageCredit": "Vitor Oliveira from Torres Vedras, PORTUGAL",
     "imageLicense": "CC BY-SA 2.0",

@@ -11,6 +11,7 @@ import { getSupabaseClient } from "@/lib/supabase/client";
 import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/saved-trips";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { findDestinationProfile, normalizeDestinationName } from "@/lib/destinations";
+import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 
 type Destination = {
   name: string;
@@ -20,6 +21,10 @@ type Destination = {
   description: string;
   recommendations: string[];
   recommendedStay?: string;
+  bestMonths?: number[];
+  lowSeasonMonths?: number[];
+  highSeasonMonths?: number[];
+  seasonalityNote?: string;
   imageSource?: string;
   imageCredit?: string;
   imageLicense?: string;
@@ -1485,6 +1490,18 @@ function abrirPaquete(destino = "") {
                   <span className="font-semibold text-white">{t("destinations.recommendedStay")}:</span>{" "}
                   {destinoSeleccionado.recommendedStay}
                 </p>
+              )}
+
+              {!!destinoSeleccionado.bestMonths?.length && (
+                <section className="mt-4 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm text-slate-200" aria-label={t("destinations.bestTime")}>
+                  <h3 className="font-semibold text-white">📅 {t("destinations.bestTime")}</h3>
+                  <p className="mt-1">{formatMonthRanges(destinoSeleccionado.bestMonths, language)}</p>
+                  {!!destinoSeleccionado.lowSeasonMonths?.length && (
+                    <p className="mt-1 text-slate-300">{t("destinations.quietSeason")}: {formatMonthList(destinoSeleccionado.lowSeasonMonths, language)}</p>
+                  )}
+                  {destinoSeleccionado.seasonalityNote && <p className="mt-1 text-slate-300">{text(destinoSeleccionado.seasonalityNote)}</p>}
+                  <p className="mt-1 text-xs text-slate-400">{t("destinations.seasonalityGuide")}</p>
+                </section>
               )}
 
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}
