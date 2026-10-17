@@ -24,7 +24,16 @@ export async function POST(request: Request) {
       signal: AbortSignal.timeout(55_000),
       cache: "no-store",
     });
-    if (!response.ok) return Response.json({ error: "generation_failed" }, { status: 502 });
+    if (!response.ok) {
+      const upstream: unknown = await response.json().catch(() => null);
+      const error = upstream && typeof upstream === "object" && "error" in upstream ? upstream.error : null;
+      const type = error && typeof error === "object" && "type" in error && typeof error.type === "string"
+        ? error.type.slice(0, 80) : "unknown";
+      const code = error && typeof error === "object" && "code" in error && typeof error.code === "string"
+        ? error.code.slice(0, 80) : "unknown";
+      console.error("Itinerary upstream response", response.status, type, code);
+      return Response.json({ error: "generation_failed" }, { status: 502 });
+    }
     const data: unknown = await response.json();
     const itinerary = extractItinerary(data, validated.request.days);
     if (!itinerary) return Response.json({ error: "generation_failed" }, { status: 502 });
