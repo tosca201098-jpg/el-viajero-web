@@ -31,6 +31,19 @@ function credentialFormat(value: string): string {
   return "plain_value";
 }
 
+function incompleteResultCategory(value: unknown): string {
+  if (!value || typeof value !== "object" || !("status" in value)) return "invalid_response";
+  if (value.status === "incomplete") {
+    const details = "incomplete_details" in value ? value.incomplete_details : null;
+    if (details && typeof details === "object" && "reason" in details &&
+      details.reason === "max_output_tokens") return "max_output_tokens";
+    return "incomplete";
+  }
+  if (value.status === "failed") return "failed";
+  if (value.status === "completed") return "invalid_output";
+  return "invalid_response";
+}
+
 export async function POST(request: Request) {
   const length = Number(request.headers.get("content-length"));
   if (Number.isFinite(length) && length > 8_000) {
@@ -62,9 +75,14 @@ export async function POST(request: Request) {
     }
     const data: unknown = await response.json();
     const itinerary = extractItinerary(data, validated.request.days);
-    if (!itinerary) return Response.json({ error: "generation_failed" }, { status: 502 });
+    if (!itinerary) {
+      console.error("Itinerary result", incompleteResultCategory(data));
+      return Response.json({ error: "generation_failed" }, { status: 502 });
+    }
     return Response.json({ itinerary }, { headers: { "Cache-Control": "no-store" } });
-  } catch {
+  } catch (error) {
+    console.error("Itinerary request", error instanceof Error &&
+      (error.name === "TimeoutError" || error.name === "AbortError") ? "timeout" : "failed");
     return Response.json({ error: "generation_failed" }, { status: 502 });
   }
 }

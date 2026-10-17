@@ -193,6 +193,24 @@ test('401 diagnostics name only known missing scopes and never log provider deta
   assert.ok(!logs.join(' ').includes('sk-test-private-key'));
 });
 
+test('incomplete itineraries log only a safe reason and return a generic error', async () => {
+  const logs = [];
+  const route = load('app/api/itinerary/route.ts', { '@/lib/itinerary/server': server }, {
+    Request, Response, AbortSignal,
+    console: { error: (...parts) => logs.push(parts.join(' ')) },
+    process: { env: { OPENAI_API_KEY: 'sk-test-private-key' } },
+    fetch: async () => Response.json({ status: 'incomplete',
+      incomplete_details: { reason: 'max_output_tokens', private: 'sk-test-private-key' },
+      output: [] }),
+  });
+  const response = await route.POST(new Request('http://localhost/api/itinerary', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload('Lisboa', 3)),
+  }));
+  assert.equal(response.status, 502);
+  assert.deepEqual(logs, ['Itinerary result max_output_tokens']);
+  assert.equal(await response.text(), '{"error":"generation_failed"}');
+});
+
 test('API success returns only the validated itinerary', async () => {
   let upstreamBody;
   const result = itinerary(2);
