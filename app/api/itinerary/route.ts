@@ -11,6 +11,9 @@ function upstreamFailureCategory(value: unknown): string {
   if (code === "ip_not_authorized" || type === "ip_not_authorized") return "ip_not_authorized";
   if (code === "invalid_api_key") return "invalid_api_key";
   const message = "message" in error && typeof error.message === "string" ? error.message : "";
+  if (/\bapi\.responses\.write\b/i.test(message)) return "missing_responses_write";
+  if (/\b(?:api\.)?model\.request\b/i.test(message)) return "missing_model_request";
+  if (/\bapi\.realtime\.write\b/i.test(message)) return "missing_realtime_write";
   if (/\bip\b.{0,80}(not authori[sz]ed|allowlist|permission)|\bip\b.{0,30}blocked/i.test(message)) return "ip_not_authorized";
   if (/incorrect api key|invalid api key/i.test(message)) return "invalid_api_key";
   if (/must be a member of an organization|not a member of (the )?(organization|project)/i.test(message)) return "organization_membership";

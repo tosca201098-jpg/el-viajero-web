@@ -176,6 +176,23 @@ test('401 diagnostics distinguish an IP restriction without exposing provider de
   assert.equal(await response.text(), '{"error":"generation_failed"}');
 });
 
+test('401 diagnostics name only known missing scopes and never log provider details', async () => {
+  const logs = [];
+  const route = load('app/api/itinerary/route.ts', { '@/lib/itinerary/server': server }, {
+    Request, Response, AbortSignal,
+    console: { error: (...parts) => logs.push(parts.join(' ')) },
+    process: { env: { OPENAI_API_KEY: 'sk-test-private-key' } },
+    fetch: async () => Response.json({ error: { type: 'invalid_request_error', code: null,
+      message: 'This API key lacks api.responses.write. Secret: sk-test-private-key' } }, { status: 401 }),
+  });
+  const response = await route.POST(new Request('http://localhost/api/itinerary', {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload('Lisboa', 3)),
+  }));
+  assert.equal(response.status, 502);
+  assert.deepEqual(logs, ['Itinerary upstream response 401 missing_responses_write plain_value']);
+  assert.ok(!logs.join(' ').includes('sk-test-private-key'));
+});
+
 test('API success returns only the validated itinerary', async () => {
   let upstreamBody;
   const result = itinerary(2);
