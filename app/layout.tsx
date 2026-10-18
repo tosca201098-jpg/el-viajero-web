@@ -2,11 +2,12 @@ import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import Script from 'next/script';
+import { siteUrl } from '@/lib/seo';
 import LanguageProvider from './components/LanguageProvider';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://el-viajero-web-psi.vercel.app'),
+  metadataBase: new URL(siteUrl),
   title: 'Destinauta',
   description: 'Descubre destinos, organiza tu viaje y encuentra vuelos y hoteles con Destinauta, tu asistente inteligente de viajes.',
   icons: { icon: '/icon.svg' },

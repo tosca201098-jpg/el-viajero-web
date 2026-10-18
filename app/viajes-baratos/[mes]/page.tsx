@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { monthFromSlug, spanishMonthSlugs } from "@/lib/destinations/months";
 import { getMonthlyRecommendations } from "@/lib/destinations/monthly";
+import { siteUrl } from "@/lib/seo";
 import MonthlyDestinations from "./MonthlyDestinations";
 
 type MonthPageProps = { params: { mes: string } };
@@ -18,7 +19,7 @@ export function generateMetadata({ params }: MonthPageProps): Metadata {
   const description = `Descubre destinos recomendados para viajar en ${params.mes} según temporada, clima y demanda turística habitual.`;
   const path = `/viajes-baratos/${params.mes}`;
   return {
-    metadataBase: new URL("https://el-viajero-web-psi.vercel.app"),
+    metadataBase: new URL(siteUrl),
     title,
     description,
     alternates: { canonical: path },
