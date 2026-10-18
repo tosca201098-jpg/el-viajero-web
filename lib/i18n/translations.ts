@@ -13,6 +13,7 @@ export function isLocale(value: unknown): value is Locale {
 // Each row has a stable section.key followed by es, en, fr, de, it, pt, ca.
 // Spanish is the source of truth. Missing/empty translations fall back to Spanish.
 const entries = [
+  ["brand.name", "Destinauta", "Destinauta", "Destinauta", "Destinauta", "Destinauta", "Destinauta", "Destinauta"],
   ["language.choose", "Elegir idioma", "Choose language", "Choisir la langue", "Sprache wählen", "Scegli la lingua", "Escolher idioma", "Tria l’idioma"],
   ["common.close", "Cerrar", "Close", "Fermer", "Schließen", "Chiudi", "Fechar", "Tanca"],
   ["auth.signup", "Crear cuenta", "Sign up", "Créer un compte", "Registrieren", "Registrati", "Criar conta", "Crea un compte"],

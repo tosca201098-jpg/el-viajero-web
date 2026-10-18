@@ -172,7 +172,7 @@ export default function InviernoPage() {
           href="/"
           className="inline-flex rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold backdrop-blur-md"
         >
-          ← Volver a Destino AI
+          ← Volver a Destinauta
         </a>
 
         <div className="mt-10 sm:mt-12 lg:mt-7">

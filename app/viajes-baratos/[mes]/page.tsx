@@ -14,11 +14,16 @@ export function generateStaticParams() {
 
 export function generateMetadata({ params }: MonthPageProps): Metadata {
   if (monthFromSlug(params.mes) === null) notFound();
+  const title = `Viajes recomendados en ${params.mes} | Destinauta`;
+  const description = `Descubre destinos recomendados para viajar en ${params.mes} según temporada, clima y demanda turística habitual.`;
+  const path = `/viajes-baratos/${params.mes}`;
   return {
     metadataBase: new URL("https://el-viajero-web-psi.vercel.app"),
-    title: `Viajes recomendados en ${params.mes} | El Viajero`,
-    description: `Descubre destinos recomendados para viajar en ${params.mes} según temporada, clima y demanda turística habitual.`,
-    alternates: { canonical: `/viajes-baratos/${params.mes}` },
+    title,
+    description,
+    alternates: { canonical: path },
+    openGraph: { title, description, url: path, siteName: "Destinauta", type: "website" },
+    twitter: { card: "summary", title, description },
   };
 }
 
