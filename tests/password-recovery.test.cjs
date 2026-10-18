@@ -84,8 +84,9 @@ test('ordinary sign-in, absent and expired sessions cannot enable password updat
   assert.equal(recovery.isFreshRecoverySession('PASSWORD_RECOVERY', null), false);
 });
 
-test('new password requires eight matching characters', () => {
+test('new password requires six matching characters, consistent with signup', () => {
   assert.equal(recovery.validateNewPassword('short', 'short'), 'short');
+  assert.equal(recovery.validateNewPassword('123456', '123456'), null);
   assert.equal(recovery.validateNewPassword('long-enough', 'different'), 'mismatch');
   assert.equal(recovery.validateNewPassword('long-enough', 'long-enough'), null);
 });

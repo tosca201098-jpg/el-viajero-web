@@ -13,7 +13,7 @@ export function getRecoveryLinkState(href: string): RecoveryLinkState {
 }
 
 export function validateNewPassword(password: string, confirmation: string): "short" | "mismatch" | null {
-  if (password.length < 8) return "short";
+  if (password.length < 6) return "short";
   if (password !== confirmation) return "mismatch";
   return null;
 }

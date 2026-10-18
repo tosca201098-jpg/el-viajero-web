@@ -117,10 +117,10 @@ export default function ResetPasswordForm() {
         {status === "ready" && (
           <form onSubmit={submit} aria-busy={pending} className="mt-5 space-y-4">
             <label className="block text-sm font-semibold">{t("auth.newPassword")}
-              <input autoFocus required minLength={8} type="password" autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} disabled={pending} className="mt-1.5 min-h-11 w-full rounded-xl border border-stone-300 px-3 py-2 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+              <input autoFocus required type="password" autoComplete="new-password" value={password} onChange={(event) => setPassword(event.target.value)} disabled={pending} className="mt-1.5 min-h-11 w-full rounded-xl border border-stone-300 px-3 py-2 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
             </label>
             <label className="block text-sm font-semibold">{t("auth.confirmPassword")}
-              <input required minLength={8} type="password" autoComplete="new-password" value={confirmation} onChange={(event) => setConfirmation(event.target.value)} disabled={pending} className="mt-1.5 min-h-11 w-full rounded-xl border border-stone-300 px-3 py-2 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
+              <input required type="password" autoComplete="new-password" value={confirmation} onChange={(event) => setConfirmation(event.target.value)} disabled={pending} className="mt-1.5 min-h-11 w-full rounded-xl border border-stone-300 px-3 py-2 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
             </label>
             {error && <p role="alert" className="text-sm text-red-700">{error}</p>}
             <button type="submit" disabled={pending} className="min-h-11 w-full rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 disabled:opacity-60">{pending ? t("auth.processing") : t("auth.changePassword")}</button>
