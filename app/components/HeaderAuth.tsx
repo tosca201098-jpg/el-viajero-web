@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Session } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import SavedTrips from "./SavedTrips";
+import SavedItineraries from "./SavedItineraries";
 
 const primaryButton = "whitespace-nowrap max-sm:whitespace-normal max-sm:leading-[14px] max-sm:max-w-[92px] rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm max-sm:min-h-[44px] max-sm:px-1.5";
 const secondaryButton = "whitespace-nowrap max-sm:whitespace-normal max-sm:leading-[14px] max-sm:max-w-[92px] rounded-lg px-2 py-1 text-xs font-medium text-stone-700 transition hover:text-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 sm:px-3 sm:py-2 sm:text-sm";
@@ -19,6 +20,7 @@ export default function HeaderAuth({ onOpenAuth }: {
   const [signingOut, setSigningOut] = useState(false);
   const [error, setError] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
+  const [accountSection, setAccountSection] = useState<"trips" | "itineraries">("trips");
   const signingOutRef = useRef(false);
   const accountRef = useRef<HTMLDialogElement>(null);
 
@@ -103,7 +105,7 @@ export default function HeaderAuth({ onOpenAuth }: {
           ref={accountRef}
           aria-labelledby="account-dialog-title"
           onCancel={(event) => { event.preventDefault(); setAccountOpen(false); }}
-          className="fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2rem)] max-w-md overflow-y-auto rounded-[28px] border border-stone-200 bg-[#F7F2E8] p-6 text-left text-stone-800 shadow-2xl backdrop:bg-black/50 sm:p-8"
+          className={`fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-[28px] border border-stone-200 bg-[#F7F2E8] p-4 text-left text-stone-800 shadow-2xl backdrop:bg-black/50 sm:p-8 ${accountSection === "itineraries" ? "max-w-3xl" : "max-w-md"}`}
         >
           <div className="flex items-center justify-between gap-4">
             <h2 id="account-dialog-title" className="text-2xl font-black">{t("account.title")}</h2>
@@ -113,9 +115,21 @@ export default function HeaderAuth({ onOpenAuth }: {
             <p className="text-sm font-semibold">{t("auth.email")}</p>
             <p className="mt-1 break-all text-sm text-stone-700">{session.user.email}</p>
           </div>
-          <section aria-labelledby="account-trips-title" className="mt-5 rounded-2xl border border-blue-100 bg-blue-50/70 p-4">
-            <h3 id="account-trips-title" className="text-lg font-bold text-stone-800">{t("trips.title")}</h3>
-            <SavedTrips key={session.user.id} />
+          <div role="tablist" aria-label={t("account.sections")} className="mt-5 grid grid-cols-2 gap-2">
+            <button type="button" role="tab" id="account-trips-tab" aria-controls="account-content" aria-selected={accountSection === "trips"}
+              onClick={() => setAccountSection("trips")}
+              className={`min-h-[44px] rounded-xl px-2 text-sm font-semibold focus-visible:ring-2 focus-visible:ring-blue-600 ${accountSection === "trips" ? "bg-blue-600 text-white" : "border border-blue-200 text-blue-700"}`}>
+              {t("trips.title")}
+            </button>
+            <button type="button" role="tab" id="account-itineraries-tab" aria-controls="account-content" aria-selected={accountSection === "itineraries"}
+              onClick={() => setAccountSection("itineraries")}
+              className={`min-h-[44px] rounded-xl px-2 text-sm font-semibold focus-visible:ring-2 focus-visible:ring-blue-600 ${accountSection === "itineraries" ? "bg-blue-600 text-white" : "border border-blue-200 text-blue-700"}`}>
+              {t("savedItineraries.title")}
+            </button>
+          </div>
+          <section id="account-content" role="tabpanel" aria-labelledby={accountSection === "trips" ? "account-trips-tab" : "account-itineraries-tab"}
+            className="mt-3 min-w-0 rounded-2xl border border-blue-100 bg-blue-50/70 p-3 sm:p-4">
+            {accountSection === "trips" ? <SavedTrips key={session.user.id} /> : <SavedItineraries key={session.user.id} />}
           </section>
           <div className="mt-6 border-t border-stone-200 pt-4">
             {error && <p role="alert" className="mb-3 text-sm text-red-700">{text(error)}</p>}
