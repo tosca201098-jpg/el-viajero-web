@@ -18,6 +18,7 @@ export default function SavedItineraries() {
   const [retry, setRetry] = useState(0);
   const removingRef = useRef(false);
   const selected = items.find((item) => item.id === selectedId);
+  const dayLabel = (count: number) => count === 1 ? t("itinerary.oneDay") : t("itinerary.days", { count });
 
   useEffect(() => {
     let active = true;
@@ -72,7 +73,7 @@ export default function SavedItineraries() {
           </button>
           <div className="mt-2 min-w-0 rounded-2xl bg-slate-900 p-4 sm:p-5">
             <p className="mb-4 break-words text-sm text-cyan-100">
-              {selected.destination_name} · {selected.country} · {t("itinerary.days", { count: selected.days_count })}
+              {selected.destination_name} · {selected.country} · {dayLabel(selected.days_count)}
             </p>
             <ItineraryContent itinerary={selected.itinerary} />
           </div>
@@ -89,7 +90,7 @@ export default function SavedItineraries() {
             <li key={item.id} className="min-w-0 rounded-xl border border-stone-200 bg-white/80 p-3">
               <h4 className="break-words text-base font-bold text-stone-800">{item.destination_name}</h4>
               <p className="mt-1 break-words text-sm text-stone-600">
-                {item.country} · {t("itinerary.days", { count: item.days_count })} · {new Intl.DateTimeFormat(language, { dateStyle: "medium" }).format(new Date(item.created_at))}
+                {item.country} · {dayLabel(item.days_count)} · {new Intl.DateTimeFormat(language, { dateStyle: "medium" }).format(new Date(item.created_at))}
               </p>
               <div className="mt-2 flex flex-wrap gap-2">
                 <button type="button" onClick={() => setSelectedId(item.id)}
