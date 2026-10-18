@@ -4,6 +4,7 @@ import { useLanguage } from "./LanguageProvider";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { getSupabaseClient } from "@/lib/supabase/client";
+import { siteUrl } from "@/lib/seo";
 
 type AuthMode = "signup" | "signin";
 
@@ -19,8 +20,9 @@ export default function AuthDialog({ mode, onClose }: {
   const [pending, setPending] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [forgotPassword, setForgotPassword] = useState(false);
   const signup = mode === "signup";
-  const title = signup ? "Crear cuenta" : "Iniciar sesión";
+  const title = forgotPassword ? t("auth.forgotTitle") : signup ? "Crear cuenta" : "Iniciar sesión";
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -41,6 +43,18 @@ export default function AuthDialog({ mode, onClose }: {
     setMessage("");
     try {
       const supabase = getSupabaseClient();
+      if (forgotPassword) {
+        const { error: resetError } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+          redirectTo: `${siteUrl}/auth/reset-password`,
+        });
+        // Do not reveal whether an address belongs to an account.
+        if (resetError && resetError.code !== "user_not_found" && resetError.code !== "email_not_found") {
+          setError(resetError.status === 429 ? t("auth.rateLimit") : t("auth.resetSendError"));
+          return;
+        }
+        setMessage(t("auth.resetSent"));
+        return;
+      }
       const credentials = { email: email.trim(), password };
       const result = signup
         ? await supabase.auth.signUp({
@@ -107,12 +121,13 @@ export default function AuthDialog({ mode, onClose }: {
             {t("auth.email")}
             <input autoFocus required type="email" autoComplete="email" value={email} onChange={(event) => setEmail(event.target.value)} disabled={pending} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-3 py-2 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
           </label>
-          <label className="block text-sm font-semibold">
+          {!forgotPassword && <label className="block text-sm font-semibold">
             {t("auth.password")}
             <input required type="password" autoComplete={signup ? "new-password" : "current-password"} minLength={signup ? 6 : undefined} value={password} onChange={(event) => setPassword(event.target.value)} disabled={pending} className="mt-1.5 w-full rounded-xl border border-stone-300 bg-white px-3 py-2 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
-          </label>
+          </label>}
           {error && <p role="alert" className="text-sm leading-5 text-red-700">{text(error)}</p>}
-          <button type="submit" disabled={pending} className="w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-60">{pending ? t("auth.processing") : text(title)}</button>
+          <button type="submit" disabled={pending} className="w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-60">{pending ? t("auth.processing") : forgotPassword ? t("auth.sendReset") : text(title)}</button>
+          {!signup && <button type="button" disabled={pending} onClick={() => { setForgotPassword(!forgotPassword); setError(""); setMessage(""); setPassword(""); }} className="w-full rounded-xl py-2 text-sm font-semibold text-blue-700 hover:text-blue-900 focus-visible:ring-2 focus-visible:ring-blue-600">{forgotPassword ? t("auth.backToSignIn") : t("auth.forgotPassword")}</button>}
         </form>
       )}
     </dialog>
