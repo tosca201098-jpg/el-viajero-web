@@ -1,128 +1,108 @@
-# Preparación de la actualización de seguridad de Next.js
+# Actualización de seguridad de Next.js
 
-## Estado
+Fecha de comprobación: 19 de octubre de 2026.
+Base: `origin/main`, commit `ed74f1079c733aab0b8a5a255887206a918146e1`.
+Rama: `codex/security-nextjs-upgrade`.
 
-**Borrador bloqueado por conectividad. La actualización de dependencias no está
-instalada ni validada y este cambio no debe fusionarse como solución de seguridad.**
+## Dependencias y compatibilidad
 
-Base: `main` en `ed74f1079c733aab0b8a5a255887206a918146e1`, comprobada el
-19 de octubre de 2026. Rama: `codex/security-nextjs-upgrade`.
+| Dependencia | Antes | Después |
+| --- | --- | --- |
+| Next.js | 13.5.1 | 15.5.28 |
+| eslint-config-next | 13.5.1 | 15.5.28 |
+| ESLint | 8.49.0 | 8.57.1 |
+| Tailwind CSS | 3.3.3 | 3.4.19 |
+| PostCSS | 8.4.30 | 8.5.31 |
+| Autoprefixer | 10.4.15 | 10.6.1 |
 
-La rama prepara la compatibilidad de la página mensual con los parámetros
-asíncronos de Next 16. No modifica las dependencias hasta que sea posible
-instalarlas, generar el bloqueo mediante npm y comprobar una instalación limpia.
+Se elige la versión estable con backports 15.5.28 de Next.js para incorporar
+las correcciones disponibles en la rama 15 y limitar la migración. Se mantienen
+React y React DOM 18.2.0, Supabase 2.117.3, TypeScript y los paquetes de tipos.
+No se cambia la clasificación de las dependencias a `devDependencies`.
 
-| Dependencia | Base | Instalada en este borrador | Objetivo pendiente |
-|---|---|---|---|
-| Next.js | 13.5.1 | 13.5.1 | 16.4.2, volver a comprobar avisos al instalar |
-| React | 18.2.0 | 18.2.0 | Versión estable compatible y parcheada, pendiente de resolver |
-| React DOM | 18.2.0 | 18.2.0 | La misma versión compatible elegida para React |
-| Tailwind CSS | 3.3.3 | 3.3.3 | Mantener 3, salvo incompatibilidad demostrada |
+Next.js 15.5.28 incluye una dependencia exacta de PostCSS 8.4.31 que todavía
+presenta avisos. Un `override` limitado a Next.js reutiliza el PostCSS 8.5.31
+declarado en el proyecto, dentro de la misma versión mayor. El lockfile y una
+instalación limpia confirman que solo se instala la versión corregida. La
+compilación completa valida esta sustitución.
 
-## Fuentes y decisiones de migración
+También se actualizan dependencias transitivas dentro de los rangos permitidos
+mediante `npm audit fix`, sin `--force`.
 
-La [última versión estable publicada de Next](https://github.com/vercel/next.js/releases/tag/v16.4.2)
-consultada es 16.4.2. Es posterior a los parches 16.4.1 de los avisos
-[SVG/optimizador](https://github.com/vercel/next.js/security/advisories/GHSA-2464-fhr4-w9xw),
-[Server Actions](https://github.com/vercel/next.js/security/advisories/GHSA-p3m5-59mp-jv5r)
-y [use cache](https://github.com/vercel/next.js/security/advisories/GHSA-673q-mjm6-r5xr).
-Esto no sustituye una auditoría del árbol que finalmente se instale.
+Los únicos ajustes de código de aplicación son:
 
-El [manifiesto oficial de Next 16.4.2](https://github.com/vercel/next.js/blob/v16.4.2/packages/next/package.json)
-declara Node >=20.9.0, PostCSS 8.5.23 y sharp opcional ^0.35.5. El entorno
-de partida utiliza Node 24.19.0. La versión real de Node de Vercel debe
-comprobarse posteriormente; este borrador no cambia su configuración.
+- Esperar los parámetros asíncronos de las páginas mensuales y sus metadatos,
+  como requiere Next.js 15. Se conservan las doce rutas, sus recomendaciones,
+  títulos, URL canónicas y el rechazo de meses inválidos.
+- Usar `next/link` en los cuatro enlaces de vuelta a la portada de las páginas
+  estacionales, como exige el lint actualizado. Se conservan texto y clases CSS.
 
-La [guía oficial de migración](https://nextjs.org/docs/app/guides/upgrading/version-16)
-exige parámetros de petición asíncronos y elimina `next lint`. Al instalar la
-versión nueva habrá que sustituir el procedimiento de lint por ESLint CLI con
-una configuración compatible, y resolver React y sus tipos en conjunto.
-No se activarán Cache Components, React Compiler ni funciones nuevas para
-completar esta actualización. No se cambiarán los límites de seguridad de imágenes.
+No se modifican estilos, configuración de Next.js/Tailwind/PostCSS, configuración
+de producción, catálogo, traducciones, lógica de voz, vuelos, itinerarios ni
+migraciones de Supabase.
 
-El único acceso síncrono a parámetros de página del servidor encontrado es
-`app/viajes-baratos/[mes]/page.tsx`. Se prepara con `await params`, tanto en
-metadatos como en contenido, conservando las doce rutas, canonical, texto y 404.
-Esta adaptación también funciona con los objetos que entrega Next 13.
-`app/destinos/[slug]/page.tsx` utiliza el hook de cliente `useParams`, que no
-requiere convertirlo a promesa. Los `URLSearchParams` de las rutas API tampoco
-son la API de parámetros de página y no se alteran.
+## Auditoría
 
-## Verificación inicial
+Resultado de `npm audit --omit=dev` sobre el lockfile:
 
-Antes de modificar el código de la rama:
+| Severidad | Antes | Después |
+| --- | ---: | ---: |
+| Crítica | 1 | 0 |
+| Alta | 37 | 7 |
+| Moderada | 10 | 2 |
+| Total | 48 | 9 |
 
-| Comprobación | Resultado |
-|---|---|
-| Pruebas existentes | 64 aprobadas, 0 fallidas, 0 omitidas; servicios simulados |
-| TypeScript, sin emisión | Correcto |
-| Lint de Next 13 | Correcto, con advertencias existentes sobre `img` |
-| Compilación normal de producción | Falló al descargar Inter desde Google Fonts: `ENOTFOUND fonts.googleapis.com` |
-| Acceso al registro npm | Falló: `ENOTFOUND registry.npmjs.org` |
+Se eliminan 39 de los 48 avisos (81,25 %). La auditoría completa, incluyendo
+dependencias de desarrollo, devuelve los mismos nueve avisos. Next.js, React,
+Supabase y PostCSS no aparecen en la auditoría final. El código de salida de
+`npm audit` sigue siendo 1 porque hay vulnerabilidades pendientes.
 
-No se eliminó `next/font`, no se cambiaron las fuentes ni se utilizó un archivo
-de fuentes simulado para convertir la compilación en un éxito aparente.
-El fallo de compilación anterior sucede en el código de partida, antes de
-instalar o actualizar Next.
+Los nueve avisos de paquetes proceden de dos vulnerabilidades raíz:
 
-## Regresión preparada
+| Causa | Paquetes afectados por propagación | Estado |
+| --- | --- | --- |
+| [`braces` <=3.0.3: agotamiento de pila con patrones anidados](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm) | `braces`, `chokidar`, `micromatch`, `fast-glob`, `@next/eslint-plugin-next`, `eslint-config-next`, `tailwindcss` | 7 avisos altos; la solución propuesta por npm exige cambiar dependencias mayores, incluida Tailwind 4. |
+| [`postcss-selector-parser` <7.1.6: consumo cuadrático de CPU](https://github.com/advisories/GHSA-rj75-hqrm-r3gf) | `postcss-selector-parser`, `postcss-nested` | 2 avisos moderados; Tailwind 3 depende de la serie 6 del parser. |
 
-`tests/monthly-page.test.cjs` verifica los doce meses con parámetros de tipo
-promesa, sus metadatos y canonical, la selección del mes y el comportamiento
-404 ante parámetros inválidos. Estas pruebas complementan las existentes del
-catálogo, temporadas, idiomas y sitemap.
+Estos paquetes intervienen en el análisis de patrones, CSS y lint. Los avisos
+siguen presentes y requieren seguimiento; no se considera completada su
+remediación. Se conserva Tailwind 3 por el requisito del proyecto y se evita
+forzar un parser de otra versión mayor sin una validación de compatibilidad
+específica. No se ha demostrado una incompatibilidad que justifique migrar a
+Tailwind 4 en esta PR.
 
-Las comprobaciones con Next 13 son solo evidencia de compatibilidad de esta
-preparación; no prueban el funcionamiento con Next 16. Las verificaciones
-posteriores se documentarán cuando sea posible instalar la nueva versión.
+## Validación
 
-Tras esta preparación: **66 pruebas aprobadas**, 0 fallidas y 0 omitidas;
-TypeScript correcto y lint correcto con las advertencias previas de imágenes.
-Las dos consultas nuevas de `npm audit`, completa y `--omit=dev`, volvieron a
-fallar por `ENOTFOUND`. No se repitió la compilación con el mismo bloqueo de
-Google Fonts ni se ejecutó `npm ci` sin una actualización instalable.
+Entorno: Node.js 24.19.0, npm 11.9.0, Linux.
 
-## Vulnerabilidades
+- `npm ci --no-audit --no-fund`: instalación limpia correcta; auditoría ejecutada
+  por separado. El cache de npm se ubica en `/tmp` por los permisos del entorno.
+- `node --test --test-isolation=none tests/*.test.cjs`: 66 pruebas correctas,
+  incluidas las 64 existentes y dos nuevas para los parámetros asíncronos.
+  Se usa el modo sin aislamiento de procesos de Node 24 para obtener y ejecutar
+  los casos individuales, además del resultado por archivo.
+- `node_modules/.bin/tsc --noEmit --incremental false`: sin errores.
+- `npm run lint`: sin errores; conserva avisos previos sobre imágenes `<img>`.
+- `npm ls --all`: árbol de dependencias válido, sin errores de peers/overrides.
+- `npm run build`: correcto, incluidas las doce páginas mensuales estáticas y
+  todas las rutas de API.
+- `npm audit --omit=dev` y `npm audit`: 9 avisos, descritos arriba.
+- Chromium sobre `next start`: portada en escritorio y móvil sin errores de
+  hidratación ni excepciones del navegador; selección de los siete idiomas;
+  envío de búsqueda y presentación de vuelos; apertura de ficha y generación
+  de itinerario; doce páginas mensuales con canónicas correctas y 404 para un
+  mes inválido; cuatro enlaces estacionales de vuelta a la portada; rutas de
+  destinos y recuperación de contraseña. Las API de vuelos e itinerarios y
+  los recursos externos se simulan o se bloquean en esta comprobación local.
 
-La instantánea original de npm recuperada en la auditoría previa contiene 25
-entradas: 1 Critical, 20 High y 4 Moderate. La fase de destinos no modificó
-dependencias. No se dispone de un recuento actual exitoso del registro npm.
+Las pruebas existentes cubren búsqueda exacta y flexible de vuelos, descubrimiento
+por presupuesto, sesión y API de voz, itinerarios, recuperación de contraseñas,
+itinerarios guardados, traducciones, SEO y estacionalidad. Verifican además los
+65 destinos (43 de España y 22 de Portugal), sus identificadores y los hashes de
+su contenido original, así como los siete idiomas.
 
-**Corregidas y verificadas por este borrador: ninguna.** Como los manifiestos y
-el bloqueo no cambian, las 25 entradas originales no se consideran resueltas.
-No se inventa un número de vulnerabilidades restantes para un árbol de Next 16
-que todavía no se ha instalado ni auditado.
-
-## Trabajo necesario para completar la actualización
-
-1. Restablecer el acceso del entorno a `registry.npmjs.org` y a los servidores
-   de fuentes que utiliza `next/font` (`fonts.googleapis.com` y `fonts.gstatic.com`).
-2. Volver a consultar versiones y avisos oficiales; instalar Next estable
-   corregido, React/React DOM compatibles, tipos y herramientas necesarias.
-   Mantener Tailwind 3. Generar `package-lock.json` mediante npm, sin editarlo
-   a mano ni utilizar `npm audit fix --force`.
-3. Adaptar lint y los cambios mínimos que revele la compilación. Conservar
-   rutas, SEO, scripts, formularios, tipografía y comportamiento de caché.
-4. Ejecutar `npm ci` desde una instalación limpia, `npm audit`,
-   `npm audit --omit=dev`, las pruebas, TypeScript, lint y compilación normal.
-5. Verificar los flujos de la tabla siguiente y registrar cuáles siguen
-   pendientes. Una respuesta simulada no valida un servicio externo real.
-6. Actualizar este documento y la descripción del borrador con versiones,
-   archivos, auditoría y resultados reales. No fusionar ni desplegar producción
-   sin autorización posterior.
-
-| Área protegida | Verificación pendiente con las versiones nuevas |
-|---|---|
-| Vuelos | Travelpayouts, presupuesto, fechas flexibles, autocompletado, traslado desde voz y enlaces afiliados |
-| Voz e IA | Endpoint, inicio, cancelación y limpieza de sesiones; micrófono/WebRTC en navegador; itinerarios y guardado |
-| Usuarios | Registro, login/logout, sesiones, recuperación y separación de viajes de dos usuarios mediante RLS |
-| Destinos | 65 fichas, identidad canónica, Tenerife TFN/TFS, temporadas y recomendaciones |
-| Idiomas y SEO | Siete idiomas, doce páginas mensuales, enlaces, metadata, canonical, robots y sitemap |
-| Diseño | Comprobación de escritorio y móvil sin rediseño ni migración a Tailwind 4 |
-| Correo | Recuperación y circuito de correo; no se encuentra paquete Resend en este repositorio, comprobar la configuración externa sin modificarla |
-
-No se han realizado reservas, pagos ni consultas reales que generen costes.
-No se han ejecutado migraciones SQL ni comprobado las políticas de la base
-real. No se han cambiado OpenAI, Travelpayouts, Supabase, Nuitee, Expedia,
-credenciales, dominio ni los identificadores técnicos `el-viajero-web`.
-No se ha iniciado la expansión a Francia.
+Las integraciones se verifican con respuestas simuladas. No se han solicitado
+credenciales ni realizado llamadas reales de voz/IA/vuelos o escrituras en
+Supabase. Los scripts SQL de RLS requieren una instancia de Supabase y no se han
+ejecutado en este entorno. No se han modificado configuraciones de producción ni
+realizado despliegues.
