@@ -1,4 +1,6 @@
 export async function POST() {
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 10000);
   try {
     const apiKey = process.env.OPENAI_API_KEY;
 
@@ -13,6 +15,7 @@ export async function POST() {
       "https://api.openai.com/v1/realtime/client_secrets",
       {
         method: "POST",
+        signal: controller.signal,
         headers: {
           Authorization: `Bearer ${apiKey}`,
           "Content-Type": "application/json",
@@ -69,15 +72,23 @@ fecha_vuelta: { type: "string", description: "Fecha en formato YYYY-MM-DD" },
       }
     );
 
-    const data = await response.json();
-
-    return Response.json(data, {
-      status: response.status,
-    });
-  } catch (error) {
+    if (!response.ok) {
+      return Response.json({ error: "No se pudo iniciar la voz" }, { status: 502 });
+    }
+    const data: unknown = await response.json();
+    if (!data || typeof data !== "object" ||
+        typeof (data as { value?: unknown }).value !== "string" ||
+        !(data as { value: string }).value.trim()) {
+      return Response.json({ error: "No se pudo iniciar la voz" }, { status: 502 });
+    }
+    // The browser only needs the short-lived client secret; never proxy provider details.
+    return Response.json({ value: (data as { value: string }).value });
+  } catch {
     return Response.json(
-      { error: "No se pudo conectar con OpenAI" },
-      { status: 500 }
+      { error: "No se pudo iniciar la voz" },
+      { status: 502 }
     );
+  } finally {
+    clearTimeout(timeout);
   }
 }

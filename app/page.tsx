@@ -16,6 +16,7 @@ import { destinations, type Destination } from "@/lib/destinations/featured";
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
+import { VoiceSession, type VoiceError, type VoicePhase, type VoiceSearchArguments } from "@/lib/voice/session";
 
 type FlightOffer = {
   origin: string;
@@ -116,167 +117,86 @@ export default function Home() {
   const [authMode, setAuthMode] = useState<"signup" | "signin" | null>(null);
   const [fondoActual, setFondoActual] = useState(0);
   const [temporada, setTemporada] = useState("primavera");
-const peerConnectionRef = useRef<RTCPeerConnection | null>(null);
+const [voicePhase, setVoicePhase] = useState<VoicePhase>("idle");
+const [voiceError, setVoiceError] = useState<VoiceError | null>(null);
+const voiceSessionRef = useRef<VoiceSession | null>(null);
+const voiceSearchRef = useRef<(datos: VoiceSearchArguments) => void>(() => {});
+const vozActiva = voicePhase === "active";
+
+useEffect(() => {
+  const session = new VoiceSession({
+    onPhase: setVoicePhase,
+    onError: setVoiceError,
+    onSearch: (datos) => voiceSearchRef.current(datos),
+  });
+  voiceSessionRef.current = session;
+  const stopForPage = () => session.stop();
+  window.addEventListener("pagehide", stopForPage);
+  return () => {
+    window.removeEventListener("pagehide", stopForPage);
+    session.dispose();
+    voiceSessionRef.current = null;
+  };
+}, []);
 
 useEffect(() => {
   const intervalo = setInterval(() => {
     setFondoActual((actual) => (actual + 1) % fondos.length);
   }, 7000);
-
   return () => clearInterval(intervalo);
 }, []);
 
-const audioRef = useRef<HTMLAudioElement | null>(null);
-const [vozActiva, setVozActiva] = useState(false);
-const apagarVoz = () => {
-  peerConnectionRef.current?.close();
-  peerConnectionRef.current = null;
-  audioRef.current?.pause();
-  audioRef.current = null;
-  setVozActiva(false);
+const apagarVoz = () => voiceSessionRef.current?.stop();
+const iniciarVoz = () => {
+  setVoiceError(null);
+  void voiceSessionRef.current?.start();
 };
-const iniciarVoz = async () => {
-  try {
-if (peerConnectionRef.current) {
-  peerConnectionRef.current.close();
-  peerConnectionRef.current = null;
-}
 
-if (audioRef.current) {
-  audioRef.current.pause();
-  audioRef.current.srcObject = null;
-  audioRef.current = null;
-}
-    const response = await fetch("/api/voice", {
-      method: "POST",
-    });
+voiceSearchRef.current = (datos) => {
+  const destinoSolicitado = datos.destino;
+  const destino = findDestinationProfile({ iataCode: destinoSolicitado, name: destinoSolicitado })
+    ?? findDestinationCard(destinoSolicitado);
 
-    const data = await response.json();
-    console.log("Voice session:", data);
-const pc = new RTCPeerConnection();
-peerConnectionRef.current = pc;
+  if (!destino) return;
+  const origenSolicitado = datos.origen;
+  const origenCanonico = findDestinationProfile({ iataCode: origenSolicitado, name: origenSolicitado })?.name
+    ?? origenSolicitado;
+  const servicio = datos.servicio;
+  const tabId = servicio === "hotel" ? "buscador-hoteles"
+    : servicio === "ambos" ? "buscador-paquete" : "buscador-vuelos";
+  const budget: SearchBudget | undefined = datos.presupuesto && datos.tipo_presupuesto
+    ? { amount: datos.presupuesto, type: datos.tipo_presupuesto } : undefined;
 
-const audio = new Audio();
-audio.autoplay = true;
-audioRef.current = audio;
-pc.ontrack = (event) => {
-  audio.srcObject = event.streams[0];
-};
-const stream = await navigator.mediaDevices.getUserMedia({
-  audio: true,
-});
+  setOrigen(origenCanonico);
+  setDestinoVuelo(destino.name);
+  setDestinoHotel(destino.name);
+  setFechaIda(datos.fecha_ida);
+  setFechaVuelta(datos.fecha_vuelta);
+  setEntrada(datos.fecha_ida);
+  setSalida(datos.fecha_vuelta);
+  setPasajeros(datos.viajeros);
+  setHuespedes(datos.viajeros);
+  setFlightResultsOpen(false);
+  setNonFlightVoiceBudget(servicio === "vuelo" || !budget ? null : { destination: destino.name, service: servicio, budget });
+  (document.getElementById(tabId) as HTMLInputElement | null)?.click();
 
-stream.getTracks().forEach((track) => {
-  pc.addTrack(track, stream);
-});
-const dc = pc.createDataChannel("oai-events");
-dc.onmessage = (event) => {
-  const evento = JSON.parse(event.data);
-  console.log("Evento IA:", evento);
-
-  if (evento.type === "response.function_call_arguments.done") {
-    if (evento.name !== "buscar_viaje") return;
-
-    const datos = JSON.parse(evento.arguments);
-
-    const destinoSolicitado = typeof datos.destino === "string" ? datos.destino.trim() : "";
-    const destino = findDestinationProfile({ iataCode: destinoSolicitado, name: destinoSolicitado })
-      ?? findDestinationCard(destinoSolicitado);
-
-    if (destino) {
-      const origenSolicitado = typeof datos.origen === "string" ? datos.origen.trim() : "";
-      const origenCanonico = findDestinationProfile({ iataCode: origenSolicitado, name: origenSolicitado })?.name
-        ?? origenSolicitado;
-      const servicio = datos.servicio === "hotel" || datos.servicio === "ambos" ? datos.servicio : "vuelo";
-      const tabId = servicio === "hotel" ? "buscador-hoteles"
-        : servicio === "ambos" ? "buscador-paquete" : "buscador-vuelos";
-      const budget: SearchBudget | undefined = typeof datos.presupuesto === "number" &&
-        Number.isFinite(datos.presupuesto) && datos.presupuesto > 0 &&
-        (datos.tipo_presupuesto === "total" || datos.tipo_presupuesto === "por_persona")
-        ? { amount: datos.presupuesto, type: datos.tipo_presupuesto } : undefined;
-
-      setOrigen(origenCanonico);
-      setDestinoVuelo(destino.name);
-      setDestinoHotel(destino.name);
-      setFechaIda(datos.fecha_ida);
-      setFechaVuelta(datos.fecha_vuelta);
-      setEntrada(datos.fecha_ida);
-      setSalida(datos.fecha_vuelta);
-      setPasajeros(datos.viajeros);
-      setHuespedes(datos.viajeros);
-      setFlightResultsOpen(false);
-      setNonFlightVoiceBudget(servicio === "vuelo" || !budget ? null : { destination: destino.name, service: servicio, budget });
-      (document.getElementById(tabId) as HTMLInputElement | null)?.click();
-
-      if (servicio === "ambos") {
-        abrirPaquete(destino.name);
-      } else {
-        setModal(null);
-        setDestinoSeleccionado(destino);
-        if (servicio === "vuelo" && budget) {
-          setPendingVoiceFlightSearch({
-            origin: origenCanonico,
-            destination: destino.name,
-            departureDate: datos.fecha_ida,
-            returnDate: datos.fecha_vuelta,
-            travelers: datos.viajeros,
-            budget,
-          });
-        }
-      }
+  if (servicio === "ambos") {
+    abrirPaquete(destino.name);
+  } else {
+    setModal(null);
+    setDestinoSeleccionado(destino);
+    if (servicio === "vuelo" && budget) {
+      setPendingVoiceFlightSearch({
+        origin: origenCanonico,
+        destination: destino.name,
+        departureDate: datos.fecha_ida,
+        returnDate: datos.fecha_vuelta,
+        travelers: datos.viajeros,
+        budget,
+      });
     }
   }
-};
-let saludoEnviado = false;
-dc.onopen = () => {
-setVozActiva(true);
-  if (saludoEnviado) return;
-  saludoEnviado = true;
-
-  const horaLocal = new Date().getHours();
-  const saludo =
-    horaLocal >= 6 && horaLocal < 12
-      ? "Hola, buenos días"
-      : horaLocal >= 12 && horaLocal < 20
-        ? "Hola, buenas tardes"
-        : "Hola, buenas noches";
-
-  dc.send(
-    JSON.stringify({
-      type: "response.create",
-      response: {
-        instructions: `Inicia esta sesión de voz diciendo exactamente: "${saludo}. ¿En qué puedo ayudarte con tu viaje?". No añadas nada más en esta intervención. Este saludo es solo para el inicio de la sesión; no lo repitas durante la conversación.`,
-        tool_choice: "none",
-      },
-    })
-  );
-};
-const offer = await pc.createOffer();
-await pc.setLocalDescription(offer);
-const token = data.value;
-const sdpResponse = await fetch(
-  "https://api.openai.com/v1/realtime/calls",
-  {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/sdp",
-    },
-    body: offer.sdp,
-  }
-);
-const answerSdp = await sdpResponse.text();
-
-await pc.setRemoteDescription({
-  type: "answer",
-  sdp: answerSdp,
-});
-
-  } catch (error) {
-    console.error("Error al iniciar voz:", error);
-  }
-};
-  const [mensaje, setMensaje] = useState("");
+};  const [mensaje, setMensaje] = useState("");
   const [destinoSeleccionado, setDestinoSeleccionado] =
     useState<Destination | null>(null);
 
@@ -997,9 +917,9 @@ function abrirPaquete(destino = "") {
               </p>
               <button
                 type="button"
-                onClick={vozActiva ? apagarVoz : iniciarVoz}
-                aria-label={vozActiva ? t("voice.stop") : t("voice.title")}
-                aria-pressed={vozActiva}
+                onClick={voicePhase === "idle" ? iniciarVoz : apagarVoz}
+                aria-label={voicePhase === "connecting" ? t("voice.cancel") : vozActiva ? t("voice.stop") : t("voice.title")}
+                aria-pressed={voicePhase !== "idle"}
                 className={`relative mt-2 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl text-white shadow-xl transition hover:bg-blue-700 max-sm:mt-1 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
               >
                 {vozActiva && (
@@ -1011,6 +931,8 @@ function abrirPaquete(destino = "") {
                 )}
                 <span className="relative z-10">🎙️</span>
               </button>
+              {voicePhase === "connecting" && <p role="status" className="mt-1 text-xs text-blue-800">{t("voice.connecting")}</p>}
+              {voiceError && <p role="alert" className="mt-1 text-xs text-red-700">{t(`voice.error.${voiceError}`)}</p>}
               <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs font-medium text-stone-700 max-sm:mt-1 max-sm:gap-y-0.5">
                 <span>✓ {t("voice.ideas")}</span>
                 <span>✓ {t("voice.time")}</span>
