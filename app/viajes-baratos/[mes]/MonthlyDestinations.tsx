@@ -4,6 +4,7 @@ import Link from "next/link";
 import LanguageSelector from "@/app/components/LanguageSelector";
 import { useLanguage } from "@/app/components/LanguageProvider";
 import { formatMonthName } from "@/lib/destinations/seasonality";
+import { getDestinationCountryName } from "@/lib/destinations/localization";
 import type { MonthlyRecommendation } from "@/lib/destinations/monthly";
 
 type Props = { month: number; recommendations: MonthlyRecommendation[] };
@@ -11,7 +12,6 @@ type Props = { month: number; recommendations: MonthlyRecommendation[] };
 export default function MonthlyDestinations({ month, recommendations }: Props) {
   const { language, t } = useLanguage();
   const monthName = formatMonthName(month, language);
-  const regionNames = new Intl.DisplayNames([language], { type: "region" });
 
   return (
     <main className="min-h-screen overflow-x-hidden bg-[#F7F2E8] text-stone-800">
@@ -41,12 +41,12 @@ export default function MonthlyDestinations({ month, recommendations }: Props) {
 
         <div className="mt-8 grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {recommendations.map(({ destination, reason }) => {
-            const country = regionNames.of(destination.country === "España" ? "ES" : "PT") ?? destination.country;
+            const country = getDestinationCountryName(destination, language);
             const stay = destination.recommendedStay.replace("días", t("monthly.days"));
             const profileUrl = `/?ficha=${encodeURIComponent(destination.name)}`;
             const flightsUrl = `/?primaveraServicio=vuelo&destino=${encodeURIComponent(destination.name)}`;
             return (
-              <article key={`${destination.country}:${destination.name}`} className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-blue-600/20 bg-white/80 shadow-sm">
+              <article key={destination.id} className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-blue-600/20 bg-white/80 shadow-sm">
                 <img src={destination.image} alt={`${destination.name}, ${country}`} loading="lazy" className="h-40 w-full object-cover sm:h-44" />
                 <div className="flex flex-1 flex-col p-4">
                   <span className="self-start rounded-full border border-blue-600/25 bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-800">

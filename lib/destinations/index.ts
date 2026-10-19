@@ -1,29 +1,35 @@
 import { spainDestinations } from "./spain";
 import { portugalDestinations } from "./portugal";
+import type { DestinationId, DestinationProfile } from "./types";
 
-export type DestinationProfile = {
-  name: string;
-  country: string;
-  iataCodes: string[];
-  image: string;
-  description: string;
-  recommendations: [string, string, string, string];
-  recommendedStay: string;
-  // Tourist guidance, not a prediction or guarantee of flight or hotel prices.
-  bestMonths?: number[];
-  lowSeasonMonths?: number[];
-  highSeasonMonths?: number[];
-  seasonalityNote?: string;
-  aliases?: string[];
-  // Airport identifiers not accepted by Travelpayouts; never use for flight pricing.
-  auxiliaryCodes?: string[];
-  imageSource?: string;
-  imageCredit?: string;
-  imageLicense?: string;
-  imageLicenseUrl?: string;
+export type { DestinationId, DestinationReference, DestinationAirport, DestinationText, DestinationProfile } from "./types";
+
+export const destinationsByCountry: Readonly<Record<string, readonly DestinationProfile[]>> = {
+  ES: spainDestinations,
+  PT: portugalDestinations,
 };
 
 export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations];
+
+export function getDestinationById(id: DestinationId): DestinationProfile | undefined {
+  return destinationProfiles.find(destination => destination.id === id);
+}
+
+export function getDestinationBySlug(slug: string): DestinationProfile | undefined {
+  return destinationProfiles.find(destination => destination.slug === slug);
+}
+
+export function getDestinationsByCountry(countryCode: string): readonly DestinationProfile[] {
+  const code = countryCode.trim().toUpperCase();
+  return Object.prototype.hasOwnProperty.call(destinationsByCountry, code)
+    ? destinationsByCountry[code] : [];
+}
+
+/** Preparation for sitemap use; deliberately not connected to the live sitemap. */
+export function getPublishedDestinationPages(profiles: readonly DestinationProfile[] = destinationProfiles) {
+  return profiles.filter(destination => destination.publication?.status === "published")
+    .map(destination => ({ destinationId: destination.id, path: `/destinos/${destination.slug}` }));
+}
 
 export type DestinationMonthCategory = "best" | "quiet" | "either";
 

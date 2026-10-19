@@ -3,6 +3,11 @@ import type { DestinationProfile } from "./index";
 // Portuguese destinations are data only; codes absent from places2 stay auxiliary.
 export const portugalDestinations: DestinationProfile[] = [
   {
+    "id": "pt-lisboa",
+    "slug": "lisboa",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"LIS"}],
+    "metropolitanCodes": [],
     "name": "Lisboa",
     "country": "Portugal",
     "iataCodes": [
@@ -29,6 +34,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
   },
   {
+    "id": "pt-porto",
+    "slug": "porto",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"OPO"}],
+    "metropolitanCodes": [],
     "name": "Porto",
     "country": "Portugal",
     "iataCodes": [
@@ -56,6 +66,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "pt-faro",
+    "slug": "faro",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"FAO"}],
+    "metropolitanCodes": [],
     "name": "Faro",
     "country": "Portugal",
     "iataCodes": [
@@ -83,6 +98,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en"
   },
   {
+    "id": "pt-madeira",
+    "slug": "madeira",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"FNC"}],
+    "metropolitanCodes": [],
     "name": "Madeira",
     "country": "Portugal",
     "iataCodes": [
@@ -110,6 +130,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "pt-porto-santo",
+    "slug": "porto-santo",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"PXO"}],
+    "metropolitanCodes": [],
     "name": "Porto Santo",
     "country": "Portugal",
     "iataCodes": [
@@ -137,6 +162,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "pt-beja",
+    "slug": "beja",
+    "countryCode": "PT",
+    "airports": [],
+    "metropolitanCodes": [],
     "name": "Beja",
     "country": "Portugal",
     "iataCodes": [],
@@ -165,6 +195,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "pt-ponta-delgada",
+    "slug": "ponta-delgada",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"PDL"}],
+    "metropolitanCodes": [],
     "name": "Ponta Delgada",
     "country": "Portugal",
     "iataCodes": [
@@ -194,6 +229,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "pt-santa-maria",
+    "slug": "santa-maria",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"SMA"}],
+    "metropolitanCodes": [],
     "name": "Santa Maria",
     "country": "Portugal",
     "iataCodes": [
@@ -221,6 +261,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "pt-horta",
+    "slug": "horta",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"HOR"}],
+    "metropolitanCodes": [],
     "name": "Horta",
     "country": "Portugal",
     "iataCodes": [
@@ -248,6 +293,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "pt-flores",
+    "slug": "flores",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"FLW"}],
+    "metropolitanCodes": [],
     "name": "Flores",
     "country": "Portugal",
     "iataCodes": [
@@ -275,6 +325,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
+    "id": "pt-terceira",
+    "slug": "terceira",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"TER"}],
+    "metropolitanCodes": [],
     "name": "Terceira",
     "country": "Portugal",
     "iataCodes": [
@@ -303,6 +358,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "pt-pico",
+    "slug": "pico",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"PIX"}],
+    "metropolitanCodes": [],
     "name": "Pico",
     "country": "Portugal",
     "iataCodes": [
@@ -330,6 +390,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
   },
   {
+    "id": "pt-sao-jorge",
+    "slug": "sao-jorge",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"SJZ"}],
+    "metropolitanCodes": [],
     "name": "São Jorge",
     "country": "Portugal",
     "iataCodes": [
@@ -357,6 +422,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicense": "Public domain"
   },
   {
+    "id": "pt-graciosa",
+    "slug": "graciosa",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"GRW"}],
+    "metropolitanCodes": [],
     "name": "Graciosa",
     "country": "Portugal",
     "iataCodes": [
@@ -383,6 +453,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicense": "Public domain"
   },
   {
+    "id": "pt-corvo",
+    "slug": "corvo",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"CVU"}],
+    "metropolitanCodes": [],
     "name": "Corvo",
     "country": "Portugal",
     "iataCodes": [
@@ -409,6 +484,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicense": "Public domain"
   },
   {
+    "id": "pt-cascais",
+    "slug": "cascais",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"CAT"}],
+    "metropolitanCodes": [],
     "name": "Cascais",
     "country": "Portugal",
     "iataCodes": [
@@ -435,6 +515,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
+    "id": "pt-braganca",
+    "slug": "braganca",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"BGC"}],
+    "metropolitanCodes": [],
     "name": "Bragança",
     "country": "Portugal",
     "iataCodes": [
@@ -461,6 +546,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "pt-vila-real",
+    "slug": "vila-real",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"VRL"}],
+    "metropolitanCodes": [],
     "name": "Vila Real",
     "country": "Portugal",
     "iataCodes": [
@@ -487,6 +577,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
   },
   {
+    "id": "pt-viseu",
+    "slug": "viseu",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"VSE"}],
+    "metropolitanCodes": [],
     "name": "Viseu",
     "country": "Portugal",
     "iataCodes": [
@@ -513,6 +608,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
+    "id": "pt-portimao",
+    "slug": "portimao",
+    "countryCode": "PT",
+    "airports": [{"iataCode":"PRM"}],
+    "metropolitanCodes": [],
     "name": "Portimão",
     "country": "Portugal",
     "iataCodes": [
@@ -539,6 +639,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "pt-braga",
+    "slug": "braga",
+    "countryCode": "PT",
+    "airports": [],
+    "metropolitanCodes": [],
     "name": "Braga",
     "country": "Portugal",
     "iataCodes": [],
@@ -566,6 +671,11 @@ export const portugalDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "pt-chaves",
+    "slug": "chaves",
+    "countryCode": "PT",
+    "airports": [],
+    "metropolitanCodes": [],
     "name": "Chaves",
     "country": "Portugal",
     "iataCodes": [],

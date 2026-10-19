@@ -5,6 +5,11 @@ import type { DestinationProfile } from "./index";
 // identifiers that must never be sent to the flight-pricing endpoint.
 export const spainDestinations: DestinationProfile[] = [
   {
+    "id": "es-a-coruna",
+    "slug": "a-coruna",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"LCG"}],
+    "metropolitanCodes": [],
     "name": "A Coruña",
     "country": "España",
     "iataCodes": [
@@ -31,6 +36,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-madrid",
+    "slug": "madrid",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"MAD"}],
+    "metropolitanCodes": [],
     "name": "Madrid",
     "country": "España",
     "iataCodes": [
@@ -61,6 +71,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
   },
   {
+    "id": "es-alicante",
+    "slug": "alicante",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"ALC"}],
+    "metropolitanCodes": [],
     "name": "Alicante",
     "country": "España",
     "iataCodes": [
@@ -84,6 +99,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-almeria",
+    "slug": "almeria",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"LEI"}],
+    "metropolitanCodes": [],
     "name": "Almería",
     "country": "España",
     "iataCodes": [
@@ -107,6 +127,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
   },
   {
+    "id": "es-asturias",
+    "slug": "asturias",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"OVD"}],
+    "metropolitanCodes": [],
     "name": "Asturias",
     "country": "España",
     "iataCodes": [
@@ -133,6 +158,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-badajoz",
+    "slug": "badajoz",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"BJZ"}],
+    "metropolitanCodes": [],
     "name": "Badajoz",
     "country": "España",
     "iataCodes": [
@@ -156,6 +186,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-bilbao",
+    "slug": "bilbao",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"BIO"}],
+    "metropolitanCodes": [],
     "name": "Bilbao",
     "country": "España",
     "iataCodes": [
@@ -179,6 +214,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
   },
   {
+    "id": "es-lanzarote",
+    "slug": "lanzarote",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"ACE"}],
+    "metropolitanCodes": [],
     "name": "Lanzarote",
     "country": "España",
     "iataCodes": [
@@ -205,6 +245,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/es/deed.en"
   },
   {
+    "id": "es-cordoba",
+    "slug": "cordoba",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"ODB"}],
+    "metropolitanCodes": [],
     "name": "Córdoba",
     "country": "España",
     "iataCodes": [
@@ -224,6 +269,11 @@ export const spainDestinations: DestinationProfile[] = [
     "highSeasonMonths": [4,5,9,10],
   },
   {
+    "id": "es-el-hierro",
+    "slug": "el-hierro",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"VDE"}],
+    "metropolitanCodes": [],
     "name": "El Hierro",
     "country": "España",
     "iataCodes": [
@@ -250,6 +300,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-granada",
+    "slug": "granada",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"GRX"}],
+    "metropolitanCodes": [],
     "name": "Granada",
     "country": "España",
     "iataCodes": [
@@ -273,6 +328,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
   },
   {
+    "id": "es-fuerteventura",
+    "slug": "fuerteventura",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"FUE"}],
+    "metropolitanCodes": [],
     "name": "Fuerteventura",
     "country": "España",
     "iataCodes": [
@@ -299,6 +359,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-girona",
+    "slug": "girona",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"GRO"}],
+    "metropolitanCodes": [],
     "name": "Girona",
     "country": "España",
     "iataCodes": [
@@ -322,6 +387,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-gran-canaria",
+    "slug": "gran-canaria",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"LPA"}],
+    "metropolitanCodes": [],
     "name": "Gran Canaria",
     "country": "España",
     "iataCodes": [
@@ -348,6 +418,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
   },
   {
+    "id": "es-ibiza",
+    "slug": "ibiza",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"IBZ"}],
+    "metropolitanCodes": [],
     "name": "Ibiza",
     "country": "España",
     "iataCodes": [
@@ -374,6 +449,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-region-de-murcia",
+    "slug": "region-de-murcia",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"RMU"}],
+    "metropolitanCodes": [],
     "name": "Región de Murcia",
     "country": "España",
     "iataCodes": [
@@ -400,6 +480,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-jerez-de-la-frontera",
+    "slug": "jerez-de-la-frontera",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"XRY"}],
+    "metropolitanCodes": [],
     "name": "Jerez de la Frontera",
     "country": "España",
     "iataCodes": [
@@ -426,6 +511,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
+    "id": "es-barcelona",
+    "slug": "barcelona",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"BCN"}],
+    "metropolitanCodes": [],
     "name": "Barcelona",
     "country": "España",
     "iataCodes": [
@@ -445,6 +535,11 @@ export const spainDestinations: DestinationProfile[] = [
     "highSeasonMonths": [7,8],
   },
   {
+    "id": "es-la-gomera",
+    "slug": "la-gomera",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"GMZ"}],
+    "metropolitanCodes": [],
     "name": "La Gomera",
     "country": "España",
     "iataCodes": [
@@ -471,6 +566,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-la-palma",
+    "slug": "la-palma",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"SPC"}],
+    "metropolitanCodes": [],
     "name": "La Palma",
     "country": "España",
     "iataCodes": [
@@ -497,6 +597,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
   },
   {
+    "id": "es-leon",
+    "slug": "leon",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"LEN"}],
+    "metropolitanCodes": [],
     "name": "León",
     "country": "España",
     "iataCodes": [
@@ -520,6 +625,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-logrono",
+    "slug": "logrono",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"RJL"}],
+    "metropolitanCodes": [],
     "name": "Logroño",
     "country": "España",
     "iataCodes": [
@@ -543,6 +653,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
   },
   {
+    "id": "es-melilla",
+    "slug": "melilla",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"MLN"}],
+    "metropolitanCodes": [],
     "name": "Melilla",
     "country": "España",
     "iataCodes": [
@@ -566,6 +681,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
   },
   {
+    "id": "es-menorca",
+    "slug": "menorca",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"MAH"}],
+    "metropolitanCodes": [],
     "name": "Menorca",
     "country": "España",
     "iataCodes": [
@@ -592,6 +712,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
+    "id": "es-malaga",
+    "slug": "malaga",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"AGP"}],
+    "metropolitanCodes": [],
     "name": "Málaga",
     "country": "España",
     "iataCodes": [
@@ -615,6 +740,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-palma-de-mallorca",
+    "slug": "palma-de-mallorca",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"PMI"}],
+    "metropolitanCodes": [],
     "name": "Palma de Mallorca",
     "country": "España",
     "iataCodes": [
@@ -646,6 +776,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/de/deed.en"
   },
   {
+    "id": "es-pamplona",
+    "slug": "pamplona",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"PNA"}],
+    "metropolitanCodes": [],
     "name": "Pamplona",
     "country": "España",
     "iataCodes": [
@@ -669,6 +804,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-reus-costa-daurada",
+    "slug": "reus-costa-daurada",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"REU"}],
+    "metropolitanCodes": [],
     "name": "Reus / Costa Daurada",
     "country": "España",
     "iataCodes": [
@@ -695,6 +835,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-salamanca",
+    "slug": "salamanca",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"SLM"}],
+    "metropolitanCodes": [],
     "name": "Salamanca",
     "country": "España",
     "iataCodes": [
@@ -718,6 +863,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
+    "id": "es-san-sebastian",
+    "slug": "san-sebastian",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"EAS"}],
+    "metropolitanCodes": [],
     "name": "San Sebastián",
     "country": "España",
     "iataCodes": [
@@ -744,6 +894,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
   },
   {
+    "id": "es-santiago-de-compostela",
+    "slug": "santiago-de-compostela",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"SCQ"}],
+    "metropolitanCodes": [],
     "name": "Santiago de Compostela",
     "country": "España",
     "iataCodes": [
@@ -767,6 +922,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-santander",
+    "slug": "santander",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"SDR"}],
+    "metropolitanCodes": [],
     "name": "Santander",
     "country": "España",
     "iataCodes": [
@@ -790,6 +950,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-sevilla",
+    "slug": "sevilla",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"SVQ"}],
+    "metropolitanCodes": [],
     "name": "Sevilla",
     "country": "España",
     "iataCodes": [
@@ -813,6 +978,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-tenerife",
+    "slug": "tenerife",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"TFN"},{"iataCode":"TFS"}],
+    "metropolitanCodes": [],
     "name": "Tenerife",
     "country": "España",
     "iataCodes": [
@@ -840,6 +1010,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-valencia",
+    "slug": "valencia",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"VLC"}],
+    "metropolitanCodes": [],
     "name": "Valencia",
     "country": "España",
     "iataCodes": [
@@ -863,6 +1038,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
+    "id": "es-valladolid",
+    "slug": "valladolid",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"VLL"}],
+    "metropolitanCodes": [],
     "name": "Valladolid",
     "country": "España",
     "iataCodes": [
@@ -886,6 +1066,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
   },
   {
+    "id": "es-vigo",
+    "slug": "vigo",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"VGO"}],
+    "metropolitanCodes": [],
     "name": "Vigo",
     "country": "España",
     "iataCodes": [
@@ -909,6 +1094,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-vitoria-gasteiz",
+    "slug": "vitoria-gasteiz",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"VIT"}],
+    "metropolitanCodes": [],
     "name": "Vitoria-Gasteiz",
     "country": "España",
     "iataCodes": [
@@ -935,6 +1125,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
   },
   {
+    "id": "es-zaragoza",
+    "slug": "zaragoza",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"ZAZ"}],
+    "metropolitanCodes": [],
     "name": "Zaragoza",
     "country": "España",
     "iataCodes": [
@@ -958,6 +1153,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
   },
   {
+    "id": "es-albacete",
+    "slug": "albacete",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"ABC"}],
+    "metropolitanCodes": [],
     "name": "Albacete",
     "country": "España",
     "iataCodes": ["ABC"],
@@ -975,6 +1175,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-burgos",
+    "slug": "burgos",
+    "countryCode": "ES",
+    "airports": [{"iataCode":"RGS"}],
+    "metropolitanCodes": [],
     "name": "Burgos",
     "country": "España",
     "iataCodes": ["RGS"],
@@ -992,6 +1197,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   {
+    "id": "es-huesca",
+    "slug": "huesca",
+    "countryCode": "ES",
+    "airports": [],
+    "metropolitanCodes": [],
     "name": "Huesca",
     "country": "España",
     "iataCodes": [],
@@ -1010,6 +1220,11 @@ export const spainDestinations: DestinationProfile[] = [
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   {
+    "id": "es-sabadell",
+    "slug": "sabadell",
+    "countryCode": "ES",
+    "airports": [],
+    "metropolitanCodes": [],
     "name": "Sabadell",
     "country": "España",
     "iataCodes": [],
