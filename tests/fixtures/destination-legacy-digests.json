@@ -1,0 +1,327 @@
+[
+  {
+    "id": "es-a-coruna",
+    "slug": "a-coruna",
+    "legacySha256": "ecb968d2d6e46aeef3352fc66343842cd0b9e74b1e2d2554394ca4a28555add0"
+  },
+  {
+    "id": "es-madrid",
+    "slug": "madrid",
+    "legacySha256": "beb66b48633161e82171d0b3da39ea4aa9147d527def252c7376b13a41b0df1d"
+  },
+  {
+    "id": "es-alicante",
+    "slug": "alicante",
+    "legacySha256": "b21fa6a271361addd7d372287d927e4095caf9901e3ae8436deaeebe01f5881b"
+  },
+  {
+    "id": "es-almeria",
+    "slug": "almeria",
+    "legacySha256": "7a5f5fa7cfac7b2834a90cc274bfbcc319b1399fcff343c199e32c47f6801359"
+  },
+  {
+    "id": "es-asturias",
+    "slug": "asturias",
+    "legacySha256": "04e2d10d7d40296b4c4b3dd6caf3d4204ca8fd4d7971c321d410d797de356ca7"
+  },
+  {
+    "id": "es-badajoz",
+    "slug": "badajoz",
+    "legacySha256": "bdcd06b0f7c5bf71180b083696877c1091109fa125674d8b64b33a56e2c85b17"
+  },
+  {
+    "id": "es-bilbao",
+    "slug": "bilbao",
+    "legacySha256": "8c1bce6a0599a61c1170feafc31c877585f5763eb10405c822772c3e4d5c1e79"
+  },
+  {
+    "id": "es-lanzarote",
+    "slug": "lanzarote",
+    "legacySha256": "cc2e2a71123cf8b5071767d3b564a83014743fcbfc23618c80633415b4e529a6"
+  },
+  {
+    "id": "es-cordoba",
+    "slug": "cordoba",
+    "legacySha256": "18e059e7612009ec4a26e205fe5369b3faa997687b9ae3319c99e5e997a91f9b"
+  },
+  {
+    "id": "es-el-hierro",
+    "slug": "el-hierro",
+    "legacySha256": "dc49baa4297514498a22c89668b78376ebf1d411f724f3c2d166db9119144731"
+  },
+  {
+    "id": "es-granada",
+    "slug": "granada",
+    "legacySha256": "5860e92eebb896490cd0f8c0b465e78b50d24b4a9a414ed318e93de76ecf453e"
+  },
+  {
+    "id": "es-fuerteventura",
+    "slug": "fuerteventura",
+    "legacySha256": "606e1854a602a8563b51b2ed2a0862b933868ef6d9e74722bdd668ee464486b0"
+  },
+  {
+    "id": "es-girona",
+    "slug": "girona",
+    "legacySha256": "42a42ae71f865e7cdbece04cf7ded9892f9a081ddd095e55b85c0738026c761b"
+  },
+  {
+    "id": "es-gran-canaria",
+    "slug": "gran-canaria",
+    "legacySha256": "d76ac514f436a18faf4718dc1a97500dfacd3bacbcbefac9d684b00a60ec3a4a"
+  },
+  {
+    "id": "es-ibiza",
+    "slug": "ibiza",
+    "legacySha256": "11e569d7d3689bdd98e4574eab1589827b95c5361d80e099dc2896cf4b3ff3ed"
+  },
+  {
+    "id": "es-region-de-murcia",
+    "slug": "region-de-murcia",
+    "legacySha256": "49d0ec9f155a2a9539ae6036afe0b0e630db17c161e30ba4bc04d37852940183"
+  },
+  {
+    "id": "es-jerez-de-la-frontera",
+    "slug": "jerez-de-la-frontera",
+    "legacySha256": "ab99cb852ab258379575d89eab00bd3ff51db9f44669bbd739e9bdfe6b202b64"
+  },
+  {
+    "id": "es-barcelona",
+    "slug": "barcelona",
+    "legacySha256": "e8d19fddd4628affa144a8ed3d9918c234f04f1e38d5f87176c41ad7d702aa04"
+  },
+  {
+    "id": "es-la-gomera",
+    "slug": "la-gomera",
+    "legacySha256": "791543dd68213b4654c41482057c64bcee85a82f5a91ba9eb2a7efd2b0a97c81"
+  },
+  {
+    "id": "es-la-palma",
+    "slug": "la-palma",
+    "legacySha256": "410c7798dd48464ddc05753d7b597b64b78d2eab00ad794db74073481c921b8f"
+  },
+  {
+    "id": "es-leon",
+    "slug": "leon",
+    "legacySha256": "cb06b90d3d698c77c19a49d7679f2b27a551087b3a23895d53edaf62bb885e67"
+  },
+  {
+    "id": "es-logrono",
+    "slug": "logrono",
+    "legacySha256": "10c8468b922b639f55e301894040ae45470f9467dd891eca5526bedca9dc4aa9"
+  },
+  {
+    "id": "es-melilla",
+    "slug": "melilla",
+    "legacySha256": "4641b52d81a8cbd9cb84aaed4cd07fe4437427c8c42b15b339555674be850fab"
+  },
+  {
+    "id": "es-menorca",
+    "slug": "menorca",
+    "legacySha256": "f2a5d95b2d87964add28a0df43c8aa1b2d813d18ce0f32aee8cd4b62c2b923be"
+  },
+  {
+    "id": "es-malaga",
+    "slug": "malaga",
+    "legacySha256": "6f8e069ad846cd870b2c3024228511d3265e678764967ad64e204b972ee4f698"
+  },
+  {
+    "id": "es-palma-de-mallorca",
+    "slug": "palma-de-mallorca",
+    "legacySha256": "034300745c97edfd9c0d417bcec9108a68965aa9b190b52f4415c91bff6d4b3a"
+  },
+  {
+    "id": "es-pamplona",
+    "slug": "pamplona",
+    "legacySha256": "bfe1808c1f81db074daca2e92605ed423e4b1ec5bea85aeb28d7b28707eeae13"
+  },
+  {
+    "id": "es-reus-costa-daurada",
+    "slug": "reus-costa-daurada",
+    "legacySha256": "ed08bba3763571264ca9596f4d868a38a1cbbcca6c357df0cd78bf68e5c88853"
+  },
+  {
+    "id": "es-salamanca",
+    "slug": "salamanca",
+    "legacySha256": "8ab6efed4574089a6eb59d00728f9b25ea716b894ed4f5e9b7521c5056d35e94"
+  },
+  {
+    "id": "es-san-sebastian",
+    "slug": "san-sebastian",
+    "legacySha256": "5795d4a6103f5629dc2eb9a7377379489a2325df3a3f8d00723a1c90d650da66"
+  },
+  {
+    "id": "es-santiago-de-compostela",
+    "slug": "santiago-de-compostela",
+    "legacySha256": "dd21153e5842cc1dff65a33a7d6c87c33e67833c4245a5ca8cccf5253477ab18"
+  },
+  {
+    "id": "es-santander",
+    "slug": "santander",
+    "legacySha256": "21886af0f1abf4271c1df414f90307920d26617ef4e901513388906f997eee00"
+  },
+  {
+    "id": "es-sevilla",
+    "slug": "sevilla",
+    "legacySha256": "03990a21f84f3145de9144a81078bcf89dfd18c8b9c54c34ffe4877f3468181b"
+  },
+  {
+    "id": "es-tenerife",
+    "slug": "tenerife",
+    "legacySha256": "515317f87d0ac04fed073bea2089180032865756dd290ae05611139133ea3208"
+  },
+  {
+    "id": "es-valencia",
+    "slug": "valencia",
+    "legacySha256": "55752d0dc07b543754c1862e18b534cf54e609ce6b35f7211f9d2e3f20d6704a"
+  },
+  {
+    "id": "es-valladolid",
+    "slug": "valladolid",
+    "legacySha256": "edaba70c85272c98e18b1416a8a4d686246f4e5d038251b0f59e4a91a3553d42"
+  },
+  {
+    "id": "es-vigo",
+    "slug": "vigo",
+    "legacySha256": "2995919c1a088772b4bc220008ba2f72812d40723a4c08b6170297e1957da742"
+  },
+  {
+    "id": "es-vitoria-gasteiz",
+    "slug": "vitoria-gasteiz",
+    "legacySha256": "2766103cd8d67690175fefa071bf2a740066a477e95fbfa288afd06662354fbf"
+  },
+  {
+    "id": "es-zaragoza",
+    "slug": "zaragoza",
+    "legacySha256": "6097bac4e1aefa8aed3d2ee37468a086a3ae80ce86cc8a30f379183dafaaf70a"
+  },
+  {
+    "id": "es-albacete",
+    "slug": "albacete",
+    "legacySha256": "3347815d4457ac5c04449d5bc17592c45715bc3504fab1e5b1b7ce9a9e1f9e0a"
+  },
+  {
+    "id": "es-burgos",
+    "slug": "burgos",
+    "legacySha256": "619184f0e37829e4c2b85a84f1f0e72f960870d61df10b5f0a055510e0fd81d0"
+  },
+  {
+    "id": "es-huesca",
+    "slug": "huesca",
+    "legacySha256": "e4c84b7d29a8b3981246b1f34c5c267876f3280ffbcb1c770baacd6118a442ce"
+  },
+  {
+    "id": "es-sabadell",
+    "slug": "sabadell",
+    "legacySha256": "752c6c342f2b4058ff9067781071a15504ce4b41a6a6c39f549f8fee4975d43d"
+  },
+  {
+    "id": "pt-lisboa",
+    "slug": "lisboa",
+    "legacySha256": "b3fcd60278e6028efad379bff3d65786b05d6116749a1d331f2663252d269af9"
+  },
+  {
+    "id": "pt-porto",
+    "slug": "porto",
+    "legacySha256": "aaaaa1692f15c1cd8dfa3b66feb9aa7268fc1c83dc7607d3611cc105defaed7e"
+  },
+  {
+    "id": "pt-faro",
+    "slug": "faro",
+    "legacySha256": "57a8814db1feb856b64204d9c2ca3a62dbc31d9063f3856b00c94ac0e73f9748"
+  },
+  {
+    "id": "pt-madeira",
+    "slug": "madeira",
+    "legacySha256": "38c196bd524d012f8063ac65bd410ad39130abb27f45044c3d9fa0bccda26e57"
+  },
+  {
+    "id": "pt-porto-santo",
+    "slug": "porto-santo",
+    "legacySha256": "556c0cd83d0873d5e54c9b2483e87a31b94ca3d4ebea71826be9bbfb3283a6d6"
+  },
+  {
+    "id": "pt-beja",
+    "slug": "beja",
+    "legacySha256": "0c2d4d414e0cfab669f00e19e9a4cdfabf759250d2018aca44f02be3b131516e"
+  },
+  {
+    "id": "pt-ponta-delgada",
+    "slug": "ponta-delgada",
+    "legacySha256": "c67e38e6809cbaf04be0e7346c715780263fbe8a650d095deb2b0cabcfbd53aa"
+  },
+  {
+    "id": "pt-santa-maria",
+    "slug": "santa-maria",
+    "legacySha256": "e570214a1eefcb1a5c7a25b8eccf74b55d2a46068a7325e3dc599a0b91a996a4"
+  },
+  {
+    "id": "pt-horta",
+    "slug": "horta",
+    "legacySha256": "a929ca851fa4cffc4299a9b1ce9ac46be31ac72f5b1b7ded50a3e041d7d4dd96"
+  },
+  {
+    "id": "pt-flores",
+    "slug": "flores",
+    "legacySha256": "651381a621b6e9c6321d7f2342b5db522b9e25484fc8d903562ea17ffccf46c7"
+  },
+  {
+    "id": "pt-terceira",
+    "slug": "terceira",
+    "legacySha256": "a8b1e24a270609907353b272ca9ddfd7875322faee489808eb77f51f4352d14c"
+  },
+  {
+    "id": "pt-pico",
+    "slug": "pico",
+    "legacySha256": "c6e53a030ad2bf36aa07f4c28957609173067567f507c13403840436f8ce3f0c"
+  },
+  {
+    "id": "pt-sao-jorge",
+    "slug": "sao-jorge",
+    "legacySha256": "05580cce8e2fa42d9a10c7b239a83309b4b4267f304ea57b4c98c376c353f3e2"
+  },
+  {
+    "id": "pt-graciosa",
+    "slug": "graciosa",
+    "legacySha256": "7429cc76b8c7d9f6eb172af5277847e870afbe5d0a543f4a416aa34c8848db03"
+  },
+  {
+    "id": "pt-corvo",
+    "slug": "corvo",
+    "legacySha256": "f3050024be42680f97d5ec06659119bf811f9e98ffe5a42d400b69d34e986953"
+  },
+  {
+    "id": "pt-cascais",
+    "slug": "cascais",
+    "legacySha256": "b10f66cad4cd5205f3b302e887b69499b1ef89d96005fe22e2f0cc1a8befedf9"
+  },
+  {
+    "id": "pt-braganca",
+    "slug": "braganca",
+    "legacySha256": "97689f4595def3f5a7b04478ca4d1baf8b959e437daa60e6f88d727f22eac474"
+  },
+  {
+    "id": "pt-vila-real",
+    "slug": "vila-real",
+    "legacySha256": "5ed20aa5f9005fcab06ce326288eeac1c3c67b8c3ac2437a7a7bcb70057abc98"
+  },
+  {
+    "id": "pt-viseu",
+    "slug": "viseu",
+    "legacySha256": "9c0b0d115caa22638bb565694c7bfda39abd755dbb7c65bc19343d27485590f1"
+  },
+  {
+    "id": "pt-portimao",
+    "slug": "portimao",
+    "legacySha256": "1312b3673b5634aff8fa4a256947abc8cb8644423a0bdc2fb0fecb188c0e72d9"
+  },
+  {
+    "id": "pt-braga",
+    "slug": "braga",
+    "legacySha256": "628c15faa2f8bc2632e86354c202cab571a271649b43b0b067359673ced895b4"
+  },
+  {
+    "id": "pt-chaves",
+    "slug": "chaves",
+    "legacySha256": "fde341a7ad816c3bb52c8999120901e94ec2c34a9430a5a130201020aeee64f0"
+  }
+]
