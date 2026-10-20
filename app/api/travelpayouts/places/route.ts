@@ -7,8 +7,51 @@ function isPlace(value: unknown): value is Place {
   return value !== null && typeof value === "object" && !Array.isArray(value);
 }
 
+function normalize(value: string) {
+  return value.normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase().trim().replace(/\s+/g, " ");
+}
+
+function code(value: unknown, length: number) {
+  const normalized = typeof value === "string" ? value.trim().toUpperCase() : "";
+  return (length === 3 ? /^[A-Z]{3}$/ : /^[A-Z]{2}$/).test(normalized) ? normalized : "";
+}
+
+function matchTier(value: string, term: string) {
+  const name = normalize(value);
+  if (name === term) return 0;
+  if (name.startsWith(term)) return 1;
+  if (` ${name}`.includes(` ${term}`)) return 2;
+  if (name.includes(term)) return 3;
+  return 4; // Preserve the provider's fuzzy/translated suggestions as a fallback.
+}
+
+function relevance(place: Place, term: string) {
+  // A physical/metropolitan code must beat an airport's associated city code.
+  const ownCode = code(place.code, 3);
+  if (ownCode && normalize(ownCode) === term) return -1;
+
+  let score = matchTier(place.name as string, term) * 3;
+  const aliases = Array.isArray(place.index_strings) ? place.index_strings : [];
+  for (const alias of aliases) {
+    if (typeof alias === "string") score = Math.min(score, matchTier(alias, term) * 3 + 1);
+  }
+  if (place.type === "airport") {
+    if (typeof place.city_name === "string") {
+      score = Math.min(score, matchTier(place.city_name, term) * 3 + 2);
+    }
+    const cityCode = code(place.city_code, 3);
+    if (cityCode && normalize(cityCode) === term) score = Math.min(score, 2);
+  }
+  return score;
+}
+
+function weight(place: Place) {
+  return typeof place.weight === "number" && Number.isFinite(place.weight) ? place.weight : 0;
+}
+
 export async function GET(request: Request) {
-  const term = new URL(request.url).searchParams.get("term")?.trim() ?? "";
+  const term = new URL(request.url).searchParams.get("term")?.trim().replace(/\s+/g, " ") ?? "";
   if (term.length < 2 || term.length > 100) {
     return Response.json({ suggestions: [] }, { headers: { "Cache-Control": "no-store" } });
   }
@@ -27,6 +70,7 @@ export async function GET(request: Request) {
     if (!Array.isArray(payload)) throw new Error("Invalid places response");
 
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
+    const normalizedTerm = normalize(term);
     const seen = new Set<string>();
     const suggestions = payload
       .filter(isPlace)
@@ -35,30 +79,30 @@ export async function GET(request: Request) {
         typeof place.name === "string" && place.name.trim().length > 0
       )
       .sort((a, b) =>
+        relevance(a, normalizedTerm) - relevance(b, normalizedTerm) ||
         Number(b.type === "city") - Number(a.type === "city") ||
-        (typeof b.weight === "number" ? b.weight : 0) -
-          (typeof a.weight === "number" ? a.weight : 0)
+        weight(b) - weight(a)
       )
       .filter((place) => {
-        const countryCode = typeof place.country_code === "string" ? place.country_code : "";
-        const code = typeof place.code === "string" ? place.code : "";
-        const key = `${countryCode}:${code || `${place.type}:${String(place.name).toLocaleLowerCase("es")}`}`;
+        const countryCode = code(place.country_code, 2);
+        const placeCode = code(place.code, 3);
+        const key = `${countryCode || normalize(String(place.country_name ?? ""))}:${placeCode || `${place.type}:${normalize(place.name as string)}`}`;
         if (seen.has(key)) return false;
         seen.add(key);
         return true;
       })
       .slice(0, 6)
       .map((place) => {
-        const countryCode = typeof place.country_code === "string" ? place.country_code : "";
+        const countryCode = code(place.country_code, 2);
         return {
           type: place.type as "city" | "airport",
           name: (place.name as string).trim(),
           country: /^[A-Z]{2}$/.test(countryCode)
             ? displayNames.of(countryCode) ?? countryCode
             : typeof place.country_name === "string" ? place.country_name : "",
-          code: typeof place.code === "string" && /^[A-Z]{3}$/.test(place.code) ? place.code : null,
+          code: code(place.code, 3) || null,
           cityName: typeof place.city_name === "string" ? place.city_name : null,
-          cityCode: typeof place.city_code === "string" ? place.city_code : null,
+          cityCode: code(place.city_code, 3) || null,
         };
       });
 

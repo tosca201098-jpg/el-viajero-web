@@ -1,0 +1,476 @@
+{
+  "lyon": [
+    {
+      "type": "city",
+      "name": "Lyon",
+      "code": "LYS",
+      "country_code": "FR",
+      "weight": 31544,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Lyon-Saint Exupéry",
+      "code": "LYS",
+      "country_code": "FR",
+      "city_name": "Lyon",
+      "city_code": "LYS",
+      "weight": 16054,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Grenoble",
+      "code": "GNB",
+      "country_code": "FR",
+      "city_name": "Lyon",
+      "city_code": "LYS",
+      "weight": 6,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Tel Aviv",
+      "code": "TLV",
+      "country_code": "IL",
+      "weight": 65982,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Ciudad Ho Chi Minh",
+      "code": "SGN",
+      "country_code": "VN",
+      "weight": 44009,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Don Mueang Intl",
+      "code": "DMK",
+      "country_code": "TH",
+      "city_name": "Bangkok",
+      "city_code": "BKK",
+      "weight": 20515,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "John F Kennedy Intl",
+      "code": "JFK",
+      "country_code": "US",
+      "city_name": "Nueva York",
+      "city_code": "NYC",
+      "weight": 17223,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Đà Lạt",
+      "code": "DLI",
+      "country_code": "VN",
+      "weight": 1320,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Luton Airport",
+      "code": "LTN",
+      "country_code": "GB",
+      "city_name": "Londres",
+      "city_code": "LON",
+      "weight": 12540,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Los Angeles",
+      "code": "LAX",
+      "country_code": "US",
+      "city_name": "Los Ángeles",
+      "city_code": "LAX",
+      "weight": 12482,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Los Ángeles",
+      "code": "LAX",
+      "country_code": "US",
+      "weight": 28963,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Islip",
+      "code": "ISP",
+      "country_code": "US",
+      "weight": 753,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Colonia",
+      "code": "CGN",
+      "country_code": "DE",
+      "weight": 109114,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Teherán",
+      "code": "THR",
+      "country_code": "IR",
+      "weight": 3693,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Juarez & other airports",
+      "code": "MEX",
+      "country_code": "MX",
+      "city_name": "Ciudad de México",
+      "city_code": "MEX",
+      "weight": 9838,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Palma de Mallorca",
+      "code": "PMI",
+      "country_code": "ES",
+      "weight": 153037,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Norte Los Rodeos",
+      "code": "TFN",
+      "country_code": "ES",
+      "city_name": "Tenerife",
+      "city_code": "TCI",
+      "weight": 6653,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Nikoláyevsk del Amur",
+      "code": "NLI",
+      "country_code": "RU",
+      "weight": 864,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "City of Angeles",
+      "code": "CRK",
+      "country_code": "PH",
+      "weight": 429,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Vientián",
+      "code": "VTE",
+      "country_code": "LA",
+      "weight": 2451,
+      "index_strings": []
+    }
+  ],
+  "marsella": [
+    {
+      "type": "city",
+      "name": "Marsella",
+      "code": "MRS",
+      "country_code": "FR",
+      "weight": 28135,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Dikwella",
+      "code": "DIW",
+      "country_code": "LK",
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Majuro",
+      "code": "MAJ",
+      "country_code": "MH",
+      "weight": 5,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Kwajalein",
+      "code": "KWA",
+      "country_code": "MH",
+      "weight": 1,
+      "index_strings": []
+    }
+  ],
+  "paris": [
+    {
+      "type": "airport",
+      "name": "Orly",
+      "code": "ORY",
+      "country_code": "FR",
+      "city_name": "París",
+      "city_code": "PAR",
+      "weight": 100851,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "París",
+      "code": "PAR",
+      "country_code": "FR",
+      "weight": 335578,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Ch. De Gaulle",
+      "code": "CDG",
+      "country_code": "FR",
+      "city_name": "París",
+      "city_code": "PAR",
+      "weight": 67965,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Beauvais-Tille",
+      "code": "BVA",
+      "country_code": "FR",
+      "city_name": "París",
+      "city_code": "PAR",
+      "weight": 13382,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Châlons-en-Champagne",
+      "code": "XCR",
+      "country_code": "FR",
+      "weight": 2,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Ámsterdam",
+      "code": "AMS",
+      "country_code": "NL",
+      "weight": 149906,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Bari",
+      "code": "BRI",
+      "country_code": "IT",
+      "weight": 15081,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Kars",
+      "code": "KSY",
+      "country_code": "TR",
+      "weight": 2761,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Pafos",
+      "code": "PFO",
+      "country_code": "CY",
+      "weight": 1966,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Eindhoven",
+      "code": "EIN",
+      "country_code": "NL",
+      "weight": 24658,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Paro",
+      "code": "PBH",
+      "country_code": "BT",
+      "weight": 493,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Addis Abeba",
+      "code": "ADD",
+      "country_code": "ET",
+      "weight": 1568,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Kralendijk",
+      "code": "BON",
+      "country_code": "BQ",
+      "weight": 171,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Jose Marie Cordova",
+      "code": "MDE",
+      "country_code": "CO",
+      "city_name": "Medellín",
+      "city_code": "MDE",
+      "weight": 762,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Praia",
+      "code": "RAI",
+      "country_code": "CV",
+      "weight": 1605,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Taraz",
+      "code": "DMB",
+      "country_code": "KZ",
+      "weight": 769,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Róterdam",
+      "code": "RTM",
+      "country_code": "NL",
+      "weight": 23065,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Patras",
+      "code": "GPA",
+      "country_code": "GR",
+      "weight": 33,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Santa Maria",
+      "code": "SMA",
+      "country_code": "PT",
+      "weight": 171,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Paros",
+      "code": "PAS",
+      "country_code": "GR",
+      "weight": 395,
+      "index_strings": []
+    }
+  ],
+  "LYS": [
+    {
+      "type": "city",
+      "name": "Lyon",
+      "code": "LYS",
+      "country_code": "FR",
+      "weight": 31544,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Lyon-Saint Exupéry",
+      "code": "LYS",
+      "country_code": "FR",
+      "city_name": "Lyon",
+      "city_code": "LYS",
+      "weight": 16054,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Grenoble",
+      "code": "GNB",
+      "country_code": "FR",
+      "city_name": "Lyon",
+      "city_code": "LYS",
+      "weight": 6,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Palmas",
+      "code": "PMW",
+      "country_code": "BR",
+      "weight": 17,
+      "index_strings": []
+    }
+  ],
+  "CDG": [
+    {
+      "type": "airport",
+      "name": "Ch. De Gaulle",
+      "code": "CDG",
+      "country_code": "FR",
+      "city_name": "París",
+      "city_code": "PAR",
+      "weight": 67965,
+      "index_strings": []
+    }
+  ],
+  "ORY": [
+    {
+      "type": "airport",
+      "name": "Orly",
+      "code": "ORY",
+      "country_code": "FR",
+      "city_name": "París",
+      "city_code": "PAR",
+      "weight": 100851,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Tarija",
+      "code": "TJA",
+      "country_code": "BO",
+      "weight": 2,
+      "index_strings": []
+    }
+  ],
+  "BVA": [
+    {
+      "type": "airport",
+      "name": "Beauvais-Tille",
+      "code": "BVA",
+      "country_code": "FR",
+      "city_name": "París",
+      "city_code": "PAR",
+      "weight": 13382,
+      "index_strings": []
+    }
+  ],
+  "MRS": [
+    {
+      "type": "city",
+      "name": "Marsella",
+      "code": "MRS",
+      "country_code": "FR",
+      "weight": 28135,
+      "index_strings": []
+    }
+  ]
+}
