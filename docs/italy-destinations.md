@@ -137,14 +137,16 @@ El Etna remite a avisos y accesos oficiales conforme a
 [Parco dell’Etna](https://parcoetna.it/ordinanze-sindaci/).
 
 Fotografías reales de Wikimedia Commons, verificación de autor, fuente y licencia
-mediante imageinfo; miniaturas de 960 px facilitadas por Wikimedia sin retoques
-manuales. Se conservan los enlaces de atribución y licencia visibles en el modal.
+mediante imageinfo; miniaturas de 960 px facilitadas por Wikimedia. Milán utiliza
+la fotografía del Duomo al atardecer de Fernando Meloni en Unsplash, verificada
+el 20/10/2026 y servida a 1280 px por su CDN. Sin retoques manuales. Se conservan
+los enlaces de atribución y licencia visibles en el modal.
 No se sustituyen fotografías de las 77 fichas anteriores ni de tarjetas originales.
 
 | Ficha | Autor y fuente | Licencia seleccionada |
 |---|---|---|
 | rome | [DAVID ILIFF](https://commons.wikimedia.org/wiki/File:Colosseum_in_Rome,_Italy_-_April_2007.jpg) | [CC BY-SA 2.5](https://creativecommons.org/licenses/by-sa/2.5) |
-| milan | [Andrea Albini](https://commons.wikimedia.org/wiki/File:Milano_-_il_Duomo_lato_Galleria_Vittorio_Emanuele_II_-_panoramio.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0) |
+| milan | [Fernando Meloni](https://unsplash.com/photos/milan-cathedral-italy-pAbn-kRJfxw) | [Unsplash License](https://unsplash.com/license) |
 | venice | [Martin Falbisoner](https://commons.wikimedia.org/wiki/File:Panorama_of_Canal_Grande_and_Ponte_di_Rialto,_Venice_-_September_2017.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |
 | florence | [Ray in Manila](https://commons.wikimedia.org/wiki/File:Florence_panorama_as_seen_from_The_Piazza_Michelangelo.jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0) |
 | naples | [Mfran22](https://commons.wikimedia.org/wiki/File:Napoli_panorama_di_Napoli_da_Castel_Sant%27Elmo_-.jpg) | [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0) |

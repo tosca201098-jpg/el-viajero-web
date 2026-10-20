@@ -1,4 +1,4 @@
-// Wikimedia Commons imageinfo verified on 2026-10-20. Provider-resized copies, no manual edits.
+// Sources and licenses verified on 2026-10-20. Provider-resized copies, no manual edits.
 export const italyImages = {
   "rome": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Colosseum_in_Rome%2C_Italy_-_April_2007.jpg/960px-Colosseum_in_Rome%2C_Italy_-_April_2007.jpg",
@@ -8,11 +8,11 @@ export const italyImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
   },
   "milan": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Milano_-_il_Duomo_lato_Galleria_Vittorio_Emanuele_II_-_panoramio.jpg/960px-Milano_-_il_Duomo_lato_Galleria_Vittorio_Emanuele_II_-_panoramio.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Milano_-_il_Duomo_lato_Galleria_Vittorio_Emanuele_II_-_panoramio.jpg",
-    "imageCredit": "Andrea Albini",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "image": "https://images.unsplash.com/photo-1567760848351-64554cd104ca?auto=format&fit=max&w=1280&q=85",
+    "imageSource": "https://unsplash.com/photos/milan-cathedral-italy-pAbn-kRJfxw",
+    "imageCredit": "Fernando Meloni",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "venice": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Panorama_of_Canal_Grande_and_Ponte_di_Rialto%2C_Venice_-_September_2017.jpg/960px-Panorama_of_Canal_Grande_and_Ponte_di_Rialto%2C_Venice_-_September_2017.jpg",
