@@ -1,3 +1,6 @@
+import { translate, type Locale } from '@/lib/i18n/translations';
+import { parseVoiceItineraryCalls, type VoiceItineraryArguments, type VoiceItineraryContext, type VoiceItineraryResult } from './itinerary';
+
 export type VoicePhase = "idle" | "connecting" | "active";
 export type VoiceError = "permission" | "microphone" | "connection" | "timeout";
 
@@ -52,6 +55,8 @@ type VoiceSessionOptions = {
   onPhase: (phase: VoicePhase) => void;
   onError: (error: VoiceError) => void;
   onSearch: (arguments_: VoiceSearchArguments) => void;
+  onItinerary?: (args: VoiceItineraryArguments, context: VoiceItineraryContext) => Promise<VoiceItineraryResult>;
+  getLocale?: () => Locale;
   fetcher?: typeof fetch;
   createPeerConnection?: () => RTCPeerConnection;
   createAudio?: () => HTMLAudioElement;
@@ -70,6 +75,53 @@ export class VoiceSession {
   private audio: HTMLAudioElement | null = null;
   private startupTimer: ReturnType<typeof setTimeout> | null = null;
   private disconnectTimer: ReturnType<typeof setTimeout> | null = null;
+  private itineraryController: AbortController | null = null;
+  private itineraryCalls = new Set<string>();
+  private activeResponses = new Set<string>();
+  private resumeAfterTool = false;
+
+  private resumeToolResponse(id: number) {
+    if (!this.current(id) || !this.resumeAfterTool || this.activeResponses.size || this.channel?.readyState !== 'open') return;
+    this.resumeAfterTool = false;
+    try {
+      this.channel.send(JSON.stringify({ type: 'response.create', response: { tool_choice: 'none' } }));
+    } catch { this.fail(id, 'connection'); }
+  }
+
+  private itineraryEvent(value: unknown, id: number, locale: Locale) {
+    try {
+      const event = typeof value === 'string' ? JSON.parse(value) : null;
+      if (event?.type === 'response.created' && typeof event.response?.id === 'string') this.activeResponses.add(event.response.id);
+      if (event?.type === 'response.done') this.activeResponses.delete(event.response?.id);
+    } catch { /* Unrelated or malformed events remain ignored. */ }
+    for (const call of parseVoiceItineraryCalls(value)) {
+      if (this.itineraryCalls.has(call.callId)) continue;
+      this.itineraryCalls.add(call.callId);
+      if (call.responseId) this.activeResponses.add(call.responseId);
+      const controller = new AbortController();
+      if (call.args) {
+        this.itineraryController?.abort();
+        this.resumeAfterTool = false;
+        this.itineraryController = controller;
+      }
+      const operation = Promise.resolve().then((): VoiceItineraryResult | Promise<VoiceItineraryResult> =>
+        !call.args ? { status: 'error', error: 'invalid_arguments' }
+          : controller.signal.aborted ? { status: 'cancelled' }
+          : this.options.onItinerary?.(call.args, { callId: call.callId, locale, signal: controller.signal })
+            ?? { status: 'error', error: 'unavailable' });
+      void operation.catch((): VoiceItineraryResult => ({ status: 'error', error: 'generation_failed' }))
+        .then(result => {
+          if (!this.current(id) || this.channel?.readyState !== 'open') return;
+          const output = controller.signal.aborted ? { status: 'cancelled' } : result;
+          this.channel.send(JSON.stringify({ type: 'conversation.item.create', item: {
+            type: 'function_call_output', call_id: call.callId, output: JSON.stringify(output),
+          } }));
+          if (output.status !== 'cancelled' && (!call.args || this.itineraryController === controller)) this.resumeAfterTool = true;
+          this.resumeToolResponse(id);
+        }).catch(() => this.fail(id, 'connection'));
+    }
+    this.resumeToolResponse(id);
+  }
 
   constructor(private readonly options: VoiceSessionOptions) {}
 
@@ -91,6 +143,11 @@ export class VoiceSession {
 
   private release() {
     this.generation++;
+    this.itineraryController?.abort();
+    this.itineraryController = null;
+    this.itineraryCalls.clear();
+    this.activeResponses.clear();
+    this.resumeAfterTool = false;
     this.clearTimers();
     this.controller?.abort();
     this.controller = null;
@@ -146,10 +203,12 @@ export class VoiceSession {
     const id = ++this.generation;
     const controller = new AbortController();
     this.controller = controller;
+    const locale = this.options.getLocale?.() ?? 'es';
     this.startupTimer = setTimeout(() => this.fail(id, "timeout"), this.options.startupTimeoutMs ?? 25000);
     try {
       const fetcher = this.options.fetcher ?? fetch;
-      const response = await fetcher("/api/voice", { method: "POST", signal: controller.signal });
+      const response = await fetcher("/api/voice", { method: "POST", signal: controller.signal,
+        headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ locale }) });
       if (!this.current(id)) return;
       if (!response.ok) throw new Error("voice_session_failed");
       const secret: unknown = await response.json();
@@ -195,6 +254,7 @@ export class VoiceSession {
         if (!this.current(id)) return;
         const args = parseVoiceEvent(event.data);
         if (args) this.options.onSearch(args);
+        this.itineraryEvent(event.data, id, locale);
       };
       channel.onerror = () => this.fail(id, "connection");
       channel.onclose = () => this.fail(id, "connection");
@@ -204,13 +264,13 @@ export class VoiceSession {
         this.startupTimer = null;
         this.setPhase("active");
         const hour = new Date().getHours();
-        const greeting = hour >= 6 && hour < 12 ? "Hola, buenos días"
-          : hour >= 12 && hour < 20 ? "Hola, buenas tardes" : "Hola, buenas noches";
+        const greeting = translate(locale, hour >= 6 && hour < 12 ? 'voice.greetingMorning'
+          : hour >= 12 && hour < 20 ? 'voice.greetingAfternoon' : 'voice.greetingEvening');
         try {
           channel.send(JSON.stringify({
             type: "response.create",
             response: {
-              instructions: `Inicia esta sesión de voz diciendo exactamente: "${greeting}. ¿En qué puedo ayudarte con tu viaje?". No añadas nada más en esta intervención. Este saludo es solo para el inicio de la sesión; no lo repitas durante la conversación.`,
+              instructions: `Inicia esta sesión de voz diciendo exactamente: "${greeting}. ${translate(locale, 'voice.greetingQuestion')}". No añadas nada más en esta intervención. Este saludo es solo para el inicio de la sesión; no lo repitas durante la conversación.`,
               tool_choice: "none",
             },
           }));

@@ -18,6 +18,7 @@ import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
 import { VoiceSession, type VoiceError, type VoicePhase, type VoiceSearchArguments } from "@/lib/voice/session";
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
+import { createVoiceItineraryRequest, type VoiceItineraryRequest, type VoiceItineraryArguments, type VoiceItineraryContext, type VoiceItineraryResult } from "@/lib/voice/itinerary";
 
 type FlightOffer = {
   origin: string;
@@ -122,13 +123,22 @@ const [voicePhase, setVoicePhase] = useState<VoicePhase>("idle");
 const [voiceError, setVoiceError] = useState<VoiceError | null>(null);
 const voiceSessionRef = useRef<VoiceSession | null>(null);
 const voiceSearchRef = useRef<(datos: VoiceSearchArguments) => void>(() => {});
+const voiceLocaleRef = useRef(language);
+voiceLocaleRef.current = language;
+const voiceItineraryRef = useRef<VoiceItineraryRequest | null>(null);
+const voiceItineraryHandlerRef = useRef<(args: VoiceItineraryArguments, context: VoiceItineraryContext) => Promise<VoiceItineraryResult>>(
+  async () => ({ status: 'error', error: 'unavailable' }));
+const [voiceItineraryRequest, setVoiceItineraryRequest] = useState<VoiceItineraryRequest | null>(null);
+const [voiceItineraryUnknown, setVoiceItineraryUnknown] = useState(false);
 const vozActiva = voicePhase === "active";
 
 useEffect(() => {
   const session = new VoiceSession({
-    onPhase: setVoicePhase,
+    onPhase: (phase) => { setVoicePhase(phase); if (phase === 'idle') voiceItineraryRef.current?.cancel(); },
     onError: setVoiceError,
     onSearch: (datos) => voiceSearchRef.current(datos),
+    onItinerary: (args, context) => voiceItineraryHandlerRef.current(args, context),
+    getLocale: () => voiceLocaleRef.current,
   });
   voiceSessionRef.current = session;
   const stopForPage = () => session.stop();
@@ -150,6 +160,7 @@ useEffect(() => {
 const apagarVoz = () => voiceSessionRef.current?.stop();
 const iniciarVoz = () => {
   setVoiceError(null);
+  setVoiceItineraryUnknown(false);
   void voiceSessionRef.current?.start();
 };
 
@@ -202,6 +213,35 @@ voiceSearchRef.current = (datos) => {
     useState<Destination | null>(null);
 
   const [modal, setModal] = useState<"vuelos" | "hoteles" | "paquete" | null>(null);
+
+  voiceItineraryHandlerRef.current = (args, context) => {
+    voiceItineraryRef.current?.cancel();
+    setVoiceItineraryUnknown(false);
+    const destination = findDestinationProfile({ name: args.destino }) ?? findDestinationCard(args.destino);
+    if (!destination) {
+      setVoiceItineraryRequest(null);
+      setVoiceItineraryUnknown(true);
+      return Promise.resolve({ status: 'error', error: 'unknown_destination' });
+    }
+    const request = createVoiceItineraryRequest(destination, args.dias, context);
+    voiceItineraryRef.current = request;
+    setVoiceItineraryRequest(request);
+    setModal(null);
+    setDestinoSeleccionado(destination);
+    return request.promise;
+  };
+
+  useEffect(() => {
+    const request = voiceItineraryRef.current;
+    if (request && (request.locale !== language || request.destination.name !== destinoSeleccionado?.name ||
+        request.destination.country !== destinoSeleccionado?.country)) {
+      request.cancel();
+      voiceItineraryRef.current = null;
+      setVoiceItineraryRequest(null);
+    }
+  }, [language, destinoSeleccionado]);
+
+  useEffect(() => { voiceSessionRef.current?.stop(); }, [language]);
 
   // VUELOS
   const [origen, setOrigen] = useState("");
@@ -589,6 +629,7 @@ function abrirPaquete(destino = "") {
   }
 
   function closeDestinationDetail() {
+    voiceItineraryRef.current?.cancel();
     setDestinoSeleccionado(null);
     setFlightResultsOpen(false);
   }
@@ -687,6 +728,9 @@ function abrirPaquete(destino = "") {
     !!fechaIda && !!fechaVuelta;
   const itineraryVoiceBudget = nonFlightVoiceBudget && nonFlightVoiceBudget.destination === destinoSeleccionado?.name
     ? nonFlightVoiceBudget.budget : undefined;
+  const itineraryVoiceRequest = voiceItineraryRequest?.destination.name === destinoSeleccionado?.name &&
+    voiceItineraryRequest?.destination.country === destinoSeleccionado?.country && voiceItineraryRequest?.locale === language
+    ? voiceItineraryRequest : undefined;
   const itineraryContext: ItineraryContext = itineraryFlightQuery
     ? { departureDate: itineraryFlightQuery.departureDate, returnDate: itineraryFlightQuery.returnDate,
         travelers: itineraryFlightQuery.travelers, budget: itineraryFlightQuery.budget }
@@ -927,6 +971,7 @@ function abrirPaquete(destino = "") {
               </button>
               {voicePhase === "connecting" && <p role="status" className="mt-1 text-xs text-blue-800">{t("voice.connecting")}</p>}
               {voiceError && <p role="alert" className="mt-1 text-xs text-red-700">{t(`voice.error.${voiceError}`)}</p>}
+              {voiceItineraryUnknown && <p role="alert" className="mt-1 text-xs text-red-700">{t('voice.itineraryUnknown')}</p>}
               <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs font-medium text-stone-700 max-sm:mt-1 max-sm:gap-y-0.5">
                 <span>✓ {t("voice.ideas")}</span>
                 <span>✓ {t("voice.time")}</span>
@@ -1215,7 +1260,8 @@ function abrirPaquete(destino = "") {
               <ItineraryPlanner
                 key={`${destinoSeleccionado.name}|${itineraryContext.departureDate ?? ""}|${itineraryContext.returnDate ?? ""}|${itineraryContext.travelers ?? ""}|${itineraryContext.budget?.amount ?? ""}|${itineraryContext.budget?.type ?? ""}|${language}`}
                 destination={destinoSeleccionado}
-                context={itineraryContext}
+                context={itineraryVoiceRequest ? {} : itineraryContext}
+                voiceRequest={itineraryVoiceRequest}
               />
 
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}

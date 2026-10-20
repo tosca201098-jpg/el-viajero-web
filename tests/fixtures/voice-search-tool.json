@@ -1,0 +1,55 @@
+{
+  "type": "function",
+  "name": "buscar_viaje",
+  "description": "Llama a esta función cuando tengas los datos necesarios para buscar el viaje. Sirve para abrir la tarjeta del destino en la web.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "origen": {
+        "type": "string"
+      },
+      "destino": {
+        "type": "string"
+      },
+      "fecha_ida": {
+        "type": "string",
+        "description": "Fecha en formato YYYY-MM-DD"
+      },
+      "fecha_vuelta": {
+        "type": "string",
+        "description": "Fecha en formato YYYY-MM-DD"
+      },
+      "viajeros": {
+        "type": "number"
+      },
+      "servicio": {
+        "type": "string",
+        "enum": [
+          "vuelo",
+          "hotel",
+          "ambos"
+        ]
+      },
+      "presupuesto": {
+        "type": "number",
+        "description": "Presupuesto máximo en euros, si el usuario lo ha indicado."
+      },
+      "tipo_presupuesto": {
+        "type": "string",
+        "enum": [
+          "total",
+          "por_persona"
+        ],
+        "description": "Indica si el presupuesto es total o por persona. Envíalo cuando haya presupuesto."
+      }
+    },
+    "required": [
+      "origen",
+      "destino",
+      "fecha_ida",
+      "fecha_vuelta",
+      "viajeros",
+      "servicio"
+    ]
+  }
+}
