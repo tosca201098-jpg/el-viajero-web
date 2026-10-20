@@ -4,6 +4,10 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const ts = require('typescript');
+const translations = {};
+vm.runInNewContext(ts.transpileModule(fs.readFileSync(path.join(__dirname, '../lib/i18n/translations.ts'), 'utf8'), {
+  compilerOptions: { module: ts.ModuleKind.CommonJS },
+}).outputText, { exports: translations });
 
 const source = fs.readFileSync(path.join(__dirname, '../app/api/voice/route.ts'), 'utf8');
 const output = ts.transpileModule(source, {
@@ -14,9 +18,10 @@ function route(fetcher, key = 'server-only-test-key') {
   const exports = {};
   vm.runInNewContext(output, {
     exports, Response, AbortController, setTimeout, clearTimeout,
+    require: id => { assert.equal(id, '@/lib/i18n/translations'); return translations; },
     process: { env: { OPENAI_API_KEY: key } }, fetch: fetcher,
   }, { filename: 'app/api/voice/route.ts' });
-  return exports.POST;
+  return (request = new Request('https://example.test/api/voice', { method: 'POST' })) => exports.POST(request);
 }
 
 test('server forwards only the temporary secret, never provider metadata', async () => {

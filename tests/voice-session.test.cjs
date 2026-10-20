@@ -4,13 +4,21 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 const ts = require('typescript');
+const dependencies = {};
+for (const [id, file] of [['@/lib/i18n/translations', 'lib/i18n/translations.ts'], ['./itinerary', 'lib/voice/itinerary.ts']]) {
+  const exports = {};
+  vm.runInNewContext(ts.transpileModule(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), {
+    compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
+  }).outputText, { exports, AbortController });
+  dependencies[id] = exports;
+}
 
 const source = fs.readFileSync(path.join(__dirname, '../lib/voice/session.ts'), 'utf8');
 const output = ts.transpileModule(source, {
   compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 },
 }).outputText;
 const voice = {};
-vm.runInNewContext(output, { exports: voice, AbortController, setTimeout, clearTimeout, Date, JSON, Error },
+vm.runInNewContext(output, { exports: voice, require: id => dependencies[id], AbortController, setTimeout, clearTimeout, Date, JSON, Error },
   { filename: 'lib/voice/session.ts' });
 
 function deferred() {

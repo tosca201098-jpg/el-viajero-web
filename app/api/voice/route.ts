@@ -1,7 +1,22 @@
-export async function POST() {
+import { isLocale, type Locale } from '@/lib/i18n/translations';
+
+const languageNames: Record<Locale, string> = { es: 'español', en: 'English', fr: 'français', de: 'Deutsch', it: 'italiano', pt: 'português', ca: 'català' };
+
+export async function POST(request: Request) {
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10000);
   try {
+    const length = Number(request.headers.get('content-length'));
+    if (length > 512) return Response.json({ error: 'invalid_request' }, { status: 400 });
+    const raw = await request.text();
+    if (raw.length > 512) return Response.json({ error: 'invalid_request' }, { status: 400 });
+    let input;
+    try { input = raw ? JSON.parse(raw) : {}; } catch { return Response.json({ error: 'invalid_request' }, { status: 400 }); }
+    if (!input || typeof input !== 'object' || Array.isArray(input) || !isLocale(input.locale ?? 'es')) {
+      return Response.json({ error: 'invalid_request' }, { status: 400 });
+    }
+    const locale: Locale = input.locale ?? 'es';
+    const itineraryInstructions = `Responde siempre en ${languageNames[locale]}. Si el usuario pide un itinerario, utiliza crear_itinerario con destino y dias (entero de 1 a 7). Para un itinerario no pidas origen, vuelos, hoteles, fechas ni viajeros: bastan destino y duración. Pregunta solo el destino o la duración que falte. No inventes un itinerario hablado ni afirmes que está generado antes del resultado de la herramienta. Con status success confirma brevemente que está visible en pantalla, sin inventar actividades que no hayas recibido. Con status error informa del fallo; unknown_destination requiere aclarar el destino, invalid_arguments requiere destino y 1 a 7 días, busy requiere esperar. Con status cancelled no confirmes éxito. Las reglas siguientes de buscar_viaje se aplican únicamente a búsquedas de vuelos, hoteles o paquetes, nunca a crear itinerarios. `;
     const apiKey = process.env.OPENAI_API_KEY;
 
     if (!apiKey) {
@@ -59,9 +74,19 @@ fecha_vuelta: { type: "string", description: "Fecha en formato YYYY-MM-DD" },
       ],
     },
   },
+  {
+    type: 'function',
+    name: 'crear_itinerario',
+    description: 'Genera y muestra en pantalla un itinerario real usando la ficha del destino. Solo necesita destino y duración.',
+    parameters: {
+      type: 'object', additionalProperties: false,
+      properties: { destino: { type: 'string', minLength: 1, maxLength: 100 }, dias: { type: 'integer', minimum: 1, maximum: 7 } },
+      required: ['destino', 'dias'],
+    },
+  },
 ],
              instructions:
-  "Eres el asistente de voz de Destinauta. Habla siempre en español. Ayuda al usuario a organizar su viaje. Deja que el usuario explique libremente lo que quiere y aprovecha todos los datos que proporcione. No le interrumpas con preguntas innecesarias ni vuelvas a preguntar información que ya haya dado. Debes obtener la información necesaria para realizar su búsqueda, incluyendo origen, destino, fechas, número de viajeros y si quiere vuelo, hotel o ambos. Pregunta el presupuesto cuando sea útil. Si el usuario indica un presupuesto, consérvalo en euros y envía presupuesto y tipo_presupuesto (total o por_persona) al llamar a buscar_viaje. Si no queda claro si es total o por persona y hace falta para interpretar la búsqueda, pregunta brevemente: «¿Ese presupuesto es total o por persona?». No vuelvas a preguntar si ya lo ha aclarado. Si falta información necesaria, pregunta solamente por lo que falte, una cosa cada vez. Si el usuario ya proporciona toda la información necesaria, no hagas más preguntas y continúa directamente. Cuando tengas suficiente información para realizar la búsqueda, confirma brevemente los datos del viaje. Cuando tengas los datos necesarios del viaje, llama obligatoriamente a la función buscar_viaje con el origen, destino, las fechas, el número de viajeros, el servicio solicitado y el presupuesto si lo hay. No digas que la búsqueda está en curso sin haber llamado antes a buscar_viaje.",
+  itineraryInstructions + "Eres el asistente de voz de Destinauta. Ayuda al usuario a organizar su viaje. Deja que el usuario explique libremente lo que quiere y aprovecha todos los datos que proporcione. No le interrumpas con preguntas innecesarias ni vuelvas a preguntar información que ya haya dado. Debes obtener la información necesaria para realizar su búsqueda, incluyendo origen, destino, fechas, número de viajeros y si quiere vuelo, hotel o ambos. Pregunta el presupuesto cuando sea útil. Si el usuario indica un presupuesto, consérvalo en euros y envía presupuesto y tipo_presupuesto (total o por_persona) al llamar a buscar_viaje. Si no queda claro si es total o por persona y hace falta para interpretar la búsqueda, pregunta brevemente: «¿Ese presupuesto es total o por persona?». No vuelvas a preguntar si ya lo ha aclarado. Si falta información necesaria, pregunta solamente por lo que falte, una cosa cada vez. Si el usuario ya proporciona toda la información necesaria, no hagas más preguntas y continúa directamente. Cuando tengas suficiente información para realizar la búsqueda, confirma brevemente los datos del viaje. Cuando tengas los datos necesarios del viaje, llama obligatoriamente a la función buscar_viaje con el origen, destino, las fechas, el número de viajeros, el servicio solicitado y el presupuesto si lo hay. No digas que la búsqueda está en curso sin haber llamado antes a buscar_viaje.",
             audio: {
               output: {
                 voice: "marin",
