@@ -23,9 +23,11 @@ function load(file, dependencies = {}, globals = {}) {
 }
 const spain = load('lib/destinations/spain.ts');
 const portugal = load('lib/destinations/portugal.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal });
+const france = load('lib/destinations/france.ts');
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france });
 const localization = load('lib/destinations/localization.ts');
 const manifest = require('./fixtures/destination-legacy-digests.json');
+const legacyProfiles = library.destinationProfiles.filter(profile => ['ES', 'PT'].includes(profile.countryCode));
 const locales = ['es', 'en', 'fr', 'de', 'it', 'pt', 'ca'];
 
 function sorted(value) {
@@ -35,14 +37,14 @@ function sorted(value) {
 }
 
 test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
-  assert.equal(library.destinationProfiles.length, 65);
+  assert.equal(legacyProfiles.length, 65);
   assert.equal(spain.spainDestinations.length, 43);
   assert.equal(portugal.portugalDestinations.length, 22);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 65);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 65);
-  assert.deepEqual(Array.from(library.destinationProfiles, d => ({ id: d.id, slug: d.slug })),
+  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 77);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 77);
+  assert.deepEqual(Array.from(legacyProfiles, d => ({ id: d.id, slug: d.slug })),
     manifest.map(({ id, slug }) => ({ id, slug })));
-  for (const destination of library.destinationProfiles) {
+  for (const destination of legacyProfiles) {
     assert.match(destination.id, /^(es|pt)-[a-z0-9]+(?:-[a-z0-9]+)*$/);
     assert.match(destination.slug, /^[a-z0-9]+(?:-[a-z0-9]+)*$/);
     assert.ok(destination.id.startsWith(destination.countryCode.toLowerCase() + '-'));
@@ -50,17 +52,17 @@ test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
 });
 
 test('names, aliases, airports, tourism content, months and image licenses are unchanged', () => {
-  for (const destination of library.destinationProfiles) {
+  for (const destination of legacyProfiles) {
     const { id, slug, countryCode, airports, metropolitanCodes, ...legacy } = destination;
     const digest = crypto.createHash('sha256').update(JSON.stringify(sorted(legacy))).digest('hex');
     assert.equal(digest, manifest.find(item => item.id === id)?.legacySha256, id);
   }
 });
 
-test('country groups and references return the same canonical objects without adding France', () => {
+test('country groups and references return the same canonical objects with France registered', () => {
   assert.equal(library.getDestinationsByCountry(' es '), spain.spainDestinations);
   assert.equal(library.getDestinationsByCountry('PT'), portugal.portugalDestinations);
-  assert.equal(library.getDestinationsByCountry('FR').length, 0);
+  assert.equal(library.getDestinationsByCountry('FR'), france.franceDestinations);
   assert.equal(library.getDestinationsByCountry('__proto__').length, 0);
   for (const profile of library.destinationProfiles) {
     assert.equal(library.getDestinationById(profile.id), profile);
@@ -79,7 +81,7 @@ test('Tenerife remains one tourist destination with two physical airports and un
   assert.equal(library.findDestinationProfile({ iataCode: 'TFN' }), tenerife);
   assert.equal(library.findDestinationProfile({ iataCode: 'TFS' }), tenerife);
   assert.equal(tenerife.metropolitanCodes.length, 0);
-  for (const destination of library.destinationProfiles) {
+  for (const destination of legacyProfiles) {
     assert.deepEqual(Array.from(destination.airports, a => a.iataCode), Array.from(destination.iataCodes));
     for (const code of destination.auxiliaryCodes ?? []) {
       assert.ok(!destination.airports.some(airport => airport.iataCode === code));

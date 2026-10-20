@@ -26,6 +26,8 @@ export type DestinationProfile = DestinationText & {
   /** Legacy Spanish display value, retained for existing consumers and saved data. */
   country: string;
   airports: DestinationAirport[];
+  /** Alternative arrival airports requiring a ground transfer; never used as this destination's identity or pricing codes. */
+  accessAirports?: { iataCode: string; name: string; countryCode: string }[];
   /** City/metropolitan codes, populated only after verification with the provider. */
   metropolitanCodes: string[];
   /** Legacy Travelpayouts lookup identifiers. Keep these unchanged during phase 1. */

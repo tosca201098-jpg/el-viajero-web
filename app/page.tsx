@@ -8,6 +8,9 @@ import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryP
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
 import HeaderAuth from "./components/HeaderAuth";
 import LanguageSelector from "./components/LanguageSelector";
+import CountryDestinations from './components/CountryDestinations';
+import { getDestinationText, getDestinationCountryName } from '@/lib/destinations/localization';
+import type { Locale } from '@/lib/i18n/translations';
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/saved-trips";
 import type { TranslationKey } from "@/lib/i18n/translations";
@@ -62,6 +65,19 @@ type DiscoverState =
   | { status: "idle" | "loading" }
   | { status: "error"; key: TranslationKey }
   | { status: "success"; origin: { name: string; code: string }; results: DiscoverResult[] };
+
+function frenchProfile(destination: Destination | null) {
+  const profile = destination ? findDestinationProfile({ name: destination.name }) : undefined;
+  return profile?.countryCode === 'FR' ? profile : undefined;
+}
+function destinationDisplay(destination: Destination, locale: Locale) {
+  const profile = frenchProfile(destination);
+  return profile ? getDestinationText(profile, locale) : destination;
+}
+function destinationCountry(destination: Destination, locale: Locale) {
+  const profile = frenchProfile(destination);
+  return profile ? getDestinationCountryName(profile, locale) : destination.country;
+}
 
 function findDestinationCard(name: string) {
   const normalizedName = normalizeDestinationName(name);
@@ -211,6 +227,9 @@ voiceSearchRef.current = (datos) => {
 };  const [mensaje, setMensaje] = useState("");
   const [destinoSeleccionado, setDestinoSeleccionado] =
     useState<Destination | null>(null);
+
+  const selectedFrenchProfile = frenchProfile(destinoSeleccionado);
+  const selectedDisplay = destinoSeleccionado ? destinationDisplay(destinoSeleccionado, language) : null;
 
   const [modal, setModal] = useState<"vuelos" | "hoteles" | "paquete" | null>(null);
 
@@ -1064,7 +1083,7 @@ function abrirPaquete(destino = "") {
               <div className="relative h-[180px] shrink-0 overflow-hidden sm:h-[164px] lg:h-[124px] max-sm:h-[104px]">
                 <img
                   src={destino.image}
-                  alt={`${destino.name}, ${destino.country}`}
+                  alt={`${destinationDisplay(destino, language).name}, ${destinationCountry(destino, language)}`}
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
                 />
 
@@ -1072,18 +1091,18 @@ function abrirPaquete(destino = "") {
 
                 <div className="absolute bottom-2.5 left-2.5 right-2.5 max-sm:bottom-2 max-sm:left-2 max-sm:right-2">
                   <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs max-sm:leading-[14px]">
-                    {destino.emoji} {destino.country}
+                    {destino.emoji ?? (frenchProfile(destino) ? '🇫🇷' : '')} {destinationCountry(destino, language)}
                   </p>
 
                   <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-sm max-sm:leading-4">
-                    {destino.name}
+                    {destinationDisplay(destino, language).name}
                   </h3>
                 </div>
               </div>
 
               <div className="flex flex-1 flex-col p-2.5 lg:p-2 max-sm:p-2">
                 <p className="flex-1 text-[13px] leading-[18px] text-stone-700 max-sm:line-clamp-2 max-sm:h-8 max-sm:flex-none max-sm:text-xs max-sm:leading-4">
-                  {text(destino.description)}
+                  {text(destinationDisplay(destino, language).description)}
                 </p>
 
                 <button
@@ -1091,7 +1110,7 @@ function abrirPaquete(destino = "") {
                   onClick={() => setDestinoSeleccionado(destino)}
                   className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950 max-sm:mt-1 max-sm:min-h-[44px] max-sm:px-1 max-sm:py-0 max-sm:text-xs max-sm:leading-4"
                 >
-                  {t("destinations.explore", { destination: destino.name })}
+                  {t("destinations.explore", { destination: destinationDisplay(destino, language).name })}
                 </button>
               </div>
             </article>
@@ -1099,6 +1118,7 @@ function abrirPaquete(destino = "") {
         </div>
         </div>
       </section>
+<CountryDestinations countryCode="FR" onSelect={setDestinoSeleccionado} />
 {/* VIAJAR SEGÚN LA TEMPORADA */}
 <section className="relative z-10 mx-auto max-w-7xl px-6 pb-6 pt-12 sm:pb-8 sm:pt-14 lg:pt-16">
   <div className="mb-5 text-center sm:mb-6">
@@ -1192,12 +1212,12 @@ function abrirPaquete(destino = "") {
 
               <div className="absolute bottom-6 left-6">
                 <p className="text-cyan-200">
-                  {destinoSeleccionado.emoji}{" "}
-                  {destinoSeleccionado.country}
+                  {destinoSeleccionado.emoji ?? (selectedFrenchProfile ? '🇫🇷' : '')}{" "}
+                  {destinationCountry(destinoSeleccionado, language)}
                 </p>
 
                 <h2 id="destination-detail-title" className="text-4xl font-black md:text-5xl">
-                  {destinoSeleccionado.name}
+                  {selectedDisplay?.name}
                 </h2>
               </div>
             </div>
@@ -1214,7 +1234,7 @@ function abrirPaquete(destino = "") {
                 </p>
               )}
               <p className="text-lg leading-8 text-slate-300">
-                {text(destinoSeleccionado.description)}
+                {text(selectedDisplay?.description ?? destinoSeleccionado.description)}
               </p>
               {cardBudget && (
                 <p className="mt-4 rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-semibold text-cyan-100">
@@ -1227,7 +1247,7 @@ function abrirPaquete(destino = "") {
               </h3>
 
               <div className="mt-4 grid gap-3 sm:grid-cols-2">
-                {destinoSeleccionado.recommendations.map(
+                {(selectedDisplay?.recommendations ?? destinoSeleccionado.recommendations).map(
                   (recomendacion) => (
                     <div
                       key={recomendacion}
@@ -1242,7 +1262,7 @@ function abrirPaquete(destino = "") {
               {destinoSeleccionado.recommendedStay && (
                 <p className="mt-5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-300">
                   <span className="font-semibold text-white">{t("destinations.recommendedStay")}:</span>{" "}
-                  {destinoSeleccionado.recommendedStay}
+                  {selectedDisplay?.recommendedStay}
                 </p>
               )}
 
@@ -1253,8 +1273,21 @@ function abrirPaquete(destino = "") {
                   {!!destinoSeleccionado.lowSeasonMonths?.length && (
                     <p className="mt-1 text-slate-300">{t("destinations.quietSeason")}: {formatMonthList(destinoSeleccionado.lowSeasonMonths, language)}</p>
                   )}
-                  {destinoSeleccionado.seasonalityNote && <p className="mt-1 text-slate-300">{text(destinoSeleccionado.seasonalityNote)}</p>}
+                  {destinoSeleccionado.seasonalityNote && <p className="mt-1 text-slate-300">{text(selectedDisplay?.seasonalityNote ?? destinoSeleccionado.seasonalityNote)}</p>}
                   <p className="mt-1 text-xs text-slate-400">{t("destinations.seasonalityGuide")}</p>
+                </section>
+              )}
+
+              {!!selectedFrenchProfile?.accessAirports?.length && (
+                <section className="mt-4 rounded-2xl border border-cyan-300/20 p-4" aria-label={t('destinations.accessAirports')}>
+                  <h3 className="font-semibold text-white">{t('destinations.accessAirports')}</h3>
+                  <p className="mt-2 text-sm text-slate-300">{t('destinations.transferRequired')}</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {selectedFrenchProfile.accessAirports.map(airport => <button key={airport.iataCode} type="button"
+                      onClick={() => abrirVuelos(airport.iataCode)} className="min-h-[44px] rounded-xl border border-cyan-300/40 px-3 py-2 text-sm text-cyan-100">
+                      ✈️ {airport.name} ({airport.iataCode}) · {getDestinationCountryName({ countryCode: airport.countryCode, country: airport.countryCode }, language)}
+                    </button>)}
+                  </div>
                 </section>
               )}
 
@@ -1268,14 +1301,14 @@ function abrirPaquete(destino = "") {
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}
 
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                <button
+                {(!selectedFrenchProfile || selectedFrenchProfile.iataCodes.length > 0) && <button
                   onClick={() =>
                     abrirVuelos(destinoSeleccionado.name)
                   }
                   className="rounded-2xl bg-cyan-300 px-6 py-4 font-bold text-slate-950"
                 >
                   ✈️ {t("search.findFlights")}
-                </button>
+                </button>}
 
                 <button
                   onClick={() =>

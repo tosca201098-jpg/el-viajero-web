@@ -21,8 +21,9 @@ function load(file, dependencies = {}, globals = {}) {
 
 const spain = load('lib/destinations/spain.ts');
 const portugal = load('lib/destinations/portugal.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal });
-const featured = load('lib/destinations/featured.ts');
+const france = load('lib/destinations/france.ts');
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france });
+const featured = load('lib/destinations/featured.ts', { './france': france });
 const translations = load('lib/i18n/translations.ts');
 const dates = load('lib/itinerary/dates.ts');
 const schema = load('lib/itinerary/schema.ts');

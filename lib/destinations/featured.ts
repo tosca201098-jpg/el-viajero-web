@@ -1,3 +1,5 @@
+import { franceDestinations } from './france';
+
 export type Destination = {
   name: string;
   country: string;
@@ -17,21 +19,7 @@ export type Destination = {
 };
 
 export const destinations: Destination[] = [
-  {
-    name: "París",
-    country: "Francia",
-    emoji: "🇫🇷",
-    image:
-      "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80",
-    description:
-      "Arte, gastronomía, historia y algunos de los rincones más románticos de Europa.",
-    recommendations: [
-      "Torre Eiffel",
-      "Museo del Louvre",
-      "Montmartre",
-      "Crucero por el Sena",
-    ],
-  },
+  franceDestinations.find(destination => destination.id === 'fr-paris')!,
   {
     name: "Nueva York",
     country: "Estados Unidos",

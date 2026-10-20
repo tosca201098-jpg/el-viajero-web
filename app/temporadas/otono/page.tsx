@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import CountryDestinations from '@/app/components/CountryDestinations';
 
 const destinosOtono = [
   {
@@ -337,6 +338,7 @@ export default function OtonoPage() {
           </div>
         </div>
       )}
+      <CountryDestinations countryCode="FR" season="autumn" />
     </main>
   );
 }
