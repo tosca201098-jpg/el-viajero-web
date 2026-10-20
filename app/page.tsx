@@ -768,9 +768,10 @@ function abrirPaquete(destino = "") {
             onClick={() =>
               window.scrollTo({ top: 0, behavior: "smooth" })
             }
-            className="shrink-0 whitespace-nowrap text-xl font-black tracking-tight max-sm:text-sm"
+            aria-label="DESTINAUTA"
+            className="shrink-0 whitespace-nowrap text-xl font-black tracking-tight text-black max-sm:text-sm"
           >
-           DEST<span className="text-blue-500">INA</span>UTA
+           DEST<span className="text-blue-500">I<span className="text-black">N</span>A</span>UTA
           </button>
           <div className="flex min-w-0 items-center gap-1 sm:gap-3 max-sm:gap-0.5">
             <HeaderAuth onOpenAuth={setAuthMode} />
@@ -789,8 +790,8 @@ function abrirPaquete(destino = "") {
             alt={t("brand.name")}
             className="mx-auto mb-2 h-20 w-28 object-contain sm:h-24 sm:w-32 lg:mb-1 lg:h-16 lg:w-28 max-sm:mb-0 max-sm:h-8 max-sm:w-12"
           />
-          <h1 className="text-[clamp(2rem,7.5vw,6.5rem)] font-black leading-none tracking-tight text-stone-900 lg:text-[clamp(3.5rem,6vw,5rem)] max-sm:text-[clamp(1.75rem,7vw,1.875rem)]">
-            DEST<span className="text-blue-500">INA</span>UTA
+          <h1 aria-label="DESTINAUTA" className="text-[clamp(2rem,7.5vw,6.5rem)] font-black leading-none tracking-tight text-black lg:text-[clamp(3.5rem,6vw,5rem)] max-sm:text-[clamp(1.75rem,7vw,1.875rem)]">
+            DEST<span className="text-blue-500">I<span className="text-black">N</span>A</span>UTA
           </h1>
           <div aria-hidden="true" className="mx-auto mt-3 h-1 w-14 rounded-full bg-blue-500 md:mt-4 md:w-16 lg:mt-2 max-sm:mt-1" />
           <p className="mx-auto mt-4 max-w-2xl text-base leading-6 text-stone-700 sm:text-lg sm:leading-7 md:mt-5 md:text-xl lg:mt-3 lg:leading-6 max-sm:mt-1.5 max-sm:text-sm max-sm:leading-[18px]">

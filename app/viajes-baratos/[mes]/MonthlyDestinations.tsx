@@ -17,8 +17,8 @@ export default function MonthlyDestinations({ month, recommendations }: Props) {
     <main className="min-h-screen overflow-x-hidden bg-[#F7F2E8] text-stone-800">
       <header className="sticky top-0 z-40 border-b border-blue-600/20 bg-[#F7F2E8]/95 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:px-6">
-          <Link href="/" className="shrink-0 whitespace-nowrap text-lg font-black tracking-tight max-sm:text-base">
-            DEST<span className="text-blue-500">INA</span>UTA
+          <Link href="/" aria-label="DESTINAUTA" className="shrink-0 whitespace-nowrap text-lg font-black tracking-tight text-black max-sm:text-base">
+            DEST<span className="text-blue-500">I<span className="text-black">N</span>A</span>UTA
           </Link>
           <LanguageSelector />
         </div>
