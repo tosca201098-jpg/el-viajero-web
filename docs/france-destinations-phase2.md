@@ -1,5 +1,9 @@
 # Francia — fase 2 de la biblioteca de destinos
 
+La presentación descrita en esta fase queda sustituida por la política de
+[consulta expresa](france-explicit-selection.md): Francia permanece en el
+catálogo, pero no se muestra en tarjetas automáticas, incluido París.
+
 Base revisada: `main` en `d0ba73658604b9bd1b51f3e3be80d9548fd4f784`, tras la
 PR #5 del logotipo. Rama: `codex/france-destinations`.
 

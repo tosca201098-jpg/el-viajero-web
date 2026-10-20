@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import CountryDestinations from '@/app/components/CountryDestinations';
+import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
 
 import { franceDestinations } from '@/lib/destinations/france';
 const paris = franceDestinations.find(destination => destination.id === 'fr-paris')!;
@@ -426,6 +426,7 @@ export default function PrimaveraPage() {
     className="grid max-w-full gap-3 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:gap-2 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 lg:mx-auto lg:max-w-5xl lg:grid-cols-4"
   >
   {destinosPrimavera
+    .filter(destino => canShowDestinationAutomatically({ country: destino.pais }))
     .filter((destino) => destinosPrimaveraSeleccionados.has(destino.nombre))
     .map((destino) => {
     return (
@@ -548,7 +549,6 @@ export default function PrimaveraPage() {
           </div>
         </div>
       )}
-      <CountryDestinations countryCode="FR" season="spring" excludeIds={["fr-paris"]} />
     </main>
   );
 }
