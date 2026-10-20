@@ -15,6 +15,7 @@ function endpoint(payload, options = {}) {
   const calls = [], exports = {};
   vm.runInNewContext(compiled, {
     exports, URL, Response, Intl, AbortSignal,
+    require: id => { if(id !== '@/lib/travelpayouts/italy-airports') throw Error(id); return {italyPassengerAirports:[]}; },
     fetch: async (url, init) => {
       calls.push({ url: new URL(url), init });
       if (options.fail) throw Error('Provider unavailable');
@@ -38,7 +39,7 @@ for (const [term, expected] of Object.entries({ lyon:'LYS', marsella:'MRS', pari
     assert.equal(results[0].code, expected);
     assert.equal(results[0].country, 'Francia');
     assert.ok(results.length <= 6);
-    assert.equal(new Set(results.map(p => `${p.country}:${p.code}`)).size, results.length);
+    assert.equal(new Set(results.map(p => `${p.country}:${p.type}:${p.code}`)).size, results.length);
     if (['CDG','ORY','BVA'].includes(term)) {
       assert.equal(results[0].type, 'airport');
       assert.equal(results[0].cityName, 'París');

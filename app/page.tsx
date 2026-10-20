@@ -15,7 +15,7 @@ import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/sa
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { findDestinationProfile, getDestinationById, normalizeDestinationName } from "@/lib/destinations";
 import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
-import { destinationFromPlaceSelection } from '@/lib/destinations/selection';
+import { destinationFromPlaceSelection, accessAirportSearchInput } from '@/lib/destinations/selection';
 import { destinations, type Destination } from "@/lib/destinations/featured";
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 import { formatMonthName } from "@/lib/destinations/seasonality";
@@ -67,16 +67,17 @@ type DiscoverState =
   | { status: "error"; key: TranslationKey }
   | { status: "success"; origin: { name: string; code: string }; results: DiscoverResult[] };
 
-function frenchProfile(destination: Destination | null) {
-  const profile = destination ? findDestinationProfile({ name: destination.name }) : undefined;
-  return profile?.countryCode === 'FR' ? profile : undefined;
+function localizedCatalogProfile(destination: Destination | null) {
+  const profile = destination && 'id' in destination && typeof destination.id === 'string'
+    ? getDestinationById(destination.id) : undefined;
+  return profile && ['FR', 'IT'].includes(profile.countryCode) ? profile : undefined;
 }
 function destinationDisplay(destination: Destination, locale: Locale) {
-  const profile = frenchProfile(destination);
+  const profile = localizedCatalogProfile(destination);
   return profile ? getDestinationText(profile, locale) : destination;
 }
 function destinationCountry(destination: Destination, locale: Locale) {
-  const profile = frenchProfile(destination);
+  const profile = localizedCatalogProfile(destination);
   return profile ? getDestinationCountryName(profile, locale) : destination.country;
 }
 
@@ -229,7 +230,7 @@ voiceSearchRef.current = (datos) => {
   const [destinoSeleccionado, setDestinoSeleccionado] =
     useState<Destination | null>(null);
 
-  const selectedFrenchProfile = frenchProfile(destinoSeleccionado);
+  const selectedCatalogProfile = localizedCatalogProfile(destinoSeleccionado);
   const selectedDisplay = destinoSeleccionado ? destinationDisplay(destinoSeleccionado, language) : null;
 
   const [modal, setModal] = useState<"vuelos" | "hoteles" | "paquete" | null>(null);
@@ -275,7 +276,7 @@ voiceSearchRef.current = (datos) => {
   }
   function confirmFlightDestination(selection: Parameters<typeof destinationFromPlaceSelection>[0], value: string) {
     const profile = destinationFromPlaceSelection(selection);
-    setConfirmedFlightDestination(profile?.countryCode === 'FR' ? { destinationId: profile.id, value } : null);
+    setConfirmedFlightDestination(profile && ['FR', 'IT'].includes(profile.countryCode) ? { destinationId: profile.id, value } : null);
   }
   function openDestinationProfile(destination: Destination) {
     setFlightResultsOpen(false);
@@ -1119,7 +1120,7 @@ function abrirPaquete(destino = "") {
 
                 <div className="absolute bottom-2.5 left-2.5 right-2.5 max-sm:bottom-2 max-sm:left-2 max-sm:right-2">
                   <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs max-sm:leading-[14px]">
-                    {destino.emoji ?? (frenchProfile(destino) ? '🇫🇷' : '')} {destinationCountry(destino, language)}
+                    {destino.emoji ?? (localizedCatalogProfile(destino)?.countryCode === 'IT' ? '🇮🇹' : localizedCatalogProfile(destino) ? '🇫🇷' : '')} {destinationCountry(destino, language)}
                   </p>
 
                   <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-sm max-sm:leading-4">
@@ -1239,7 +1240,7 @@ function abrirPaquete(destino = "") {
 
               <div className="absolute bottom-6 left-6">
                 <p className="text-cyan-200">
-                  {destinoSeleccionado.emoji ?? (selectedFrenchProfile ? '🇫🇷' : '')}{" "}
+                  {destinoSeleccionado.emoji ?? (selectedCatalogProfile?.countryCode === 'IT' ? '🇮🇹' : selectedCatalogProfile ? '🇫🇷' : '')}{" "}
                   {destinationCountry(destinoSeleccionado, language)}
                 </p>
 
@@ -1305,13 +1306,13 @@ function abrirPaquete(destino = "") {
                 </section>
               )}
 
-              {!!selectedFrenchProfile?.accessAirports?.length && (
+              {!!selectedCatalogProfile?.accessAirports?.length && (
                 <section className="mt-4 rounded-2xl border border-cyan-300/20 p-4" aria-label={t('destinations.accessAirports')}>
                   <h3 className="font-semibold text-white">{t('destinations.accessAirports')}</h3>
-                  <p className="mt-2 text-sm text-slate-300">{t('destinations.transferRequired')}</p>
+                  <p className="mt-2 text-sm text-slate-300">{selectedCatalogProfile.countryCode === 'IT' ? t('destinations.cityAirportSearch', { destination: selectedDisplay?.name ?? selectedCatalogProfile.name }) : t('destinations.transferRequired')}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {selectedFrenchProfile.accessAirports.map(airport => <button key={airport.iataCode} type="button"
-                      onClick={() => abrirVuelos(airport.iataCode)} className="min-h-[44px] rounded-xl border border-cyan-300/40 px-3 py-2 text-sm text-cyan-100">
+                    {selectedCatalogProfile.accessAirports.map(airport => <button key={airport.iataCode} type="button"
+                      onClick={() => abrirVuelos(accessAirportSearchInput(selectedCatalogProfile, airport.iataCode))} className="min-h-[44px] rounded-xl border border-cyan-300/40 px-3 py-2 text-sm text-cyan-100">
                       ✈️ {airport.name} ({airport.iataCode}) · {getDestinationCountryName({ countryCode: airport.countryCode, country: airport.countryCode }, language)}
                     </button>)}
                   </div>
@@ -1328,7 +1329,7 @@ function abrirPaquete(destino = "") {
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}
 
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {(!selectedFrenchProfile || selectedFrenchProfile.iataCodes.length > 0) && <button
+                {(!selectedCatalogProfile || selectedCatalogProfile.iataCodes.length > 0) && <button
                   onClick={() =>
                     abrirVuelos(destinoSeleccionado.name)
                   }

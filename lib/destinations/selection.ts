@@ -6,9 +6,16 @@ export function destinationFromPlaceSelection(selection: {
   cityName: string | null; cityCode: string | null;
 }) {
   const profile = findDestinationProfile({
-    iataCode: selection.type === 'airport' ? selection.cityCode || selection.code : selection.code,
+    iataCode: selection.code,
     name: selection.type === 'airport' ? selection.cityName || selection.name : selection.name,
   });
-  if (!profile || normalizeDestinationName(selection.country) !== normalizeDestinationName(profile.country)) return undefined;
-  return profile;
+  const destination = profile ?? (selection.type === 'airport'
+    ? findDestinationProfile({ iataCode: selection.cityCode, name: selection.cityName }) : undefined);
+  if (!destination || normalizeDestinationName(selection.country) !== normalizeDestinationName(destination.country)) return undefined;
+  return destination;
+}
+
+/** Preserve city-based pricing when an Italian access airport belongs to a verified city group. */
+export function accessAirportSearchInput(destination: { countryCode: string; name: string }, airportCode: string) {
+  return destination.countryCode === 'IT' ? destination.name : airportCode;
 }

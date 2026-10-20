@@ -18,7 +18,8 @@ function load(file, dependencies = {}) {
 const spain = load('lib/destinations/spain.ts');
 const portugal = load('lib/destinations/portugal.ts');
 const france = load('lib/destinations/france.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france });
+const italy = load('lib/destinations/italy.ts', { './italy-images': load('lib/destinations/italy-images.ts') });
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy });
 const months = load('lib/destinations/months.ts');
 const monthly = load('lib/destinations/monthly.ts', { './index': library });
 

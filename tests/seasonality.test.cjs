@@ -18,14 +18,15 @@ function load(file, dependencies = {}) {
 const spain = load('lib/destinations/spain.ts');
 const portugal = load('lib/destinations/portugal.ts');
 const france = load('lib/destinations/france.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france });
+const italy = load('lib/destinations/italy.ts', { './italy-images': load('lib/destinations/italy-images.ts') });
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy });
 const formatting = load('lib/destinations/seasonality.ts');
 const { locales } = load('lib/i18n/translations.ts');
 
 test('all 65 Spanish and Portuguese profiles have valid tourist-season months', () => {
   assert.equal(spain.spainDestinations.length, 43);
   assert.equal(portugal.portugalDestinations.length, 22);
-  assert.equal(library.destinationProfiles.filter(profile => profile.countryCode !== 'FR').length, 65);
+  assert.equal(library.destinationProfiles.filter(profile => ['ES', 'PT'].includes(profile.countryCode)).length, 65);
   for (const profile of library.destinationProfiles) {
     for (const field of ['bestMonths', 'lowSeasonMonths', 'highSeasonMonths']) {
       const months = profile[field];

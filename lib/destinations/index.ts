@@ -1,6 +1,7 @@
 import { spainDestinations } from "./spain";
 import { portugalDestinations } from "./portugal";
 import { franceDestinations } from "./france";
+import { italyDestinations } from "./italy";
 import type { DestinationId, DestinationProfile } from "./types";
 
 export type { DestinationId, DestinationReference, DestinationAirport, DestinationText, DestinationProfile } from "./types";
@@ -9,9 +10,10 @@ export const destinationsByCountry: Readonly<Record<string, readonly Destination
   ES: spainDestinations,
   PT: portugalDestinations,
   FR: franceDestinations,
+  IT: italyDestinations,
 };
 
-export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations];
+export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations];
 
 export function getDestinationById(id: DestinationId): DestinationProfile | undefined {
   return destinationProfiles.find(destination => destination.id === id);

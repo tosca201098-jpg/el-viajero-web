@@ -37,9 +37,9 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 77 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,77);
-  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),d.countryCode!=='FR');
+test('automatic catalog recommendations hide added France profiles; all 89 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,89);
+  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
   assert.equal(presentation.canShowDestinationAutomatically({country:'Portugal'}),true);
@@ -81,7 +81,7 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const tree=Monthly({month,recommendations});
       const cards=nodes(tree).filter(n=>n.type==='article');
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
-      const expected=recommendations.filter(r=>r.destination.countryCode!=='FR').map(r=>localization.getDestinationText(r.destination,locale).name);
+      const expected=recommendations.filter(r=>!['FR','IT'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
     }
   }
@@ -109,12 +109,13 @@ const bridgeCode=ts.transpileModule(`${methods.changeFlightDestination}\n${metho
 test('budget discovery UI hides French cards while retaining the same ES/PT result objects and prices',()=>{
   let expression;
   (function walk(node){if(ts.isVariableDeclaration(node)&&node.name.getText(page)==='automaticDiscoverResults')expression=node.initializer.getText(page);ts.forEachChild(node,walk);})(page);
-  const results=[{destination:{name:'Lyon',country:'Francia',code:'LYS'},offer:{price:90}},
+  const results=[{destination:{name:'Roma',country:'Italia',code:'ROM'},offer:{price:80}},
+    {destination:{name:'Lyon',country:'Francia',code:'LYS'},offer:{price:90}},
     {destination:{name:'Madrid',country:'España',code:'MAD'},offer:{price:100}},
     {destination:{name:'Lisboa',country:'Portugal',code:'LIS'},offer:{price:110}}];
   const scope={discoverState:{status:'success',results},canShowDestinationAutomatically:presentation.canShowDestinationAutomatically};
   vm.runInNewContext(`this.visible=${expression};`,scope);
-  assert.equal(scope.visible.length,2);assert.equal(scope.visible[0],results[1]);assert.equal(scope.visible[1],results[2]);
+  assert.equal(scope.visible.length,2);assert.equal(scope.visible[0],results[2]);assert.equal(scope.visible[1],results[3]);
 });
 test('typing and confirming do not open a modal; View destination opens only the selected French profile in every language',()=>{
   for(const language of locales) for(const [name,code,id]of [['París','PAR','paris'],['Lyon','LYS','lyon'],['Niza','NCE','nice'],['Marsella','MRS','marseille']]) {
@@ -129,6 +130,24 @@ test('typing and confirming do not open a modal; View destination opens only the
     assert.equal(opened.length,0);
     const button=scope.button();assert.equal(button.type,'button');assert.ok(text(button).includes(localization.getDestinationText(catalog.getDestinationById('fr-'+id),language).name));
     button.props.onClick();assert.equal(opened.length,1);assert.equal(opened[0],catalog.getDestinationById('fr-'+id));
+    scope.change(name+'x');assert.equal(scope.button(),null);assert.equal(opened.length,1);
+  }
+});
+
+test('typing and confirming do not open a modal; View destination opens only the selected Italian profile in every language',()=>{
+  for(const language of locales) for(const destination of catalog.getDestinationsByCountry('IT')) {
+    const name=localization.getDestinationText(destination,language).name,code=destination.iataCodes[0],id=destination.id;
+    const opened=[],scope={React:react,language,destinoVuelo:'',confirmedFlightDestination:null,
+      destinationFromPlaceSelection:presentation.destinationFromPlaceSelection,getDestinationById:catalog.getDestinationById,
+      getDestinationText:localization.getDestinationText,t:(k,v)=>dictionaries.translate(language,k,v),
+      setDestinoVuelo:v=>{scope.destinoVuelo=v;},setConfirmedFlightDestination:v=>{scope.confirmedFlightDestination=v;},
+      setFlightResultsOpen:()=>{},setModal:()=>{},setDestinoSeleccionado:d=>opened.push(d)};
+    vm.runInNewContext(bridgeCode,scope);
+    scope.change(name);assert.equal(opened.length,0);assert.equal(scope.button(),null);
+    scope.confirm({type:'city',name,code,country:'Italia',cityName:null,cityCode:null},name);
+    assert.equal(opened.length,0);
+    const button=scope.button();assert.equal(button.type,'button');assert.ok(text(button).includes(localization.getDestinationText(catalog.getDestinationById(id),language).name));
+    button.props.onClick();assert.equal(opened.length,1);assert.equal(opened[0],catalog.getDestinationById(id));
     scope.change(name+'x');assert.equal(scope.button(),null);assert.equal(opened.length,1);
   }
 });
