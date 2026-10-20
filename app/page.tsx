@@ -6,7 +6,6 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import AuthDialog from "./components/AuthDialog";
 import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryPlanner";
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
-import DestinationProfilePicker from './components/DestinationProfilePicker';
 import HeaderAuth from "./components/HeaderAuth";
 import LanguageSelector from "./components/LanguageSelector";
 import { getDestinationText, getDestinationCountryName } from '@/lib/destinations/localization';
@@ -1096,7 +1095,6 @@ function abrirPaquete(destino = "") {
             <span aria-hidden="true">→</span>
           </button>
         </div>
-        <DestinationProfilePicker onSelect={openDestinationProfile} />
         <div
           ref={destinationsCarouselRef}
           id="destinations-carousel"
