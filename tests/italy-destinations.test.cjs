@@ -112,3 +112,11 @@ test('Italian seasonality remains reusable data without automatic cards, publica
     for(const field of ['price','hotelPrice','flightPrice','available','hotelId'])assert.equal(d[field],undefined);
   }
 });
+
+test('Italian access buttons pass the canonical city to the unchanged resolver; French access and all seven explanatory translations remain valid',()=>{
+  const input=load('lib/destinations/selection.ts').accessAirportSearchInput;
+  for(const [id,code]of [['it-milan','BGY'],['it-venice','TSF']])assert.equal(input(catalog.getDestinationById(id),code),catalog.getDestinationById(id).name);
+  assert.equal(input(catalog.getDestinationById('fr-annecy'),'GVA'),'GVA');
+  const translations=load('lib/i18n/translations.ts');
+  for(const locale of locales){const message=translations.translate(locale,'destinations.cityAirportSearch',{destination:'Milano'});assert.ok(message.includes('Milano'));assert.ok(!message.includes('{destination}'));assert.ok(!message.includes('destinations.cityAirportSearch'));}
+});

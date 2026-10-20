@@ -14,3 +14,8 @@ export function destinationFromPlaceSelection(selection: {
   if (!destination || normalizeDestinationName(selection.country) !== normalizeDestinationName(destination.country)) return undefined;
   return destination;
 }
+
+/** Preserve city-based pricing when an Italian access airport belongs to a verified city group. */
+export function accessAirportSearchInput(destination: { countryCode: string; name: string }, airportCode: string) {
+  return destination.countryCode === 'IT' ? destination.name : airportCode;
+}

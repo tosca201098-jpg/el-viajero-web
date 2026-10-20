@@ -116,7 +116,9 @@ La deduplicación incluye el tipo para no confundir ciudad y aeropuerto.
 
 Se conserva la búsqueda de precios por ciudad: seleccionar FCO utiliza Roma/ROM,
 MXP/LIN/BGY utiliza Milán/MIL, y VCE/TSF utiliza Venecia/VCE, como antes.
-No se introduce un filtro de precios por aeropuerto físico. Los códigos ajenos
+No se introduce un filtro de precios por aeropuerto físico. Los botones de acceso
+BGY/TSF también trasladan la ciudad al formulario, con una explicación en los
+siete idiomas; no envían un código físico aislado al resolutor de ciudades. Los códigos ajenos
 al catálogo siguen disponibles en el autocompletado y el buscador de vuelos.
 El recurso verificado es una captura fechada: deberá revisarse si cambian los
 códigos, servicios o agrupaciones. No garantiza rutas ni disponibilidad en fechas concretas.
@@ -156,7 +158,7 @@ No se sustituyen fotografías de las 77 fichas anteriores ni de tarjetas origina
 
 ## Verificación y pendientes
 
-Pruebas automatizadas: 161 correctas; conservación de las 77 fichas y tarjetas,
+Pruebas automatizadas: 162 correctas; conservación de las 77 fichas y tarjetas,
 traducciones, contratos de itinerarios, 40 IATA, Roma/Milán/Venecia, selección de
 las doce fichas en siete idiomas y recorrido completo de voz a generación visible
 para las doce identidades en los siete idiomas. Se conservan las pruebas anteriores

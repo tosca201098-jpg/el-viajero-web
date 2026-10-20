@@ -15,7 +15,7 @@ import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/sa
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { findDestinationProfile, getDestinationById, normalizeDestinationName } from "@/lib/destinations";
 import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
-import { destinationFromPlaceSelection } from '@/lib/destinations/selection';
+import { destinationFromPlaceSelection, accessAirportSearchInput } from '@/lib/destinations/selection';
 import { destinations, type Destination } from "@/lib/destinations/featured";
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 import { formatMonthName } from "@/lib/destinations/seasonality";
@@ -1309,10 +1309,10 @@ function abrirPaquete(destino = "") {
               {!!selectedCatalogProfile?.accessAirports?.length && (
                 <section className="mt-4 rounded-2xl border border-cyan-300/20 p-4" aria-label={t('destinations.accessAirports')}>
                   <h3 className="font-semibold text-white">{t('destinations.accessAirports')}</h3>
-                  <p className="mt-2 text-sm text-slate-300">{t('destinations.transferRequired')}</p>
+                  <p className="mt-2 text-sm text-slate-300">{selectedCatalogProfile.countryCode === 'IT' ? t('destinations.cityAirportSearch', { destination: selectedDisplay?.name ?? selectedCatalogProfile.name }) : t('destinations.transferRequired')}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {selectedCatalogProfile.accessAirports.map(airport => <button key={airport.iataCode} type="button"
-                      onClick={() => abrirVuelos(airport.iataCode)} className="min-h-[44px] rounded-xl border border-cyan-300/40 px-3 py-2 text-sm text-cyan-100">
+                      onClick={() => abrirVuelos(accessAirportSearchInput(selectedCatalogProfile, airport.iataCode))} className="min-h-[44px] rounded-xl border border-cyan-300/40 px-3 py-2 text-sm text-cyan-100">
                       ✈️ {airport.name} ({airport.iataCode}) · {getDestinationCountryName({ countryCode: airport.countryCode, country: airport.countryCode }, language)}
                     </button>)}
                   </div>
