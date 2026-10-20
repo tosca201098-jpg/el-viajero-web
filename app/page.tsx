@@ -8,7 +8,6 @@ import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryP
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
 import HeaderAuth from "./components/HeaderAuth";
 import LanguageSelector from "./components/LanguageSelector";
-import CountryDestinations from './components/CountryDestinations';
 import { getDestinationText, getDestinationCountryName } from '@/lib/destinations/localization';
 import type { Locale } from '@/lib/i18n/translations';
 import { getSupabaseClient } from "@/lib/supabase/client";
@@ -1118,7 +1117,6 @@ function abrirPaquete(destino = "") {
         </div>
         </div>
       </section>
-<CountryDestinations countryCode="FR" onSelect={setDestinoSeleccionado} />
 {/* VIAJAR SEGÚN LA TEMPORADA */}
 <section className="relative z-10 mx-auto max-w-7xl px-6 pb-6 pt-12 sm:pb-8 sm:pt-14 lg:pt-16">
   <div className="mb-5 text-center sm:mb-6">

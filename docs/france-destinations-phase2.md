@@ -43,9 +43,10 @@ aeropuerto de acceso y advierte del traslado terrestre separado.
 
 - El registro por país ISO `FR` y `destinationProfiles` incorporan las mismas
   referencias a objetos de `france.ts`. ID y slug se asignan explícitamente.
-- Portada, temporadas y páginas mensuales permiten descubrir Francia y abrir
-  las fichas existentes de la portada. Las tarjetas usan los mismos objetos,
-  con los textos de presentación obtenidos mediante `getDestinationText`.
+- Las temporadas y páginas mensuales permiten descubrir Francia y abrir sus
+  fichas. Las tarjetas usan los mismos objetos, con los textos de presentación
+  obtenidos mediante `getDestinationText`. La portada conserva su estructura
+  original y la tarjeta destacada de París, sin secciones independientes por país.
 - Las nueve ciudades con códigos urbanos verificados reutilizan el buscador
   actual. El único cambio en el resolutor de ciudades sustituye dos reglas
   ES/PT por `countryCode` del perfil. No cambian peticiones de precios,
@@ -72,8 +73,8 @@ La tarjeta de París en `featured.ts` referencia directamente `fr-paris`.
 La selección de primavera usa su nombre, país, imagen y recomendaciones,
 manteniendo su categoría y descripción editorial de jardines. Notre-Dame se
 conserva en el texto de la ficha. La nueva selección francesa de primavera
-excluye París porque ya figura en esa página. La portada puede mostrar París
-en destacados y en la colección de Francia; ambas abren la misma ficha.
+excluye París porque ya figura en esa página. La portada muestra París solamente
+en su selección original de destacados y abre la misma ficha canónica.
 
 No se consolidan regiones como Valle del Loira o Borgoña con ciudades ni se
 migran las selecciones antiguas de España/Portugal. Esa revisión editorial
