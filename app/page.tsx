@@ -6,6 +6,7 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import AuthDialog from "./components/AuthDialog";
 import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryPlanner";
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
+import DestinationProfilePicker from './components/DestinationProfilePicker';
 import HeaderAuth from "./components/HeaderAuth";
 import LanguageSelector from "./components/LanguageSelector";
 import { getDestinationText, getDestinationCountryName } from '@/lib/destinations/localization';
@@ -13,7 +14,9 @@ import type { Locale } from '@/lib/i18n/translations';
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/saved-trips";
 import type { TranslationKey } from "@/lib/i18n/translations";
-import { findDestinationProfile, normalizeDestinationName } from "@/lib/destinations";
+import { findDestinationProfile, getDestinationById, normalizeDestinationName } from "@/lib/destinations";
+import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
+import { destinationFromPlaceSelection } from '@/lib/destinations/selection';
 import { destinations, type Destination } from "@/lib/destinations/featured";
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 import { formatMonthName } from "@/lib/destinations/seasonality";
@@ -264,6 +267,28 @@ voiceSearchRef.current = (datos) => {
   // VUELOS
   const [origen, setOrigen] = useState("");
   const [destinoVuelo, setDestinoVuelo] = useState("");
+  const [confirmedFlightDestination, setConfirmedFlightDestination] = useState<{ destinationId: string; value: string } | null>(null);
+  const confirmedFlightProfile = confirmedFlightDestination?.value === destinoVuelo
+    ? getDestinationById(confirmedFlightDestination.destinationId) : undefined;
+  function changeFlightDestination(value: string) {
+    setDestinoVuelo(value);
+    setConfirmedFlightDestination(null);
+  }
+  function confirmFlightDestination(selection: Parameters<typeof destinationFromPlaceSelection>[0], value: string) {
+    const profile = destinationFromPlaceSelection(selection);
+    setConfirmedFlightDestination(profile?.countryCode === 'FR' ? { destinationId: profile.id, value } : null);
+  }
+  function openDestinationProfile(destination: Destination) {
+    setFlightResultsOpen(false);
+    setModal(null);
+    setDestinoSeleccionado(destination);
+  }
+  function renderConfirmedDestination() {
+    return confirmedFlightProfile ? <button type="button" onClick={() => openDestinationProfile(confirmedFlightProfile)}
+      className="mt-1 min-h-[44px] text-left text-sm font-semibold text-blue-700 underline">
+      {t('monthly.viewDestination')}: {getDestinationText(confirmedFlightProfile, language).name}
+    </button> : null;
+  }
   const [fechaIda, setFechaIda] = useState("");
   const [fechaVuelta, setFechaVuelta] = useState("");
   const [pasajeros, setPasajeros] = useState(1);
@@ -735,6 +760,8 @@ function abrirPaquete(destino = "") {
   const flightDestinationCard = flightSearch.status === "success"
     ? findFlightDestination(flightSearch.destination.code, flightSearch.destination.name, flightSearch.query.destination)
     : undefined;
+  const automaticDiscoverResults = discoverState.status === 'success'
+    ? discoverState.results.filter(result => canShowDestinationAutomatically(result.destination)) : [];
   const cardBudget = flightResultsOpen && flightSearch.status === "success"
     ? flightSearch.query.budget
     : nonFlightVoiceBudget?.service === "hotel" && nonFlightVoiceBudget.destination === destinoSeleccionado?.name
@@ -841,7 +868,10 @@ function abrirPaquete(destino = "") {
                   </label>
                   <div className="grid gap-x-4 gap-y-1 sm:grid-cols-2 max-sm:grid-cols-2 max-sm:gap-x-2 max-sm:[&>label:last-child:nth-child(odd)]:col-span-2">
                       <FlightLocationAutocomplete label={t("search.origin")} value={origen} onChange={setOrigen} placeholder="Madrid" variant="main" />
-                      {!discoverMode && <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={setDestinoVuelo} placeholder="París" variant="main" />}
+                      {!discoverMode && <div className="min-w-0">
+                        <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={changeFlightDestination} onSelect={confirmFlightDestination} placeholder="París" variant="main" />
+                        {renderConfirmedDestination()}
+                      </div>}
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
                         {t("search.departureDate")}
                         <input required type="date" value={fechaIda} onChange={(e) => setFechaIda(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
@@ -1000,14 +1030,14 @@ function abrirPaquete(destino = "") {
           </div>
           {discoverMode && discoverState.status === "success" && (
             <div className="mt-5 text-left" aria-live="polite">
-              {discoverState.results.length === 0 ? (
+              {automaticDiscoverResults.length === 0 ? (
                 <p role="status" className="rounded-2xl border border-blue-200 bg-blue-50 p-4 text-sm text-blue-950">
                   {t("search.discoverEmpty")}
                 </p>
               ) : <>
                 <h2 className="mb-3 text-xl font-black text-stone-900">{t("search.discoverResults")}</h2>
                 <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                  {discoverState.results.map((result) => (
+                  {automaticDiscoverResults.map((result) => (
                     <button key={result.destination.code} type="button"
                       onClick={() => openDiscoveredDestination(result, discoverState.origin)}
                       className="group min-w-0 overflow-hidden rounded-2xl border border-blue-200 bg-white text-left shadow-sm transition hover:border-blue-500 hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
@@ -1066,6 +1096,7 @@ function abrirPaquete(destino = "") {
             <span aria-hidden="true">→</span>
           </button>
         </div>
+        <DestinationProfilePicker onSelect={openDestinationProfile} />
         <div
           ref={destinationsCarouselRef}
           id="destinations-carousel"
@@ -1074,7 +1105,7 @@ function abrirPaquete(destino = "") {
           tabIndex={0}
           className="mx-auto grid max-w-full gap-2 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 md:landscape:grid-cols-4 xl:grid-cols-4"
         >
-          {destinations.map((destino) => (
+          {destinations.filter(canShowDestinationAutomatically).map((destino) => (
             <article
               key={destino.name}
               className="group flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 max-sm:snap-start max-sm:hover:translate-y-0"
@@ -1348,7 +1379,10 @@ function abrirPaquete(destino = "") {
               <div className="grid gap-4 md:grid-cols-2">
                 <FlightLocationAutocomplete label={t("search.origin")} value={origen} onChange={setOrigen} placeholder="Madrid" variant="modal" />
 
-                <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={setDestinoVuelo} placeholder="París" variant="modal" />
+                <div className="min-w-0">
+                  <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={changeFlightDestination} onSelect={confirmFlightDestination} placeholder="París" variant="modal" />
+                  {renderConfirmedDestination()}
+                </div>
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">

@@ -6,6 +6,7 @@ import { useLanguage } from "@/app/components/LanguageProvider";
 import { formatMonthName } from "@/lib/destinations/seasonality";
 import { getDestinationCountryName, getDestinationText } from "@/lib/destinations/localization";
 import type { MonthlyRecommendation } from "@/lib/destinations/monthly";
+import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
 
 type Props = { month: number; recommendations: MonthlyRecommendation[] };
 
@@ -40,7 +41,7 @@ export default function MonthlyDestinations({ month, recommendations }: Props) {
         </div>
 
         <div className="mt-8 grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {recommendations.map(({ destination, reason }) => {
+          {recommendations.filter(({ destination }) => canShowDestinationAutomatically(destination)).map(({ destination, reason }) => {
             const country = getDestinationCountryName(destination, language);
             const display = getDestinationText(destination, language);
             const stay = display.recommendedStay.replace("días", t("monthly.days"));

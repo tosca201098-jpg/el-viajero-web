@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import CountryDestinations from '@/app/components/CountryDestinations';
+import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
 
 const destinosVerano = [
   {
@@ -217,6 +217,7 @@ export default function VeranoPage() {
     className="grid max-w-full gap-3 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:gap-2 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 lg:mx-auto lg:max-w-5xl lg:grid-cols-4"
   >
   {destinosVerano
+    .filter(destino => canShowDestinationAutomatically({ country: destino.pais }))
     .map((destino) => {
     return (
       <article
@@ -338,7 +339,6 @@ export default function VeranoPage() {
           </div>
         </div>
       )}
-      <CountryDestinations countryCode="FR" season="summer" />
     </main>
   );
 }

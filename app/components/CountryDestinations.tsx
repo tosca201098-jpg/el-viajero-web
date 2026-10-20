@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useLanguage } from './LanguageProvider';
 import { getDestinationsByCountry, getDestinationsForSeason, type DestinationProfile, type DestinationSeason } from '@/lib/destinations';
 import { getDestinationCountryName, getDestinationText } from '@/lib/destinations/localization';
+import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
 
 export default function CountryDestinations({ countryCode, season, excludeIds = [], onSelect }: {
   countryCode: string;
@@ -13,7 +14,7 @@ export default function CountryDestinations({ countryCode, season, excludeIds = 
 }) {
   const { language, t } = useLanguage();
   const destinations = (season ? getDestinationsForSeason(season, countryCode) : getDestinationsByCountry(countryCode))
-    .filter(destination => !excludeIds.includes(destination.id));
+    .filter(destination => canShowDestinationAutomatically(destination) && !excludeIds.includes(destination.id));
   if (!destinations.length) return null;
   const country = getDestinationCountryName(destinations[0], language);
   return (

@@ -114,11 +114,12 @@ test('monthly rendering uses the country helper for a future country without add
       '@/app/components/LanguageProvider': { useLanguage: () => ({ language, t: (key, vars) => translations.translate(language, key, vars) }) },
       '@/lib/destinations/seasonality': { formatMonthName: () => 'Mes' },
       '@/lib/destinations/localization': localization,
+      '@/lib/destinations/presentation': load('lib/destinations/presentation.ts', { './index': library }),
     }, { React: { createElement } }).default;
-    const fixture = { ...library.destinationProfiles[0], countryCode: 'FR', country: 'Francia' };
+    const fixture = { ...library.destinationProfiles[0], countryCode: 'IT', country: 'Italia' };
     const tree = component({ month: 4, recommendations: [{ destination: fixture, reason: 'best' }] });
     const text = textNodes(tree);
-    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('FR')), language);
+    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('IT')), language);
     assert.ok(!text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('PT')), language);
   }
 });

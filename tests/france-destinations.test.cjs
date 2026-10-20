@@ -83,7 +83,7 @@ test('French seasonality supports both Alpine seasons and Christmas without inve
   assert.ok(library.getDestinationsForSeason('spring','FR').includes(byId('paris')));
 });
 
-test('Paris featured and spring selections reference the canonical profile and retain the seasonal context', () => {
+test('Paris remains canonical in stored editorial data while its automatic cards are hidden', () => {
   const featured=load('lib/destinations/featured.ts');
   assert.equal(featured.destinations[0],byId('paris'));
   assert.equal(featured.destinations.filter(d=>d.name==='París').length,1);
@@ -122,21 +122,19 @@ function renderHarness(locale) {
   return {renderLoad,nodes,text:tree=>nodes(tree).filter(n=>typeof n==='string').join(' ')};
 }
 
-test('country and monthly cards render all seven languages, preserve stable links and never offer a flight to a transfer-only destination', () => {
+test('French country and monthly cards stay hidden by default in all seven languages', () => {
   for(const locale of codes) {
     const h=renderHarness(locale), Country=h.renderLoad('app/components/CountryDestinations.tsx').default;
     let selected;
     const tree=Country({countryCode:'FR',onSelect:d=>{selected=d;}});
-    const buttons=h.nodes(tree).filter(n=>n?.type==='button'); assert.equal(buttons.length,12);
-    buttons[1].props.onClick(); assert.equal(selected.id,'fr-nice');
-    assert.ok(h.text(tree).includes(localization.getDestinationText(byId('nice'),locale).name));
+    assert.equal(tree,null); assert.equal(selected,undefined);
     const Monthly=h.renderLoad('app/viajes-baratos/[mes]/MonthlyDestinations.tsx').default;
     const monthlyTree=Monthly({month:5,recommendations:france.map(destination=>({destination,reason:'best'}))});
     const links=h.nodes(monthlyTree).filter(n=>n?.type==='a');
     for(const d of france) {
-      assert.ok(links.some(n=>n.props.href===`/?ficha=${encodeURIComponent(d.name)}`));
-      assert.equal(links.some(n=>n.props.href===`/?primaveraServicio=vuelo&destino=${encodeURIComponent(d.name)}`),d.iataCodes.length>0);
-      assert.ok(h.text(monthlyTree).includes(localization.getDestinationText(d,locale).name));
+      assert.ok(!links.some(n=>n.props.href===`/?ficha=${encodeURIComponent(d.name)}`));
+      assert.ok(!links.some(n=>n.props.href===`/?primaveraServicio=vuelo&destino=${encodeURIComponent(d.name)}`));
+      assert.ok(!h.text(monthlyTree).includes(localization.getDestinationText(d,locale).name));
     }
   }
 });
