@@ -428,7 +428,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "IBZ"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/Dalt_Vila_20160421_111948.jpg/1280px-Dalt_Vila_20160421_111948.jpg",
+    "image": "/images/ibiza-dalt-vila-roxfuchs.jpg",
     "description": "Calas mediterráneas, casco histórico amurallado y atardeceres frente al mar.",
     "recommendations": [
       "Dalt Vila",
