@@ -1,8 +1,21 @@
 # Actualización de seguridad de Next.js
 
-Fecha de comprobación: 19 de octubre de 2026.
-Base: `origin/main`, commit `ed74f1079c733aab0b8a5a255887206a918146e1`.
+Fecha de revalidación: 20 de octubre de 2026.
+Base actual: `origin/main`, commit `1aa990966df59e0fdbd0557c345d4f20d95b00db`,
+después de la fusión de la PR #3. Base inicial: `ed74f1079c733aab0b8a5a255887206a918146e1`.
 Rama: `codex/security-nextjs-upgrade`.
+
+## Incorporación de la PR #3
+
+Se incorpora `main` mediante una fusión sin conflictos sobre la revisión de seguridad
+`e1a3942f252f7d59d92f70db1495e49d8e72b407`. Se conservan ambos historiales.
+Los cinco archivos de la PR #3 coinciden íntegramente con `main`: página principal,
+traducciones, helper de mensajes, pruebas y documentación del buscador.
+
+Se mantienen los siete idiomas y los mensajes diferenciados de configuración ausente,
+fallo del servicio y consulta válida sin precios recientes. No se cambia el backend de
+vuelos, la resolución IATA, las fechas flexibles, las búsquedas por presupuesto ni la
+voz. `package.json` y `package-lock.json` son idénticos a la revisión anterior de la PR #2.
 
 ## Dependencias y compatibilidad
 
@@ -73,27 +86,45 @@ Tailwind 4 en esta PR.
 
 ## Validación
 
-Entorno: Node.js 24.19.0, npm 11.9.0, Linux.
+Revalidación actual: Node.js 24.19.0, npm 11.9.0, Windows, copia aislada sin archivos
+de entorno ni credenciales de servicios. Se usa el CLI de npm instalado en el entorno.
 
-- `npm ci --no-audit --no-fund`: instalación limpia correcta; auditoría ejecutada
-  por separado. El cache de npm se ubica en `/tmp` por los permisos del entorno.
-- `node --test --test-isolation=none tests/*.test.cjs`: 66 pruebas correctas,
-  incluidas las 64 existentes y dos nuevas para los parámetros asíncronos.
-  Se usa el modo sin aislamiento de procesos de Node 24 para obtener y ejecutar
-  los casos individuales, además del resultado por archivo.
-- `node_modules/.bin/tsc --noEmit --incremental false`: sin errores.
+- `npm ci --no-audit --no-fund`: instalación limpia correcta, 390 paquetes;
+  auditoría ejecutada por separado. Sin modificar el lockfile ni ejecutar `audit fix`.
+- `node --test --test-isolation=none tests/*.test.cjs`: **78 pruebas correctas**,
+  incluidas las 66 de seguridad y las 12 incorporadas por la PR #3.
+- `node node_modules/typescript/bin/tsc --noEmit --incremental false`: sin errores.
 - `npm run lint`: sin errores; conserva avisos previos sobre imágenes `<img>`.
+  Next.js 15 también avisa de la retirada futura de `next lint` en la versión 16;
+  no se modifica la configuración de lint en esta revalidación.
 - `npm ls --all`: árbol de dependencias válido, sin errores de peers/overrides.
-- `npm run build`: correcto, incluidas las doce páginas mensuales estáticas y
-  todas las rutas de API.
+- `node node_modules/next/dist/bin/next build`: correcto, 27 páginas generadas,
+  incluidas las doce páginas mensuales y las rutas de API. Se descarga la fuente real.
+  En Windows, `npm run build` encontró `EPERM` al crear directorios de `.next`;
+  ejecutar directamente el mismo CLI de Next.js completó la compilación. No se
+  cambiaron scripts, fuentes, estilos ni configuración para resolver este límite local.
 - `npm audit --omit=dev` y `npm audit`: 9 avisos, descritos arriba.
-- Chromium sobre `next start`: portada en escritorio y móvil sin errores de
-  hidratación ni excepciones del navegador; selección de los siete idiomas;
-  envío de búsqueda y presentación de vuelos; apertura de ficha y generación
-  de itinerario; doce páginas mensuales con canónicas correctas y 404 para un
-  mes inválido; cuatro enlaces estacionales de vuelta a la portada; rutas de
-  destinos y recuperación de contraseña. Las API de vuelos e itinerarios y
-  los recursos externos se simulan o se bloquean en esta comprobación local.
+- 24 comprobaciones HTTP reales en un servidor de producción local de Next.js,
+  dentro del mismo proceso de prueba: portada, recuperación, destinos, cuatro
+  estaciones, doce meses y sus canónicas, sitemap, robots y mes inválido con 404.
+  La ruta genérica de destinos conserva su comportamiento previo de placeholder
+  con HTTP 200. Vuelos sin token devuelve realmente `503` y `not_configured`.
+- 28 comprobaciones adicionales del componente real `AuthDialog` con React y SDK
+  simulados: acceso correcto/incorrecto y registro con confirmación/cuenta existente
+  en los siete idiomas. No crean usuarios ni envían correos. Se registran aparte de
+  las 78 pruebas del repositorio; los scripts de comprobación son externos al proyecto.
+- Revisión de las 22 trazas de despliegue `.nft.json`: no contienen archivos de
+  `braces`, `chokidar`, `micromatch`, `fast-glob`, `postcss-nested` o
+  `postcss-selector-parser`. Es evidencia de su uso como herramientas, no una
+  demostración de ausencia de vulnerabilidades ni motivo para ocultar los avisos.
+
+El navegador automatizado local no llegó a abrir la aplicación: el entorno Windows
+bloqueó el arranque de Edge y el navegador integrado no pudo acceder al servidor
+local aislado. No se da por repetida en esta revisión la comprobación visual previa
+de Chromium, que sí se había realizado el 19 de octubre. La compilación, los HTTP
+reales y las simulaciones anteriores se distinguen de una prueba visual completa.
+El estado de la nueva Preview y las verificaciones visuales posibles se registran
+en la descripción de la PR tras publicar esta revisión.
 
 Las pruebas existentes cubren búsqueda exacta y flexible de vuelos, descubrimiento
 por presupuesto, sesión y API de voz, itinerarios, recuperación de contraseñas,
@@ -104,5 +135,6 @@ su contenido original, así como los siete idiomas.
 Las integraciones se verifican con respuestas simuladas. No se han solicitado
 credenciales ni realizado llamadas reales de voz/IA/vuelos o escrituras en
 Supabase. Los scripts SQL de RLS requieren una instancia de Supabase y no se han
-ejecutado en este entorno. No se han modificado configuraciones de producción ni
-realizado despliegues.
+ejecutado en este entorno. No se han modificado configuraciones ni realizado
+despliegues de producción. La actualización de la rama solo puede generar una
+nueva Preview con la configuración existente, sin añadir variables ni credenciales.
