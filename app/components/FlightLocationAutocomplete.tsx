@@ -16,13 +16,14 @@ type Props = {
   label: string;
   value: string;
   onChange: (value: string) => void;
+  onSelect?: (suggestion: Suggestion, value: string) => void;
   placeholder: string;
   variant: "main" | "modal";
 };
 
 type PopupPosition = { top?: number; bottom?: number; left: number; width: number; maxHeight: number };
 
-export default function FlightLocationAutocomplete({ label, value, onChange, placeholder, variant }: Props) {
+export default function FlightLocationAutocomplete({ label, value, onChange, onSelect, placeholder, variant }: Props) {
   const id = useId();
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -121,6 +122,7 @@ export default function FlightLocationAutocomplete({ label, value, onChange, pla
     setOpen(false);
     setActiveIndex(-1);
     inputRef.current?.focus();
+    onSelect?.(suggestion, selectedCity);
   }
 
   const inputClassName = variant === "main"

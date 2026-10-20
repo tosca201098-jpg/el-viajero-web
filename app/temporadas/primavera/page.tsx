@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import CountryDestinations from '@/app/components/CountryDestinations';
 
 import { franceDestinations } from '@/lib/destinations/france';
 const paris = franceDestinations.find(destination => destination.id === 'fr-paris')!;
@@ -548,7 +547,6 @@ export default function PrimaveraPage() {
           </div>
         </div>
       )}
-      <CountryDestinations countryCode="FR" season="spring" excludeIds={["fr-paris"]} />
     </main>
   );
 }
