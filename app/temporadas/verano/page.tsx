@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
 
 const destinosVerano = [
   {
@@ -168,12 +169,12 @@ export default function VeranoPage() {
   return (
     <main className="min-h-screen bg-[#F7F2E8] text-stone-800">
       <section className="mx-auto max-w-7xl px-6 py-20 lg:py-12">
-        <a
+        <Link
           href="/"
           className="inline-flex rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold backdrop-blur-md"
         >
           ← Volver a Destinauta
-        </a>
+        </Link>
 
         <div className="mt-10 sm:mt-12 lg:mt-7">
           <p className="text-sm font-bold tracking-[0.35em] text-cyan-800">
