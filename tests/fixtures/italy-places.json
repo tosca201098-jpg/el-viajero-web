@@ -1,0 +1,1738 @@
+{
+  "Roma": [
+    {
+      "type": "city",
+      "name": "Roma",
+      "code": "ROM",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 180705,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Fiumicino",
+      "code": "FCO",
+      "country_code": "IT",
+      "city_name": "Roma",
+      "city_code": "ROM",
+      "weight": 105242,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Bucarest",
+      "code": "BUH",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 38462,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Ciampino",
+      "code": "CIA",
+      "country_code": "IT",
+      "city_name": "Roma",
+      "city_code": "ROM",
+      "weight": 1137,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Oradea",
+      "code": "OMR",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 324,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Otopeni Intl",
+      "code": "OTP",
+      "country_code": "RO",
+      "city_name": "Bucarest",
+      "city_code": "BUH",
+      "weight": 17127,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Roma",
+      "code": "RMA",
+      "country_code": "AU",
+      "city_name": null,
+      "city_code": null,
+      "weight": 5,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Cluj Napoca",
+      "code": "CLJ",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 4108,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Iaşi",
+      "code": "IAS",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3112,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Brașov",
+      "code": "GHV",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 630,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Constanza",
+      "code": "CND",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 184,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Baneasa",
+      "code": "BBU",
+      "country_code": "RO",
+      "city_name": "Bucarest",
+      "city_code": "BUH",
+      "weight": 2616,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Timișoara",
+      "code": "TSR",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2187,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Suceava",
+      "code": "SCV",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3195,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Sibiu",
+      "code": "SBZ",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1116,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Bacău",
+      "code": "BCM",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1874,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Târgu Mureș",
+      "code": "TGM",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 480,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Satu Mare",
+      "code": "SUJ",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Baia Mare",
+      "code": "BAY",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 236,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Craiova",
+      "code": "CRA",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1192,
+      "index_strings": []
+    }
+  ],
+  "Milán": [
+    {
+      "type": "city",
+      "name": "Milán",
+      "code": "MIL",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 185017,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Malpensa",
+      "code": "MXP",
+      "country_code": "IT",
+      "city_name": "Milán",
+      "city_code": "MIL",
+      "weight": 62193,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Orio Al Serio",
+      "code": "BGY",
+      "country_code": "IT",
+      "city_name": "Milán",
+      "city_code": "MIL",
+      "weight": 20777,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Linate",
+      "code": "LIN",
+      "country_code": "IT",
+      "city_name": "Milán",
+      "city_code": "MIL",
+      "weight": 18403,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Minsk",
+      "code": "MSQ",
+      "country_code": "BY",
+      "city_name": null,
+      "city_code": null,
+      "weight": 102595,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Bodrum",
+      "code": "BJV",
+      "country_code": "TR",
+      "city_name": null,
+      "city_code": null,
+      "weight": 24641,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Haikou",
+      "code": "HAK",
+      "country_code": "CN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2549,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Teherán",
+      "code": "THR",
+      "country_code": "IR",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3693,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Aeropuerto Internacional Imán Jomeini",
+      "code": "IKA",
+      "country_code": "IR",
+      "city_name": "Teherán",
+      "city_code": "THR",
+      "weight": 1990,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Ulán Bator",
+      "code": "UBN",
+      "country_code": "MN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2292,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Van",
+      "code": "VAN",
+      "country_code": "TR",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1895,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Springfield",
+      "code": "SGF",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 111,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Reagan-National",
+      "code": "DCA",
+      "country_code": "US",
+      "city_name": "Washington D. C.",
+      "city_code": "WAS",
+      "weight": 1001,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Moline",
+      "code": "MLI",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 10,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Wichita",
+      "code": "ICT",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 20,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Tabriz",
+      "code": "TBZ",
+      "country_code": "IR",
+      "city_name": null,
+      "city_code": null,
+      "weight": 638,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Mianyang",
+      "code": "MIG",
+      "country_code": "CN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 8,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Nyingchi",
+      "code": "LZY",
+      "country_code": "CN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 5,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Mashhad",
+      "code": "MHD",
+      "country_code": "IR",
+      "city_name": null,
+      "city_code": null,
+      "weight": 291,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Ulaangom",
+      "code": "ULO",
+      "country_code": "MN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 5,
+      "index_strings": []
+    }
+  ],
+  "Venecia": [
+    {
+      "type": "city",
+      "name": "Venecia",
+      "code": "VCE",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 52621,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Marco Polo",
+      "code": "VCE",
+      "country_code": "IT",
+      "city_name": "Venecia",
+      "city_code": "VCE",
+      "weight": 26700,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Treviso",
+      "code": "TSF",
+      "country_code": "IT",
+      "city_name": "Venecia",
+      "city_code": "VCE",
+      "weight": 1534,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Trieste",
+      "code": "TRS",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1781,
+      "index_strings": []
+    }
+  ],
+  "FCO": [
+    {
+      "type": "airport",
+      "name": "Fiumicino",
+      "code": "FCO",
+      "country_code": "IT",
+      "city_name": "Roma",
+      "city_code": "ROM",
+      "weight": 105242,
+      "index_strings": []
+    }
+  ],
+  "CIA": [
+    {
+      "type": "airport",
+      "name": "Ciampino",
+      "code": "CIA",
+      "country_code": "IT",
+      "city_name": "Roma",
+      "city_code": "ROM",
+      "weight": 1137,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Yamena",
+      "code": "NDJ",
+      "country_code": "TD",
+      "city_name": null,
+      "city_code": null,
+      "weight": 812,
+      "index_strings": []
+    }
+  ],
+  "MXP": [
+    {
+      "type": "airport",
+      "name": "Malpensa",
+      "code": "MXP",
+      "country_code": "IT",
+      "city_name": "Milán",
+      "city_code": "MIL",
+      "weight": 62193,
+      "index_strings": []
+    }
+  ],
+  "LIN": [
+    {
+      "type": "airport",
+      "name": "Linate",
+      "code": "LIN",
+      "country_code": "IT",
+      "city_name": "Milán",
+      "city_code": "MIL",
+      "weight": 18403,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Linyi",
+      "code": "LYI",
+      "country_code": "CN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 56,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Lincoln",
+      "code": "LNK",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 20,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Lingling",
+      "code": "LLF",
+      "country_code": "CN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 20,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Linz",
+      "code": "LNZ",
+      "country_code": "AT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 353,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Linköping",
+      "code": "LPI",
+      "country_code": "SE",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Sétif",
+      "code": "QSF",
+      "country_code": "DZ",
+      "city_name": null,
+      "city_code": null,
+      "weight": 6576,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Lincang",
+      "code": "LNJ",
+      "country_code": "CN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Linfen",
+      "code": "LFQ",
+      "country_code": "CN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Nasáu",
+      "code": "NAS",
+      "country_code": "BS",
+      "city_name": null,
+      "city_code": null,
+      "weight": 818,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "San Diego",
+      "code": "SAN",
+      "country_code": "US",
+      "city_name": "San Diego",
+      "city_code": "SAN",
+      "weight": 1330,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Linhares",
+      "code": "LHN",
+      "country_code": "BR",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Nyingchi",
+      "code": "LZY",
+      "country_code": "CN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 5,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Lynchburg",
+      "code": "LYH",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 10,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Martha's Vineyard",
+      "code": "MVY",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 4,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Owerri",
+      "code": "QOW",
+      "country_code": "NG",
+      "city_name": null,
+      "city_code": null,
+      "weight": 27,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Yichun (Heilongjiang)",
+      "code": "LDS",
+      "country_code": "CN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Warri",
+      "code": "QRW",
+      "country_code": "NG",
+      "city_name": null,
+      "city_code": null,
+      "weight": 16,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Port Lincoln",
+      "code": "PLO",
+      "country_code": "AU",
+      "city_name": null,
+      "city_code": null,
+      "weight": 8,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Lakeland",
+      "code": "LAL",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3,
+      "index_strings": []
+    }
+  ],
+  "BGY": [
+    {
+      "type": "airport",
+      "name": "Orio Al Serio",
+      "code": "BGY",
+      "country_code": "IT",
+      "city_name": "Milán",
+      "city_code": "MIL",
+      "weight": 20777,
+      "index_strings": []
+    }
+  ],
+  "TRN": [
+    {
+      "type": "city",
+      "name": "Turín",
+      "code": "TRN",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 22947,
+      "index_strings": []
+    }
+  ],
+  "GOA": [
+    {
+      "type": "city",
+      "name": "Génova",
+      "code": "GOA",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 7346,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Goa",
+      "code": "GOI",
+      "country_code": "IN",
+      "city_name": null,
+      "city_code": null,
+      "weight": 9913,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Dabolim",
+      "code": "GOI",
+      "country_code": "IN",
+      "city_name": "Goa",
+      "city_code": "GOI",
+      "weight": 4911,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Manohar",
+      "code": "GOX",
+      "country_code": "IN",
+      "city_name": "Goa",
+      "city_code": "GOI",
+      "weight": 2535,
+      "index_strings": []
+    }
+  ],
+  "VRN": [
+    {
+      "type": "city",
+      "name": "Verona",
+      "code": "VRN",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 25994,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Verona",
+      "code": "VRN",
+      "country_code": "IT",
+      "city_name": "Verona",
+      "city_code": "VRN",
+      "weight": 12844,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Aeropuerto de Brescia",
+      "code": "VBS",
+      "country_code": "IT",
+      "city_name": "Verona",
+      "city_code": "VRN",
+      "weight": 1,
+      "index_strings": []
+    }
+  ],
+  "VCE": [
+    {
+      "type": "city",
+      "name": "Venecia",
+      "code": "VCE",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 52621,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Marco Polo",
+      "code": "VCE",
+      "country_code": "IT",
+      "city_name": "Venecia",
+      "city_code": "VCE",
+      "weight": 26700,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Treviso",
+      "code": "TSF",
+      "country_code": "IT",
+      "city_name": "Venecia",
+      "city_code": "VCE",
+      "weight": 1534,
+      "index_strings": []
+    }
+  ],
+  "TSF": [
+    {
+      "type": "airport",
+      "name": "Treviso",
+      "code": "TSF",
+      "country_code": "IT",
+      "city_name": "Venecia",
+      "city_code": "VCE",
+      "weight": 1534,
+      "index_strings": []
+    }
+  ],
+  "TRS": [
+    {
+      "type": "city",
+      "name": "Trieste",
+      "code": "TRS",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1781,
+      "index_strings": []
+    }
+  ],
+  "FLR": [
+    {
+      "type": "city",
+      "name": "Florencia",
+      "code": "FLR",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 25714,
+      "index_strings": []
+    }
+  ],
+  "PSA": [
+    {
+      "type": "city",
+      "name": "Pisa",
+      "code": "PSA",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 9192,
+      "index_strings": []
+    }
+  ],
+  "BLQ": [
+    {
+      "type": "city",
+      "name": "Bolonia",
+      "code": "BLQ",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 30523,
+      "index_strings": []
+    }
+  ],
+  "PEG": [
+    {
+      "type": "city",
+      "name": "Perugia",
+      "code": "PEG",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1708,
+      "index_strings": []
+    }
+  ],
+  "AOI": [
+    {
+      "type": "city",
+      "name": "Ancona",
+      "code": "AOI",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2734,
+      "index_strings": []
+    }
+  ],
+  "RMI": [
+    {
+      "type": "city",
+      "name": "Rímini",
+      "code": "RMI",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2290,
+      "index_strings": []
+    }
+  ],
+  "PSR": [
+    {
+      "type": "city",
+      "name": "Pescara",
+      "code": "PSR",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1065,
+      "index_strings": []
+    }
+  ],
+  "NAP": [
+    {
+      "type": "city",
+      "name": "Nápoles",
+      "code": "NAP",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 41593,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Napier",
+      "code": "NPE",
+      "country_code": "NZ",
+      "city_name": null,
+      "city_code": null,
+      "weight": 23,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Napakiak",
+      "code": "WNA",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Napaskiak",
+      "code": "PKA",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Cluj Napoca",
+      "code": "CLJ",
+      "country_code": "RO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 4108,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Nápoles",
+      "code": "APF",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Ajaccio",
+      "code": "AJA",
+      "country_code": "FR",
+      "city_name": null,
+      "city_code": null,
+      "weight": 4386,
+      "index_strings": []
+    }
+  ],
+  "BRI": [
+    {
+      "type": "city",
+      "name": "Bari",
+      "code": "BRI",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 15081,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Brisbane",
+      "code": "BNE",
+      "country_code": "AU",
+      "city_name": null,
+      "city_code": null,
+      "weight": 4794,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Bristol",
+      "code": "BRS",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1547,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Bridgetown",
+      "code": "BGI",
+      "country_code": "BB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 155,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Aeropuerto de Brindisi",
+      "code": "BDS",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2438,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Londres",
+      "code": "LON",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 143443,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Brive-la-Gaillarde",
+      "code": "BVE",
+      "country_code": "FR",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Beef Island",
+      "code": "EIS",
+      "country_code": "VG",
+      "city_name": null,
+      "city_code": null,
+      "weight": 22,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Briansk",
+      "code": "BZK",
+      "country_code": "RU",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Virgin Gorda",
+      "code": "VIJ",
+      "country_code": "VG",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Edimburgo",
+      "code": "EDI",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 11887,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Mánchester",
+      "code": "MAN",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 9697,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Blountville",
+      "code": "TRI",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 7,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Belfast",
+      "code": "BFS",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3067,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Birmingham",
+      "code": "BHX",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 6424,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Forde",
+      "code": "FDE",
+      "country_code": "NO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Glasgow",
+      "code": "GLA",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2158,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Newcastle-upon-Tyne",
+      "code": "NCL",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 946,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Liverpool",
+      "code": "LPL",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 342,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Southampton",
+      "code": "SOU",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 22,
+      "index_strings": []
+    }
+  ],
+  "BDS": [
+    {
+      "type": "city",
+      "name": "Aeropuerto de Brindisi",
+      "code": "BDS",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2438,
+      "index_strings": []
+    }
+  ],
+  "SUF": [
+    {
+      "type": "city",
+      "name": "Lamezia Terme",
+      "code": "SUF",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3156,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Sioux Falls",
+      "code": "FSD",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 338,
+      "index_strings": []
+    }
+  ],
+  "REG": [
+    {
+      "type": "city",
+      "name": "Regio de Calabria",
+      "code": "REG",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1295,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Londres",
+      "code": "LON",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 143443,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Regina",
+      "code": "YQR",
+      "country_code": "CA",
+      "city_name": null,
+      "city_code": null,
+      "weight": 375,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Kitchener",
+      "code": "YKF",
+      "country_code": "CA",
+      "city_name": null,
+      "city_code": null,
+      "weight": 118,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Edimburgo",
+      "code": "EDI",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 11887,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Mánchester",
+      "code": "MAN",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 9697,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Aeropuerto Internacional de la Región de Murcia",
+      "code": "RMU",
+      "country_code": "ES",
+      "city_name": "Ciudad de Murcia",
+      "city_code": "RMU",
+      "weight": 100,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Belfast",
+      "code": "BFS",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3067,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Bornholm",
+      "code": "RNN",
+      "country_code": "DK",
+      "city_name": null,
+      "city_code": null,
+      "weight": 71,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Birmingham",
+      "code": "BHX",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 6424,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Juazeiro Do Norte",
+      "code": "JDO",
+      "country_code": "BR",
+      "city_name": null,
+      "city_code": null,
+      "weight": 54,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Bristol",
+      "code": "BRS",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1547,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Glasgow",
+      "code": "GLA",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2158,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Newcastle-upon-Tyne",
+      "code": "NCL",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 946,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Concord",
+      "code": "USA",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 11,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Liverpool",
+      "code": "LPL",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 342,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Springfield",
+      "code": "SGF",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 111,
+      "index_strings": []
+    },
+    {
+      "type": "airport",
+      "name": "Golden Triangle Reg.",
+      "code": "GTR",
+      "country_code": "US",
+      "city_name": "Columbus",
+      "city_code": "UBS",
+      "weight": 7,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Gulfport",
+      "code": "GPT",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 28,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Southampton",
+      "code": "SOU",
+      "country_code": "GB",
+      "city_name": null,
+      "city_code": null,
+      "weight": 22,
+      "index_strings": []
+    }
+  ],
+  "PMO": [
+    {
+      "type": "city",
+      "name": "Palermo",
+      "code": "PMO",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 26035,
+      "index_strings": []
+    }
+  ],
+  "CTA": [
+    {
+      "type": "city",
+      "name": "Catania",
+      "code": "CTA",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 33550,
+      "index_strings": []
+    }
+  ],
+  "CIY": [
+    {
+      "type": "city",
+      "name": "Aeropuerto de Comiso",
+      "code": "CIY",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 3108,
+      "index_strings": []
+    }
+  ],
+  "TPS": [
+    {
+      "type": "city",
+      "name": "Trapani",
+      "code": "TPS",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 280,
+      "index_strings": []
+    }
+  ],
+  "LMP": [
+    {
+      "type": "city",
+      "name": "Lampedusa",
+      "code": "LMP",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 4059,
+      "index_strings": []
+    }
+  ],
+  "PNL": [
+    {
+      "type": "city",
+      "name": "Pantelaria",
+      "code": "PNL",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 567,
+      "index_strings": []
+    }
+  ],
+  "CAG": [
+    {
+      "type": "city",
+      "name": "Cagliari",
+      "code": "CAG",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 11782,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Cagayán de Oro",
+      "code": "CGY",
+      "country_code": "PH",
+      "city_name": null,
+      "city_code": null,
+      "weight": 119,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "San Vicente del Caguán",
+      "code": "SVI",
+      "country_code": "CO",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    }
+  ],
+  "OLB": [
+    {
+      "type": "city",
+      "name": "Olbia",
+      "code": "OLB",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 41675,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Aalborg",
+      "code": "AAL",
+      "country_code": "DK",
+      "city_name": null,
+      "city_code": null,
+      "weight": 528,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Albany",
+      "code": "ALB",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 564,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Albury",
+      "code": "ABX",
+      "country_code": "AU",
+      "city_name": null,
+      "city_code": null,
+      "weight": 2,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Albany",
+      "code": "ALH",
+      "country_code": "AU",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Fort Albany",
+      "code": "YFA",
+      "country_code": "CA",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Albany",
+      "code": "ABY",
+      "country_code": "US",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    }
+  ],
+  "AHO": [
+    {
+      "type": "city",
+      "name": "Alguer",
+      "code": "AHO",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 7279,
+      "index_strings": []
+    }
+  ],
+  "BZO": [
+    {
+      "type": "city",
+      "name": "Bolzano",
+      "code": "BZO",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 442,
+      "index_strings": []
+    }
+  ],
+  "CRV": [
+    {
+      "type": "city",
+      "name": "Crotona",
+      "code": "CRV",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 166,
+      "index_strings": []
+    }
+  ],
+  "FOG": [
+    {
+      "type": "city",
+      "name": "Foggia",
+      "code": "FOG",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1230,
+      "index_strings": []
+    }
+  ],
+  "EBA": [
+    {
+      "type": "city",
+      "name": "Rio nell'Elba",
+      "code": "EBA",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 7,
+      "index_strings": []
+    },
+    {
+      "type": "city",
+      "name": "Okino Erabu",
+      "code": "OKE",
+      "country_code": "JP",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    }
+  ],
+  "QSR": [
+    {
+      "type": "city",
+      "name": "Salerno",
+      "code": "QSR",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 6883,
+      "index_strings": []
+    }
+  ],
+  "PMF": [
+    {
+      "type": "city",
+      "name": "Parma",
+      "code": "PMF",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 1,
+      "index_strings": []
+    }
+  ],
+  "FRL": [
+    {
+      "type": "city",
+      "name": "Forlì",
+      "code": "FRL",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 7,
+      "index_strings": []
+    }
+  ],
+  "CUF": [
+    {
+      "type": "city",
+      "name": "Cuneo",
+      "code": "CUF",
+      "country_code": "IT",
+      "city_name": null,
+      "city_code": null,
+      "weight": 501,
+      "index_strings": []
+    }
+  ]
+}

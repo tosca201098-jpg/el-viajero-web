@@ -338,3 +338,16 @@ test('manual duration selection still generates on demand without voice or fixed
   ui.find(n => n.type === 'button' && String(n.children).includes(translations.translate('es', 'itinerary.create'))).props.onClick(); await ui.drain();
   assert.equal(ui.calls.length, 1); assert.equal(ui.calls[0].payload.days, 4); assert.match(ui.text(), /Itinerario simulado visible/); ui.unmount();
 });
+
+for (const {code} of translations.locales) test(`${code}: every Italian identity reuses the voice-to-planner generation flow`,async()=>{
+  for(const destination of catalog.getDestinationsByCountry('IT')){
+    const b=bridge(code),h=await connected(b.handle,()=>code);
+    try{
+      h.tool('italy-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
+      assert.equal(b.scope.destinoSeleccionado,destination);assert.equal(h.outputs().length,0);
+      await b.ui.drain();assert.equal(b.ui.calls.length,1);assert.equal(b.ui.calls[0].payload.destination.name,destination.name);
+      assert.equal(b.ui.calls[0].payload.locale,code);assert.equal(b.ui.calls[0].payload.days,2);
+      assert.match(b.ui.text(),/Itinerario simulado visible/);assert.equal(h.outputs()[0].status,'success');
+    }finally{h.session.stop();b.ui?.unmount();}
+  }
+});

@@ -1,3 +1,5 @@
+import { italyPassengerAirports } from '@/lib/travelpayouts/italy-airports';
+
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -29,7 +31,7 @@ function matchTier(value: string, term: string) {
 function relevance(place: Place, term: string) {
   // A physical/metropolitan code must beat an airport's associated city code.
   const ownCode = code(place.code, 3);
-  if (ownCode && normalize(ownCode) === term) return -1;
+  if (ownCode && normalize(ownCode) === term) return place.type === "airport" ? -2 : -1;
 
   let score = matchTier(place.name as string, term) * 3;
   const aliases = Array.isArray(place.index_strings) ? place.index_strings : [];
@@ -69,10 +71,18 @@ export async function GET(request: Request) {
     const payload: unknown = await response.json();
     if (!Array.isArray(payload)) throw new Error("Invalid places response");
 
+    let places: unknown[] = payload;
+
+    // The combined autocomplete sometimes represents a physical airport only as a city.
+    // Explicit IATA searches also use the verified physical-airport resource from this provider.
+    const exactCode = code(term, 3);
+    const airport = italyPassengerAirports.find(airport => airport.code === exactCode);
+    if (airport) places = [...places, airport];
+
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);
     const seen = new Set<string>();
-    const suggestions = payload
+    const suggestions = places
       .filter(isPlace)
       .filter((place) =>
         (place.type === "city" || place.type === "airport") &&
@@ -86,7 +96,7 @@ export async function GET(request: Request) {
       .filter((place) => {
         const countryCode = code(place.country_code, 2);
         const placeCode = code(place.code, 3);
-        const key = `${countryCode || normalize(String(place.country_name ?? ""))}:${placeCode || `${place.type}:${normalize(place.name as string)}`}`;
+        const key = `${countryCode || normalize(String(place.country_name ?? ""))}:${place.type}:${placeCode || `${place.type}:${normalize(place.name as string)}`}`;
         if (seen.has(key)) return false;
         seen.add(key);
         return true;

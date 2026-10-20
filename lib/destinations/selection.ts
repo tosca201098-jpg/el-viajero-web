@@ -6,9 +6,11 @@ export function destinationFromPlaceSelection(selection: {
   cityName: string | null; cityCode: string | null;
 }) {
   const profile = findDestinationProfile({
-    iataCode: selection.type === 'airport' ? selection.cityCode || selection.code : selection.code,
+    iataCode: selection.code,
     name: selection.type === 'airport' ? selection.cityName || selection.name : selection.name,
   });
-  if (!profile || normalizeDestinationName(selection.country) !== normalizeDestinationName(profile.country)) return undefined;
-  return profile;
+  const destination = profile ?? (selection.type === 'airport'
+    ? findDestinationProfile({ iataCode: selection.cityCode, name: selection.cityName }) : undefined);
+  if (!destination || normalizeDestinationName(selection.country) !== normalizeDestinationName(destination.country)) return undefined;
+  return destination;
 }

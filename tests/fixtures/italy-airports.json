@@ -1,0 +1,332 @@
+{
+  "verifiedOn": "2026-10-20",
+  "sources": [
+    "https://api.travelpayouts.com/data/en/airports.json",
+    "https://api.travelpayouts.com/data/en/cities.json",
+    "https://assaeroporti.com/dati-di-traffico/",
+    "https://www.elbaisland-airport.it/",
+    "https://mit.gov.it/normativa/decreto-direttoriale-n18-del-13-aprile-2026"
+  ],
+  "airports": [
+    {
+      "iataCode": "FCO",
+      "name": "Leonardo da Vinci-Fiumicino Airport",
+      "cityCode": "ROM",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "CIA",
+      "name": "Ciampino-G. B. Pastine International Airport",
+      "cityCode": "ROM",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "MXP",
+      "name": "Milano Malpensa Airport",
+      "cityCode": "MIL",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LIN",
+      "name": "Milano Linate Airport",
+      "cityCode": "MIL",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BGY",
+      "name": "Orio al Serio International Airport",
+      "cityCode": "MIL",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "TRN",
+      "name": "Turin Airport",
+      "cityCode": "TRN",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "GOA",
+      "name": "Genoa Cristoforo Colombo Airport",
+      "cityCode": "GOA",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "VRN",
+      "name": "Verona Villafranca Airport",
+      "cityCode": "VRN",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "VCE",
+      "name": "Venice Marco Polo Airport",
+      "cityCode": "VCE",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "TSF",
+      "name": "Treviso Airport",
+      "cityCode": "VCE",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "TRS",
+      "name": "Trieste - Friuli Venezia Giulia Airport",
+      "cityCode": "TRS",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "FLR",
+      "name": "Firenze-Peretola Airport",
+      "cityCode": "FLR",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "PSA",
+      "name": "Pisa International Airport",
+      "cityCode": "PSA",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BLQ",
+      "name": "Guglielmo Marconi Airport",
+      "cityCode": "BLQ",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "PEG",
+      "name": "Sant Egidio Airport",
+      "cityCode": "PEG",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "AOI",
+      "name": "Ancona Falconara Airport",
+      "cityCode": "AOI",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "RMI",
+      "name": "Miramare Airport",
+      "cityCode": "RMI",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "PSR",
+      "name": "Abruzzo Airport",
+      "cityCode": "PSR",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "NAP",
+      "name": "Naples International Airport",
+      "cityCode": "NAP",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BRI",
+      "name": "Palese Airport",
+      "cityCode": "BRI",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BDS",
+      "name": "Brindisi - Salento Airport",
+      "cityCode": "BDS",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "SUF",
+      "name": "Lamezia Terme International Airport",
+      "cityCode": "SUF",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "REG",
+      "name": "Tito Menniti Airport",
+      "cityCode": "REG",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "PMO",
+      "name": "Falcone-Borsellino Airport",
+      "cityCode": "PMO",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "CTA",
+      "name": "Catania-Fontanarossa Airport",
+      "cityCode": "CTA",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "CIY",
+      "name": "Comiso Airport",
+      "cityCode": "CIY",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "TPS",
+      "name": "Trapani-Birgi Airport",
+      "cityCode": "TPS",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LMP",
+      "name": "Lampedusa Airport",
+      "cityCode": "LMP",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "PNL",
+      "name": "Pantelleria Airport",
+      "cityCode": "PNL",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "CAG",
+      "name": "Cagliari Elmas Airport",
+      "cityCode": "CAG",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "OLB",
+      "name": "Olbia Costa Smeralda Airport",
+      "cityCode": "OLB",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "AHO",
+      "name": "Alghero-Fertilia Airport",
+      "cityCode": "AHO",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BZO",
+      "name": "Bolzano",
+      "cityCode": "BZO",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "CRV",
+      "name": "Crotone",
+      "cityCode": "CRV",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "FOG",
+      "name": "Gino Lisa",
+      "cityCode": "FOG",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "EBA",
+      "name": "Marina Di Campo Airport",
+      "cityCode": "EBA",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "QSR",
+      "name": "Pontecagnano",
+      "cityCode": "QSR",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "PMF",
+      "name": "Parma Airport",
+      "cityCode": "PMF",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "FRL",
+      "name": "Luigi Ridolfi",
+      "cityCode": "FRL",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "CUF",
+      "name": "Levaldigi Airport",
+      "cityCode": "CUF",
+      "countryCode": "IT",
+      "iataType": "airport",
+      "flightable": true
+    }
+  ]
+}
