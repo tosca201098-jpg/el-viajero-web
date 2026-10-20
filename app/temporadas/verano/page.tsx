@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import CountryDestinations from '@/app/components/CountryDestinations';
 
 const destinosVerano = [
   {
@@ -338,7 +337,6 @@ export default function VeranoPage() {
           </div>
         </div>
       )}
-      <CountryDestinations countryCode="FR" season="summer" />
     </main>
   );
 }

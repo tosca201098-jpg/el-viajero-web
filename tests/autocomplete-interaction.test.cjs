@@ -11,7 +11,7 @@ function mount(width, rect) {
     {type:'city',name:'Lyon',country:'Francia',code:'LYS',cityName:null,cityCode:null},
     {type:'airport',name:'Ch. De Gaulle',country:'Francia',code:'CDG',cityName:'París',cityCode:'PAR'},
   ];
-  const states = [0, choices, true, -1, null], changes = [], effects = [];
+  const states = [0, choices, true, -1, null], changes = [], selections = [], effects = [];
   let stateIndex = 0, refIndex = 0, focuses = 0;
   const refs = [{current:{contains:()=>false}}, {current:{getBoundingClientRect:()=>rect,focus:()=>focuses++}}, {current:null}, {current:false}];
   const react = {
@@ -28,7 +28,7 @@ function mount(width, rect) {
   vm.runInNewContext(compiled,{exports,React:react,window,document,require:id=>id==='react'?react:{createPortal:node=>node}});
   function render() {
     stateIndex=0;refIndex=0;effects.length=0;
-    return exports.default({label:'Destino',value:'lyon',onChange:value=>changes.push(value),placeholder:'Ciudad',variant:'main'});
+    return exports.default({label:'Destino',value:'lyon',onChange:value=>changes.push(value),onSelect:(place,value)=>selections.push({place,value}),placeholder:'Ciudad',variant:'main'});
   }
   function nodes(tree,type) {
     if(!tree||typeof tree!=='object')return[];
@@ -38,16 +38,18 @@ function mount(width, rect) {
   render(); effects[1](); // Only the popup positioning effect; no network in this UI test.
   const input=()=>nodes(render(),'input')[0];
   function key(value) {let prevented=false;input().props.onKeyDown({key:value,preventDefault:()=>{prevented=true;}});return prevented;}
-  return {render,nodes,input,key,states,choices,changes,events,focuses:()=>focuses};
+  return {render,nodes,input,key,states,choices,changes,selections,events,focuses:()=>focuses};
 }
 
 test('keyboard selection uses the first ranked suggestion, wraps arrows and closes on Escape',()=>{
   const ui=mount(1280,{left:200,width:400,top:100,bottom:144});
   assert.equal(ui.input().props.role,'combobox');
   assert.equal(ui.key('ArrowDown'),true);assert.equal(ui.states[3],0);
+  assert.equal(ui.selections.length,0);
   assert.equal(ui.input().props['aria-activedescendant'],'autocomplete-test-option-0');
   assert.equal(ui.key('Enter'),true);
   assert.deepEqual(ui.changes,['Lyon']);assert.equal(ui.states[2],false);assert.equal(ui.focuses(),1);
+  assert.equal(ui.selections[0].place,ui.choices[0]);assert.equal(ui.selections[0].value,'Lyon');
   assert.equal(ui.input().props['aria-expanded'],false);
   ui.states[2]=true;
   ui.key('ArrowUp');assert.equal(ui.states[3],1);
@@ -67,6 +69,13 @@ test('mobile popup stays inside the viewport, opens above a low field and preser
   assert.equal(buttons.length,2);
   buttons[1].props.onClick();
   assert.deepEqual(ui.changes,['París']); // Existing city-based flight-search semantics retained.
+  assert.equal(ui.selections[0].place,ui.choices[1]);assert.equal(ui.selections[0].value,'París');
   assert.equal(ui.states[2],false);assert.equal(ui.focuses(),1);
   assert.ok(ui.events.includes('resize'));assert.ok(ui.events.includes('pointerdown'));
+});
+
+test('typing free text never emits a committed destination selection',()=>{
+  const ui=mount(375,{left:20,width:335,top:100,bottom:144});
+  ui.input().props.onChange({target:{value:'Lyon'}});
+  assert.deepEqual(ui.changes,['Lyon']);assert.equal(ui.selections.length,0);assert.equal(ui.states[2],false);
 });

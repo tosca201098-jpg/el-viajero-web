@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import CountryDestinations from '@/app/components/CountryDestinations';
 
 const destinosInvierno = [
   {
@@ -338,7 +337,6 @@ export default function InviernoPage() {
           </div>
         </div>
       )}
-      <CountryDestinations countryCode="FR" season="winter" />
     </main>
   );
 }
