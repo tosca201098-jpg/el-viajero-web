@@ -17,6 +17,7 @@ import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonali
 import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
 import { VoiceSession, type VoiceError, type VoicePhase, type VoiceSearchArguments } from "@/lib/voice/session";
+import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 
 type FlightOffer = {
   origin: string;
@@ -456,13 +457,12 @@ function abrirPaquete(destino = "") {
       const data = await response.json();
       if (requestId !== discoverRequestIdRef.current) return;
       if (!response.ok || data.success !== true || !Array.isArray(data.results) || !data.origin) {
-        setDiscoverState({ status: "error", key: data.error === "unknown_origin"
-          ? "search.flightUnknownOrigin" : "search.discoverError" });
+        setDiscoverState({ status: "error", key: flightSearchErrorKey(data.error, "discover") });
         return;
       }
       setDiscoverState({ status: "success", origin: data.origin, results: data.results });
     } catch {
-      if (requestId === discoverRequestIdRef.current) setDiscoverState({ status: "error", key: "search.discoverError" });
+      if (requestId === discoverRequestIdRef.current) setDiscoverState({ status: "error", key: "search.flightSearchTemporaryError" });
     }
   }
 
@@ -511,13 +511,7 @@ function abrirPaquete(destino = "") {
       const data = await response.json();
       if (requestId !== flightRequestIdRef.current) return;
       if (!response.ok || data.success !== true) {
-        const errorKeys: Record<string, TranslationKey> = {
-          invalid_search: "search.flightInvalidSearch",
-          invalid_dates: "search.flightInvalidDates",
-          unknown_origin: "search.flightUnknownOrigin",
-          unknown_destination: "search.flightUnknownDestination",
-        };
-        setFlightSearch({ status: "error", key: errorKeys[data.error] ?? "search.flightSearchError" });
+        setFlightSearch({ status: "error", key: flightSearchErrorKey(data.error) });
         return;
       }
       if (!Array.isArray(data.results) || !data.origin || !data.destination) {
@@ -541,7 +535,7 @@ function abrirPaquete(destino = "") {
       }
     } catch {
       if (requestId === flightRequestIdRef.current) {
-        setFlightSearch({ status: "error", key: "search.flightSearchError" });
+        setFlightSearch({ status: "error", key: "search.flightSearchTemporaryError" });
       }
     }
   }
