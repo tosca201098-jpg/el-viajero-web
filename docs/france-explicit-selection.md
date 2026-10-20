@@ -17,10 +17,6 @@ No depende de ella para fusionarse.
 
 ## Consulta individual
 
-El selector genérico «Consulta un destino» incluye las 77 fichas por ID estable.
-Elegir una opción y pulsar «Ver destino» abre únicamente la ficha elegida en el
-modal existente; no envía ni modifica el formulario de vuelos.
-
 El autocompletado emite una selección confirmada solo mediante clic o Enter.
 Tras confirmar una ciudad francesa se ofrece «Ver destino: Lyon» (o la elegida).
 Escribir o recorrer sugerencias no abre fichas. Volver a escribir invalida la
@@ -35,7 +31,7 @@ expresos `/?ficha=...`, voz y generación manual/por voz de itinerarios.
 Las pruebas verifican los 16 destacados en siete idiomas; las listas de tarjetas
 visibles de las cuatro temporadas contra una captura de referencia obtenida del
 código anterior a Francia (`d0ba736`); las doce páginas mensuales en siete idiomas;
-las 77 identidades y la apertura individual tras confirmación, sin apertura al escribir.
+las 77 fichas conservadas y la apertura individual tras confirmación, sin apertura al escribir.
 Se conservan las pruebas de vuelos exactos, flexibles, presupuesto, voz e itinerarios.
 Los servicios externos se simulan, sin credenciales ni consumo de APIs de pago.
 

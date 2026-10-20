@@ -57,8 +57,6 @@ test('homepage preserves all 16 original featured cards, including Paris, in all
   const actual=cards.map(card=>text(nodes(card).find(n=>n.type==='h3')));
   assert.deepEqual(actual,Array.from(expected));
   assert.equal(actual.filter(name=>name===localization.getDestinationText(catalog.getDestinationById('fr-paris'),locale).name).length,1);
-  const picker=load('app/components/DestinationProfilePicker.tsx').default;
-  assert.equal(nodes(tree).filter(n=>n.type===picker).length,1);
   const flightDestination=nodes(tree).find(n=>n.props.variant==='main'&&n.props.label===dictionaries.translate(locale,'search.destination'));
   assert.equal(typeof flightDestination.props.onSelect,'function');
   }
@@ -85,26 +83,6 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
       const expected=recommendations.filter(r=>r.destination.countryCode!=='FR').map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
-    }
-  }
-});
-
-test('catalog picker includes all 77 identities in seven languages; changing a choice does not open a profile',()=>{
-  for(const locale of locales) {
-    let chosen='',selected=[];
-    const pickerReact={...react,useState:()=>[chosen,value=>{chosen=value;} ]};
-    const load=renderLoader(locale,{react:pickerReact}),Picker=load('app/components/DestinationProfilePicker.tsx').default;
-    const render=()=>Picker({onSelect:d=>selected.push(d)});
-    let tree=render();
-    const options=nodes(tree).filter(n=>n.type==='option');assert.equal(options.length,78);
-    assert.equal(new Set(options.map(n=>n.props.value)).size,78);assert.equal(selected.length,0);
-    assert.equal(nodes(tree).find(n=>n.type==='button').props.disabled,true);
-    for(const id of ['fr-paris','fr-lyon','fr-nice','fr-marseille','fr-annecy','fr-chamonix']) {
-      nodes(tree).find(n=>n.type==='select').props.onChange({target:{value:id}});
-      const before=selected.length;tree=render();assert.equal(selected.length,before);
-      nodes(tree).find(n=>n.type==='button').props.onClick();
-      assert.equal(selected.at(-1),load('lib/destinations/index.ts').getDestinationById(id));
-      assert.ok(text(options.find(n=>n.props.value===id)).includes(localization.getDestinationText(catalog.getDestinationById(id),locale).name));
     }
   }
 });
