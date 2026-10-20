@@ -1,6 +1,10 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import CountryDestinations from '@/app/components/CountryDestinations';
+
+import { franceDestinations } from '@/lib/destinations/france';
+const paris = franceDestinations.find(destination => destination.id === 'fr-paris')!;
 
 const destinosPrimavera = [
   {
@@ -29,12 +33,12 @@ const destinosPrimavera = [
     descripcion: "Canales, tulipanes y parques llenos de color.",
   },
   {
-    nombre: "París",
-    pais: "Francia",
+    nombre: paris.name,
+    pais: paris.country,
     categoria: "🌷 Flores y jardines",
-    imagen:
-      "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=1200&q=80",
-    descripcion: "Jardines florecidos, terrazas y paseos junto al Sena.",
+    imagen: paris.image,
+    descripcion: "Jardines florecidos, terrazas y paseos junto al Sena.", // Seasonal editorial context, not another tourist profile.
+    destinationId: paris.id,
   },
   {
     nombre: "Sevilla",
@@ -327,7 +331,7 @@ const detallesPrimavera: Record<string, { lugares: [string, string, string, stri
   Tokio: { lugares: ["Templo Sensō-ji", "Cruce de Shibuya", "Santuario Meiji", "Parque de Ueno"], dias: "4–5" },
   Kioto: { lugares: ["Fushimi Inari", "Kinkaku-ji", "Kiyomizu-dera", "Bosque de bambú de Arashiyama"], dias: "3–4" },
   Ámsterdam: { lugares: ["Rijksmuseum", "Museo Van Gogh", "Barrio Jordaan", "Canales de Ámsterdam"], dias: "2–3" },
-  París: { lugares: ["Torre Eiffel", "Museo del Louvre", "Montmartre", "Catedral de Notre-Dame"], dias: "3–4" },
+  París: { lugares: paris.recommendations, dias: paris.recommendedStay.replace(' días', '') },
   Sevilla: { lugares: ["Real Alcázar", "Catedral y Giralda", "Plaza de España", "Barrio de Santa Cruz"], dias: "2–3" },
   Córdoba: { lugares: ["Mezquita-Catedral", "Alcázar de los Reyes Cristianos", "Judería", "Puente Romano"], dias: "1–2" },
   Lisboa: { lugares: ["Torre de Belém", "Monasterio de los Jerónimos", "Alfama", "Castillo de San Jorge"], dias: "2–3" },
@@ -544,6 +548,7 @@ export default function PrimaveraPage() {
           </div>
         </div>
       )}
+      <CountryDestinations countryCode="FR" season="spring" excludeIds={["fr-paris"]} />
     </main>
   );
 }

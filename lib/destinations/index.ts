@@ -1,5 +1,6 @@
 import { spainDestinations } from "./spain";
 import { portugalDestinations } from "./portugal";
+import { franceDestinations } from "./france";
 import type { DestinationId, DestinationProfile } from "./types";
 
 export type { DestinationId, DestinationReference, DestinationAirport, DestinationText, DestinationProfile } from "./types";
@@ -7,9 +8,10 @@ export type { DestinationId, DestinationReference, DestinationAirport, Destinati
 export const destinationsByCountry: Readonly<Record<string, readonly DestinationProfile[]>> = {
   ES: spainDestinations,
   PT: portugalDestinations,
+  FR: franceDestinations,
 };
 
-export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations];
+export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations];
 
 export function getDestinationById(id: DestinationId): DestinationProfile | undefined {
   return destinationProfiles.find(destination => destination.id === id);
@@ -32,6 +34,15 @@ export function getPublishedDestinationPages(profiles: readonly DestinationProfi
 }
 
 export type DestinationMonthCategory = "best" | "quiet" | "either";
+export type DestinationSeason = 'spring' | 'summer' | 'autumn' | 'winter';
+const seasonMonths: Record<DestinationSeason, number[]> = {
+  spring: [3,4,5], summer: [6,7,8], autumn: [9,10,11], winter: [12,1,2],
+};
+
+export function getDestinationsForSeason(season: DestinationSeason, countryCode: string): readonly DestinationProfile[] {
+  return getDestinationsByCountry(countryCode).filter(destination =>
+    destination.bestMonths?.some(month => seasonMonths[season].includes(month)));
+}
 
 // Reusable for the future month pages. "quiet" means lower usual visitor demand,
 // never a claim that prices will be cheaper in that month.

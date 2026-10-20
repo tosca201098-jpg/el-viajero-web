@@ -14,15 +14,14 @@ function normalize(value: string) {
 export function matchingDestinationProfile(city: string, country?: string) {
   const profile = findDestinationProfile({ name: city });
   if (!profile || !country) return profile;
-  const countryCode = profile.country === 'España' ? 'es' : profile.country === 'Portugal' ? 'pt' : '';
+  const countryCode = profile.countryCode.toLowerCase();
   return [normalize(profile.country), countryCode].includes(normalize(country)) ? profile : undefined;
 }
 
 export async function resolveCity(input: string): Promise<City | null> {
   const [cityInput, countryInput] = input.split(',').map((part) => part.trim());
   const destinationProfile = matchingDestinationProfile(cityInput, countryInput);
-  const profileCountryCode = destinationProfile?.country === 'España' ? 'ES'
-    : destinationProfile?.country === 'Portugal' ? 'PT' : null;
+  const profileCountryCode = destinationProfile?.countryCode ?? null;
   const isProfileAlias = destinationProfile && normalize(cityInput) !== normalize(destinationProfile.name);
   const terms = Array.from(new Set(isProfileAlias
     ? [...destinationProfile.iataCodes, cityInput, ...(destinationProfile.aliases ?? [])]

@@ -13,6 +13,8 @@ export function isLocale(value: unknown): value is Locale {
 // Each row has a stable section.key followed by es, en, fr, de, it, pt, ca.
 // Spanish is the source of truth. Missing/empty translations fall back to Spanish.
 const entries = [
+  ["destinations.accessAirports", "Aeropuertos de acceso", "Access airports", "Aéroports d’accès", "Flughäfen zur Anreise", "Aeroporti di accesso", "Aeroportos de acesso", "Aeroports d’accés"],
+  ["destinations.transferRequired", "Elige un aeropuerto para consultar vuelos. El traslado terrestre hasta el destino se organiza por separado.", "Choose an airport to search for flights. Arrange the onward ground transfer separately.", "Choisissez un aéroport pour rechercher des vols. Le transfert terrestre jusqu’à destination s’organise séparément.", "Flughafen für die Flugsuche wählen. Den anschließenden Landtransfer zum Reiseziel separat organisieren.", "Scegli un aeroporto per cercare voli. Il trasferimento via terra verso la destinazione va organizzato separatamente.", "Escolha um aeroporto para pesquisar voos. O transporte terrestre até ao destino é organizado separadamente.", "Tria un aeroport per consultar vols. El trasllat terrestre fins a la destinació s’organitza per separat."],
   ["brand.name", "Destinauta", "Destinauta", "Destinauta", "Destinauta", "Destinauta", "Destinauta", "Destinauta"],
   ["language.choose", "Elegir idioma", "Choose language", "Choisir la langue", "Sprache wählen", "Scegli la lingua", "Escolher idioma", "Tria l’idioma"],
   ["common.close", "Cerrar", "Close", "Fermer", "Schließen", "Chiudi", "Fechar", "Tanca"],

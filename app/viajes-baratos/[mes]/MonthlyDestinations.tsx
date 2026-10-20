@@ -4,7 +4,7 @@ import Link from "next/link";
 import LanguageSelector from "@/app/components/LanguageSelector";
 import { useLanguage } from "@/app/components/LanguageProvider";
 import { formatMonthName } from "@/lib/destinations/seasonality";
-import { getDestinationCountryName } from "@/lib/destinations/localization";
+import { getDestinationCountryName, getDestinationText } from "@/lib/destinations/localization";
 import type { MonthlyRecommendation } from "@/lib/destinations/monthly";
 
 type Props = { month: number; recommendations: MonthlyRecommendation[] };
@@ -42,26 +42,28 @@ export default function MonthlyDestinations({ month, recommendations }: Props) {
         <div className="mt-8 grid min-w-0 gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {recommendations.map(({ destination, reason }) => {
             const country = getDestinationCountryName(destination, language);
-            const stay = destination.recommendedStay.replace("días", t("monthly.days"));
+            const display = getDestinationText(destination, language);
+            const stay = display.recommendedStay.replace("días", t("monthly.days"));
             const profileUrl = `/?ficha=${encodeURIComponent(destination.name)}`;
             const flightsUrl = `/?primaveraServicio=vuelo&destino=${encodeURIComponent(destination.name)}`;
             return (
               <article key={destination.id} className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-blue-600/20 bg-white/80 shadow-sm">
-                <img src={destination.image} alt={`${destination.name}, ${country}`} loading="lazy" className="h-40 w-full object-cover sm:h-44" />
+                <img src={destination.image} alt={`${display.name}, ${country}`} loading="lazy" className="h-40 w-full object-cover sm:h-44" />
                 <div className="flex flex-1 flex-col p-4">
                   <span className="self-start rounded-full border border-blue-600/25 bg-blue-50 px-2.5 py-1 text-xs font-semibold text-blue-800">
                     {reason === "quiet" ? t("destinations.quietSeason") : t("monthly.goodTime")}
                   </span>
-                  <h2 className="mt-3 text-xl font-black leading-tight text-stone-900">{destination.name}</h2>
+                  <h2 className="mt-3 text-xl font-black leading-tight text-stone-900">{display.name}</h2>
                   <p className="mt-1 text-sm text-stone-600">{country}</p>
                   <p className="mt-2 text-sm text-stone-700">{t("destinations.recommendedStay")}: {stay}</p>
+                  {destination.countryCode === 'FR' && destination.imageSource && <a href={destination.imageSource} target="_blank" rel="noopener noreferrer" className="mt-2 text-xs text-stone-600 underline">{destination.imageCredit} · {destination.imageLicense}</a>}
                   <div className="mt-auto grid gap-2 pt-4">
                     <Link href={profileUrl} className="flex min-h-[44px] items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-bold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
                       {t("monthly.viewDestination")}
                     </Link>
-                    <Link href={flightsUrl} className="flex min-h-[44px] items-center justify-center rounded-xl border border-blue-600/50 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
+                    {(destination.countryCode !== "FR" || destination.iataCodes.length > 0) && <Link href={flightsUrl} className="flex min-h-[44px] items-center justify-center rounded-xl border border-blue-600/50 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
                       ✈️ {t("search.findFlights")}
-                    </Link>
+                    </Link>}
                   </div>
                 </div>
               </article>
