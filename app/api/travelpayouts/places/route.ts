@@ -1,5 +1,6 @@
 import { italyPassengerAirports } from '@/lib/travelpayouts/italy-airports';
 import { ukAirportsForTerm, ukUnavailablePassengerCodes } from '@/lib/travelpayouts/uk-airports';
+import { germanyAirportsForTerm, germanyCityAliases, germanyUnavailablePassengerCodes } from '@/lib/travelpayouts/germany-airports';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -81,6 +82,11 @@ export async function GET(request: Request) {
     if (airport) places = [...places, airport];
     const ukAirports = ukAirportsForTerm(term);
     places = [...places, ...ukAirports];
+    places = [...places, ...germanyAirportsForTerm(term)].map(place => {
+      if (!isPlace(place) || place.type !== 'city' || place.country_code !== 'DE') return place;
+      const aliases = germanyCityAliases[code(place.code, 3)] ?? [];
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...aliases] };
+    });
 
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);
@@ -88,6 +94,7 @@ export async function GET(request: Request) {
     const suggestions = places
       .filter(isPlace)
       .filter(place => !(place.country_code === 'GB' && ukUnavailablePassengerCodes.includes(code(place.code, 3))))
+      .filter(place => !(place.country_code === 'DE' && germanyUnavailablePassengerCodes.includes(code(place.code, 3))))
       .filter((place) =>
         (place.type === "city" || place.type === "airport") &&
         typeof place.name === "string" && place.name.trim().length > 0

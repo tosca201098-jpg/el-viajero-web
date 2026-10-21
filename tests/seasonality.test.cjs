@@ -20,7 +20,8 @@ const portugal = load('lib/destinations/portugal.ts');
 const france = load('lib/destinations/france.ts');
 const italy = load('lib/destinations/italy.ts', { './italy-images': load('lib/destinations/italy-images.ts') });
 const uk = load('lib/destinations/uk.ts', { './uk-images': load('lib/destinations/uk-images.ts') });
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk });
+const germany = load('lib/destinations/germany.ts', { './germany-images': load('lib/destinations/germany-images.ts') });
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany });
 const formatting = load('lib/destinations/seasonality.ts');
 const { locales } = load('lib/i18n/translations.ts');
 

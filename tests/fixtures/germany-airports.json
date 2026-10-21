@@ -1,0 +1,280 @@
+{
+  "verifiedOn": "2026-10-21",
+  "snapshot": "Public data captured earlier today; later metadata refresh timed out. Autocomplete samples are from this revision.",
+  "sources": [
+    "https://api.travelpayouts.com/data/en/airports.json",
+    "https://api.travelpayouts.com/data/en/cities.json",
+    "https://www.adv.aero/aktuelle-verkehrszahlen/"
+  ],
+  "airports": [
+    {
+      "iataCode": "BER",
+      "name": "Brandenburg",
+      "cityCode": "BER",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "MUC",
+      "name": "Franz Josef Strauss Airport",
+      "cityCode": "MUC",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "NUE",
+      "name": "Nuremberg Airport",
+      "cityCode": "NUE",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "FMM",
+      "name": "Memmingen Allgau Airport",
+      "cityCode": "FMM",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "FRA",
+      "name": "Frankfurt Airport",
+      "cityCode": "FRA",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "HHN",
+      "name": "Frankfurt - Hahn Airport",
+      "cityCode": "FRA",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "KSF",
+      "name": "Kassel-Calden Airport",
+      "cityCode": "KSF",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "HAM",
+      "name": "Hamburg Airport",
+      "cityCode": "HAM",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "HAJ",
+      "name": "Hannover Airport",
+      "cityCode": "HAJ",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BRE",
+      "name": "Bremen Airport",
+      "cityCode": "BRE",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LBC",
+      "name": "Lubeck Blankensee",
+      "cityCode": "HAM",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "RLG",
+      "name": "Laage Airport",
+      "cityCode": "RLG",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "DUS",
+      "name": "Dusseldorf International Airport",
+      "cityCode": "DUS",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "CGN",
+      "name": "Cologne Bonn Airport",
+      "cityCode": "CGN",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "DTM",
+      "name": "Dortmund Airport",
+      "cityCode": "DTM",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "FMO",
+      "name": "Munster Osnabruck International Airport",
+      "cityCode": "FMO",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "PAD",
+      "name": "Paderborn Lippstadt Airport",
+      "cityCode": "PAD",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "NRN",
+      "name": "Weeze Airport",
+      "cityCode": "DUS",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "STR",
+      "name": "Stuttgart Airport",
+      "cityCode": "STR",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "FKB",
+      "name": "Baden-Airpark",
+      "cityCode": "FKB",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "FDH",
+      "name": "Friedrichshafen Airport",
+      "cityCode": "FDH",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LEJ",
+      "name": "Leipzig/Halle Airport",
+      "cityCode": "LEJ",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "DRS",
+      "name": "Dresden International Airport",
+      "cityCode": "DRS",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "ERF",
+      "name": "Erfurt Airport",
+      "cityCode": "ERF",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "SCN",
+      "name": "Ensheim Airport",
+      "cityCode": "SCN",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "GWT",
+      "name": "Westerland - Sylt Airport",
+      "cityCode": "GWT",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "HDF",
+      "name": "Heringsdorf Airport",
+      "cityCode": "HDF",
+      "countryCode": "DE",
+      "iataType": "airport",
+      "flightable": true
+    }
+  ],
+  "crossBorder": [
+    {
+      "iataCode": "BSL",
+      "providerCountryCode": "CH",
+      "cityCode": "EAP",
+      "physicalCountryCode": "FR"
+    },
+    {
+      "iataCode": "MLH",
+      "providerCountryCode": "CH",
+      "cityCode": "EAP",
+      "physicalCountryCode": "FR"
+    }
+  ],
+  "excluded": [
+    "TXL",
+    "SXF",
+    "XFW"
+  ],
+  "regionalNotFlightable": [
+    {
+      "iataCode": "LGO",
+      "flightable": false
+    },
+    {
+      "iataCode": "HGL",
+      "flightable": false
+    },
+    {
+      "iataCode": "BMK",
+      "flightable": false
+    },
+    {
+      "iataCode": "HOQ",
+      "flightable": false
+    },
+    {
+      "iataCode": "ZQW",
+      "flightable": false
+    },
+    {
+      "iataCode": "NRD",
+      "flightable": false
+    },
+    {
+      "iataCode": "EME",
+      "flightable": false
+    },
+    {
+      "iataCode": "JUI",
+      "flightable": false
+    }
+  ]
+}

@@ -3,6 +3,7 @@ import { portugalDestinations } from "./portugal";
 import { franceDestinations } from "./france";
 import { italyDestinations } from "./italy";
 import { ukDestinations } from "./uk";
+import { germanyDestinations } from "./germany";
 import type { DestinationId, DestinationProfile } from "./types";
 
 export type { DestinationId, DestinationReference, DestinationAirport, DestinationText, DestinationProfile } from "./types";
@@ -13,9 +14,10 @@ export const destinationsByCountry: Readonly<Record<string, readonly Destination
   FR: franceDestinations,
   IT: italyDestinations,
   GB: ukDestinations,
+  DE: germanyDestinations,
 };
 
-export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations];
+export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations];
 
 export function getDestinationById(id: DestinationId): DestinationProfile | undefined {
   return destinationProfiles.find(destination => destination.id === id);
