@@ -112,10 +112,16 @@ Las doce imágenes proceden de Wikimedia Commons con licencia CC BY o CC BY-SA, 
 - TypeScript y lint correctos; permanecen avisos anteriores de img y deprecación de next lint.
 - Compilación de producción correcta (27 páginas) y 21/21 comprobaciones HTTP locales.
 - Configuración de mantenimiento diario y dependencias sin modificaciones. Se ejecutan sus pruebas con el guard de red activo.
-- La auditoría sin dependencias de desarrollo devuelve cero. La primera consulta completa no respondió: no se presenta como una auditoría limpia. Los siete avisos altos conocidos de la incidencia #16 siguen pendientes; no se corrigen ni ocultan en esta ampliación.
+- La auditoría sin dependencias de desarrollo devuelve cero. La primera consulta completa no respondió; la repetición confirmó 7 High, 0 Critical, 0 Moderate y 0 Low. Son los siete avisos conocidos de la incidencia #16: no se corrigen ni ocultan en esta ampliación.
 - No se leen ni usan credenciales de producción. No se realizan llamadas de pago, generación real de IA, micrófono ni operaciones reales en Supabase.
 
 Las verificaciones reales son recursos públicos de lugares/aeropuertos y licencias, compilación, páginas locales y las comprobaciones de Preview documentadas en la PR. Los tests de vuelos, IA, voz y Supabase utilizan simulaciones.
+
+Preview de la PR #18: https://el-viajero-web-git-codex-uk-destinations-el-viajero.vercel.app/ (Vercel Ready). En navegador real: las seis ciudades requeridas encabezan sus consultas; Londres muestra ciudad y seis aeropuertos, y Belfast BFS/BHD. LHR, MAN, EDI, BHD, PIK y CWL muestran su aeropuerto físico primero. Se abrieron Londres y Manchester por selección confirmada, con un único modal; escribir no abrió fichas. Las otras diez fichas se comprobaron mediante enlaces expresos. Portada y cuatro temporadas conservan 16 tarjetas; mayo conserva sus 65 tarjetas ES/PT. Se guardaron capturas, sin búsquedas de precios ni llamadas de IA.
+
+La inspección visual sustituyó la panorámica excesivamente estrecha de Bath por una imagen más nítida de Pulteney Bridge, de Jürgen Matern (CC BY-SA 3.0). No se modifican fotografías ajenas a esta ampliación.
+
+El último mantenimiento diario programado visible es [39552881956](https://github.com/tosca201098-jpg/el-viajero-web/actions/runs/39552881956), con fallo de la auditoría de dependencias anterior. Esto no equivale a un mantenimiento desactivado ni a una comprobación de seguridad limpia; los avisos pendientes siguen visibles. La ampliación no cambia el workflow.
 
 ## PR pendientes y archivos
 Se revisaron #8 (Ibiza), #13 (foto de Milán), #14 (Asturias) y la antigua #9 (selección francesa), sin modificarlas. La retirada del selector independiente ya está en main desde #11. No se cambia italy-images.ts ni los datos de los países anteriores, para evitar conflictos con las fotografías pendientes.

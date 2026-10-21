@@ -29,11 +29,11 @@ export const ukImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "bristol-bath": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Royal_Crescent_in_Bath%2C_England_-_July_2006.jpg/960px-Royal_Crescent_in_Bath%2C_England_-_July_2006.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Royal_Crescent_in_Bath,_England_-_July_2006.jpg",
-    "imageCredit": "Diliff",
-    "imageLicense": "CC BY 2.5",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.5"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Pulteney_bridge_in_Bath_view_from_south_before_noon.jpg/960px-Pulteney_bridge_in_Bath_view_from_south_before_noon.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Pulteney_bridge_in_Bath_view_from_south_before_noon.jpg",
+    "imageCredit": "Jürgen Matern",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   "york": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/The_York_Minster.jpg/960px-The_York_Minster.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
