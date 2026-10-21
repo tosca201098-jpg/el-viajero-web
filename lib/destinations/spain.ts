@@ -137,7 +137,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "OVD"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/84/Lagos_de_Covadonga.jpg/960px-Lagos_de_Covadonga.jpg",
+    "image": "/images/destinations/asturias.webp",
     "description": "Montañas verdes, pueblos costeros y cocina local en el norte de España.",
     "recommendations": [
       "Lagos de Covadonga",
@@ -151,11 +151,7 @@ export const spainDestinations: DestinationProfile[] = [
     "highSeasonMonths": [7,8],
     "aliases": [
       "Oviedo"
-    ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Lagos_de_Covadonga.jpg",
-    "imageCredit": "JavierOlivares",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    ]
   },
   {
     "id": "es-badajoz",

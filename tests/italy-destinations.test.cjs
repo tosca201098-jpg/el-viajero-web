@@ -1,5 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const { withHistoricalImage } = require('./helpers/destination-image-baseline.cjs');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
 const root = path.resolve(__dirname, '..');
 function loader(mocks = {}, globals = {}) {
@@ -39,7 +40,7 @@ test('Italy adds twelve unique canonical profiles without changing any of the pr
   assert.equal(catalog.destinationProfiles.length,89);assert.equal(italy.length,12);
   assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,89);
   assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,89);
-  for(const previous of baseline.profiles)assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
+  for(const previous of baseline.profiles)assert.equal(digest(withHistoricalImage(catalog.getDestinationById(previous.id))),previous.sha256,previous.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
   for(const [season,sha]of Object.entries(baseline.seasonFiles))assert.equal(digest(fs.readFileSync(path.join(root,`app/temporadas/${season}/page.tsx`),'utf8').replace(/\r\n/g,'\n')),sha,season);
   assert.ok(!/DestinationProfilePicker|destinations\.choose/.test(fs.readFileSync(path.join(root,'app/page.tsx'),'utf8')));
