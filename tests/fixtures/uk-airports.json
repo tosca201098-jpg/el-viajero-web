@@ -1,0 +1,344 @@
+{
+  "verifiedOn": "2026-10-21",
+  "sources": [
+    "https://api.travelpayouts.com/data/en/airports.json",
+    "https://api.travelpayouts.com/data/en/cities.json",
+    "https://www.caa.co.uk/data-and-analysis/uk-aviation-market/airports/uk-airport-data/uk-airport-data-2026/august-2026/"
+  ],
+  "airports": [
+    {
+      "iataCode": "LHR",
+      "name": "London Heathrow Airport",
+      "cityCode": "LON",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LGW",
+      "name": "London Gatwick Airport",
+      "cityCode": "LON",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "STN",
+      "name": "Stansted Airport",
+      "cityCode": "LON",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LTN",
+      "name": "London Luton Airport",
+      "cityCode": "LON",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LCY",
+      "name": "London City Airport",
+      "cityCode": "LON",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "SEN",
+      "name": "London Southend Airport",
+      "cityCode": "LON",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "MAN",
+      "name": "Manchester Airport",
+      "cityCode": "MAN",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LPL",
+      "name": "Liverpool John Lennon Airport",
+      "cityCode": "LPL",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BHX",
+      "name": "Birmingham International Airport",
+      "cityCode": "BHX",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "EMA",
+      "name": "East Midlands Airport",
+      "cityCode": "NQT",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LBA",
+      "name": "Leeds Bradford International Airport",
+      "cityCode": "LBA",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "NCL",
+      "name": "Newcastle International Airport",
+      "cityCode": "NCL",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "MME",
+      "name": "Durham Tees Valley Airport",
+      "cityCode": "MME",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BRS",
+      "name": "Bristol Airport",
+      "cityCode": "BRS",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "SOU",
+      "name": "Southampton Airport",
+      "cityCode": "SOU",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BOH",
+      "name": "Bournemouth Airport",
+      "cityCode": "BOH",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "EXT",
+      "name": "Exeter International Airport",
+      "cityCode": "EXT",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "NQY",
+      "name": "Newquay Cornwall Airport",
+      "cityCode": "NQY",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "NWI",
+      "name": "Norwich International Airport",
+      "cityCode": "NWI",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "EDI",
+      "name": "Edinburgh Airport",
+      "cityCode": "EDI",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "GLA",
+      "name": "Glasgow International Airport",
+      "cityCode": "GLA",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "PIK",
+      "name": "Glasgow Prestwick Airport",
+      "cityCode": "GLA",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "ABZ",
+      "name": "Aberdeen International Airport",
+      "cityCode": "ABZ",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "INV",
+      "name": "Inverness Airport",
+      "cityCode": "INV",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "DND",
+      "name": "Dundee Airport",
+      "cityCode": "DND",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "SYY",
+      "name": "Stornoway Airport",
+      "cityCode": "SYY",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "KOI",
+      "name": "Kirkwall Airport",
+      "cityCode": "KOI",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LSI",
+      "name": "Sumburgh Airport",
+      "cityCode": "SDZ",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "ILY",
+      "name": "Glenegedale Airport",
+      "cityCode": "ILY",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BRR",
+      "name": "North Bay Airport",
+      "cityCode": "BRR",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BEB",
+      "name": "Benbecula Airport",
+      "cityCode": "BEB",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "CWL",
+      "name": "Cardiff Airport",
+      "cityCode": "CWL",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BFS",
+      "name": "Belfast International Airport",
+      "cityCode": "BFS",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "BHD",
+      "name": "George Best Belfast City Airport",
+      "cityCode": "BFS",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "LDY",
+      "name": "City of Derry Airport",
+      "cityCode": "LDY",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "HUY",
+      "name": "Humberside Airport",
+      "cityCode": "HUY",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "CAL",
+      "name": "Machrihanish Airport",
+      "cityCode": "CAL",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "iataCode": "TRE",
+      "name": "Tiree Airport",
+      "cityCode": "TRE",
+      "countryCode": "GB",
+      "iataType": "airport",
+      "flightable": true
+    }
+  ],
+  "excluded": [
+    "VLY",
+    "DSA"
+  ],
+  "nonUK": [
+    {
+      "code": "DUB",
+      "countryCode": "IE"
+    },
+    {
+      "code": "IOM",
+      "countryCode": "IM"
+    },
+    {
+      "code": "GCI",
+      "countryCode": "GG"
+    },
+    {
+      "code": "JER",
+      "countryCode": "JE"
+    },
+    {
+      "code": "ORK",
+      "countryCode": "IE"
+    },
+    {
+      "code": "SNN",
+      "countryCode": "IE"
+    }
+  ]
+}

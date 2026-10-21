@@ -1,4 +1,5 @@
 import { italyPassengerAirports } from '@/lib/travelpayouts/italy-airports';
+import { ukAirportsForTerm, ukUnavailablePassengerCodes } from '@/lib/travelpayouts/uk-airports';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -78,12 +79,15 @@ export async function GET(request: Request) {
     const exactCode = code(term, 3);
     const airport = italyPassengerAirports.find(airport => airport.code === exactCode);
     if (airport) places = [...places, airport];
+    const ukAirports = ukAirportsForTerm(term);
+    places = [...places, ...ukAirports];
 
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);
     const seen = new Set<string>();
     const suggestions = places
       .filter(isPlace)
+      .filter(place => !(place.country_code === 'GB' && ukUnavailablePassengerCodes.includes(code(place.code, 3))))
       .filter((place) =>
         (place.type === "city" || place.type === "airport") &&
         typeof place.name === "string" && place.name.trim().length > 0
@@ -101,7 +105,8 @@ export async function GET(request: Request) {
         seen.add(key);
         return true;
       })
-      .slice(0, 6)
+      // London has six verified physical airports plus its city; keep all seven selectable.
+      .slice(0, ukAirports.filter(airport => airport.city_code === 'LON').length === 6 ? 7 : 6)
       .map((place) => {
         const countryCode = code(place.country_code, 2);
         return {

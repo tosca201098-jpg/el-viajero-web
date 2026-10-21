@@ -15,7 +15,11 @@ function endpoint(payload, options = {}) {
   const calls = [], exports = {};
   vm.runInNewContext(compiled, {
     exports, URL, Response, Intl, AbortSignal,
-    require: id => { if(id !== '@/lib/travelpayouts/italy-airports') throw Error(id); return {italyPassengerAirports:[]}; },
+    require: id => {
+      if(id === '@/lib/travelpayouts/italy-airports') return {italyPassengerAirports:[]};
+      if(id === '@/lib/travelpayouts/uk-airports') return {ukAirportsForTerm:()=>[],ukUnavailablePassengerCodes:[]};
+      throw Error(id);
+    },
     fetch: async (url, init) => {
       calls.push({ url: new URL(url), init });
       if (options.fail) throw Error('Provider unavailable');

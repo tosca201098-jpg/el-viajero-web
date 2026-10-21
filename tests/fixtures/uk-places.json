@@ -1,0 +1,581 @@
+{
+  "Londres": [
+    {
+      "type": "city",
+      "code": "LON",
+      "name": "Londres",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 143443
+    },
+    {
+      "type": "airport",
+      "code": "STN",
+      "name": "Stansted",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "LON",
+      "city_name": "Londres",
+      "index_strings": [],
+      "weight": 11371
+    },
+    {
+      "type": "airport",
+      "code": "LGW",
+      "name": "Gatwick",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "LON",
+      "city_name": "Londres",
+      "index_strings": [],
+      "weight": 15821
+    },
+    {
+      "type": "airport",
+      "code": "LHR",
+      "name": "Heathrow",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "LON",
+      "city_name": "Londres",
+      "index_strings": [],
+      "weight": 37602
+    },
+    {
+      "type": "airport",
+      "code": "LTN",
+      "name": "Luton Airport",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "LON",
+      "city_name": "Londres",
+      "index_strings": [],
+      "weight": 12540
+    },
+    {
+      "type": "airport",
+      "code": "SEN",
+      "name": "Southend",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "LON",
+      "city_name": "Londres",
+      "index_strings": [],
+      "weight": 228
+    },
+    {
+      "type": "airport",
+      "code": "LCY",
+      "name": "Aeropuerto de la Ciudad de Londres",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "LON",
+      "city_name": "Londres",
+      "index_strings": [],
+      "weight": 2500
+    },
+    {
+      "type": "city",
+      "code": "YXU",
+      "name": "London",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 18
+    },
+    {
+      "type": "city",
+      "code": "ADZ",
+      "name": "San Andrés",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 140
+    },
+    {
+      "type": "city",
+      "code": "LDE",
+      "name": "Lourdes",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 1989
+    },
+    {
+      "type": "city",
+      "code": "MRE",
+      "name": "Maasai Mara",
+      "country_code": "KE",
+      "country_name": "Kenia",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "LPY",
+      "name": "Le Puy-en-Velay",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "YBX",
+      "name": "Blanc-Sablon",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "ELS",
+      "name": "East London",
+      "country_code": "ZA",
+      "country_name": "Sudáfrica",
+      "index_strings": [],
+      "weight": 27
+    }
+  ],
+  "Manchester": [
+    {
+      "type": "city",
+      "code": "MAN",
+      "name": "Mánchester",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 9697
+    },
+    {
+      "type": "city",
+      "code": "MHT",
+      "name": "Mánchester",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 44
+    }
+  ],
+  "Edimburgo": [
+    {
+      "type": "city",
+      "code": "EDI",
+      "name": "Edimburgo",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 11887
+    }
+  ],
+  "Glasgow": [
+    {
+      "type": "city",
+      "code": "GLA",
+      "name": "Glasgow",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 2158
+    },
+    {
+      "type": "airport",
+      "code": "GLA",
+      "name": "Glasgow Intl",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "GLA",
+      "city_name": "Glasgow",
+      "index_strings": [],
+      "weight": 912
+    },
+    {
+      "type": "city",
+      "code": "GGW",
+      "name": "Glasgow",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "airport",
+      "code": "PIK",
+      "name": "Prestwick",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "GLA",
+      "city_name": "Glasgow",
+      "index_strings": [],
+      "weight": 4
+    }
+  ],
+  "Cardiff": [
+    {
+      "type": "city",
+      "code": "CWL",
+      "name": "Cardiff",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 46
+    }
+  ],
+  "Belfast": [
+    {
+      "type": "city",
+      "code": "BFS",
+      "name": "Belfast",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 3067
+    },
+    {
+      "type": "airport",
+      "code": "BFS",
+      "name": "Belfast Intl Arpt",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "BFS",
+      "city_name": "Belfast",
+      "index_strings": [],
+      "weight": 941
+    },
+    {
+      "type": "airport",
+      "code": "BHD",
+      "name": "Belfast City Airport",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "BFS",
+      "city_name": "Belfast",
+      "index_strings": [],
+      "weight": 243
+    }
+  ],
+  "York": [
+    {
+      "type": "city",
+      "code": "NYC",
+      "name": "Nueva York",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 51791
+    },
+    {
+      "type": "airport",
+      "code": "JFK",
+      "name": "John F Kennedy Intl",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "NYC",
+      "city_name": "Nueva York",
+      "index_strings": [],
+      "weight": 17223
+    },
+    {
+      "type": "city",
+      "code": "OKR",
+      "name": "Yorke Island",
+      "country_code": "AU",
+      "country_name": "Australia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "airport",
+      "code": "LGA",
+      "name": "LaGuardia",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "NYC",
+      "city_name": "Nueva York",
+      "index_strings": [],
+      "weight": 2383
+    },
+    {
+      "type": "airport",
+      "code": "IST",
+      "name": "Aeropuerto de Estambul",
+      "country_code": "TR",
+      "country_name": "Turquía",
+      "city_code": "IST",
+      "city_name": "Estambul",
+      "index_strings": [],
+      "weight": 275803
+    },
+    {
+      "type": "city",
+      "code": "ECN",
+      "name": "Ercan",
+      "country_code": "NY",
+      "country_name": "Chipre del Norte",
+      "index_strings": [],
+      "weight": 24232
+    },
+    {
+      "type": "city",
+      "code": "UFA",
+      "name": "Ufá",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 107811
+    },
+    {
+      "type": "airport",
+      "code": "KJA",
+      "name": "Krasnojarsk",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "city_code": "KJA",
+      "city_name": "Krasnoyarsk",
+      "index_strings": [],
+      "weight": 49937
+    },
+    {
+      "type": "city",
+      "code": "SEL",
+      "name": "Seúl",
+      "country_code": "KR",
+      "country_name": "Corea del Sur",
+      "index_strings": [],
+      "weight": 71184
+    },
+    {
+      "type": "city",
+      "code": "OSW",
+      "name": "Orsk",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 3940
+    },
+    {
+      "type": "city",
+      "code": "HKG",
+      "name": "Hong Kong",
+      "country_code": "HK",
+      "country_name": "Hong Kong",
+      "index_strings": [],
+      "weight": 26873
+    },
+    {
+      "type": "city",
+      "code": "CEK",
+      "name": "Cheliábinsk",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 52218
+    },
+    {
+      "type": "city",
+      "code": "CAN",
+      "name": "Cantón",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 84440
+    },
+    {
+      "type": "city",
+      "code": "NTN",
+      "name": "Normanton",
+      "country_code": "AU",
+      "country_name": "Australia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "OMS",
+      "name": "Omsk",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 39551
+    },
+    {
+      "type": "city",
+      "code": "RMO",
+      "name": "Chişinău",
+      "country_code": "MD",
+      "country_name": "Moldavia",
+      "index_strings": [],
+      "weight": 138485
+    },
+    {
+      "type": "city",
+      "code": "PCN",
+      "name": "Picton",
+      "country_code": "NZ",
+      "country_name": "Nueva Zelanda",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "WAA",
+      "name": "Wales",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "airport",
+      "code": "PKX",
+      "name": "Aeropuerto Internacional de Pekín-Daxing",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "city_code": "BJS",
+      "city_name": "Pekín",
+      "index_strings": [],
+      "weight": 37767
+    },
+    {
+      "type": "airport",
+      "code": "DWC",
+      "name": "Aeropuerto Internacional Dubai World Central",
+      "country_code": "AE",
+      "country_name": "Emiratos Árabes Unidos",
+      "city_code": "DXB",
+      "city_name": "Dubái",
+      "index_strings": [],
+      "weight": 22816
+    }
+  ],
+  "Oxford": [
+    {
+      "type": "city",
+      "code": "OXF",
+      "name": "Oxford",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "airport",
+      "code": "RFD",
+      "name": "Greater Rockford",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "CHI",
+      "city_name": "Chicago",
+      "index_strings": [],
+      "weight": 94
+    },
+    {
+      "type": "city",
+      "code": "GRR",
+      "name": "Grand Rapids",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 251
+    },
+    {
+      "type": "city",
+      "code": "IMT",
+      "name": "Iron Mountain",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "LHR": [
+    {
+      "type": "airport",
+      "code": "LHR",
+      "name": "Heathrow",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "LON",
+      "city_name": "Londres",
+      "index_strings": [],
+      "weight": 37602
+    }
+  ],
+  "BHD": [
+    {
+      "type": "airport",
+      "code": "BHD",
+      "name": "Belfast City Airport",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "BFS",
+      "city_name": "Belfast",
+      "index_strings": [],
+      "weight": 243
+    }
+  ],
+  "PIK": [
+    {
+      "type": "airport",
+      "code": "PIK",
+      "name": "Prestwick",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "GLA",
+      "city_name": "Glasgow",
+      "index_strings": [],
+      "weight": 4
+    },
+    {
+      "type": "city",
+      "code": "YPM",
+      "name": "Pikangikum",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "PIX",
+      "name": "Pico Island",
+      "country_code": "PT",
+      "country_name": "Portugal",
+      "index_strings": [],
+      "weight": 37
+    },
+    {
+      "type": "city",
+      "code": "PCN",
+      "name": "Picton",
+      "country_code": "NZ",
+      "country_name": "Nueva Zelanda",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "VLY": [
+    {
+      "type": "city",
+      "code": "VLY",
+      "name": "Anglesey",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "DSA": [
+    {
+      "type": "city",
+      "code": "DSA",
+      "name": "Doncaster",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 1
+    }
+  ]
+}
