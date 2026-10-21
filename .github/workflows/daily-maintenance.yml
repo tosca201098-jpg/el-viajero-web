@@ -11,6 +11,9 @@ on:
       - 'scripts/maintenance/**'
       - 'tests/maintenance.test.cjs'
       - 'docs/daily-maintenance.md'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tests/css-toolchain.test.cjs'
 
 permissions:
   contents: read
