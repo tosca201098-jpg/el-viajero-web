@@ -27,7 +27,8 @@ const france = load('lib/destinations/france.ts');
 const italy = load('lib/destinations/italy.ts', { './italy-images': load('lib/destinations/italy-images.ts') });
 const uk = load('lib/destinations/uk.ts', { './uk-images': load('lib/destinations/uk-images.ts') });
 const germany = load('lib/destinations/germany.ts', { './germany-images': load('lib/destinations/germany-images.ts') });
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany });
+const netherlands = load('lib/destinations/netherlands.ts', { './netherlands-images': load('lib/destinations/netherlands-images.ts') });
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands });
 const localization = load('lib/destinations/localization.ts');
 const manifest = require('./fixtures/destination-legacy-digests.json');
 const legacyProfiles = library.destinationProfiles.filter(profile => ['ES', 'PT'].includes(profile.countryCode));
@@ -43,8 +44,8 @@ test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
   assert.equal(legacyProfiles.length, 65);
   assert.equal(spain.spainDestinations.length, 43);
   assert.equal(portugal.portugalDestinations.length, 22);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 113);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 113);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 125);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 125);
   assert.deepEqual(Array.from(legacyProfiles, d => ({ id: d.id, slug: d.slug })),
     manifest.map(({ id, slug }) => ({ id, slug })));
   for (const destination of legacyProfiles) {
@@ -119,10 +120,10 @@ test('monthly rendering uses the country helper for a future country without add
       '@/lib/destinations/localization': localization,
       '@/lib/destinations/presentation': load('lib/destinations/presentation.ts', { './index': library }),
     }, { React: { createElement } }).default;
-    const fixture = { ...library.destinationProfiles[0], countryCode: 'NL', country: 'Países Bajos' };
+    const fixture = { ...library.destinationProfiles[0], countryCode: 'BE', country: 'Bélgica' };
     const tree = component({ month: 4, recommendations: [{ destination: fixture, reason: 'best' }] });
     const text = textNodes(tree);
-    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('NL')), language);
+    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('BE')), language);
     assert.ok(!text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('PT')), language);
   }
 });

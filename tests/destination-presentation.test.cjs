@@ -37,9 +37,9 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 113 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,113);
-  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE'].includes(d.countryCode));
+test('automatic catalog recommendations hide added France profiles; all 125 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,125);
+  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
   assert.equal(presentation.canShowDestinationAutomatically({country:'Portugal'}),true);
@@ -81,7 +81,7 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const tree=Monthly({month,recommendations});
       const cards=nodes(tree).filter(n=>n.type==='article');
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
-      const expected=recommendations.filter(r=>!['FR','IT','GB','DE'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
+      const expected=recommendations.filter(r=>!['FR','IT','GB','DE','NL'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
     }
   }
@@ -181,6 +181,24 @@ test('typing and confirming do not open a modal; View destination opens only the
     vm.runInNewContext(bridgeCode,scope);
     scope.change(name);assert.equal(opened.length,0);assert.equal(scope.button(),null);
     scope.confirm({type:'city',name,code,country:'Alemania',cityName:null,cityCode:null},name);
+    assert.equal(opened.length,0);
+    const button=scope.button();assert.equal(button.type,'button');assert.ok(text(button).includes(localization.getDestinationText(catalog.getDestinationById(id),language).name));
+    button.props.onClick();assert.equal(opened.length,1);assert.equal(opened[0],catalog.getDestinationById(id));
+    scope.change(name+'x');assert.equal(scope.button(),null);assert.equal(opened.length,1);
+  }
+});
+
+test('typing and confirming do not open a modal; View destination opens only the selected Dutch profile in every language',()=>{
+  for(const language of locales) for(const destination of catalog.getDestinationsByCountry('NL')) {
+    const name=localization.getDestinationText(destination,language).name,code=destination.iataCodes[0]??null,id=destination.id;
+    const opened=[],scope={React:react,language,destinoVuelo:'',confirmedFlightDestination:null,
+      destinationFromPlaceSelection:presentation.destinationFromPlaceSelection,getDestinationById:catalog.getDestinationById,
+      getDestinationText:localization.getDestinationText,t:(k,v)=>dictionaries.translate(language,k,v),
+      setDestinoVuelo:v=>{scope.destinoVuelo=v;},setConfirmedFlightDestination:v=>{scope.confirmedFlightDestination=v;},
+      setFlightResultsOpen:()=>{},setModal:()=>{},setDestinoSeleccionado:d=>opened.push(d)};
+    vm.runInNewContext(bridgeCode,scope);
+    scope.change(name);assert.equal(opened.length,0);assert.equal(scope.button(),null);
+    scope.confirm({type:'city',name,code,country:'Países Bajos',cityName:null,cityCode:null},name);
     assert.equal(opened.length,0);
     const button=scope.button();assert.equal(button.type,'button');assert.ok(text(button).includes(localization.getDestinationText(catalog.getDestinationById(id),language).name));
     button.props.onClick();assert.equal(opened.length,1);assert.equal(opened[0],catalog.getDestinationById(id));

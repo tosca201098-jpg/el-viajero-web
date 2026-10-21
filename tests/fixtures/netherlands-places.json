@@ -1,0 +1,2082 @@
+{
+  "Ámsterdam": [
+    {
+      "id": "7225d3c4-75ca-4980-81ec-63aa56544ef9",
+      "type": "city",
+      "code": "AMS",
+      "name": "Ámsterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.8922222,
+        "lat": 52.3730556
+      },
+      "index_strings": [],
+      "weight": 149906,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Amsterdam-Schiphol"
+    }
+  ],
+  "Amsterdam": [
+    {
+      "id": "7225d3c4-75ca-4980-81ec-63aa56544ef9",
+      "type": "city",
+      "code": "AMS",
+      "name": "Ámsterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.8922222,
+        "lat": 52.3730556
+      },
+      "index_strings": [],
+      "weight": 149906,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Amsterdam-Schiphol"
+    }
+  ],
+  "Róterdam": [
+    {
+      "id": "4db914b6-7a9a-4bce-afcb-d9aa83b651c5",
+      "type": "city",
+      "code": "RTM",
+      "name": "Róterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.481776,
+        "lat": 51.924216
+      },
+      "index_strings": [],
+      "weight": 23065,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Rotterdam"
+    }
+  ],
+  "Rotterdam": [
+    {
+      "id": "4db914b6-7a9a-4bce-afcb-d9aa83b651c5",
+      "type": "city",
+      "code": "RTM",
+      "name": "Róterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.481776,
+        "lat": 51.924216
+      },
+      "index_strings": [],
+      "weight": 23065,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Rotterdam"
+    }
+  ],
+  "La Haya": [
+    {
+      "id": "16520f97-4031-4916-8816-50a2a9b70225",
+      "type": "city",
+      "code": "LXA",
+      "name": "Lhasa",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "state_code": null,
+      "coordinates": {
+        "lon": 91.1719,
+        "lat": 29.6534
+      },
+      "index_strings": [],
+      "weight": 1651,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Lhasa"
+    },
+    {
+      "id": "d1fe5092-3be2-4a61-93bf-b601b37817d6",
+      "type": "city",
+      "code": "HAV",
+      "name": "La Habana",
+      "country_code": "CU",
+      "country_name": "Cuba",
+      "state_code": null,
+      "coordinates": {
+        "lon": -82.3665956,
+        "lat": 23.1135925
+      },
+      "index_strings": [],
+      "weight": 1780,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "La Habana"
+    },
+    {
+      "id": "2aa983ed-6e0c-405b-a71e-ffced68b4d6e",
+      "type": "city",
+      "code": "LHE",
+      "name": "Lahore",
+      "country_code": "PK",
+      "country_name": "Pakistán",
+      "state_code": null,
+      "coordinates": {
+        "lon": 74.3587473,
+        "lat": 31.5203696
+      },
+      "index_strings": [],
+      "weight": 2816,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Lahore"
+    },
+    {
+      "id": "6fc3df22-c8b7-4c4e-b6e6-fbb0fae71bfe",
+      "type": "city",
+      "code": "UTP",
+      "name": "Pattaya",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 100.8824551,
+        "lat": 12.9235557
+      },
+      "index_strings": [],
+      "weight": 1977,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Utapao"
+    },
+    {
+      "id": "ce47651d-af40-43b7-b087-c740ea0b6723",
+      "type": "city",
+      "code": "OAX",
+      "name": "Oaxaca de Juárez",
+      "country_code": "MX",
+      "country_name": "México",
+      "state_code": null,
+      "coordinates": {
+        "lon": -96.7265889,
+        "lat": 17.0731842
+      },
+      "index_strings": [],
+      "weight": 1687,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Xoxocotlan"
+    },
+    {
+      "id": "2bbcf1ea-8268-4ccf-a297-c05e3caf957a",
+      "type": "city",
+      "code": "FPO",
+      "name": "Freeport",
+      "country_code": "BS",
+      "country_name": "Bahamas",
+      "state_code": null,
+      "coordinates": {
+        "lon": -78.7052,
+        "lat": 26.547293
+      },
+      "index_strings": [],
+      "weight": 19,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Grand Bahama Intl"
+    },
+    {
+      "id": "a144bd51-1f02-457a-88ed-44887fc6371b",
+      "type": "city",
+      "code": "EUN",
+      "name": "El Aaiún",
+      "country_code": "EH",
+      "country_name": "Sáhara Occidental",
+      "state_code": null,
+      "coordinates": {
+        "lon": -13.216667,
+        "lat": 27.133333
+      },
+      "index_strings": [],
+      "weight": 69,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Hassan I"
+    },
+    {
+      "id": "da2585b6-206c-4da8-94c1-ee292007c103",
+      "type": "city",
+      "code": "KBH",
+      "name": "Kahama",
+      "country_code": "TZ",
+      "country_name": "Tanzania",
+      "state_code": null,
+      "coordinates": {
+        "lon": 32.6,
+        "lat": -3.8375
+      },
+      "index_strings": [],
+      "weight": 4,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Kahama Buzwagi Airstrip"
+    },
+    {
+      "id": "c643c4e6-c291-4ea9-80b7-409fb63357ae",
+      "type": "city",
+      "code": "HOF",
+      "name": "Alahsa",
+      "country_code": "SA",
+      "country_name": "Arabia Saudí",
+      "state_code": null,
+      "coordinates": {
+        "lon": 49.48746,
+        "lat": 25.294783
+      },
+      "index_strings": [],
+      "weight": 9,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Alahsa"
+    },
+    {
+      "id": "d3a37689-4b5b-4190-8857-ac310dc5fcc9",
+      "type": "city",
+      "code": "LBS",
+      "name": "Labasa",
+      "country_code": "FJ",
+      "country_name": "Fiyi",
+      "state_code": null,
+      "coordinates": {
+        "lon": 179.33766,
+        "lat": -16.466215
+      },
+      "index_strings": [],
+      "weight": 11,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Labasa"
+    },
+    {
+      "id": "ea64bb9b-0d5f-4ecd-8519-aa2f38d24933",
+      "type": "city",
+      "code": "LDU",
+      "name": "Lahad Datu",
+      "country_code": "MY",
+      "country_name": "Malasia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 118.32611,
+        "lat": 5.035278
+      },
+      "index_strings": [],
+      "weight": 3,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Lahad Datu"
+    },
+    {
+      "id": "a13bbff1-6f84-4ccf-a684-2112fe52c25e",
+      "type": "city",
+      "code": "ABE",
+      "name": "Allentown",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "PA",
+      "coordinates": {
+        "lon": -75.4714098,
+        "lat": 40.6022939
+      },
+      "index_strings": [],
+      "weight": 19,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Allentown-Bethlehem"
+    }
+  ],
+  "Den Haag": [],
+  "The Hague": [],
+  "Utrecht": [],
+  "Delft": [
+    {
+      "id": "04345da5-e7a9-4cf2-8810-7fe629658a81",
+      "type": "city",
+      "code": "DEL",
+      "name": "Nueva Delhi",
+      "country_code": "IN",
+      "country_name": "India",
+      "state_code": null,
+      "coordinates": {
+        "lon": 77.2090212,
+        "lat": 28.6139391
+      },
+      "index_strings": [],
+      "weight": 28656,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": null
+    },
+    {
+      "id": "c715320f-fe86-4345-bf8e-ae87d954457b",
+      "type": "airport",
+      "code": "DEL",
+      "name": "Indira Gandhi Intl",
+      "country_code": "IN",
+      "country_name": "India",
+      "city_code": "DEL",
+      "city_name": "Nueva Delhi",
+      "state_code": null,
+      "coordinates": {
+        "lon": 77.10079,
+        "lat": 28.556555
+      },
+      "index_strings": [],
+      "weight": 19497,
+      "cases": null,
+      "city_cases": null,
+      "country_cases": null
+    },
+    {
+      "id": "dee29baa-1405-4d60-b3a2-4de235f901aa",
+      "type": "city",
+      "code": "SEL",
+      "name": "Seúl",
+      "country_code": "KR",
+      "country_name": "Corea del Sur",
+      "state_code": null,
+      "coordinates": {
+        "lon": 126.9779692,
+        "lat": 37.566535
+      },
+      "index_strings": [],
+      "weight": 71184,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": null
+    },
+    {
+      "id": "fd5d6a5a-0f32-4282-a2ee-455cec71d579",
+      "type": "airport",
+      "code": "CAI",
+      "name": "Aeropuerto Internacional de El Cairo",
+      "country_code": "EG",
+      "country_name": "Egipto",
+      "city_code": "CAI",
+      "city_name": "El Cairo",
+      "state_code": null,
+      "coordinates": {
+        "lon": 31.40647,
+        "lat": 30.120106
+      },
+      "index_strings": [],
+      "weight": 26515,
+      "cases": null,
+      "city_cases": null,
+      "country_cases": null
+    },
+    {
+      "id": "d33dd444-6153-427e-8f71-6464d6594b21",
+      "type": "city",
+      "code": "ECN",
+      "name": "Ercan",
+      "country_code": "NY",
+      "country_name": "Chipre del Norte",
+      "state_code": null,
+      "coordinates": {
+        "lon": 33.50307,
+        "lat": 35.15812
+      },
+      "index_strings": [],
+      "weight": 24232,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Ercan"
+    },
+    {
+      "id": "3e9b6fd6-88a9-44f1-a774-3a3036671e04",
+      "type": "city",
+      "code": "CPT",
+      "name": "Ciudad del Cabo",
+      "country_code": "ZA",
+      "country_name": "Sudáfrica",
+      "state_code": null,
+      "coordinates": {
+        "lon": 18.4240553,
+        "lat": -33.9248685
+      },
+      "index_strings": [],
+      "weight": 8529,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Cape Town Intl"
+    },
+    {
+      "id": "ee712ada-96d2-42fd-9284-2428a94bfc44",
+      "type": "city",
+      "code": "DLI",
+      "name": "Đà Lạt",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "state_code": null,
+      "coordinates": {
+        "lon": 108.4583132,
+        "lat": 11.9404192
+      },
+      "index_strings": [],
+      "weight": 1320,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Lien Khuong Intl"
+    },
+    {
+      "id": "ad2331e9-5e71-4143-8d20-9eebc4cd0cc3",
+      "type": "city",
+      "code": "PUS",
+      "name": "Busán",
+      "country_code": "KR",
+      "country_name": "Corea del Sur",
+      "state_code": null,
+      "coordinates": {
+        "lon": 129.0756416,
+        "lat": 35.1795543
+      },
+      "index_strings": [],
+      "weight": 4932,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Gimhae"
+    },
+    {
+      "id": "0e61ba56-0916-4c7d-9079-e0e00312cef2",
+      "type": "city",
+      "code": "MEX",
+      "name": "Ciudad de México",
+      "country_code": "MX",
+      "country_name": "México",
+      "state_code": null,
+      "coordinates": {
+        "lon": -99.1275711,
+        "lat": 19.4270499
+      },
+      "index_strings": [],
+      "weight": 25876,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": null
+    },
+    {
+      "id": "815eaa67-ecca-4dd6-bfd3-1b09b0ce6e39",
+      "type": "city",
+      "code": "CJU",
+      "name": "Jeju",
+      "country_code": "KR",
+      "country_name": "Corea del Sur",
+      "state_code": null,
+      "coordinates": {
+        "lon": 126.4983023,
+        "lat": 33.4890113
+      },
+      "index_strings": [],
+      "weight": 6099,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Jeju Airport"
+    },
+    {
+      "id": "cd38bca0-e86a-48c8-b6a7-7d7e493a561f",
+      "type": "city",
+      "code": "IGR",
+      "name": "Puerto Iguazú",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "state_code": "MI",
+      "coordinates": {
+        "lon": -54.47635,
+        "lat": -25.731504
+      },
+      "index_strings": [],
+      "weight": 850,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Cataratas"
+    },
+    {
+      "id": "e9a15830-daa9-43c5-9f30-7aaea3691003",
+      "type": "city",
+      "code": "SCL",
+      "name": "Santiago de Chile",
+      "country_code": "CL",
+      "country_name": "Chile",
+      "state_code": null,
+      "coordinates": {
+        "lon": -70.6692655,
+        "lat": -33.4488897
+      },
+      "index_strings": [],
+      "weight": 8972,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Arturo M. Benitez"
+    },
+    {
+      "id": "e1fdec89-7461-4eb2-8302-1ea7122a3ae2",
+      "type": "city",
+      "code": "NLI",
+      "name": "Nikoláyevsk del Amur",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 140.733333,
+        "lat": 53.133333
+      },
+      "index_strings": [],
+      "weight": 864,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Nikolaevsk-na-Amure"
+    },
+    {
+      "id": "f8ce9623-9de7-4b54-8516-45a26d92f6b3",
+      "type": "airport",
+      "code": "RMU",
+      "name": "Aeropuerto Internacional de la Región de Murcia",
+      "country_code": "ES",
+      "country_name": "España",
+      "city_code": "RMU",
+      "city_name": "Ciudad de Murcia",
+      "state_code": null,
+      "coordinates": {
+        "lon": -1.1297244983868495,
+        "lat": 37.800770495379766
+      },
+      "index_strings": [],
+      "weight": 100,
+      "cases": null,
+      "city_cases": null,
+      "country_cases": null
+    },
+    {
+      "id": "b0112687-055f-465c-ad04-a310099a1c64",
+      "type": "city",
+      "code": "IAO",
+      "name": "Del Carmen",
+      "country_code": "PH",
+      "country_name": "Filipinas",
+      "state_code": null,
+      "coordinates": {
+        "lon": 126.013885,
+        "lat": 9.858889
+      },
+      "index_strings": [],
+      "weight": 250,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Aeropuerto de Sayak"
+    },
+    {
+      "id": "aacfde2f-47e3-47c9-978c-32830971adb6",
+      "type": "city",
+      "code": "SKP",
+      "name": "Skopie",
+      "country_code": "MK",
+      "country_name": "Macedonia del Norte",
+      "state_code": null,
+      "coordinates": {
+        "lon": 21.4407659,
+        "lat": 42.0050274
+      },
+      "index_strings": [],
+      "weight": 11734,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Skopje"
+    },
+    {
+      "id": "8e253587-9957-4b13-ab07-2ebd214d60ae",
+      "type": "city",
+      "code": "FIH",
+      "name": "Kinsasa",
+      "country_code": "CD",
+      "country_name": "República Democrática del Congo",
+      "state_code": null,
+      "coordinates": {
+        "lon": 15.2662931,
+        "lat": -4.4419311
+      },
+      "index_strings": [],
+      "weight": 888,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "N'Djili"
+    },
+    {
+      "id": "adadbe88-b047-494a-aca9-287f2ee15784",
+      "type": "city",
+      "code": "IAG",
+      "name": "Cataratas del Niagara",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "NY",
+      "coordinates": {
+        "lon": -78.95,
+        "lat": 43.1
+      },
+      "index_strings": [],
+      "weight": 251,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Niagara Falls"
+    },
+    {
+      "id": "54d9545f-97f9-4912-9e00-a28368b7494a",
+      "type": "city",
+      "code": "CEC",
+      "name": "Crescent City",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "CA",
+      "coordinates": {
+        "lon": -124.23583,
+        "lat": 41.78
+      },
+      "index_strings": [],
+      "weight": 142,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "McNamara Field"
+    },
+    {
+      "id": "4c6c223b-fdf6-4b96-a4f4-84ad0df46957",
+      "type": "city",
+      "code": "FNJ",
+      "name": "Pionyang",
+      "country_code": "KP",
+      "country_name": "Corea del Norte",
+      "state_code": null,
+      "coordinates": {
+        "lon": 125.7625241,
+        "lat": 39.0392193
+      },
+      "index_strings": [],
+      "weight": 158,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Sunan"
+    }
+  ],
+  "Haarlem": [],
+  "Leiden": [
+    {
+      "id": "ee712ada-96d2-42fd-9284-2428a94bfc44",
+      "type": "city",
+      "code": "DLI",
+      "name": "Đà Lạt",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "state_code": null,
+      "coordinates": {
+        "lon": 108.4583132,
+        "lat": 11.9404192
+      },
+      "index_strings": [],
+      "weight": 1320,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Lien Khuong Intl"
+    },
+    {
+      "id": "d1989ff7-a93d-4a1b-8aa8-b14ffab2d76f",
+      "type": "city",
+      "code": "NAS",
+      "name": "Nasáu",
+      "country_code": "BS",
+      "country_name": "Bahamas",
+      "state_code": null,
+      "coordinates": {
+        "lon": -77.3503609,
+        "lat": 25.0443312
+      },
+      "index_strings": [],
+      "weight": 818,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Intl"
+    },
+    {
+      "id": "733706e5-48a1-44df-b05b-390d9d05b0f3",
+      "type": "city",
+      "code": "AXM",
+      "name": "Armenia",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "state_code": null,
+      "coordinates": {
+        "lon": -75.76804,
+        "lat": 4.452869
+      },
+      "index_strings": [],
+      "weight": 33,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "El Eden"
+    },
+    {
+      "id": "d0d337d7-f53e-4f78-9587-18f57423a066",
+      "type": "city",
+      "code": "RAO",
+      "name": "Ribeirão Preto",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "state_code": "SP",
+      "coordinates": {
+        "lon": -47.8103238,
+        "lat": -21.1704008
+      },
+      "index_strings": [],
+      "weight": 15,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Leite Lopes"
+    },
+    {
+      "id": "6f30a506-b6d8-4b2c-8b41-348a95cf7e5d",
+      "type": "city",
+      "code": "HDN",
+      "name": "Hayden",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "CO",
+      "coordinates": {
+        "lon": -107.220764,
+        "lat": 40.48481
+      },
+      "index_strings": [],
+      "weight": 10,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Yampa Valley"
+    },
+    {
+      "id": "9ebefc9b-8b62-49ff-9f2c-d6bb1044c50c",
+      "type": "city",
+      "code": "HUN",
+      "name": "Hualian",
+      "country_code": "TW",
+      "country_name": "Taiwán",
+      "state_code": null,
+      "coordinates": {
+        "lon": 121.6111949,
+        "lat": 23.9910732
+      },
+      "index_strings": [],
+      "weight": 2,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Hualien"
+    },
+    {
+      "id": "c14b5eb6-e09e-4c3e-ac30-535b64b15b05",
+      "type": "city",
+      "code": "RVD",
+      "name": "Rio Verde",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "state_code": "GO",
+      "coordinates": {
+        "lon": -50.933334,
+        "lat": -17.716667
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Rio Verde"
+    }
+  ],
+  "Maastricht": [
+    {
+      "id": "20069cb1-baee-433e-8a53-61d703c3bc58",
+      "type": "city",
+      "code": "MST",
+      "name": "Mastrique",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 5.6909725,
+        "lat": 50.8513682
+      },
+      "index_strings": [],
+      "weight": 381,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Maastricht/Aachen"
+    }
+  ],
+  "Eindhoven": [
+    {
+      "id": "e52fe762-31bb-4126-9eeb-0422a67fe0b7",
+      "type": "city",
+      "code": "EIN",
+      "name": "Eindhoven",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 5.4697225,
+        "lat": 51.441642
+      },
+      "index_strings": [],
+      "weight": 24658,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Eindhoven"
+    }
+  ],
+  "Groningen": [
+    {
+      "id": "a3688920-6fc4-4a95-8a94-85271ebb3e11",
+      "type": "city",
+      "code": "GRQ",
+      "name": "Groninga",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 6.5665017,
+        "lat": 53.2193835
+      },
+      "index_strings": [],
+      "weight": 42,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Eelde"
+    }
+  ],
+  "Giethoorn": [],
+  "Texel": [
+    {
+      "id": "476d8b36-165c-47f0-8f19-ef77d53cf1cc",
+      "type": "city",
+      "code": "TLV",
+      "name": "Tel Aviv",
+      "country_code": "IL",
+      "country_name": "Israel",
+      "state_code": null,
+      "coordinates": {
+        "lon": 34.7817676,
+        "lat": 32.0852999
+      },
+      "index_strings": [],
+      "weight": 65982,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Ben Gurion Intl"
+    },
+    {
+      "id": "8dd492bc-77e1-4b40-9d1b-0312373b256a",
+      "type": "city",
+      "code": "BET",
+      "name": "Bethel",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "AK",
+      "coordinates": {
+        "lon": -161.7558333,
+        "lat": 60.7922222
+      },
+      "index_strings": [],
+      "weight": 13,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Aeropuerto de Bethel"
+    },
+    {
+      "id": "3ef495d1-0224-4e4b-9304-d78db3dc1d83",
+      "type": "city",
+      "code": "TGZ",
+      "name": "Tuxtla Gutiérrez",
+      "country_code": "MX",
+      "country_name": "México",
+      "state_code": null,
+      "coordinates": {
+        "lon": -93.1029939,
+        "lat": 16.7516009
+      },
+      "index_strings": [],
+      "weight": 547,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Llano San Juan"
+    },
+    {
+      "id": "0315eb54-9dba-45e1-9e1f-8b8de5f7fe06",
+      "type": "city",
+      "code": "TET",
+      "name": "Tete",
+      "country_code": "MZ",
+      "country_name": "Mozambique",
+      "state_code": null,
+      "coordinates": {
+        "lon": 33.6063855,
+        "lat": -16.1328104
+      },
+      "index_strings": [],
+      "weight": 4,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Matunda"
+    },
+    {
+      "id": "b424c295-a2d2-4eff-8468-c1dde97a1b0e",
+      "type": "city",
+      "code": "GGG",
+      "name": "Longview",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "TX",
+      "coordinates": {
+        "lon": -94.8757709,
+        "lat": 32.3862619
+      },
+      "index_strings": [],
+      "weight": 5,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "East Texas Regional"
+    },
+    {
+      "id": "0963df43-4754-4c71-b70e-e7815034203c",
+      "type": "city",
+      "code": "TFF",
+      "name": "Tefé",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "state_code": "AM",
+      "coordinates": {
+        "lon": -64.7,
+        "lat": -3.366667
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Tefe"
+    },
+    {
+      "id": "cb164558-e542-4fae-ba28-fe7a0ca80cd0",
+      "type": "city",
+      "code": "KCO",
+      "name": "İzmit",
+      "country_code": "TR",
+      "country_name": "Turquía",
+      "state_code": null,
+      "coordinates": {
+        "lon": 29.833332,
+        "lat": 40.75
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Cengiz Topel Airport"
+    },
+    {
+      "id": "15209976-32a4-4587-b762-ff165d61ab8f",
+      "type": "city",
+      "code": "YOJ",
+      "name": "High Level",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "state_code": "AB",
+      "coordinates": {
+        "lon": -117.168335,
+        "lat": 58.618332
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Footner Lake"
+    },
+    {
+      "id": "c2fa4742-9cda-4e2b-811a-8761237dbf52",
+      "type": "city",
+      "code": "MME",
+      "name": "Teesside",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "state_code": null,
+      "coordinates": {
+        "lon": -1.43,
+        "lat": 54.51
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Durham Tees Valley"
+    }
+  ],
+  "Schiphol": [
+    {
+      "id": "7225d3c4-75ca-4980-81ec-63aa56544ef9",
+      "type": "city",
+      "code": "AMS",
+      "name": "Ámsterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.8922222,
+        "lat": 52.3730556
+      },
+      "index_strings": [],
+      "weight": 149906,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Amsterdam-Schiphol"
+    }
+  ],
+  "Países Bajos": [
+    {
+      "id": "7225d3c4-75ca-4980-81ec-63aa56544ef9",
+      "type": "city",
+      "code": "AMS",
+      "name": "Ámsterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.8922222,
+        "lat": 52.3730556
+      },
+      "index_strings": [],
+      "weight": 149906,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Amsterdam-Schiphol"
+    },
+    {
+      "id": "e52fe762-31bb-4126-9eeb-0422a67fe0b7",
+      "type": "city",
+      "code": "EIN",
+      "name": "Eindhoven",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 5.4697225,
+        "lat": 51.441642
+      },
+      "index_strings": [],
+      "weight": 24658,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Eindhoven"
+    },
+    {
+      "id": "4db914b6-7a9a-4bce-afcb-d9aa83b651c5",
+      "type": "city",
+      "code": "RTM",
+      "name": "Róterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.481776,
+        "lat": 51.924216
+      },
+      "index_strings": [],
+      "weight": 23065,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Rotterdam"
+    },
+    {
+      "id": "20069cb1-baee-433e-8a53-61d703c3bc58",
+      "type": "city",
+      "code": "MST",
+      "name": "Mastrique",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 5.6909725,
+        "lat": 50.8513682
+      },
+      "index_strings": [],
+      "weight": 381,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Maastricht/Aachen"
+    },
+    {
+      "id": "a3688920-6fc4-4a95-8a94-85271ebb3e11",
+      "type": "city",
+      "code": "GRQ",
+      "name": "Groninga",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 6.5665017,
+        "lat": 53.2193835
+      },
+      "index_strings": [],
+      "weight": 42,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Eelde"
+    },
+    {
+      "id": "7664085d-ab89-4037-942c-67f4933eab8a",
+      "type": "city",
+      "code": "EUX",
+      "name": "St Eustatius",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": -62.97778,
+        "lat": 17.493055
+      },
+      "index_strings": [],
+      "weight": 2,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "FD Roosevelt"
+    }
+  ],
+  "Holanda": [
+    {
+      "id": "7225d3c4-75ca-4980-81ec-63aa56544ef9",
+      "type": "city",
+      "code": "AMS",
+      "name": "Ámsterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.8922222,
+        "lat": 52.3730556
+      },
+      "index_strings": [],
+      "weight": 149906,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Amsterdam-Schiphol"
+    },
+    {
+      "id": "e52fe762-31bb-4126-9eeb-0422a67fe0b7",
+      "type": "city",
+      "code": "EIN",
+      "name": "Eindhoven",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 5.4697225,
+        "lat": 51.441642
+      },
+      "index_strings": [],
+      "weight": 24658,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Eindhoven"
+    },
+    {
+      "id": "4db914b6-7a9a-4bce-afcb-d9aa83b651c5",
+      "type": "city",
+      "code": "RTM",
+      "name": "Róterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.481776,
+        "lat": 51.924216
+      },
+      "index_strings": [],
+      "weight": 23065,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Rotterdam"
+    },
+    {
+      "id": "20069cb1-baee-433e-8a53-61d703c3bc58",
+      "type": "city",
+      "code": "MST",
+      "name": "Mastrique",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 5.6909725,
+        "lat": 50.8513682
+      },
+      "index_strings": [],
+      "weight": 381,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Maastricht/Aachen"
+    },
+    {
+      "id": "a3688920-6fc4-4a95-8a94-85271ebb3e11",
+      "type": "city",
+      "code": "GRQ",
+      "name": "Groninga",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 6.5665017,
+        "lat": 53.2193835
+      },
+      "index_strings": [],
+      "weight": 42,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Eelde"
+    },
+    {
+      "id": "7664085d-ab89-4037-942c-67f4933eab8a",
+      "type": "city",
+      "code": "EUX",
+      "name": "St Eustatius",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": -62.97778,
+        "lat": 17.493055
+      },
+      "index_strings": [],
+      "weight": 2,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "FD Roosevelt"
+    },
+    {
+      "id": "406ac5a6-0b48-4ac3-94ac-e62c7e013057",
+      "type": "city",
+      "code": "WAW",
+      "name": "Varsovia",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 21.0122287,
+        "lat": 52.2296756
+      },
+      "index_strings": [],
+      "weight": 80064,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": null
+    },
+    {
+      "id": "11c9301b-227a-4c37-9b7a-3ab5218a5fc8",
+      "type": "airport",
+      "code": "ARN",
+      "name": "Arlanda",
+      "country_code": "SE",
+      "country_name": "Suecia",
+      "city_code": "STO",
+      "city_name": "Estocolmo",
+      "state_code": null,
+      "coordinates": {
+        "lon": 17.930365,
+        "lat": 59.64982
+      },
+      "index_strings": [],
+      "weight": 58927,
+      "cases": null,
+      "city_cases": null,
+      "country_cases": null
+    },
+    {
+      "id": "2fccec98-e420-4eae-a0ed-0ea46deb2d2e",
+      "type": "airport",
+      "code": "OTP",
+      "name": "Otopeni Intl",
+      "country_code": "RO",
+      "country_name": "Rumanía",
+      "city_code": "BUH",
+      "city_name": "Bucarest",
+      "state_code": null,
+      "coordinates": {
+        "lon": 26.077063,
+        "lat": 44.571156
+      },
+      "index_strings": [],
+      "weight": 17127,
+      "cases": null,
+      "city_cases": null,
+      "country_cases": null
+    },
+    {
+      "id": "bac6d4e2-b91e-46e8-8fbe-23fff8dec999",
+      "type": "city",
+      "code": "AKL",
+      "name": "Auckland",
+      "country_code": "NZ",
+      "country_name": "Nueva Zelanda",
+      "state_code": null,
+      "coordinates": {
+        "lon": 174.7633315,
+        "lat": -36.8484597
+      },
+      "index_strings": [],
+      "weight": 4555,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Auckland Intl"
+    },
+    {
+      "id": "0ec26f8a-8e3c-44e3-a3aa-8f64e100b65d",
+      "type": "city",
+      "code": "REK",
+      "name": "Reikiavik",
+      "country_code": "IS",
+      "country_name": "Islandia",
+      "state_code": null,
+      "coordinates": {
+        "lon": -21.9426354,
+        "lat": 64.146582
+      },
+      "index_strings": [],
+      "weight": 6699,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": null
+    },
+    {
+      "id": "ff7b12ff-519b-42c4-82b8-b258723738f6",
+      "type": "city",
+      "code": "KLR",
+      "name": "Kalmar",
+      "country_code": "SE",
+      "country_name": "Suecia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 16.287222,
+        "lat": 56.685
+      },
+      "index_strings": [],
+      "weight": 790,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Kalmar"
+    },
+    {
+      "id": "7b411c71-af93-4435-938d-4eb2f16fd30f",
+      "type": "city",
+      "code": "GDN",
+      "name": "Danzig",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 18.6466384,
+        "lat": 54.3520252
+      },
+      "index_strings": [],
+      "weight": 14155,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Rebiechowo"
+    },
+    {
+      "id": "c2fe163d-619b-49ec-8289-47ad9b5dfae1",
+      "type": "city",
+      "code": "DUB",
+      "name": "Dublín",
+      "country_code": "IE",
+      "country_name": "Irlanda",
+      "state_code": null,
+      "coordinates": {
+        "lon": -6.2603097,
+        "lat": 53.3498053
+      },
+      "index_strings": [],
+      "weight": 29577,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Dublin"
+    },
+    {
+      "id": "08a68daf-9326-4a52-9905-86eba8770654",
+      "type": "city",
+      "code": "SZY",
+      "name": "Szymany",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 20.985278,
+        "lat": 53.562778
+      },
+      "index_strings": [],
+      "weight": 407,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Olsztyn-Mazury Airport"
+    },
+    {
+      "id": "e63e868f-39cf-468d-a7ba-aa9ce76a2925",
+      "type": "city",
+      "code": "KRK",
+      "name": "Cracovia",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 19.9449799,
+        "lat": 50.0646501
+      },
+      "index_strings": [],
+      "weight": 21148,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "J. Paul II Balice"
+    },
+    {
+      "id": "61bbabac-1da8-4cba-a32c-29a68b85a51f",
+      "type": "city",
+      "code": "CHC",
+      "name": "Christchurch",
+      "country_code": "NZ",
+      "country_name": "Nueva Zelanda",
+      "state_code": null,
+      "coordinates": {
+        "lon": 172.6362254,
+        "lat": -43.5320544
+      },
+      "index_strings": [],
+      "weight": 1143,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Christchurch"
+    },
+    {
+      "id": "6f410e91-2f1d-478f-8707-0ea0272c32c0",
+      "type": "city",
+      "code": "BHE",
+      "name": "Blenheim",
+      "country_code": "NZ",
+      "country_name": "Nueva Zelanda",
+      "state_code": null,
+      "coordinates": {
+        "lon": 173.86765,
+        "lat": -41.513588
+      },
+      "index_strings": [],
+      "weight": 171,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Blenheim"
+    },
+    {
+      "id": "6adcd66d-8d19-41c7-ad74-c69f44166683",
+      "type": "city",
+      "code": "POZ",
+      "name": "Poznań",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 16.9251681,
+        "lat": 52.406374
+      },
+      "index_strings": [],
+      "weight": 1740,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Lawica"
+    },
+    {
+      "id": "04377ff9-06c9-4a58-a5aa-59fd1b43c22c",
+      "type": "city",
+      "code": "WRO",
+      "name": "Wrocław",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 17.0385376,
+        "lat": 51.1078852
+      },
+      "index_strings": [],
+      "weight": 4973,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Strachowice"
+    }
+  ],
+  "AMS": [
+    {
+      "id": "7225d3c4-75ca-4980-81ec-63aa56544ef9",
+      "type": "city",
+      "code": "AMS",
+      "name": "Ámsterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.8922222,
+        "lat": 52.3730556
+      },
+      "index_strings": [],
+      "weight": 149906,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Amsterdam-Schiphol"
+    }
+  ],
+  "RTM": [
+    {
+      "id": "4db914b6-7a9a-4bce-afcb-d9aa83b651c5",
+      "type": "city",
+      "code": "RTM",
+      "name": "Róterdam",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 4.481776,
+        "lat": 51.924216
+      },
+      "index_strings": [],
+      "weight": 23065,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Rotterdam"
+    }
+  ],
+  "EIN": [
+    {
+      "id": "e52fe762-31bb-4126-9eeb-0422a67fe0b7",
+      "type": "city",
+      "code": "EIN",
+      "name": "Eindhoven",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 5.4697225,
+        "lat": 51.441642
+      },
+      "index_strings": [],
+      "weight": 24658,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Eindhoven"
+    }
+  ],
+  "MST": [
+    {
+      "id": "20069cb1-baee-433e-8a53-61d703c3bc58",
+      "type": "city",
+      "code": "MST",
+      "name": "Mastrique",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 5.6909725,
+        "lat": 50.8513682
+      },
+      "index_strings": [],
+      "weight": 381,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Maastricht/Aachen"
+    }
+  ],
+  "GRQ": [
+    {
+      "id": "a3688920-6fc4-4a95-8a94-85271ebb3e11",
+      "type": "city",
+      "code": "GRQ",
+      "name": "Groninga",
+      "country_code": "NL",
+      "country_name": "Países Bajos",
+      "state_code": null,
+      "coordinates": {
+        "lon": 6.5665017,
+        "lat": 53.2193835
+      },
+      "index_strings": [],
+      "weight": 42,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Eelde"
+    }
+  ],
+  "LEY": [
+    {
+      "id": "eb2df5e0-9c67-486f-8a79-13d8498276be",
+      "type": "city",
+      "code": "LEJ",
+      "name": "Leipzig",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "state_code": null,
+      "coordinates": {
+        "lon": 12.2203805,
+        "lat": 51.4220814
+      },
+      "index_strings": [],
+      "weight": 4246,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Leipzig/Halle"
+    },
+    {
+      "id": "52f0a271-82dd-44f8-ac47-43e0763f29a2",
+      "type": "city",
+      "code": "LCH",
+      "name": "Lake Charles",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "LA",
+      "coordinates": {
+        "lon": -93.2173758,
+        "lat": 30.2265949
+      },
+      "index_strings": [],
+      "weight": 24,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Lake Charles"
+    },
+    {
+      "id": "96392a98-78cc-4ec4-96c5-7f08c1ce8e82",
+      "type": "city",
+      "code": "LAL",
+      "name": "Lakeland",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": null,
+      "coordinates": {
+        "lon": -81.9498042,
+        "lat": 28.0394654
+      },
+      "index_strings": [],
+      "weight": 3,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Aeropuerto Internacional de Lakeland-Linder"
+    },
+    {
+      "id": "5e0d90c9-e06b-4cea-96a3-7cc6ff097ccf",
+      "type": "city",
+      "code": "LKY",
+      "name": "Lake Manyara",
+      "country_code": "TZ",
+      "country_name": "Tanzania",
+      "state_code": null,
+      "coordinates": {
+        "lon": 36.416668,
+        "lat": -3.5
+      },
+      "index_strings": [],
+      "weight": 2,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Lake Manyara"
+    },
+    {
+      "id": "5872a6fe-213a-4a88-924d-b641f74d2136",
+      "type": "city",
+      "code": "SLC",
+      "name": "Salt Lake City",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "UT",
+      "coordinates": {
+        "lon": -111.8910474,
+        "lat": 40.7607793
+      },
+      "index_strings": [],
+      "weight": 1974,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Salt Lake City"
+    },
+    {
+      "id": "b3056198-c71c-4fca-b0ca-7a3a6b4c7d3b",
+      "type": "city",
+      "code": "SLK",
+      "name": "Saranac Lake",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "NY",
+      "coordinates": {
+        "lon": -74.206665,
+        "lat": 44.38278
+      },
+      "index_strings": [],
+      "weight": 17,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Adirondack"
+    },
+    {
+      "id": "d0d337d7-f53e-4f78-9587-18f57423a066",
+      "type": "city",
+      "code": "RAO",
+      "name": "Ribeirão Preto",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "state_code": "SP",
+      "coordinates": {
+        "lon": -47.8103238,
+        "lat": -21.1704008
+      },
+      "index_strings": [],
+      "weight": 15,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Leite Lopes"
+    },
+    {
+      "id": "fba91d83-47b4-4d6d-912e-99fdc646566b",
+      "type": "airport",
+      "code": "NEW",
+      "name": "Lakefront Airport",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "MSY",
+      "city_name": "Nueva Orleans",
+      "state_code": "LA",
+      "coordinates": {
+        "lon": -90.026665,
+        "lat": 30.039444
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "city_cases": null,
+      "country_cases": null
+    },
+    {
+      "id": "ba3eab58-3157-461e-aaf4-8e8bed0420dd",
+      "type": "city",
+      "code": "LOE",
+      "name": "Loei",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "state_code": null,
+      "coordinates": {
+        "lon": 101.73333,
+        "lat": 17.45
+      },
+      "index_strings": [],
+      "weight": 64,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Loei"
+    },
+    {
+      "id": "65d9114a-928a-4a93-9e5e-7b8dfc300a78",
+      "type": "airport",
+      "code": "BKL",
+      "name": "Burke Lakefront Airport",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "CLE",
+      "city_name": "Cleveland",
+      "state_code": "OH",
+      "coordinates": {
+        "lon": -81.683334,
+        "lat": 41.516945
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "city_cases": null,
+      "country_cases": null
+    },
+    {
+      "id": "dd5e3f3c-f216-404d-af15-3fce4f952af9",
+      "type": "city",
+      "code": "MMH",
+      "name": "Mammoth Lakes",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "CA",
+      "coordinates": {
+        "lon": -118.85139,
+        "lat": 37.63111
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Mammoth Lakes"
+    },
+    {
+      "id": "824165f0-e927-4f30-9eb4-6d21e610c1e0",
+      "type": "city",
+      "code": "PIZ",
+      "name": "Point Lay",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "AK",
+      "coordinates": {
+        "lon": -163.16667,
+        "lat": 69.75
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Dew Station"
+    },
+    {
+      "id": "d127e2df-6fcf-4cdc-8b8e-f88f1b041c4b",
+      "type": "city",
+      "code": "XBE",
+      "name": "Bearskin Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "state_code": null,
+      "coordinates": {
+        "lon": -90.98333,
+        "lat": 53.95
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Bearskin Lake"
+    },
+    {
+      "id": "ca8f9589-02d3-45b1-bf94-e9cda81c7e86",
+      "type": "city",
+      "code": "YAA",
+      "name": "Anahim Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "state_code": "BC",
+      "coordinates": {
+        "lon": -125.3,
+        "lat": 52.45
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Aeropuerto de Anahim Lake"
+    },
+    {
+      "id": "17b07221-808e-45a6-9f03-1c234b6dc576",
+      "type": "city",
+      "code": "WNN",
+      "name": "Wunnummin Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "state_code": "ON",
+      "coordinates": {
+        "lon": -89.166664,
+        "lat": 52.916668
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Wunnummin Lake"
+    },
+    {
+      "id": "8fb9edc8-eadd-432c-8bbe-7de53ef587c1",
+      "type": "city",
+      "code": "ZPB",
+      "name": "Sachigo Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "state_code": "ON",
+      "coordinates": {
+        "lon": -92.195274,
+        "lat": 53.890556
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Sachigo Lake"
+    },
+    {
+      "id": "f57a345e-4a4d-4faf-8964-0340f5847c2d",
+      "type": "city",
+      "code": "YAX",
+      "name": "Angling Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "state_code": "ON",
+      "coordinates": {
+        "lon": -89.565,
+        "lat": 53.251945
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Angling Lake"
+    },
+    {
+      "id": "ac71f356-c5b5-4123-a867-edcdf26ca4f1",
+      "type": "city",
+      "code": "YRL",
+      "name": "Red Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "state_code": "ON",
+      "coordinates": {
+        "lon": -93.80006,
+        "lat": 51.068764
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Red Lake"
+    },
+    {
+      "id": "5bf7ec67-98f0-431e-8e65-db319482c3aa",
+      "type": "city",
+      "code": "ZRJ",
+      "name": "Round Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "state_code": "ON",
+      "coordinates": {
+        "lon": -91.316666,
+        "lat": 52.95
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Round Lake"
+    },
+    {
+      "id": "a83f089a-7a74-4c33-a7cb-15bffd9a57b0",
+      "type": "city",
+      "code": "YGO",
+      "name": "Gods Narrows",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "state_code": "MB",
+      "coordinates": {
+        "lon": -94.48333,
+        "lat": 54.55
+      },
+      "index_strings": [],
+      "weight": 1,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Gods Narrows"
+    }
+  ],
+  "DHR": [],
+  "ENS": [
+    {
+      "id": "55b13a54-22e9-4d45-8aec-7dbbd1096796",
+      "type": "city",
+      "code": "ENH",
+      "name": "Enshi",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "state_code": null,
+      "coordinates": {
+        "lon": 109.488172,
+        "lat": 30.272156
+      },
+      "index_strings": [],
+      "weight": 6,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Enshi"
+    },
+    {
+      "id": "cd35b1ad-d2ea-47ae-a386-01a60099e87f",
+      "type": "city",
+      "code": "SCN",
+      "name": "Saarbrücken",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "state_code": null,
+      "coordinates": {
+        "lon": 6.9944016,
+        "lat": 49.2348506
+      },
+      "index_strings": [],
+      "weight": 724,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Ensheim"
+    }
+  ],
+  "TEX": [
+    {
+      "id": "ea8c7c9b-a695-477c-bc88-7cba7439384c",
+      "type": "city",
+      "code": "TEX",
+      "name": "Telluride",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": null,
+      "coordinates": {
+        "lon": -107.8122852,
+        "lat": 37.9374939
+      },
+      "index_strings": [],
+      "weight": 2,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Telluride"
+    },
+    {
+      "id": "04958190-fc72-4706-836e-cb53525e5239",
+      "type": "city",
+      "code": "TXK",
+      "name": "Texarkana",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "AR",
+      "coordinates": {
+        "lon": -93.98917,
+        "lat": 33.45639
+      },
+      "index_strings": [],
+      "weight": 6,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "Webb Field"
+    },
+    {
+      "id": "b424c295-a2d2-4eff-8468-c1dde97a1b0e",
+      "type": "city",
+      "code": "GGG",
+      "name": "Longview",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "state_code": "TX",
+      "coordinates": {
+        "lon": -94.8757709,
+        "lat": 32.3862619
+      },
+      "index_strings": [],
+      "weight": 5,
+      "cases": null,
+      "country_cases": null,
+      "main_airport_name": "East Texas Regional"
+    }
+  ]
+}

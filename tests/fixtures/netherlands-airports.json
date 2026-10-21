@@ -1,0 +1,126 @@
+{
+  "verifiedOn": "2026-10-21",
+  "source": "https://api.travelpayouts.com/data/en/airports.json",
+  "airports": [
+    {
+      "code": "AMS",
+      "name": "Amsterdam Airport Schiphol",
+      "countryCode": "NL",
+      "cityCode": "AMS",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "RTM",
+      "name": "Rotterdam The Hague Airport",
+      "countryCode": "NL",
+      "cityCode": "RTM",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "EIN",
+      "name": "Eindhoven Airport",
+      "countryCode": "NL",
+      "cityCode": "EIN",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "MST",
+      "name": "Maastricht Aachen Airport",
+      "countryCode": "NL",
+      "cityCode": "MST",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "GRQ",
+      "name": "Eelde Airport",
+      "countryCode": "NL",
+      "cityCode": "GRQ",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "LEY",
+      "name": "Lelystad",
+      "countryCode": "NL",
+      "cityCode": "LEY",
+      "iataType": "airport",
+      "flightable": false
+    },
+    {
+      "code": "DHR",
+      "name": "De Kooy/Den Helder Airport",
+      "countryCode": "NL",
+      "cityCode": "DHR",
+      "iataType": "airport",
+      "flightable": false
+    },
+    {
+      "code": "ENS",
+      "name": "Twente",
+      "countryCode": "NL",
+      "cityCode": "ENS",
+      "iataType": "airport",
+      "flightable": false
+    },
+    {
+      "code": "TEX",
+      "name": "Telluride Regional",
+      "countryCode": "US",
+      "cityCode": "TEX",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "AUA",
+      "name": "Reina Beatrix International Airport",
+      "countryCode": "AW",
+      "cityCode": "AUA",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "CUR",
+      "name": "Curacao International Airport",
+      "countryCode": "CW",
+      "cityCode": "CUR",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "SXM",
+      "name": "Princess Juliana International Airport",
+      "countryCode": "SX",
+      "cityCode": "SXM",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "BON",
+      "name": "Flamingo International Airport",
+      "countryCode": "BQ",
+      "cityCode": "BON",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "SAB",
+      "name": "J. Yrausquin Airport",
+      "countryCode": "BQ",
+      "cityCode": "SAB",
+      "iataType": "airport",
+      "flightable": true
+    },
+    {
+      "code": "EUX",
+      "name": "F D Roosevelt Airport",
+      "countryCode": "NL",
+      "cityCode": "EUX",
+      "iataType": "airport",
+      "flightable": true
+    }
+  ]
+}

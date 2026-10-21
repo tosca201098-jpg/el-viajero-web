@@ -1,6 +1,7 @@
 import { italyPassengerAirports } from '@/lib/travelpayouts/italy-airports';
 import { ukAirportsForTerm, ukUnavailablePassengerCodes } from '@/lib/travelpayouts/uk-airports';
 import { germanyAirportsForTerm, germanyCityAliases, germanyPassengerAirports, germanyUnavailablePassengerCodes } from '@/lib/travelpayouts/germany-airports';
+import { isNetherlandsCountryTerm, netherlandsAirportsForTerm, netherlandsCityAliases, netherlandsPassengerAirports, netherlandsUnavailablePassengerCodes } from '@/lib/travelpayouts/netherlands-airports';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -94,6 +95,15 @@ export async function GET(request: Request) {
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...aliases] };
     });
 
+    // Country queries cover this European catalog only, excluding Caribbean provider miscategorizations.
+    places = (isNetherlandsCountryTerm(term) ? netherlandsAirportsForTerm(term) : [...places, ...netherlandsAirportsForTerm(term)]).map(place => {
+      if (!isPlace(place) || place.country_code !== 'NL') return place;
+      const physical = netherlandsPassengerAirports.find(airport => airport.code === code(place.code, 3));
+      if (place.type === 'airport' && physical && typeof place.name === 'string' && typeof place.city_name === 'string' && normalize(place.name) === normalize(place.city_name)) return { ...place, name: physical.name };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(netherlandsCityAliases[code(place.code, 3)] ?? [])] };
+    });
+
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);
     const seen = new Set<string>();
@@ -101,6 +111,7 @@ export async function GET(request: Request) {
       .filter(isPlace)
       .filter(place => !(place.country_code === 'GB' && ukUnavailablePassengerCodes.includes(code(place.code, 3))))
       .filter(place => !(place.country_code === 'DE' && germanyUnavailablePassengerCodes.includes(code(place.code, 3))))
+      .filter(place => !(place.country_code === 'NL' && netherlandsUnavailablePassengerCodes.includes(code(place.code, 3))))
       .filter((place) =>
         (place.type === "city" || place.type === "airport") &&
         typeof place.name === "string" && place.name.trim().length > 0

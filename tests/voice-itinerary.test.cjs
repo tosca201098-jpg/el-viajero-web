@@ -377,3 +377,16 @@ for (const {code} of translations.locales) test(`${code}: every German identity 
     }finally{h.session.stop();b.ui?.unmount();}
   }
 });
+
+for (const {code} of translations.locales) test(`${code}: every Dutch identity reuses the voice-to-planner generation flow`,async()=>{
+  for(const destination of catalog.getDestinationsByCountry('NL')){
+    const b=bridge(code),h=await connected(b.handle,()=>code);
+    try{
+      h.tool('netherlands-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
+      assert.equal(b.scope.destinoSeleccionado,destination);assert.equal(h.outputs().length,0);
+      await b.ui.drain();assert.equal(b.ui.calls.length,1);assert.equal(b.ui.calls[0].payload.destination.name,destination.name);
+      assert.equal(b.ui.calls[0].payload.locale,code);assert.equal(b.ui.calls[0].payload.days,2);
+      assert.match(b.ui.text(),/Itinerario simulado visible/);assert.equal(h.outputs()[0].status,'success');
+    }finally{h.session.stop();b.ui?.unmount();}
+  }
+});
