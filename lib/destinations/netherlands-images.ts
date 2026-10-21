@@ -1,4 +1,4 @@
-// Wikimedia Commons metadata verified on 2026-10-21. Unedited provider thumbnails.
+// Wikimedia Commons metadata verified on 2026-10-21. Unedited provider thumbnails; focal points affect presentation only.
 export const netherlandsImages = {
   "amsterdam": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Amsterdam_Canals_-_July_2006.jpg/960px-Amsterdam_Canals_-_July_2006.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
@@ -26,28 +26,31 @@ export const netherlandsImages = {
     "imageSource": "https://commons.wikimedia.org/wiki/File:Utrecht,_de_Domtoren_(RM36075)_vanaf_de_Oudegracht_230_ongeveer_foto5_2015-11-01_08.56.jpg",
     "imageCredit": "Michielverbeek",
     "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "imagePosition": "center top"
   },
   "delft": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/0804_Delft%2C_Markt_with_Nieuwe_Kerk%2C_Delft_407.jpg/960px-0804_Delft%2C_Markt_with_Nieuwe_Kerk%2C_Delft_407.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
     "imageSource": "https://commons.wikimedia.org/wiki/File:0804_Delft,_Markt_with_Nieuwe_Kerk,_Delft_407.jpg",
     "imageCredit": "Jan Geerling",
     "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "imagePosition": "center top"
   },
   "haarlem-zaanse-schans": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1b/Adriaan_Mill_%28119333001%29.jpeg/960px-Adriaan_Mill_%28119333001%29.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Adriaan_Mill_(119333001).jpeg",
-    "imageCredit": "Aad Vogel",
-    "imageLicense": "CC BY 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3c/Haarlem%2C_molen_de_Adriaan_foto2_2015-01-04_09.37.jpg/960px-Haarlem%2C_molen_de_Adriaan_foto2_2015-01-04_09.37.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Haarlem,_molen_de_Adriaan_foto2_2015-01-04_09.37.jpg",
+    "imageCredit": "Michielverbeek",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "imagePosition": "right top"
   },
   "leiden-keukenhof": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cd/Leiden_7036.jpg/960px-Leiden_7036.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Leiden_7036.jpg",
-    "imageCredit": "C messier",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Rapenburg_Leiden_Centrum.jpg/960px-Rapenburg_Leiden_Centrum.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Rapenburg_Leiden_Centrum.jpg",
+    "imageCredit": "Roger Veringmeier",
+    "imageLicense": "CC BY 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by/4.0"
   },
   "maastricht": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/05/Maastricht%2C_de_Servaasbrug_RM28026_met_op_de_achtergrond_het_Dinghuis_RM27223_het_stadhuis_RM27382_en_de_Augustijnenkerk_RM27175_IMG_0977_2022-04-03_12.58.jpg/960px-Maastricht%2C_de_Servaasbrug_RM28026_met_op_de_achtergrond_het_Dinghuis_RM27223_het_stadhuis_RM27382_en_de_Augustijnenkerk_RM27175_IMG_0977_2022-04-03_12.58.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
@@ -68,14 +71,15 @@ export const netherlandsImages = {
     "imageSource": "https://commons.wikimedia.org/wiki/File:20100523_Grote_Markt_en_Martinitoren_Groningen_NL.jpg",
     "imageCredit": "Wutsje",
     "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "imagePosition": "center top"
   },
   "giethoorn": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c7/Bridges_in_Giethoorn_%28August_2018%29_03.jpg/960px-Bridges_in_Giethoorn_%28August_2018%29_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Bridges_in_Giethoorn_(August_2018)_03.jpg",
-    "imageCredit": "Donald Trung Quoc Don (Chữ Hán: 徵國單) - Wikimedia Commons.(Want to use this image?)",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Giethoorn_Netherlands_Channels-and-houses-of-Giethoorn-07.jpg/960px-Giethoorn_Netherlands_Channels-and-houses-of-Giethoorn-07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Giethoorn_Netherlands_Channels-and-houses-of-Giethoorn-07.jpg",
+    "imageCredit": "© CEphoto, Uwe Aranas",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   "texel-wadden-sea": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/Texel_-_North_Sea_Dunes_at_Eierland_Lighthouse_02.jpg/960px-Texel_-_North_Sea_Dunes_at_Eierland_Lighthouse_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
