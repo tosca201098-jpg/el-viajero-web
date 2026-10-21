@@ -5,6 +5,7 @@ const path = require('node:path');
 const vm = require('node:vm');
 const crypto = require('node:crypto');
 const ts = require('typescript');
+const { withHistoricalImage } = require('./helpers/destination-image-baseline.cjs');
 
 const root = path.resolve(__dirname, '..');
 function load(file, dependencies = {}, globals = {}) {
@@ -52,9 +53,9 @@ test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
   }
 });
 
-test('names, aliases, airports, tourism content, months and image licenses are unchanged', () => {
+test('legacy data is unchanged apart from the approved Asturias image replacement', () => {
   for (const destination of legacyProfiles) {
-    const { id, slug, countryCode, airports, metropolitanCodes, ...legacy } = destination;
+    const { id, slug, countryCode, airports, metropolitanCodes, ...legacy } = withHistoricalImage(destination);
     const digest = crypto.createHash('sha256').update(JSON.stringify(sorted(legacy))).digest('hex');
     assert.equal(digest, manifest.find(item => item.id === id)?.legacySha256, id);
   }
