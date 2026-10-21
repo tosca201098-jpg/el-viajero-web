@@ -18,6 +18,7 @@ function endpoint(payload, options = {}) {
     require: id => {
       if(id === '@/lib/travelpayouts/italy-airports') return {italyPassengerAirports:[]};
       if(id === '@/lib/travelpayouts/uk-airports') return {ukAirportsForTerm:()=>[],ukUnavailablePassengerCodes:[]};
+      if(id === '@/lib/travelpayouts/germany-airports') return {germanyAirportsForTerm:()=>[],germanyCityAliases:{},germanyPassengerAirports:[],germanyUnavailablePassengerCodes:[]};
       throw Error(id);
     },
     fetch: async (url, init) => {

@@ -1,0 +1,1530 @@
+{
+  "Berlín": [
+    {
+      "type": "city",
+      "code": "BER",
+      "name": "Berlín",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 200362
+    },
+    {
+      "type": "city",
+      "code": "OGZ",
+      "name": "Vladikavkaz",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 38595
+    },
+    {
+      "type": "city",
+      "code": "BGO",
+      "name": "Bergen",
+      "country_code": "NO",
+      "country_name": "Noruega",
+      "index_strings": [],
+      "weight": 11494
+    },
+    {
+      "type": "city",
+      "code": "COO",
+      "name": "Cotonú",
+      "country_code": "BJ",
+      "country_name": "Benín",
+      "index_strings": [],
+      "weight": 724
+    },
+    {
+      "type": "city",
+      "code": "EWN",
+      "name": "New Bern",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 6
+    },
+    {
+      "type": "city",
+      "code": "BEL",
+      "name": "Belém",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 106
+    },
+    {
+      "type": "city",
+      "code": "BRN",
+      "name": "Bern",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 34
+    },
+    {
+      "type": "city",
+      "code": "BNI",
+      "name": "Ciudad de Benín",
+      "country_code": "NG",
+      "country_name": "Nigeria",
+      "index_strings": [],
+      "weight": 71
+    },
+    {
+      "type": "city",
+      "code": "YHY",
+      "name": "Hay River",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Múnich": [
+    {
+      "type": "city",
+      "code": "MUC",
+      "name": "Múnich",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 114715
+    },
+    {
+      "type": "city",
+      "code": "ZRH",
+      "name": "Zúrich",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 83078
+    },
+    {
+      "type": "city",
+      "code": "AMH",
+      "name": "Arba Minch",
+      "country_code": "ET",
+      "country_name": "Etiopía",
+      "index_strings": [],
+      "weight": 3
+    },
+    {
+      "type": "city",
+      "code": "AGB",
+      "name": "Augsburgo",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Hamburgo": [
+    {
+      "type": "city",
+      "code": "HAM",
+      "name": "Hamburgo",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 137330
+    },
+    {
+      "type": "airport",
+      "code": "HAM",
+      "name": "Fuhlsbüttel",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "HAM",
+      "city_name": "Hamburgo",
+      "index_strings": [],
+      "weight": 71520
+    },
+    {
+      "type": "airport",
+      "code": "LBC",
+      "name": "Lübeck",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "HAM",
+      "city_name": "Hamburgo",
+      "index_strings": [],
+      "weight": 9
+    },
+    {
+      "type": "airport",
+      "code": "XFW",
+      "name": "Aeropuerto de Hamburgo Finkenwerder",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "HAM",
+      "city_name": "Hamburgo",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "ЯМБ",
+      "name": "Yámburg",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Fráncfort": [
+    {
+      "type": "city",
+      "code": "FRA",
+      "name": "Francfort",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 160275
+    }
+  ],
+  "Colonia": [
+    {
+      "type": "city",
+      "code": "CGN",
+      "name": "Colonia",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 109114
+    },
+    {
+      "type": "city",
+      "code": "YAP",
+      "name": "Yap",
+      "country_code": "FM",
+      "country_name": "Estados Federados de Micronesia",
+      "index_strings": [],
+      "weight": 159
+    },
+    {
+      "type": "city",
+      "code": "WAW",
+      "name": "Varsovia",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 80064
+    },
+    {
+      "type": "city",
+      "code": "BLQ",
+      "name": "Bolonia",
+      "country_code": "IT",
+      "country_name": "Italia",
+      "index_strings": [],
+      "weight": 30523
+    },
+    {
+      "type": "city",
+      "code": "GDN",
+      "name": "Danzig",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 14155
+    },
+    {
+      "type": "city",
+      "code": "SZY",
+      "name": "Szymany",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 407
+    },
+    {
+      "type": "city",
+      "code": "KRK",
+      "name": "Cracovia",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 21148
+    },
+    {
+      "type": "city",
+      "code": "POZ",
+      "name": "Poznań",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 1740
+    },
+    {
+      "type": "city",
+      "code": "WRO",
+      "name": "Wrocław",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 4973
+    },
+    {
+      "type": "city",
+      "code": "KTW",
+      "name": "Katowice",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 8326
+    },
+    {
+      "type": "city",
+      "code": "BOG",
+      "name": "Bogotá",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 2559
+    },
+    {
+      "type": "city",
+      "code": "RZE",
+      "name": "Rzeszów",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 422
+    },
+    {
+      "type": "city",
+      "code": "MDE",
+      "name": "Medellín",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 1265
+    },
+    {
+      "type": "city",
+      "code": "CTG",
+      "name": "Cartagena de Indias",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 1371
+    },
+    {
+      "type": "city",
+      "code": "RDO",
+      "name": "Radom",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "MTR",
+      "name": "Montería",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 68
+    },
+    {
+      "type": "city",
+      "code": "LUZ",
+      "name": "Lublin",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 329
+    },
+    {
+      "type": "city",
+      "code": "SZZ",
+      "name": "Szczecin",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 178
+    },
+    {
+      "type": "city",
+      "code": "BZG",
+      "name": "Bydgoszcz",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 28
+    },
+    {
+      "type": "city",
+      "code": "CLO",
+      "name": "Cali",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 761
+    }
+  ],
+  "Düsseldorf": [
+    {
+      "type": "city",
+      "code": "DUS",
+      "name": "Düsseldorf",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 214564
+    },
+    {
+      "type": "airport",
+      "code": "DUS",
+      "name": "Düsseldorf",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "DUS",
+      "city_name": "Düsseldorf",
+      "index_strings": [],
+      "weight": 107098
+    },
+    {
+      "type": "airport",
+      "code": "NRN",
+      "name": "Niederrhein",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "DUS",
+      "city_name": "Düsseldorf",
+      "index_strings": [],
+      "weight": 323
+    }
+  ],
+  "Stuttgart": [
+    {
+      "type": "city",
+      "code": "STR",
+      "name": "Stuttgart",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 115992
+    }
+  ],
+  "Dresde": [
+    {
+      "type": "city",
+      "code": "DRS",
+      "name": "Dresde",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 1313
+    },
+    {
+      "type": "city",
+      "code": "DSE",
+      "name": "Dese",
+      "country_code": "ET",
+      "country_name": "Etiopía",
+      "index_strings": [],
+      "weight": 21
+    },
+    {
+      "type": "city",
+      "code": "EVV",
+      "name": "Evansville",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 7
+    }
+  ],
+  "Berlin": [
+    {
+      "type": "city",
+      "code": "BER",
+      "name": "Berlín",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 200362
+    },
+    {
+      "type": "city",
+      "code": "BRL",
+      "name": "Burlington",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 169
+    },
+    {
+      "type": "city",
+      "code": "BTV",
+      "name": "Burlington",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 22
+    },
+    {
+      "type": "city",
+      "code": "OGZ",
+      "name": "Vladikavkaz",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 38595
+    },
+    {
+      "type": "city",
+      "code": "COV",
+      "name": "Mersin",
+      "country_code": "TR",
+      "country_name": "Turquía",
+      "index_strings": [],
+      "weight": 17969
+    },
+    {
+      "type": "city",
+      "code": "BGO",
+      "name": "Bergen",
+      "country_code": "NO",
+      "country_name": "Noruega",
+      "index_strings": [],
+      "weight": 11494
+    },
+    {
+      "type": "city",
+      "code": "BAH",
+      "name": "Manama",
+      "country_code": "BH",
+      "country_name": "Baréin",
+      "index_strings": [],
+      "weight": 2056
+    },
+    {
+      "type": "city",
+      "code": "COO",
+      "name": "Cotonú",
+      "country_code": "BJ",
+      "country_name": "Benín",
+      "index_strings": [],
+      "weight": 724
+    },
+    {
+      "type": "city",
+      "code": "KJI",
+      "name": "Burqin",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "BNI",
+      "name": "Ciudad de Benín",
+      "country_code": "NG",
+      "country_name": "Nigeria",
+      "index_strings": [],
+      "weight": 71
+    },
+    {
+      "type": "city",
+      "code": "EWN",
+      "name": "New Bern",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 6
+    },
+    {
+      "type": "city",
+      "code": "BEL",
+      "name": "Belém",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 106
+    },
+    {
+      "type": "city",
+      "code": "ABZ",
+      "name": "Aberdeen",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 324
+    },
+    {
+      "type": "city",
+      "code": "BRN",
+      "name": "Bern",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 34
+    },
+    {
+      "type": "city",
+      "code": "VIJ",
+      "name": "Virgin Gorda",
+      "country_code": "VG",
+      "country_name": "Islas Vírgenes Británicas",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "BZE",
+      "name": "Ciudad de Belice",
+      "country_code": "BZ",
+      "country_name": "Belice",
+      "index_strings": [],
+      "weight": 137
+    },
+    {
+      "type": "city",
+      "code": "BKW",
+      "name": "Beckley",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "YHY",
+      "name": "Hay River",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "SPR",
+      "name": "San Pedro",
+      "country_code": "BZ",
+      "country_name": "Belice",
+      "index_strings": [],
+      "weight": 3
+    },
+    {
+      "type": "city",
+      "code": "BWT",
+      "name": "Burnie",
+      "country_code": "AU",
+      "country_name": "Australia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "München": [
+    {
+      "type": "city",
+      "code": "MUC",
+      "name": "Múnich",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 114715
+    },
+    {
+      "type": "city",
+      "code": "YCU",
+      "name": "Yuncheng",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 49
+    },
+    {
+      "type": "city",
+      "code": "YNZ",
+      "name": "Yancheng",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 92
+    }
+  ],
+  "Munich": [
+    {
+      "type": "city",
+      "code": "MUC",
+      "name": "Múnich",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 114715
+    },
+    {
+      "type": "city",
+      "code": "AGB",
+      "name": "Augsburgo",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "ZRH",
+      "name": "Zúrich",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 83078
+    },
+    {
+      "type": "airport",
+      "code": "MOB",
+      "name": "Mobile",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "MOB",
+      "city_name": "Mobile",
+      "index_strings": [],
+      "weight": 19
+    },
+    {
+      "type": "city",
+      "code": "AMH",
+      "name": "Arba Minch",
+      "country_code": "ET",
+      "country_name": "Etiopía",
+      "index_strings": [],
+      "weight": 3
+    },
+    {
+      "type": "city",
+      "code": "MLM",
+      "name": "Morelia",
+      "country_code": "MX",
+      "country_name": "México",
+      "index_strings": [],
+      "weight": 658
+    },
+    {
+      "type": "city",
+      "code": "ONO",
+      "name": "Ontario",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "HHR",
+      "name": "Hawthorne",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "GUP",
+      "name": "Gallup",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Hamburg": [
+    {
+      "type": "city",
+      "code": "HAM",
+      "name": "Hamburgo",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 137330
+    },
+    {
+      "type": "airport",
+      "code": "HAM",
+      "name": "Fuhlsbüttel",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "HAM",
+      "city_name": "Hamburgo",
+      "index_strings": [],
+      "weight": 71520
+    },
+    {
+      "type": "airport",
+      "code": "LBC",
+      "name": "Lübeck",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "HAM",
+      "city_name": "Hamburgo",
+      "index_strings": [],
+      "weight": 9
+    },
+    {
+      "type": "airport",
+      "code": "XFW",
+      "name": "Aeropuerto de Hamburgo Finkenwerder",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "HAM",
+      "city_name": "Hamburgo",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "ЯМБ",
+      "name": "Yámburg",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "UAS",
+      "name": "Samburu National Reserve",
+      "country_code": "KE",
+      "country_name": "Kenia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Frankfurt": [
+    {
+      "type": "city",
+      "code": "FRA",
+      "name": "Francfort",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 160275
+    },
+    {
+      "type": "airport",
+      "code": "FRA",
+      "name": "Frankfurt",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "FRA",
+      "city_name": "Francfort",
+      "index_strings": [],
+      "weight": 78555
+    },
+    {
+      "type": "airport",
+      "code": "HHN",
+      "name": "Frankfurt-Hahn",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "FRA",
+      "city_name": "Francfort",
+      "index_strings": [],
+      "weight": 2748
+    }
+  ],
+  "Köln": [
+    {
+      "type": "city",
+      "code": "CGN",
+      "name": "Colonia",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 109114
+    },
+    {
+      "type": "city",
+      "code": "UBN",
+      "name": "Ulán Bator",
+      "country_code": "MN",
+      "country_name": "Mongolia",
+      "index_strings": [],
+      "weight": 2292
+    },
+    {
+      "type": "city",
+      "code": "IKU",
+      "name": "Issyk-Kul",
+      "country_code": "KG",
+      "country_name": "Kirguistán",
+      "index_strings": [],
+      "weight": 309
+    },
+    {
+      "type": "city",
+      "code": "CLO",
+      "name": "Cali",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 761
+    },
+    {
+      "type": "city",
+      "code": "KUU",
+      "name": "Bhuntar Kullu",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 26
+    },
+    {
+      "type": "city",
+      "code": "PEW",
+      "name": "Peshawar",
+      "country_code": "PK",
+      "country_name": "Pakistán",
+      "index_strings": [],
+      "weight": 293
+    },
+    {
+      "type": "city",
+      "code": "KKC",
+      "name": "Khǭnkǣn",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "index_strings": [],
+      "weight": 729
+    },
+    {
+      "type": "city",
+      "code": "HHQ",
+      "name": "Hua Hin",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "index_strings": [],
+      "weight": 198
+    },
+    {
+      "type": "city",
+      "code": "CFR",
+      "name": "Caen",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 2480
+    },
+    {
+      "type": "city",
+      "code": "DEA",
+      "name": "Dera Ghazi Khan",
+      "country_code": "PK",
+      "country_name": "Pakistán",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "airport",
+      "code": "PDK",
+      "name": "DeKalb Peachtree Airport",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "ATL",
+      "city_name": "Atlanta",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "RYK",
+      "name": "Rahimyar Khan",
+      "country_code": "PK",
+      "country_name": "Pakistán",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "QBC",
+      "name": "Bella Coola",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "MHV",
+      "name": "Mojave",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "KMV",
+      "name": "Kalaymyo",
+      "country_code": "MM",
+      "country_name": "Birmania",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "CDB",
+      "name": "Cold Bay",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "ZWL",
+      "name": "Wollaston Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Koeln": [
+    {
+      "type": "city",
+      "code": "CGN",
+      "name": "Colonia",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 109114
+    },
+    {
+      "type": "city",
+      "code": "WAW",
+      "name": "Varsovia",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 80064
+    },
+    {
+      "type": "city",
+      "code": "COK",
+      "name": "Cochín",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 2397
+    },
+    {
+      "type": "city",
+      "code": "GDN",
+      "name": "Danzig",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 14155
+    },
+    {
+      "type": "city",
+      "code": "SZY",
+      "name": "Szymany",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 407
+    },
+    {
+      "type": "city",
+      "code": "KRK",
+      "name": "Cracovia",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 21148
+    },
+    {
+      "type": "city",
+      "code": "POZ",
+      "name": "Poznań",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 1740
+    },
+    {
+      "type": "city",
+      "code": "WRO",
+      "name": "Wrocław",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 4973
+    },
+    {
+      "type": "city",
+      "code": "KTW",
+      "name": "Katowice",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 8326
+    },
+    {
+      "type": "city",
+      "code": "RZE",
+      "name": "Rzeszów",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 422
+    },
+    {
+      "type": "city",
+      "code": "KKC",
+      "name": "Khǭnkǣn",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "index_strings": [],
+      "weight": 729
+    },
+    {
+      "type": "city",
+      "code": "KRL",
+      "name": "Korla",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 5
+    },
+    {
+      "type": "city",
+      "code": "RDO",
+      "name": "Radom",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "LUZ",
+      "name": "Lublin",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 329
+    },
+    {
+      "type": "city",
+      "code": "SZZ",
+      "name": "Szczecin",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 178
+    },
+    {
+      "type": "city",
+      "code": "BZG",
+      "name": "Bydgoszcz",
+      "country_code": "PL",
+      "country_name": "Polonia",
+      "index_strings": [],
+      "weight": 28
+    },
+    {
+      "type": "city",
+      "code": "MHV",
+      "name": "Mojave",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "airport",
+      "code": "CXH",
+      "name": "Coal Harbour Sea Plane Base",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "city_code": "YVR",
+      "city_name": "Vancouver",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "CDB",
+      "name": "Cold Bay",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "AVN",
+      "name": "Aviñón",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Dusseldorf": [
+    {
+      "type": "city",
+      "code": "DUS",
+      "name": "Düsseldorf",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 214564
+    },
+    {
+      "type": "airport",
+      "code": "DUS",
+      "name": "Düsseldorf",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "DUS",
+      "city_name": "Düsseldorf",
+      "index_strings": [],
+      "weight": 107098
+    },
+    {
+      "type": "airport",
+      "code": "NRN",
+      "name": "Niederrhein",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "DUS",
+      "city_name": "Düsseldorf",
+      "index_strings": [],
+      "weight": 323
+    }
+  ],
+  "Dresden": [
+    {
+      "type": "city",
+      "code": "DRS",
+      "name": "Dresde",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 1313
+    },
+    {
+      "type": "city",
+      "code": "YHD",
+      "name": "Dryden",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Heidelberg": [],
+  "Friburgo": [
+    {
+      "type": "city",
+      "code": "EAP",
+      "name": "Basilea",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 19311
+    },
+    {
+      "type": "airport",
+      "code": "MLH",
+      "name": "Mulhouse EuroAirport",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "city_code": "EAP",
+      "city_name": "Basilea",
+      "index_strings": [],
+      "weight": 976
+    }
+  ],
+  "Freiburg": [
+    {
+      "type": "city",
+      "code": "EAP",
+      "name": "Basilea",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 19311
+    },
+    {
+      "type": "airport",
+      "code": "MLH",
+      "name": "Mulhouse EuroAirport",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "city_code": "EAP",
+      "city_name": "Basilea",
+      "index_strings": [],
+      "weight": 976
+    },
+    {
+      "type": "city",
+      "code": "REN",
+      "name": "Oremburgo",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 23925
+    }
+  ],
+  "BER": [
+    {
+      "type": "city",
+      "code": "BER",
+      "name": "Berlín",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 200362
+    },
+    {
+      "type": "city",
+      "code": "BGO",
+      "name": "Bergen",
+      "country_code": "NO",
+      "country_name": "Noruega",
+      "index_strings": [],
+      "weight": 11494
+    },
+    {
+      "type": "city",
+      "code": "EGC",
+      "name": "Bergerac",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 117
+    },
+    {
+      "type": "city",
+      "code": "EZV",
+      "name": "Berezovo",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 137
+    },
+    {
+      "type": "airport",
+      "code": "BGY",
+      "name": "Orio Al Serio",
+      "country_code": "IT",
+      "country_name": "Italia",
+      "city_code": "MIL",
+      "city_name": "Milán",
+      "index_strings": [],
+      "weight": 20777
+    },
+    {
+      "type": "city",
+      "code": "BDA",
+      "name": "Hamilton",
+      "country_code": "BM",
+      "country_name": "Bermudas",
+      "index_strings": [],
+      "weight": 12
+    },
+    {
+      "type": "city",
+      "code": "BRN",
+      "name": "Bern",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 34
+    },
+    {
+      "type": "city",
+      "code": "BVG",
+      "name": "Berlevåg",
+      "country_code": "NO",
+      "country_name": "Noruega",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "YBV",
+      "name": "Berens River",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "BJF",
+      "name": "Berlevag",
+      "country_code": "NO",
+      "country_name": "Noruega",
+      "index_strings": [],
+      "weight": 3
+    },
+    {
+      "type": "city",
+      "code": "BRL",
+      "name": "Burlington",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 169
+    },
+    {
+      "type": "city",
+      "code": "AUS",
+      "name": "Austin",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1831
+    },
+    {
+      "type": "city",
+      "code": "БНГ",
+      "name": "Beringovskiy",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "BTV",
+      "name": "Burlington",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 22
+    },
+    {
+      "type": "city",
+      "code": "XAP",
+      "name": "Chapecó",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 12
+    },
+    {
+      "type": "city",
+      "code": "XBE",
+      "name": "Bearskin Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "EWN",
+      "name": "New Bern",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 6
+    },
+    {
+      "type": "city",
+      "code": "BEJ",
+      "name": "Tanjung Redep",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "index_strings": [],
+      "weight": 5
+    },
+    {
+      "type": "city",
+      "code": "URG",
+      "name": "Uruguayana",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 3
+    },
+    {
+      "type": "city",
+      "code": "JBK",
+      "name": "Qitai",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "TXL": [],
+  "SXF": [],
+  "HHN": [
+    {
+      "type": "airport",
+      "code": "HHN",
+      "name": "Frankfurt-Hahn",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "FRA",
+      "city_name": "Francfort",
+      "index_strings": [],
+      "weight": 2748
+    }
+  ],
+  "FMM": [
+    {
+      "type": "city",
+      "code": "FMM",
+      "name": "Memmingen",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 20962
+    }
+  ],
+  "NRN": [
+    {
+      "type": "airport",
+      "code": "NRN",
+      "name": "Niederrhein",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "DUS",
+      "city_name": "Düsseldorf",
+      "index_strings": [],
+      "weight": 323
+    }
+  ],
+  "BSL": [
+    {
+      "type": "airport",
+      "code": "BSL",
+      "name": "EuroAirport Swiss",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "city_code": "EAP",
+      "city_name": "Basilea",
+      "index_strings": [],
+      "weight": 7374
+    }
+  ],
+  "MLH": [
+    {
+      "type": "airport",
+      "code": "MLH",
+      "name": "Mulhouse EuroAirport",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "city_code": "EAP",
+      "city_name": "Basilea",
+      "index_strings": [],
+      "weight": 976
+    }
+  ]
+}

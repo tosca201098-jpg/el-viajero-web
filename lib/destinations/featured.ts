@@ -5,6 +5,7 @@ export type Destination = {
   country: string;
   emoji?: string;
   image: string;
+  imagePosition?: string;
   description: string;
   recommendations: string[];
   recommendedStay?: string;
