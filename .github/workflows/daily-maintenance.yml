@@ -1,0 +1,141 @@
+name: Mantenimiento diario gratuito
+
+on:
+  schedule:
+    - cron: '37 5 * * *'
+  workflow_dispatch:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/daily-maintenance.yml'
+      - 'scripts/maintenance/**'
+      - 'tests/maintenance.test.cjs'
+      - 'docs/daily-maintenance.md'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: daily-maintenance-${{ github.event_name == 'pull_request' && github.event.pull_request.number || 'main' }}
+  cancel-in-progress: false
+
+env:
+  NEXT_TELEMETRY_DISABLED: '1'
+  OPENAI_API_KEY: ''
+  TRAVELPAYOUTS_API_TOKEN: ''
+  RESEND_API_KEY: ''
+  NEXT_PUBLIC_SUPABASE_URL: ''
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: ''
+  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ''
+
+jobs:
+  quality:
+    # Standard runners are free on public repositories. Stop if visibility changes.
+    if: >-
+      github.repository == 'tosca201098-jpg/el-viajero-web' &&
+      github.event.repository.visibility == 'public' &&
+      (github.event_name == 'pull_request' || github.ref == format('refs/heads/{0}', github.event.repository.default_branch))
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    outputs:
+      checks: ${{ steps.summary.outputs.checks }}
+      audit_total: ${{ steps.audit.outputs.total }}
+      audit_production: ${{ steps.audit.outputs.production }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Instalación limpia sin scripts de paquetes
+        id: install
+        continue-on-error: true
+        run: npm ci --ignore-scripts --no-audit --fund=false
+      - name: Pruebas con toda conexión externa bloqueada
+        id: tests
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: node --require ./scripts/maintenance/network-guard.cjs --test tests/*.test.cjs
+      - name: TypeScript
+        id: typescript
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: node --require ./scripts/maintenance/network-guard.cjs node_modules/typescript/bin/tsc --noEmit
+      - name: Lint
+        id: lint
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        run: node --require ./scripts/maintenance/network-guard.cjs node_modules/next/dist/bin/next lint
+      - name: Compilación (solo se permiten las fuentes gratuitas de Google)
+        id: build
+        if: steps.install.outcome == 'success'
+        continue-on-error: true
+        env:
+          MAINTENANCE_ALLOW_FONTS: '1'
+        run: NODE_OPTIONS="--require $GITHUB_WORKSPACE/scripts/maintenance/network-guard.cjs" npm run build
+      - name: Páginas de la compilación local, sin ejecutar scripts de terceros
+        id: smoke
+        if: steps.build.outcome == 'success'
+        continue-on-error: true
+        run: node scripts/maintenance/local-smoke.cjs
+      - name: Auditoría npm completa y de producción, sin aplicar correcciones
+        id: audit
+        if: always()
+        continue-on-error: true
+        run: node scripts/maintenance/audit.cjs
+      - name: Registrar todos los resultados y conservar los fallos
+        id: summary
+        if: always()
+        env:
+          CHECKS_JSON: >-
+            {"install":"${{ steps.install.outcome }}","tests":"${{ steps.tests.outcome }}","typescript":"${{ steps.typescript.outcome }}","lint":"${{ steps.lint.outcome }}","build":"${{ steps.build.outcome }}","smoke":"${{ steps.smoke.outcome }}","audit":"${{ steps.audit.outcome }}"}
+        run: node scripts/maintenance/summary.cjs
+
+  public-pages:
+    # PR validation never polls production. This job only runs after authorization/merge.
+    if: >-
+      github.repository == 'tosca201098-jpg/el-viajero-web' &&
+      github.event.repository.visibility == 'public' &&
+      github.event_name != 'pull_request' &&
+      github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Comprobar únicamente las páginas públicas permitidas
+        run: node scripts/maintenance/check-site.cjs
+
+  incident:
+    needs: [quality, public-pages]
+    if: >-
+      always() &&
+      github.repository == 'tosca201098-jpg/el-viajero-web' &&
+      github.event.repository.visibility == 'public' &&
+      github.event_name != 'pull_request' &&
+      github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 3
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Crear, actualizar o cerrar la misma incidencia
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          MAINTENANCE_NEEDS: ${{ toJSON(needs) }}
+        run: node scripts/maintenance/report-issue.cjs
