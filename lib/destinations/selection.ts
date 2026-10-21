@@ -1,4 +1,5 @@
 import { findDestinationProfile, normalizeDestinationName } from './index';
+import { ukPassengerAirports } from '@/lib/travelpayouts/uk-airports';
 
 /** Called only after an autocomplete choice is committed, never for free-form typing. */
 export function destinationFromPlaceSelection(selection: {
@@ -15,7 +16,10 @@ export function destinationFromPlaceSelection(selection: {
   return destination;
 }
 
-/** Preserve city-based pricing when an Italian access airport belongs to a verified city group. */
+/** Use the provider's actual arrival city for UK transfers, never invent an airport for York/Oxford. */
 export function accessAirportSearchInput(destination: { countryCode: string; name: string }, airportCode: string) {
+  if (destination.countryCode === 'GB') {
+    return ukPassengerAirports.find(airport => airport.code === airportCode)?.city_name ?? airportCode;
+  }
   return destination.countryCode === 'IT' ? destination.name : airportCode;
 }
