@@ -33,6 +33,8 @@ export type DestinationProfile = DestinationText & {
   /** Legacy Travelpayouts lookup identifiers. Keep these unchanged during phase 1. */
   iataCodes: string[];
   image: string;
+  /** Optional focal point for the existing detail header; legacy images keep the default crop. */
+  imagePosition?: string;
   bestMonths?: number[];
   lowSeasonMonths?: number[];
   highSeasonMonths?: number[];

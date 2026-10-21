@@ -1224,6 +1224,7 @@ function abrirPaquete(destino = "") {
                 src={destinoSeleccionado.image}
                 alt={destinoSeleccionado.name}
                 className="h-full w-full object-cover"
+                style={destinoSeleccionado.imagePosition ? { objectPosition: destinoSeleccionado.imagePosition } : undefined}
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/20" />

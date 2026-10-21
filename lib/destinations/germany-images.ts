@@ -33,14 +33,16 @@ export const germanyImages = {
     "imageSource": "https://commons.wikimedia.org/wiki/File:Cologne_Cathedral_and_the_Hohenzollern_Bridge.jpg",
     "imageCredit": "Jiuguang Wang",
     "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0",
+    "imagePosition": "center top"
   },
   "dusseldorf": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/D%C3%BCsseldorf_Medienhafen.jpg/960px-D%C3%BCsseldorf_Medienhafen.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:D%C3%BCsseldorf_Medienhafen.jpg",
-    "imageCredit": "LotharHakelberg",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/D%C3%BCsseldorf%2C_Medienhafen_--_2015_--_8146-51.jpg/960px-D%C3%BCsseldorf%2C_Medienhafen_--_2015_--_8146-51.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:D%C3%BCsseldorf,_Medienhafen_--_2015_--_8146-51.jpg",
+    "imageCredit": "Dietmar Rabich",
     "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "imagePosition": "left center"
   },
   "stuttgart": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/46/Neues_Schloss_Schlossplatzspringbrunnen_Jubil%C3%A4umss%C3%A4ule_Schlossplatz_Stuttgart_2015_02.jpg/960px-Neues_Schloss_Schlossplatzspringbrunnen_Jubil%C3%A4umss%C3%A4ule_Schlossplatz_Stuttgart_2015_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
@@ -61,7 +63,8 @@ export const germanyImages = {
     "imageSource": "https://commons.wikimedia.org/wiki/File:20220913.Frauenkirche_Dresden.-014.1.jpg",
     "imageCredit": "Bybbisch94, Christian Gebhardt",
     "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "imagePosition": "center top"
   },
   "leipzig": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f5/Leipzig_-_Ancien_Hotel_de_Ville.jpg/960px-Leipzig_-_Ancien_Hotel_de_Ville.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
@@ -71,17 +74,19 @@ export const germanyImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/4.0"
   },
   "heidelberg-neckar": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4b/Heidelberg_Catle_and_the_Old_bridge_%282014%29_-_panoramio.jpg/960px-Heidelberg_Catle_and_the_Old_bridge_%282014%29_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Heidelberg_Catle_and_the_Old_bridge_(2014)_-_panoramio.jpg",
-    "imageCredit": "Alexander Kachkaev",
-    "imageLicense": "CC BY 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/Alte_br%C3%BCcke%2C_Schloss_und_Altstad_Heidelberg_-_Deutschland_%2848847871506%29.jpg/960px-Alte_br%C3%BCcke%2C_Schloss_und_Altstad_Heidelberg_-_Deutschland_%2848847871506%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Alte_br%C3%BCcke,_Schloss_und_Altstad_Heidelberg_-_Deutschland_(48847871506).jpg",
+    "imageCredit": "Frans Berkelaar",
+    "imageLicense": "CC BY 2.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0",
+    "imagePosition": "center top"
   },
   "freiburg-black-forest": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/Freiburg_M%C3%BCnster_-_panoramio.jpg/960px-Freiburg_M%C3%BCnster_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
     "imageSource": "https://commons.wikimedia.org/wiki/File:Freiburg_M%C3%BCnster_-_panoramio.jpg",
     "imageCredit": "Michel G",
     "imageLicense": "CC BY 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0",
+    "imagePosition": "center top"
   }
 } as const;
