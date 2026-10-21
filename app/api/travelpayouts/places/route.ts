@@ -2,6 +2,7 @@ import { italyPassengerAirports } from '@/lib/travelpayouts/italy-airports';
 import { ukAirportsForTerm, ukUnavailablePassengerCodes } from '@/lib/travelpayouts/uk-airports';
 import { germanyAirportsForTerm, germanyCityAliases, germanyPassengerAirports, germanyUnavailablePassengerCodes } from '@/lib/travelpayouts/germany-airports';
 import { isNetherlandsCountryTerm, netherlandsAirportsForTerm, netherlandsCityAliases, netherlandsPassengerAirports, netherlandsUnavailablePassengerCodes } from '@/lib/travelpayouts/netherlands-airports';
+import { belgiumAirports, belgiumAirportsForTerm, belgiumCityAliases } from '@/lib/travelpayouts/belgium-airports';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -104,6 +105,18 @@ export async function GET(request: Request) {
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(netherlandsCityAliases[code(place.code, 3)] ?? [])] };
     });
 
+    places = [...places, ...belgiumAirportsForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'BE') return place;
+      const physical = belgiumAirports.find(a => a.code === code(place.code, 3));
+      if (place.type === 'airport' && physical) return { ...place, name: physical.name,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...physical.index_strings],
+        physicalCityName: physical.physicalCityName, scheduledPassengerService: physical.scheduledPassengerService, serviceNotice: physical.serviceNotice };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(belgiumCityAliases[code(place.code, 3)] ?? [])],
+        ...(place.code === 'LGG' ? { scheduledPassengerService: false, serviceNotice: 'noScheduledFlights' } : {}),
+        ...(place.code === 'ANR' ? { serviceNotice: 'antwerpTuiEnds' } : {}) };
+    });
+
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);
     const seen = new Set<string>();
@@ -142,6 +155,9 @@ export async function GET(request: Request) {
           code: code(place.code, 3) || null,
           cityName: typeof place.city_name === "string" ? place.city_name : null,
           cityCode: code(place.city_code, 3) || null,
+          ...(place.country_code === 'BE' && place.scheduledPassengerService === false ? { scheduledPassengerService: false } : {}),
+          ...(place.country_code === 'BE' && typeof place.serviceNotice === 'string' ? { serviceNotice: place.serviceNotice } : {}),
+          ...(place.country_code === 'BE' && typeof place.physicalCityName === 'string' ? { physicalCityName: place.physicalCityName } : {}),
         };
       });
 

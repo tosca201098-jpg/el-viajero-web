@@ -1,0 +1,46 @@
+{
+  "verifiedOn": "2026-10-21",
+  "source": "https://api.travelpayouts.com/data/en/airports.json",
+  "airports": [
+    {
+      "code": "BRU",
+      "name": "Brussels Airport",
+      "countryCode": "BE",
+      "cityCode": "BRU",
+      "flightable": true,
+      "iataType": "airport"
+    },
+    {
+      "code": "CRL",
+      "name": "Charleroi Brussels South Airport",
+      "countryCode": "BE",
+      "cityCode": "BRU",
+      "flightable": true,
+      "iataType": "airport"
+    },
+    {
+      "code": "ANR",
+      "name": "Antwerp International Airport",
+      "countryCode": "BE",
+      "cityCode": "ANR",
+      "flightable": true,
+      "iataType": "airport"
+    },
+    {
+      "code": "OST",
+      "name": "Ostend-Bruges International Airport",
+      "countryCode": "BE",
+      "cityCode": "OST",
+      "flightable": true,
+      "iataType": "airport"
+    },
+    {
+      "code": "LGG",
+      "name": "Liege Airport",
+      "countryCode": "BE",
+      "cityCode": "LGG",
+      "flightable": true,
+      "iataType": "airport"
+    }
+  ]
+}

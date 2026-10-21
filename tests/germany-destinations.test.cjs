@@ -14,8 +14,8 @@ const digest=v=>crypto.createHash('sha256').update(typeof v==='string'?v:JSON.st
 const locales=['es','en','fr','de','it','pt','ca'];
 
 test('Germany adds twelve unique profiles; all 101 existing profiles and original editorial cards remain identical',()=>{
- assert.equal(baseline.profiles.length,101);assert.equal(germany.length,12);assert.equal(catalog.destinationProfiles.length,125);
- assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,125);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,125);
+ assert.equal(baseline.profiles.length,101);assert.equal(germany.length,12);assert.equal(catalog.destinationProfiles.length,137);
+ assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,137);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,137);
  for(const d of baseline.profiles)assert.equal(digest(catalog.getDestinationById(d.id)),d.sha256,d.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
  for(const[season,sha]of Object.entries(baseline.seasonFiles))assert.equal(digest(fs.readFileSync(path.join(root,'app/temporadas/'+season+'/page.tsx'),'utf8').replace(/\r\n/g,'\n')),sha);

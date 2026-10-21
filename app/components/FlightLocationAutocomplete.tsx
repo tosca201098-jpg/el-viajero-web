@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { createPortal } from "react-dom";
+import { useLanguage } from './LanguageProvider';
 
 type Suggestion = {
   type: "city" | "airport";
@@ -10,6 +11,9 @@ type Suggestion = {
   code: string | null;
   cityName: string | null;
   cityCode: string | null;
+  physicalCityName?: string;
+  scheduledPassengerService?: boolean;
+  serviceNotice?: 'noScheduledFlights' | 'antwerpTuiEnds' | 'charleroiTransfer';
 };
 
 type Props = {
@@ -24,6 +28,7 @@ type Props = {
 type PopupPosition = { top?: number; bottom?: number; left: number; width: number; maxHeight: number };
 
 export default function FlightLocationAutocomplete({ label, value, onChange, onSelect, placeholder, variant }: Props) {
+  const { t } = useLanguage();
   const id = useId();
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -113,6 +118,7 @@ export default function FlightLocationAutocomplete({ label, value, onChange, onS
   }, [open]);
 
   function selectSuggestion(suggestion: Suggestion) {
+    if (suggestion.scheduledPassengerService === false) return;
     // The existing flight search resolves cities. An airport selection uses its official city.
     const selectedCity = suggestion.type === "airport"
       ? suggestion.cityName || suggestion.cityCode || suggestion.name
@@ -163,12 +169,19 @@ export default function FlightLocationAutocomplete({ label, value, onChange, onS
               return;
             }
             if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-              if (!suggestions.length) return;
+              const selectable = suggestions.map((s, i) => s.scheduledPassengerService === false ? -1 : i).filter(i => i >= 0);
+              if (!selectable.length) { event.preventDefault(); return; }
               event.preventDefault();
               setOpen(true);
-              setActiveIndex((index) => event.key === "ArrowDown"
-                ? (index + 1) % suggestions.length
-                : index < 0 ? suggestions.length - 1 : (index - 1 + suggestions.length) % suggestions.length);
+              setActiveIndex((index) => {
+                const current = selectable.indexOf(index);
+                return selectable[event.key === 'ArrowDown' ? (current + 1) % selectable.length
+                  : current < 0 ? selectable.length - 1 : (current - 1 + selectable.length) % selectable.length];
+              });
+            }
+            if (event.key === 'Enter' && open && suggestions.length && suggestions.every(s => s.scheduledPassengerService === false)) {
+              event.preventDefault();
+              return;
             }
             if (event.key === "Enter" && open && activeIndex >= 0) {
               event.preventDefault();
@@ -189,19 +202,21 @@ export default function FlightLocationAutocomplete({ label, value, onChange, onS
           style={position}
         >
           {suggestions.map((suggestion, index) => (
-            <li key={`${suggestion.type}-${suggestion.code ?? suggestion.name}-${index}`} id={`${id}-option-${index}`} role="option" aria-selected={activeIndex === index}>
+            <li key={`${suggestion.type}-${suggestion.code ?? suggestion.name}-${index}`} id={`${id}-option-${index}`} role="option" aria-selected={activeIndex === index} aria-disabled={suggestion.scheduledPassengerService === false || undefined}>
               <button
                 type="button"
+                disabled={suggestion.scheduledPassengerService === false}
                 onMouseDown={(event) => event.preventDefault()}
-                onMouseEnter={() => setActiveIndex(index)}
+                onMouseEnter={() => { if (suggestion.scheduledPassengerService !== false) setActiveIndex(index); }}
                 onClick={() => selectSuggestion(suggestion)}
-                className={`flex min-h-[44px] w-full items-center justify-between gap-2 px-3 py-2 text-left hover:bg-blue-50 ${activeIndex === index ? "bg-blue-50" : ""}`}
+                className={`flex min-h-[44px] w-full items-center justify-between gap-2 px-3 py-2 text-left hover:bg-blue-50 disabled:cursor-not-allowed disabled:bg-stone-100 disabled:text-stone-600 ${activeIndex === index ? "bg-blue-50" : ""}`}
               >
                 <span className="min-w-0 break-words">
                   <span className="font-semibold">{suggestion.name}</span>
-                  {suggestion.type === "airport" && suggestion.cityName && suggestion.cityName !== suggestion.name
-                    ? <span className="text-slate-500"> · {suggestion.cityName}</span> : null}
+                  {suggestion.type === "airport" && (suggestion.physicalCityName || suggestion.cityName) && (suggestion.physicalCityName || suggestion.cityName) !== suggestion.name
+                    ? <span className="text-slate-500"> · {suggestion.physicalCityName || suggestion.cityName}</span> : null}
                   {suggestion.country ? <span className="text-slate-500">, {suggestion.country}</span> : null}
+                  {suggestion.serviceNotice ? <span className="mt-1 block text-xs leading-4 text-stone-600">{t(`search.airportNotice.${suggestion.serviceNotice}`)}</span> : null}
                 </span>
                 {suggestion.code ? <span className="shrink-0 rounded bg-blue-50 px-1.5 py-0.5 text-xs font-bold text-blue-700">{suggestion.code}</span> : null}
               </button>
