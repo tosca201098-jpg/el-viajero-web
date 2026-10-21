@@ -27,7 +27,7 @@ test('nested selectors retain parents, lists, pseudo selectors and media rules',
 test('large flat selectors complete within a bounded subprocess (GHSA-rj75-hqrm-r3gf)', () => {
   // Guard the workload from the advisory without hanging the entire test suite.
   const parserPath = require.resolve('postcss-selector-parser', { paths: [require.resolve('tailwindcss')] });
-  const result = spawnSync(process.execPath, ['-e', `
+  const result = spawnSync(process.execPath, ['--require', require.resolve('../scripts/maintenance/network-guard.cjs'), '-e', `
     const assert = require('node:assert/strict');
     const parser = require(${JSON.stringify(parserPath)});
     const selector = '.a'.repeat(200000);
