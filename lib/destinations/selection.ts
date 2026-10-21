@@ -1,6 +1,7 @@
 import { findDestinationProfile, normalizeDestinationName } from './index';
 import { ukPassengerAirports } from '@/lib/travelpayouts/uk-airports';
 import { germanyAccessSearchCity } from '@/lib/travelpayouts/germany-airports';
+import { netherlandsAccessSearchCity } from '@/lib/travelpayouts/netherlands-airports';
 
 /** Called only after an autocomplete choice is committed, never for free-form typing. */
 export function destinationFromPlaceSelection(selection: {
@@ -20,6 +21,7 @@ export function destinationFromPlaceSelection(selection: {
 /** Use actual arrival cities for access transfers without inventing local airports. */
 export function accessAirportSearchInput(destination: { countryCode: string; name: string }, airportCode: string) {
   if (destination.countryCode === 'DE') return germanyAccessSearchCity(airportCode);
+  if (destination.countryCode === 'NL') return netherlandsAccessSearchCity(airportCode);
   if (destination.countryCode === 'GB') {
     return ukPassengerAirports.find(airport => airport.code === airportCode)?.city_name ?? airportCode;
   }
