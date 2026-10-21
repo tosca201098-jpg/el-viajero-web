@@ -1,6 +1,6 @@
 import { italyPassengerAirports } from '@/lib/travelpayouts/italy-airports';
 import { ukAirportsForTerm, ukUnavailablePassengerCodes } from '@/lib/travelpayouts/uk-airports';
-import { germanyAirportsForTerm, germanyCityAliases, germanyUnavailablePassengerCodes } from '@/lib/travelpayouts/germany-airports';
+import { germanyAirportsForTerm, germanyCityAliases, germanyPassengerAirports, germanyUnavailablePassengerCodes } from '@/lib/travelpayouts/germany-airports';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -83,6 +83,12 @@ export async function GET(request: Request) {
     const ukAirports = ukAirportsForTerm(term);
     places = [...places, ...ukAirports];
     places = [...places, ...germanyAirportsForTerm(term)].map(place => {
+      if (isPlace(place) && place.type === 'airport' && place.country_code === 'DE') {
+        const physical = germanyPassengerAirports.find(airport => airport.code === code(place.code, 3));
+        if (physical && typeof place.name === 'string' && typeof place.city_name === 'string' && normalize(place.name) === normalize(place.city_name)) {
+          return { ...place, name: physical.name };
+        }
+      }
       if (!isPlace(place) || place.type !== 'city' || place.country_code !== 'DE') return place;
       const aliases = germanyCityAliases[code(place.code, 3)] ?? [];
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...aliases] };

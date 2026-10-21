@@ -69,7 +69,7 @@ Datos públicos: [airports.json](https://api.travelpayouts.com/data/en/airports.
 
 Los 27 códigos solicitados figuran como aeropuerto físico DE y flightable=true. No se inventa un código metropolitano diferente donde el proveedor comparte código físico y de ciudad: el tipo city/airport los distingue. FMM sigue siendo Memmingen, sin incorporarlo como aeropuerto físico de Múnich. HHN, NRN y LBC conservan las agrupaciones de precios FRA/DUS/HAM y se explican como accesos con traslado en las fichas. No se incorpora un filtro de tarifas exclusivo por aeropuerto: precios, fechas flexibles, presupuesto, pasajeros y enlaces de afiliación siguen usando la lógica existente.
 
-Se mantiene el orden exacto/prefijo/parcial y la popularidad secundaria. Se completan nombres exactos y códigos con aeropuertos verificados, usando la misma llamada gratuita existente al autocompletado. Se añaden alias españoles, alemanes y variantes habituales a las ciudades DE devueltas por el proveedor. Un IATA exacto prioriza su aeropuerto físico. Para «Frankfurt», el proveedor llama exactamente «Frankfurt» a FRA: ese aeropuerto puede preceder al alias de la ciudad, respetando la relevancia existente.
+Se mantiene el orden exacto/prefijo/parcial y la popularidad secundaria. Se completan nombres exactos y códigos con aeropuertos verificados, usando la misma llamada gratuita existente al autocompletado. Se añaden alias españoles, alemanes y variantes habituales a las ciudades DE devueltas por el proveedor. Un IATA exacto prioriza su aeropuerto físico. Para «Frankfurt», el proveedor llama exactamente «Frankfurt» a FRA: ese aeropuerto puede preceder al alias de la ciudad, respetando la relevancia existente. Cuando el proveedor da a un aeropuerto el mismo nombre que su ciudad, se utiliza su nombre físico verificado para distinguir las dos opciones, especialmente DUS.
 
 ### Operación limitada, fronteras y exclusiones
 
@@ -83,7 +83,7 @@ Se mantiene el orden exacto/prefijo/parcial y la popularidad secundaria. Se comp
 
 ## Fotografías
 
-Las doce fotografías reales proceden de Wikimedia Commons con CC BY o CC BY-SA, aptas para uso comercial con sus condiciones. `germany-images.ts` contiene archivo fuente, autor, licencia y enlace comprobados con imageinfo/extmetadata el 21 de octubre de 2026. El modal existente muestra los créditos. Se usan miniaturas del proveedor sin editar el archivo original. No se cambian fotografías anteriores ni las PR pendientes de Ibiza #8, Milán #13 y Asturias #14, revisadas como abiertas.
+Las doce fotografías reales proceden de Wikimedia Commons con CC BY o CC BY-SA, aptas para uso comercial con sus condiciones. `germany-images.ts` contiene archivo fuente, autor, licencia y enlace comprobados con imageinfo/extmetadata el 21 de octubre de 2026. Las doce miniaturas respondieron HTTP 200 con content-type image/jpeg mediante HEAD. Esto verifica accesibilidad, no el encuadre final en navegador. El modal existente muestra los créditos. Se usan miniaturas del proveedor sin editar el archivo original. No se cambian fotografías anteriores ni las PR pendientes de Ibiza #8, Milán #13 y Asturias #14, revisadas como abiertas.
 
 ## Validación
 
@@ -93,9 +93,13 @@ Las doce fotografías reales proceden de Wikimedia Commons con CC BY o CC BY-SA,
 - Compilación de producción correcta con Next.js 15.5.28; el fallo inicial EPERM de mkdir de Windows se resolvió preparando directorios de salida mediante un ayudante externo, sin cambiar configuración del proyecto.
 - 21/21 comprobaciones HTTP locales correctas, con servicios externos bloqueados.
 - Workflow diario 391317886 confirmado active mediante la API pública. Sigue el cron `37 5 * * *`, con ejecución manual, sin modificar GitHub Actions.
-- Dependencias sin modificaciones. Los siete avisos High de la incidencia #16 siguen pendientes y deben permanecer visibles. La auditoría de esta revisión se documenta en la PR, distinguiendo un resultado de una consulta npm no disponible.
+- Dependencias sin modificaciones. La primera auditoría completa no respondió; la repetición confirmó siete High, cero Critical, Moderate y Low. Son los avisos conocidos de @next/eslint-plugin-next, braces, chokidar, eslint-config-next, fast-glob, micromatch y tailwindcss, registrados en la incidencia #16. La auditoría omit=dev devuelve cero. No se ocultan ni corrigen en esta ampliación.
 
 Verificaciones reales: metadatos públicos, autocompletado, licencias, compilación, HTTP local y Preview. Los tests de voz/IA/Supabase no son pruebas con servicios reales.
+
+Preview de la PR #19: https://el-viajero-web-git-codex-germany-destinations-el-viajero.vercel.app/ (Vercel Ready en el primer commit). En navegador real se verificaron las 16 tarjetas originales de portada, los ocho nombres españoles requeridos encabezando sus consultas, la distinción FRA/HHN y la apertura única de Berlín por selección confirmada. Escribir y confirmar la sugerencia no abrieron el modal automáticamente: fue necesario pulsar el botón contextual. La captura de Berlín se tomó antes de que cargase la fotografía y no acredita su renderizado final.
+
+El control del navegador dejó de estar disponible durante la revisión. Quedan pendientes la inspección visual final de fotografías, las otras once fichas y las cuatro temporadas, y la comprobación visual de la etiqueta física DUS corregida. Estas partes están cubiertas por pruebas automáticas, pero no se presentan como verificaciones visuales reales. No se han efectuado búsquedas reales de precios, generación de IA, uso del micrófono ni operaciones de datos en Supabase.
 
 ## Alcance
 

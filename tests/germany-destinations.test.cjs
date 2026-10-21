@@ -60,6 +60,8 @@ test('required Spanish and German city names lead the recorded provider suggesti
  }
  const berlin=await endpoint().search('Berlín');assert.ok(berlin.some(p=>p.type==='airport'&&p.code==='BER'));
  assert.equal(new Set(berlin.map(p=>p.country+':'+p.type+':'+p.code)).size,berlin.length);
+ const dusseldorf=await endpoint({'Düsseldorf':[{type:'city',code:'DUS',name:'Düsseldorf',country_code:'DE'},{type:'airport',code:'DUS',name:'Düsseldorf',city_name:'Düsseldorf',city_code:'DUS',country_code:'DE'}]}).search('Düsseldorf');
+ assert.equal(dusseldorf[0].type,'city');assert.equal(dusseldorf[1].type,'airport');assert.notEqual(dusseldorf[0].name,dusseldorf[1].name);
 });
 
 test('retired Berlin airports and the industrial Finkenwerder airport are never public scheduled alternatives',async()=>{
