@@ -15,6 +15,7 @@ const locales=['es','en','fr','de','it','pt','ca'];
 test('Netherlands adds twelve profiles to 125 unique identities; all previous 113 and original cards stay identical',()=>{
  assert.equal(baseline.profiles.length,113);assert.equal(netherlands.length,12);assert.equal(catalog.destinationProfiles.length,125);
  assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,125);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,125);
+ for(const [name,id] of [['Roterdão','nl-rotterdam-kinderdijk'],['La Haye','nl-the-hague-scheveningen'],["L'Aia",'nl-the-hague-scheveningen'],['Haia','nl-the-hague-scheveningen'],['La Haia','nl-the-hague-scheveningen']])assert.equal(catalog.findDestinationProfile({name})?.id,id,name);
  for(const d of baseline.profiles)assert.equal(digest(catalog.getDestinationById(d.id)),d.sha256,d.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
  for(const[season,sha]of Object.entries(baseline.seasonFiles))assert.equal(digest(fs.readFileSync(path.join(root,'app/temporadas/'+season+'/page.tsx'),'utf8').replace(/\r\n/g,'\n')),sha);
@@ -56,7 +57,7 @@ test('recorded Dutch city variants rank the right city and include its physical 
  }
 });
 test('The Hague aliases return real arrival gateways RTM and AMS, retaining their actual airport and city names',async()=>{
- for(const name of ['La Haya','Den Haag','The Hague']){
+ for(const name of ['La Haya','Den Haag','The Hague','La Haye',"L'Aia",'L’Aia','Haia','La Haia']){
   const results=await endpoint().search(name),nl=results.filter(r=>r.country==='Países Bajos');
   assert.deepEqual(nl.map(p=>p.code),['RTM','AMS']);assert.ok(nl.every(p=>p.type==='airport'));assert.equal(nl[0].cityCode,'RTM');assert.equal(nl[1].cityCode,'AMS');assert.notEqual(nl[0].cityName,'La Haya');
  }

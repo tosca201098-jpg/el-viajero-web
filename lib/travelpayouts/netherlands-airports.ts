@@ -13,7 +13,7 @@ export const netherlandsCityAliases: Readonly<Record<string, readonly string[]>>
 };
 /** No regular public passenger service at present. TEX is Telluride (US), never a Texel code. */
 export const netherlandsUnavailablePassengerCodes: readonly string[] = ['LEY','DHR','ENS'];
-function normalize(value:string){return value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim().replace(/\s+/g,' ');}
+function normalize(value:string){return value.normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/’/g,"'").toLowerCase().trim().replace(/\s+/g,' ');}
 export function isNetherlandsCountryTerm(term:string){
   return ['Países Bajos','Holanda','Netherlands','The Netherlands','Pays-Bas','Pays Bas','Niederlande','Paesi Bassi','Països Baixos'].some(alias=>normalize(alias)===normalize(term));
 }
@@ -22,7 +22,7 @@ export function netherlandsAirportsForTerm(term:string){
   const normalized=normalize(term);
   // These are arrival gateways requiring a ground transfer, not airports owned by The Hague.
   const hague=['La Haya','Den Haag','The Hague','La Haye','L’Aia','Haia','La Haia'].some(alias=>normalize(alias)===normalized);
-  if(hague)return [netherlandsPassengerAirports[1],{...netherlandsPassengerAirports[0],index_strings:[...netherlandsPassengerAirports[0].index_strings,term]}];
+  if(hague)return [netherlandsPassengerAirports[1],netherlandsPassengerAirports[0]].map(airport=>({...airport,index_strings:[...airport.index_strings,term]}));
   return netherlandsPassengerAirports.filter(airport=>normalize(airport.code)===normalized||airport.index_strings.some(alias=>normalize(alias)===normalized));
 }
 /** Preserve the provider's actual arrival city and existing city-level pricing. */
