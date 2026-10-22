@@ -55,18 +55,20 @@ test('homepage country groups preserve all 16 original featured cards and 137 ca
   assert.equal(new Set(groups.map(group=>group.countryCode)).size,groups.length);
   assert.deepEqual(groups.slice(0,8).map(group=>group.countryCode),['ES','PT','FR','IT','GB','DE','NL','BE']);
   for(const group of groups)assert.equal(new Set(group.cards.map(card=>card.id??card.name)).size,group.cards.length);
-  assert.equal(groups.find(group=>group.countryCode==='ES').cards.length,43);
-  assert.equal(groups.find(group=>group.countryCode==='PT').cards.length,22);
+  assert.equal(groups.find(group=>group.countryCode==='ES').cards.length,6);
+  assert.equal(groups.find(group=>group.countryCode==='PT').cards.length,6);
   assert.equal(groups.find(group=>group.countryCode==='FR').cards.filter(c=>c.id==='fr-paris').length,1);
+  for(const code of ['ES','PT','FR','IT','GB','DE','NL','BE'])assert.equal(groups.find(g=>g.countryCode===code).cards.length,6);
   for(const locale of locales){
     const load=renderLoader(locale),Home=load('app/page.tsx').default,tree=Home(),all=nodes(tree);
     const cards=all.filter(n=>n.type==='article');
-    assert.equal(cards.length,groups.reduce((sum,g)=>sum+Math.min(g.cards.length,4),0));
+    assert.equal(cards.length,groups.reduce((sum,g)=>sum+g.cards.length,0));
     for(const group of groups){
       const country=localization.getDestinationCountryName({countryCode:group.countryCode,country:group.fallbackName},locale);
       assert.ok(all.some(n=>n.type==='h3'&&text(n).includes(country.toLocaleUpperCase(locale))),country);
     }
     assert.ok(cards.some(card=>text(nodes(card).find(n=>n.type==='h4'))===localization.getDestinationText(catalog.getDestinationById('fr-paris'),locale).name));
+    assert.equal(all.filter(n=>n.type==='button'&&n.props['aria-expanded']!==undefined).length,0);
     const flightDestination=all.find(n=>n.props.variant==='main'&&n.props.label===dictionaries.translate(locale,'search.destination'));
     assert.equal(typeof flightDestination.props.onSelect,'function');
   }
