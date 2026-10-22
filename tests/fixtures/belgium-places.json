@@ -1,0 +1,3327 @@
+{
+  "Bruselas": [
+    {
+      "type": "city",
+      "code": "BRU",
+      "name": "Bruselas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 63806
+    },
+    {
+      "type": "airport",
+      "code": "BRU",
+      "name": "National",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 24704
+    },
+    {
+      "type": "airport",
+      "code": "CRL",
+      "name": "Charleroi Brussels",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 5556
+    }
+  ],
+  "Bruxelles": [
+    {
+      "type": "city",
+      "code": "BRU",
+      "name": "Bruselas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 63806
+    },
+    {
+      "type": "airport",
+      "code": "BRU",
+      "name": "National",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 24704
+    },
+    {
+      "type": "airport",
+      "code": "CRL",
+      "name": "Charleroi Brussels",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 5556
+    }
+  ],
+  "Brussel": [
+    {
+      "type": "city",
+      "code": "BRU",
+      "name": "Bruselas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 63806
+    },
+    {
+      "type": "airport",
+      "code": "BRU",
+      "name": "National",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 24704
+    },
+    {
+      "type": "airport",
+      "code": "CRL",
+      "name": "Charleroi Brussels",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 5556
+    }
+  ],
+  "Brussels": [
+    {
+      "type": "city",
+      "code": "BRU",
+      "name": "Bruselas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 63806
+    },
+    {
+      "type": "airport",
+      "code": "BRU",
+      "name": "National",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 24704
+    },
+    {
+      "type": "airport",
+      "code": "CRL",
+      "name": "Charleroi Brussels",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 5556
+    }
+  ],
+  "BRU": [
+    {
+      "type": "city",
+      "code": "BRU",
+      "name": "Bruselas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 63806
+    },
+    {
+      "type": "airport",
+      "code": "BRU",
+      "name": "National",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 24704
+    },
+    {
+      "type": "airport",
+      "code": "CRL",
+      "name": "Charleroi Brussels",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 5556
+    },
+    {
+      "type": "city",
+      "code": "BWN",
+      "name": "Bandar Seri Begawan",
+      "country_code": "BN",
+      "country_name": "Brunéi",
+      "index_strings": [],
+      "weight": 133
+    },
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    },
+    {
+      "type": "city",
+      "code": "SSI",
+      "name": "Brunswick",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "airport",
+      "code": "BQK",
+      "name": "Glynco Jetport",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "SSI",
+      "city_name": "Brunswick",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "BME",
+      "name": "Broome",
+      "country_code": "AU",
+      "country_name": "Australia",
+      "index_strings": [],
+      "weight": 5
+    },
+    {
+      "type": "city",
+      "code": "YFC",
+      "name": "Fredericton",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 147
+    },
+    {
+      "type": "city",
+      "code": "CZU",
+      "name": "Corozal",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 10
+    },
+    {
+      "type": "city",
+      "code": "YQM",
+      "name": "Moncton",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 53
+    },
+    {
+      "type": "city",
+      "code": "ZBF",
+      "name": "Bathurst",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "CRL": [
+    {
+      "type": "airport",
+      "code": "CRL",
+      "name": "Charleroi Brussels",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 5556
+    }
+  ],
+  "Charleroi": [
+    {
+      "type": "airport",
+      "code": "CRL",
+      "name": "Charleroi Brussels",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 5556
+    }
+  ],
+  "Amberes": [
+    {
+      "type": "city",
+      "code": "ANR",
+      "name": "Amberes",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 408
+    }
+  ],
+  "Antwerpen": [
+    {
+      "type": "city",
+      "code": "ANR",
+      "name": "Amberes",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 408
+    }
+  ],
+  "Anvers": [
+    {
+      "type": "city",
+      "code": "ANR",
+      "name": "Amberes",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 408
+    },
+    {
+      "type": "city",
+      "code": "JAN",
+      "name": "Jackson",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 45
+    },
+    {
+      "type": "city",
+      "code": "AYQ",
+      "name": "Ayers Rock",
+      "country_code": "AU",
+      "country_name": "Australia",
+      "index_strings": [],
+      "weight": 506
+    },
+    {
+      "type": "city",
+      "code": "NAT",
+      "name": "Natal",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 144
+    },
+    {
+      "type": "city",
+      "code": "CPC",
+      "name": "San Martin DeLos Andes",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "index_strings": [],
+      "weight": 19
+    },
+    {
+      "type": "city",
+      "code": "ADZ",
+      "name": "San Andrés",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 140
+    },
+    {
+      "type": "city",
+      "code": "ANE",
+      "name": "Angers",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Antwerp": [
+    {
+      "type": "city",
+      "code": "ANR",
+      "name": "Amberes",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 408
+    }
+  ],
+  "ANR": [
+    {
+      "type": "city",
+      "code": "ANR",
+      "name": "Amberes",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 408
+    },
+    {
+      "type": "city",
+      "code": "TAB",
+      "name": "Crown Point",
+      "country_code": "TT",
+      "country_name": "Trinidad y Tobago",
+      "index_strings": [],
+      "weight": 72
+    }
+  ],
+  "Ostende": [
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    }
+  ],
+  "Oostende": [
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    }
+  ],
+  "Ostend": [
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    },
+    {
+      "type": "city",
+      "code": "NQZ",
+      "name": "Astaná",
+      "country_code": "KZ",
+      "country_name": "Kazajistán",
+      "index_strings": [],
+      "weight": 121026
+    },
+    {
+      "type": "city",
+      "code": "AKL",
+      "name": "Auckland",
+      "country_code": "NZ",
+      "country_name": "Nueva Zelanda",
+      "index_strings": [],
+      "weight": 4555
+    },
+    {
+      "type": "city",
+      "code": "AUS",
+      "name": "Austin",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1831
+    },
+    {
+      "type": "city",
+      "code": "GRB",
+      "name": "Green Bay",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 19
+    },
+    {
+      "type": "city",
+      "code": "OAK",
+      "name": "Oakland",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 731
+    },
+    {
+      "type": "city",
+      "code": "OLA",
+      "name": "Orlando",
+      "country_code": "NO",
+      "country_name": "Noruega",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "SDP",
+      "name": "Sand Point",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "OST": [
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    },
+    {
+      "type": "city",
+      "code": "OSD",
+      "name": "Östersund",
+      "country_code": "SE",
+      "country_name": "Suecia",
+      "index_strings": [],
+      "weight": 1314
+    },
+    {
+      "type": "city",
+      "code": "NQZ",
+      "name": "Astaná",
+      "country_code": "KZ",
+      "country_name": "Kazajistán",
+      "index_strings": [],
+      "weight": 121026
+    },
+    {
+      "type": "city",
+      "code": "OSR",
+      "name": "Ostrava",
+      "country_code": "CZ",
+      "country_name": "República Checa",
+      "index_strings": [],
+      "weight": 29
+    },
+    {
+      "type": "city",
+      "code": "AUS",
+      "name": "Austin",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1831
+    },
+    {
+      "type": "city",
+      "code": "GRB",
+      "name": "Green Bay",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 19
+    },
+    {
+      "type": "city",
+      "code": "DIL",
+      "name": "Dili",
+      "country_code": "TL",
+      "country_name": "Timor Oriental",
+      "index_strings": [],
+      "weight": 152
+    },
+    {
+      "type": "city",
+      "code": "MAZ",
+      "name": "Mayagüez",
+      "country_code": "PR",
+      "country_name": "Puerto Rico",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Lieja": [
+    {
+      "type": "city",
+      "code": "LGG",
+      "name": "Lieja",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "VIE",
+      "name": "Viena",
+      "country_code": "AT",
+      "country_name": "Austria",
+      "index_strings": [],
+      "weight": 91845
+    },
+    {
+      "type": "city",
+      "code": "FOG",
+      "name": "Foggia",
+      "country_code": "IT",
+      "country_name": "Italia",
+      "index_strings": [],
+      "weight": 1230
+    },
+    {
+      "type": "city",
+      "code": "VNO",
+      "name": "Vilna",
+      "country_code": "LT",
+      "country_name": "Lituania",
+      "index_strings": [],
+      "weight": 26289
+    },
+    {
+      "type": "city",
+      "code": "LIM",
+      "name": "Lima",
+      "country_code": "PE",
+      "country_name": "Perú",
+      "index_strings": [],
+      "weight": 6925
+    },
+    {
+      "type": "city",
+      "code": "DLI",
+      "name": "Đà Lạt",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "index_strings": [],
+      "weight": 1320
+    },
+    {
+      "type": "city",
+      "code": "EYA",
+      "name": "Zeya",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 34
+    },
+    {
+      "type": "city",
+      "code": "BEN",
+      "name": "Bengasi",
+      "country_code": "LY",
+      "country_name": "Libia",
+      "index_strings": [],
+      "weight": 124
+    },
+    {
+      "type": "city",
+      "code": "KUN",
+      "name": "Kaunas",
+      "country_code": "LT",
+      "country_name": "Lituania",
+      "index_strings": [],
+      "weight": 686
+    },
+    {
+      "type": "city",
+      "code": "MJI",
+      "name": "Trípoli",
+      "country_code": "LY",
+      "country_name": "Libia",
+      "index_strings": [],
+      "weight": 180
+    },
+    {
+      "type": "city",
+      "code": "USR",
+      "name": "Ust-Nera",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 36
+    },
+    {
+      "type": "city",
+      "code": "PLQ",
+      "name": "Palanga",
+      "country_code": "LT",
+      "country_name": "Lituania",
+      "index_strings": [],
+      "weight": 268
+    },
+    {
+      "type": "city",
+      "code": "MRA",
+      "name": "Misurata",
+      "country_code": "LY",
+      "country_name": "Libia",
+      "index_strings": [],
+      "weight": 5
+    },
+    {
+      "type": "city",
+      "code": "FNA",
+      "name": "Freetown",
+      "country_code": "SL",
+      "country_name": "Sierra Leona",
+      "index_strings": [],
+      "weight": 217
+    },
+    {
+      "type": "city",
+      "code": "LOH",
+      "name": "Loja",
+      "country_code": "EC",
+      "country_name": "Ecuador",
+      "index_strings": [],
+      "weight": 5
+    },
+    {
+      "type": "city",
+      "code": "SFN",
+      "name": "Santa Fe",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "index_strings": [],
+      "weight": 10
+    },
+    {
+      "type": "city",
+      "code": "LIL",
+      "name": "Lille",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 10856
+    },
+    {
+      "type": "city",
+      "code": "LPX",
+      "name": "Liepāja",
+      "country_code": "LV",
+      "country_name": "Letonia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "HOB",
+      "name": "Hobbs",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 3
+    },
+    {
+      "type": "city",
+      "code": "IRJ",
+      "name": "La Rioja",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "index_strings": [],
+      "weight": 7
+    }
+  ],
+  "Liège": [
+    {
+      "type": "city",
+      "code": "LGG",
+      "name": "Lieja",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "QSF",
+      "name": "Sétif",
+      "country_code": "DZ",
+      "country_name": "Argelia",
+      "index_strings": [],
+      "weight": 6576
+    },
+    {
+      "type": "city",
+      "code": "LYS",
+      "name": "Lyon",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 31544
+    },
+    {
+      "type": "city",
+      "code": "NGB",
+      "name": "Ningbo",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 806
+    },
+    {
+      "type": "city",
+      "code": "LIH",
+      "name": "Lihue",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 396
+    },
+    {
+      "type": "city",
+      "code": "BEN",
+      "name": "Bengasi",
+      "country_code": "LY",
+      "country_name": "Libia",
+      "index_strings": [],
+      "weight": 124
+    },
+    {
+      "type": "city",
+      "code": "MJI",
+      "name": "Trípoli",
+      "country_code": "LY",
+      "country_name": "Libia",
+      "index_strings": [],
+      "weight": 180
+    },
+    {
+      "type": "city",
+      "code": "LIL",
+      "name": "Lille",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 10856
+    },
+    {
+      "type": "city",
+      "code": "QOW",
+      "name": "Owerri",
+      "country_code": "NG",
+      "country_name": "Nigeria",
+      "index_strings": [],
+      "weight": 27
+    },
+    {
+      "type": "city",
+      "code": "QRW",
+      "name": "Warri",
+      "country_code": "NG",
+      "country_name": "Nigeria",
+      "index_strings": [],
+      "weight": 16
+    },
+    {
+      "type": "city",
+      "code": "RLG",
+      "name": "Rostock-Laage",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 39
+    },
+    {
+      "type": "city",
+      "code": "MRA",
+      "name": "Misurata",
+      "country_code": "LY",
+      "country_name": "Libia",
+      "index_strings": [],
+      "weight": 5
+    },
+    {
+      "type": "city",
+      "code": "MQT",
+      "name": "Marquette-lez-Lille",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "TNH",
+      "name": "Tonghua",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "JJM",
+      "name": "Méru",
+      "country_code": "KE",
+      "country_name": "Kenia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "SSX",
+      "name": "Singita Safari Lodge",
+      "country_code": "ZA",
+      "country_name": "Sudáfrica",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "RVD",
+      "name": "Rio Verde",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "SEB",
+      "name": "Sabha",
+      "country_code": "LY",
+      "country_name": "Libia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "LAQ",
+      "name": "Al Baida",
+      "country_code": "LY",
+      "country_name": "Libia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Luik": [
+    {
+      "type": "city",
+      "code": "PQC",
+      "name": "Phu Quoc",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "index_strings": [],
+      "weight": 33104
+    },
+    {
+      "type": "city",
+      "code": "FLN",
+      "name": "Florianópolis",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 1474
+    },
+    {
+      "type": "city",
+      "code": "MLA",
+      "name": "La Valeta",
+      "country_code": "MT",
+      "country_name": "Malta",
+      "index_strings": [],
+      "weight": 17009
+    },
+    {
+      "type": "city",
+      "code": "MRU",
+      "name": "Port Louis",
+      "country_code": "MU",
+      "country_name": "Mauricio",
+      "index_strings": [],
+      "weight": 6685
+    },
+    {
+      "type": "city",
+      "code": "UIH",
+      "name": "Quy Nhơn",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "index_strings": [],
+      "weight": 530
+    },
+    {
+      "type": "city",
+      "code": "ENI",
+      "name": "El Nido",
+      "country_code": "PH",
+      "country_name": "Filipinas",
+      "index_strings": [],
+      "weight": 412
+    },
+    {
+      "type": "city",
+      "code": "ZCL",
+      "name": "Zacatecas",
+      "country_code": "MX",
+      "country_name": "México",
+      "index_strings": [],
+      "weight": 366
+    },
+    {
+      "type": "airport",
+      "code": "MSY",
+      "name": "Louis Armstrong",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "MSY",
+      "city_name": "Nueva Orleans",
+      "index_strings": [],
+      "weight": 751
+    },
+    {
+      "type": "city",
+      "code": "SLZ",
+      "name": "São Luís",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 143
+    },
+    {
+      "type": "city",
+      "code": "SLP",
+      "name": "San Luis Potosí",
+      "country_code": "MX",
+      "country_name": "México",
+      "index_strings": [],
+      "weight": 98
+    },
+    {
+      "type": "city",
+      "code": "HLD",
+      "name": "Hailar",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 98
+    },
+    {
+      "type": "city",
+      "code": "BRC",
+      "name": "Bariloche",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "index_strings": [],
+      "weight": 272
+    },
+    {
+      "type": "city",
+      "code": "BNX",
+      "name": "Bania Luka",
+      "country_code": "BA",
+      "country_name": "Bosnia y Herzegovina",
+      "index_strings": [],
+      "weight": 764
+    },
+    {
+      "type": "airport",
+      "code": "UVF",
+      "name": "Hewanorra",
+      "country_code": "LC",
+      "country_name": "Santa Lucía",
+      "city_code": "SLU",
+      "city_name": "Castries",
+      "index_strings": [],
+      "weight": 38
+    },
+    {
+      "type": "airport",
+      "code": "SJU",
+      "name": "Luis Munoz Marin",
+      "country_code": "PR",
+      "country_name": "Puerto Rico",
+      "city_code": "SJU",
+      "city_name": "San Juan",
+      "index_strings": [],
+      "weight": 2754
+    },
+    {
+      "type": "city",
+      "code": "YXY",
+      "name": "Whitehorse",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 126
+    },
+    {
+      "type": "city",
+      "code": "SSA",
+      "name": "Salvador",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 310
+    },
+    {
+      "type": "city",
+      "code": "LUW",
+      "name": "Luwuk",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "index_strings": [],
+      "weight": 11
+    },
+    {
+      "type": "city",
+      "code": "FRL",
+      "name": "Forlì",
+      "country_code": "IT",
+      "country_name": "Italia",
+      "index_strings": [],
+      "weight": 7
+    },
+    {
+      "type": "city",
+      "code": "TKK",
+      "name": "Truk",
+      "country_code": "FM",
+      "country_name": "Estados Federados de Micronesia",
+      "index_strings": [],
+      "weight": 27
+    }
+  ],
+  "LGG": [
+    {
+      "type": "city",
+      "code": "LGG",
+      "name": "Lieja",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 2
+    }
+  ],
+  "Brujas": [
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    },
+    {
+      "type": "city",
+      "code": "CZU",
+      "name": "Corozal",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 10
+    },
+    {
+      "type": "city",
+      "code": "MAD",
+      "name": "Ciudad de Madrid",
+      "country_code": "ES",
+      "country_name": "España",
+      "index_strings": [],
+      "weight": 145183
+    },
+    {
+      "type": "city",
+      "code": "BOJ",
+      "name": "Burgas",
+      "country_code": "BG",
+      "country_name": "Bulgaria",
+      "index_strings": [],
+      "weight": 2690
+    },
+    {
+      "type": "city",
+      "code": "ADZ",
+      "name": "San Andrés",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 140
+    }
+  ],
+  "Brugge": [
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    }
+  ],
+  "Bruges": [
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    },
+    {
+      "type": "city",
+      "code": "BOJ",
+      "name": "Burgas",
+      "country_code": "BG",
+      "country_name": "Bulgaria",
+      "index_strings": [],
+      "weight": 2690
+    },
+    {
+      "type": "city",
+      "code": "BWN",
+      "name": "Bandar Seri Begawan",
+      "country_code": "BN",
+      "country_name": "Brunéi",
+      "index_strings": [],
+      "weight": 133
+    },
+    {
+      "type": "airport",
+      "code": "MQP",
+      "name": "Kruger Mpumalanga",
+      "country_code": "ZA",
+      "country_name": "Sudáfrica",
+      "city_code": "NLP",
+      "city_name": "Nelspruit",
+      "index_strings": [],
+      "weight": 54
+    },
+    {
+      "type": "city",
+      "code": "LRU",
+      "name": "Las Cruces",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "CZU",
+      "name": "Corozal",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 10
+    },
+    {
+      "type": "city",
+      "code": "RGS",
+      "name": "Ciudad de Burgos",
+      "country_code": "ES",
+      "country_name": "España",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "LAR",
+      "name": "Laramie",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "BVS",
+      "name": "Breves",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "CXJ",
+      "name": "Caxias do Sul",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 3
+    }
+  ],
+  "Gante": [
+    {
+      "type": "city",
+      "code": "HMA",
+      "name": "Janti-Mansisk",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 8486
+    },
+    {
+      "type": "city",
+      "code": "GNJ",
+      "name": "Gyandzha",
+      "country_code": "AZ",
+      "country_name": "Azerbaiyán",
+      "index_strings": [],
+      "weight": 14105
+    },
+    {
+      "type": "airport",
+      "code": "DEL",
+      "name": "Indira Gandhi Intl",
+      "country_code": "IN",
+      "country_name": "India",
+      "city_code": "DEL",
+      "city_name": "Nueva Delhi",
+      "index_strings": [],
+      "weight": 19497
+    },
+    {
+      "type": "city",
+      "code": "OVS",
+      "name": "Sovetski (Janti-Mansi)",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 634
+    },
+    {
+      "type": "city",
+      "code": "NTE",
+      "name": "Nantes",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 26530
+    },
+    {
+      "type": "city",
+      "code": "MLA",
+      "name": "La Valeta",
+      "country_code": "MT",
+      "country_name": "Malta",
+      "index_strings": [],
+      "weight": 17009
+    },
+    {
+      "type": "city",
+      "code": "NNT",
+      "name": "Nantes",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "index_strings": [],
+      "weight": 203
+    },
+    {
+      "type": "city",
+      "code": "EYK",
+      "name": "Beloyarski (Janti-Mansi)",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 1183
+    },
+    {
+      "type": "city",
+      "code": "TCI",
+      "name": "Tenerife",
+      "country_code": "ES",
+      "country_name": "España",
+      "index_strings": [],
+      "weight": 34400
+    },
+    {
+      "type": "city",
+      "code": "ACC",
+      "name": "Acra",
+      "country_code": "GH",
+      "country_name": "Ghana",
+      "index_strings": [],
+      "weight": 2018
+    },
+    {
+      "type": "city",
+      "code": "TML",
+      "name": "Tamale",
+      "country_code": "GH",
+      "country_name": "Ghana",
+      "index_strings": [],
+      "weight": 140
+    },
+    {
+      "type": "city",
+      "code": "FOC",
+      "name": "Fuzhou",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 585
+    },
+    {
+      "type": "city",
+      "code": "SMA",
+      "name": "Santa Maria",
+      "country_code": "PT",
+      "country_name": "Portugal",
+      "index_strings": [],
+      "weight": 171
+    },
+    {
+      "type": "city",
+      "code": "DJG",
+      "name": "Djanet",
+      "country_code": "DZ",
+      "country_name": "Argelia",
+      "index_strings": [],
+      "weight": 19
+    },
+    {
+      "type": "city",
+      "code": "SDQ",
+      "name": "Santo Domingo",
+      "country_code": "DO",
+      "country_name": "República Dominicana",
+      "index_strings": [],
+      "weight": 2880
+    },
+    {
+      "type": "airport",
+      "code": "SDQ",
+      "name": "Las Americas",
+      "country_code": "DO",
+      "country_name": "República Dominicana",
+      "city_code": "SDQ",
+      "city_name": "Santo Domingo",
+      "index_strings": [],
+      "weight": 1929
+    },
+    {
+      "type": "city",
+      "code": "MEC",
+      "name": "Manta",
+      "country_code": "EC",
+      "country_name": "Ecuador",
+      "index_strings": [],
+      "weight": 31
+    },
+    {
+      "type": "city",
+      "code": "CHQ",
+      "name": "La Canea",
+      "country_code": "GR",
+      "country_name": "Grecia",
+      "index_strings": [],
+      "weight": 8122
+    },
+    {
+      "type": "city",
+      "code": "DED",
+      "name": "Dehra Dun",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 144
+    },
+    {
+      "type": "city",
+      "code": "MSN",
+      "name": "Madison",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 68
+    }
+  ],
+  "Gent": [
+    {
+      "type": "city",
+      "code": "POG",
+      "name": "Port-Gentil",
+      "country_code": "GA",
+      "country_name": "Gabón",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "TLV",
+      "name": "Tel Aviv",
+      "country_code": "IL",
+      "country_name": "Israel",
+      "index_strings": [],
+      "weight": 65982
+    },
+    {
+      "type": "airport",
+      "code": "IST",
+      "name": "Aeropuerto de Estambul",
+      "country_code": "TR",
+      "country_name": "Turquía",
+      "city_code": "IST",
+      "city_name": "Estambul",
+      "index_strings": [],
+      "weight": 275803
+    },
+    {
+      "type": "city",
+      "code": "GNJ",
+      "name": "Gyandzha",
+      "country_code": "AZ",
+      "country_name": "Azerbaiyán",
+      "index_strings": [],
+      "weight": 14105
+    },
+    {
+      "type": "city",
+      "code": "SGN",
+      "name": "Ciudad Ho Chi Minh",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "index_strings": [],
+      "weight": 44009
+    },
+    {
+      "type": "city",
+      "code": "VIE",
+      "name": "Viena",
+      "country_code": "AT",
+      "country_name": "Austria",
+      "index_strings": [],
+      "weight": 91845
+    },
+    {
+      "type": "city",
+      "code": "GVA",
+      "name": "Ginebra",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 24029
+    },
+    {
+      "type": "city",
+      "code": "BER",
+      "name": "Berlín",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 200362
+    },
+    {
+      "type": "city",
+      "code": "DEL",
+      "name": "Nueva Delhi",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 28656
+    },
+    {
+      "type": "city",
+      "code": "FOG",
+      "name": "Foggia",
+      "country_code": "IT",
+      "country_name": "Italia",
+      "index_strings": [],
+      "weight": 1230
+    },
+    {
+      "type": "city",
+      "code": "NUX",
+      "name": "Novy Urengoy",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 13205
+    },
+    {
+      "type": "city",
+      "code": "PNH",
+      "name": "Nom Pen",
+      "country_code": "KH",
+      "country_name": "Camboya",
+      "index_strings": [],
+      "weight": 2791
+    },
+    {
+      "type": "city",
+      "code": "TIA",
+      "name": "Tirana",
+      "country_code": "AL",
+      "country_name": "Albania",
+      "index_strings": [],
+      "weight": 54165
+    },
+    {
+      "type": "city",
+      "code": "BLJ",
+      "name": "Batna",
+      "country_code": "DZ",
+      "country_name": "Argelia",
+      "index_strings": [],
+      "weight": 1069
+    },
+    {
+      "type": "city",
+      "code": "HMO",
+      "name": "Hermosillo",
+      "country_code": "MX",
+      "country_name": "México",
+      "index_strings": [],
+      "weight": 769
+    },
+    {
+      "type": "city",
+      "code": "GOA",
+      "name": "Génova",
+      "country_code": "IT",
+      "country_name": "Italia",
+      "index_strings": [],
+      "weight": 7346
+    },
+    {
+      "type": "city",
+      "code": "INI",
+      "name": "Niš",
+      "country_code": "RS",
+      "country_name": "Serbia",
+      "index_strings": [],
+      "weight": 1398
+    },
+    {
+      "type": "airport",
+      "code": "LYS",
+      "name": "Lyon-Saint Exupéry",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "city_code": "LYS",
+      "city_name": "Lyon",
+      "index_strings": [],
+      "weight": 16054
+    },
+    {
+      "type": "city",
+      "code": "PER",
+      "name": "Perth",
+      "country_code": "AU",
+      "country_name": "Australia",
+      "index_strings": [],
+      "weight": 2106
+    },
+    {
+      "type": "city",
+      "code": "NTE",
+      "name": "Nantes",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 26530
+    }
+  ],
+  "Gand": [
+    {
+      "type": "airport",
+      "code": "DEL",
+      "name": "Indira Gandhi Intl",
+      "country_code": "IN",
+      "country_name": "India",
+      "city_code": "DEL",
+      "city_name": "Nueva Delhi",
+      "index_strings": [],
+      "weight": 19497
+    },
+    {
+      "type": "city",
+      "code": "GNJ",
+      "name": "Gyandzha",
+      "country_code": "AZ",
+      "country_name": "Azerbaiyán",
+      "index_strings": [],
+      "weight": 14105
+    },
+    {
+      "type": "city",
+      "code": "YQX",
+      "name": "Gander",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "HYD",
+      "name": "Hyderabad",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 1054
+    },
+    {
+      "type": "city",
+      "code": "ISK",
+      "name": "Nashik",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 21
+    },
+    {
+      "type": "city",
+      "code": "LED",
+      "name": "San Petersburgo",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 676758
+    },
+    {
+      "type": "airport",
+      "code": "CXR",
+      "name": "Cam Ranh",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "city_code": "NHA",
+      "city_name": "Nha Trang",
+      "index_strings": [],
+      "weight": 44076
+    },
+    {
+      "type": "city",
+      "code": "IXY",
+      "name": "Kandla",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "DAD",
+      "name": "Đà Nẵng",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "index_strings": [],
+      "weight": 33901
+    },
+    {
+      "type": "city",
+      "code": "SGN",
+      "name": "Ciudad Ho Chi Minh",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "index_strings": [],
+      "weight": 44009
+    },
+    {
+      "type": "city",
+      "code": "PQC",
+      "name": "Phu Quoc",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "index_strings": [],
+      "weight": 33104
+    },
+    {
+      "type": "city",
+      "code": "SJJ",
+      "name": "Sarajevo",
+      "country_code": "BA",
+      "country_name": "Bosnia y Herzegovina",
+      "index_strings": [],
+      "weight": 15237
+    },
+    {
+      "type": "city",
+      "code": "GVA",
+      "name": "Ginebra",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 24029
+    },
+    {
+      "type": "city",
+      "code": "FRA",
+      "name": "Francfort",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 160275
+    },
+    {
+      "type": "city",
+      "code": "KLR",
+      "name": "Kalmar",
+      "country_code": "SE",
+      "country_name": "Suecia",
+      "index_strings": [],
+      "weight": 790
+    },
+    {
+      "type": "city",
+      "code": "ACC",
+      "name": "Acra",
+      "country_code": "GH",
+      "country_name": "Ghana",
+      "index_strings": [],
+      "weight": 2018
+    },
+    {
+      "type": "city",
+      "code": "SIA",
+      "name": "Xi'an",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 9382
+    },
+    {
+      "type": "airport",
+      "code": "FRA",
+      "name": "Frankfurt",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "city_code": "FRA",
+      "city_name": "Francfort",
+      "index_strings": [],
+      "weight": 78555
+    },
+    {
+      "type": "city",
+      "code": "SAO",
+      "name": "São Paulo",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 8323
+    },
+    {
+      "type": "city",
+      "code": "FOG",
+      "name": "Foggia",
+      "country_code": "IT",
+      "country_name": "Italia",
+      "index_strings": [],
+      "weight": 1230
+    }
+  ],
+  "Ghent": [
+    {
+      "type": "city",
+      "code": "GVA",
+      "name": "Ginebra",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 24029
+    },
+    {
+      "type": "city",
+      "code": "HMO",
+      "name": "Hermosillo",
+      "country_code": "MX",
+      "country_name": "México",
+      "index_strings": [],
+      "weight": 769
+    },
+    {
+      "type": "city",
+      "code": "INI",
+      "name": "Niš",
+      "country_code": "RS",
+      "country_name": "Serbia",
+      "index_strings": [],
+      "weight": 1398
+    },
+    {
+      "type": "airport",
+      "code": "LYS",
+      "name": "Lyon-Saint Exupéry",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "city_code": "LYS",
+      "city_name": "Lyon",
+      "index_strings": [],
+      "weight": 16054
+    },
+    {
+      "type": "city",
+      "code": "ACC",
+      "name": "Acra",
+      "country_code": "GH",
+      "country_name": "Ghana",
+      "index_strings": [],
+      "weight": 2018
+    },
+    {
+      "type": "city",
+      "code": "TML",
+      "name": "Tamale",
+      "country_code": "GH",
+      "country_name": "Ghana",
+      "index_strings": [],
+      "weight": 140
+    },
+    {
+      "type": "city",
+      "code": "SKP",
+      "name": "Skopie",
+      "country_code": "MK",
+      "country_name": "Macedonia del Norte",
+      "index_strings": [],
+      "weight": 11734
+    },
+    {
+      "type": "city",
+      "code": "MZT",
+      "name": "Mazatlán",
+      "country_code": "MX",
+      "country_name": "México",
+      "index_strings": [],
+      "weight": 246
+    },
+    {
+      "type": "city",
+      "code": "DED",
+      "name": "Dehra Dun",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 144
+    },
+    {
+      "type": "city",
+      "code": "SLA",
+      "name": "Salta",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "index_strings": [],
+      "weight": 154
+    },
+    {
+      "type": "city",
+      "code": "YCU",
+      "name": "Yuncheng",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 49
+    },
+    {
+      "type": "city",
+      "code": "TAM",
+      "name": "Tampico",
+      "country_code": "MX",
+      "country_name": "México",
+      "index_strings": [],
+      "weight": 80
+    },
+    {
+      "type": "city",
+      "code": "LYH",
+      "name": "Lynchburg",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 10
+    },
+    {
+      "type": "city",
+      "code": "SGU",
+      "name": "St. George",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 59
+    },
+    {
+      "type": "city",
+      "code": "STT",
+      "name": "St Thomas Island",
+      "country_code": "VI",
+      "country_name": "Islas Vírgenes de los Estados Unidos",
+      "index_strings": [],
+      "weight": 89
+    },
+    {
+      "type": "city",
+      "code": "YXJ",
+      "name": "Fort St John",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 45
+    },
+    {
+      "type": "city",
+      "code": "MTY",
+      "name": "Monterrey",
+      "country_code": "MX",
+      "country_name": "México",
+      "index_strings": [],
+      "weight": 1088
+    },
+    {
+      "type": "city",
+      "code": "PTP",
+      "name": "Pointe-a-Pitre",
+      "country_code": "GP",
+      "country_name": "Guadalupe",
+      "index_strings": [],
+      "weight": 1219
+    },
+    {
+      "type": "city",
+      "code": "PNR",
+      "name": "Pointe-Noire",
+      "country_code": "CG",
+      "country_name": "República del Congo",
+      "index_strings": [],
+      "weight": 32
+    },
+    {
+      "type": "city",
+      "code": "SKB",
+      "name": "Basseterre",
+      "country_code": "KN",
+      "country_name": "San Cristóbal y Nieves",
+      "index_strings": [],
+      "weight": 95
+    }
+  ],
+  "Lovaina": [
+    {
+      "type": "city",
+      "code": "HAV",
+      "name": "La Habana",
+      "country_code": "CU",
+      "country_name": "Cuba",
+      "index_strings": [],
+      "weight": 1780
+    }
+  ],
+  "Leuven": [
+    {
+      "type": "city",
+      "code": "HVN",
+      "name": "New Haven",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 186
+    },
+    {
+      "type": "city",
+      "code": "NQN",
+      "name": "Neuquén",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "index_strings": [],
+      "weight": 29
+    },
+    {
+      "type": "city",
+      "code": "YYT",
+      "name": "San Juan de Terranova",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 206
+    },
+    {
+      "type": "city",
+      "code": "YHK",
+      "name": "Gjoa Haven",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "YOJ",
+      "name": "High Level",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "HID",
+      "name": "Horn Island",
+      "country_code": "AU",
+      "country_name": "Australia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Louvain": [],
+  "Ypres": [
+    {
+      "type": "city",
+      "code": "BUE",
+      "name": "Buenos Aires",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "index_strings": [],
+      "weight": 11081
+    },
+    {
+      "type": "city",
+      "code": "LCA",
+      "name": "Lárnaca",
+      "country_code": "CY",
+      "country_name": "Chipre",
+      "index_strings": [],
+      "weight": 46600
+    },
+    {
+      "type": "city",
+      "code": "ECN",
+      "name": "Ercan",
+      "country_code": "NY",
+      "country_name": "Chipre del Norte",
+      "index_strings": [],
+      "weight": 24232
+    },
+    {
+      "type": "airport",
+      "code": "EZE",
+      "name": "Ministro Pistarini",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "city_code": "BUE",
+      "city_name": "Buenos Aires",
+      "index_strings": [],
+      "weight": 4869
+    },
+    {
+      "type": "airport",
+      "code": "AEP",
+      "name": "Arpt. Jorge Newbery",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "city_code": "BUE",
+      "city_name": "Buenos Aires",
+      "index_strings": [],
+      "weight": 3023
+    },
+    {
+      "type": "city",
+      "code": "PFO",
+      "name": "Pafos",
+      "country_code": "CY",
+      "country_name": "Chipre",
+      "index_strings": [],
+      "weight": 1966
+    },
+    {
+      "type": "city",
+      "code": "PUQ",
+      "name": "Punta Arenas",
+      "country_code": "CL",
+      "country_name": "Chile",
+      "index_strings": [],
+      "weight": 1510
+    },
+    {
+      "type": "city",
+      "code": "DIL",
+      "name": "Dili",
+      "country_code": "TL",
+      "country_name": "Timor Oriental",
+      "index_strings": [],
+      "weight": 152
+    },
+    {
+      "type": "city",
+      "code": "PAP",
+      "name": "Puerto Príncipe",
+      "country_code": "HT",
+      "country_name": "Haití",
+      "index_strings": [],
+      "weight": 19
+    },
+    {
+      "type": "city",
+      "code": "INU",
+      "name": "Nauru Island",
+      "country_code": "NR",
+      "country_name": "Nauru",
+      "index_strings": [],
+      "weight": 63
+    },
+    {
+      "type": "city",
+      "code": "RBR",
+      "name": "Rio Branco",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 11
+    },
+    {
+      "type": "city",
+      "code": "XRY",
+      "name": "Jerez de la Frontera",
+      "country_code": "ES",
+      "country_name": "España",
+      "index_strings": [],
+      "weight": 2341
+    },
+    {
+      "type": "city",
+      "code": "TGM",
+      "name": "Târgu Mureș",
+      "country_code": "RO",
+      "country_name": "Rumanía",
+      "index_strings": [],
+      "weight": 480
+    },
+    {
+      "type": "city",
+      "code": "TLN",
+      "name": "Tolón",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 269
+    },
+    {
+      "type": "city",
+      "code": "PUU",
+      "name": "Puerto Asís",
+      "country_code": "CO",
+      "country_name": "Colombia",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "PQI",
+      "name": "Presque Isle",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "VSA",
+      "name": "Villahermosa",
+      "country_code": "MX",
+      "country_name": "México",
+      "index_strings": [],
+      "weight": 180
+    },
+    {
+      "type": "city",
+      "code": "SNC",
+      "name": "Salinas",
+      "country_code": "EC",
+      "country_name": "Ecuador",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "EPA",
+      "name": "El Palomar",
+      "country_code": "AR",
+      "country_name": "Argentina",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Ieper": [
+    {
+      "type": "city",
+      "code": "DEE",
+      "name": "Yuzhno-Kurilsk",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 334
+    },
+    {
+      "type": "city",
+      "code": "CBH",
+      "name": "Béchar",
+      "country_code": "DZ",
+      "country_name": "Argelia",
+      "index_strings": [],
+      "weight": 26
+    },
+    {
+      "type": "city",
+      "code": "IXZ",
+      "name": "Port Blair",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 99
+    },
+    {
+      "type": "city",
+      "code": "IGD",
+      "name": "Alikamerli",
+      "country_code": "TR",
+      "country_name": "Turquía",
+      "index_strings": [],
+      "weight": 1449
+    },
+    {
+      "type": "airport",
+      "code": "RSI",
+      "name": "Mar Rojo",
+      "country_code": "SA",
+      "country_name": "Arabia Saudí",
+      "city_code": "TUU",
+      "city_name": "Tabuk",
+      "index_strings": [],
+      "weight": 71
+    },
+    {
+      "type": "city",
+      "code": "JRG",
+      "name": "Jharsuguda",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 4
+    },
+    {
+      "type": "airport",
+      "code": "YWH",
+      "name": "Victoria",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "city_code": "YYJ",
+      "city_name": "Victoria",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "HPB",
+      "name": "Hooper Bay",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "YYJ",
+      "name": "Victoria",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1255
+    },
+    {
+      "type": "airport",
+      "code": "GNB",
+      "name": "Grenoble",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "city_code": "LYS",
+      "city_name": "Lyon",
+      "index_strings": [],
+      "weight": 6
+    },
+    {
+      "type": "city",
+      "code": "LGI",
+      "name": "Deadmans Cay",
+      "country_code": "BS",
+      "country_name": "Bahamas",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "UIP",
+      "name": "Quimper",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "YDF",
+      "name": "Deer Lake",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "GEL",
+      "name": "Santo Ângelo",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "YQF",
+      "name": "Red Deer",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "TRE",
+      "name": "Tiree",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Namur": [
+    {
+      "type": "city",
+      "code": "USM",
+      "name": "Ko Samui",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "index_strings": [],
+      "weight": 30218
+    },
+    {
+      "type": "city",
+      "code": "MLE",
+      "name": "Malé",
+      "country_code": "MV",
+      "country_name": "Maldivas",
+      "index_strings": [],
+      "weight": 28876
+    },
+    {
+      "type": "city",
+      "code": "NLI",
+      "name": "Nikoláyevsk del Amur",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 864
+    },
+    {
+      "type": "airport",
+      "code": "KNO",
+      "name": "Aeropuerto internacional de Kuala Namu",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "city_code": "MES",
+      "city_name": "Medan",
+      "index_strings": [],
+      "weight": 220
+    },
+    {
+      "type": "city",
+      "code": "EMN",
+      "name": "Néma",
+      "country_code": "MR",
+      "country_name": "Mauritania",
+      "index_strings": [],
+      "weight": 27
+    },
+    {
+      "type": "city",
+      "code": "NAG",
+      "name": "Nagpur",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 33
+    },
+    {
+      "type": "city",
+      "code": "INU",
+      "name": "Nauru Island",
+      "country_code": "NR",
+      "country_name": "Nauru",
+      "index_strings": [],
+      "weight": 63
+    },
+    {
+      "type": "city",
+      "code": "LAU",
+      "name": "Lamu",
+      "country_code": "KE",
+      "country_name": "Kenia",
+      "index_strings": [],
+      "weight": 15
+    },
+    {
+      "type": "city",
+      "code": "PGK",
+      "name": "Pangkalpinang",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "index_strings": [],
+      "weight": 12
+    },
+    {
+      "type": "city",
+      "code": "CUE",
+      "name": "Cuenca",
+      "country_code": "EC",
+      "country_name": "Ecuador",
+      "index_strings": [],
+      "weight": 26
+    },
+    {
+      "type": "city",
+      "code": "NDR",
+      "name": "Nador",
+      "country_code": "MA",
+      "country_name": "Marruecos",
+      "index_strings": [],
+      "weight": 9161
+    },
+    {
+      "type": "city",
+      "code": "KXK",
+      "name": "Komsomolsk del Amur",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "LUW",
+      "name": "Luwuk",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "index_strings": [],
+      "weight": 11
+    },
+    {
+      "type": "city",
+      "code": "RLK",
+      "name": "Bayannur",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 4
+    },
+    {
+      "type": "city",
+      "code": "BDJ",
+      "name": "Banjarmasin",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "index_strings": [],
+      "weight": 8
+    },
+    {
+      "type": "city",
+      "code": "OSY",
+      "name": "Namsos",
+      "country_code": "NO",
+      "country_name": "Noruega",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "VDY",
+      "name": "Vidyanagar",
+      "country_code": "IN",
+      "country_name": "India",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "MGF",
+      "name": "Maringá",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 29
+    },
+    {
+      "type": "city",
+      "code": "SNR",
+      "name": "Saint-Nazaire",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Namen": [
+    {
+      "type": "city",
+      "code": "TJM",
+      "name": "Tiumén",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 54528
+    },
+    {
+      "type": "city",
+      "code": "NDJ",
+      "name": "Yamena",
+      "country_code": "TD",
+      "country_name": "Chad",
+      "index_strings": [],
+      "weight": 812
+    },
+    {
+      "type": "city",
+      "code": "XMN",
+      "name": "Xiamen",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 723
+    },
+    {
+      "type": "airport",
+      "code": "SFB",
+      "name": "Ramey",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "ORL",
+      "city_name": "Orlando",
+      "index_strings": [],
+      "weight": 541
+    },
+    {
+      "type": "city",
+      "code": "PNH",
+      "name": "Nom Pen",
+      "country_code": "KH",
+      "country_name": "Camboya",
+      "index_strings": [],
+      "weight": 2791
+    },
+    {
+      "type": "city",
+      "code": "NNT",
+      "name": "Nantes",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "index_strings": [],
+      "weight": 203
+    },
+    {
+      "type": "city",
+      "code": "НЫН",
+      "name": "Naryn",
+      "country_code": "KG",
+      "country_name": "Kirguistán",
+      "index_strings": [],
+      "weight": 56
+    },
+    {
+      "type": "city",
+      "code": "IAO",
+      "name": "Del Carmen",
+      "country_code": "PH",
+      "country_name": "Filipinas",
+      "index_strings": [],
+      "weight": 250
+    },
+    {
+      "type": "city",
+      "code": "HVN",
+      "name": "New Haven",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 186
+    },
+    {
+      "type": "city",
+      "code": "FNI",
+      "name": "Nimes",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 21
+    },
+    {
+      "type": "city",
+      "code": "FKB",
+      "name": "Karlsruhe",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 5652
+    },
+    {
+      "type": "city",
+      "code": "ADE",
+      "name": "Adén",
+      "country_code": "YE",
+      "country_name": "Yemen",
+      "index_strings": [],
+      "weight": 4
+    },
+    {
+      "type": "city",
+      "code": "NOS",
+      "name": "Nosy Be",
+      "country_code": "MG",
+      "country_name": "Madagascar",
+      "index_strings": [],
+      "weight": 247
+    },
+    {
+      "type": "city",
+      "code": "LYR",
+      "name": "Longyearbyen",
+      "country_code": "SJ",
+      "country_name": "Svalbard y Jan Mayen",
+      "index_strings": [],
+      "weight": 342
+    },
+    {
+      "type": "airport",
+      "code": "KNO",
+      "name": "Aeropuerto internacional de Kuala Namu",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "city_code": "MES",
+      "city_name": "Medan",
+      "index_strings": [],
+      "weight": 220
+    },
+    {
+      "type": "city",
+      "code": "NIM",
+      "name": "Niamey",
+      "country_code": "NE",
+      "country_name": "Níger",
+      "index_strings": [],
+      "weight": 115
+    },
+    {
+      "type": "city",
+      "code": "ETM",
+      "name": "Eilat",
+      "country_code": "IL",
+      "country_name": "Israel",
+      "index_strings": [],
+      "weight": 124
+    },
+    {
+      "type": "city",
+      "code": "ELQ",
+      "name": "Buraydah",
+      "country_code": "SA",
+      "country_name": "Arabia Saudí",
+      "index_strings": [],
+      "weight": 639
+    },
+    {
+      "type": "city",
+      "code": "YWG",
+      "name": "Winnipeg",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1316
+    },
+    {
+      "type": "city",
+      "code": "WMX",
+      "name": "Wamena",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "index_strings": [],
+      "weight": 5
+    }
+  ],
+  "Mons": [
+    {
+      "type": "city",
+      "code": "MSQ",
+      "name": "Minsk",
+      "country_code": "BY",
+      "country_name": "Bielorrusia",
+      "index_strings": [],
+      "weight": 102595
+    },
+    {
+      "type": "city",
+      "code": "BSZ",
+      "name": "Biskek",
+      "country_code": "KG",
+      "country_name": "Kirguistán",
+      "index_strings": [],
+      "weight": 157307
+    },
+    {
+      "type": "city",
+      "code": "SGN",
+      "name": "Ciudad Ho Chi Minh",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "index_strings": [],
+      "weight": 44009
+    },
+    {
+      "type": "city",
+      "code": "MNI",
+      "name": "Montserrat",
+      "country_code": "MS",
+      "country_name": "Montserrat",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "HKG",
+      "name": "Hong Kong",
+      "country_code": "HK",
+      "country_name": "Hong Kong",
+      "index_strings": [],
+      "weight": 26873
+    },
+    {
+      "type": "airport",
+      "code": "PVG",
+      "name": "Pu Dong",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "city_code": "SHA",
+      "city_name": "Shanghái",
+      "index_strings": [],
+      "weight": 38080
+    },
+    {
+      "type": "airport",
+      "code": "DMK",
+      "name": "Don Mueang Intl",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "city_code": "BKK",
+      "city_name": "Bangkok",
+      "index_strings": [],
+      "weight": 20515
+    },
+    {
+      "type": "airport",
+      "code": "JFK",
+      "name": "John F Kennedy Intl",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "NYC",
+      "city_name": "Nueva York",
+      "index_strings": [],
+      "weight": 17223
+    },
+    {
+      "type": "city",
+      "code": "HMA",
+      "name": "Janti-Mansisk",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 8486
+    },
+    {
+      "type": "city",
+      "code": "CGN",
+      "name": "Colonia",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 109114
+    },
+    {
+      "type": "city",
+      "code": "LAX",
+      "name": "Los Ángeles",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 28963
+    },
+    {
+      "type": "airport",
+      "code": "LAX",
+      "name": "Los Angeles",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "city_code": "LAX",
+      "city_name": "Los Ángeles",
+      "index_strings": [],
+      "weight": 12482
+    },
+    {
+      "type": "city",
+      "code": "ISP",
+      "name": "Islip",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 753
+    },
+    {
+      "type": "city",
+      "code": "ДЖБ",
+      "name": "Manas",
+      "country_code": "KG",
+      "country_name": "Kirguistán",
+      "index_strings": [],
+      "weight": 752
+    },
+    {
+      "type": "city",
+      "code": "MBA",
+      "name": "Mombasa",
+      "country_code": "KE",
+      "country_name": "Kenia",
+      "index_strings": [],
+      "weight": 658
+    },
+    {
+      "type": "airport",
+      "code": "MEX",
+      "name": "Juarez & other airports",
+      "country_code": "MX",
+      "country_name": "México",
+      "city_code": "MEX",
+      "city_name": "Ciudad de México",
+      "index_strings": [],
+      "weight": 9838
+    },
+    {
+      "type": "city",
+      "code": "EYK",
+      "name": "Beloyarski (Janti-Mansi)",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 1183
+    },
+    {
+      "type": "city",
+      "code": "OVS",
+      "name": "Sovetski (Janti-Mansi)",
+      "country_code": "RU",
+      "country_name": "Rusia",
+      "index_strings": [],
+      "weight": 634
+    },
+    {
+      "type": "city",
+      "code": "PMI",
+      "name": "Palma de Mallorca",
+      "country_code": "ES",
+      "country_name": "España",
+      "index_strings": [],
+      "weight": 153037
+    },
+    {
+      "type": "city",
+      "code": "CUF",
+      "name": "Cuneo",
+      "country_code": "IT",
+      "country_name": "Italia",
+      "index_strings": [],
+      "weight": 501
+    }
+  ],
+  "Bergen": [
+    {
+      "type": "city",
+      "code": "BGO",
+      "name": "Bergen",
+      "country_code": "NO",
+      "country_name": "Noruega",
+      "index_strings": [],
+      "weight": 11494
+    },
+    {
+      "type": "city",
+      "code": "BER",
+      "name": "Berlín",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 200362
+    },
+    {
+      "type": "city",
+      "code": "BRU",
+      "name": "Bruselas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 63806
+    },
+    {
+      "type": "city",
+      "code": "КРФ",
+      "name": "Kerben",
+      "country_code": "KG",
+      "country_name": "Kirguistán",
+      "index_strings": [],
+      "weight": 208
+    },
+    {
+      "type": "city",
+      "code": "BRE",
+      "name": "Bremen",
+      "country_code": "DE",
+      "country_name": "Alemania",
+      "index_strings": [],
+      "weight": 5383
+    },
+    {
+      "type": "city",
+      "code": "ERL",
+      "name": "Eren Hot",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 34
+    },
+    {
+      "type": "city",
+      "code": "EWN",
+      "name": "New Bern",
+      "country_code": "US",
+      "country_name": "EE. UU.",
+      "index_strings": [],
+      "weight": 6
+    },
+    {
+      "type": "city",
+      "code": "BEL",
+      "name": "Belém",
+      "country_code": "BR",
+      "country_name": "Brasil",
+      "index_strings": [],
+      "weight": 106
+    },
+    {
+      "type": "city",
+      "code": "ANR",
+      "name": "Amberes",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 408
+    },
+    {
+      "type": "city",
+      "code": "BRN",
+      "name": "Bern",
+      "country_code": "CH",
+      "country_name": "Suiza",
+      "index_strings": [],
+      "weight": 34
+    },
+    {
+      "type": "city",
+      "code": "MFK",
+      "name": "Matsuyama",
+      "country_code": "TW",
+      "country_name": "Taiwán",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    },
+    {
+      "type": "city",
+      "code": "YBV",
+      "name": "Berens River",
+      "country_code": "CA",
+      "country_name": "Canadá",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "ABU",
+      "name": "Atambua",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "LGG",
+      "name": "Lieja",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "IQM",
+      "name": "Qiemo",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Dinant": [
+    {
+      "type": "city",
+      "code": "DAD",
+      "name": "Đà Nẵng",
+      "country_code": "VN",
+      "country_name": "Vietnam",
+      "index_strings": [],
+      "weight": 33901
+    },
+    {
+      "type": "city",
+      "code": "TNA",
+      "name": "Jinan",
+      "country_code": "CN",
+      "country_name": "República Popular China",
+      "index_strings": [],
+      "weight": 1762
+    },
+    {
+      "type": "city",
+      "code": "NTE",
+      "name": "Nantes",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 26530
+    },
+    {
+      "type": "city",
+      "code": "NNT",
+      "name": "Nantes",
+      "country_code": "TH",
+      "country_name": "Tailandia",
+      "index_strings": [],
+      "weight": 203
+    },
+    {
+      "type": "airport",
+      "code": "DSS",
+      "name": "Aeropuerto Internacional Blaise Diagne",
+      "country_code": "SN",
+      "country_name": "Senegal",
+      "city_code": "DKR",
+      "city_name": "Dakar",
+      "index_strings": [],
+      "weight": 2925
+    },
+    {
+      "type": "city",
+      "code": "UKA",
+      "name": "Ukunda",
+      "country_code": "KE",
+      "country_name": "Kenia",
+      "index_strings": [],
+      "weight": 30
+    },
+    {
+      "type": "city",
+      "code": "PGK",
+      "name": "Pangkalpinang",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "index_strings": [],
+      "weight": 12
+    },
+    {
+      "type": "city",
+      "code": "DNR",
+      "name": "Dinard",
+      "country_code": "FR",
+      "country_name": "Francia",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "TNJ",
+      "name": "Tanjung Pinang",
+      "country_code": "ID",
+      "country_name": "Indonesia",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "CNP",
+      "name": "Neerlerit Inaat",
+      "country_code": "GL",
+      "country_name": "Groenlandia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Durbuy": [
+    {
+      "type": "city",
+      "code": "DXB",
+      "name": "Dubái",
+      "country_code": "AE",
+      "country_name": "Emiratos Árabes Unidos",
+      "index_strings": [],
+      "weight": 152629
+    },
+    {
+      "type": "airport",
+      "code": "DXB",
+      "name": "Dubai International",
+      "country_code": "AE",
+      "country_name": "Emiratos Árabes Unidos",
+      "city_code": "DXB",
+      "city_name": "Dubái",
+      "index_strings": [],
+      "weight": 71193
+    },
+    {
+      "type": "airport",
+      "code": "DWC",
+      "name": "Aeropuerto Internacional Dubai World Central",
+      "country_code": "AE",
+      "country_name": "Emiratos Árabes Unidos",
+      "city_code": "DXB",
+      "city_name": "Dubái",
+      "index_strings": [],
+      "weight": 22816
+    },
+    {
+      "type": "city",
+      "code": "DUR",
+      "name": "Durban",
+      "country_code": "ZA",
+      "country_name": "Sudáfrica",
+      "index_strings": [],
+      "weight": 447
+    },
+    {
+      "type": "airport",
+      "code": "EMA",
+      "name": "East Midlands",
+      "country_code": "GB",
+      "country_name": "Reino Unido",
+      "city_code": "NQT",
+      "city_name": "Nottingham",
+      "index_strings": [],
+      "weight": 23
+    },
+    {
+      "type": "city",
+      "code": "DRB",
+      "name": "Derby",
+      "country_code": "AU",
+      "country_name": "Australia",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "La Roche-en-Ardenne": [],
+  "Bélgica": [
+    {
+      "type": "city",
+      "code": "BRU",
+      "name": "Bruselas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 63806
+    },
+    {
+      "type": "airport",
+      "code": "BRU",
+      "name": "National",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 24704
+    },
+    {
+      "type": "airport",
+      "code": "CRL",
+      "name": "Charleroi Brussels",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "city_code": "BRU",
+      "city_name": "Bruselas",
+      "index_strings": [],
+      "weight": 5556
+    },
+    {
+      "type": "city",
+      "code": "ANR",
+      "name": "Amberes",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 408
+    },
+    {
+      "type": "city",
+      "code": "OST",
+      "name": "Brujas",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 729
+    },
+    {
+      "type": "city",
+      "code": "LGG",
+      "name": "Lieja",
+      "country_code": "BE",
+      "country_name": "Bélgica",
+      "index_strings": [],
+      "weight": 2
+    }
+  ]
+}

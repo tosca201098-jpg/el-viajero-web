@@ -12,9 +12,9 @@ const baseline=require('./fixtures/pre-netherlands-catalog.json'),provider=requi
 const digest=v=>crypto.createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
 const locales=['es','en','fr','de','it','pt','ca'];
 
-test('Netherlands adds twelve profiles to 125 unique identities; all previous 113 and original cards stay identical',()=>{
- assert.equal(baseline.profiles.length,113);assert.equal(netherlands.length,12);assert.equal(catalog.destinationProfiles.length,125);
- assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,125);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,125);
+test('Netherlands adds twelve profiles to 137 unique identities; all previous 113 and original cards stay identical',()=>{
+ assert.equal(baseline.profiles.length,113);assert.equal(netherlands.length,12);assert.equal(catalog.destinationProfiles.length,137);
+ assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,137);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,137);
  for(const [name,id] of [['Roterdão','nl-rotterdam-kinderdijk'],['La Haye','nl-the-hague-scheveningen'],["L'Aia",'nl-the-hague-scheveningen'],['Haia','nl-the-hague-scheveningen'],['La Haia','nl-the-hague-scheveningen']])assert.equal(catalog.findDestinationProfile({name})?.id,id,name);
  for(const d of baseline.profiles)assert.equal(digest(catalog.getDestinationById(d.id)),d.sha256,d.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
