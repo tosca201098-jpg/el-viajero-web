@@ -44,7 +44,7 @@ Las doce imágenes son miniaturas directas de Wikimedia Commons de 960 px. `lib/
 
 Las pruebas automáticas verifican 149 IDs/slugs únicos, huellas de las 137 fichas anteriores, 16 tarjetas editoriales y 16 por temporada, los siete idiomas, selección contextual de las doce fichas, IATA y alias, los sectores de EuroAirport, LUG informativo y ausencia de tarjetas automáticas. El fixture del proveedor hace reproducibles los casos sin usar token. Las pruebas de voz, IA, Supabase y precios se mantienen simuladas; no se invocan servicios de pago.
 
-En la rama local: **292 pruebas aprobadas**, TypeScript sin errores, lint con advertencias previas sobre `<img>` y compilación de producción correcta. Las 12 miniaturas se comprobaron con HTTP HEAD y devolvieron 200. El navegador integrado no pudo alcanzar el servidor local de Windows; la inspección visual de escritorio y móvil queda para la Preview de Vercel.
+En la rama local: **292 pruebas aprobadas**, TypeScript sin errores, lint con advertencias previas sobre `<img>` y compilación de producción correcta. Las 12 miniaturas se comprobaron con HTTP HEAD y devolvieron 200. El navegador integrado no pudo alcanzar el servidor local de Windows; por ello se inspeccionó la Preview de Vercel. En ella se abrieron las doce fichas y cargaron sus imágenes. A 390 y 1280 px no hubo desbordamiento horizontal; el modal mantuvo scroll interno. Se comprobó la ficha de Basilea en los siete idiomas y el autocompletado real para BSL, MLH, EAP, BRN, ACH, SIR y LUG. La selección de Basilea no abrió la ficha hasta pulsar el acceso contextual. En Preview se contaron 16 tarjetas en portada y 16 en cada temporada, además de los doce enlaces mensuales.
 
 La configuración de Vercel, las credenciales, dependencias, SEO, rutas, vuelos, voz, hoteles y mantenimiento diario no se modifican. Los siete avisos High de la cadena de desarrollo ya documentados en la incidencia #16 permanecen visibles; esta PR no intenta ocultarlos ni altera dependencias.
 
@@ -60,3 +60,4 @@ La configuración de Vercel, las credenciales, dependencias, SEO, rutas, vuelos,
 - Switzerland Tourism, Lavaux: https://www.myswitzerland.com/en-ch/destinations/lavaux-vineyard-terraces/
 - Switzerland Tourism, Jungfraujoch: https://help.myswitzerland.com/hc/en-us/articles/213127689-How-can-I-travel-up-the-Jungfraujoch-mountain-by-train
 - Catálogos públicos del proveedor: https://api.travelpayouts.com/data/en/airports.json y https://api.travelpayouts.com/data/en/cities.json
+
