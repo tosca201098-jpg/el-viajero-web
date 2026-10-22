@@ -1065,9 +1065,9 @@ function abrirPaquete(destino = "") {
       {/* DESTINOS */}
       <section
         id="destinos"
-        className="relative z-10 mx-auto max-w-7xl px-6 py-24"
+        className="relative z-10 mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-14"
       >
-        <div className="mb-12 text-center max-sm:mb-4">
+        <div className="mb-7 text-center max-sm:mb-4">
           <h2 className="text-4xl font-black md:text-6xl">
             {t("destinations.title")}
           </h2>
@@ -1077,17 +1077,17 @@ function abrirPaquete(destino = "") {
           </p>
         </div>
 
-        <div className="space-y-10">
+        <div className="space-y-7 sm:space-y-8">
           {homeCountryGroups.map((group) => {
             const countryName = homeCountryName(group, language);
             return (
               <div key={group.countryCode} aria-label={countryName} className="scroll-mt-24">
-                <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-cyan-800/20 pb-3">
-                  <h3 className="text-2xl font-black text-slate-900 sm:text-3xl">
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-2 border-b border-cyan-800/20 pb-2">
+                  <h3 className="text-xl font-black text-slate-900 sm:text-2xl">
                     {countryName.toLocaleUpperCase(language)}
                   </h3>
                 </div>
-                <div id={`country-cards-${group.countryCode}`} className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+                <div id={`country-cards-${group.countryCode}`} className="grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-6">
                   {group.cards.map((destino) => {
                     const profile = 'id' in destino && typeof destino.id === 'string'
                       ? getDestinationById(destino.id) : undefined;
@@ -1096,9 +1096,9 @@ function abrirPaquete(destino = "") {
                     return (
                       <article
                         key={profile?.id ?? destino.name}
-                        className="group flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 max-sm:hover:translate-y-0"
+                        className="group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.05] shadow-lg transition duration-300 hover:-translate-y-1 hover:border-cyan-300/30 max-sm:hover:translate-y-0"
                       >
-                        <div className="relative h-[180px] shrink-0 overflow-hidden sm:h-[164px] lg:h-[124px] max-sm:h-[104px]">
+                        <div className="relative h-24 shrink-0 overflow-hidden sm:h-28 lg:h-32 xl:h-28">
                           <img
                             src={destino.image}
                             alt={`${display.name}, ${country}`}
@@ -1106,23 +1106,21 @@ function abrirPaquete(destino = "") {
                             className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
-                          <div className="absolute bottom-2.5 left-2.5 right-2.5 max-sm:bottom-2 max-sm:left-2 max-sm:right-2">
-                            <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs max-sm:leading-[14px]">
-                              {destino.emoji ?? group.flag} {country}
-                            </p>
-                            <h4 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-sm max-sm:leading-4">
+                          <div className="absolute bottom-2 left-2 right-2">
+                            <p className="text-xs leading-4 text-cyan-200">{country}</p>
+                            <h4 className="mt-0.5 line-clamp-2 text-sm font-black leading-4 text-white sm:text-base sm:leading-5">
                               {display.name}
                             </h4>
                           </div>
                         </div>
-                        <div className="flex flex-1 flex-col p-2.5 lg:p-2 max-sm:p-2">
-                          <p className="flex-1 text-[13px] leading-[18px] text-stone-700 max-sm:line-clamp-2 max-sm:h-8 max-sm:flex-none max-sm:text-xs max-sm:leading-4">
+                        <div className="flex flex-1 flex-col p-2">
+                          <p className="line-clamp-2 min-h-8 flex-1 text-xs leading-4 text-stone-700">
                             {text(display.description)}
                           </p>
                           <button
                             type="button"
                             onClick={() => openDestinationProfile(destino)}
-                            className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950 max-sm:mt-1 max-sm:min-h-[44px] max-sm:px-1 max-sm:py-0 max-sm:text-xs max-sm:leading-4"
+                            className="mt-1.5 flex min-h-11 w-full items-center justify-center rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-center text-xs leading-4 font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600"
                           >
                             {t("destinations.explore", { destination: display.name })}
                           </button>
