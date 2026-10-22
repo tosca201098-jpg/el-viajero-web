@@ -134,7 +134,6 @@ const fondos = [
 ];
 export default function Home() {
   const { t, text, language } = useLanguage();
-  const [expandedCountries, setExpandedCountries] = useState<Record<string, boolean>>({});
   const homeCountryGroups = getHomepageCountryGroups();
   const [authMode, setAuthMode] = useState<"signup" | "signin" | null>(null);
   const [fondoActual, setFondoActual] = useState(0);
@@ -1080,21 +1079,16 @@ function abrirPaquete(destino = "") {
 
         <div className="space-y-10">
           {homeCountryGroups.map((group) => {
-            const expanded = expandedCountries[group.countryCode] === true;
-            const visibleCards = expanded ? group.cards : group.cards.slice(0, 4);
             const countryName = homeCountryName(group, language);
             return (
               <div key={group.countryCode} aria-label={countryName} className="scroll-mt-24">
                 <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-cyan-800/20 pb-3">
                   <h3 className="text-2xl font-black text-slate-900 sm:text-3xl">
-                    <span aria-hidden="true">{group.flag}</span> {countryName.toLocaleUpperCase(language)}
+                    {countryName.toLocaleUpperCase(language)}
                   </h3>
-                  <span className="text-sm font-semibold text-stone-600">
-                    {t("destinations.countryCount", { count: String(group.cards.length) })}
-                  </span>
                 </div>
                 <div id={`country-cards-${group.countryCode}`} className="grid grid-cols-2 gap-2 lg:grid-cols-4">
-                  {visibleCards.map((destino) => {
+                  {group.cards.map((destino) => {
                     const profile = 'id' in destino && typeof destino.id === 'string'
                       ? getDestinationById(destino.id) : undefined;
                     const display = profile ? getDestinationText(profile, language) : destinationDisplay(destino, language);
@@ -1137,19 +1131,7 @@ function abrirPaquete(destino = "") {
                     );
                   })}
                 </div>
-                {group.cards.length > 4 && (
-                  <div className="mt-4 text-center">
-                    <button
-                      type="button"
-                      aria-controls={`country-cards-${group.countryCode}`}
-                      aria-expanded={expanded}
-                      onClick={() => setExpandedCountries(current => ({ ...current, [group.countryCode]: !current[group.countryCode] }))}
-                      className="min-h-11 rounded-xl border border-blue-500 bg-white/80 px-5 py-2 text-sm font-bold text-blue-800 hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600"
-                    >
-                      {expanded ? t("destinations.showLess") : t("destinations.showMore", { count: String(group.cards.length - 4) })}
-                    </button>
-                  </div>
-                )}
+
               </div>
             );
           })}
