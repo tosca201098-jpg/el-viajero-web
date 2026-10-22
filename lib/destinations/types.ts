@@ -25,6 +25,8 @@ export type DestinationProfile = DestinationText & {
   countryCode: string;
   /** ISO 3166-2 canton abbreviations for the Swiss catalog (including grouped regions). */
   cantons?: string[];
+  /** ISO 3166-2 state abbreviations for the Austrian catalog. */
+  federalStates?: string[];
   /** Legacy Spanish display value, retained for existing consumers and saved data. */
   country: string;
   airports: DestinationAirport[];

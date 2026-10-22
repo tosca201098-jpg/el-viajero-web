@@ -24,7 +24,8 @@ const germany = load('lib/destinations/germany.ts', { './germany-images': load('
 const netherlands = load('lib/destinations/netherlands.ts', { './netherlands-images': load('lib/destinations/netherlands-images.ts') });
 const belgium = load('lib/destinations/belgium.ts', { './belgium-images': load('lib/destinations/belgium-images.ts') });
 const switzerland = load('lib/destinations/switzerland.ts', { './switzerland-images': load('lib/destinations/switzerland-images.ts') });
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland });
+const austria = load('lib/destinations/austria.ts', { './austria-images': load('lib/destinations/austria-images.ts') });
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria });
 const formatting = load('lib/destinations/seasonality.ts');
 const { locales } = load('lib/i18n/translations.ts');
 

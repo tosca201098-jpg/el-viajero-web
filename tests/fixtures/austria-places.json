@@ -1,0 +1,872 @@
+{
+  "VIE": [
+    {
+      "type": "city",
+      "code": "VIE",
+      "name": "Viena",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 91294
+    },
+    {
+      "type": "city",
+      "code": "NHA",
+      "name": "Nha Trang",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 72417
+    },
+    {
+      "type": "city",
+      "code": "SGN",
+      "name": "Ciudad Ho Chi Minh",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 42472
+    },
+    {
+      "type": "city",
+      "code": "PQC",
+      "name": "Phu Quoc",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 34424
+    },
+    {
+      "type": "airport",
+      "code": "CXR",
+      "name": "Cam Ranh",
+      "country_code": "VN",
+      "city_code": "NHA",
+      "city_name": "Nha Trang",
+      "index_strings": [],
+      "weight": 43290
+    },
+    {
+      "type": "city",
+      "code": "DAD",
+      "name": "Đà Nẵng",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 32964
+    },
+    {
+      "type": "city",
+      "code": "HAN",
+      "name": "Hanói",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 43411
+    },
+    {
+      "type": "city",
+      "code": "VTE",
+      "name": "Vientián",
+      "country_code": "LA",
+      "index_strings": [],
+      "weight": 2498
+    },
+    {
+      "type": "city",
+      "code": "DLI",
+      "name": "Đà Lạt",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 1229
+    },
+    {
+      "type": "city",
+      "code": "UIH",
+      "name": "Quy Nhơn",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 387
+    },
+    {
+      "type": "city",
+      "code": "HPH",
+      "name": "Hải Phòng",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 1173
+    },
+    {
+      "type": "city",
+      "code": "VCS",
+      "name": "Con Dao",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 454
+    },
+    {
+      "type": "city",
+      "code": "VDH",
+      "name": "ong Hoi",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 177
+    },
+    {
+      "type": "city",
+      "code": "BMV",
+      "name": "Buon Ma Thuot",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 29
+    },
+    {
+      "type": "city",
+      "code": "VCA",
+      "name": "Cần Thơ",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 111
+    },
+    {
+      "type": "city",
+      "code": "HUI",
+      "name": "Hué",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 175
+    },
+    {
+      "type": "city",
+      "code": "VII",
+      "name": "Vinh City",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 122
+    },
+    {
+      "type": "city",
+      "code": "VDM",
+      "name": "Viedma",
+      "country_code": "AR",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "VQS",
+      "name": "Vieques",
+      "country_code": "PR",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "OXB",
+      "name": "Bissáu",
+      "country_code": "GW",
+      "index_strings": [],
+      "weight": 1061
+    }
+  ],
+  "SZG": [
+    {
+      "type": "city",
+      "code": "SZG",
+      "name": "Salzburgo",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 8968
+    }
+  ],
+  "INN": [
+    {
+      "type": "city",
+      "code": "INN",
+      "name": "Innsbruck",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 2352
+    },
+    {
+      "type": "city",
+      "code": "TRE",
+      "name": "Tiree",
+      "country_code": "GB",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "airport",
+      "code": "YWH",
+      "name": "Victoria",
+      "country_code": "CA",
+      "city_code": "YYJ",
+      "city_name": "Victoria",
+      "index_strings": [],
+      "weight": 2
+    },
+    {
+      "type": "city",
+      "code": "YYJ",
+      "name": "Victoria",
+      "country_code": "CA",
+      "index_strings": [],
+      "weight": 659
+    },
+    {
+      "type": "city",
+      "code": "JNH",
+      "name": "Jiaxing",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "GRZ": [
+    {
+      "type": "city",
+      "code": "GRZ",
+      "name": "Graz",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 3453
+    }
+  ],
+  "LNZ": [
+    {
+      "type": "city",
+      "code": "LNZ",
+      "name": "Linz",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 355
+    }
+  ],
+  "KLU": [
+    {
+      "type": "city",
+      "code": "KLU",
+      "name": "Klagenfurt",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 621
+    },
+    {
+      "type": "city",
+      "code": "CLJ",
+      "name": "Cluj Napoca",
+      "country_code": "RO",
+      "index_strings": [],
+      "weight": 3931
+    }
+  ],
+  "Viena": [
+    {
+      "type": "city",
+      "code": "VIE",
+      "name": "Viena",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 91294
+    },
+    {
+      "type": "city",
+      "code": "NHA",
+      "name": "Nha Trang",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 72417
+    },
+    {
+      "type": "city",
+      "code": "PQC",
+      "name": "Phu Quoc",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 34424
+    },
+    {
+      "type": "city",
+      "code": "SGN",
+      "name": "Ciudad Ho Chi Minh",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 42472
+    },
+    {
+      "type": "city",
+      "code": "DAD",
+      "name": "Đà Nẵng",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 32964
+    },
+    {
+      "type": "city",
+      "code": "HAN",
+      "name": "Hanói",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 43411
+    },
+    {
+      "type": "city",
+      "code": "BJS",
+      "name": "Pekín",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 83987
+    },
+    {
+      "type": "city",
+      "code": "SHA",
+      "name": "Shanghái",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 84349
+    },
+    {
+      "type": "city",
+      "code": "CAN",
+      "name": "Cantón",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 85865
+    },
+    {
+      "type": "city",
+      "code": "SYX",
+      "name": "Sanya",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 36511
+    },
+    {
+      "type": "city",
+      "code": "CTU",
+      "name": "Chengdu",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 12579
+    },
+    {
+      "type": "city",
+      "code": "DLI",
+      "name": "Đà Lạt",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 1229
+    },
+    {
+      "type": "city",
+      "code": "VAR",
+      "name": "Varna",
+      "country_code": "BG",
+      "index_strings": [],
+      "weight": 10262
+    },
+    {
+      "type": "city",
+      "code": "CKG",
+      "name": "Chongqing",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 10495
+    },
+    {
+      "type": "city",
+      "code": "HRB",
+      "name": "Harbin",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 7736
+    },
+    {
+      "type": "city",
+      "code": "VNO",
+      "name": "Vilna",
+      "country_code": "LT",
+      "index_strings": [],
+      "weight": 25611
+    },
+    {
+      "type": "city",
+      "code": "SZX",
+      "name": "Shenzhen",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 10179
+    },
+    {
+      "type": "city",
+      "code": "SIA",
+      "name": "Xi'an",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 9234
+    },
+    {
+      "type": "airport",
+      "code": "TFS",
+      "name": "Sur Reina Sofia",
+      "country_code": "ES",
+      "city_code": "TCI",
+      "city_name": "Tenerife",
+      "index_strings": [],
+      "weight": 18138
+    },
+    {
+      "type": "city",
+      "code": "HGH",
+      "name": "Hangzhou",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 10774
+    }
+  ],
+  "Salzburgo": [
+    {
+      "type": "city",
+      "code": "SZG",
+      "name": "Salzburgo",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 8968
+    }
+  ],
+  "Innsbruck": [
+    {
+      "type": "city",
+      "code": "INN",
+      "name": "Innsbruck",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 2352
+    }
+  ],
+  "Graz": [
+    {
+      "type": "city",
+      "code": "GRZ",
+      "name": "Graz",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 3453
+    },
+    {
+      "type": "city",
+      "code": "DXB",
+      "name": "Dubái",
+      "country_code": "AE",
+      "index_strings": [],
+      "weight": 156267
+    },
+    {
+      "type": "city",
+      "code": "ATA",
+      "name": "Anta",
+      "country_code": "PE",
+      "index_strings": [],
+      "weight": 1
+    },
+    {
+      "type": "city",
+      "code": "DPS",
+      "name": "Denpasar (Bali)",
+      "country_code": "ID",
+      "index_strings": [],
+      "weight": 73179
+    },
+    {
+      "type": "city",
+      "code": "BCN",
+      "name": "Barcelona",
+      "country_code": "ES",
+      "index_strings": [],
+      "weight": 291895
+    },
+    {
+      "type": "city",
+      "code": "AUH",
+      "name": "Abu Dhabi",
+      "country_code": "AE",
+      "index_strings": [],
+      "weight": 23468
+    },
+    {
+      "type": "city",
+      "code": "GOI",
+      "name": "Goa",
+      "country_code": "IN",
+      "index_strings": [],
+      "weight": 10398
+    },
+    {
+      "type": "airport",
+      "code": "GOI",
+      "name": "Dabolim",
+      "country_code": "IN",
+      "city_code": "GOI",
+      "city_name": "Goa",
+      "index_strings": [],
+      "weight": 5191
+    },
+    {
+      "type": "city",
+      "code": "PRG",
+      "name": "Praga",
+      "country_code": "CZ",
+      "index_strings": [],
+      "weight": 63445
+    },
+    {
+      "type": "city",
+      "code": "URJ",
+      "name": "Uraj",
+      "country_code": "RU",
+      "index_strings": [],
+      "weight": 636
+    },
+    {
+      "type": "city",
+      "code": "MUC",
+      "name": "Múnich",
+      "country_code": "DE",
+      "index_strings": [],
+      "weight": 108951
+    },
+    {
+      "type": "city",
+      "code": "JED",
+      "name": "Yeda",
+      "country_code": "SA",
+      "index_strings": [],
+      "weight": 41024
+    },
+    {
+      "type": "city",
+      "code": "SHJ",
+      "name": "Sarja",
+      "country_code": "AE",
+      "index_strings": [],
+      "weight": 17661
+    },
+    {
+      "type": "city",
+      "code": "URA",
+      "name": "Uralsk",
+      "country_code": "KZ",
+      "index_strings": [],
+      "weight": 6429
+    },
+    {
+      "type": "airport",
+      "code": "SPX",
+      "name": "Giza Sphinx",
+      "country_code": "EG",
+      "city_code": "CAI",
+      "city_name": "El Cairo",
+      "index_strings": [],
+      "weight": 2303
+    },
+    {
+      "type": "city",
+      "code": "MRU",
+      "name": "Port Louis",
+      "country_code": "MU",
+      "index_strings": [],
+      "weight": 6744
+    },
+    {
+      "type": "city",
+      "code": "LPA",
+      "name": "Palmas de Gran Canaria",
+      "country_code": "ES",
+      "index_strings": [],
+      "weight": 27006
+    },
+    {
+      "type": "city",
+      "code": "THR",
+      "name": "Teherán",
+      "country_code": "IR",
+      "index_strings": [],
+      "weight": 3650
+    },
+    {
+      "type": "city",
+      "code": "TCI",
+      "name": "Tenerife",
+      "country_code": "ES",
+      "index_strings": [],
+      "weight": 34975
+    },
+    {
+      "type": "city",
+      "code": "RUH",
+      "name": "Riad",
+      "country_code": "SA",
+      "index_strings": [],
+      "weight": 9682
+    }
+  ],
+  "Linz": [
+    {
+      "type": "city",
+      "code": "LNZ",
+      "name": "Linz",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 355
+    },
+    {
+      "type": "city",
+      "code": "LZY",
+      "name": "Nyingchi",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 5
+    },
+    {
+      "type": "city",
+      "code": "BJS",
+      "name": "Pekín",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 83987
+    },
+    {
+      "type": "city",
+      "code": "SHA",
+      "name": "Shanghái",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 84349
+    },
+    {
+      "type": "city",
+      "code": "SGN",
+      "name": "Ciudad Ho Chi Minh",
+      "country_code": "VN",
+      "index_strings": [],
+      "weight": 42472
+    },
+    {
+      "type": "city",
+      "code": "CAN",
+      "name": "Cantón",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 85865
+    },
+    {
+      "type": "city",
+      "code": "SYX",
+      "name": "Sanya",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 36511
+    },
+    {
+      "type": "city",
+      "code": "BUD",
+      "name": "Buda",
+      "country_code": "HU",
+      "index_strings": [],
+      "weight": 80158
+    },
+    {
+      "type": "city",
+      "code": "FOG",
+      "name": "Foggia",
+      "country_code": "IT",
+      "index_strings": [],
+      "weight": 921
+    },
+    {
+      "type": "city",
+      "code": "CTU",
+      "name": "Chengdu",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 12579
+    },
+    {
+      "type": "city",
+      "code": "LYS",
+      "name": "Lyon",
+      "country_code": "FR",
+      "index_strings": [],
+      "weight": 29052
+    },
+    {
+      "type": "city",
+      "code": "CKG",
+      "name": "Chongqing",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 10495
+    },
+    {
+      "type": "city",
+      "code": "HRB",
+      "name": "Harbin",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 7736
+    },
+    {
+      "type": "city",
+      "code": "MED",
+      "name": "Madinah",
+      "country_code": "SA",
+      "index_strings": [],
+      "weight": 21581
+    },
+    {
+      "type": "city",
+      "code": "SZX",
+      "name": "Shenzhen",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 10179
+    },
+    {
+      "type": "city",
+      "code": "JED",
+      "name": "Yeda",
+      "country_code": "SA",
+      "index_strings": [],
+      "weight": 41024
+    },
+    {
+      "type": "city",
+      "code": "SIA",
+      "name": "Xi'an",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 9234
+    },
+    {
+      "type": "city",
+      "code": "HGH",
+      "name": "Hangzhou",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 10774
+    },
+    {
+      "type": "city",
+      "code": "QSF",
+      "name": "Sétif",
+      "country_code": "DZ",
+      "index_strings": [],
+      "weight": 6488
+    },
+    {
+      "type": "city",
+      "code": "DYG",
+      "name": "Dayong",
+      "country_code": "CN",
+      "index_strings": [],
+      "weight": 2710
+    }
+  ],
+  "Klagenfurt": [
+    {
+      "type": "city",
+      "code": "KLU",
+      "name": "Klagenfurt",
+      "country_code": "AT",
+      "index_strings": [],
+      "weight": 621
+    }
+  ],
+  "Hallstatt": [],
+  "Zell am See": [],
+  "Kitzbühel": [],
+  "Bregenz": [
+    {
+      "type": "city",
+      "code": "BGO",
+      "name": "Bergen",
+      "country_code": "NO",
+      "index_strings": [],
+      "weight": 19712
+    },
+    {
+      "type": "city",
+      "code": "BRE",
+      "name": "Bremen",
+      "country_code": "DE",
+      "index_strings": [],
+      "weight": 5031
+    }
+  ],
+  "Wachau": [
+    {
+      "type": "city",
+      "code": "WAW",
+      "name": "Varsovia",
+      "country_code": "PL",
+      "index_strings": [],
+      "weight": 79425
+    },
+    {
+      "type": "airport",
+      "code": "WAW",
+      "name": "Frederic Chopin & other airports",
+      "country_code": "PL",
+      "city_code": "WAW",
+      "city_name": "Varsovia",
+      "index_strings": [],
+      "weight": 44860
+    },
+    {
+      "type": "city",
+      "code": "MFM",
+      "name": "Macao",
+      "country_code": "MO",
+      "index_strings": [],
+      "weight": 1182
+    },
+    {
+      "type": "city",
+      "code": "PEW",
+      "name": "Peshawar",
+      "country_code": "PK",
+      "index_strings": [],
+      "weight": 369
+    },
+    {
+      "type": "airport",
+      "code": "CWA",
+      "name": "Central Wisconsin",
+      "country_code": "US",
+      "city_code": "AUW",
+      "city_name": "Wausau",
+      "index_strings": [],
+      "weight": 11
+    },
+    {
+      "type": "city",
+      "code": "AUW",
+      "name": "Wausau",
+      "country_code": "US",
+      "index_strings": [],
+      "weight": 14
+    },
+    {
+      "type": "city",
+      "code": "BCM",
+      "name": "Bacău",
+      "country_code": "RO",
+      "index_strings": [],
+      "weight": 1909
+    },
+    {
+      "type": "city",
+      "code": "KGE",
+      "name": "Kagau",
+      "country_code": "SB",
+      "index_strings": [],
+      "weight": 1
+    }
+  ],
+  "Bad Gastein": []
+}
