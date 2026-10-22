@@ -13,7 +13,7 @@ type Suggestion = {
   cityCode: string | null;
   physicalCityName?: string;
   scheduledPassengerService?: boolean;
-  serviceNotice?: 'noScheduledFlights' | 'antwerpTuiEnds' | 'charleroiTransfer';
+  serviceNotice?: 'noScheduledFlights' | 'antwerpTuiEnds' | 'charleroiTransfer' | 'euroAirportShared' | 'limitedSeasonalFlights';
 };
 
 type Props = {

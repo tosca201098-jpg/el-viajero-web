@@ -14,8 +14,8 @@ const digest=v=>crypto.createHash('sha256').update(typeof v==='string'?v:JSON.st
 const locales=['es','en','fr','de','it','pt','ca'];
 
 test('Germany adds twelve unique profiles; all 101 existing profiles and original editorial cards remain identical',()=>{
- assert.equal(baseline.profiles.length,101);assert.equal(germany.length,12);assert.equal(catalog.destinationProfiles.length,137);
- assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,137);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,137);
+ assert.equal(baseline.profiles.length,101);assert.equal(germany.length,12);assert.equal(catalog.destinationProfiles.length,149);
+ assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,149);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,149);
  for(const d of baseline.profiles)assert.equal(digest(catalog.getDestinationById(d.id)),d.sha256,d.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
  for(const[season,sha]of Object.entries(baseline.seasonFiles))assert.equal(digest(fs.readFileSync(path.join(root,'app/temporadas/'+season+'/page.tsx'),'utf8').replace(/\r\n/g,'\n')),sha);
@@ -92,7 +92,7 @@ test('Heidelberg and Freiburg use explicit access airports without claiming a lo
  assert.equal(input(freiburg,'BSL'),'Basilea');assert.equal(input(heidelberg,'STR'),'Stuttgart');
  for(const p of provider.crossBorder){
   assert.equal(p.physicalCountryCode,'FR');assert.equal(p.providerCountryCode,'CH');assert.ok(!airports.some(a=>a.code===p.iataCode));
-  const results=await endpoint().search(p.iataCode);assert.equal(results[0].country,'Suiza');assert.notEqual(results[0].country,'Alemania');
+  const results=await endpoint().search(p.iataCode);assert.equal(results[0].country,'Francia');assert.notEqual(results[0].country,'Alemania');
  }
 });
 
