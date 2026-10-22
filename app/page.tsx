@@ -1073,7 +1073,12 @@ function abrirPaquete(destino = "") {
             {t("destinations.title")}
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-sto        <div className="space-y-10">
+          <p className="mx-auto mt-5 max-w-2xl text-stone-700">
+            {t("destinations.description")}
+          </p>
+        </div>
+
+        <div className="space-y-10">
           {homeCountryGroups.map((group) => {
             const expanded = expandedCountries[group.countryCode] === true;
             const visibleCards = expanded ? group.cards : group.cards.slice(0, 4);
@@ -1148,11 +1153,6 @@ function abrirPaquete(destino = "") {
               </div>
             );
           })}
-        </div>
-          </div>
-            </article>
-          ))}
-        </div>
         </div>
       </section>
 {/* VIAJAR SEGÚN LA TEMPORADA */}
