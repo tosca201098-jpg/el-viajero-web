@@ -17,6 +17,7 @@ import { findDestinationProfile, getDestinationById, normalizeDestinationName } 
 import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
 import { destinationFromPlaceSelection, accessAirportSearchInput } from '@/lib/destinations/selection';
 import { destinations, type Destination } from "@/lib/destinations/featured";
+import { getHomepageCountryGroups, homeCountryName } from "@/lib/destinations/home-country-groups";
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
@@ -70,7 +71,7 @@ type DiscoverState =
 function localizedCatalogProfile(destination: Destination | null) {
   const profile = destination && 'id' in destination && typeof destination.id === 'string'
     ? getDestinationById(destination.id) : undefined;
-  return profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE'].includes(profile.countryCode) ? profile : undefined;
+  return profile;
 }
 function destinationDisplay(destination: Destination, locale: Locale) {
   const profile = localizedCatalogProfile(destination);
@@ -133,7 +134,8 @@ const fondos = [
 ];
 export default function Home() {
   const { t, text, language } = useLanguage();
-  const destinationsCarouselRef = useRef<HTMLDivElement | null>(null);
+  const [expandedCountries, setExpandedCountries] = useState<Record<string, boolean>>({});
+  const homeCountryGroups = getHomepageCountryGroups();
   const [authMode, setAuthMode] = useState<"signup" | "signin" | null>(null);
   const [fondoActual, setFondoActual] = useState(0);
   const [temporada, setTemporada] = useState("primavera");
@@ -1071,77 +1073,83 @@ function abrirPaquete(destino = "") {
             {t("destinations.title")}
           </h2>
 
-          <p className="mx-auto mt-5 max-w-2xl text-stone-700">
-            {t("destinations.description")}
-          </p>
-        </div>
-
-        <div className="contents max-sm:relative max-sm:block">
-        <div className="mb-2 flex justify-end sm:hidden max-sm:absolute max-sm:-right-3 max-sm:top-1/2 max-sm:z-10 max-sm:mb-0 max-sm:-translate-y-1/2">
-          <button
-            type="button"
-            aria-label={t("destinations.next")}
-            aria-controls="destinations-carousel"
-            onClick={() => {
-              const carousel = destinationsCarouselRef.current;
-              const card = carousel?.querySelector("article");
-              if (!carousel || !card) return;
-              carousel.scrollBy({
-                left: card.getBoundingClientRect().width + 8,
-                behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-              });
-            }}
-            className="flex h-11 w-11 items-center justify-center rounded-full border border-cyan-800/20 bg-white/60 text-xl text-cyan-800 transition hover:bg-white"
-          >
-            <span aria-hidden="true">→</span>
-          </button>
-        </div>
-        <div
-          ref={destinationsCarouselRef}
-          id="destinations-carousel"
-          role="region"
-          aria-label={t("destinations.region")}
-          tabIndex={0}
-          className="mx-auto grid max-w-full gap-2 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 md:landscape:grid-cols-4 xl:grid-cols-4"
-        >
-          {destinations.map((destino) => (
-            <article
-              key={destino.name}
-              className="group flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 max-sm:snap-start max-sm:hover:translate-y-0"
-            >
-              <div className="relative h-[180px] shrink-0 overflow-hidden sm:h-[164px] lg:h-[124px] max-sm:h-[104px]">
-                <img
-                  src={destino.image}
-                  alt={`${destinationDisplay(destino, language).name}, ${destinationCountry(destino, language)}`}
-                  className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
-                />
-
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
-
-                <div className="absolute bottom-2.5 left-2.5 right-2.5 max-sm:bottom-2 max-sm:left-2 max-sm:right-2">
-                  <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs max-sm:leading-[14px]">
-                    {destino.emoji ?? (localizedCatalogProfile(destino)?.countryCode === 'BE' ? '🇧🇪' : localizedCatalogProfile(destino)?.countryCode === 'NL' ? '🇳🇱' : localizedCatalogProfile(destino)?.countryCode === 'DE' ? '🇩🇪' : localizedCatalogProfile(destino)?.countryCode === 'GB' ? '🇬🇧' : localizedCatalogProfile(destino)?.countryCode === 'IT' ? '🇮🇹' : localizedCatalogProfile(destino) ? '🇫🇷' : '')} {destinationCountry(destino, language)}
-                  </p>
-
-                  <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-sm max-sm:leading-4">
-                    {destinationDisplay(destino, language).name}
+          <p className="mx-auto mt-5 max-w-2xl text-sto        <div className="space-y-10">
+          {homeCountryGroups.map((group) => {
+            const expanded = expandedCountries[group.countryCode] === true;
+            const visibleCards = expanded ? group.cards : group.cards.slice(0, 4);
+            const countryName = homeCountryName(group, language);
+            return (
+              <div key={group.countryCode} aria-label={countryName} className="scroll-mt-24">
+                <div className="mb-4 flex flex-wrap items-center justify-between gap-2 border-b border-cyan-800/20 pb-3">
+                  <h3 className="text-2xl font-black text-slate-900 sm:text-3xl">
+                    <span aria-hidden="true">{group.flag}</span> {countryName.toLocaleUpperCase(language)}
                   </h3>
+                  <span className="text-sm font-semibold text-stone-600">
+                    {t("destinations.countryCount", { count: String(group.cards.length) })}
+                  </span>
                 </div>
+                <div id={`country-cards-${group.countryCode}`} className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+                  {visibleCards.map((destino) => {
+                    const profile = 'id' in destino && typeof destino.id === 'string'
+                      ? getDestinationById(destino.id) : undefined;
+                    const display = profile ? getDestinationText(profile, language) : destinationDisplay(destino, language);
+                    const country = profile ? getDestinationCountryName(profile, language) : destinationCountry(destino, language);
+                    return (
+                      <article
+                        key={profile?.id ?? destino.name}
+                        className="group flex min-w-0 flex-col overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 max-sm:hover:translate-y-0"
+                      >
+                        <div className="relative h-[180px] shrink-0 overflow-hidden sm:h-[164px] lg:h-[124px] max-sm:h-[104px]">
+                          <img
+                            src={destino.image}
+                            alt={`${display.name}, ${country}`}
+                            loading="lazy"
+                            className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
+                          <div className="absolute bottom-2.5 left-2.5 right-2.5 max-sm:bottom-2 max-sm:left-2 max-sm:right-2">
+                            <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs max-sm:leading-[14px]">
+                              {destino.emoji ?? group.flag} {country}
+                            </p>
+                            <h4 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-sm max-sm:leading-4">
+                              {display.name}
+                            </h4>
+                          </div>
+                        </div>
+                        <div className="flex flex-1 flex-col p-2.5 lg:p-2 max-sm:p-2">
+                          <p className="flex-1 text-[13px] leading-[18px] text-stone-700 max-sm:line-clamp-2 max-sm:h-8 max-sm:flex-none max-sm:text-xs max-sm:leading-4">
+                            {text(display.description)}
+                          </p>
+                          <button
+                            type="button"
+                            onClick={() => openDestinationProfile(destino)}
+                            className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950 max-sm:mt-1 max-sm:min-h-[44px] max-sm:px-1 max-sm:py-0 max-sm:text-xs max-sm:leading-4"
+                          >
+                            {t("destinations.explore", { destination: display.name })}
+                          </button>
+                        </div>
+                      </article>
+                    );
+                  })}
+                </div>
+                {group.cards.length > 4 && (
+                  <div className="mt-4 text-center">
+                    <button
+                      type="button"
+                      aria-controls={`country-cards-${group.countryCode}`}
+                      aria-expanded={expanded}
+                      onClick={() => setExpandedCountries(current => ({ ...current, [group.countryCode]: !current[group.countryCode] }))}
+                      className="min-h-11 rounded-xl border border-blue-500 bg-white/80 px-5 py-2 text-sm font-bold text-blue-800 hover:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-blue-600"
+                    >
+                      {expanded ? t("destinations.showLess") : t("destinations.showMore", { count: String(group.cards.length - 4) })}
+                    </button>
+                  </div>
+                )}
               </div>
-
-              <div className="flex flex-1 flex-col p-2.5 lg:p-2 max-sm:p-2">
-                <p className="flex-1 text-[13px] leading-[18px] text-stone-700 max-sm:line-clamp-2 max-sm:h-8 max-sm:flex-none max-sm:text-xs max-sm:leading-4">
-                  {text(destinationDisplay(destino, language).description)}
-                </p>
-
-                <button
-                  type="button"
-                  onClick={() => setDestinoSeleccionado(destino)}
-                  className="mt-1.5 w-full rounded-xl border border-cyan-300/30 bg-cyan-300/10 px-1.5 py-1 text-[13px] leading-[18px] font-semibold text-cyan-800 transition hover:bg-cyan-300 hover:text-slate-950 max-sm:mt-1 max-sm:min-h-[44px] max-sm:px-1 max-sm:py-0 max-sm:text-xs max-sm:leading-4"
-                >
-                  {t("destinations.explore", { destination: destinationDisplay(destino, language).name })}
-                </button>
-              </div>
+            );
+          })}
+        </div>
+          </div>
             </article>
           ))}
         </div>
