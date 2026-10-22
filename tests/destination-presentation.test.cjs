@@ -37,9 +37,9 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 149 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,149);
-  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH'].includes(d.countryCode));
+test('automatic catalog recommendations hide added France profiles; all 161 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,161);
+  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
   assert.equal(presentation.canShowDestinationAutomatically({country:'Portugal'}),true);
@@ -81,7 +81,7 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const tree=Monthly({month,recommendations});
       const cards=nodes(tree).filter(n=>n.type==='article');
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
-      const expected=recommendations.filter(r=>!['FR','IT','GB','DE','NL','BE','CH'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
+      const expected=recommendations.filter(r=>!['FR','IT','GB','DE','NL','BE','CH','AT'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
     }
   }
@@ -224,8 +224,8 @@ test('typing and confirming do not open a modal; View destination opens only the
   }
 });
 
-test('all twelve Swiss profiles open only through the contextual button in each language',()=>{
-  for(const language of locales) for(const destination of catalog.getDestinationsByCountry('CH')) {
+test('Swiss and Austrian profiles open only through the contextual button in each language',()=>{
+  for(const language of locales) for(const destination of [...catalog.getDestinationsByCountry('CH'), ...catalog.getDestinationsByCountry('AT')]) {
     const name=localization.getDestinationText(destination,language).name;
     const opened=[],scope={React:react,language,destinoVuelo:'',confirmedFlightDestination:null,
       destinationFromPlaceSelection:presentation.destinationFromPlaceSelection,getDestinationById:catalog.getDestinationById,
@@ -236,7 +236,7 @@ test('all twelve Swiss profiles open only through the contextual button in each 
     scope.change(name);
     assert.equal(opened.length,0);
     assert.equal(scope.button(),null);
-    scope.confirm({type:'city',name,code:destination.iataCodes[0]??null,country:'Suiza',cityName:null,cityCode:null},name);
+    scope.confirm({type:'city',name,code:destination.iataCodes[0]??null,country:destination.country,cityName:null,cityCode:null},name);
     assert.equal(opened.length,0);
     const button=scope.button();
     assert.equal(button.type,'button',destination.id+':'+language);
