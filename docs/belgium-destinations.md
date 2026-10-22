@@ -65,12 +65,17 @@ PR independientes de fotos revisadas: #8 Ibiza, #13 Milán y #14 Asturias siguen
 
 Doce fotos reales de Wikimedia Commons con licencias CC BY/CC BY-SA compatibles con uso comercial bajo sus condiciones. `belgium-images.ts` conserva autor, fuente y enlace de licencia. La atribución aparece junto a la imagen mediante el componente existente. Miniaturas sin editar; el encuadre se ajusta únicamente para las nuevas fichas con `imagePosition` cuando hace falta. Las imágenes de otras fichas permanecen intactas.
 
+La revisión móvil detectó que la primera foto de Amberes dejaba demasiado cielo y perdía la catedral al recortarse. Se sustituye por «Grote Markt and Cathedral of Our Lady», de Sergey Ashmarin, CC BY-SA 3.0, con la fuente y los créditos actualizados. No se modifica ninguna fotografía anterior a esta ampliación.
+
 ## Validación
 
 - 279 pruebas automatizadas superadas. Incluyen integridad de 125 fichas, 137 identidades, siete idiomas, regiones, alias, diferencias BRU/CRL y Brujas/OST, LGG informativo, teclado y móvil. El flujo voz → herramienta → ficha belga → planificador → itinerario visible se ejecuta con servicios simulados para las doce identidades en los siete idiomas.
 - TypeScript y lint sin errores; se conservan las advertencias preexistentes de imágenes y deprecación de `next lint`.
 - Auditoría: siete avisos High de la cadena de desarrollo conocidos en #16, cero al omitir desarrollo. Se documentan sin ocultarlos ni actualizar paquetes.
-- Compilación de producción correcta y 21 comprobaciones HTTP locales superadas. Se utilizó el auxiliar externo habitual para carpetas de salida de Next.js en este Windows, sin cambiar configuración del proyecto. Preview y revisión real de escritorio/móvil pendientes del primer despliegue de revisión.
+- Compilación de producción correcta y 21 comprobaciones HTTP locales superadas. Se utilizó el auxiliar externo habitual para carpetas de salida de Next.js en este Windows, sin cambiar configuración del proyecto.
+- PR #21 en borrador: https://github.com/tosca201098-jpg/el-viajero-web/pull/21. Preview de revisión: https://el-viajero-web-git-codex-belgium-destinations-el-viajero.vercel.app. Sin fusión ni publicación en producción.
+- Revisión real del 21–22 de octubre: doce fichas individuales y fotografías en escritorio (1300 × 800) y móvil (413 × 916); créditos visibles y una sola ficha abierta. Sin desbordamiento horizontal. Portada y cuatro temporadas conservan sus 16 tarjetas y fotografías originales; abril conserva 30 recomendaciones de España/Portugal, sin Bélgica. Las doce páginas mensuales y las siete traducciones se verifican además mediante pruebas de renderizado.
+- Cambio real de los siete idiomas en Lovaina: nombre, región, recomendaciones, meses, consejos, obras hasta 2029 y accesos se traducen. Autocompletado real de Bruselas, BRU, CRL, Charleroi, Amberes, ANR, Ostende, OST, Lieja, LGG, Brujas y Gante. Las filas LGG aparecen deshabilitadas; CRL y ANR conservan sus avisos. Confirmar una opción no abre una ficha. Se comprueba el botón contextual de Brujas, la selección por teclado de OST y la selección móvil de CRL, abriendo una sola ficha del destino real.
 - IA, voz/WebRTC, precios y Supabase se simulan sin llamadas de pago ni datos reales. Las consultas públicas de aeropuertos/lugares, fuentes oficiales y metadatos de fotografías son reales.
 
 ## Fuentes oficiales y públicas

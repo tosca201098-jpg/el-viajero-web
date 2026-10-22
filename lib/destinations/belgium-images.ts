@@ -23,9 +23,9 @@ export const belgiumImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
   },
   "antwerp": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Grote_Markt_Antwerpen.JPG/960px-Grote_Markt_Antwerpen.JPG?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Grote_Markt_Antwerpen.JPG",
-    "imageCredit": "Teseum",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Grote_Markt_and_Cathedral_of_Our_Lady_-_Antwerp%2C_Belgium_-_panoramio.jpg/960px-Grote_Markt_and_Cathedral_of_Our_Lady_-_Antwerp%2C_Belgium_-_panoramio.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Grote_Markt_and_Cathedral_of_Our_Lady_-_Antwerp,_Belgium_-_panoramio.jpg",
+    "imageCredit": "Sergey Ashmarin",
     "imageLicense": "CC BY-SA 3.0",
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
