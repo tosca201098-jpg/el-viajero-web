@@ -70,7 +70,7 @@ type DiscoverState =
 function localizedCatalogProfile(destination: Destination | null) {
   const profile = destination && 'id' in destination && typeof destination.id === 'string'
     ? getDestinationById(destination.id) : undefined;
-  return profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE'].includes(profile.countryCode) ? profile : undefined;
+  return profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH'].includes(profile.countryCode) ? profile : undefined;
 }
 function destinationDisplay(destination: Destination, locale: Locale) {
   const profile = localizedCatalogProfile(destination);
@@ -276,7 +276,7 @@ voiceSearchRef.current = (datos) => {
   }
   function confirmFlightDestination(selection: Parameters<typeof destinationFromPlaceSelection>[0], value: string) {
     const profile = destinationFromPlaceSelection(selection);
-    setConfirmedFlightDestination(profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE'].includes(profile.countryCode) ? { destinationId: profile.id, value } : null);
+    setConfirmedFlightDestination(profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH'].includes(profile.countryCode) ? { destinationId: profile.id, value } : null);
   }
   function openDestinationProfile(destination: Destination) {
     setFlightResultsOpen(false);
@@ -1120,7 +1120,7 @@ function abrirPaquete(destino = "") {
 
                 <div className="absolute bottom-2.5 left-2.5 right-2.5 max-sm:bottom-2 max-sm:left-2 max-sm:right-2">
                   <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs max-sm:leading-[14px]">
-                    {destino.emoji ?? (localizedCatalogProfile(destino)?.countryCode === 'BE' ? '🇧🇪' : localizedCatalogProfile(destino)?.countryCode === 'NL' ? '🇳🇱' : localizedCatalogProfile(destino)?.countryCode === 'DE' ? '🇩🇪' : localizedCatalogProfile(destino)?.countryCode === 'GB' ? '🇬🇧' : localizedCatalogProfile(destino)?.countryCode === 'IT' ? '🇮🇹' : localizedCatalogProfile(destino) ? '🇫🇷' : '')} {destinationCountry(destino, language)}
+                    {destino.emoji ?? (localizedCatalogProfile(destino)?.countryCode === 'CH' ? '🇨🇭' : localizedCatalogProfile(destino)?.countryCode === 'BE' ? '🇧🇪' : localizedCatalogProfile(destino)?.countryCode === 'NL' ? '🇳🇱' : localizedCatalogProfile(destino)?.countryCode === 'DE' ? '🇩🇪' : localizedCatalogProfile(destino)?.countryCode === 'GB' ? '🇬🇧' : localizedCatalogProfile(destino)?.countryCode === 'IT' ? '🇮🇹' : localizedCatalogProfile(destino) ? '🇫🇷' : '')} {destinationCountry(destino, language)}
                   </p>
 
                   <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-sm max-sm:leading-4">
@@ -1241,7 +1241,7 @@ function abrirPaquete(destino = "") {
 
               <div className="absolute bottom-6 left-6">
                 <p className="text-cyan-200">
-                  {destinoSeleccionado.emoji ?? (selectedCatalogProfile?.countryCode === 'BE' ? '🇧🇪' : selectedCatalogProfile?.countryCode === 'NL' ? '🇳🇱' : selectedCatalogProfile?.countryCode === 'DE' ? '🇩🇪' : selectedCatalogProfile?.countryCode === 'GB' ? '🇬🇧' : selectedCatalogProfile?.countryCode === 'IT' ? '🇮🇹' : selectedCatalogProfile ? '🇫🇷' : '')}{" "}
+                  {destinoSeleccionado.emoji ?? (selectedCatalogProfile?.countryCode === 'CH' ? '🇨🇭' : selectedCatalogProfile?.countryCode === 'BE' ? '🇧🇪' : selectedCatalogProfile?.countryCode === 'NL' ? '🇳🇱' : selectedCatalogProfile?.countryCode === 'DE' ? '🇩🇪' : selectedCatalogProfile?.countryCode === 'GB' ? '🇬🇧' : selectedCatalogProfile?.countryCode === 'IT' ? '🇮🇹' : selectedCatalogProfile ? '🇫🇷' : '')}{" "}
                   {destinationCountry(destinoSeleccionado, language)}
                 </p>
 

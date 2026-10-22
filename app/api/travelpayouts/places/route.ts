@@ -3,6 +3,7 @@ import { ukAirportsForTerm, ukUnavailablePassengerCodes } from '@/lib/travelpayo
 import { germanyAirportsForTerm, germanyCityAliases, germanyPassengerAirports, germanyUnavailablePassengerCodes } from '@/lib/travelpayouts/germany-airports';
 import { isNetherlandsCountryTerm, netherlandsAirportsForTerm, netherlandsCityAliases, netherlandsPassengerAirports, netherlandsUnavailablePassengerCodes } from '@/lib/travelpayouts/netherlands-airports';
 import { belgiumAirports, belgiumAirportsForTerm, belgiumCityAliases } from '@/lib/travelpayouts/belgium-airports';
+import { switzerlandAirports, switzerlandAirportsForTerm, switzerlandCityAliases, switzerlandTouristPlacesForTerm } from '@/lib/travelpayouts/switzerland-airports';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -117,6 +118,22 @@ export async function GET(request: Request) {
         ...(place.code === 'ANR' ? { serviceNotice: 'antwerpTuiEnds' } : {}) };
     });
 
+    // LUG is an airport identifier without confirmed scheduled passenger flights.
+    // A Lugano tourist selection remains available separately with no airport code.
+    places = [...places.filter(place => !(isPlace(place) && place.type === 'city' && place.country_code === 'CH' && place.code === 'LUG')),
+      ...switzerlandAirportsForTerm(term), ...switzerlandTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || (place.country_code !== 'CH' && !(place.country_code === 'FR' && ['BSL', 'MLH'].includes(code(place.code, 3))))) return place;
+      const placeCode = code(place.code, 3);
+      const airport = switzerlandAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name, country_code: airport.country_code,
+        city_name: airport.city_name, city_code: airport.city_code, physicalCityName: airport.physicalCityName,
+        scheduledPassengerService: airport.scheduledPassengerService, serviceNotice: airport.serviceNotice,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(switzerlandCityAliases[placeCode] ?? [])],
+        ...(placeCode === 'BRN' || placeCode === 'ACH' || placeCode === 'SIR' ? { serviceNotice: 'limitedSeasonalFlights' } : {}) };
+    });
+
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);
     const seen = new Set<string>();
@@ -155,9 +172,9 @@ export async function GET(request: Request) {
           code: code(place.code, 3) || null,
           cityName: typeof place.city_name === "string" ? place.city_name : null,
           cityCode: code(place.city_code, 3) || null,
-          ...(place.country_code === 'BE' && place.scheduledPassengerService === false ? { scheduledPassengerService: false } : {}),
-          ...(place.country_code === 'BE' && typeof place.serviceNotice === 'string' ? { serviceNotice: place.serviceNotice } : {}),
-          ...(place.country_code === 'BE' && typeof place.physicalCityName === 'string' ? { physicalCityName: place.physicalCityName } : {}),
+          ...(place.scheduledPassengerService === false ? { scheduledPassengerService: false } : {}),
+          ...(typeof place.serviceNotice === 'string' ? { serviceNotice: place.serviceNotice } : {}),
+          ...(typeof place.physicalCityName === 'string' ? { physicalCityName: place.physicalCityName } : {}),
         };
       });
 

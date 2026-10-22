@@ -3,6 +3,7 @@ import { ukPassengerAirports } from '@/lib/travelpayouts/uk-airports';
 import { germanyAccessSearchCity } from '@/lib/travelpayouts/germany-airports';
 import { netherlandsAccessSearchCity } from '@/lib/travelpayouts/netherlands-airports';
 import { belgiumAccessSearchCity } from '@/lib/travelpayouts/belgium-airports';
+import { switzerlandAccessSearchCity } from '@/lib/travelpayouts/switzerland-airports';
 
 /** Called only after an autocomplete choice is committed, never for free-form typing. */
 export function destinationFromPlaceSelection(selection: {
@@ -19,7 +20,9 @@ export function destinationFromPlaceSelection(selection: {
   });
   const destination = profile ?? (selection.type === 'airport'
     ? findDestinationProfile({ iataCode: selection.cityCode, name: selection.cityName }) : undefined);
-  if (!destination || normalizeDestinationName(selection.country) !== normalizeDestinationName(destination.country)) return undefined;
+  // EuroAirport stands in France but BSL/MLH serve the Swiss Basel profile.
+  const euroAirport = destination?.id === 'ch-basel' && ['BSL', 'MLH', 'EAP'].includes(selection.code ?? '');
+  if (!destination || (!euroAirport && normalizeDestinationName(selection.country) !== normalizeDestinationName(destination.country))) return undefined;
   return destination;
 }
 
@@ -28,6 +31,7 @@ export function accessAirportSearchInput(destination: { countryCode: string; nam
   if (destination.countryCode === 'DE') return germanyAccessSearchCity(airportCode);
   if (destination.countryCode === 'NL') return netherlandsAccessSearchCity(airportCode);
   if (destination.countryCode === 'BE') return belgiumAccessSearchCity(airportCode);
+  if (destination.countryCode === 'CH') return switzerlandAccessSearchCity(airportCode);
   if (destination.countryCode === 'GB') {
     return ukPassengerAirports.find(airport => airport.code === airportCode)?.city_name ?? airportCode;
   }
