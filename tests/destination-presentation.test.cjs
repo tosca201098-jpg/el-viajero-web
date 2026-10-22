@@ -48,17 +48,27 @@ test('automatic catalog recommendations hide added France profiles; all 137 prof
   assert.ok(catalog.getDestinationsForMonth(5).some(d=>d.countryCode==='FR'));
 });
 
-test('homepage preserves all 16 original featured cards, including Paris, in all seven languages',()=>{
-  for (const locale of locales) {
-  const load=renderLoader(locale),Home=load('app/page.tsx').default,tree=Home();
-  const cards=nodes(tree).filter(n=>n.type==='article');
-  assert.equal(cards.length,16);
-  const expected=load('lib/destinations/featured.ts').destinations.map(d=>localization.getDestinationText(d,locale).name);
-  const actual=cards.map(card=>text(nodes(card).find(n=>n.type==='h3')));
-  assert.deepEqual(actual,Array.from(expected));
-  assert.equal(actual.filter(name=>name===localization.getDestinationText(catalog.getDestinationById('fr-paris'),locale).name).length,1);
-  const flightDestination=nodes(tree).find(n=>n.props.variant==='main'&&n.props.label===dictionaries.translate(locale,'search.destination'));
-  assert.equal(typeof flightDestination.props.onSelect,'function');
+test('homepage country groups preserve all 16 original featured cards and 137 canonical destinations without duplication',()=>{
+  const groups=data('lib/destinations/home-country-groups.ts').getHomepageCountryGroups();
+  const original=data('lib/destinations/featured.ts').destinations;
+  for(const card of original)assert.ok(groups.some(group=>group.cards.includes(card)),card.name);
+  assert.equal(new Set(groups.map(group=>group.countryCode)).size,groups.length);
+  assert.deepEqual(groups.slice(0,8).map(group=>group.countryCode),['ES','PT','FR','IT','GB','DE','NL','BE']);
+  for(const group of groups)assert.equal(new Set(group.cards.map(card=>card.id??card.name)).size,group.cards.length);
+  assert.equal(groups.find(group=>group.countryCode==='ES').cards.length,43);
+  assert.equal(groups.find(group=>group.countryCode==='PT').cards.length,22);
+  assert.equal(groups.find(group=>group.countryCode==='FR').cards.filter(c=>c.id==='fr-paris').length,1);
+  for(const locale of locales){
+    const load=renderLoader(locale),Home=load('app/page.tsx').default,tree=Home(),all=nodes(tree);
+    const cards=all.filter(n=>n.type==='article');
+    assert.equal(cards.length,groups.reduce((sum,g)=>sum+Math.min(g.cards.length,4),0));
+    for(const group of groups){
+      const country=localization.getDestinationCountryName({countryCode:group.countryCode,country:group.fallbackName},locale);
+      assert.ok(all.some(n=>n.type==='h3'&&text(n).includes(country.toLocaleUpperCase(locale))),country);
+    }
+    assert.ok(cards.some(card=>text(nodes(card).find(n=>n.type==='h4'))===localization.getDestinationText(catalog.getDestinationById('fr-paris'),locale).name));
+    const flightDestination=all.find(n=>n.props.variant==='main'&&n.props.label===dictionaries.translate(locale,'search.destination'));
+    assert.equal(typeof flightDestination.props.onSelect,'function');
   }
 });
 
