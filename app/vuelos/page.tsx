@@ -1,13 +1,24 @@
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import Link from 'next/link';
+import { isWhiteLabelFlightSearch } from '@/lib/travelpayouts/white-label';
+import { flightProfileForSearch, itineraryContextForFlightSearch } from '@/lib/travelpayouts/flight-profile';
+import DestinationProfileSummary from '@/app/components/DestinationProfileSummary';
+import ItineraryPlanner from '@/app/components/ItineraryPlanner';
 
 export const metadata: Metadata = {
   title: 'Buscar vuelos | Destinauta',
   description: 'Consulta vuelos con el metabuscador de Travelpayouts en Destinauta.',
+  robots: { index: false, follow: false },
 };
 
-export default function VuelosPage() {
+export default async function VuelosPage({ searchParams }: {
+  searchParams: Promise<{ flightSearch?: string; destinationId?: string; departureDate?: string; returnDate?: string }>;
+}) {
+  const { flightSearch, destinationId, departureDate, returnDate } = await searchParams;
+  const hasSearch = isWhiteLabelFlightSearch(flightSearch);
+  const destination = flightProfileForSearch(flightSearch, destinationId);
+  const itineraryContext = itineraryContextForFlightSearch(flightSearch, departureDate, returnDate);
   return (
     <main className="min-h-screen bg-[#f8f6ef] px-4 py-8 text-[#292624] sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
@@ -18,14 +29,23 @@ export default function VuelosPage() {
         <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600 sm:text-base">
           Consulta opciones de vuelo en el metabuscador de Travelpayouts. Los precios y la disponibilidad pueden cambiar al abrir la oferta.
         </p>
-        <section aria-label="Formulario de búsqueda de vuelos" className="mt-6 min-w-0 rounded-2xl border border-blue-300 bg-white p-4 sm:p-6">
-          <div id="tpwl-search" />
-        </section>
-        <section aria-label="Resultados de vuelos" className="mt-6 min-w-0">
-          <div id="tpwl-tickets" />
-        </section>
+        {destination && <article className="mt-5 overflow-hidden rounded-2xl border border-blue-600/20 bg-white/80 shadow-sm">
+          <DestinationProfileSummary destination={destination} detailed />
+          <div className="min-w-0 bg-slate-900 px-3 pb-3 pt-1 sm:px-5 sm:pb-5">
+            <ItineraryPlanner destination={destination} context={itineraryContext} />
+          </div>
+        </article>}
+        {hasSearch ? <>
+          {/* The provider mounts its search component, but the visitor uses only the home form. */}
+          <div id="tpwl-search" hidden aria-hidden="true" />
+          <section aria-label="Resultados de vuelos" className="mt-6 min-w-0">
+            <div id="tpwl-tickets" />
+          </section>
+        </> : <p className="mt-6 rounded-2xl border border-blue-300 bg-white p-6 text-sm">
+          Inicia una búsqueda desde el formulario de vuelos de la portada.
+        </p>}
       </div>
-      <Script
+      {hasSearch && <Script
         id="travelpayouts-flight-widget"
         strategy="afterInteractive"
         data-noptimize="1"
@@ -41,7 +61,7 @@ export default function VuelosPage() {
           script.src = "https://tpemd.com/wl_web/main.js?wl_id=23773";
           document.head.appendChild(script);
         })();`}
-      </Script>
+      </Script>}
     </main>
   );
 }
