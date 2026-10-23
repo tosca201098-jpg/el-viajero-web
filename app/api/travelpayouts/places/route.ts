@@ -5,6 +5,7 @@ import { isNetherlandsCountryTerm, netherlandsAirportsForTerm, netherlandsCityAl
 import { belgiumAirports, belgiumAirportsForTerm, belgiumCityAliases } from '@/lib/travelpayouts/belgium-airports';
 import { switzerlandAirports, switzerlandAirportsForTerm, switzerlandCityAliases, switzerlandTouristPlacesForTerm } from '@/lib/travelpayouts/switzerland-airports';
 import { austriaAirports, austriaAirportsForTerm, austriaCityAliases, austriaTouristPlacesForTerm } from '@/lib/travelpayouts/austria-airports';
+import { czechiaAirports, czechiaAirportsForTerm, czechiaCityAliases, czechiaTouristPlacesForTerm } from '@/lib/travelpayouts/czechia-airports';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -145,6 +146,18 @@ export async function GET(request: Request) {
       if (place.type !== 'city') return place;
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(austriaCityAliases[placeCode] ?? [])],
         ...(airport?.serviceNotice ? { serviceNotice: airport.serviceNotice } : {}) };
+    });
+
+    places = [...places, ...czechiaAirportsForTerm(term), ...czechiaTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'CZ') return place;
+      const placeCode = code(place.code, 3);
+      const airport = czechiaAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code, serviceNotice: 'serviceNotice' in airport ? airport.serviceNotice : undefined,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(czechiaCityAliases[placeCode] ?? [])],
+        ...(airport && 'serviceNotice' in airport ? { serviceNotice: airport.serviceNotice } : {}) };
     });
 
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });

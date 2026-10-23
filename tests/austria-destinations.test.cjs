@@ -55,12 +55,12 @@ function endpoint() {
   } };
 }
 
-test('Austria adds 12 profiles to 161 unique identities without changing any earlier profile or editorial page', () => {
+test('Austria adds 12 profiles to 173 unique identities without changing any earlier profile or editorial page', () => {
   assert.equal(baseline.profiles.length, 149);
   assert.deepEqual(Array.from(austrian, p => p.slug), expected);
-  assert.equal(catalog.destinationProfiles.length, 161);
-  assert.equal(new Set(catalog.destinationProfiles.map(p => p.id)).size, 161);
-  assert.equal(new Set(catalog.destinationProfiles.map(p => p.slug)).size, 161);
+  assert.equal(catalog.destinationProfiles.length, 173);
+  assert.equal(new Set(catalog.destinationProfiles.map(p => p.id)).size, 173);
+  assert.equal(new Set(catalog.destinationProfiles.map(p => p.slug)).size, 173);
   assert.deepEqual(Array.from(catalog.destinationProfiles.slice(0, 149), p => p.id), baseline.profiles.map(p => p.id));
   for (const item of baseline.profiles) assert.equal(digest(catalog.getDestinationById(item.id)), item.sha256, item.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations), baseline.featuredSha256);
