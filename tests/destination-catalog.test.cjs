@@ -31,7 +31,8 @@ const netherlands = load('lib/destinations/netherlands.ts', { './netherlands-ima
 const belgium = load('lib/destinations/belgium.ts', { './belgium-images': load('lib/destinations/belgium-images.ts') });
 const switzerland = load('lib/destinations/switzerland.ts', { './switzerland-images': load('lib/destinations/switzerland-images.ts') });
 const austria = load('lib/destinations/austria.ts', { './austria-images': load('lib/destinations/austria-images.ts') });
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria });
+const czechia = load('lib/destinations/czechia.ts', { './czechia-images': load('lib/destinations/czechia-images.ts') });
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia });
 const localization = load('lib/destinations/localization.ts');
 const manifest = require('./fixtures/destination-legacy-digests.json');
 const legacyProfiles = library.destinationProfiles.filter(profile => ['ES', 'PT'].includes(profile.countryCode));
@@ -47,8 +48,8 @@ test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
   assert.equal(legacyProfiles.length, 65);
   assert.equal(spain.spainDestinations.length, 43);
   assert.equal(portugal.portugalDestinations.length, 22);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 161);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 161);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 173);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 173);
   assert.deepEqual(Array.from(legacyProfiles, d => ({ id: d.id, slug: d.slug })),
     manifest.map(({ id, slug }) => ({ id, slug })));
   for (const destination of legacyProfiles) {
