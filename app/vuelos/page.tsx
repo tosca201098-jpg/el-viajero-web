@@ -2,8 +2,9 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import Link from 'next/link';
 import { isWhiteLabelFlightSearch } from '@/lib/travelpayouts/white-label';
-import { flightProfileForSearch } from '@/lib/travelpayouts/flight-profile';
+import { flightProfileForSearch, itineraryContextForFlightSearch } from '@/lib/travelpayouts/flight-profile';
 import DestinationProfileSummary from '@/app/components/DestinationProfileSummary';
+import ItineraryPlanner from '@/app/components/ItineraryPlanner';
 
 export const metadata: Metadata = {
   title: 'Buscar vuelos | Destinauta',
@@ -12,11 +13,12 @@ export const metadata: Metadata = {
 };
 
 export default async function VuelosPage({ searchParams }: {
-  searchParams: Promise<{ flightSearch?: string; destinationId?: string }>;
+  searchParams: Promise<{ flightSearch?: string; destinationId?: string; departureDate?: string; returnDate?: string }>;
 }) {
-  const { flightSearch, destinationId } = await searchParams;
+  const { flightSearch, destinationId, departureDate, returnDate } = await searchParams;
   const hasSearch = isWhiteLabelFlightSearch(flightSearch);
   const destination = flightProfileForSearch(flightSearch, destinationId);
+  const itineraryContext = itineraryContextForFlightSearch(flightSearch, departureDate, returnDate);
   return (
     <main className="min-h-screen bg-[#f8f6ef] px-4 py-8 text-[#292624] sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
@@ -29,6 +31,9 @@ export default async function VuelosPage({ searchParams }: {
         </p>
         {destination && <article className="mt-5 overflow-hidden rounded-2xl border border-blue-600/20 bg-white/80 shadow-sm">
           <DestinationProfileSummary destination={destination} detailed />
+          <div className="min-w-0 bg-slate-900 px-3 pb-3 pt-1 sm:px-5 sm:pb-5">
+            <ItineraryPlanner destination={destination} context={itineraryContext} />
+          </div>
         </article>}
         {hasSearch ? <>
           {/* The provider mounts its search component, but the visitor uses only the home form. */}

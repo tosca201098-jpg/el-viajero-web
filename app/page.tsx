@@ -530,7 +530,7 @@ function abrirPaquete(destino = "") {
         });
         const data = await response.json();
         if (!response.ok || data.success !== true || typeof data.url !== 'string' ||
-          !/^\/vuelos\?flightSearch=[A-Z]{3}\d{4}[A-Z]{3}\d{4}[1-9](?:&destinationId=[a-z]{2}-[a-z0-9-]+)?$/.test(data.url)) {
+          !/^\/vuelos\?flightSearch=[A-Z]{3}\d{4}[A-Z]{3}\d{4}[1-9](?:&destinationId=[a-z]{2}-[a-z0-9-]+&departureDate=\d{4}-\d{2}-\d{2}&returnDate=\d{4}-\d{2}-\d{2})?$/.test(data.url)) {
           setFlightSearch({ status: "error", key: flightSearchErrorKey(data.error) });
           return;
         }

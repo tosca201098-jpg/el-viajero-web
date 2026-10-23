@@ -39,7 +39,8 @@ export async function POST(request: Request) {
     const profile = known?.iataCodes.includes(destination.code) ? known
       : findDestinationProfile({ iataCode: destination.code });
     const profileParam = profile ? `&destinationId=${encodeURIComponent(profile.id)}` : '';
-    return Response.json({ success: true, url: `/vuelos?flightSearch=${flightSearch}${profileParam}` },
+    const dateParams = profile ? `&departureDate=${input.departureDate}&returnDate=${input.returnDate}` : '';
+    return Response.json({ success: true, url: `/vuelos?flightSearch=${flightSearch}${profileParam}${dateParams}` },
       { headers: { 'Cache-Control': 'no-store' } });
   } catch {
     return Response.json({ success: false, error: 'provider_unavailable' }, { status: 502 });
