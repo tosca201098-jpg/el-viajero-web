@@ -1471,6 +1471,7 @@ function abrirPaquete(destino = "") {
                 <p className="mt-2 text-xs leading-5 text-slate-300">{t("search.recentPricesNote")}</p>
                 <div id="tpwl-search" hidden aria-hidden="true" />
                 <div id="tpwl-tickets" className="mt-4 min-w-0 text-slate-900" />
+                <p className="mt-3 text-xs leading-5 text-slate-400">{t("search.widgetNoFlightsHint")}</p>
               </section>}
 
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}

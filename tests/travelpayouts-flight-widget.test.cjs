@@ -24,6 +24,7 @@ test('home only mounts the official widget for a validated featured search', () 
   assert.match(home, /featuredFlightSearch\?\.destination === destinoSeleccionado && <section/);
   assert.match(home, /id="tpwl-search" hidden aria-hidden="true"/);
   assert.match(home, /id="tpwl-tickets"/);
+  assert.match(home, /id="tpwl-tickets"[^>]*\/>\s*<p[^>]*>\{t\("search\.widgetNoFlightsHint"\)\}<\/p>/);
   assert.match(home, /https:\/\/tpemd\.com\/wl_web\/main\.js\?wl_id=23773/);
   assert.doesNotMatch(home, /TRAVELPAYOUTS_API_TOKEN|NEXT_PUBLIC_.*TOKEN/);
 });

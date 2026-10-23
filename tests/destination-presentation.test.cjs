@@ -85,6 +85,24 @@ test('the photograph and Explore button of every original card open the same des
   }
 });
 
+test('each language keeps the original card flight action and the existing itinerary planner',()=>{
+  for(const locale of locales){
+    const state=[];let index=0;
+    const hooks={...react,useState(initial){const slot=index++;if(!(slot in state))state[slot]=initial;
+      return[state[slot],value=>{state[slot]=typeof value==='function'?value(state[slot]):value;}];}};
+    const load=renderLoader(locale,{react:hooks}),Home=load('app/page.tsx').default;
+    const render=()=>{index=0;return Home();};
+    const featured=load('lib/destinations/featured.ts').destinations;
+    const card=nodes(render()).filter(node=>node.type==='article')[1];
+    nodes(card).find(node=>node.type==='button').props.onClick();
+    const detail=nodes(render());
+    assert.ok(detail.some(node=>node.props.id==='destination-detail-title'&&text(node)===localization.getDestinationText(featured[1],locale).name),locale);
+    assert.ok(detail.some(node=>node.type==='button'&&text(node).includes(dictionaries.translate(locale,'search.findFlights'))),locale);
+    assert.ok(detail.some(node=>node.props.destination===featured[1]&&node.props.context),locale);
+    assert.ok(!detail.some(node=>node.props.id==='tpwl-search'),locale);
+  }
+});
+
 test('four seasons preserve every original card in its original order, without new country sections',()=>{
   const original=require('./fixtures/original-season-cards.json');
   for(const season of ['primavera','verano','otono','invierno']) {
