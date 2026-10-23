@@ -12,9 +12,9 @@ const baseline=require('./fixtures/pre-belgium-catalog.json'),provider=require('
 const digest=v=>crypto.createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
 const locales=['es','en','fr','de','it','pt','ca'];
 
-test('Belgium adds twelve profiles to 173 unique identities; all previous 125 and original editorial cards remain identical',()=>{
- assert.equal(baseline.profiles.length,125);assert.equal(belgium.length,12);assert.equal(catalog.destinationProfiles.length,173);
- assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,173);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,173);
+test('Belgium adds twelve profiles to 185 unique identities; all previous 125 and original editorial cards remain identical',()=>{
+ assert.equal(baseline.profiles.length,125);assert.equal(belgium.length,12);assert.equal(catalog.destinationProfiles.length,185);
+ assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,185);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,185);
  for(const d of baseline.profiles)assert.equal(digest(catalog.getDestinationById(d.id)),d.sha256,d.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
  for(const[season,sha]of Object.entries(baseline.seasonFiles))assert.equal(digest(fs.readFileSync(path.join(root,'app/temporadas/'+season+'/page.tsx'),'utf8').replace(/\r\n/g,'\n')),sha);
