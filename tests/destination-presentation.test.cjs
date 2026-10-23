@@ -30,7 +30,7 @@ function text(n){if(n==null||n===false)return'';if(Array.isArray(n))return n.map
 function renderLoader(locale='es',extra={}) {
   const language={useLanguage:()=>({language:locale,t:(k,v)=>dictionaries.translate(locale,k,v),text:v=>dictionaries.translateText(locale,v)})};
   const blank={default:()=>null};
-  return loader({react,'next/link':{default:'a'},'./components/LanguageProvider':language,'./LanguageProvider':language,
+  return loader({react,'next/link':{default:'a'},'next/script':{default:'script'},'./components/LanguageProvider':language,'./LanguageProvider':language,
     '@/app/components/LanguageProvider':language,'./components/AuthDialog':blank,'./components/ItineraryPlanner':blank,
     './components/FlightLocationAutocomplete':blank,'./components/HeaderAuth':blank,'./components/LanguageSelector':blank,
     '@/app/components/LanguageSelector':blank,'@/lib/supabase/client':{getSupabaseClient:()=>null},

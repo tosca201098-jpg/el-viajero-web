@@ -1,6 +1,7 @@
 import { matchingDestinationProfile, resolveCity } from '@/lib/travelpayouts/places';
 import { whiteLabelFlightSearch } from '@/lib/travelpayouts/white-label';
 import { findDestinationProfile } from '@/lib/destinations';
+import { findFeaturedDestination, featuredDestinationSlug } from '@/lib/travelpayouts/featured-flight';
 
 export const runtime = 'nodejs';
 
@@ -23,6 +24,7 @@ export async function POST(request: Request) {
   }
   const [destinationName, destinationCountry] = destinationInput.split(',').map(part => part.trim());
   const known = matchingDestinationProfile(destinationName, destinationCountry);
+  const featured = findFeaturedDestination(destinationName);
   if (known && known.iataCodes.length === 0) {
     return Response.json({ success: false, error: 'unknown_destination' }, { status: 422 });
   }
@@ -36,6 +38,11 @@ export async function POST(request: Request) {
     const flightSearch = whiteLabelFlightSearch({ origin: origin.code, destination: destination.code,
       departureDate: input.departureDate, returnDate: input.returnDate, travelers: input.travelers });
     if (!flightSearch) return Response.json({ success: false, error: 'invalid_search' }, { status: 400 });
+    if (featured && (!destinationCountry || destinationCountry === featured.country)) {
+      return Response.json({ success: true,
+        url: `/?flightSearch=${flightSearch}&featured=${featuredDestinationSlug(featured)}&departureDate=${input.departureDate}&returnDate=${input.returnDate}` },
+      { headers: { 'Cache-Control': 'no-store' } });
+    }
     const profile = known?.iataCodes.includes(destination.code) ? known
       : findDestinationProfile({ iataCode: destination.code });
     const profileParam = profile ? `&destinationId=${encodeURIComponent(profile.id)}` : '';

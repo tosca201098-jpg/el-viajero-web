@@ -18,7 +18,12 @@ test('flight results page retains provider containers but hides the second form'
   assert.doesNotMatch(page, /TRAVELPAYOUTS_API_TOKEN|NEXT_PUBLIC_.*TOKEN/);
 });
 
-test('widget integration is confined to its own route', () => {
+test('home only mounts the official widget for a validated featured search', () => {
   const home = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
-  assert.doesNotMatch(home, /tpwl-search|tpwl-tickets|wl_id=23773/);
+  assert.match(home, /featuredFlightSearch && <Script/);
+  assert.match(home, /featuredFlightSearch\?\.destination === destinoSeleccionado && <section/);
+  assert.match(home, /id="tpwl-search" hidden aria-hidden="true"/);
+  assert.match(home, /id="tpwl-tickets"/);
+  assert.match(home, /https:\/\/tpemd\.com\/wl_web\/main\.js\?wl_id=23773/);
+  assert.doesNotMatch(home, /TRAVELPAYOUTS_API_TOKEN|NEXT_PUBLIC_.*TOKEN/);
 });
