@@ -48,18 +48,23 @@ test('exact search links carry only a matching catalog identity for Madrid, Pari
   assert.equal((await unknown.json()).url,'/vuelos?flightSearch=BCN2011OSL24112');
 });
 
-test('results accept a draft profile only for a validated, matching search identity', () => {
+test('results keep a uniquely identified catalog profile when the provider removes its URL parameter', () => {
   const { flightProfileForSearch } = load('lib/travelpayouts/flight-profile.ts', {
-    '@/lib/destinations': { getDestinationById: id => profiles.find(p => p.id === id) },
+    '@/lib/destinations': { getDestinationById: id => profiles.find(p => p.id === id), destinationProfiles: profiles },
     './white-label': { isWhiteLabelFlightSearch: validSearch },
   });
   assert.equal(flightProfileForSearch('BCN2011MAD24112','es-madrid'),profile);
   assert.equal(flightProfileForSearch('BCN2011PAR24112','fr-paris'),paris);
   assert.equal(flightProfileForSearch('BCN2011ROM24112','it-rome'),rome);
-  assert.equal(flightProfileForSearch('BCN2011MAD24112',undefined),undefined);
+  assert.equal(flightProfileForSearch('BCN2011MAD24112',undefined),profile);
+  assert.equal(flightProfileForSearch('BCN2011PAR24112',undefined),paris);
   assert.equal(flightProfileForSearch('BCN2011MAD24112','fr-paris'),undefined);
   assert.equal(flightProfileForSearch('invalid','es-madrid'),undefined);
   assert.equal(flightProfileForSearch('BCN2011MAD24112','../../es-madrid'),undefined);
+  profiles.push({ id:'es-madrid-alternative', iataCodes:['MAD'] });
+  assert.equal(flightProfileForSearch('BCN2011MAD24112',undefined),undefined);
+  assert.equal(flightProfileForSearch('BCN2011MAD24112','es-madrid'),profile);
+  profiles.pop();
 });
 
 test('flight results page renders the resolved tourism card and provider results together without another form', async () => {
@@ -67,7 +72,8 @@ test('flight results page renders the resolved tourism card and provider results
   const page = load('app/vuelos/page.tsx', {
     'next/script': { default:'script' }, 'next/link': { default:'a' },
     '@/lib/travelpayouts/white-label': { isWhiteLabelFlightSearch: validSearch },
-    '@/lib/travelpayouts/flight-profile': { flightProfileForSearch: (search,id) => validSearch(search) && id === profile.id ? profile : undefined },
+    '@/lib/travelpayouts/flight-profile': { flightProfileForSearch: (search,id) => validSearch(search) &&
+      (id === profile.id || id === undefined) ? profile : undefined },
     '@/app/components/DestinationProfileSummary': { default:'summary' },
   }, { React });
   const nodes = node => !node || typeof node !== 'object' ? [] : Array.isArray(node)
@@ -78,5 +84,7 @@ test('flight results page renders the resolved tourism card and provider results
   assert.ok(nodes(tree).some(n => n.props.id === 'tpwl-search' && n.props.hidden));
   assert.equal(page.metadata.robots.index,false);
   const withoutIdentity = await page.default({ searchParams: Promise.resolve({ flightSearch:'BCN2011MAD24112' }) });
-  assert.equal(nodes(withoutIdentity).some(n => n.type === 'summary'),false);
+  assert.equal(nodes(withoutIdentity).some(n => n.type === 'summary'),true);
+  const wrongIdentity = await page.default({ searchParams: Promise.resolve({ flightSearch:'BCN2011MAD24112', destinationId:'fr-paris' }) });
+  assert.equal(nodes(wrongIdentity).some(n => n.type === 'summary'),false);
 });
