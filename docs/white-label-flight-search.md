@@ -1,0 +1,9 @@
+# Búsqueda de vuelos con White Label
+
+La [documentación oficial de Travelpayouts](https://support.travelpayouts.com/hc/en-us/articles/115003710648-Links-to-the-White-Label-with-a-completed-search-form) define `?flightSearch=` con `IATA + DDMM + IATA + DDMM + adultos` para ida y vuelta en clase económica. Los adultos son obligatorios y cada cifra admite 1–9. El enlace precargado abre directamente los resultados. Lo comprobamos con Barcelona → Madrid, 20–24 de noviembre de 2026, un adulto: `BCN2011MAD24111`. El proveedor rellenó los campos y mostró ofertas en `tpwl-tickets` en la Preview anterior.
+
+El formulario original de la portada sigue siendo el único formulario visible para el visitante. Una búsqueda **manual con fechas exactas** pasa por `/api/travelpayouts/flight-link`: el servidor valida fechas y pasajeros, resuelve origen y destino mediante `places2`, valida los IATA y devuelve una URL relativa de `/vuelos`. La página de resultados mantiene `tpwl-search` oculto para que el script oficial se inicialice, pero solo enseña `tpwl-tickets`. No se manipula el Shadow DOM del proveedor ni se le envían credenciales.
+
+La sintaxis documentada no transmite **presupuesto** ni **fechas flexibles**. Para no perder esos filtros, la búsqueda manual flexible y las búsquedas de voz (con o sin presupuesto) conservan la ruta de datos de precios recientes y sus fichas actuales. La opción «No sé dónde ir» también conserva su flujo. Los enlaces de oferta de ese flujo mantienen su seguimiento existente. Esta decisión deja un solo formulario de entrada visible, aunque hay dos vías de resultados según la capacidad del proveedor. Tampoco se inventan precios, fechas alternativas o disponibilidad.
+
+White Label omite el año en `flightSearch`. Por ello se rechazan fechas pasadas y viajes que terminen a más de un año desde hoy, para evitar ambigüedad. La disponibilidad y el importe final los determina el proveedor al mostrar la oferta.

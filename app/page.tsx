@@ -511,6 +511,32 @@ function abrirPaquete(destino = "") {
     e.preventDefault();
     if (flightSearch.status === "loading") return;
     flightSearchSubmitRef.current = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
+    if (!flexibleDates) {
+      if (!origen.trim() || !destinoVuelo.trim() || !fechaIda || !fechaVuelta ||
+        !Number.isInteger(pasajeros) || pasajeros < 1 || pasajeros > 9 || fechaVuelta <= fechaIda) {
+        setFlightSearch({ status: "error", key: "search.flightInvalidSearch" });
+        return;
+      }
+      setFlightSearch({ status: "loading" });
+      try {
+        const response = await fetch('/api/travelpayouts/flight-link', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ origin: origen.trim(), destination: destinoVuelo.trim(),
+            departureDate: fechaIda, returnDate: fechaVuelta, travelers: pasajeros }),
+        });
+        const data = await response.json();
+        if (!response.ok || data.success !== true || typeof data.url !== 'string' ||
+          !/^\/vuelos\?flightSearch=[A-Z]{3}\d{4}[A-Z]{3}\d{4}[1-9]$/.test(data.url)) {
+          setFlightSearch({ status: "error", key: flightSearchErrorKey(data.error) });
+          return;
+        }
+        window.location.assign(data.url);
+      } catch {
+        setFlightSearch({ status: "error", key: "search.flightSearchTemporaryError" });
+      }
+      return;
+    }
     void runFlightSearch({
       origin: origen.trim(),
       destination: destinoVuelo.trim(),
