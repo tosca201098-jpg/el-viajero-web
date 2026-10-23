@@ -18,10 +18,10 @@ const selection=load('lib/destinations/selection.ts');
 const presentation=load('lib/destinations/presentation.ts');
 const slugs=['prague','brno','cesky-krumlov','karlovy-vary','kutna-hora','olomouc','plzen','ceske-budejovice','telc','mikulov-lednice','bohemian-switzerland','ostrava'];
 
-test('twelve new Czech profiles extend 161 unchanged identities to 173, without editorial changes',()=>{
+test('twelve new Czech profiles extend 161 unchanged identities to 185, without editorial changes',()=>{
   assert.equal(before.profiles.length,161);assert.deepEqual(Array.from(czech,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,173);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,173);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,173);
+  assert.equal(catalog.destinationProfiles.length,185);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,185);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,185);
   for(const x of before.profiles){const p=catalog.getDestinationById(x.id);assert.equal(p.slug,x.slug);assert.equal(digest(p),x.sha256,x.id)}
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
   assert.equal(load('lib/destinations/featured.ts').destinations.length,16);
