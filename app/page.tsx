@@ -8,6 +8,7 @@ import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryP
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
 import HeaderAuth from "./components/HeaderAuth";
 import LanguageSelector from "./components/LanguageSelector";
+import DestinationProfileSummary from "./components/DestinationProfileSummary";
 import { getDestinationText, getDestinationCountryName } from '@/lib/destinations/localization';
 import type { Locale } from '@/lib/i18n/translations';
 import { getSupabaseClient } from "@/lib/supabase/client";
@@ -276,7 +277,7 @@ voiceSearchRef.current = (datos) => {
   }
   function confirmFlightDestination(selection: Parameters<typeof destinationFromPlaceSelection>[0], value: string) {
     const profile = destinationFromPlaceSelection(selection);
-    setConfirmedFlightDestination(profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL'].includes(profile.countryCode) ? { destinationId: profile.id, value } : null);
+    setConfirmedFlightDestination(profile ? { destinationId: profile.id, value } : null);
   }
   function openDestinationProfile(destination: Destination) {
     setFlightResultsOpen(false);
@@ -285,8 +286,10 @@ voiceSearchRef.current = (datos) => {
   }
   function renderConfirmedDestination() {
     return confirmedFlightProfile ? <button type="button" onClick={() => openDestinationProfile(confirmedFlightProfile)}
-      className="mt-1 min-h-[44px] text-left text-sm font-semibold text-blue-700 underline">
-      {t('monthly.viewDestination')}: {getDestinationText(confirmedFlightProfile, language).name}
+      aria-label={`${t('monthly.viewDestination')}: ${getDestinationText(confirmedFlightProfile, language).name}`}
+      aria-haspopup="dialog"
+      className="mt-2 block w-full min-w-0 rounded-xl border border-blue-300 bg-white px-2 text-left transition hover:border-blue-600 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
+      <DestinationProfileSummary destination={confirmedFlightProfile} />
     </button> : null;
   }
   const [fechaIda, setFechaIda] = useState("");
@@ -527,7 +530,7 @@ function abrirPaquete(destino = "") {
         });
         const data = await response.json();
         if (!response.ok || data.success !== true || typeof data.url !== 'string' ||
-          !/^\/vuelos\?flightSearch=[A-Z]{3}\d{4}[A-Z]{3}\d{4}[1-9]$/.test(data.url)) {
+          !/^\/vuelos\?flightSearch=[A-Z]{3}\d{4}[A-Z]{3}\d{4}[1-9](?:&destinationId=[a-z]{2}-[a-z0-9-]+)?$/.test(data.url)) {
           setFlightSearch({ status: "error", key: flightSearchErrorKey(data.error) });
           return;
         }
@@ -896,8 +899,8 @@ function abrirPaquete(destino = "") {
                       <FlightLocationAutocomplete label={t("search.origin")} value={origen} onChange={setOrigen} placeholder="Madrid" variant="main" />
                       {!discoverMode && <div className="min-w-0">
                         <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={changeFlightDestination} onSelect={confirmFlightDestination} placeholder="París" variant="main" />
-                        {renderConfirmedDestination()}
                       </div>}
+                      {!discoverMode && confirmedFlightProfile && <div className="col-span-2 min-w-0">{renderConfirmedDestination()}</div>}
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
                         {t("search.departureDate")}
                         <input required type="date" value={fechaIda} onChange={(e) => setFechaIda(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
@@ -1414,8 +1417,8 @@ function abrirPaquete(destino = "") {
 
                 <div className="min-w-0">
                   <FlightLocationAutocomplete label={t("search.destination")} value={destinoVuelo} onChange={changeFlightDestination} onSelect={confirmFlightDestination} placeholder="París" variant="modal" />
-                  {renderConfirmedDestination()}
                 </div>
+                {confirmedFlightProfile && <div className="min-w-0 md:col-span-2">{renderConfirmedDestination()}</div>}
 
                 <label>
                   <span className="mb-2 block text-sm text-slate-300">

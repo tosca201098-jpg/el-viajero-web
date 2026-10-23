@@ -2,17 +2,21 @@ import type { Metadata } from 'next';
 import Script from 'next/script';
 import Link from 'next/link';
 import { isWhiteLabelFlightSearch } from '@/lib/travelpayouts/white-label';
+import { flightProfileForSearch } from '@/lib/travelpayouts/flight-profile';
+import DestinationProfileSummary from '@/app/components/DestinationProfileSummary';
 
 export const metadata: Metadata = {
   title: 'Buscar vuelos | Destinauta',
   description: 'Consulta vuelos con el metabuscador de Travelpayouts en Destinauta.',
+  robots: { index: false, follow: false },
 };
 
 export default async function VuelosPage({ searchParams }: {
-  searchParams: Promise<{ flightSearch?: string }>;
+  searchParams: Promise<{ flightSearch?: string; destinationId?: string }>;
 }) {
-  const { flightSearch } = await searchParams;
+  const { flightSearch, destinationId } = await searchParams;
   const hasSearch = isWhiteLabelFlightSearch(flightSearch);
+  const destination = flightProfileForSearch(flightSearch, destinationId);
   return (
     <main className="min-h-screen bg-[#f8f6ef] px-4 py-8 text-[#292624] sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
@@ -23,6 +27,9 @@ export default async function VuelosPage({ searchParams }: {
         <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600 sm:text-base">
           Consulta opciones de vuelo en el metabuscador de Travelpayouts. Los precios y la disponibilidad pueden cambiar al abrir la oferta.
         </p>
+        {destination && <article className="mt-5 overflow-hidden rounded-2xl border border-blue-600/20 bg-white/80 shadow-sm">
+          <DestinationProfileSummary destination={destination} detailed />
+        </article>}
         {hasSearch ? <>
           {/* The provider mounts its search component, but the visitor uses only the home form. */}
           <div id="tpwl-search" hidden aria-hidden="true" />

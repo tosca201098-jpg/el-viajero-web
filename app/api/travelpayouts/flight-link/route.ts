@@ -1,5 +1,6 @@
 import { matchingDestinationProfile, resolveCity } from '@/lib/travelpayouts/places';
 import { whiteLabelFlightSearch } from '@/lib/travelpayouts/white-label';
+import { findDestinationProfile } from '@/lib/destinations';
 
 export const runtime = 'nodejs';
 
@@ -35,7 +36,10 @@ export async function POST(request: Request) {
     const flightSearch = whiteLabelFlightSearch({ origin: origin.code, destination: destination.code,
       departureDate: input.departureDate, returnDate: input.returnDate, travelers: input.travelers });
     if (!flightSearch) return Response.json({ success: false, error: 'invalid_search' }, { status: 400 });
-    return Response.json({ success: true, url: `/vuelos?flightSearch=${flightSearch}` },
+    const profile = known?.iataCodes.includes(destination.code) ? known
+      : findDestinationProfile({ iataCode: destination.code });
+    const profileParam = profile ? `&destinationId=${encodeURIComponent(profile.id)}` : '';
+    return Response.json({ success: true, url: `/vuelos?flightSearch=${flightSearch}${profileParam}` },
       { headers: { 'Cache-Control': 'no-store' } });
   } catch {
     return Response.json({ success: false, error: 'provider_unavailable' }, { status: 502 });
