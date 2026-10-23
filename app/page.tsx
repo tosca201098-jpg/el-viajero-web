@@ -1153,6 +1153,13 @@ function abrirPaquete(destino = "") {
                     {destinationDisplay(destino, language).name}
                   </h3>
                 </div>
+                <button
+                  type="button"
+                  onClick={() => setDestinoSeleccionado(destino)}
+                  aria-label={`${t("monthly.viewDestination")}: ${destinationDisplay(destino, language).name}`}
+                  aria-haspopup="dialog"
+                  className="absolute inset-0 z-10 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-cyan-300"
+                />
               </div>
 
               <div className="flex flex-1 flex-col p-2.5 lg:p-2 max-sm:p-2">

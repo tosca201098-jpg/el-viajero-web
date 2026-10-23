@@ -62,6 +62,29 @@ test('homepage preserves all 16 original featured cards, including Paris, in all
   }
 });
 
+test('the photograph and Explore button of every original card open the same destination profile',()=>{
+  for(const locale of locales){
+    const opened=[];
+    const reactWithState={...react,useState:initial=>[initial,value=>opened.push(value)]};
+    const load=renderLoader(locale,{react:reactWithState});
+    const cards=nodes(load('app/page.tsx').default()).filter(n=>n.type==='article');
+    const featured=load('lib/destinations/featured.ts').destinations;
+    assert.equal(cards.length,featured.length);
+    cards.forEach((card,index)=>{
+      const buttons=nodes(card).filter(n=>n.type==='button');
+      const image=nodes(card).find(n=>n.type==='img');
+      assert.equal(image.props.src,featured[index].image);
+      assert.equal(buttons.length,2);
+      assert.equal(buttons[0].props['aria-haspopup'],'dialog');
+      assert.equal(buttons[0].props['aria-label'],`${dictionaries.translate(locale,'monthly.viewDestination')}: ${localization.getDestinationText(featured[index],locale).name}`);
+      buttons[0].props.onClick();
+      buttons[1].props.onClick();
+      assert.equal(opened.at(-2),featured[index]);
+      assert.equal(opened.at(-1),featured[index]);
+    });
+  }
+});
+
 test('four seasons preserve every original card in its original order, without new country sections',()=>{
   const original=require('./fixtures/original-season-cards.json');
   for(const season of ['primavera','verano','otono','invierno']) {
