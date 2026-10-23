@@ -135,6 +135,11 @@ const fondos = [
   // Tailandia
   "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1600&q=85",
 ];
+function leaveFeaturedFlightSearch() {
+  try { sessionStorage.removeItem("destinauta.featured-flight-context"); } catch { /* Ignore unavailable storage. */ }
+  window.location.assign("/");
+}
+
 export default function Home() {
   const { t, text, language } = useLanguage();
   const destinationsCarouselRef = useRef<HTMLDivElement | null>(null);
@@ -323,10 +328,33 @@ voiceSearchRef.current = (datos) => {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const search = params.get("flightSearch");
-    const destination = featuredDestinationForSearch(search, params.get("featured"));
+    const storageKey = "destinauta.featured-flight-context";
+    let slug = params.get("featured");
+    let departureDate = params.get("departureDate");
+    let returnDate = params.get("returnDate");
+    // The official White Label widget removes unrelated query parameters. Keep
+    // the card and full dates available if its results page is refreshed.
+    if (search && !slug) {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(storageKey) ?? "null") as {
+          search?: unknown; slug?: unknown; departureDate?: unknown; returnDate?: unknown;
+        } | null;
+        if (saved?.search === search && typeof saved.slug === "string") {
+          slug = saved.slug;
+          departureDate = typeof saved.departureDate === "string" ? saved.departureDate : null;
+          returnDate = typeof saved.returnDate === "string" ? saved.returnDate : null;
+        }
+      } catch { /* Private browsing may disable session storage. */ }
+    }
+    const destination = featuredDestinationForSearch(search, slug);
     if (!destination || !search) return;
-    const context: ItineraryContext = itineraryContextForFlightSearch(search, params.get("departureDate"), params.get("returnDate"));
+    const context: ItineraryContext = itineraryContextForFlightSearch(search, departureDate, returnDate);
     if (!context.departureDate || !context.returnDate) return;
+    try {
+      sessionStorage.setItem(storageKey, JSON.stringify({
+        search, slug, departureDate: context.departureDate, returnDate: context.returnDate,
+      }));
+    } catch { /* Search still works when storage is unavailable. */ }
     setDestinoSeleccionado(destination);
     setFeaturedFlightSearch({ search, destination, context });
   }, []);
@@ -366,14 +394,17 @@ voiceSearchRef.current = (datos) => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setDestinoSeleccionado(null);
+      if (event.key === "Escape") {
+        if (featuredFlightSearch) leaveFeaturedFlightSearch();
+        else setDestinoSeleccionado(null);
+      }
     };
     document.addEventListener("keydown", handleEscape);
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [destinoSeleccionado, flightResultsOpen]);
+  }, [destinoSeleccionado, flightResultsOpen, featuredFlightSearch]);
 
   // HOTELES
   const [destinoHotel, setDestinoHotel] = useState("");
@@ -767,7 +798,7 @@ function abrirPaquete(destino = "") {
 
   function closeDestinationDetail() {
     if (featuredFlightSearch) {
-      window.location.assign("/");
+      leaveFeaturedFlightSearch();
       return;
     }
     voiceItineraryRef.current?.cancel();
