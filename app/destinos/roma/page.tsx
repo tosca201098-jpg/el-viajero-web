@@ -1,4 +1,5 @@
 "use client";
+import HotelDestinationLink from '@/app/components/HotelDestinationLink';
 
 export default function RomaPage() {
   return (
@@ -40,9 +41,7 @@ export default function RomaPage() {
     ✈️ Buscar vuelos
   </button>
 
-  <button className="rounded-2xl border border-white/20 bg-white/10 px-5 py-4 font-bold">
-    🏨 Buscar hoteles
-  </button>
+  <HotelDestinationLink destination={{ name: 'Roma', country: 'Italia' }} context={{}} />
 
   <button className="rounded-2xl bg-cyan-400 px-5 py-4 font-bold text-slate-950">
     🌍 Vuelo + Hotel

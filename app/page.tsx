@@ -25,6 +25,7 @@ import { spanishMonthSlugs } from "@/lib/destinations/months";
 import { VoiceSession, type VoiceError, type VoicePhase, type VoiceSearchArguments } from "@/lib/voice/session";
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
+import { hotelDefaults, hotelFlightDefaults, hotelsHref, validHotelSearch } from "@/lib/stay22/hotels";
 import { itineraryContextForFlightSearch } from "@/lib/travelpayouts/flight-profile";
 import { createVoiceItineraryRequest, type VoiceItineraryRequest, type VoiceItineraryArguments, type VoiceItineraryContext, type VoiceItineraryResult } from "@/lib/voice/itinerary";
 
@@ -242,7 +243,7 @@ voiceSearchRef.current = (datos) => {
   const selectedCatalogProfile = localizedCatalogProfile(destinoSeleccionado);
   const selectedDisplay = destinoSeleccionado ? destinationDisplay(destinoSeleccionado, language) : null;
 
-  const [modal, setModal] = useState<"vuelos" | "hoteles" | "paquete" | null>(null);
+  const [modal, setModal] = useState<"vuelos" | "paquete" | null>(null);
 
   voiceItineraryHandlerRef.current = (args, context) => {
     voiceItineraryRef.current?.cancel();
@@ -412,7 +413,7 @@ voiceSearchRef.current = (datos) => {
   const [salida, setSalida] = useState("");
   const [huespedes, setHuespedes] = useState(2);
   const [habitaciones, setHabitaciones] = useState(1);
-  const [mensajeHoteles, setMensajeHoteles] = useState("");
+  const [hotelError, setHotelError] = useState(false);
   const [savingTrip, setSavingTrip] = useState<TripService | null>(null);
   const savingTripRef = useRef(false);
   const [saveFeedback, setSaveFeedback] = useState<Partial<Record<TripService, { kind: "error" | "success"; key: TranslationKey; fields?: TranslationKey[] }>>>({});
@@ -428,16 +429,16 @@ voiceSearchRef.current = (datos) => {
     const service = params.get("primaveraServicio");
     const destination = params.get("destino")?.trim();
     if (!destination || (service !== "vuelo" && service !== "hotel" && service !== "ambos")) return;
+    if (service === "hotel") {
+      window.location.replace(hotelsHref({ destination }));
+      return;
+    }
 
-    const tab = service === "ambos" ? "paquete" : service === "hotel" ? "hoteles" : "vuelos";
+    const tab = service === "ambos" ? "paquete" : "vuelos";
     const radio = document.getElementById(`buscador-${tab}`) as HTMLInputElement | null;
     if (radio) radio.checked = true;
-    if (service === "hotel") {
-      setDestinoHotel(destination);
-    } else {
-      setDestinoVuelo(destination);
-      if (service === "ambos") setDestinoHotel(destination);
-    }
+    setDestinoVuelo(destination);
+    if (service === "ambos") setDestinoHotel(destination);
     requestAnimationFrame(() => document.getElementById("buscador")?.scrollIntoView({ block: "start" }));
   }, []);
 
@@ -552,11 +553,16 @@ function abrirPaquete(destino = "") {
   setModal("paquete");
   setDestinoSeleccionado(null);
 }
-  function abrirHoteles(destino = "") {
-    if (destino) setDestinoHotel(destino);
-    setFlightResultsOpen(false);
-    setModal("hoteles");
-    setDestinoSeleccionado(null);
+  function abrirHoteles(destino: Destination, context: ItineraryContext) {
+    const hotelForm = currentHotelForm();
+    const hotelCity = normalizeDestinationName(destinoHotel);
+    const sameHotelCity = hotelCity === normalizeDestinationName(destino.name) ||
+      hotelCity === normalizeDestinationName(`${destino.name}, ${destino.country}`);
+    const values = sameHotelCity && validHotelSearch(hotelForm) ? hotelForm : {
+      ...hotelDefaults,
+      ...(!flexibleDates || featuredFlightSearch ? hotelFlightDefaults(context) : {}),
+    };
+    window.location.assign(hotelsHref({ ...values, destination: `${destino.name}, ${destino.country}` }));
   }
 
   function requestFlightDetails(destinationValue: string, key: TranslationKey, focus: "origin" | "destination" | "departure" | "return" | "travelers") {
@@ -880,10 +886,14 @@ function abrirPaquete(destino = "") {
 
   function buscarHoteles(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    const form = currentHotelForm();
+    if (!validHotelSearch(form)) { setHotelError(true); return; }
+    window.location.assign(hotelsHref(form));
+  }
 
-    setMensajeHoteles(
-      "El buscador está preparado. Conectaremos la disponibilidad y los precios reales mediante la API en el último paso."
-    );
+  function currentHotelForm() {
+    return { ...hotelDefaults, destination: destinoHotel, checkin: entrada, checkout: salida,
+      adults: String(huespedes), rooms: String(habitaciones) };
   }
 
   const flightDestinationCard = flightSearch.status === "success"
@@ -1071,7 +1081,7 @@ function abrirPaquete(destino = "") {
                         <input required type="date" value={salida} onChange={(e) => setSalida(e.target.value)} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
-                        {t("search.guests")}
+                        {t("hotels.adults")}
                         <input required type="number" min={1} max={10} value={huespedes} onChange={(e) => setHuespedes(Number(e.target.value))} className="mt-0.5 w-full max-sm:mt-0 max-sm:h-11 max-sm:min-h-[44px] max-sm:min-w-0 rounded-xl border border-stone-300 bg-white px-4 py-1 max-sm:px-2 text-sm leading-4 text-stone-800 outline-none focus:border-blue-600 focus:ring-2 focus:ring-blue-600/20" />
                       </label>
                       <label className="block text-xs leading-4 font-semibold text-stone-700 max-sm:min-w-0 max-sm:leading-[14px]">
@@ -1083,8 +1093,9 @@ function abrirPaquete(destino = "") {
                     🔍 {t("search.submit")}
                   </button>
                   {renderSaveTripAction("hotel")}
-                  {mensajeHoteles && (
-                    <p role="status" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{text(mensajeHoteles)}</p>
+                  <button type="button" onClick={() => window.location.assign(hotelsHref(currentHotelForm()))} className="mt-2 min-h-11 text-xs font-semibold text-blue-700 underline">{t("hotels.moreGuests")}</button>
+                  {hotelError && (
+                    <p role="alert" className="mt-2 rounded-xl bg-blue-50 px-4 py-1.5 text-sm leading-6 text-blue-900">{t("hotels.invalid")}</p>
                   )}
                 </form>
                 <form onSubmit={(e) => {
@@ -1487,7 +1498,7 @@ function abrirPaquete(destino = "") {
 
                 <button
                   onClick={() =>
-                    abrirHoteles(destinoSeleccionado.name)
+                    abrirHoteles(destinoSeleccionado, itineraryContext)
                   }
                   className="rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-4 font-bold text-cyan-200"
                 >
@@ -1586,125 +1597,6 @@ function abrirPaquete(destino = "") {
             </form>
 
             {renderFlightSearchFeedback(true)}
-          </div>
-        </div>
-      )}
-
-      {/* MODAL HOTELES */}
-      {modal === "hoteles" && (
-        <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 text-white p-4 backdrop-blur-md">
-          <div className="mx-auto my-8 max-w-4xl rounded-[30px] border border-white/10 bg-slate-950 p-6 shadow-2xl md:p-9">
-            <div className="mb-8 flex items-start justify-between gap-5">
-              <div>
-                <p className="text-sm font-bold tracking-[0.25em] text-cyan-300">
-                {t("brand.name")}
-                </p>
-                <h2 className="mt-2 text-3xl font-black md:text-4xl">
-                  🏨 {t("search.findHotels")}
-                </h2>
-                {nonFlightVoiceBudget?.service === "hotel" && nonFlightVoiceBudget.destination === destinoHotel && (
-                  <p className="mt-2 text-sm font-semibold text-cyan-200">{budgetLabel(nonFlightVoiceBudget.budget)}</p>
-                )}
-              </div>
-
-              <button
-                onClick={() => setModal(null)}
-                className="rounded-full bg-white px-4 py-2 font-bold text-slate-950"
-              >
-                ✕
-              </button>
-            </div>
-
-            <form onSubmit={buscarHoteles}>
-              <div className="grid gap-4 md:grid-cols-2">
-                <label className="md:col-span-2">
-                  <span className="mb-2 block text-sm text-slate-300">
-                    {t("search.destination")}
-                  </span>
-                  <input
-                    required
-                    value={destinoHotel}
-                    onChange={(e) => setDestinoHotel(e.target.value)}
-                    placeholder="Barcelona"
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none focus:border-cyan-300/50"
-                  />
-                </label>
-
-                <label>
-                  <span className="mb-2 block text-sm text-slate-300">
-                    {t("search.checkIn")}
-                  </span>
-                  <input
-                    required
-                    type="date"
-                    value={entrada}
-                    onChange={(e) => setEntrada(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none"
-                  />
-                </label>
-
-                <label>
-                  <span className="mb-2 block text-sm text-slate-300">
-                    {t("search.checkOut")}
-                  </span>
-                  <input
-                    required
-                    type="date"
-                    value={salida}
-                    onChange={(e) => setSalida(e.target.value)}
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none"
-                  />
-                </label>
-
-                <label>
-                  <span className="mb-2 block text-sm text-slate-300">
-                    {t("search.guests")}
-                  </span>
-                  <input
-                    required
-                    type="number"
-                    min={1}
-                    max={20}
-                    value={huespedes}
-                    onChange={(e) =>
-                      setHuespedes(Number(e.target.value))
-                    }
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none"
-                  />
-                </label>
-
-                <label>
-                  <span className="mb-2 block text-sm text-slate-300">
-                    {t("search.rooms")}
-                  </span>
-                  <input
-                    required
-                    type="number"
-                    min={1}
-                    max={10}
-                    value={habitaciones}
-                    onChange={(e) =>
-                      setHabitaciones(Number(e.target.value))
-                    }
-                    className="w-full rounded-xl border border-white/10 bg-white/[0.07] p-4 outline-none"
-                  />
-                </label>
-              </div>
-
-              <button
-                type="submit"
-                className="mt-6 w-full rounded-xl bg-cyan-300 px-6 py-4 font-black text-slate-950 transition hover:bg-cyan-200"
-              >
-                {t("search.findHotels")}
-              </button>
-              {renderSaveTripAction("hotel", true)}
-            </form>
-
-            {mensajeHoteles && (
-              <div className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-5 leading-7 text-cyan-100">
-                {text(mensajeHoteles)}
-              </div>
-            )}
           </div>
         </div>
       )}
