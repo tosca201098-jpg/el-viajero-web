@@ -3,6 +3,7 @@
 import { useLanguage } from "./components/LanguageProvider";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
+import Script from "next/script";
 import AuthDialog from "./components/AuthDialog";
 import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryPlanner";
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
@@ -23,6 +24,8 @@ import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
 import { VoiceSession, type VoiceError, type VoicePhase, type VoiceSearchArguments } from "@/lib/voice/session";
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
+import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
+import { itineraryContextForFlightSearch } from "@/lib/travelpayouts/flight-profile";
 import { createVoiceItineraryRequest, type VoiceItineraryRequest, type VoiceItineraryArguments, type VoiceItineraryContext, type VoiceItineraryResult } from "@/lib/voice/itinerary";
 
 type FlightOffer = {
@@ -132,6 +135,11 @@ const fondos = [
   // Tailandia
   "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1600&q=85",
 ];
+function leaveFeaturedFlightSearch() {
+  try { sessionStorage.removeItem("destinauta.featured-flight-context"); } catch { /* Ignore unavailable storage. */ }
+  window.location.assign("/");
+}
+
 export default function Home() {
   const { t, text, language } = useLanguage();
   const destinationsCarouselRef = useRef<HTMLDivElement | null>(null);
@@ -302,8 +310,12 @@ voiceSearchRef.current = (datos) => {
   const [discoverBudgetType, setDiscoverBudgetType] = useState<"total" | "por_persona">("por_persona");
   const [discoverState, setDiscoverState] = useState<DiscoverState>({ status: "idle" });
   const [mensajeVuelos, setMensajeVuelos] = useState("");
+  const [flightFormPrompt, setFlightFormPrompt] = useState<TranslationKey | null>(null);
   const [flightSearch, setFlightSearch] = useState<FlightSearchState>({ status: "idle" });
   const [flightResultsOpen, setFlightResultsOpen] = useState(false);
+  const [featuredFlightSearch, setFeaturedFlightSearch] = useState<{
+    search: string; destination: Destination; context: ItineraryContext;
+  } | null>(null);
   const [pendingVoiceFlightSearch, setPendingVoiceFlightSearch] = useState<FlightQuery | null>(null);
   const [nonFlightVoiceBudget, setNonFlightVoiceBudget] = useState<{
     destination: string; service: "hotel" | "ambos"; budget: SearchBudget;
@@ -312,6 +324,40 @@ voiceSearchRef.current = (datos) => {
   const discoverRequestIdRef = useRef(0);
   const flightResultsCloseRef = useRef<HTMLButtonElement | null>(null);
   const flightSearchSubmitRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const search = params.get("flightSearch");
+    const storageKey = "destinauta.featured-flight-context";
+    let slug = params.get("featured");
+    let departureDate = params.get("departureDate");
+    let returnDate = params.get("returnDate");
+    // The official White Label widget removes unrelated query parameters. Keep
+    // the card and full dates available if its results page is refreshed.
+    if (search && !slug) {
+      try {
+        const saved = JSON.parse(sessionStorage.getItem(storageKey) ?? "null") as {
+          search?: unknown; slug?: unknown; departureDate?: unknown; returnDate?: unknown;
+        } | null;
+        if (saved?.search === search && typeof saved.slug === "string") {
+          slug = saved.slug;
+          departureDate = typeof saved.departureDate === "string" ? saved.departureDate : null;
+          returnDate = typeof saved.returnDate === "string" ? saved.returnDate : null;
+        }
+      } catch { /* Private browsing may disable session storage. */ }
+    }
+    const destination = featuredDestinationForSearch(search, slug);
+    if (!destination || !search) return;
+    const context: ItineraryContext = itineraryContextForFlightSearch(search, departureDate, returnDate);
+    if (!context.departureDate || !context.returnDate) return;
+    try {
+      sessionStorage.setItem(storageKey, JSON.stringify({
+        search, slug, departureDate: context.departureDate, returnDate: context.returnDate,
+      }));
+    } catch { /* Search still works when storage is unavailable. */ }
+    setDestinoSeleccionado(destination);
+    setFeaturedFlightSearch({ search, destination, context });
+  }, []);
 
   useEffect(() => {
     flightRequestIdRef.current += 1;
@@ -348,14 +394,17 @@ voiceSearchRef.current = (datos) => {
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     const handleEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setDestinoSeleccionado(null);
+      if (event.key === "Escape") {
+        if (featuredFlightSearch) leaveFeaturedFlightSearch();
+        else setDestinoSeleccionado(null);
+      }
     };
     document.addEventListener("keydown", handleEscape);
     return () => {
       document.body.style.overflow = previousOverflow;
       document.removeEventListener("keydown", handleEscape);
     };
-  }, [destinoSeleccionado, flightResultsOpen]);
+  }, [destinoSeleccionado, flightResultsOpen, featuredFlightSearch]);
 
   // HOTELES
   const [destinoHotel, setDestinoHotel] = useState("");
@@ -510,8 +559,71 @@ function abrirPaquete(destino = "") {
     setDestinoSeleccionado(null);
   }
 
+  function requestFlightDetails(destinationValue: string, key: TranslationKey, focus: "origin" | "destination" | "departure" | "return" | "travelers") {
+    setDestinoVuelo(destinationValue);
+    setFlightFormPrompt(key);
+    setModal(null);
+    setDestinoSeleccionado(null);
+    (document.getElementById("buscador-vuelos") as HTMLInputElement | null)?.click();
+    window.setTimeout(() => {
+      document.getElementById("buscador")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      const form = document.querySelector<HTMLFormElement>("#buscador form");
+      const inputs = form?.querySelectorAll<HTMLInputElement>('input[role="combobox"]');
+      const dates = form?.querySelectorAll<HTMLInputElement>('input[type="date"]');
+      const target = focus === "origin" ? inputs?.[0] : focus === "destination" ? inputs?.[1]
+        : focus === "departure" ? dates?.[0] : focus === "return" ? dates?.[1]
+        : form?.querySelector<HTMLInputElement>('input[type="number"]');
+      target?.focus({ preventScroll: true });
+    }, 0);
+  }
+
+  async function launchExactFlightSearch(query: FlightQuery, fromCard = false) {
+    setFlightSearch({ status: "loading" });
+    try {
+      const response = await fetch('/api/travelpayouts/flight-link', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(query),
+      });
+      const data = await response.json();
+      const catalogUrl = typeof data.url === 'string' &&
+        /^\/vuelos\?flightSearch=[A-Z]{3}\d{4}[A-Z]{3}\d{4}[1-9](?:&destinationId=[a-z]{2}-[a-z0-9-]+&departureDate=\d{4}-\d{2}-\d{2}&returnDate=\d{4}-\d{2}-\d{2})?$/.test(data.url);
+      const featuredUrl = typeof data.url === 'string' &&
+        /^\/\?flightSearch=[A-Z]{3}\d{4}[A-Z]{3}\d{4}[1-9]&featured=[a-z0-9-]+&departureDate=\d{4}-\d{2}-\d{2}&returnDate=\d{4}-\d{2}-\d{2}$/.test(data.url);
+      if (!response.ok || data.success !== true || (!catalogUrl && !featuredUrl)) {
+        if (fromCard && data.error === "unknown_destination") {
+          requestFlightDetails("", "search.flightUnknownDestination", "destination");
+          return;
+        }
+        setFlightSearch({ status: "error", key: flightSearchErrorKey(data.error) });
+        return;
+      }
+      window.location.assign(data.url);
+    } catch {
+      setFlightSearch({ status: "error", key: "search.flightSearchTemporaryError" });
+    }
+  }
+
+  function flightsFromDestinationCard(destination: Destination) {
+    const validContext = origen.trim() && fechaIda && fechaVuelta && fechaVuelta > fechaIda &&
+      Number.isInteger(pasajeros) && pasajeros >= 1 && pasajeros <= 9;
+    if (!validContext) {
+      requestFlightDetails(destination.name, "search.flightInvalidSearch",
+        !origen.trim() ? "origin" : !fechaIda ? "departure" : !fechaVuelta || fechaVuelta <= fechaIda ? "return" : "travelers");
+      return;
+    }
+    const query = { origin: origen.trim(), destination: destination.name,
+      departureDate: fechaIda, returnDate: fechaVuelta, travelers: pasajeros };
+    if (flexibleDates) {
+      void runFlightSearch({ ...query, flexDays });
+    } else {
+      void launchExactFlightSearch(query, true);
+    }
+  }
+
   async function buscarVuelos(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
+    setFlightFormPrompt(null);
     if (flightSearch.status === "loading") return;
     flightSearchSubmitRef.current = (e.nativeEvent as SubmitEvent).submitter as HTMLElement | null;
     if (!flexibleDates) {
@@ -520,24 +632,8 @@ function abrirPaquete(destino = "") {
         setFlightSearch({ status: "error", key: "search.flightInvalidSearch" });
         return;
       }
-      setFlightSearch({ status: "loading" });
-      try {
-        const response = await fetch('/api/travelpayouts/flight-link', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ origin: origen.trim(), destination: destinoVuelo.trim(),
-            departureDate: fechaIda, returnDate: fechaVuelta, travelers: pasajeros }),
-        });
-        const data = await response.json();
-        if (!response.ok || data.success !== true || typeof data.url !== 'string' ||
-          !/^\/vuelos\?flightSearch=[A-Z]{3}\d{4}[A-Z]{3}\d{4}[1-9](?:&destinationId=[a-z]{2}-[a-z0-9-]+&departureDate=\d{4}-\d{2}-\d{2}&returnDate=\d{4}-\d{2}-\d{2})?$/.test(data.url)) {
-          setFlightSearch({ status: "error", key: flightSearchErrorKey(data.error) });
-          return;
-        }
-        window.location.assign(data.url);
-      } catch {
-        setFlightSearch({ status: "error", key: "search.flightSearchTemporaryError" });
-      }
+      void launchExactFlightSearch({ origin: origen.trim(), destination: destinoVuelo.trim(),
+        departureDate: fechaIda, returnDate: fechaVuelta, travelers: pasajeros });
       return;
     }
     void runFlightSearch({
@@ -640,7 +736,7 @@ function abrirPaquete(destino = "") {
         results: [...data.results].sort((a: FlightOffer, b: FlightOffer) => a.price - b.price),
         query,
       });
-      if (libraryDestination || data.results.length > 0 || query.budget) {
+      if (destinationCard || libraryDestination || data.results.length > 0 || query.budget) {
         setDestinoSeleccionado(destinationCard ?? null);
         setModal(null);
         setFlightResultsOpen(true);
@@ -701,6 +797,10 @@ function abrirPaquete(destino = "") {
   }
 
   function closeDestinationDetail() {
+    if (featuredFlightSearch) {
+      leaveFeaturedFlightSearch();
+      return;
+    }
     voiceItineraryRef.current?.cancel();
     setDestinoSeleccionado(null);
     setFlightResultsOpen(false);
@@ -811,7 +911,9 @@ function abrirPaquete(destino = "") {
     : itineraryHasFormDates
       ? { departureDate: fechaIda, returnDate: fechaVuelta, travelers: pasajeros,
           budget: itineraryVoiceBudget }
-      : itineraryVoiceBudget ? { travelers: pasajeros, budget: itineraryVoiceBudget } : {};
+      : featuredFlightSearch && featuredFlightSearch.destination.name === destinoSeleccionado?.name
+        ? featuredFlightSearch.context
+        : itineraryVoiceBudget ? { travelers: pasajeros, budget: itineraryVoiceBudget } : {};
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F7F2E8] text-stone-800">
@@ -951,6 +1053,7 @@ function abrirPaquete(destino = "") {
                   </button>
                   {!discoverMode && renderSaveTripAction("vuelo")}
                   {!discoverMode && renderFlightSearchFeedback()}
+                  {!discoverMode && flightFormPrompt && <p role="status" className="mt-2 rounded-xl border border-blue-200 bg-blue-50 p-3 text-sm text-blue-950">{t(flightFormPrompt)}</p>}
                   {discoverMode && discoverState.status === "error" && <p role="alert" className="mt-2 rounded-xl border border-blue-200 bg-blue-50 p-3 text-sm text-blue-950">{t(discoverState.key)}</p>}
                 </form>
                 <form onSubmit={buscarHoteles} className="col-span-3 mt-1 max-sm:mt-0.5 hidden peer-checked/hoteles:block">
@@ -1363,16 +1466,23 @@ function abrirPaquete(destino = "") {
                 voiceRequest={itineraryVoiceRequest}
               />
 
+              {featuredFlightSearch?.destination === destinoSeleccionado && <section className="mt-8 border-t border-white/10 pt-6" aria-label={t("search.recentFlights")}>
+                <h3 className="text-xl font-bold text-white">✈️ {t("search.recentFlights")}</h3>
+                <p className="mt-2 text-xs leading-5 text-slate-300">{t("search.recentPricesNote")}</p>
+                <div id="tpwl-search" hidden aria-hidden="true" />
+                <div id="tpwl-tickets" className="mt-4 min-w-0 text-slate-900" />
+                <p className="mt-3 text-xs leading-5 text-slate-400">{t("search.widgetNoFlightsHint")}</p>
+              </section>}
+
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}
 
               <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {(!selectedCatalogProfile || selectedCatalogProfile.iataCodes.length > 0) && <button
-                  onClick={() =>
-                    abrirVuelos(destinoSeleccionado.name)
-                  }
-                  className="rounded-2xl bg-cyan-300 px-6 py-4 font-bold text-slate-950"
+                {!featuredFlightSearch && !flightResultsOpen && (!selectedCatalogProfile || selectedCatalogProfile.iataCodes.length > 0) && <button
+                  onClick={() => flightsFromDestinationCard(destinoSeleccionado)}
+                  disabled={flightSearch.status === "loading"}
+                  className="rounded-2xl bg-cyan-300 px-6 py-4 font-bold text-slate-950 disabled:cursor-wait disabled:opacity-60"
                 >
-                  ✈️ {t("search.findFlights")}
+                  ✈️ {flightSearch.status === "loading" ? t("search.searchingFlights") : t("search.findFlights")}
                 </button>}
 
                 <button
@@ -1384,6 +1494,7 @@ function abrirPaquete(destino = "") {
                   🏨 {t("search.findHotels")}
                 </button>
               </div>
+              {flightSearch.status === "error" && <p role="alert" className="mt-3 text-sm text-red-200">{t(flightSearch.key)}</p>}
             </div>
           </div>
         </div>
@@ -1798,6 +1909,17 @@ function abrirPaquete(destino = "") {
         </div>
       )}
 
+      {featuredFlightSearch && <Script id="travelpayouts-featured-flight-widget" strategy="afterInteractive"
+        data-noptimize="1" data-cfasync="false" data-wpfc-render="false" data-no-defer="1"
+        {...{ nowprocket: '', 'seraph-accel-crit': '1' }}>
+        {`(function () {
+          var script = document.createElement("script");
+          script.async = 1;
+          script.type = "module";
+          script.src = "https://tpemd.com/wl_web/main.js?wl_id=23773";
+          document.head.appendChild(script);
+        })();`}
+      </Script>}
       {authMode && <AuthDialog key={authMode} mode={authMode} onClose={() => setAuthMode(null)} />}
     </main>
   );

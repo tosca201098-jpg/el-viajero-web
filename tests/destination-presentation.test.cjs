@@ -30,7 +30,7 @@ function text(n){if(n==null||n===false)return'';if(Array.isArray(n))return n.map
 function renderLoader(locale='es',extra={}) {
   const language={useLanguage:()=>({language:locale,t:(k,v)=>dictionaries.translate(locale,k,v),text:v=>dictionaries.translateText(locale,v)})};
   const blank={default:()=>null};
-  return loader({react,'next/link':{default:'a'},'./components/LanguageProvider':language,'./LanguageProvider':language,
+  return loader({react,'next/link':{default:'a'},'next/script':{default:'script'},'./components/LanguageProvider':language,'./LanguageProvider':language,
     '@/app/components/LanguageProvider':language,'./components/AuthDialog':blank,'./components/ItineraryPlanner':blank,
     './components/FlightLocationAutocomplete':blank,'./components/HeaderAuth':blank,'./components/LanguageSelector':blank,
     '@/app/components/LanguageSelector':blank,'@/lib/supabase/client':{getSupabaseClient:()=>null},
@@ -82,6 +82,24 @@ test('the photograph and Explore button of every original card open the same des
       assert.equal(opened.at(-2),featured[index]);
       assert.equal(opened.at(-1),featured[index]);
     });
+  }
+});
+
+test('each language keeps the original card flight action and the existing itinerary planner',()=>{
+  for(const locale of locales){
+    const state=[];let index=0;
+    const hooks={...react,useState(initial){const slot=index++;if(!(slot in state))state[slot]=initial;
+      return[state[slot],value=>{state[slot]=typeof value==='function'?value(state[slot]):value;}];}};
+    const load=renderLoader(locale,{react:hooks}),Home=load('app/page.tsx').default;
+    const render=()=>{index=0;return Home();};
+    const featured=load('lib/destinations/featured.ts').destinations;
+    const card=nodes(render()).filter(node=>node.type==='article')[1];
+    nodes(card).find(node=>node.type==='button').props.onClick();
+    const detail=nodes(render());
+    assert.ok(detail.some(node=>node.props.id==='destination-detail-title'&&text(node)===localization.getDestinationText(featured[1],locale).name),locale);
+    assert.ok(detail.some(node=>node.type==='button'&&text(node).includes(dictionaries.translate(locale,'search.findFlights'))),locale);
+    assert.ok(detail.some(node=>node.props.destination===featured[1]&&node.props.context),locale);
+    assert.ok(!detail.some(node=>node.props.id==='tpwl-search'),locale);
   }
 });
 

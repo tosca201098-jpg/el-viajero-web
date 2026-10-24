@@ -21,6 +21,7 @@ test('seven dictionaries, fallback, interpolation and user text', () => {
   for (const { code } of locales) {
     assert.ok(isLocale(code));
     assert.equal(translate(code, 'brand.name'), 'Destinauta');
+    assert.ok(translate(code, 'search.widgetNoFlightsHint').length > 40);
     for (const key of Object.keys(dictionaries.es)) assert.ok(dictionaries[code][key], `${code}: ${key}`);
     assert.ok(translate(code, 'trips.deleteLabel', { destination: 'París <Madrid>' }).includes('París <Madrid>'));
     assert.equal(translateText(code, 'User-written text: Mi viaje'), 'User-written text: Mi viaje');

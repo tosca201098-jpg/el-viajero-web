@@ -31,10 +31,14 @@ test('exact search links carry the catalog identity and verified full dates for 
   const route = load('app/api/travelpayouts/flight-link/route.ts', {
     '@/lib/travelpayouts/places': {
       matchingDestinationProfile: name => profiles.find(p => p.name === name),
-      resolveCity: async input => ({ name: input, code: ({ Barcelona: 'BCN', Madrid: 'MAD', París: 'PAR', Roma: 'ROM', Oslo: 'OSL' })[input] }),
+      resolveCity: async input => ({ name: input, code: ({ Barcelona: 'BCN', Madrid: 'MAD', París: 'PAR', Roma: 'ROM', Oslo: 'OSL', 'Nueva York': 'NYC' })[input] }),
     },
     '@/lib/travelpayouts/white-label': { whiteLabelFlightSearch: ({ origin, destination }) => `${origin}2011${destination}24112` },
     '@/lib/destinations': { findDestinationProfile: ({ iataCode }) => profiles.find(p => p.iataCodes.includes(iataCode)) },
+    '@/lib/travelpayouts/featured-flight': {
+      findFeaturedDestination: name => name === 'Nueva York' ? { name: 'Nueva York', country: 'Estados Unidos' } : undefined,
+      featuredDestinationSlug: () => 'nueva-york',
+    },
   });
   for (const [name,code,id] of [['Madrid','MAD','es-madrid'],['París','PAR','fr-paris'],['Roma','ROM','it-rome']]) {
     const response = await route.POST({ json: async () => ({ origin:'Barcelona', destination:name,
@@ -46,6 +50,10 @@ test('exact search links carry the catalog identity and verified full dates for 
   const unknown = await route.POST({ json: async () => ({ origin:'Barcelona', destination:'Oslo',
     departureDate:'2026-11-20', returnDate:'2026-11-24', travelers:2 }) });
   assert.equal((await unknown.json()).url,'/vuelos?flightSearch=BCN2011OSL24112');
+  const newYork = await route.POST({ json: async () => ({ origin:'Barcelona', destination:'Nueva York',
+    departureDate:'2026-11-20', returnDate:'2026-11-24', travelers:2 }) });
+  assert.equal((await newYork.json()).url,
+    '/?flightSearch=BCN2011NYC24112&featured=nueva-york&departureDate=2026-11-20&returnDate=2026-11-24');
 });
 
 test('results keep a uniquely identified catalog profile when the provider removes its URL parameter', () => {
@@ -84,6 +92,22 @@ test('itinerary context uses real full dates only when they match the White Labe
   ]) assert.equal(JSON.stringify(context(departure, returning)),
     JSON.stringify({ travelers:2 }));
   assert.equal(JSON.stringify(itineraryContextForFlightSearch('invalid', '2026-11-20', '2026-11-24', new Date('2026-10-23'))), '{}');
+});
+
+test('the home results accept only original editorial identities and validated search syntax', () => {
+  const featured = [{ name:'Nueva York', country:'Estados Unidos' }, { name:'Sídney', country:'Australia' }];
+  const { featuredDestinationSlug, findFeaturedDestination, featuredDestinationForSearch } =
+    load('lib/travelpayouts/featured-flight.ts', {
+      '@/lib/destinations/featured': { destinations: featured },
+      '@/lib/destinations': { normalizeDestinationName: value => value.normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '').toLowerCase().trim().replace(/[^a-z0-9]+/g,' ') },
+      './white-label': { isWhiteLabelFlightSearch: validSearch },
+    });
+  assert.equal(featuredDestinationSlug(featured[0]), 'nueva-york');
+  assert.equal(findFeaturedDestination('NUEVA YÓRK'), featured[0]);
+  assert.equal(featuredDestinationForSearch('BCN2011NYC24112','nueva-york'), featured[0]);
+  assert.equal(featuredDestinationForSearch('BCN2011NYC24112','madrid'), undefined);
+  assert.equal(featuredDestinationForSearch('invalid','nueva-york'), undefined);
 });
 
 test('flight results page renders the existing planner, tourism card and provider results without auto-generation or another form', async () => {

@@ -31,7 +31,7 @@ test('rejects bad IATA, past/impossible dates, same route and unsupported travel
 
 test('original form uses White Label only for exact manual searches', () => {
   const page = fs.readFileSync(path.join(__dirname, '../app/page.tsx'), 'utf8');
-  const submit = page.slice(page.indexOf('async function buscarVuelos('), page.indexOf('async function discoverDestinations('));
+  const submit = page.slice(page.indexOf('async function launchExactFlightSearch('), page.indexOf('async function discoverDestinations('));
   assert.match(submit, /if \(!flexibleDates\)/);
   assert.match(submit, /\/api\/travelpayouts\/flight-link/);
   assert.match(submit, /window\.location\.assign\(data\.url\)/);
