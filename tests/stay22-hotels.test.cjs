@@ -123,9 +123,9 @@ test('a valid mobile search renders a compact summary before its map while retai
   assert.doesNotMatch(html, /dotlistings=true/);
 });
 
-test('all seven interface languages include the compact hotel controls and both notices', () => {
+test('all seven interface languages include the compact controls and three notices', () => {
   const source = fs.readFileSync(path.join(root, 'lib/i18n/translations.ts'), 'utf8');
-  for (const key of ['hotels.modifySearch', 'hotels.moreOptions', 'hotels.affiliate', 'hotels.prices']) {
+  for (const key of ['hotels.modifySearch', 'hotels.moreOptions', 'hotels.affiliatePreMap', 'hotels.affiliate', 'hotels.prices']) {
     const line = source.split('\n').find(value => value.includes('["' + key + '"'));
     assert.ok(line, key);
     const matches = line.match(/"/g) || [];
@@ -133,7 +133,7 @@ test('all seven interface languages include the compact hotel controls and both 
   }
 });
 
-test('each language renders both notices once before the map and describes it for assistive technology', () => {
+test('each language renders a short affiliate notice above the map and both details below it', () => {
   const { renderToStaticMarkup } = require('react-dom/server');
   const React = require('react');
   const { locales, translate } = load('lib/i18n/translations.ts');
@@ -150,13 +150,16 @@ test('each language renders both notices once before the map and describes it fo
     }).default;
     const html = renderToStaticMarkup(React.createElement(Search, { initial: { ...search, checkin, checkout: hotels.localCalendarDate(future) } }));
     const map = html.indexOf('<iframe');
+    const shortNotice = translate(language, 'hotels.affiliatePreMap');
+    assert.ok(html.indexOf(shortNotice) >= 0 && html.indexOf(shortNotice) < map);
+    assert.equal(html.split(shortNotice).length - 1, 1);
     for (const key of ['affiliate', 'prices']) {
       const notice = renderToStaticMarkup(React.createElement('p', { id: `hotels-${key}-notice` }, translate(language, `hotels.${key}`)));
-      assert.ok(html.indexOf(notice) >= 0 && html.indexOf(notice) < map, `${language}: ${key} precedes offers`);
+      assert.ok(html.indexOf(notice) >= 0 && html.indexOf(notice) > map, `${language}: ${key} follows map`);
       assert.equal(html.split(notice).length - 1, 1, `${language}: no duplicate ${key}`);
     }
     assert.match(html, /aria-describedby="hotels-affiliate-notice hotels-prices-notice"/);
-    assert.doesNotMatch(html.slice(map), /id="hotels-(?:affiliate|prices)-notice"/);
+    assert.doesNotMatch(html.slice(0, map), /id="hotels-(?:affiliate|prices)-notice"/);
     assert.match(html, /aid=destinauta/);
     assert.match(html, /priceper=total/);
   }
