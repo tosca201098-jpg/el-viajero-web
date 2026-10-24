@@ -101,12 +101,13 @@ export default function HotelsSearch({ initial }: { initial: HotelForm }) {
       {src && submitted ? <section className="mt-2 sm:mt-6" aria-label={t('hotels.map')}>
         <h2 className="hidden text-xl font-bold sm:block">{submitted.destination}</h2>
         <p className="mt-1 hidden text-sm text-stone-600 sm:block">{submitted.checkin} → {submitted.checkout} · {t('hotels.adults')}: {submitted.adults} · {t('hotels.children')}: {submitted.children} · {t('hotels.infants')}: {submitted.infants} · {t('search.rooms')}: {submitted.rooms} · {submitted.currency}</p>
-        <p className="mt-3 hidden text-sm leading-6 text-stone-600 sm:block">{t('hotels.prices')}</p>
-        <iframe key={src} id="stay22-widget" title={t('hotels.map')} src={src} loading="eager" allowFullScreen className="h-[70dvh] min-h-[420px] w-full rounded-2xl border-0 bg-white sm:mt-3 sm:h-[700px]" />
-        <p className="mt-2 text-xs leading-5 text-stone-600 sm:hidden">{t('hotels.mobilePrices')}</p>
+        <div className="my-3 space-y-1 text-sm leading-6 text-stone-700">
+          <p id="hotels-affiliate-notice">{t('hotels.affiliate')}</p>
+          <p id="hotels-prices-notice">{t('hotels.prices')}</p>
+        </div>
+        <iframe key={src} id="stay22-widget" title={t('hotels.map')} aria-describedby="hotels-affiliate-notice hotels-prices-notice" src={src} loading="eager" allowFullScreen className="h-[70dvh] min-h-[420px] w-full rounded-2xl border-0 bg-white sm:mt-3 sm:h-[700px]" />
       </section> : <p role="status" className="mt-6 rounded-2xl border border-blue-200 bg-white p-5 text-sm">{t('hotels.enterDates')}</p>}
       {language === 'ca' && <p className="mt-2 text-sm">El mapa de Stay22 es mostra en castellà; el català no hi està disponible.</p>}
-      <p className="mt-4 text-xs leading-5 text-stone-600">{t('hotels.affiliate')}</p>
     </div>
   </main>;
 }
