@@ -937,7 +937,7 @@ function abrirPaquete(destino = "") {
       </div>
 
       {/* NAVEGACIÓN */}
-      <nav className="fixed left-0 right-0 top-0 z-[45] overflow-visible border-b border-white/10 bg-[#F7F2E8]/70 backdrop-blur-xl lg:ring-1 lg:ring-inset lg:ring-blue-600/40">
+      <nav className="fixed left-0 right-0 top-0 z-[45] overflow-visible border-b border-white/10 bg-[#60A5FA] backdrop-blur-xl lg:ring-1 lg:ring-inset lg:ring-blue-600/40">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4 max-sm:px-3 max-sm:py-1.5">
           <button
             type="button"
