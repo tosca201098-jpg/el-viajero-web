@@ -60,6 +60,7 @@ export function stay22MapSrc(form: HotelForm, language: string, today = new Date
     adults: form.adults, children: form.children, infants: form.infants, rooms: form.rooms,
     currency: form.currency, ljs: ['es', 'en', 'fr', 'de', 'it', 'pt'].includes(language) ? language : 'es',
     priceper: 'total', campaign: 'destinauta_hoteles', maincolor: '60A5FA',
+    hotelscolor: '1D4ED8', hotelsfontcolor: 'FFFFFF',
     hidecheckinout: 'true', hideguestpicker: 'true', hidesearchbar: 'true', hidecurrency: 'true', hidelanguage: 'true',
   });
   return `https://www.stay22.com/embed/gm?${params}`;

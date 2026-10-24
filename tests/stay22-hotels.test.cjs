@@ -95,3 +95,40 @@ test('rendered hotel page has editable fields and no map for missing or invalid 
   assert.match(html, /priceper=total/);
   assert.match(html, /aid=destinauta/);
 });
+
+test('a valid mobile search renders a compact summary before its map while retaining editable values', () => {
+  const { renderToStaticMarkup } = require('react-dom/server');
+  const React = require('react');
+  const Search = load('app/hoteles/HotelsSearch.tsx', {
+    '@/lib/stay22/hotels': hotels,
+    'next/link': { default: ({ children, ...props }) => React.createElement('a', props, children) },
+    '@/app/components/LanguageSelector': { default: () => null },
+    '@/app/components/LanguageProvider': { useLanguage: () => ({ language: 'es', t: key => key }) },
+  }).default;
+  const future = new Date(); future.setDate(future.getDate() + 2);
+  const checkin = hotels.localCalendarDate(future); future.setDate(future.getDate() + 3);
+  const html = renderToStaticMarkup(React.createElement(Search, { initial: { ...search, checkin, checkout: hotels.localCalendarDate(future), adults: '3', rooms: '2' } }));
+  assert.ok(html.indexOf('aria-expanded="false"') < html.indexOf('id="stay22-widget"'));
+  assert.match(html, /aria-controls="hotels-search-form"/);
+  assert.match(html, /hotels.modifySearch/);
+  assert.match(html, /hotels.moreOptions/);
+  assert.match(html, /hotels\.adults: 3/);
+  assert.match(html, /search\.rooms: 2/);
+  assert.match(html, /hidden sm:block/);
+  assert.match(html, /h-\[70dvh\]/);
+  assert.match(html, /aid=destinauta/);
+  assert.match(html, /hotelscolor=1D4ED8/);
+  assert.match(html, /hotelsfontcolor=FFFFFF/);
+  assert.doesNotMatch(html, /[?&amp;]zoom=/);
+  assert.doesNotMatch(html, /dotlistings=true/);
+});
+
+test('all seven interface languages include the compact hotel controls and price caution', () => {
+  const source = fs.readFileSync(path.join(root, 'lib/i18n/translations.ts'), 'utf8');
+  for (const key of ['hotels.modifySearch', 'hotels.moreOptions', 'hotels.mobilePrices']) {
+    const line = source.split('\n').find(value => value.includes('["' + key + '"'));
+    assert.ok(line, key);
+    const matches = line.match(/"/g) || [];
+    assert.ok(matches.length >= 16, key + ' must include a key and seven translations');
+  }
+});
