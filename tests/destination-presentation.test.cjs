@@ -38,9 +38,9 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 197 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,197);
-  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU'].includes(d.countryCode));
+test('automatic catalog recommendations hide added France profiles; all 209 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,209);
+  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
   assert.equal(presentation.canShowDestinationAutomatically({country:'Portugal'}),true);
@@ -123,7 +123,7 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const tree=Monthly({month,recommendations});
       const cards=nodes(tree).filter(n=>n.type==='article');
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
-      const expected=recommendations.filter(r=>!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
+      const expected=recommendations.filter(r=>!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
     }
   }
