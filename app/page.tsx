@@ -4,6 +4,8 @@ import { useLanguage } from "./components/LanguageProvider";
 
 import { FormEvent, useEffect, useRef, useState } from "react";
 import Script from "next/script";
+import Image from "next/image";
+import voicePanel from "./voice-panel.module.css";
 import AuthDialog from "./components/AuthDialog";
 import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryPlanner";
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
@@ -1140,9 +1142,10 @@ function abrirPaquete(destino = "") {
                 </form>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center border-t border-stone-200 bg-blue-50/70 px-6 py-2 text-center md:border-l md:border-t-0 md:px-8 md:py-2 max-sm:py-1">
-              <h2 className="text-xl leading-6 font-black text-stone-800 max-sm:my-0 max-sm:text-lg max-sm:leading-5">✨ {t("voice.title")}</h2>
-              <p className="mt-2 max-w-sm text-sm leading-5 text-stone-700 max-sm:mt-1 max-sm:leading-[18px]">
+            <div className={`${voicePanel.panel} flex flex-col items-center justify-center border-t border-blue-200/30 px-6 py-6 text-center md:border-l md:border-t-0 md:px-8`}>
+              <Image src="/images/voice-earth.webp" alt="" fill sizes="(max-width: 767px) 100vw, 50vw" className={voicePanel.art} aria-hidden="true" />
+              <h2 className={`${voicePanel.title} text-xl leading-6 font-black text-white max-sm:my-0 max-sm:text-lg max-sm:leading-5`}>✨ {t("voice.title")}</h2>
+              <p className={`${voicePanel.description} mt-2 max-w-sm text-sm leading-5 text-white max-sm:mt-1 max-sm:leading-[18px]`}>
                 {t("voice.description")}
               </p>
               <button
@@ -1150,21 +1153,14 @@ function abrirPaquete(destino = "") {
                 onClick={voicePhase === "idle" ? iniciarVoz : apagarVoz}
                 aria-label={voicePhase === "connecting" ? t("voice.cancel") : vozActiva ? t("voice.stop") : t("voice.title")}
                 aria-pressed={voicePhase !== "idle"}
-                className={`relative mt-2 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl text-white shadow-xl transition hover:bg-blue-700 max-sm:mt-1 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
+                className={`${voicePanel.microphone} relative my-5 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl text-white hover:bg-blue-700 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
               >
-                {vozActiva && (
-                  <span aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-full">
-                    <span className="absolute inset-0 animate-ping rounded-full border-2 border-blue-500 [animation-duration:2s]" />
-                    <span className="absolute inset-0 animate-ping rounded-full border-2 border-blue-400 [animation-delay:650ms] [animation-duration:2s]" />
-                    <span className="absolute inset-0 animate-ping rounded-full border-2 border-blue-300 [animation-delay:1300ms] [animation-duration:2s]" />
-                  </span>
-                )}
                 <span className="relative z-10">🎙️</span>
               </button>
-              {voicePhase === "connecting" && <p role="status" className="mt-1 text-xs text-blue-800">{t("voice.connecting")}</p>}
-              {voiceError && <p role="alert" className="mt-1 text-xs text-red-700">{t(`voice.error.${voiceError}`)}</p>}
-              {voiceItineraryUnknown && <p role="alert" className="mt-1 text-xs text-red-700">{t('voice.itineraryUnknown')}</p>}
-              <div className="mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs font-medium text-stone-700 max-sm:mt-1 max-sm:gap-y-0.5">
+              {voicePhase === "connecting" && <p role="status" className={`${voicePanel.status} mt-1 text-xs`}>{t("voice.connecting")}</p>}
+              {voiceError && <p role="alert" className={`${voicePanel.error} mt-1 text-xs`}>{t(`voice.error.${voiceError}`)}</p>}
+              {voiceItineraryUnknown && <p role="alert" className={`${voicePanel.error} mt-1 text-xs`}>{t('voice.itineraryUnknown')}</p>}
+              <div className={`${voicePanel.benefits} mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs font-medium max-sm:mt-1 max-sm:gap-y-0.5`}>
                 <span>✓ {t("voice.ideas")}</span>
                 <span>✓ {t("voice.time")}</span>
                 <span>✓ {t("voice.recommendations")}</span>
