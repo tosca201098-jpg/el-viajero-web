@@ -36,5 +36,6 @@ test('original form uses White Label only for exact manual searches', () => {
   assert.match(submit, /\/api\/travelpayouts\/flight-link/);
   assert.match(submit, /window\.location\.assign\(data\.url\)/);
   assert.match(submit, /runFlightSearch\(/);
-  assert.match(page, /if \(!pendingVoiceFlightSearch\) return;\s*void runFlightSearch\(pendingVoiceFlightSearch\)/);
+  assert.match(page, /if \(!pendingVoiceFlightSearch \|\| pendingVoiceFlightSearch.started\) return;/);
+  assert.match(page, /runFlightSearch\(pendingVoiceFlightSearch.query, pendingVoiceFlightSearch.context.signal\)/);
 });

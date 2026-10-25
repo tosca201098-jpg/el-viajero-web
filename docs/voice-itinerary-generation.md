@@ -1,5 +1,10 @@
 # Generación de itinerarios mediante voz
 
+> El control de turnos, sustitución de peticiones y cancelación descrito abajo
+> queda actualizado por [Protección de turnos de voz](voice-protected-turns.md).
+> Una petición nueva ya no sustituye a una tarea activa: el micrófono permanece
+> en pausa hasta terminar la tarea y su respuesta hablada.
+
 ## Recorrido
 
 `crear_itinerario({ destino, dias })` solicita una ficha existente del catálogo y

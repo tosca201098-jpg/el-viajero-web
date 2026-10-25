@@ -58,10 +58,10 @@ function harness(overrides = {}) {
   const session = new voice.VoiceSession({
     onPhase: (phase) => phases.push(phase),
     onError: (error) => errors.push(error),
-    onSearch: (args) => searches.push(args),
-    fetcher, createPeerConnection: () => peer, createAudio: () => audio,
+    onSearch: (args) => { searches.push(args); },
+    fetcher, createPeerConnection: () => peer, createAudio: overrides.createAudio ?? (() => audio),
     getUserMedia: overrides.getUserMedia ?? (async () => stream),
-    startupTimeoutMs: overrides.startupTimeoutMs ?? 200,
+    startupTimeoutMs: overrides.startupTimeoutMs ?? 200, rearmDelayMs: 0,
   });
   return { session, peer, channel, audio, stream, localTrack, remoteTrack, remoteStream, calls, phases, errors, searches };
 }
@@ -73,12 +73,18 @@ test('a connected session handles a valid search and releases all media on stop'
   h.peer.ontrack({ streams: [h.remoteStream] });
   h.channel.onopen();
   assert.equal(h.session.status, 'active');
-  assert.equal(h.channel.sent.length, 1);
+  assert.equal(h.channel.sent.filter(e => e.type === 'response.create').length, 1);
   assert.equal(h.calls.length, 2);
-  const tool = { type: 'response.function_call_arguments.done', name: 'buscar_viaje',
+  h.channel.onmessage({ data: JSON.stringify({ type: 'response.created', response: { id: 'greeting' } }) });
+  h.channel.onmessage({ data: JSON.stringify({ type: 'response.done', response: { id: 'greeting', status: 'completed', output: [] } }) });
+  await new Promise(resolve => setTimeout(resolve, 5));
+  h.channel.onmessage({ data: JSON.stringify({ type: 'input_audio_buffer.committed', item_id: 'user-1' }) });
+  h.channel.onmessage({ data: JSON.stringify({ type: 'response.created', response: { id: 'search' } }) });
+  const tool = { call_id: 'search-call', response_id: 'search', type: 'response.function_call_arguments.done', name: 'buscar_viaje',
     arguments: JSON.stringify({ origen: 'Barcelona', destino: 'Lisboa', fecha_ida: '2026-11-20',
       fecha_vuelta: '2026-11-22', viajeros: 2, servicio: 'vuelo', presupuesto: 150, tipo_presupuesto: 'por_persona' }) };
   h.channel.onmessage({ data: JSON.stringify(tool) });
+  await new Promise(setImmediate);
   assert.equal(h.searches.length, 1);
   assert.equal(h.searches[0].presupuesto, 150);
   h.session.stop();
@@ -126,7 +132,7 @@ test('a cancelled response cannot replace a newer active session', async () => {
   await oldStart;
   assert.equal(count, 3);
   assert.equal(h.session.status, 'active');
-  assert.equal(h.channel.sent.length, 1);
+  assert.equal(h.channel.sent.filter(e => e.type === 'response.create').length, 1);
   h.session.stop();
 });
 
@@ -231,4 +237,14 @@ test('dispose prevents later callbacks and stops an active microphone', async ()
   assert.equal(h.peer.closed, true);
   assert.equal(h.channel.closed, true);
   assert.deepEqual(h.errors, []);
+});
+
+test('audio playback rejection surfaces an error and releases the session', async () => {
+  const audio = { play: async () => { throw Error('autoplay blocked'); }, pause() {}, srcObject: null };
+  const h = harness({ createAudio: () => audio });
+  await h.session.start(); h.channel.onopen(); h.peer.ontrack({ streams: [h.remoteStream] });
+  await new Promise(setImmediate);
+  assert.equal(h.session.status, 'idle');
+  assert.deepEqual(h.errors, ['connection']);
+  assert.equal(h.localTrack.stopped > 0, true);
 });

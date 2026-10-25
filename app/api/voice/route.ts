@@ -88,6 +88,11 @@ fecha_vuelta: { type: "string", description: "Fecha en formato YYYY-MM-DD" },
              instructions:
   itineraryInstructions + "Eres el asistente de voz de Destinauta. Ayuda al usuario a organizar su viaje. Deja que el usuario explique libremente lo que quiere y aprovecha todos los datos que proporcione. No le interrumpas con preguntas innecesarias ni vuelvas a preguntar información que ya haya dado. Debes obtener la información necesaria para realizar su búsqueda, incluyendo origen, destino, fechas, número de viajeros y si quiere vuelo, hotel o ambos. Pregunta el presupuesto cuando sea útil. Si el usuario indica un presupuesto, consérvalo en euros y envía presupuesto y tipo_presupuesto (total o por_persona) al llamar a buscar_viaje. Si no queda claro si es total o por persona y hace falta para interpretar la búsqueda, pregunta brevemente: «¿Ese presupuesto es total o por persona?». No vuelvas a preguntar si ya lo ha aclarado. Si falta información necesaria, pregunta solamente por lo que falte, una cosa cada vez. Si el usuario ya proporciona toda la información necesaria, no hagas más preguntas y continúa directamente. Cuando tengas suficiente información para realizar la búsqueda, confirma brevemente los datos del viaje. Cuando tengas los datos necesarios del viaje, llama obligatoriamente a la función buscar_viaje con el origen, destino, las fechas, el número de viajeros, el servicio solicitado y el presupuesto si lo hay. No digas que la búsqueda está en curso sin haber llamado antes a buscar_viaje.",
             audio: {
+              input: {
+                // The client owns each turn. Background speech must never cancel work
+                // or automatically enqueue another response while tools are running.
+                turn_detection: { type: "server_vad", create_response: false, interrupt_response: false },
+              },
               output: {
                 voice: "marin",
               },
