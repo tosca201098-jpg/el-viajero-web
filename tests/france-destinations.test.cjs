@@ -36,11 +36,11 @@ const plain = value => JSON.parse(JSON.stringify(value));
 const byId = id => library.getDestinationById('fr-'+id);
 
 test('France adds exactly twelve canonical identities after the 65 unchanged legacy destinations', () => {
-  assert.equal(france.length,12); assert.equal(library.destinationProfiles.length,185);
+  assert.equal(france.length,12); assert.equal(library.destinationProfiles.length,197);
   assert.deepEqual(Array.from(france,d=>d.id), ['paris','nice','lyon','marseille','bordeaux','strasbourg','toulouse','annecy','chamonix','mont-saint-michel','nantes','lille'].map(s=>'fr-'+s));
   assert.equal(library.getDestinationsByCountry(' fr '),france);
-  assert.equal(new Set(library.destinationProfiles.map(d=>d.id)).size,185);
-  assert.equal(new Set(library.destinationProfiles.map(d=>d.slug)).size,185);
+  assert.equal(new Set(library.destinationProfiles.map(d=>d.id)).size,197);
+  assert.equal(new Set(library.destinationProfiles.map(d=>d.slug)).size,197);
   for(const d of france) {
     assert.equal(d.countryCode,'FR'); assert.equal(d.country,'Francia');
     assert.equal(library.getDestinationById(d.id),d); assert.equal(library.getDestinationBySlug(d.slug),d);
