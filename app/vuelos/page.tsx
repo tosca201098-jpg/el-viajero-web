@@ -5,6 +5,7 @@ import { isWhiteLabelFlightSearch } from '@/lib/travelpayouts/white-label';
 import { flightProfileForSearch, itineraryContextForFlightSearch } from '@/lib/travelpayouts/flight-profile';
 import DestinationProfileSummary from '@/app/components/DestinationProfileSummary';
 import ItineraryPlanner from '@/app/components/ItineraryPlanner';
+import HotelDestinationLink from '@/app/components/HotelDestinationLink';
 
 export const metadata: Metadata = {
   title: 'Buscar vuelos | Destinauta',
@@ -31,6 +32,7 @@ export default async function VuelosPage({ searchParams }: {
         </p>
         {destination && <article className="mt-5 overflow-hidden rounded-2xl border border-blue-600/20 bg-white/80 shadow-sm">
           <DestinationProfileSummary destination={destination} detailed />
+          <div className="px-4 pb-4"><HotelDestinationLink destination={destination} context={itineraryContext} /></div>
           <div className="min-w-0 bg-slate-900 px-3 pb-3 pt-1 sm:px-5 sm:pb-5">
             <ItineraryPlanner destination={destination} context={itineraryContext} />
           </div>

@@ -126,6 +126,7 @@ test('flight results page renders the existing planner, tourism card and provide
         itineraryContextForFlightSearch(search, departure, returning, new Date('2026-10-23')) },
     '@/app/components/DestinationProfileSummary': { default:'summary' },
     '@/app/components/ItineraryPlanner': { default:'planner' },
+    '@/app/components/HotelDestinationLink': { default:'hotel-link' },
   }, { React });
   const nodes = node => !node || typeof node !== 'object' ? [] : Array.isArray(node)
     ? node.flatMap(nodes) : [node, ...(node.children ?? []).flatMap(nodes)];
@@ -134,6 +135,9 @@ test('flight results page renders the existing planner, tourism card and provide
   assert.equal(nodes(tree).filter(n => n.type === 'summary')[0].props.destination,profile);
   const planner = nodes(tree).find(n => n.type === 'planner');
   assert.equal(planner.props.destination, profile);
+  const hotelLink = nodes(tree).find(n => n.type === 'hotel-link');
+  assert.equal(hotelLink.props.destination, profile);
+  assert.equal(hotelLink.props.context, planner.props.context);
   assert.equal(JSON.stringify(planner.props.context), JSON.stringify({ travelers:2,
     departureDate:'2026-11-20', returnDate:'2026-11-24' }));
   assert.equal(planner.props.voiceRequest, undefined);
