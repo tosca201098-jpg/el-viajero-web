@@ -11,7 +11,7 @@ Added on 2026-10-26 as twelve draft tourist profiles. They are discoverable by s
 | Levoča | — | TAT or KSC, onward ground transport |
 | Spiš Castle and surroundings | — | TAT or KSC, onward ground transport |
 | Banská Štiavnica | — | BTS, onward ground transport |
-| Banská Bystrica | — | BTS or TAT, onward ground transport |
+| Banská Bystrica | — | BTS, onward ground transport |
 | Nitra | — | BTS, onward ground transport |
 | Trenčín | — | BTS, onward ground transport |
 | Žilina | — | BTS or TAT, onward ground transport |
