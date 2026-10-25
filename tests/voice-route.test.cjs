@@ -39,6 +39,9 @@ test('server forwards only the temporary secret, never provider metadata', async
   const payload = JSON.parse(requests[0].options.body);
   assert.equal(payload.session.model, 'gpt-realtime-2.1');
   assert.equal(payload.session.audio.output.voice, 'marin');
+  assert.equal(payload.session.audio.input.turn_detection.type, 'server_vad');
+  assert.equal(payload.session.audio.input.turn_detection.create_response, false);
+  assert.equal(payload.session.audio.input.turn_detection.interrupt_response, false);
   assert.equal(payload.session.tools[0].name, 'buscar_viaje');
 });
 

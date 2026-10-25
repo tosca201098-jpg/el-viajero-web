@@ -24,7 +24,7 @@ import { destinations, type Destination } from "@/lib/destinations/featured";
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
-import { VoiceSession, type VoiceError, type VoicePhase, type VoiceSearchArguments } from "@/lib/voice/session";
+import { VoiceSession, type VoiceError, type VoicePhase, type VoiceTurn, type VoiceSearchResult, type VoiceSearchArguments } from "@/lib/voice/session";
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
 import { hotelDefaults, hotelFlightDefaults, hotelsHref, validHotelSearch } from "@/lib/stay22/hotels";
@@ -151,8 +151,9 @@ export default function Home() {
   const [temporada, setTemporada] = useState("primavera");
 const [voicePhase, setVoicePhase] = useState<VoicePhase>("idle");
 const [voiceError, setVoiceError] = useState<VoiceError | null>(null);
+const [voiceTurn, setVoiceTurn] = useState<VoiceTurn>('cancelled');
 const voiceSessionRef = useRef<VoiceSession | null>(null);
-const voiceSearchRef = useRef<(datos: VoiceSearchArguments) => void>(() => {});
+const voiceSearchRef = useRef<(datos: VoiceSearchArguments, context: VoiceItineraryContext) => VoiceSearchResult | Promise<VoiceSearchResult>>(() => ({ status: 'error', error: 'unavailable' }));
 const voiceLocaleRef = useRef(language);
 voiceLocaleRef.current = language;
 const voiceItineraryRef = useRef<VoiceItineraryRequest | null>(null);
@@ -166,7 +167,8 @@ useEffect(() => {
   const session = new VoiceSession({
     onPhase: (phase) => { setVoicePhase(phase); if (phase === 'idle') voiceItineraryRef.current?.cancel(); },
     onError: setVoiceError,
-    onSearch: (datos) => voiceSearchRef.current(datos),
+    onTurn: setVoiceTurn,
+    onSearch: (datos, context) => voiceSearchRef.current(datos, context),
     onItinerary: (args, context) => voiceItineraryHandlerRef.current(args, context),
     getLocale: () => voiceLocaleRef.current,
   });
@@ -194,12 +196,13 @@ const iniciarVoz = () => {
   void voiceSessionRef.current?.start();
 };
 
-voiceSearchRef.current = (datos) => {
+voiceSearchRef.current = (datos, context) => {
+  if (context.signal.aborted) return { status: 'cancelled' };
   const destinoSolicitado = datos.destino;
   const destino = findDestinationProfile({ iataCode: destinoSolicitado, name: destinoSolicitado })
     ?? findDestinationCard(destinoSolicitado);
 
-  if (!destino) return;
+  if (!destino) return { status: 'error', error: 'unknown_destination' };
   const origenSolicitado = datos.origen;
   const origenCanonico = findDestinationProfile({ iataCode: origenSolicitado, name: origenSolicitado })?.name
     ?? origenSolicitado;
@@ -228,16 +231,25 @@ voiceSearchRef.current = (datos) => {
     setModal(null);
     setDestinoSeleccionado(destino);
     if (servicio === "vuelo" && budget) {
-      setPendingVoiceFlightSearch({
+      const query: FlightQuery = {
         origin: origenCanonico,
         destination: destino.name,
         departureDate: datos.fecha_ida,
         returnDate: datos.fecha_vuelta,
         travelers: datos.viajeros,
         budget,
+      };
+      return new Promise<VoiceSearchResult>(resolve => {
+        const cancel = () => resolve({ status: 'cancelled' });
+        context.signal.addEventListener('abort', cancel, { once: true });
+        setPendingVoiceFlightSearch({ query, context, started: false, complete: result => {
+          context.signal.removeEventListener('abort', cancel);
+          resolve(result);
+        } });
       });
     }
   }
+  return { status: 'success' };
 };  const [mensaje, setMensaje] = useState("");
   const [destinoSeleccionado, setDestinoSeleccionado] =
     useState<Destination | null>(null);
@@ -248,7 +260,8 @@ voiceSearchRef.current = (datos) => {
   const [modal, setModal] = useState<"vuelos" | "paquete" | null>(null);
 
   voiceItineraryHandlerRef.current = (args, context) => {
-    voiceItineraryRef.current?.cancel();
+    if (context.signal.aborted) return Promise.resolve({ status: 'cancelled' });
+    if (voiceItineraryRef.current && !voiceItineraryRef.current.settled) return Promise.resolve({ status: 'error', error: 'busy' });
     setVoiceItineraryUnknown(false);
     const destination = findDestinationProfile({ name: args.destino }) ?? findDestinationCard(args.destino);
     if (!destination) {
@@ -319,7 +332,9 @@ voiceSearchRef.current = (datos) => {
   const [featuredFlightSearch, setFeaturedFlightSearch] = useState<{
     search: string; destination: Destination; context: ItineraryContext;
   } | null>(null);
-  const [pendingVoiceFlightSearch, setPendingVoiceFlightSearch] = useState<FlightQuery | null>(null);
+  const [pendingVoiceFlightSearch, setPendingVoiceFlightSearch] = useState<{
+    query: FlightQuery; context: VoiceItineraryContext; started: boolean; complete: (result: VoiceSearchResult) => void;
+  } | null>(null);
   const [nonFlightVoiceBudget, setNonFlightVoiceBudget] = useState<{
     destination: string; service: "hotel" | "ambos"; budget: SearchBudget;
   } | null>(null);
@@ -695,18 +710,26 @@ function abrirPaquete(destino = "") {
     setFlightResultsOpen(true);
   }
 
-  async function runFlightSearch(query: FlightQuery) {
+  async function runFlightSearch(query: FlightQuery, signal?: AbortSignal): Promise<VoiceSearchResult> {
+    if (signal?.aborted) return { status: 'cancelled' };
     if (!query.origin || !query.destination || !query.departureDate || !query.returnDate ||
       !Number.isInteger(query.travelers) || query.travelers < 1 || query.travelers > 9) {
       setFlightSearch({ status: "error", key: "search.flightInvalidSearch" });
-      return;
+      return { status: 'error', error: 'invalid_arguments' };
     }
     if (query.returnDate < query.departureDate) {
       setFlightSearch({ status: "error", key: "search.flightInvalidDates" });
-      return;
+      return { status: 'error', error: 'invalid_arguments' };
     }
 
     const requestId = ++flightRequestIdRef.current;
+    const cancel = () => {
+      if (requestId === flightRequestIdRef.current) {
+        flightRequestIdRef.current++;
+        setFlightSearch({ status: 'idle' });
+      }
+    };
+    signal?.addEventListener('abort', cancel, { once: true });
     setFlightResultsOpen(false);
     setFlightSearch({ status: "loading" });
     const params = new URLSearchParams({
@@ -723,16 +746,16 @@ function abrirPaquete(destino = "") {
     if (query.flexDays) params.set("flexDays", String(query.flexDays));
 
     try {
-      const response = await fetch(`/api/travelpayouts/flights?${params}`, { cache: "no-store" });
+      const response = await fetch(`/api/travelpayouts/flights?${params}`, { cache: "no-store", ...(signal ? { signal } : {}) });
       const data = await response.json();
-      if (requestId !== flightRequestIdRef.current) return;
+      if (signal?.aborted || requestId !== flightRequestIdRef.current) return { status: 'cancelled' };
       if (!response.ok || data.success !== true) {
         setFlightSearch({ status: "error", key: flightSearchErrorKey(data.error) });
-        return;
+        return { status: 'error', error: 'search_failed' };
       }
       if (!Array.isArray(data.results) || !data.origin || !data.destination) {
         setFlightSearch({ status: "error", key: "search.flightSearchError" });
-        return;
+        return { status: 'error', error: 'search_failed' };
       }
       const destinationCard = findFlightDestination(data.destination.code, data.destination.name, query.destination);
       const libraryDestination = findDestinationProfile({ iataCode: data.destination.code, name: data.destination.name })
@@ -749,16 +772,23 @@ function abrirPaquete(destino = "") {
         setModal(null);
         setFlightResultsOpen(true);
       }
+      return { status: 'success' };
     } catch {
+      if (signal?.aborted || requestId !== flightRequestIdRef.current) return { status: 'cancelled' };
       if (requestId === flightRequestIdRef.current) {
         setFlightSearch({ status: "error", key: "search.flightSearchTemporaryError" });
       }
+      return { status: 'error', error: 'search_failed' };
+    } finally {
+      signal?.removeEventListener('abort', cancel);
     }
   }
 
   useEffect(() => {
-    if (!pendingVoiceFlightSearch) return;
-    void runFlightSearch(pendingVoiceFlightSearch);
+    if (!pendingVoiceFlightSearch || pendingVoiceFlightSearch.started) return;
+    pendingVoiceFlightSearch.started = true;
+    void runFlightSearch(pendingVoiceFlightSearch.query, pendingVoiceFlightSearch.context.signal)
+      .then(pendingVoiceFlightSearch.complete);
     setPendingVoiceFlightSearch(null);
   }, [pendingVoiceFlightSearch]);
 
@@ -926,6 +956,18 @@ function abrirPaquete(destino = "") {
       : featuredFlightSearch && featuredFlightSearch.destination.name === destinoSeleccionado?.name
         ? featuredFlightSearch.context
         : itineraryVoiceBudget ? { travelers: pasajeros, budget: itineraryVoiceBudget } : {};
+
+  const voiceOverlayOpen = Boolean(destinoSeleccionado || modal || (flightResultsOpen && flightSearch.status === 'success' &&
+    (flightSearch.results.length > 0 || flightSearch.query.budget) && !flightDestinationCard));
+  const renderVoiceControls = () => vozActiva && (
+    <div className="sticky top-0 z-20 flex flex-wrap items-center justify-between gap-3 border-b border-white/20 bg-slate-950 px-4 py-2 text-white">
+      <p role="status" aria-live="polite" className="text-xs">{t(`voice.turn.${voiceTurn}`)}</p>
+      <button type="button" onClick={apagarVoz} aria-label={t('voice.stop')}
+        className="min-h-[44px] shrink-0 rounded-xl border border-cyan-300 px-4 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+        ■ {t('voice.stop')}
+      </button>
+    </div>
+  );
 
   return (
     <main className="min-h-screen overflow-hidden bg-[#F7F2E8] text-stone-800">
@@ -1142,7 +1184,7 @@ function abrirPaquete(destino = "") {
                 </form>
               </div>
             </div>
-            <div className={`${voicePanel.panel} flex flex-col items-center justify-center border-t border-blue-200/30 px-6 py-6 text-center md:border-l md:border-t-0 md:px-8`}>
+            <div aria-hidden={voiceOverlayOpen || undefined} className={`${voicePanel.panel} flex flex-col items-center justify-center border-t border-blue-200/30 px-6 py-6 text-center md:border-l md:border-t-0 md:px-8`}>
               <Image src="/images/voice-earth.webp" alt="" fill sizes="(max-width: 767px) 100vw, 50vw" className={voicePanel.art} aria-hidden="true" />
               <h2 className={`${voicePanel.title} text-xl leading-6 font-black text-white max-sm:my-0 max-sm:text-lg max-sm:leading-5`}>✨ {t("voice.title")}</h2>
               <p className={`${voicePanel.description} mt-2 max-w-sm text-sm leading-5 text-white max-sm:mt-1 max-sm:leading-[18px]`}>
@@ -1153,11 +1195,13 @@ function abrirPaquete(destino = "") {
                 onClick={voicePhase === "idle" ? iniciarVoz : apagarVoz}
                 aria-label={voicePhase === "connecting" ? t("voice.cancel") : vozActiva ? t("voice.stop") : t("voice.title")}
                 aria-pressed={voicePhase !== "idle"}
+                tabIndex={voiceOverlayOpen ? -1 : 0}
                 className={`${voicePanel.microphone} relative my-5 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl text-white hover:bg-blue-700 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
               >
                 <span className="relative z-10">🎙️</span>
               </button>
               {voicePhase === "connecting" && <p role="status" className={`${voicePanel.status} mt-1 text-xs`}>{t("voice.connecting")}</p>}
+              {vozActiva && <p role="status" aria-live="polite" className={`${voicePanel.status} mt-1 text-xs`}>{t(`voice.turn.${voiceTurn}`)}</p>}
               {voiceError && <p role="alert" className={`${voicePanel.error} mt-1 text-xs`}>{t(`voice.error.${voiceError}`)}</p>}
               {voiceItineraryUnknown && <p role="alert" className={`${voicePanel.error} mt-1 text-xs`}>{t('voice.itineraryUnknown')}</p>}
               <div className={`${voicePanel.benefits} mt-2 flex flex-wrap justify-center gap-x-4 gap-y-1 text-xs font-medium max-sm:mt-1 max-sm:gap-y-0.5`}>
@@ -1365,6 +1409,7 @@ function abrirPaquete(destino = "") {
           onClick={(event) => { if (event.target === event.currentTarget) closeDestinationDetail(); }}
         >
           <div role="dialog" aria-modal="true" aria-labelledby="destination-detail-title" className="max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl sm:max-h-[calc(100dvh-2rem)]">
+            {renderVoiceControls()}
             <div className="relative h-72 md:h-96">
               <img
                 src={destinoSeleccionado.image}
@@ -1511,6 +1556,7 @@ function abrirPaquete(destino = "") {
       {modal === "vuelos" && (
         <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 text-white p-4 backdrop-blur-md">
           <div className="mx-auto my-8 max-w-4xl rounded-[30px] border border-white/10 bg-slate-950 p-6 shadow-2xl md:p-9">
+            {!destinoSeleccionado && !flightResultsOpen && renderVoiceControls()}
             <div className="mb-8 flex items-start justify-between gap-5">
               <div>
                 <p className="text-sm font-bold tracking-[0.25em] text-cyan-300">
@@ -1601,6 +1647,7 @@ function abrirPaquete(destino = "") {
 {modal === "paquete" && (
   <div className="fixed inset-0 z-[60] overflow-y-auto bg-black/80 text-white p-4 backdrop-blur-md">
     <div className="mx-auto my-8 max-w-4xl rounded-[30px] border border-white/10 bg-slate-950 p-6 shadow-2xl md:p-9">
+      {!destinoSeleccionado && !flightResultsOpen && renderVoiceControls()}
 
       <div className="mb-8 flex items-start justify-between gap-5">
         <div>
@@ -1763,6 +1810,7 @@ function abrirPaquete(destino = "") {
             aria-labelledby="flight-results-title"
             className="w-full max-w-3xl max-h-[calc(100dvh-1.5rem)] overflow-y-auto overscroll-contain rounded-[26px] border border-blue-300/50 bg-white text-slate-900 shadow-2xl sm:max-h-[calc(100dvh-3rem)]"
           >
+            {!destinoSeleccionado && renderVoiceControls()}
             <div className="relative min-h-[132px] overflow-hidden bg-gradient-to-r from-blue-700 to-cyan-600 text-white sm:min-h-[180px]">
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/35 to-slate-950/20" />
               <button

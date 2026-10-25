@@ -127,16 +127,35 @@ async function connected(onItinerary, getLocale = () => 'es') {
   const peer = { connectionState: 'connected', getSenders: () => [], addTrack() {}, createDataChannel: () => channel,
     createOffer: async () => ({ sdp: 'v=0\nmock-offer' }), setLocalDescription: async () => {}, setRemoteDescription: async () => {}, close() {} };
   const session = new voice.VoiceSession({ onPhase: p => phases.push(p), onError: e => errors.push(e), onSearch() {}, onItinerary, getLocale,
-    createPeerConnection: () => peer, createAudio: () => ({ pause() {}, srcObject: null }), getUserMedia: async () => stream,
+    rearmDelayMs: 0, createPeerConnection: () => peer, createAudio: () => ({ pause() {}, srcObject: null }), getUserMedia: async () => stream,
     fetcher: async (url, options) => { calls.push({ url, options }); return url === '/api/voice'
       ? { ok: true, json: async () => ({ value: 'simulated-ephemeral-token' }) } : { ok: true, text: async () => 'v=0\nmock-answer' }; },
   });
   await session.start(); channel.onopen();
-  const emit = event => channel.onmessage?.({ data: JSON.stringify(event) });
-  return { session, sent, calls, phases, errors, channel, emit,
-    tool: (callId, args = { destino: 'Madrid', dias: 2 }, responseId = 'response-' + callId) => {
-      emit({ type: 'response.function_call_arguments.done', name: 'crear_itinerario', call_id: callId, response_id: responseId, arguments: JSON.stringify(args) });
-      emit({ type: 'response.done', response: { id: responseId, status: 'completed', output: [] } });
+  let currentResponse, serial = 0;
+  const delay = () => new Promise(resolve => setTimeout(resolve, 5));
+  const emit = event => { if (event.type === 'response.created') currentResponse = event.response.id; channel.onmessage?.({ data: JSON.stringify(event) }); };
+  const finish = async () => {
+    if (session.turnStatus === 'processing') {
+      const id = 'ack-' + ++serial;
+      emit({ type: 'response.created', response: { id } });
+      emit({ type: 'response.done', response: { id, status: 'completed', output: [] } });
+      await delay();
+    }
+  };
+  const begin = async id => {
+    await delay(); await finish();
+    if (session.turnStatus === 'listening') {
+      emit({ type: 'input_audio_buffer.committed', item_id: 'input-' + ++serial });
+      emit({ type: 'response.created', response: { id } });
+    }
+  };
+  await finish();
+  return { session, sent, calls, phases, errors, channel, emit, begin, finish,
+    tool: async (callId, args = { destino: 'Madrid', dias: 2 }, responseId = 'response-' + callId) => {
+      await begin(responseId);
+      emit({ type: 'response.function_call_arguments.done', name: 'crear_itinerario', call_id: callId, response_id: currentResponse, arguments: JSON.stringify(args) });
+      emit({ type: 'response.done', response: { id: currentResponse, status: 'completed', output: [] } });
     }, outputs: () => sent.filter(e => e.type === 'conversation.item.create').map(e => ({ callId: e.item.call_id, ...JSON.parse(e.item.output) })),
   };
 }
@@ -144,7 +163,7 @@ async function connected(onItinerary, getLocale = () => 'es') {
 for (const { code } of translations.locales) test(`${code}: real voice handler → canonical profile → shared generate → visible content → success output`, async () => {
   const b = bridge(code), h = await connected(b.handle, () => code);
   try {
-    h.tool('flow-' + code); await turn();
+    await h.tool('flow-' + code); await turn();
     assert.equal(b.scope.destinoSeleccionado, madrid);
     assert.equal(h.outputs().length, 0, 'no success before generation and render');
     await b.ui.drain();
@@ -156,20 +175,20 @@ for (const { code } of translations.locales) test(`${code}: real voice handler �
     assert.deepEqual(Array.from(b.ui.scrolls), ['scroll', 'focus']);
     assert.equal(h.outputs().length, 1); assert.equal(h.outputs()[0].status, 'success'); assert.equal(h.outputs()[0].days, 2); assert.equal(h.outputs()[0].locale, code);
     assert.equal(JSON.parse(h.calls[0].options.body).locale, code);
-    assert.ok(h.sent[0].response.instructions.includes(translations.translate(code, 'voice.greetingQuestion')));
+    assert.ok(h.sent.find(e => e.response?.instructions).response.instructions.includes(translations.translate(code, 'voice.greetingQuestion')));
   } finally { h.session.stop(); b.ui?.unmount(); }
 });
 
 test('duplicate argument/item/response events execute once; another call for the same city generates a new variation', async () => {
   const b = bridge(), h = await connected(b.handle);
   try {
-    h.tool('once');
+    await h.tool('once');
     const item = { type: 'function_call', status: 'completed', name: 'crear_itinerario', call_id: 'once', arguments: '{"destino":"Madrid","dias":2}' };
     h.emit({ type: 'response.output_item.done', item });
     h.emit({ type: 'response.done', response: { id: 'response-once', status: 'completed', output: [item] } });
-    await turn(); await b.ui.drain(); h.tool('once'); await b.ui.drain();
+    await turn(); await b.ui.drain(); await h.tool('once'); await b.ui.drain();
     assert.equal(b.ui.calls.length, 1); assert.equal(h.outputs().length, 1);
-    h.tool('again'); await turn(); await b.ui.drain();
+    await h.tool('again'); await turn(); await b.ui.drain();
     assert.equal(b.ui.calls.length, 2); assert.equal(b.ui.calls[1].payload.variation, 1); assert.equal(h.outputs().length, 2);
   } finally { h.session.stop(); b.ui?.unmount(); }
 });
@@ -177,18 +196,19 @@ test('duplicate argument/item/response events execute once; another call for the
 test('the acknowledgement waits for the original Realtime response to finish', async () => {
   const b = bridge(), h = await connected(b.handle);
   try {
+    await h.begin('pending-response');
     h.emit({ type: 'response.function_call_arguments.done', name: 'crear_itinerario', call_id: 'wait', response_id: 'pending-response', arguments: '{"destino":"Madrid","dias":2}' });
     await turn(); await b.ui.drain();
-    assert.equal(h.outputs()[0].status, 'success'); assert.equal(h.sent.filter(e => e.type === 'response.create').length, 1);
+    assert.equal(h.outputs()[0].status, 'success'); assert.equal(h.sent.filter(e => e.type === 'response.create').length, 2);
     h.emit({ type: 'response.done', response: { id: 'pending-response', status: 'completed', output: [] } });
-    assert.equal(h.sent.filter(e => e.type === 'response.create').length, 2);
+    assert.equal(h.sent.filter(e => e.type === 'response.create').length, 3);
   } finally { h.session.stop(); b.ui?.unmount(); }
 });
 
 test('provider failures and invalid itinerary JSON show an error and never report success', async () => {
   for (const fetcher of [() => new Response('{}', { status: 502 }), () => new Response('{"itinerary":{}}'), () => { throw Error('private diagnostics'); }]) {
     const b = bridge('es', fetcher), h = await connected(b.handle);
-    try { h.tool('failure'); await turn(); await b.ui.drain();
+    try { await h.tool('failure'); await turn(); await b.ui.drain();
       assert.equal(h.outputs()[0].status, 'error'); assert.equal(h.outputs()[0].error, 'generation_failed');
       assert.ok(b.ui.find(n => n.props.role === 'alert')); assert.ok(!b.ui.text().includes('private diagnostics'));
     } finally { h.session.stop(); b.ui?.unmount(); }
@@ -198,6 +218,7 @@ test('provider failures and invalid itinerary JSON show an error and never repor
 test('a channel failure while resuming the spoken acknowledgement closes the session safely', async () => {
   const b = bridge(), h = await connected(b.handle);
   try {
+    await h.begin('pending');
     h.emit({ type: 'response.function_call_arguments.done', name: 'crear_itinerario', call_id: 'channel-failure', response_id: 'pending', arguments: '{"destino":"Madrid","dias":2}' });
     await turn(); await b.ui.drain(); assert.equal(h.outputs()[0].status, 'success');
     h.channel.send = () => { throw Error('Channel has closed'); };
@@ -209,30 +230,31 @@ test('a channel failure while resuming the spoken acknowledgement closes the ses
 test('bad duration, malformed arguments and unknown destinations never call generation', async () => {
   const b = bridge(), h = await connected(b.handle);
   try {
-    for (const [i, dias] of [0, 8, 2.5, '2', null].entries()) h.tool('bad-' + i, { destino: 'Madrid', dias });
+    for (const [i, dias] of [0, 8, 2.5, '2', null].entries()) { await h.tool('bad-' + i, { destino: 'Madrid', dias }); await turn(); await turn(); }
     await turn(); await turn(); assert.equal(b.ui, undefined); assert.equal(h.outputs().length, 5);
     assert.ok(h.outputs().every(e => e.error === 'invalid_arguments'));
-    h.tool('unknown', { destino: 'No existe esta ficha', dias: 2 }); await turn(); await turn();
+    await h.tool('unknown', { destino: 'No existe esta ficha', dias: 2 }); await turn(); await turn();
     assert.equal(b.scope.unknown, true); assert.equal(h.outputs().at(-1).error, 'unknown_destination');
-    h.emit({ type: 'response.function_call_arguments.done', name: 'crear_itinerario', call_id: 'broken', arguments: '{' });
+    await h.tool('broken', null);
     await turn(); await turn(); assert.equal(h.outputs().at(-1).error, 'invalid_arguments');
   } finally { h.session.stop(); }
 });
 
 test('stopping voice aborts generation; an abort-ignoring late response stays invisible and unacknowledged', async () => {
   const pending = deferred(), b = bridge('es', () => pending.promise), h = await connected(b.handle);
-  h.tool('cancel'); await turn(); await b.ui.drain(); h.session.stop();
+  await h.tool('cancel'); await turn(); await b.ui.drain(); h.session.stop();
   assert.equal(b.ui.calls[0].signal.aborted, true);
   pending.resolve(response(2, 'Respuesta tardía')); await b.ui.drain();
   assert.ok(!b.ui.text().includes('Respuesta tardía')); assert.equal(h.outputs().length, 0); b.ui.unmount();
 });
 
-test('changing destination cancels the old request; only the new destination can appear or succeed', async () => {
+test('explicitly cancelling the old request permits changing destination; only the new destination can appear or succeed', async () => {
   const pending = deferred(), b = bridge('es', payload => payload.destination.name === 'Madrid' ? pending.promise : response(3, 'Lisboa visible'));
   const h = await connected(b.handle);
   try {
-    h.tool('old'); await turn(); await b.ui.drain(); const oldUI = b.ui;
-    h.tool('new', { destino: 'Lisboa', dias: 3 }); await turn(); await b.ui.drain();
+    await h.tool('old'); await turn(); await b.ui.drain(); const oldUI = b.ui;
+    b.request.cancel(); await turn(); await h.finish();
+    await h.tool('new', { destino: 'Lisboa', dias: 3 }); await turn(); await b.ui.drain();
     assert.equal(b.scope.destinoSeleccionado, lisboa); assert.equal(oldUI.calls[0].signal.aborted, true);
     pending.resolve(response(2, 'Madrid tardío')); await b.ui.drain();
     assert.match(b.ui.text(), /Lisboa visible/); assert.ok(!b.ui.text().includes('Madrid tardío'));
@@ -244,7 +266,7 @@ test('changing destination cancels the old request; only the new destination can
 test('closing the planner settles cancellation without a spoken success', async () => {
   const pending = deferred(), b = bridge('es', () => pending.promise), h = await connected(b.handle);
   try {
-    h.tool('close'); await turn(); await b.ui.drain(); b.ui.unmount(); await turn(); await turn();
+    await h.tool('close'); await turn(); await b.ui.drain(); b.ui.unmount(); await turn(); await turn();
     assert.equal(h.outputs()[0].status, 'cancelled'); assert.equal(b.ui.calls[0].signal.aborted, true);
     pending.resolve(response(2)); await turn(); assert.equal(h.outputs().length, 1);
   } finally { h.session.stop(); }
@@ -276,12 +298,12 @@ test('manual generation keeps its dates/budget and voice cannot duplicate an in-
 test('changing language cancels the pending voice session and a new session uses the new locale', async () => {
   const pending = deferred(); let locale = 'es';
   const b = bridge('es', () => pending.promise), h = await connected(b.handle, () => locale);
-  h.tool('language-old'); await turn(); await b.ui.drain();
+  await h.tool('language-old'); await turn(); await b.ui.drain();
   // Home stops the session on language change; exercise that same public operation.
   locale = 'fr'; h.session.stop(); b.ui.unmount(); pending.resolve(response(2, 'Idioma anterior'));
   await turn(); assert.equal(h.outputs().length, 0);
   const next = bridge(locale), newer = await connected(next.handle, () => locale);
-  try { newer.tool('language-new'); await turn(); await next.ui.drain();
+  try { await newer.tool('language-new'); await turn(); await next.ui.drain();
     assert.equal(next.ui.calls[0].payload.locale, 'fr'); assert.equal(newer.outputs()[0].locale, 'fr');
   } finally { newer.session.stop(); next.ui?.unmount(); }
 });
@@ -312,20 +334,21 @@ test('session configuration preserves buscar_viaje and validates all seven local
 test('invalid calls do not cancel an already valid generation and incomplete tool items are ignored', async () => {
   const pending = deferred(), b = bridge('es', () => pending.promise), h = await connected(b.handle);
   try {
-    h.tool('valid'); await turn(); await b.ui.drain();
-    h.tool('invalid-during-valid', { destino: 'Madrid', dias: 99 }); await turn(); await turn();
+    await h.tool('valid'); await turn(); await b.ui.drain();
+    await h.tool('invalid-during-valid', { destino: 'Madrid', dias: 99 }); await turn(); await turn();
     assert.equal(b.ui.calls[0].signal.aborted, false);
     h.emit({ type: 'response.output_item.done', item: { type: 'function_call', status: 'incomplete', name: 'crear_itinerario', call_id: 'partial', arguments: '{"destino":"Lisboa","dias":3}' } });
     await turn(); assert.equal(b.ui.calls.length, 1);
     pending.resolve(response(2)); await b.ui.drain();
     assert.equal(h.outputs().find(e => e.callId === 'valid').status, 'success');
-    assert.equal(h.outputs().find(e => e.callId === 'invalid-during-valid').error, 'invalid_arguments');
+    assert.equal(h.outputs().find(e => e.callId === 'invalid-during-valid').error, 'busy');
   } finally { h.session.stop(); b.ui?.unmount(); }
 });
 
 test('a completed response event alone can dispatch its itinerary tool', async () => {
   const b = bridge(), h = await connected(b.handle);
   try {
+    await h.begin('fallback');
     h.emit({ type: 'response.done', response: { id: 'fallback', status: 'completed', output: [{ type: 'function_call', status: 'completed', name: 'crear_itinerario', call_id: 'fallback-call', arguments: '{"destino":"Madrid","dias":2}' }] } });
     await turn(); await b.ui.drain(); assert.equal(b.ui.calls.length, 1); assert.equal(h.outputs()[0].status, 'success');
   } finally { h.session.stop(); b.ui?.unmount(); }
@@ -343,7 +366,7 @@ for (const {code} of translations.locales) test(`${code}: every Italian identity
   for(const destination of catalog.getDestinationsByCountry('IT')){
     const b=bridge(code),h=await connected(b.handle,()=>code);
     try{
-      h.tool('italy-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
+      await h.tool('italy-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
       assert.equal(b.scope.destinoSeleccionado,destination);assert.equal(h.outputs().length,0);
       await b.ui.drain();assert.equal(b.ui.calls.length,1);assert.equal(b.ui.calls[0].payload.destination.name,destination.name);
       assert.equal(b.ui.calls[0].payload.locale,code);assert.equal(b.ui.calls[0].payload.days,2);
@@ -356,7 +379,7 @@ for (const {code} of translations.locales) test(`${code}: every British identity
   for(const destination of catalog.getDestinationsByCountry('GB')){
     const b=bridge(code),h=await connected(b.handle,()=>code);
     try{
-      h.tool('uk-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
+      await h.tool('uk-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
       assert.equal(b.scope.destinoSeleccionado,destination);assert.equal(h.outputs().length,0);
       await b.ui.drain();assert.equal(b.ui.calls.length,1);assert.equal(b.ui.calls[0].payload.destination.name,destination.name);
       assert.equal(b.ui.calls[0].payload.locale,code);assert.equal(b.ui.calls[0].payload.days,2);
@@ -369,7 +392,7 @@ for (const {code} of translations.locales) test(`${code}: every German identity 
   for(const destination of catalog.getDestinationsByCountry('DE')){
     const b=bridge(code),h=await connected(b.handle,()=>code);
     try{
-      h.tool('germany-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
+      await h.tool('germany-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
       assert.equal(b.scope.destinoSeleccionado,destination);assert.equal(h.outputs().length,0);
       await b.ui.drain();assert.equal(b.ui.calls.length,1);assert.equal(b.ui.calls[0].payload.destination.name,destination.name);
       assert.equal(b.ui.calls[0].payload.locale,code);assert.equal(b.ui.calls[0].payload.days,2);
@@ -382,7 +405,7 @@ for (const {code} of translations.locales) test(`${code}: every Dutch identity r
   for(const destination of catalog.getDestinationsByCountry('NL')){
     const b=bridge(code),h=await connected(b.handle,()=>code);
     try{
-      h.tool('netherlands-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
+      await h.tool('netherlands-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
       assert.equal(b.scope.destinoSeleccionado,destination);assert.equal(h.outputs().length,0);
       await b.ui.drain();assert.equal(b.ui.calls.length,1);assert.equal(b.ui.calls[0].payload.destination.name,destination.name);
       assert.equal(b.ui.calls[0].payload.locale,code);assert.equal(b.ui.calls[0].payload.days,2);
@@ -395,7 +418,7 @@ for (const {code} of translations.locales) test(`${code}: every Belgian identity
   for(const destination of catalog.getDestinationsByCountry('BE')){
     const b=bridge(code),h=await connected(b.handle,()=>code);
     try{
-      h.tool('belgium-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
+      await h.tool('belgium-'+destination.id,{destino:destination.translations[code].name,dias:2});await turn();
       assert.equal(b.scope.destinoSeleccionado,destination);assert.equal(h.outputs().length,0);
       await b.ui.drain();assert.equal(b.ui.calls.length,1);assert.equal(b.ui.calls[0].payload.destination.name,destination.name);
       assert.equal(b.ui.calls[0].payload.locale,code);assert.equal(b.ui.calls[0].payload.days,2);
