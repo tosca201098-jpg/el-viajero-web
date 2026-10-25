@@ -8,6 +8,7 @@ import { austriaAirports, austriaAirportsForTerm, austriaCityAliases, austriaTou
 import { czechiaAirports, czechiaAirportsForTerm, czechiaCityAliases, czechiaTouristPlacesForTerm } from '@/lib/travelpayouts/czechia-airports';
 import { polandAirports, polandAirportsForTerm, polandCityAliases, polandTouristPlacesForTerm } from '@/lib/travelpayouts/poland-airports';
 import { hungaryAirports, hungaryAirportsForTerm, hungaryCityAliases, hungaryTouristPlacesForTerm } from '@/lib/travelpayouts/hungary-airports';
+import { slovakiaAirports, slovakiaAirportsForTerm, slovakiaCityAliases, slovakiaTouristPlacesForTerm } from '@/lib/travelpayouts/slovakia-airports';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -185,6 +186,16 @@ export async function GET(request: Request) {
       if (place.type !== 'city') return place;
       return { ...place, name: placeCode === 'BUD' ? 'Budapest' : place.name,
         index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(hungaryCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...slovakiaAirportsForTerm(term), ...slovakiaTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'SK') return place;
+      const placeCode = code(place.code, 3);
+      const airport = slovakiaAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(slovakiaCityAliases[placeCode] ?? [])] };
     });
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);
