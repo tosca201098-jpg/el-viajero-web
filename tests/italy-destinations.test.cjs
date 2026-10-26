@@ -107,8 +107,17 @@ test('Italian seasonality remains reusable data without automatic cards, publica
   for(const d of italy){
     assert.equal(policy(d),false);assert.equal(d.publication.status,'draft');
     for(const field of ['bestMonths','lowSeasonMonths','highSeasonMonths'])assert.ok(d[field].length&&d[field].every(m=>m>=1&&m<=12));
-    assert.match(d.image,/^https:\/\/thumb\.wikimedia\.org\//);assert.match(d.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
-    assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons\.org/);
+    if(d.id==='it-milan'){
+      assert.equal(new URL(d.image).origin,'https://images.unsplash.com');
+      assert.equal(new URL(d.image).pathname,'/photo-1567760848351-64554cd104ca');
+      assert.equal(d.imageSource,'https://unsplash.com/photos/milan-cathedral-italy-pAbn-kRJfxw');
+      assert.equal(d.imageCredit,'Fernando Meloni');
+      assert.equal(d.imageLicense,'Unsplash License');
+      assert.equal(d.imageLicenseUrl,'https://unsplash.com/license');
+    }else{
+      assert.match(d.image,/^https:\/\/thumb\.wikimedia\.org\//);assert.match(d.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+      assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons\.org/);
+    }
     for(const field of ['price','hotelPrice','flightPrice','available','hotelId'])assert.equal(d[field],undefined);
   }
 });
