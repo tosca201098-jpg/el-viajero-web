@@ -9,6 +9,7 @@ import { czechiaAirports, czechiaAirportsForTerm, czechiaCityAliases, czechiaTou
 import { polandAirports, polandAirportsForTerm, polandCityAliases, polandTouristPlacesForTerm } from '@/lib/travelpayouts/poland-airports';
 import { hungaryAirports, hungaryAirportsForTerm, hungaryCityAliases, hungaryTouristPlacesForTerm } from '@/lib/travelpayouts/hungary-airports';
 import { slovakiaAirports, slovakiaAirportsForTerm, slovakiaCityAliases, slovakiaTouristPlacesForTerm } from '@/lib/travelpayouts/slovakia-airports';
+import { croatiaAirports, croatiaAirportsForTerm, croatiaCityAliases, croatiaTouristPlacesForTerm } from '@/lib/travelpayouts/croatia-airports';
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -196,6 +197,16 @@ export async function GET(request: Request) {
         index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
       if (place.type !== 'city') return place;
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(slovakiaCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...croatiaAirportsForTerm(term), ...croatiaTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'HR') return place;
+      const placeCode = code(place.code, 3);
+      const airport = croatiaAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(croatiaCityAliases[placeCode] ?? [])] };
     });
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);

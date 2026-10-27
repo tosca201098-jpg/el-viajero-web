@@ -1,0 +1,206 @@
+[
+  {
+    "term": "ZAG",
+    "status": 200,
+    "places": [
+      {
+        "id": "a35c2f39-c646-4d7c-9435-fe2ddc1979e3",
+        "type": "city",
+        "code": "ZAG",
+        "name": "Zagreb",
+        "country_code": "HR",
+        "country_name": "Croacia",
+        "state_code": null,
+        "coordinates": {
+          "lon": 15.9819189,
+          "lat": 45.8150108
+        },
+        "index_strings": [],
+        "weight": 10425,
+        "cases": null,
+        "country_cases": null,
+        "main_airport_name": "Pleso"
+      },
+      {
+        "id": "a49aa9d0-7310-4666-ab9c-2e7ecd78eccc",
+        "type": "city",
+        "code": "OZG",
+        "name": "Zagora",
+        "country_code": "MA",
+        "country_name": "Marruecos",
+        "state_code": null,
+        "coordinates": {
+          "lon": -5.852456,
+          "lat": 30.267143
+        },
+        "index_strings": [],
+        "weight": 11,
+        "cases": null,
+        "country_cases": null,
+        "main_airport_name": "Zagora Airport"
+      }
+    ],
+    "destinationId": "hr-zagreb"
+  },
+  {
+    "term": "DBV",
+    "status": 200,
+    "places": [
+      {
+        "id": "21bc3d4f-1fec-4032-93df-bd73ec96e85c",
+        "type": "city",
+        "code": "DBV",
+        "name": "Dubrovnik",
+        "country_code": "HR",
+        "country_name": "Croacia",
+        "state_code": null,
+        "coordinates": {
+          "lon": 18.260616,
+          "lat": 42.56072
+        },
+        "index_strings": [],
+        "weight": 4420,
+        "cases": null,
+        "country_cases": null,
+        "main_airport_name": "Dubrovnik"
+      }
+    ],
+    "destinationId": "hr-dubrovnik"
+  },
+  {
+    "term": "SPU",
+    "status": 200,
+    "places": [
+      {
+        "id": "fe8f11ae-4480-4aa4-bebf-724497a1f2f2",
+        "type": "city",
+        "code": "SPU",
+        "name": "Split",
+        "country_code": "HR",
+        "country_name": "Croacia",
+        "state_code": null,
+        "coordinates": {
+          "lon": 16.4401935,
+          "lat": 43.5081323
+        },
+        "index_strings": [],
+        "weight": 21657,
+        "cases": null,
+        "country_cases": null,
+        "main_airport_name": "Split"
+      }
+    ],
+    "destinationId": "hr-split"
+  },
+  {
+    "term": "ZAD",
+    "status": 200,
+    "places": [
+      {
+        "id": "0ef26b92-10ec-4105-a0a2-38ecff10b156",
+        "type": "city",
+        "code": "ZAD",
+        "name": "Zadar",
+        "country_code": "HR",
+        "country_name": "Croacia",
+        "state_code": null,
+        "coordinates": {
+          "lon": 15.2313648,
+          "lat": 44.119371
+        },
+        "index_strings": [],
+        "weight": 2345,
+        "cases": null,
+        "country_cases": null,
+        "main_airport_name": "Zadar"
+      }
+    ],
+    "destinationId": "hr-zadar"
+  },
+  {
+    "term": "PUY",
+    "status": 200,
+    "places": [
+      {
+        "id": "b9130c1f-adc3-4bdd-b638-cade1b724a4e",
+        "type": "city",
+        "code": "PUY",
+        "name": "Pula",
+        "country_code": "HR",
+        "country_name": "Croacia",
+        "state_code": null,
+        "coordinates": {
+          "lon": 13.8495788,
+          "lat": 44.8666232
+        },
+        "index_strings": [],
+        "weight": 1466,
+        "cases": null,
+        "country_cases": null,
+        "main_airport_name": "Pula"
+      },
+      {
+        "id": "f2eac157-ca26-4924-a468-4a91cb8580c9",
+        "type": "city",
+        "code": "PBC",
+        "name": "Municipio de Puebla",
+        "country_code": "MX",
+        "country_name": "México",
+        "state_code": null,
+        "coordinates": {
+          "lon": -98.4293891,
+          "lat": 18.9131227
+        },
+        "index_strings": [],
+        "weight": 481,
+        "cases": null,
+        "country_cases": null,
+        "main_airport_name": "Huejotsingo"
+      },
+      {
+        "id": "723aea1d-e871-4517-adc7-e35a64734e16",
+        "type": "city",
+        "code": "LPY",
+        "name": "Le Puy-en-Velay",
+        "country_code": "FR",
+        "country_name": "Francia",
+        "state_code": null,
+        "coordinates": {
+          "lon": 3.766667,
+          "lat": 45.083332
+        },
+        "index_strings": [],
+        "weight": 1,
+        "cases": null,
+        "country_cases": null,
+        "main_airport_name": "Loudes"
+      }
+    ],
+    "destinationId": "hr-pula"
+  },
+  {
+    "term": "RJK",
+    "status": 200,
+    "places": [
+      {
+        "id": "f88c719e-7811-4f15-b2ca-121cb33ef1a3",
+        "type": "city",
+        "code": "RJK",
+        "name": "Rijeka",
+        "country_code": "HR",
+        "country_name": "Croacia",
+        "state_code": null,
+        "coordinates": {
+          "lon": 14.442176,
+          "lat": 45.3270631
+        },
+        "index_strings": [],
+        "weight": 1969,
+        "cases": null,
+        "country_cases": null,
+        "main_airport_name": "Rijeka"
+      }
+    ],
+    "destinationId": "hr-rijeka"
+  }
+]
