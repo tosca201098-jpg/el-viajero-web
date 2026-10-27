@@ -38,9 +38,9 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 209 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,209);
-  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK'].includes(d.countryCode));
+test('automatic catalog recommendations hide added France profiles; all 221 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,221);
+  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','HR'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
   assert.equal(presentation.canShowDestinationAutomatically({country:'Portugal'}),true);
@@ -123,7 +123,7 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const tree=Monthly({month,recommendations});
       const cards=nodes(tree).filter(n=>n.type==='article');
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
-      const expected=recommendations.filter(r=>!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
+      const expected=recommendations.filter(r=>!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','HR'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
     }
   }
@@ -266,8 +266,8 @@ test('typing and confirming do not open a modal; View destination opens only the
   }
 });
 
-test('Swiss and Austrian profiles open only through the contextual button in each language',()=>{
-  for(const language of locales) for(const destination of [...catalog.getDestinationsByCountry('CH'), ...catalog.getDestinationsByCountry('AT')]) {
+test('Swiss, Austrian and Croatian profiles open only through the contextual button in each language',()=>{
+  for(const language of locales) for(const destination of [...catalog.getDestinationsByCountry('CH'), ...catalog.getDestinationsByCountry('AT'), ...catalog.getDestinationsByCountry('HR')]) {
     const name=localization.getDestinationText(destination,language).name;
     const opened=[],scope={React:react,language,destinoVuelo:'',confirmedFlightDestination:null,
       destinationFromPlaceSelection:presentation.destinationFromPlaceSelection,getDestinationById:catalog.getDestinationById,

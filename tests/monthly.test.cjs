@@ -29,7 +29,8 @@ const czechia = load('lib/destinations/czechia.ts', { './czechia-images': load('
 const poland = load('lib/destinations/poland.ts', { './poland-images': load('lib/destinations/poland-images.ts') });
 const hungary = load('lib/destinations/hungary.ts', { './hungary-images': load('lib/destinations/hungary-images.ts') });
 const slovakia = load('lib/destinations/slovakia.ts', { './slovakia-images': load('lib/destinations/slovakia-images.ts') });
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia });
+const croatia = load('lib/destinations/croatia.ts', { './croatia-images': load('lib/destinations/croatia-images.ts') });
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './croatia': croatia });
 const months = load('lib/destinations/months.ts');
 const monthly = load('lib/destinations/monthly.ts', { './index': library });
 
