@@ -428,7 +428,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "IBZ"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Eivissa_-_Dalt_Vila_from_Airplane.jpg/960px-Eivissa_-_Dalt_Vila_from_Airplane.jpg",
+    "image": "/images/ibiza-dalt-vila-roxfuchs.jpg",
     "description": "Calas mediterráneas, casco histórico amurallado y atardeceres frente al mar.",
     "recommendations": [
       "Dalt Vila",
@@ -443,8 +443,8 @@ export const spainDestinations: DestinationProfile[] = [
     "aliases": [
       "Eivissa"
     ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Eivissa_-_Dalt_Vila_from_Airplane.jpg",
-    "imageCredit": "UnFUG-Fabi",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Dalt_Vila_20160421_111948.jpg",
+    "imageCredit": "RoxFuchs",
     "imageLicense": "CC BY-SA 4.0",
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },

@@ -57,7 +57,12 @@ export default function MonthlyDestinations({ month, recommendations }: Props) {
                   <h2 className="mt-3 text-xl font-black leading-tight text-stone-900">{display.name}</h2>
                   <p className="mt-1 text-sm text-stone-600">{country}</p>
                   <p className="mt-2 text-sm text-stone-700">{t("destinations.recommendedStay")}: {stay}</p>
-                  {destination.countryCode === 'FR' && destination.imageSource && <a href={destination.imageSource} target="_blank" rel="noopener noreferrer" className="mt-2 text-xs text-stone-600 underline">{destination.imageCredit} · {destination.imageLicense}</a>}
+                  {destination.id === 'es-ibiza' && destination.imageSource ? (
+                    <p className="mt-2 text-xs text-stone-600">
+                      <a href={destination.imageSource} target="_blank" rel="noopener noreferrer" className="underline">{destination.imageCredit}</a>
+                      {' · '}<a href={destination.imageLicenseUrl} target="_blank" rel="noopener noreferrer" className="underline">{destination.imageLicense}</a>
+                    </p>
+                  ) : destination.countryCode === 'FR' && destination.imageSource && <a href={destination.imageSource} target="_blank" rel="noopener noreferrer" className="mt-2 text-xs text-stone-600 underline">{destination.imageCredit} · {destination.imageLicense}</a>}
                   <div className="mt-auto grid gap-2 pt-4">
                     <Link href={profileUrl} className="flex min-h-[44px] items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-bold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
                       {t("monthly.viewDestination")}
