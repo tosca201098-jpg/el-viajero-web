@@ -18,7 +18,10 @@ function route(fetcher, key = 'server-only-test-key') {
   const exports = {};
   vm.runInNewContext(output, {
     exports, Response, AbortController, setTimeout, clearTimeout,
-    require: id => { assert.equal(id, '@/lib/i18n/translations'); return translations; },
+    require: id => {
+      if (id === '@/lib/ai/admission') return { admitAiRequest: async () => null };
+      assert.equal(id, '@/lib/i18n/translations'); return translations;
+    },
     process: { env: { OPENAI_API_KEY: key } }, fetch: fetcher,
   }, { filename: 'app/api/voice/route.ts' });
   return (request = new Request('https://example.test/api/voice', { method: 'POST' })) => exports.POST(request);
@@ -38,6 +41,9 @@ test('server forwards only the temporary secret, never provider metadata', async
   assert.equal(requests[0].options.headers.Authorization, 'Bearer server-only-test-key');
   const payload = JSON.parse(requests[0].options.body);
   assert.equal(payload.session.model, 'gpt-realtime-2.1');
+  assert.equal(payload.expires_after.seconds, 60);
+  assert.equal(payload.session.max_output_tokens, 1024);
+  assert.equal(response.headers.get('cache-control'), 'no-store');
   assert.equal(payload.session.audio.output.voice, 'marin');
   assert.equal(payload.session.audio.input.turn_detection.type, 'server_vad');
   assert.equal(payload.session.audio.input.turn_detection.create_response, false);

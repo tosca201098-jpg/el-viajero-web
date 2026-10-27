@@ -1,4 +1,5 @@
 import { isLocale, type Locale } from '@/lib/i18n/translations';
+import { admitAiRequest } from '@/lib/ai/admission';
 
 const languageNames: Record<Locale, string> = { es: 'español', en: 'English', fr: 'français', de: 'Deutsch', it: 'italiano', pt: 'português', ca: 'català' };
 
@@ -16,6 +17,8 @@ export async function POST(request: Request) {
       return Response.json({ error: 'invalid_request' }, { status: 400 });
     }
     const locale: Locale = input.locale ?? 'es';
+    const denied = await admitAiRequest(request, 'voice');
+    if (denied) return denied;
     const itineraryInstructions = `Responde siempre en ${languageNames[locale]}. Si el usuario pide un itinerario, utiliza crear_itinerario con destino y dias (entero de 1 a 7). Para un itinerario no pidas origen, vuelos, hoteles, fechas ni viajeros: bastan destino y duración. Pregunta solo el destino o la duración que falte. No inventes un itinerario hablado ni afirmes que está generado antes del resultado de la herramienta. Con status success confirma brevemente que está visible en pantalla, sin inventar actividades que no hayas recibido. Con status error informa del fallo; unknown_destination requiere aclarar el destino, invalid_arguments requiere destino y 1 a 7 días, busy requiere esperar. Con status cancelled no confirmes éxito. Las reglas siguientes de buscar_viaje se aplican únicamente a búsquedas de vuelos, hoteles o paquetes, nunca a crear itinerarios. `;
     const apiKey = process.env.OPENAI_API_KEY;
 
@@ -36,9 +39,11 @@ export async function POST(request: Request) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          expires_after: { anchor: 'created_at', seconds: 60 },
           session: {
             type: "realtime",
             model: "gpt-realtime-2.1",
+            max_output_tokens: 1024,
 tools: [
   {
     type: "function",
@@ -112,7 +117,7 @@ fecha_vuelta: { type: "string", description: "Fecha en formato YYYY-MM-DD" },
       return Response.json({ error: "No se pudo iniciar la voz" }, { status: 502 });
     }
     // The browser only needs the short-lived client secret; never proxy provider details.
-    return Response.json({ value: (data as { value: string }).value });
+    return Response.json({ value: (data as { value: string }).value }, { headers: { 'Cache-Control': 'no-store' } });
   } catch {
     return Response.json(
       { error: "No se pudo iniciar la voz" },

@@ -27,6 +27,21 @@ function deferred() {
   return { promise, resolve, reject };
 }
 
+test('quota and paused responses do not acquire microphone or open a peer, and can be retried', async () => {
+  for (const [status, expected] of [[429, 'limited'], [503, 'unavailable']]) {
+    let microphones = 0;
+    const h = harness({ fetcher: async () => ({ ok: false, status }),
+      getUserMedia: async () => { microphones++; throw new Error('must not acquire microphone'); } });
+    await h.session.start();
+    assert.equal(microphones, 0);
+    assert.deepEqual(h.errors, [expected]);
+    assert.equal(h.phases.at(-1), 'idle');
+    await h.session.start();
+    assert.deepEqual(h.errors, [expected, expected]);
+    h.session.stop();
+  }
+});
+
 function harness(overrides = {}) {
   const phases = [], errors = [], searches = [], calls = [];
   const localTrack = { stopped: 0, stop() { this.stopped++; } };
