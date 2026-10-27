@@ -314,7 +314,7 @@ test('session configuration preserves buscar_viaje and validates all seven local
   async function configure(code, locale) {
     const exports = {}, payloads = [];
     vm.runInNewContext(ts.transpileModule(code, { compilerOptions }).outputText, { exports, Response, AbortController, setTimeout, clearTimeout,
-      require: () => translations, process: { env: { OPENAI_API_KEY: 'simulated-server-key' } },
+      require: id => id === '@/lib/ai/admission' ? { admitAiRequest: async () => null } : translations, process: { env: { OPENAI_API_KEY: 'simulated-server-key' } },
       fetch: async (_url, options) => { payloads.push(JSON.parse(options.body)); return { ok: true, json: async () => ({ value: 'simulated-secret' }) }; },
     });
     const response = await exports.POST(new Request('https://example.test/api/voice', { method: 'POST', body: JSON.stringify({ locale }) }));

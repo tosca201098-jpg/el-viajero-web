@@ -3,7 +3,7 @@ import { parseVoiceItineraryCalls, type VoiceItineraryArguments, type VoiceItine
 
 export type VoicePhase = "idle" | "connecting" | "active";
 export type VoiceTurn = "listening" | "processing" | "searching" | "speaking" | "cancelled";
-export type VoiceError = "permission" | "microphone" | "connection" | "timeout";
+export type VoiceError = "permission" | "microphone" | "connection" | "timeout" | "limited" | "unavailable";
 export type VoiceSearchResult = { status: 'success' | 'cancelled' } | { status: 'error'; error: string };
 
 export type VoiceSearchArguments = {
@@ -339,6 +339,8 @@ export class VoiceSession {
       const response = await fetcher("/api/voice", { method: "POST", signal: controller.signal,
         headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ locale }) });
       if (!this.current(id)) return;
+      if (response.status === 429) { this.fail(id, 'limited'); return; }
+      if (response.status === 503) { this.fail(id, 'unavailable'); return; }
       if (!response.ok) throw new Error("voice_session_failed");
       const secret: unknown = await response.json();
       if (!this.current(id)) return;
