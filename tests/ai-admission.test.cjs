@@ -58,8 +58,8 @@ test('one atomic EVAL reserves private IP and shared global quotas with bounded 
   });
   assert.equal(await allow(request(), 'voice'), null);
   assert.equal(command[0], 'EVAL');
-  assert.equal(command[2], 3);
-  assert.deepEqual(command.slice(6), [2, 60, 5, 86400, 20, 86400]);
+  assert.equal(command[2], 4);
+  assert.deepEqual(command.slice(7), [2, 60, 5, 86400, 20, 86400, 3, 2678400]);
   assert.ok(!JSON.stringify(command).includes('192.0.2.1'));
   assert.ok(!JSON.stringify(command).includes('fake-unit-test'));
   assert.ok(command[5].endsWith(':voice:global:day'));
@@ -79,7 +79,7 @@ test('quota denials expose only retry delay; backend failures never become allow
   assert.equal(result.status, 429);
   assert.equal(result.headers.get('retry-after'), '3600');
   assert.deepEqual(await result.json(), { error: 'ai_rate_limited' });
-  for (const body of [{ error: 'secret-store-detail' }, { result: null }, { result: [1, 10] }, { result: [0, -1] }, { result: [0, 90000] }]) {
+  for (const body of [{ error: 'secret-store-detail' }, { result: null }, { result: [1, 10] }, { result: [0, -1] }, { result: [0, 2678401] }]) {
     const failed = await limiter(configuration(), async () => Response.json(body))(request(), 'voice');
     assert.equal(failed.status, 503);
     assert.ok(!(await failed.text()).includes('secret-store-detail'));
@@ -91,15 +91,15 @@ test('quota denials expose only retry delay; backend failures never become allow
 test('separate workers and rotating IPs still encounter the shared global admission ceiling', async () => {
   const counts = new Map();
   const store = async (_, options) => {
-    const command = JSON.parse(options.body), keys = command.slice(3, 6), args = command.slice(6);
+    const command = JSON.parse(options.body), keys = command.slice(3, 3 + command[2]), args = command.slice(3 + command[2]);
     if (keys.some((key, i) => (counts.get(key) || 0) >= args[i * 2])) return Response.json({ result: [0, 60] });
     for (const key of keys) counts.set(key, (counts.get(key) || 0) + 1);
     return Response.json({ result: [1, 0] });
   };
   const workers = [limiter(configuration(), store), limiter(configuration(), store)];
   const results = await Promise.all(Array.from({ length: 40 }, (_, i) => workers[i % 2](request('192.0.2.' + (i + 1)), 'voice')));
-  assert.equal(results.filter(x => x === null).length, 20);
-  assert.equal(results.filter(x => x?.status === 429).length, 20);
+  assert.equal(results.filter(x => x === null).length, 3);
+  assert.equal(results.filter(x => x?.status === 429).length, 37);
 });
 
 test('both real route handlers block before OpenAI when disabled, exceeded or store unavailable', async () => {

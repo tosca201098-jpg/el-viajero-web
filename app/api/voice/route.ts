@@ -1,14 +1,49 @@
-import { isLocale, type Locale } from '@/lib/i18n/translations';
+import { isLocale } from '@/lib/i18n/translations';
 import { admitAiRequest } from '@/lib/ai/admission';
 
-const languageNames: Record<Locale, string> = { es: 'español', en: 'English', fr: 'français', de: 'Deutsch', it: 'italiano', pt: 'português', ca: 'català' };
-
+const AGENT_ID = 'agent_9701m5zn3h9bf57ata0q3qzn1ag6';
+const VOICE_ID = 'eZxqQzb5CuYo3Kl6EXfZ';
+const requiredTools = ['buscar_viaje', 'crear_itinerario', 'consultar_catalogo', 'mostrar_destino'];
+type AgentConfig = {
+  conversation_config?: {
+    agent?: { language?: string; prompt?: { max_tokens?: number; tools?: { name?: string; type?: string; expects_response?: boolean }[] } };
+    tts?: { voice_id?: string };
+    turn?: { silence_end_call_timeout?: number };
+    vad?: { background_voice_detection?: boolean };
+    conversation?: { max_duration_seconds?: number };
+  };
+  platform_settings?: {
+    auth?: { enable_auth?: boolean };
+    call_limits?: { agent_concurrency_limit?: number; daily_limit?: number; bursting_enabled?: boolean };
+    overrides?: { conversation_config_override?: {
+      agent?: { language?: boolean; first_message?: boolean; prompt?: { prompt?: boolean; llm?: boolean; tool_ids?: boolean } };
+      conversation?: { max_duration_seconds?: boolean };
+      tts?: { voice_id?: boolean };
+    } };
+  };
+};
+function safeSofiaConfiguration(config: AgentConfig) {
+  const c = config.conversation_config;
+  const overrides = config.platform_settings?.overrides?.conversation_config_override;
+  const tools = c?.agent?.prompt?.tools ?? [];
+  return config.platform_settings?.auth?.enable_auth === true &&
+    c?.tts?.voice_id === VOICE_ID && c.agent?.language === 'es' &&
+    c.conversation?.max_duration_seconds === 300 && c.turn?.silence_end_call_timeout === 90 &&
+    c.vad?.background_voice_detection === true &&
+    Number(c.agent?.prompt?.max_tokens) > 0 && Number(c.agent?.prompt?.max_tokens) <= 1024 &&
+    overrides?.agent?.language === true && overrides.agent.first_message === true &&
+    overrides.agent.prompt?.prompt !== true && overrides.agent.prompt?.llm !== true &&
+    overrides.tts?.voice_id !== true && overrides.conversation?.max_duration_seconds !== true &&
+    overrides.agent.prompt?.tool_ids !== true &&
+    config.platform_settings.call_limits?.agent_concurrency_limit === 1 &&
+    Number(config.platform_settings.call_limits.daily_limit) > 0 && Number(config.platform_settings.call_limits.daily_limit) <= 3 &&
+    config.platform_settings.call_limits.bursting_enabled === false &&
+    requiredTools.every(name => tools.some(t => t.name === name && t.type === 'client' && t.expects_response === true));
+}
+const unavailable = () => Response.json({ error: 'ai_unavailable' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
 export async function POST(request: Request) {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 10000);
   try {
-    const length = Number(request.headers.get('content-length'));
-    if (length > 512) return Response.json({ error: 'invalid_request' }, { status: 400 });
+    if (Number(request.headers.get('content-length')) > 512) return Response.json({ error: 'invalid_request' }, { status: 400 });
     const raw = await request.text();
     if (raw.length > 512) return Response.json({ error: 'invalid_request' }, { status: 400 });
     let input;
@@ -16,114 +51,26 @@ export async function POST(request: Request) {
     if (!input || typeof input !== 'object' || Array.isArray(input) || !isLocale(input.locale ?? 'es')) {
       return Response.json({ error: 'invalid_request' }, { status: 400 });
     }
-    const locale: Locale = input.locale ?? 'es';
     const denied = await admitAiRequest(request, 'voice');
     if (denied) return denied;
-    const itineraryInstructions = `Responde siempre en ${languageNames[locale]}. Si el usuario pide un itinerario, utiliza crear_itinerario con destino y dias (entero de 1 a 7). Para un itinerario no pidas origen, vuelos, hoteles, fechas ni viajeros: bastan destino y duración. Pregunta solo el destino o la duración que falte. No inventes un itinerario hablado ni afirmes que está generado antes del resultado de la herramienta. Con status success confirma brevemente que está visible en pantalla, sin inventar actividades que no hayas recibido. Con status error informa del fallo; unknown_destination requiere aclarar el destino, invalid_arguments requiere destino y 1 a 7 días, busy requiere esperar. Con status cancelled no confirmes éxito. Las reglas siguientes de buscar_viaje se aplican únicamente a búsquedas de vuelos, hoteles o paquetes, nunca a crear itinerarios. `;
-    const apiKey = process.env.OPENAI_API_KEY;
-
-    if (!apiKey) {
-      return Response.json(
-        { error: "Falta configurar OPENAI_API_KEY" },
-        { status: 500 }
-      );
-    }
-
-    const response = await fetch(
-      "https://api.openai.com/v1/realtime/client_secrets",
-      {
-        method: "POST",
-        signal: controller.signal,
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          expires_after: { anchor: 'created_at', seconds: 60 },
-          session: {
-            type: "realtime",
-            model: "gpt-realtime-2.1",
-            max_output_tokens: 1024,
-tools: [
-  {
-    type: "function",
-    name: "buscar_viaje",
-    description:
-      "Llama a esta función cuando tengas los datos necesarios para buscar el viaje. Sirve para abrir la tarjeta del destino en la web.",
-    parameters: {
-      type: "object",
-      properties: {
-origen: { type: "string" },
-        destino: { type: "string" },
-        fecha_ida: { type: "string", description: "Fecha en formato YYYY-MM-DD" },
-fecha_vuelta: { type: "string", description: "Fecha en formato YYYY-MM-DD" },
-        viajeros: { type: "number" },
-        servicio: {
-          type: "string",
-          enum: ["vuelo", "hotel", "ambos"],
-        },
-        presupuesto: { type: "number", description: "Presupuesto máximo en euros, si el usuario lo ha indicado." },
-        tipo_presupuesto: {
-          type: "string",
-          enum: ["total", "por_persona"],
-          description: "Indica si el presupuesto es total o por persona. Envíalo cuando haya presupuesto.",
-        },
-      },
-      required: [
-"origen",
-        "destino",
-        "fecha_ida",
-        "fecha_vuelta",
-        "viajeros",
-        "servicio",
-      ],
-    },
-  },
-  {
-    type: 'function',
-    name: 'crear_itinerario',
-    description: 'Genera y muestra en pantalla un itinerario real usando la ficha del destino. Solo necesita destino y duración.',
-    parameters: {
-      type: 'object', additionalProperties: false,
-      properties: { destino: { type: 'string', minLength: 1, maxLength: 100 }, dias: { type: 'integer', minimum: 1, maximum: 7 } },
-      required: ['destino', 'dias'],
-    },
-  },
-],
-             instructions:
-  itineraryInstructions + "Eres el asistente de voz de Destinauta. Ayuda al usuario a organizar su viaje. Deja que el usuario explique libremente lo que quiere y aprovecha todos los datos que proporcione. No le interrumpas con preguntas innecesarias ni vuelvas a preguntar información que ya haya dado. Debes obtener la información necesaria para realizar su búsqueda, incluyendo origen, destino, fechas, número de viajeros y si quiere vuelo, hotel o ambos. Pregunta el presupuesto cuando sea útil. Si el usuario indica un presupuesto, consérvalo en euros y envía presupuesto y tipo_presupuesto (total o por_persona) al llamar a buscar_viaje. Si no queda claro si es total o por persona y hace falta para interpretar la búsqueda, pregunta brevemente: «¿Ese presupuesto es total o por persona?». No vuelvas a preguntar si ya lo ha aclarado. Si falta información necesaria, pregunta solamente por lo que falte, una cosa cada vez. Si el usuario ya proporciona toda la información necesaria, no hagas más preguntas y continúa directamente. Cuando tengas suficiente información para realizar la búsqueda, confirma brevemente los datos del viaje. Cuando tengas los datos necesarios del viaje, llama obligatoriamente a la función buscar_viaje con el origen, destino, las fechas, el número de viajeros, el servicio solicitado y el presupuesto si lo hay. No digas que la búsqueda está en curso sin haber llamado antes a buscar_viaje.",
-            audio: {
-              input: {
-                // The client owns each turn. Background speech must never cancel work
-                // or automatically enqueue another response while tools are running.
-                turn_detection: { type: "server_vad", create_response: false, interrupt_response: false },
-              },
-              output: {
-                voice: "marin",
-              },
-            },
-          },
-        }),
-      }
-    );
-
-    if (!response.ok) {
-      return Response.json({ error: "No se pudo iniciar la voz" }, { status: 502 });
-    }
-    const data: unknown = await response.json();
-    if (!data || typeof data !== "object" ||
-        typeof (data as { value?: unknown }).value !== "string" ||
-        !(data as { value: string }).value.trim()) {
-      return Response.json({ error: "No se pudo iniciar la voz" }, { status: 502 });
-    }
-    // The browser only needs the short-lived client secret; never proxy provider details.
-    return Response.json({ value: (data as { value: string }).value }, { headers: { 'Cache-Control': 'no-store' } });
-  } catch {
-    return Response.json(
-      { error: "No se pudo iniciar la voz" },
-      { status: 502 }
-    );
-  } finally {
-    clearTimeout(timeout);
-  }
+    const key = process.env.ELEVENLABS_API_KEY;
+    const version = process.env.ELEVENLABS_AGENT_VERSION_ID;
+    if (process.env.ELEVENLABS_ENABLED !== 'true' || !key || !version || !/^agtvrsn_[a-z0-9]+$/.test(version) ||
+      (process.env.VERCEL_ENV === 'production' && process.env.ELEVENLABS_PRODUCTION_APPROVED !== 'true')) return unavailable();
+    const headers = { 'xi-api-key': key };
+    const signal = AbortSignal.timeout(10000);
+    // Verify the immutable version we will request; never run an unreviewed moving HEAD.
+    const checkUrl = new URL('https://api.elevenlabs.io/v1/convai/agents/' + AGENT_ID);
+    checkUrl.searchParams.set('version_id', version);
+    const check = await fetch(checkUrl, { headers, signal, cache: 'no-store' });
+    if (!check.ok || !safeSofiaConfiguration(await check.json())) return unavailable();
+    const tokenUrl = new URL('https://api.elevenlabs.io/v1/convai/conversation/token');
+    tokenUrl.searchParams.set('agent_id', AGENT_ID); tokenUrl.searchParams.set('version_id', version);
+    const response = await fetch(tokenUrl, { headers, signal, cache: 'no-store' });
+    if (!response.ok) return unavailable();
+    const data = await response.json();
+    if (typeof data.token !== 'string' || !data.token.trim()) return unavailable();
+    // Only the temporary session token goes to the browser; never configuration, API keys or provider errors.
+    return Response.json({ token: data.token }, { headers: { 'Cache-Control': 'no-store' } });
+  } catch { return unavailable(); }
 }

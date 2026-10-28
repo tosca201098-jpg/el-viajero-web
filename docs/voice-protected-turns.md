@@ -1,3 +1,5 @@
+> Documento histórico de OpenAI Realtime. En la rama de Sofía, ver [sofia-elevenlabs.md](sofia-elevenlabs.md).
+
 # Protección de turnos de voz de DESTINAUTA
 
 Base investigada: `main`, commit `8cf3737254026444bd28c8149f02112cc7e2f4b6`.

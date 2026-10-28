@@ -171,6 +171,14 @@ useEffect(() => {
     onSearch: (datos, context) => voiceSearchRef.current(datos, context),
     onItinerary: (args, context) => voiceItineraryHandlerRef.current(args, context),
     getLocale: () => voiceLocaleRef.current,
+    onShowDestination: (name, context) => {
+      if (context.signal.aborted) return { status: 'cancelled' };
+      const destination = getDestinationById(name) ?? findDestinationProfile({ name }) ?? findDestinationCard(name);
+      if (!destination) return { status: 'error', error: 'unknown_destination' };
+      setModal(null);
+      setDestinoSeleccionado(destination);
+      return { status: 'success' };
+    },
   });
   voiceSessionRef.current = session;
   const stopForPage = () => session.stop();
@@ -225,31 +233,26 @@ voiceSearchRef.current = (datos, context) => {
   setNonFlightVoiceBudget(servicio === "vuelo" || !budget ? null : { destination: destino.name, service: servicio, budget });
   (document.getElementById(tabId) as HTMLInputElement | null)?.click();
 
-  if (servicio === "ambos") {
-    abrirPaquete(destino.name);
-  } else {
-    setModal(null);
-    setDestinoSeleccionado(destino);
-    if (servicio === "vuelo" && budget) {
-      const query: FlightQuery = {
-        origin: origenCanonico,
-        destination: destino.name,
-        departureDate: datos.fecha_ida,
-        returnDate: datos.fecha_vuelta,
-        travelers: datos.viajeros,
-        budget,
-      };
-      return new Promise<VoiceSearchResult>(resolve => {
-        const cancel = () => resolve({ status: 'cancelled' });
-        context.signal.addEventListener('abort', cancel, { once: true });
-        setPendingVoiceFlightSearch({ query, context, started: false, complete: result => {
-          context.signal.removeEventListener('abort', cancel);
-          resolve(result);
-        } });
-      });
-    }
+  if (servicio === "hotel") {
+    window.location.assign(hotelsHref({ ...hotelDefaults, destination: destino.name + ', ' + destino.country,
+      checkin: datos.fecha_ida, checkout: datos.fecha_vuelta, adults: String(datos.viajeros) }));
+    return { status: 'success' };
   }
-  return { status: 'success' };
+  setModal(null);
+  setDestinoSeleccionado(destino);
+  const query: FlightQuery = {
+    origin: origenCanonico, destination: destino.name,
+    departureDate: datos.fecha_ida, returnDate: datos.fecha_vuelta, travelers: datos.viajeros,
+    ...(servicio === "vuelo" && budget ? { budget } : {}),
+  };
+  return new Promise<VoiceSearchResult>(resolve => {
+    const cancel = () => resolve({ status: 'cancelled' });
+    context.signal.addEventListener('abort', cancel, { once: true });
+    setPendingVoiceFlightSearch({ query, context, started: false, complete: result => {
+      context.signal.removeEventListener('abort', cancel);
+      resolve(result);
+    } });
+  });
 };  const [mensaje, setMensaje] = useState("");
   const [destinoSeleccionado, setDestinoSeleccionado] =
     useState<Destination | null>(null);

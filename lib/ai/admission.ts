@@ -44,7 +44,7 @@ function networkIdentity(ip: string): string {
   return groups.slice(0, 4).map(x => x.padStart(4, '0')).join(':') + '::/64';
 }
 
-/** Admission quotas, NOT a monetary cap or a limit on an already-issued Realtime token. */
+/** Admission quotas, NOT a monetary cap or a limit on an already-issued provider token. */
 export async function admitAiRequest(request: Request, service: AiService): Promise<Response | null> {
   const origin = request.headers.get('origin');
   if (request.headers.get('sec-fetch-site') === 'cross-site' || (origin && origin !== new URL(request.url).origin)) {
@@ -79,9 +79,16 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
     const defaults = service === 'voice' ? [2, 5, 20] : [3, 10, 50];
     const limits = ['MINUTE', 'DAY', 'GLOBAL_DAY'].map((name, i) => limit(process.env[`AI_${kind}_${name}_LIMIT`], defaults[i]));
     const keys = [`${prefix}:ip:${hash}:minute`, `${prefix}:ip:${hash}:day`, `${prefix}:global:day`];
+    const quotas = [limits[0], 60, limits[1], 86400, limits[2], 86400];
+    if (service === 'voice') {
+      // Reserve five minutes per admission. Fixed 31-day windows are conservative;
+      // this is a session allowance, not a billing-period or monetary guarantee.
+      keys.push(prefix + ':elevenlabs:global:31days');
+      quotas.push(limit(process.env.AI_VOICE_GLOBAL_31DAY_LIMIT, 3), 2678400);
+    }
     const response = await fetch(url, {
       method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify(['EVAL', RESERVE_QUOTA, keys.length, ...keys, limits[0], 60, limits[1], 86400, limits[2], 86400]),
+      body: JSON.stringify(['EVAL', RESERVE_QUOTA, keys.length, ...keys, ...quotas]),
       cache: 'no-store', signal: AbortSignal.timeout(2500),
     });
     if (!response.ok) throw new Error('quota_store_failed');
@@ -90,7 +97,7 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
         !Array.isArray(data.result) || data.result.length !== 2) throw new Error('invalid_quota_result');
     const [allowed, retry] = data.result;
     if (allowed === 1 && retry === 0) return null;
-    if (allowed !== 0 || !Number.isInteger(retry) || retry < 1 || retry > 86400) throw new Error('invalid_quota_result');
+    if (allowed !== 0 || !Number.isInteger(retry) || retry < 1 || retry > (service === 'voice' ? 2678400 : 86400)) throw new Error('invalid_quota_result');
     console.warn('AI admission', service, 'quota_exceeded');
     return denial(429, 'ai_rate_limited', retry);
   } catch {
