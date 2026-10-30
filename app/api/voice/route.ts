@@ -1,3 +1,4 @@
+import { previewDiagnostic, type PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
 import { isLocale } from '@/lib/i18n/translations';
 import { admitAiRequest } from '@/lib/ai/admission';
 
@@ -44,8 +45,14 @@ function safeSofiaConfiguration(config: AgentConfig) {
     config.platform_settings.call_limits.bursting_enabled === false &&
     requiredTools.every(name => tools.some(t => t.name === name && t.type === 'client' && t.expects_response === true));
 }
-const unavailable = () => Response.json({ error: 'ai_unavailable' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
+const unavailable = (code: PreviewDiagnosticCode) => {
+  previewDiagnostic(code);
+  return Response.json({ error: 'ai_unavailable' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
+};
 export async function POST(request: Request) {
+  let stage: PreviewDiagnosticCode = 'VOICE_REQUEST';
+  let signal: AbortSignal | undefined;
+  let tokenStage = false;
   try {
     if (Number(request.headers.get('content-length')) > 512) return Response.json({ error: 'invalid_request' }, { status: 400 });
     const raw = await request.text();
@@ -59,22 +66,32 @@ export async function POST(request: Request) {
     if (denied) return denied;
     const key = process.env.ELEVENLABS_API_KEY;
     const version = process.env.ELEVENLABS_AGENT_VERSION_ID;
-    if (process.env.ELEVENLABS_ENABLED !== 'true' || !key || !version || !/^agtvrsn_[a-z0-9]+$/.test(version) ||
-      (process.env.VERCEL_ENV === 'production' && process.env.ELEVENLABS_PRODUCTION_APPROVED !== 'true')) return unavailable();
+    if (process.env.ELEVENLABS_ENABLED !== 'true' ||
+      (process.env.VERCEL_ENV === 'production' && process.env.ELEVENLABS_PRODUCTION_APPROVED !== 'true')) return unavailable('VOICE_FLAGS');
+    if (!key) return unavailable('VOICE_CREDENTIALS');
+    if (!version || !/^agtvrsn_[a-z0-9]+$/.test(version)) return unavailable('VOICE_VERSION');
     const headers = { 'xi-api-key': key };
-    const signal = AbortSignal.timeout(10000);
+    signal = AbortSignal.timeout(10000);
     // Verify the immutable version we will request; never run an unreviewed moving HEAD.
     const checkUrl = new URL('https://api.elevenlabs.io/v1/convai/agents/' + AGENT_ID);
     checkUrl.searchParams.set('version_id', version);
+    stage = 'VOICE_CHECK_NETWORK';
     const check = await fetch(checkUrl, { headers, signal, cache: 'no-store' });
-    if (!check.ok || !safeSofiaConfiguration(await check.json())) return unavailable();
+    if (!check.ok) return unavailable(check.status === 401 || check.status === 403 ? 'VOICE_CHECK_CREDENTIALS' : 'VOICE_CHECK_HTTP');
+    stage = 'VOICE_CHECK_MALFORMED';
+    const config = await check.json();
+    if (!config || typeof config !== 'object' || Array.isArray(config)) return unavailable('VOICE_CHECK_MALFORMED');
+    if (!safeSofiaConfiguration(config)) return unavailable('VOICE_CHECK_CONFIG');
     const tokenUrl = new URL('https://api.elevenlabs.io/v1/convai/conversation/token');
     tokenUrl.searchParams.set('agent_id', AGENT_ID); tokenUrl.searchParams.set('version_id', version);
+    tokenStage = true;
+    stage = 'VOICE_TOKEN_NETWORK';
     const response = await fetch(tokenUrl, { headers, signal, cache: 'no-store' });
-    if (!response.ok) return unavailable();
+    if (!response.ok) return unavailable(response.status === 401 || response.status === 403 ? 'VOICE_TOKEN_CREDENTIALS' : 'VOICE_TOKEN_HTTP');
+    stage = 'VOICE_TOKEN_MALFORMED';
     const data = await response.json();
-    if (typeof data.token !== 'string' || !data.token.trim()) return unavailable();
+    if (!data || typeof data.token !== 'string' || !data.token.trim()) return unavailable('VOICE_TOKEN_MALFORMED');
     // Only the temporary session token goes to the browser; never configuration, API keys or provider errors.
     return Response.json({ token: data.token }, { headers: { 'Cache-Control': 'no-store' } });
-  } catch { return unavailable(); }
+  } catch { return unavailable(signal?.aborted ? (tokenStage ? 'VOICE_TOKEN_TIMEOUT' : 'VOICE_CHECK_TIMEOUT') : stage); }
 }

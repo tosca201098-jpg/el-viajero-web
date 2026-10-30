@@ -61,3 +61,25 @@ Las pruebas locales utilizan proveedores simulados y bloqueo de red. Comprueban 
 No equivalen a una conversación audible real ni a ofertas verificadas en los proveedores. No se debe fusionar hasta completar los pasos manuales y la aceptación en Preview.
 
 Resultado local: 382 pruebas generales superadas, más 4 pruebas nuevas de acciones de viaje. Tras el último refuerzo del servidor, sus 5 pruebas y las 4 nuevas de viajes vuelven a pasar. Compilación de Next.js y TypeScript correcta. La prueba de navegador de este archivo es una prueba mínima adaptada; no se ha ejecutado como suite Playwright en esta revisión.
+
+
+### Diagnóstico mínimo del 503 en Runtime Logs
+
+Solo se emiten códigos constantes con prefijo `SOFIA_DIAGNOSTIC` cuando
+`VERCEL_ENV=preview` y `VERCEL_GIT_COMMIT_REF=codex/sofia-elevenlabs`.
+No se añaden peticiones externas, reintentos ni reservas adicionales. Las cuotas,
+los bloqueos y las respuestas públicas se mantienen.
+
+- `ADMISSION_FLAGS/ORIGIN/IP/LIMITS/REDIS_CONFIG`: bloqueo previo a Redis.
+- `ADMISSION_REDIS_HTTP/MALFORMED/NETWORK/TIMEOUT`: fallo del almacén de cuotas.
+- `ADMISSION_QUOTA`: cuota agotada (429).
+- `VOICE_FLAGS/CREDENTIALS/VERSION`: configuración local incompleta o desactivada.
+- `VOICE_CHECK_HTTP/CREDENTIALS/MALFORMED/CONFIG/NETWORK/TIMEOUT`: validación del agente.
+- `VOICE_TOKEN_HTTP/CREDENTIALS/MALFORMED/NETWORK/TIMEOUT`: solicitud del token.
+- `VOICE_REQUEST`: fallo inesperado al leer la petición.
+
+Cuando la nueva Preview esté Ready, abrir Runtime Logs de ese despliegue,
+filtrar por `/api/voice` y hacer **una sola prueba controlada**. Si falla,
+copiar únicamente el código `SOFIA_DIAGNOSTIC`; no compartir cabeceras,
+tokens ni cuerpos de respuesta. No repetir el micrófono antes de Ready.
+La emisión correcta de un token no se registra y no demuestra voz audible.

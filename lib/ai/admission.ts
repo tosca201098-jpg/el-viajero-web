@@ -1,3 +1,4 @@
+import { previewDiagnostic, type PreviewDiagnosticCode } from './preview-diagnostic';
 import { createHmac } from 'node:crypto';
 import { isIP } from 'node:net';
 
@@ -48,11 +49,15 @@ function networkIdentity(ip: string): string {
 export async function admitAiRequest(request: Request, service: AiService): Promise<Response | null> {
   const origin = request.headers.get('origin');
   if (request.headers.get('sec-fetch-site') === 'cross-site' || (origin && origin !== new URL(request.url).origin)) {
+    if (service === 'voice') previewDiagnostic('ADMISSION_ORIGIN');
     return denial(403, 'ai_unavailable');
   }
   if (process.env.AI_ENABLED !== 'true' || process.env[`AI_${service.toUpperCase()}_ENABLED`] !== 'true') {
+    if (service === 'voice') previewDiagnostic('ADMISSION_FLAGS');
     return denial(503, 'ai_unavailable');
   }
+  let stage: PreviewDiagnosticCode = 'ADMISSION_REDIS_CONFIG';
+  let signal: AbortSignal | undefined;
   try {
     const url = new URL(process.env.AI_REDIS_REST_URL ?? '');
     const token = process.env.AI_REDIS_REST_TOKEN;
@@ -61,6 +66,7 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
         url.username || url.password || url.port || url.pathname !== '/' || url.search || url.hash ||
         !token || !secret || secret.length < 32) throw new Error('invalid_configuration');
 
+    stage = 'ADMISSION_IP';
     let identity: string;
     if (process.env.VERCEL === '1') {
       // Vercel replaces this header at its trusted edge. Do not use client cookies or X-Forwarded-For.
@@ -77,6 +83,7 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
     const prefix = `destinauta:ai:v1:${process.env.VERCEL_ENV === 'production' ? 'production' : 'preview'}:${service}`;
     const kind = service.toUpperCase();
     const defaults = service === 'voice' ? [2, 5, 20] : [3, 10, 50];
+    stage = 'ADMISSION_LIMITS';
     const limits = ['MINUTE', 'DAY', 'GLOBAL_DAY'].map((name, i) => limit(process.env[`AI_${kind}_${name}_LIMIT`], defaults[i]));
     const keys = [`${prefix}:ip:${hash}:minute`, `${prefix}:ip:${hash}:day`, `${prefix}:global:day`];
     const quotas = [limits[0], 60, limits[1], 86400, limits[2], 86400];
@@ -86,23 +93,27 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
       keys.push(prefix + ':elevenlabs:global:31days');
       quotas.push(limit(process.env.AI_VOICE_GLOBAL_31DAY_LIMIT, 3), 2678400);
     }
+    stage = 'ADMISSION_REDIS_NETWORK';
+    signal = AbortSignal.timeout(2500);
     const response = await fetch(url, {
       method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(['EVAL', RESERVE_QUOTA, keys.length, ...keys, ...quotas]),
-      cache: 'no-store', signal: AbortSignal.timeout(2500),
+      cache: 'no-store', signal,
     });
+    stage = 'ADMISSION_REDIS_HTTP';
     if (!response.ok) throw new Error('quota_store_failed');
+    stage = 'ADMISSION_REDIS_MALFORMED';
     const data: unknown = await response.json();
     if (!data || typeof data !== 'object' || 'error' in data || !('result' in data) ||
         !Array.isArray(data.result) || data.result.length !== 2) throw new Error('invalid_quota_result');
     const [allowed, retry] = data.result;
     if (allowed === 1 && retry === 0) return null;
     if (allowed !== 0 || !Number.isInteger(retry) || retry < 1 || retry > (service === 'voice' ? 2678400 : 86400)) throw new Error('invalid_quota_result');
-    console.warn('AI admission', service, 'quota_exceeded');
+    if (service === 'voice') previewDiagnostic('ADMISSION_QUOTA');
     return denial(429, 'ai_rate_limited', retry);
   } catch {
     // No fallback to process memory: it would bypass quotas on cold starts / other workers.
-    console.warn('AI admission', service, 'unavailable');
+    if (service === 'voice') previewDiagnostic(signal?.aborted ? 'ADMISSION_REDIS_TIMEOUT' : stage);
     return denial(503, 'ai_unavailable');
   }
 }
