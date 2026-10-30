@@ -4,7 +4,7 @@ const token='ab'.repeat(32),tokenHash=crypto.createHash('sha256').update(token).
 const host='el-viajero-web-git-codex-sofia-elevenlabs-el-viajero.vercel.app';
 const version='agtvrsn_3801m618j78bey69jjc08tdm4ppc';
 const agent='agent_9701m5zn3h9bf57ata0q3qzn1ag6';
-function config(){return{agent_id:agent,version_id:version,conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:300}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:3,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
+function config(){return{agent_id:agent,version_id:version,conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:300}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:15,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
 function harness(overrides={},options={}){
  const requests=[],counts=new Map(),logs=[];let lock=false;
  const env={VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-elevenlabs',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web',SOFIA_DIAGNOSTIC_ENABLED:'true',SOFIA_DIAGNOSTIC_TOKEN_SHA256:tokenHash,SOFIA_DIAGNOSTIC_WINDOW_START:new Date(Date.now()-1000).toISOString(),AI_REDIS_REST_URL:'https://fake.upstash.io',AI_REDIS_REST_TOKEN:'private-redis',AI_RATE_LIMIT_SECRET:'r'.repeat(32),ELEVENLABS_API_KEY:'private-elevenlabs',ELEVENLABS_AGENT_VERSION_ID:version,...overrides};
@@ -43,7 +43,9 @@ test('diagnostic security validation matches the existing voice route without ch
  const guard=loader()('lib/voice/provider-config.ts').safeSofiaConfiguration;
  const mutations=[()=>{},c=>c.platform_settings.auth.enable_auth=false,
   c=>c.platform_settings.queueing_config.enabled=true,c=>delete c.platform_settings.queueing_config,
-  c=>c.platform_settings.call_limits.daily_limit=4,c=>c.platform_settings.call_limits.agent_concurrency_limit=2,
+  c=>c.platform_settings.call_limits.daily_limit=16,c=>c.platform_settings.call_limits.agent_concurrency_limit=2,
+  c=>c.platform_settings.call_limits.daily_limit=0,c=>c.platform_settings.call_limits.daily_limit=1.5,
+  c=>c.platform_settings.call_limits.daily_limit='15',
   c=>c.platform_settings.call_limits.bursting_enabled=true,c=>c.conversation_config.tts.voice_id='other',
   c=>c.conversation_config.agent.language='en',c=>c.conversation_config.conversation.max_duration_seconds=600,
   c=>c.conversation_config.turn.silence_end_call_timeout=-1,c=>c.conversation_config.vad.background_voice_detection=false,
