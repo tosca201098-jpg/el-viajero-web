@@ -37,7 +37,9 @@ export function safeSofiaConfiguration(config: AgentConfig) {
     overrides.tts?.voice_id !== true && overrides.conversation?.max_duration_seconds !== true &&
     overrides.agent.prompt?.tool_ids !== true &&
     settings.call_limits?.agent_concurrency_limit === 1 &&
-    Number(settings.call_limits.daily_limit) > 0 && Number(settings.call_limits.daily_limit) <= 3 &&
+    typeof settings.call_limits?.daily_limit === 'number' &&
+    Number.isInteger(settings.call_limits.daily_limit) &&
+    settings.call_limits.daily_limit >= 1 && settings.call_limits.daily_limit <= 15 &&
     settings.call_limits.bursting_enabled === false && settings.queueing_config?.enabled === false &&
     ['buscar_viaje', 'crear_itinerario', 'consultar_catalogo', 'mostrar_destino']
       .every(name => tools.some(t => t.name === name && t.type === 'client' && t.expects_response === true));
