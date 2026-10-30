@@ -1,13 +1,27 @@
 # Sofía de ElevenLabs — integración en Preview
 
-Estado: preparada para revisión, NO autorizada para producción. Fecha: 28 de octubre de 2026.
+Estado: cambio de conexión preparado localmente para revisión, NO publicado ni autorizado para producción. Actualización: 30 de octubre de 2026.
+
+## Sofía nueva en la rama de pruebas
+
+El cambio preparado usa `agent_2201m677yj19e6499g2649n774f6` y la versión inmutable verificada `agtvrsn_2501m679we79ekz985446fbyygkb` exclusivamente cuando coinciden VERCEL=1, VERCEL_ENV=preview, VERCEL_GIT_COMMIT_REF=codex/sofia-elevenlabs, VERCEL_GIT_REPO_OWNER=tosca201098-jpg y VERCEL_GIT_REPO_SLUG=el-viajero-web. El selector permanente está en `lib/voice/preview-target.ts`; no depende del diagnóstico temporal.
+
+En ese ámbito, `ELEVENLABS_AGENT_VERSION_ID` debe coincidir exactamente con la versión verificada indicada arriba. Si falta o tiene otro valor, la ruta bloquea la conexión antes de contactar con ElevenLabs. El GET de configuración y la solicitud de token usan el mismo agente/versión; además se verifican los IDs devueltos. Fuera de ese ámbito se conserva el agente anterior y el tratamiento previo de la variable de versión. No se autoriza producción.
+
+La nueva Sofía ya conserva la voz confirmada, autenticación y límites; tiene las cuatro herramientas, duración de 300 segundos, silencio de 90 segundos y 1.024 tokens por respuesta. No se ha probado desde la web. Los ajustes no solucionan la cuota de admisión.
+
+Antes de publicar una nueva Preview, obtener confirmación y fijar `AI_VOICE_ENABLED=false` exclusivamente para Preview de esta rama. Mantener la voz desactivada durante el despliegue y actualizar en ese mismo ámbito `ELEVENLABS_AGENT_VERSION_ID` a la versión verificada. No cambiar claves, cuotas ni valores de producción. No activar voz ni ejecutar diagnósticos remotos con la autorización de publicar archivos.
+
+Validación local del borrador: 38 pruebas específicas de ruta de voz, selección de agente, admisión y diagnóstico con proveedores simulados; TypeScript 5.2.2 sin errores en los módulos de servidor cambiados y sus dependencias. No se ha realizado una compilación completa de Next.js ni una llamada real. Ninguna validación local acredita las credenciales guardadas en Vercel.
+
+Último bloqueo observado en la Preview vigente: `ADMISSION_QUOTA`, 30 de octubre de 2026, 21:46:06.79 CET. Falta determinar el contador y vencimiento; los intentos admitidos que terminan en 503 también reservan cuota. No reiniciar ni ampliar contadores para repetir pruebas. Los 401/503 históricos siguen pendientes de diagnóstico.
 
 ## Base y alcance
 Rama web `codex/sofia-elevenlabs`, creada desde `0bd1d46cd87feae64d5f70d931d40a9864747e4c` (PR #37). La PR nueva contra main incluye esas protecciones; no modifica ni fusiona #37. Antes de integrar cualquiera de las dos hay que coordinar sus cambios compartidos. La PR #36 y sus 12 fichas de Croacia permanecen separadas. No se editan catálogos, tarjetas, estilos ni proveedores de vuelos/hoteles.
 
 El único transporte de voz activo en esta rama es `@elevenlabs/client@1.32.0`, WebRTC. Se conserva OpenAI para itinerarios. La integración anterior de voz se recupera desde el commit de partida, sin mantener un segundo asistente. La documentación histórica de turnos describe esa versión anterior.
 
-## Configuración comprobada
+## Configuración anterior (histórico, sustituida solo en el ámbito nuevo de pruebas)
 Agente: `agent_9701m5zn3h9bf57ata0q3qzn1ag6`.
 Voz: `eZxqQzb5CuYo3Kl6EXfZ`, Sofia - Natural Conversations. La biblioteca la identifica como español peninsular.
 Rama ElevenLabs: `codex-destinauta-preview`, ID `agtbrch_0101m616vm0gfr4v2qjjawxxazrh`, 0% de tráfico automático. Se puede acceder a una rama de 0% mediante selección explícita: no equivale a privada.
@@ -83,3 +97,4 @@ filtrar por `/api/voice` y hacer **una sola prueba controlada**. Si falla,
 copiar únicamente el código `SOFIA_DIAGNOSTIC`; no compartir cabeceras,
 tokens ni cuerpos de respuesta. No repetir el micrófono antes de Ready.
 La emisión correcta de un token no se registra y no demuestra voz audible.
+

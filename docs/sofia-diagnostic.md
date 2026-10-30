@@ -6,6 +6,8 @@ Ruta: `POST /api/sofia-diagnostic`, exclusivamente en el host
 No crea tokens, sesiones, audio ni simulaciones. No llama a OpenAI.
 No utiliza el contador de cuotas de visitantes.
 
+Actualización del borrador local del 30 de octubre de 2026: el diagnóstico consulta la misma Sofía nueva que selecciona la ruta de voz en esta rama (`agent_2201m677yj19e6499g2649n774f6`, versión `agtvrsn_2501m679we79ekz985446fbyygkb`). No se ha ejecutado en remoto. El selector `lib/voice/preview-target.ts` es permanente y debe conservarse al retirar el diagnóstico temporal.
+
 ## Configuración que revisaremos antes de ejecutar
 
 Mantener Vercel Authentication en la Preview. Se requieren DOS protecciones: la
@@ -20,7 +22,7 @@ servidor. AI_RATE_LIMIT_SECRET debe tener al menos 32 caracteres; el token Redis
 debe permitir EVAL y las operaciones GET, EXISTS, SET, INCR, TTL y EXPIRE que se
 ejecutan dentro de los scripts. Un token de solo lectura no sirve.
 ELEVENLABS_AGENT_VERSION_ID debe ser exactamente
-`agtvrsn_3801m618j78bey69jjc08tdm4ppc`.
+`agtvrsn_2501m679we79ekz985446fbyygkb`.
 
 Variables adicionales, SOLO en Preview de esta rama:
 
@@ -108,7 +110,7 @@ de variables ni herramientas que capturen valores durante la preparación.
    haber exactamente una admisión y un rechazo. Un EVAL de lectura verifica
    que todos los contadores son 1 y sus TTL son positivos. No se usa DEL, SCAN,
    KEYS ni se modifican reservas de sesiones.
-6. Un único GET a ElevenLabs consulta el agente original en la versión fijada.
+6. Un único GET a ElevenLabs consulta el agente nuevo de pruebas en la versión fijada.
    Verifica IDs y los mismos controles de seguridad que utiliza el endpoint de voz,
    incluida autenticación, límites, cola desactivada, voz, tiempos y herramientas.
    La equivalencia con la ruta de voz se comprueba mediante pruebas locales, sin
@@ -136,6 +138,7 @@ el intento, también si falta permiso de lectura de ElevenLabs.
   `app/api/sofia-diagnostic/route.ts`, `tests/sofia-diagnostic.test.cjs`,
   `lib/voice/provider-config.ts` y este documento. La ruta de voz conserva su
   validación original y no depende de estos archivos.
+  Conservar `lib/voice/preview-target.ts`, que también utiliza la ruta permanente de voz.
 - Solo un despliegue posterior retira físicamente la ruta del despliegue nuevo.
   Los antiguos deben seguir privados y caducados; no cambiar la protección de
   Vercel. Retirar también el archivo local de la credencial tras la comprobación.
@@ -148,3 +151,4 @@ incorrectos, TTL ausente, permisos denegados, IDs y cola. No certifican la
 conexión o la ejecución Lua real en Upstash hasta la prueba autorizada en Preview.
 No se ha ejecutado ningún diagnóstico remoto. Subir o desplegar estos archivos
 no autoriza a ejecutar el diagnóstico ni a activar la voz.
+

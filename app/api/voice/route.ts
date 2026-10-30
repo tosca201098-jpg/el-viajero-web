@@ -1,6 +1,7 @@
 import { previewDiagnostic, type PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
 import { isLocale } from '@/lib/i18n/translations';
 import { admitAiRequest } from '@/lib/ai/admission';
+import { sofiaPreviewTarget } from '@/lib/voice/preview-target';
 
 const AGENT_ID = 'agent_9701m5zn3h9bf57ata0q3qzn1ag6';
 const VOICE_ID = 'eZxqQzb5CuYo3Kl6EXfZ';
@@ -66,14 +67,18 @@ export async function POST(request: Request) {
     if (denied) return denied;
     const key = process.env.ELEVENLABS_API_KEY;
     const version = process.env.ELEVENLABS_AGENT_VERSION_ID;
+    const previewTarget = sofiaPreviewTarget(process.env);
+    const agentId = previewTarget?.agentId ?? AGENT_ID;
     if (process.env.ELEVENLABS_ENABLED !== 'true' ||
       (process.env.VERCEL_ENV === 'production' && process.env.ELEVENLABS_PRODUCTION_APPROVED !== 'true')) return unavailable('VOICE_FLAGS');
     if (!key) return unavailable('VOICE_CREDENTIALS');
     if (!version || !/^agtvrsn_[a-z0-9]+$/.test(version)) return unavailable('VOICE_VERSION');
+    // Fail closed until this exact Preview is explicitly configured for the reviewed version.
+    if (previewTarget && version !== previewTarget.versionId) return unavailable('VOICE_VERSION');
     const headers = { 'xi-api-key': key };
     signal = AbortSignal.timeout(10000);
     // Verify the immutable version we will request; never run an unreviewed moving HEAD.
-    const checkUrl = new URL('https://api.elevenlabs.io/v1/convai/agents/' + AGENT_ID);
+    const checkUrl = new URL('https://api.elevenlabs.io/v1/convai/agents/' + agentId);
     checkUrl.searchParams.set('version_id', version);
     stage = 'VOICE_CHECK_NETWORK';
     const check = await fetch(checkUrl, { headers, signal, cache: 'no-store' });
@@ -81,9 +86,10 @@ export async function POST(request: Request) {
     stage = 'VOICE_CHECK_MALFORMED';
     const config = await check.json();
     if (!config || typeof config !== 'object' || Array.isArray(config)) return unavailable('VOICE_CHECK_MALFORMED');
+    if (previewTarget && (config.agent_id !== agentId || config.version_id !== version)) return unavailable('VOICE_CHECK_CONFIG');
     if (!safeSofiaConfiguration(config)) return unavailable('VOICE_CHECK_CONFIG');
     const tokenUrl = new URL('https://api.elevenlabs.io/v1/convai/conversation/token');
-    tokenUrl.searchParams.set('agent_id', AGENT_ID); tokenUrl.searchParams.set('version_id', version);
+    tokenUrl.searchParams.set('agent_id', agentId); tokenUrl.searchParams.set('version_id', version);
     tokenStage = true;
     stage = 'VOICE_TOKEN_NETWORK';
     const response = await fetch(tokenUrl, { headers, signal, cache: 'no-store' });
@@ -95,3 +101,4 @@ export async function POST(request: Request) {
     return Response.json({ token: data.token }, { headers: { 'Cache-Control': 'no-store' } });
   } catch { return unavailable(signal?.aborted ? (tokenStage ? 'VOICE_TOKEN_TIMEOUT' : 'VOICE_CHECK_TIMEOUT') : stage); }
 }
+

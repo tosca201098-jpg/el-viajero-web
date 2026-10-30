@@ -10,7 +10,7 @@ function load(file, globals = {}, deps = {}) {
   const code = ts.transpileModule(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
-  vm.runInNewContext(code, { exports, require: id => deps[id] ?? (id === './preview-diagnostic' || id === '@/lib/ai/preview-diagnostic' ? load('lib/ai/preview-diagnostic.ts', globals) : require(id)),
+  vm.runInNewContext(code, { exports, require: id => deps[id] ?? (id === '@/lib/voice/preview-target' ? load('lib/voice/preview-target.ts', globals) : id === './preview-diagnostic' || id === '@/lib/ai/preview-diagnostic' ? load('lib/ai/preview-diagnostic.ts', globals) : require(id)),
     Response, Request, URL, AbortSignal, AbortController, setTimeout, clearTimeout,
     console: { warn() {}, error() {} }, ...globals });
   return exports;
@@ -121,3 +121,4 @@ test('both real route handlers block before OpenAI when disabled, exceeded or st
     assert.equal(providerCalls, 0);
   }
 });
+

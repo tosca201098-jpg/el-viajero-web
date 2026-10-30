@@ -2,8 +2,8 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),crypto=re
 const {loader}=require('./sofia-harness.cjs');
 const token='ab'.repeat(32),tokenHash=crypto.createHash('sha256').update(token).digest('hex');
 const host='el-viajero-web-git-codex-sofia-elevenlabs-el-viajero.vercel.app';
-const version='agtvrsn_3801m618j78bey69jjc08tdm4ppc';
-const agent='agent_9701m5zn3h9bf57ata0q3qzn1ag6';
+const version='agtvrsn_2501m679we79ekz985446fbyygkb';
+const agent='agent_2201m677yj19e6499g2649n774f6';
 function config(){return{agent_id:agent,version_id:version,conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:300}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:15,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
 function harness(overrides={},options={}){
  const requests=[],counts=new Map(),logs=[];let lock=false;
@@ -100,7 +100,7 @@ test('the window closes at exactly 15 minutes and does not open before its start
 });
 
 test('invalid private configuration never contacts Redis or ElevenLabs',async()=>{
- for(const env of [{AI_REDIS_REST_URL:'http://fake.upstash.io'},{AI_REDIS_REST_URL:'https://attacker.test'},{AI_REDIS_REST_URL:'https://user:pass@fake.upstash.io'},{AI_REDIS_REST_URL:'https://fake.upstash.io/path'},{AI_REDIS_REST_TOKEN:''},{AI_RATE_LIMIT_SECRET:'short'},{ELEVENLABS_API_KEY:''},{ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_other'}]){
+ for(const env of [{AI_REDIS_REST_URL:'http://fake.upstash.io'},{AI_REDIS_REST_URL:'https://attacker.test'},{AI_REDIS_REST_URL:'https://user:pass@fake.upstash.io'},{AI_REDIS_REST_URL:'https://fake.upstash.io/path'},{AI_REDIS_REST_TOKEN:''},{AI_RATE_LIMIT_SECRET:'short'},{ELEVENLABS_API_KEY:''},{ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_other'},{ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_3801m618j78bey69jjc08tdm4ppc'}]){
   const h=harness(env);assert.equal((await h.POST(request())).status,503);assert.equal(h.requests.length,0);
  }
 });
@@ -157,3 +157,4 @@ test('wrong agent/version, insufficient permissions and unsafe queue never repor
   assert.deepEqual(await res.json(),{redis:'passed',elevenlabs:'failed'});
  }
 });
+

@@ -1,6 +1,7 @@
 import { createHash, randomUUID, timingSafeEqual } from 'node:crypto';
 import { RESERVE_QUOTA } from '@/lib/ai/admission';
-import { safeSofiaConfiguration, SOFIA_AGENT_ID, SOFIA_PREVIEW_VERSION_ID } from '@/lib/voice/provider-config';
+import { safeSofiaConfiguration } from '@/lib/voice/provider-config';
+import { sofiaPreviewTarget } from '@/lib/voice/preview-target';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -19,10 +20,8 @@ export const OPTIONS = hidden;
 export async function POST(request: Request) {
   const env = process.env;
   // Isolation comes before credential parsing and EVERY external operation.
-  if (env.VERCEL !== '1' || env.VERCEL_ENV !== 'preview' ||
-      env.VERCEL_GIT_COMMIT_REF !== 'codex/sofia-elevenlabs' ||
-      env.VERCEL_GIT_REPO_OWNER !== 'tosca201098-jpg' || env.VERCEL_GIT_REPO_SLUG !== 'el-viajero-web' ||
-      env.SOFIA_DIAGNOSTIC_ENABLED !== 'true') return hidden();
+  const target = sofiaPreviewTarget(env);
+  if (!target || env.SOFIA_DIAGNOSTIC_ENABLED !== 'true') return hidden();
   try {
     const url = new URL(request.url);
     if (url.protocol !== 'https:' || url.host !== HOST || url.search ||
@@ -42,7 +41,7 @@ export async function POST(request: Request) {
     if (redisUrl.protocol !== 'https:' || !redisUrl.hostname.endsWith('.upstash.io') || redisUrl.port ||
         redisUrl.username || redisUrl.password || redisUrl.pathname !== '/' || redisUrl.search || redisUrl.hash ||
         !env.AI_REDIS_REST_TOKEN || !env.AI_RATE_LIMIT_SECRET || env.AI_RATE_LIMIT_SECRET.length < 32 ||
-        !env.ELEVENLABS_API_KEY || env.ELEVENLABS_AGENT_VERSION_ID !== SOFIA_PREVIEW_VERSION_ID) {
+        !env.ELEVENLABS_API_KEY || env.ELEVENLABS_AGENT_VERSION_ID !== target.versionId) {
       return reply(503, { error: 'diagnostic_configuration_unavailable' });
     }
     const signal = AbortSignal.timeout(Math.max(1, Math.min(10000, remaining)));
@@ -81,15 +80,15 @@ export async function POST(request: Request) {
         observed.every((v: number, i: number) => i % 2 === 0 ? v === 1 : Number.isInteger(v) && v >= 1 && v <= 120);
     } catch { /* Never expose provider errors or credentials. */ }
     try {
-      const agentUrl = new URL('https://api.elevenlabs.io/v1/convai/agents/' + SOFIA_AGENT_ID);
-      agentUrl.searchParams.set('version_id', SOFIA_PREVIEW_VERSION_ID);
+      const agentUrl = new URL('https://api.elevenlabs.io/v1/convai/agents/' + target.agentId);
+      agentUrl.searchParams.set('version_id', target.versionId);
       const response = await fetch(agentUrl, {
         method: 'GET', redirect: 'error', cache: 'no-store', signal,
         headers: { 'xi-api-key': env.ELEVENLABS_API_KEY },
       });
       if (response.ok) {
         const config = await response.json();
-        elevenlabsPassed = config.agent_id === SOFIA_AGENT_ID && config.version_id === SOFIA_PREVIEW_VERSION_ID &&
+        elevenlabsPassed = config.agent_id === target.agentId && config.version_id === target.versionId &&
           safeSofiaConfiguration(config) === true;
       }
     } catch { /* Only bounded public status leaves the server. */ }
@@ -98,3 +97,4 @@ export async function POST(request: Request) {
     });
   } catch { return reply(503, { error: 'diagnostic_unavailable' }); }
 }
+
