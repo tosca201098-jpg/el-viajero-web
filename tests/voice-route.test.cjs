@@ -1,6 +1,6 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const {loader}=require('./sofia-harness.cjs');
-function valid(){return{conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:300}},platform_settings:{auth:{enable_auth:true},call_limits:{agent_concurrency_limit:1,daily_limit:3,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
+function valid(){return{conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:300}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:3,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
 function route(config=valid(),env={},deny=null){
  const requests=[];
  const api=loader({process:{env:{ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_test',...env}},fetch:async(url,options)=>{
@@ -38,4 +38,16 @@ test('unsafe provider settings block token issuance including wrong voice and we
  c=>c.platform_settings.call_limits.daily_limit=100000,
  ];
  for(const change of changes){const c=valid();change(c);const r=route(c);assert.equal((await r.POST(req({}))).status,503);assert.equal(r.requests.length,1)}
+});
+
+test('queue disabled explicitly permits a token for a safe agent',async()=>{
+ const r=route(),res=await r.POST(req({locale:'es'}));assert.equal(res.status,200);assert.equal(r.requests.length,2);
+});
+test('queue enabled denies token issuance after the agent check',async()=>{
+ const c=valid();c.platform_settings.queueing_config.enabled=true;
+ const r=route(c),res=await r.POST(req({locale:'es'}));assert.equal(res.status,503);assert.equal(r.requests.length,1);
+});
+test('missing queue configuration denies token issuance after the agent check',async()=>{
+ const c=valid();delete c.platform_settings.queueing_config;
+ const r=route(c),res=await r.POST(req({locale:'es'}));assert.equal(res.status,503);assert.equal(r.requests.length,1);
 });

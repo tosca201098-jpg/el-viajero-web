@@ -14,6 +14,7 @@ type AgentConfig = {
   };
   platform_settings?: {
     auth?: { enable_auth?: boolean };
+    queueing_config?: { enabled?: boolean };
     call_limits?: { agent_concurrency_limit?: number; daily_limit?: number; bursting_enabled?: boolean };
     overrides?: { conversation_config_override?: {
       agent?: { language?: boolean; first_message?: boolean; prompt?: { prompt?: boolean; llm?: boolean; tool_ids?: boolean } };
@@ -27,6 +28,7 @@ function safeSofiaConfiguration(config: AgentConfig) {
   const overrides = config.platform_settings?.overrides?.conversation_config_override;
   const tools = c?.agent?.prompt?.tools ?? [];
   return config.platform_settings?.auth?.enable_auth === true &&
+    config.platform_settings?.queueing_config?.enabled === false &&
     c?.tts?.voice_id === VOICE_ID && c.agent?.language === 'es' &&
     c.conversation?.max_duration_seconds === 300 && c.turn?.silence_end_call_timeout === 90 &&
     c.vad?.background_voice_detection === true &&
