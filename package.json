@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@elevenlabs/client": "1.32.0",
     "@supabase/supabase-js": "2.117.3",
     "next": "15.5.28",
     "react": "18.2.0",

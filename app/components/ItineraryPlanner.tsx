@@ -32,6 +32,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest }:
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+  const [admissionError, setAdmissionError] = useState<'limited' | 'unavailable' | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "signin" | "saved" | "error">("idle");
   const busyRef = useRef(false);
@@ -89,6 +90,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest }:
     busyRef.current = true;
     setLoading(true);
     setError(false);
+    setAdmissionError(null);
     const controller = new AbortController();
     controllerRef.current = controller;
     const current = () => mountedRef.current && controllerRef.current === controller && !controller.signal.aborted;
@@ -130,6 +132,12 @@ export default function ItineraryPlanner({ destination, context, voiceRequest }:
       });
       const data: unknown = await response.json();
       if (!current()) return;
+      if (response.status === 429 || response.status === 503) {
+        setAdmissionError(response.status === 429 ? 'limited' : 'unavailable');
+        setError(true);
+        request?.complete({ status: 'error', error: 'unavailable' });
+        return;
+      }
       if (!response.ok || typeof data !== "object" || data === null ||
         !("itinerary" in data) || !isItinerary(data.itinerary, days)) throw new Error("Invalid itinerary");
       completedVoiceRef.current = request ?? null;
@@ -203,7 +211,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest }:
         {loading ? t("itinerary.creating") : itinerary ? t("itinerary.regenerate") : t("itinerary.create")}
       </button>
       {loading && <p role="status" className="mt-3 text-sm text-cyan-100">{t("itinerary.creating")}</p>}
-      {error && <p role="alert" className="mt-3 rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-100">{t("itinerary.error")}</p>}
+      {error && <p role="alert" className="mt-3 rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-100">{t(admissionError ? `voice.error.${admissionError}` : "itinerary.error")}</p>}
 
       {itinerary && (
         <div className="mt-6 min-w-0 border-t border-white/10 pt-5">

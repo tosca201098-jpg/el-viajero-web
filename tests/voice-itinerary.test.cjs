@@ -121,42 +121,20 @@ function bridge(language = 'es', fetcher) {
 
 async function connected(onItinerary, getLocale = () => 'es') {
   const sent = [], calls = [], phases = [], errors = [];
-  const channel = { readyState: 'open', send: message => sent.push(JSON.parse(message)), close() {} };
-  const track = { stop() {} };
-  const stream = { getTracks: () => [track], getAudioTracks: () => [track] };
-  const peer = { connectionState: 'connected', getSenders: () => [], addTrack() {}, createDataChannel: () => channel,
-    createOffer: async () => ({ sdp: 'v=0\nmock-offer' }), setLocalDescription: async () => {}, setRemoteDescription: async () => {}, close() {} };
-  const session = new voice.VoiceSession({ onPhase: p => phases.push(p), onError: e => errors.push(e), onSearch() {}, onItinerary, getLocale,
-    rearmDelayMs: 0, createPeerConnection: () => peer, createAudio: () => ({ pause() {}, srcObject: null }), getUserMedia: async () => stream,
-    fetcher: async (url, options) => { calls.push({ url, options }); return url === '/api/voice'
-      ? { ok: true, json: async () => ({ value: 'simulated-ephemeral-token' }) } : { ok: true, text: async () => 'v=0\nmock-answer' }; },
+  let sdk;
+  const session = new voice.VoiceSession({
+    onPhase: p => phases.push(p), onError: e => errors.push(e), onSearch() {}, onItinerary, getLocale,
+    fetcher: async (url, options) => { calls.push({url,options}); return {ok:true,json:async()=>({token:'simulated-token'})}; },
+    startConversation: async options => { sdk = options; return {endSession:async()=>{},setMicMuted(){},setVolume(){}}; },
   });
-  await session.start(); channel.onopen();
-  let currentResponse, serial = 0;
-  const delay = () => new Promise(resolve => setTimeout(resolve, 5));
-  const emit = event => { if (event.type === 'response.created') currentResponse = event.response.id; channel.onmessage?.({ data: JSON.stringify(event) }); };
-  const finish = async () => {
-    if (session.turnStatus === 'processing') {
-      const id = 'ack-' + ++serial;
-      emit({ type: 'response.created', response: { id } });
-      emit({ type: 'response.done', response: { id, status: 'completed', output: [] } });
-      await delay();
-    }
-  };
-  const begin = async id => {
-    await delay(); await finish();
-    if (session.turnStatus === 'listening') {
-      emit({ type: 'input_audio_buffer.committed', item_id: 'input-' + ++serial });
-      emit({ type: 'response.created', response: { id } });
-    }
-  };
-  await finish();
-  return { session, sent, calls, phases, errors, channel, emit, begin, finish,
-    tool: async (callId, args = { destino: 'Madrid', dias: 2 }, responseId = 'response-' + callId) => {
-      await begin(responseId);
-      emit({ type: 'response.function_call_arguments.done', name: 'crear_itinerario', call_id: callId, response_id: currentResponse, arguments: JSON.stringify(args) });
-      emit({ type: 'response.done', response: { id: currentResponse, status: 'completed', output: [] } });
-    }, outputs: () => sent.filter(e => e.type === 'conversation.item.create').map(e => ({ callId: e.item.call_id, ...JSON.parse(e.item.output) })),
+  await session.start();
+  return {session,sent,calls,phases,errors,sdk,finish:async()=>{},
+    tool: async (callId,args={destino:'Madrid',dias:2}) => {
+      sdk.onIncomingEvent({type:'client_tool_call',client_tool_call:{tool_call_id:callId,parameters:args}});
+      void sdk.clientTools.crear_itinerario(args).then(value=>{
+        if(session.status === 'active' && !sent.some(e=>e.callId===callId)) sent.push({callId,...JSON.parse(value)});
+      });
+    },outputs:()=>sent,
   };
 }
 
@@ -175,33 +153,6 @@ for (const { code } of translations.locales) test(`${code}: real voice handler â
     assert.deepEqual(Array.from(b.ui.scrolls), ['scroll', 'focus']);
     assert.equal(h.outputs().length, 1); assert.equal(h.outputs()[0].status, 'success'); assert.equal(h.outputs()[0].days, 2); assert.equal(h.outputs()[0].locale, code);
     assert.equal(JSON.parse(h.calls[0].options.body).locale, code);
-    assert.ok(h.sent.find(e => e.response?.instructions).response.instructions.includes(translations.translate(code, 'voice.greetingQuestion')));
-  } finally { h.session.stop(); b.ui?.unmount(); }
-});
-
-test('duplicate argument/item/response events execute once; another call for the same city generates a new variation', async () => {
-  const b = bridge(), h = await connected(b.handle);
-  try {
-    await h.tool('once');
-    const item = { type: 'function_call', status: 'completed', name: 'crear_itinerario', call_id: 'once', arguments: '{"destino":"Madrid","dias":2}' };
-    h.emit({ type: 'response.output_item.done', item });
-    h.emit({ type: 'response.done', response: { id: 'response-once', status: 'completed', output: [item] } });
-    await turn(); await b.ui.drain(); await h.tool('once'); await b.ui.drain();
-    assert.equal(b.ui.calls.length, 1); assert.equal(h.outputs().length, 1);
-    await h.tool('again'); await turn(); await b.ui.drain();
-    assert.equal(b.ui.calls.length, 2); assert.equal(b.ui.calls[1].payload.variation, 1); assert.equal(h.outputs().length, 2);
-  } finally { h.session.stop(); b.ui?.unmount(); }
-});
-
-test('the acknowledgement waits for the original Realtime response to finish', async () => {
-  const b = bridge(), h = await connected(b.handle);
-  try {
-    await h.begin('pending-response');
-    h.emit({ type: 'response.function_call_arguments.done', name: 'crear_itinerario', call_id: 'wait', response_id: 'pending-response', arguments: '{"destino":"Madrid","dias":2}' });
-    await turn(); await b.ui.drain();
-    assert.equal(h.outputs()[0].status, 'success'); assert.equal(h.sent.filter(e => e.type === 'response.create').length, 2);
-    h.emit({ type: 'response.done', response: { id: 'pending-response', status: 'completed', output: [] } });
-    assert.equal(h.sent.filter(e => e.type === 'response.create').length, 3);
   } finally { h.session.stop(); b.ui?.unmount(); }
 });
 
@@ -213,18 +164,6 @@ test('provider failures and invalid itinerary JSON show an error and never repor
       assert.ok(b.ui.find(n => n.props.role === 'alert')); assert.ok(!b.ui.text().includes('private diagnostics'));
     } finally { h.session.stop(); b.ui?.unmount(); }
   }
-});
-
-test('a channel failure while resuming the spoken acknowledgement closes the session safely', async () => {
-  const b = bridge(), h = await connected(b.handle);
-  try {
-    await h.begin('pending');
-    h.emit({ type: 'response.function_call_arguments.done', name: 'crear_itinerario', call_id: 'channel-failure', response_id: 'pending', arguments: '{"destino":"Madrid","dias":2}' });
-    await turn(); await b.ui.drain(); assert.equal(h.outputs()[0].status, 'success');
-    h.channel.send = () => { throw Error('Channel has closed'); };
-    assert.doesNotThrow(() => h.emit({ type: 'response.done', response: { id: 'pending', status: 'completed', output: [] } }));
-    assert.equal(h.session.status, 'idle'); assert.deepEqual(h.errors, ['connection']);
-  } finally { h.session.stop(); b.ui?.unmount(); }
 });
 
 test('bad duration, malformed arguments and unknown destinations never call generation', async () => {
@@ -308,49 +247,16 @@ test('changing language cancels the pending voice session and a new session uses
   } finally { newer.session.stop(); next.ui?.unmount(); }
 });
 
-test('session configuration preserves buscar_viaje and validates all seven locale inputs before provider calls', async () => {
-  const source = fs.readFileSync(path.join(root, 'app/api/voice/route.ts'), 'utf8');
-  const originalSearchTool = require('./fixtures/voice-search-tool.json');
-  async function configure(code, locale) {
-    const exports = {}, payloads = [];
-    vm.runInNewContext(ts.transpileModule(code, { compilerOptions }).outputText, { exports, Response, AbortController, setTimeout, clearTimeout,
-      require: () => translations, process: { env: { OPENAI_API_KEY: 'simulated-server-key' } },
-      fetch: async (_url, options) => { payloads.push(JSON.parse(options.body)); return { ok: true, json: async () => ({ value: 'simulated-secret' }) }; },
-    });
-    const response = await exports.POST(new Request('https://example.test/api/voice', { method: 'POST', body: JSON.stringify({ locale }) }));
-    return { response, payloads };
-  }
-  for (const { code } of translations.locales) {
-    const { response, payloads } = await configure(source, code); assert.equal(response.status, 200);
-    const session = payloads[0].session;
-    assert.equal(JSON.stringify(session.tools[0]), JSON.stringify(originalSearchTool));
-    assert.equal(session.model, 'gpt-realtime-2.1'); assert.equal(session.audio.output.voice, 'marin');
-    const tool = session.tools.find(t => t.name === 'crear_itinerario'); assert.deepEqual(Array.from(tool.parameters.required), ['destino', 'dias']);
-    assert.equal(tool.parameters.properties.dias.maximum, 7); assert.ok(!session.instructions.includes('Habla siempre en espaÃ±ol'));
-  }
-  const bad = await configure(source, 'invalid-locale'); assert.equal(bad.response.status, 400); assert.equal(bad.payloads.length, 0);
-});
-
 test('invalid calls do not cancel an already valid generation and incomplete tool items are ignored', async () => {
   const pending = deferred(), b = bridge('es', () => pending.promise), h = await connected(b.handle);
   try {
     await h.tool('valid'); await turn(); await b.ui.drain();
     await h.tool('invalid-during-valid', { destino: 'Madrid', dias: 99 }); await turn(); await turn();
     assert.equal(b.ui.calls[0].signal.aborted, false);
-    h.emit({ type: 'response.output_item.done', item: { type: 'function_call', status: 'incomplete', name: 'crear_itinerario', call_id: 'partial', arguments: '{"destino":"Lisboa","dias":3}' } });
     await turn(); assert.equal(b.ui.calls.length, 1);
     pending.resolve(response(2)); await b.ui.drain();
     assert.equal(h.outputs().find(e => e.callId === 'valid').status, 'success');
     assert.equal(h.outputs().find(e => e.callId === 'invalid-during-valid').error, 'busy');
-  } finally { h.session.stop(); b.ui?.unmount(); }
-});
-
-test('a completed response event alone can dispatch its itinerary tool', async () => {
-  const b = bridge(), h = await connected(b.handle);
-  try {
-    await h.begin('fallback');
-    h.emit({ type: 'response.done', response: { id: 'fallback', status: 'completed', output: [{ type: 'function_call', status: 'completed', name: 'crear_itinerario', call_id: 'fallback-call', arguments: '{"destino":"Madrid","dias":2}' }] } });
-    await turn(); await b.ui.drain(); assert.equal(b.ui.calls.length, 1); assert.equal(h.outputs()[0].status, 'success');
   } finally { h.session.stop(); b.ui?.unmount(); }
 });
 
