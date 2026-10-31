@@ -11,7 +11,7 @@ const valid=new Function(source.slice(source.indexOf('function valid()'),source.
 function harness(change={},options={}){
  const requests=[],logs=[];
  const config=options.config??{...valid(),agent_id:agent,version_id:version};
- const api=loader({process:{env:{...scope,ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:version,...change}},console:{warn:(...args)=>logs.push(args)},fetch:async(url,init)=>{
+ const api=loader({process:{env:{...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:version,...change}},console:{warn:(...args)=>logs.push(args)},fetch:async(url,init)=>{
   requests.push({url:String(url),init});
   return Response.json(requests.length===1?config:{token:'temporary-token',private:'must-not-leak'});
  }},{'@/lib/ai/admission':{admitAiRequest:async()=>options.denied??null}})('app/api/voice/route.ts');
@@ -31,11 +31,14 @@ test('only the exact Preview scope uses the reviewed new agent and immutable ver
  }
 });
 
-test('production, local development and every changed or missing isolation field retain the legacy target',async()=>{
- const changes=[{VERCEL_ENV:'production',ELEVENLABS_PRODUCTION_APPROVED:'true'},{VERCEL_ENV:'development'}];
+test('legacy non-production targets remain compatible while unknown Vercel environments fail closed',async()=>{
+ const changes=[{VERCEL_ENV:'development'}];
  for(const key of Object.keys(scope))changes.push({[key]:undefined},{[key]:'other'});
  for(const change of changes){
   const h=harness({...change,ELEVENLABS_AGENT_VERSION_ID:legacyVersion}),response=await h.POST(request('es'));
+  if (change.VERCEL_ENV === 'other' || Object.hasOwn(change,'VERCEL_ENV') && change.VERCEL_ENV === undefined) {
+   assert.equal(response.status,503);assert.equal(h.requests.length,0);continue;
+  }
   assert.equal(response.status,200);assert.equal(h.requests.length,2);
   assert.equal(new URL(h.requests[0].url).pathname,'/v1/convai/agents/'+legacy);
   assert.equal(new URL(h.requests[1].url).searchParams.get('agent_id'),legacy);

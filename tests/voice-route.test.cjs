@@ -3,7 +3,7 @@ const {loader}=require('./sofia-harness.cjs');
 function valid(){return{conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:300}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:15,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
 function route(config=valid(),env={},deny=null){
  const requests=[];
- const api=loader({process:{env:{ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_test',...env}},fetch:async(url,options)=>{
+ const api=loader({process:{env:{AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_test',...env}},fetch:async(url,options)=>{
  requests.push({url:String(url),options});return Response.json(requests.length===1?config:{token:'temporary-token',private:'must-not-leak'});
  }},{'@/lib/ai/admission':{admitAiRequest:async()=>deny}})('app/api/voice/route.ts');
  return{...api,requests};

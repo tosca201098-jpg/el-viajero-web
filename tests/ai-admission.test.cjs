@@ -105,17 +105,20 @@ test('separate workers and rotating IPs still encounter the shared global admiss
 test('both real route handlers block before OpenAI when disabled, exceeded or store unavailable', async () => {
   for (const service of ['voice', 'itinerary']) for (const mode of ['disabled', 'limited', 'unavailable']) {
     let providerCalls = 0;
-    const env = { ...configuration(), OPENAI_API_KEY: 'fake-server-test-key', ...(mode === 'disabled' ? { AI_ENABLED: 'false' } : {}) };
+    const env = { ...configuration(), OPENAI_API_KEY: 'fake-server-test-key', ELEVENLABS_ENABLED: 'true',
+      ELEVENLABS_API_KEY: 'fake-key', ELEVENLABS_AGENT_VERSION_ID: 'agtvrsn_test', ...(mode === 'disabled' ? { AI_ENABLED: 'false' } : {}) };
     const admission = limiter(env, async () => {
       if (mode === 'unavailable') throw Error('offline');
       return Response.json({ result: [0, 60] });
     });
-    const route = load('app/api/' + service + '/route.ts', { process: { env },
-      fetch: async () => { providerCalls++; throw Error('OpenAI must not be called'); } }, {
+    const globals = { process: { env }, fetch: async () => { providerCalls++; throw Error('provider must not be called'); } };
+    const deps = {
       '@/lib/ai/admission': { admitAiRequest: admission },
       '@/lib/i18n/translations': { isLocale: value => value === 'es' },
       '@/lib/itinerary/server': { validateItineraryRequest: () => ({ request: { days: 1 } }) },
-    });
+    };
+    const file = 'app/api/' + service + '/route.ts';
+    const route = service === 'voice' ? require('./sofia-harness.cjs').loader(globals, deps)(file) : load(file, globals, deps);
     const result = await route.POST(request());
     assert.equal(result.status, mode === 'limited' ? 429 : 503);
     assert.equal(providerCalls, 0);

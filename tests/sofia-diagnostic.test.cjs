@@ -53,7 +53,7 @@ test('diagnostic security validation matches the existing voice route without ch
   c=>c.platform_settings.overrides.conversation_config_override.agent.prompt.prompt=true];
  for(const mutate of mutations){
   const c=config();mutate(c);let calls=0;
-  const api=loader({process:{env:{ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:version}},
+  const api=loader({process:{env:{AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:version}},
    fetch:async()=>Response.json(++calls===1?c:{token:'fake-token'})},
    {'@/lib/ai/admission':{admitAiRequest:async()=>null}})('app/api/voice/route.ts');
   const res=await api.POST(new Request('https://preview.test/api/voice',{method:'POST',body:'{}'}));
