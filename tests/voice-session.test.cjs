@@ -12,6 +12,18 @@ test('one SDK session replaces OpenAI; stop releases it and invalidates callback
  h.session.stop();await tick();assert.equal(h.connection.ended,1);h.sdk.onModeChange({mode:'speaking'});assert.equal(h.session.turnStatus,'cancelled');
  assert.equal((await h.call('buscar_viaje',trip)).status,'cancelled');assert.equal(h.searches.length,1);
 });
+
+test('uses the configured agent greeting without a first-message override in every locale',async()=>{
+ for(const locale of ['es','en','fr','de','it','pt','ca']){
+  const h=harness({getLocale:()=>locale});
+  try {
+   await h.session.start();
+   assert.equal(h.session.status,'active');
+   assert.equal(Object.hasOwn(h.sdk.overrides.agent,'firstMessage'),false);
+   assert.equal(h.sdk.overrides.agent.language,locale);
+  } finally { h.session.stop(); }
+ }
+});
 test('stop during token request prevents opening SDK',async()=>{
  const pending=deferred();let opens=0;const h=harness({fetcher:()=>pending.promise,startConversation:async()=>{opens++}});
  const start=h.session.start();await tick();h.session.stop();pending.resolve({ok:true,json:async()=>({token:'fake'})});

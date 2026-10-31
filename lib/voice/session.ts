@@ -1,4 +1,4 @@
-import { translate, type Locale } from '@/lib/i18n/translations';
+import type { Locale } from '@/lib/i18n/translations';
 import type { PartialOptions, VoiceConversation } from '@elevenlabs/client';
 import type { VoiceItineraryArguments, VoiceItineraryContext, VoiceItineraryResult } from './itinerary';
 import { queryVoiceCatalog } from './catalog';
@@ -140,7 +140,7 @@ export class VoiceSession {
         const connection = await startConversation({
           conversationToken: data.token, connectionType: 'webrtc', textOnly: false,
           webRtc: { singlePeerConnection: false },
-          overrides: { agent: { language: locale, firstMessage: translate(locale, 'voice.greetingQuestion') } },
+          overrides: { agent: { language: locale } },
           clientTools: Object.fromEntries(['buscar_viaje', 'crear_itinerario', 'consultar_catalogo', 'mostrar_destino']
             .map(name => [name, (params: unknown) => dispatch(name, params)])),
           onIncomingEvent: (event: { type?: string; client_tool_call?: { tool_call_id?: string; parameters?: unknown } }) => {
