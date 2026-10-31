@@ -46,3 +46,33 @@ test('travel arguments reject impossible dates, oversized parties and invalid bu
  assert.equal(voice.parseVoiceSearchArguments('{'),null);
  assert.equal(voice.parseVoiceSearchArguments({...trip,presupuesto:500,tipo_presupuesto:'total'}).presupuesto,500);
 });
+
+test('error disconnection reports a generic error once and permits retry', async () => {
+  const h = harness(); await h.session.start(); const previous = h.sdk;
+  previous.onDisconnect({ reason: 'error', message: 'private provider detail' });
+  previous.onError('private provider detail'); await tick();
+  assert.equal(h.session.status, 'idle'); assert.equal(h.connection.ended, 1);
+  assert.deepEqual(h.errors, ['connection']);
+  await h.session.start(); previous.onDisconnect({ reason: 'error' });
+  assert.equal(h.session.status, 'active'); assert.deepEqual(h.errors, ['connection']);
+  h.session.stop(); await tick();
+});
+test('normal disconnection and callbacks after Stop remain silent', async () => {
+  for (const reason of ['agent', 'user']) {
+    const h = harness(); await h.session.start(); h.sdk.onDisconnect({ reason }); await tick();
+    assert.equal(h.session.status, 'idle'); assert.equal(h.connection.ended, 1); assert.deepEqual(h.errors, []);
+  }
+  const h = harness(); await h.session.start(); h.session.stop();
+  h.sdk.onDisconnect({ reason: 'error', message: 'late private detail' }); await tick();
+  assert.equal(h.connection.ended, 1); assert.deepEqual(h.errors, []);
+});
+test('startup error disconnection prevents activation and closes late connection', async () => {
+  const pending = deferred(); let sdk;
+  const connection = { ended: 0, endSession: async () => { connection.ended++; }, setMicMuted() {}, setVolume() {} };
+  const h = harness({ startConversation: options => { sdk = options; return pending.promise; } });
+  const start = h.session.start(); await tick();
+  sdk.onDisconnect({ reason: 'error', message: 'private startup detail' });
+  assert.equal(h.session.status, 'idle'); assert.deepEqual(h.errors, ['connection']);
+  pending.resolve(connection); await start; await tick();
+  assert.equal(connection.ended, 1); assert(!h.phases.includes('active'));
+});

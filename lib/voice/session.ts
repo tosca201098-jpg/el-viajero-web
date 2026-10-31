@@ -149,7 +149,11 @@ export class VoiceSession {
               call.parameters && typeof call.parameters === 'object') callIds.set(call.parameters, call.tool_call_id);
           },
           onModeChange: ({ mode }) => { if (this.current(id) && !this.toolPending) this.setTurn(mode); },
-          onDisconnect: () => { if (this.current(id)) this.stop(); },
+          onDisconnect: ({ reason }) => {
+            if (!this.current(id)) return;
+            if (reason === 'error') this.fail(id, 'connection');
+            else this.stop();
+          },
           onError: () => this.fail(id, 'connection'),
         });
         if (!this.current(id)) { this.close(connection); return; }
