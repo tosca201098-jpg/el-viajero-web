@@ -1,0 +1,66 @@
+name: Sofía - Lua aislado, sin voz ni despliegue
+
+on:
+  push:
+    branches: ['codex/sofia-elevenlabs']
+    paths:
+      - '.github/workflows/sofia-lua-isolated.yml'
+      - 'lib/ai/voice-daily-policy.ts'
+      - 'scripts/maintenance/voice-lua-local.cjs'
+      - 'tests/voice-daily-policy.test.cjs'
+      - 'tests/voice-lua-local-safety.test.cjs'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sofia-isolated-lua-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  isolated-redis:
+    if: >-
+      github.repository == 'tosca201098-jpg/el-viajero-web' &&
+      github.event.repository.visibility == 'public' &&
+      github.ref == 'refs/heads/codex/sofia-elevenlabs'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    services:
+      redis:
+        # Official Redis 7.4 Alpine, linux/amd64 digest read from Docker Hub.
+        image: redis@sha256:1cf73a2f04808e55a8bd2f5706c2aa0ebb0f71938f93deb7af79f48311cd5cb9
+        ports:
+          - '127.0.0.1:16379:6379'
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 5
+    env:
+      AI_ENABLED: 'false'
+      AI_VOICE_ENABLED: 'false'
+      AI_ITINERARY_ENABLED: 'false'
+      ELEVENLABS_ENABLED: 'false'
+      ELEVENLABS_API_KEY: ''
+      OPENAI_API_KEY: ''
+      AI_REDIS_REST_URL: ''
+      AI_REDIS_REST_TOKEN: ''
+      AI_RATE_LIMIT_SECRET: ''
+      NEXT_PUBLIC_SUPABASE_URL: ''
+      NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: ''
+      MAINTENANCE_ALLOW_FONTS: '0'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Instalar dependencias existentes sin scripts
+        run: npm ci --ignore-scripts --no-audit --fund=false
+      - name: Seguridad del ejecutor y calendario de Madrid
+        run: node --require ./scripts/maintenance/network-guard.cjs --test tests/voice-daily-policy.test.cjs tests/voice-lua-local-safety.test.cjs
+      - name: Lua en Redis efímero, exclusivamente loopback y datos ficticios
+        run: node --require ./scripts/maintenance/network-guard.cjs scripts/maintenance/voice-lua-local.cjs --isolated-test-redis --port 16379

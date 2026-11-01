@@ -1,4 +1,5 @@
 import { buildItineraryResponseRequest, extractItinerary, validateItineraryRequest } from "@/lib/itinerary/server";
+import { admitAiRequest } from '@/lib/ai/admission';
 
 export const maxDuration = 60;
 
@@ -55,6 +56,9 @@ export async function POST(request: Request) {
     if (raw.length > 8_000) return Response.json({ error: "invalid_request" }, { status: 400 });
     const validated = validateItineraryRequest(JSON.parse(raw));
     if (!validated) return Response.json({ error: "invalid_request" }, { status: 400 });
+
+    const denied = await admitAiRequest(request, 'itinerary');
+    if (denied) return denied;
 
     const rawApiKey = process.env.OPENAI_API_KEY;
     const apiKey = rawApiKey?.trim();

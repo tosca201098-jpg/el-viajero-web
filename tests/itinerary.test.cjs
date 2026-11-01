@@ -13,7 +13,7 @@ function load(file, dependencies = {}, globals = {}) {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
   vm.runInNewContext(output, {
-    exports, require: (id) => dependencies[id] ?? require(id),
+    exports, require: (id) => id === '@/lib/ai/admission' ? { admitAiRequest: async () => null } : dependencies[id] ?? require(id),
     Date, JSON, Number, Object, Array, String, Set, RegExp, ...globals,
   }, { filename: file });
   return exports;
