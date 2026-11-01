@@ -2,9 +2,9 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),crypto=re
 const {loader}=require('./sofia-harness.cjs');
 const token='ab'.repeat(32),tokenHash=crypto.createHash('sha256').update(token).digest('hex');
 const host='el-viajero-web-git-codex-sofia-elevenlabs-el-viajero.vercel.app';
-const version='agtvrsn_2501m679we79ekz985446fbyygkb';
+const version='agtvrsn_1101m6cddd37ewmtkrth2xr64n0m';
 const agent='agent_2201m677yj19e6499g2649n774f6';
-function config(){return{agent_id:agent,version_id:version,conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:300}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:15,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
+function config(){return{agent_id:agent,version_id:version,conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:360}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:100000,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
 function harness(overrides={},options={}){
  const requests=[],counts=new Map(),logs=[];let lock=false;
  const env={VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-elevenlabs',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web',SOFIA_DIAGNOSTIC_ENABLED:'true',SOFIA_DIAGNOSTIC_TOKEN_SHA256:tokenHash,SOFIA_DIAGNOSTIC_WINDOW_START:new Date(Date.now()-1000).toISOString(),AI_REDIS_REST_URL:'https://fake.upstash.io',AI_REDIS_REST_TOKEN:'private-redis',AI_RATE_LIMIT_SECRET:'r'.repeat(32),ELEVENLABS_API_KEY:'private-elevenlabs',ELEVENLABS_AGENT_VERSION_ID:version,...overrides};
@@ -43,9 +43,9 @@ test('diagnostic security validation matches the existing voice route without ch
  const guard=loader()('lib/voice/provider-config.ts').safeSofiaConfiguration;
  const mutations=[()=>{},c=>c.platform_settings.auth.enable_auth=false,
   c=>c.platform_settings.queueing_config.enabled=true,c=>delete c.platform_settings.queueing_config,
-  c=>c.platform_settings.call_limits.daily_limit=16,c=>c.platform_settings.call_limits.agent_concurrency_limit=2,
+  c=>c.platform_settings.call_limits.daily_limit=100001,c=>c.platform_settings.call_limits.agent_concurrency_limit=2,
   c=>c.platform_settings.call_limits.daily_limit=0,c=>c.platform_settings.call_limits.daily_limit=1.5,
-  c=>c.platform_settings.call_limits.daily_limit='15',
+  c=>c.platform_settings.call_limits.daily_limit='100000',
   c=>c.platform_settings.call_limits.bursting_enabled=true,c=>c.conversation_config.tts.voice_id='other',
   c=>c.conversation_config.agent.language='en',c=>c.conversation_config.conversation.max_duration_seconds=600,
   c=>c.conversation_config.turn.silence_end_call_timeout=-1,c=>c.conversation_config.vad.background_voice_detection=false,
@@ -53,11 +53,11 @@ test('diagnostic security validation matches the existing voice route without ch
   c=>c.platform_settings.overrides.conversation_config_override.agent.prompt.prompt=true];
  for(const mutate of mutations){
   const c=config();mutate(c);let calls=0;
-  const api=loader({process:{env:{AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:version}},
+  const api=loader({process:{env:{VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-elevenlabs',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web',AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:version}},
    fetch:async()=>Response.json(++calls===1?c:{token:'fake-token'})},
-   {'@/lib/ai/admission':{admitAiRequest:async()=>null}})('app/api/voice/route.ts');
+   {'@/lib/ai/admission':{admitAiRequest:async()=>null,finalizeVoiceAdmission:async()=>true}})('app/api/voice/route.ts');
   const res=await api.POST(new Request('https://preview.test/api/voice',{method:'POST',body:'{}'}));
-  assert.equal(guard(c),res.status===200);assert.equal(calls,guard(c)?2:1);
+  assert.equal(guard(c,true),res.status===200);assert.equal(calls,guard(c,true)?2:1);
  }
 });
 

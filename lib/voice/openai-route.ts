@@ -1,11 +1,12 @@
 // Voice-only rollback from protected base 0bd1d46; itinerary generation is independent.
 import { isLocale, type Locale } from '@/lib/i18n/translations';
-import { admitAiRequest } from '@/lib/ai/admission';
+import { admitAiRequest, finalizeVoiceAdmission } from '@/lib/ai/admission';
 
 const languageNames: Record<Locale, string> = { es: 'español', en: 'English', fr: 'français', de: 'Deutsch', it: 'italiano', pt: 'português', ca: 'català' };
 const unavailable = () => Response.json({ error: 'ai_unavailable' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
 
 export async function POST(request: Request) {
+  let commitStarted = false;
   const controller = new AbortController();
   const timeout = setTimeout(() => controller.abort(), 10000);
   try {
@@ -71,8 +72,14 @@ export async function POST(request: Request) {
     const data: unknown = await response.json();
     if (!data || typeof data !== 'object' || typeof (data as { value?: unknown }).value !== 'string' ||
         !(data as { value: string }).value.trim()) return unavailable();
+    if (request.signal.aborted) return unavailable();
+    commitStarted = true;
+    if (!await finalizeVoiceAdmission(request, true)) return unavailable();
     // Same client contract as the protected base; no provider details or server key.
     return Response.json({ value: (data as { value: string }).value }, { headers: { 'Cache-Control': 'no-store' } });
   } catch { return unavailable(); }
-  finally { clearTimeout(timeout); }
+  finally {
+    clearTimeout(timeout);
+    if (!commitStarted) await finalizeVoiceAdmission(request, false);
+  }
 }

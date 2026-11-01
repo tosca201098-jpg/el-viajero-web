@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "git": {
     "deploymentEnabled": {
-      "codex/sofia-elevenlabs": false
+      "codex/sofia-elevenlabs": true
     }
   }
 }

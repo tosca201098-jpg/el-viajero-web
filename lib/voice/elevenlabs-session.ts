@@ -161,7 +161,7 @@ export class VoiceSession {
         if (!this.current(id)) { this.close(connection); return; }
         this.connection = connection;
         if (this.timer) clearTimeout(this.timer);
-        this.timer = setTimeout(() => this.stop(), Math.min(this.options.sessionTimeoutMs ?? 300000, 300000));
+        this.timer = setTimeout(() => this.stop(), Math.min(this.options.sessionTimeoutMs ?? 360000, 360000));
         this.setPhase('active'); this.setTurn(this.turn === 'cancelled' ? 'listening' : this.turn);
       } catch (error) {
         const name = error && typeof error === 'object' && 'name' in error ? error.name : '';

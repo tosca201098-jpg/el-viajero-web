@@ -4,21 +4,21 @@ const {loader}=require('./sofia-harness.cjs');
 const agent='agent_2201m677yj19e6499g2649n774f6',version='agtvrsn_2501m679we79ekz985446fbyygkb';
 const scope={VERCEL:'1',VERCEL_ENV:'production',VERCEL_GIT_COMMIT_REF:'main',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web'};
 const source=fs.readFileSync(path.join(__dirname,'voice-route.test.cjs'),'utf8');
-const valid=new Function(source.slice(source.indexOf('function valid()'),source.indexOf('function route('))+';return valid;')();
+const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();
 const request=(body={locale:'es'})=>new Request('https://destinauta.com/api/voice',{method:'POST',headers:{'x-vercel-forwarded-for':'192.0.2.123'},body:typeof body==='string'?body:JSON.stringify(body)});
 function harness(change={},options={}){
- const requests=[],logs=[];let admissions=0;
+ const requests=[],logs=[],finalizations=[];let admissions=0;
  const env={...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',OPENAI_API_KEY:'fake-openai-private',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-elevenlabs-private',ELEVENLABS_AGENT_VERSION_ID:version,...change};
  const fetcher=async(url,init)=>{
   const address=String(url);requests.push({url:address,init});
   if(options.fetcher)return options.fetcher(address,init);
   if(address.startsWith('https://api.openai.com/'))return Response.json({value:'temporary-openai',private:'must-not-leak'});
-  if(address.includes('/convai/agents/'))return Response.json(options.config??{...valid(),agent_id:agent,version_id:version});
+  if(address.includes('/convai/agents/'))return Response.json(options.config??{...valid(300),agent_id:agent,version_id:version});
   return Response.json({token:'temporary-elevenlabs',private:'must-not-leak'});
  };
  const api=loader({process:{env},console:{warn:(...args)=>logs.push(args)},fetch:fetcher},
-  {'@/lib/ai/admission':{admitAiRequest:async(req,service)=>{admissions++;assert.equal(service,'voice');return options.denied??null;}}})('app/api/voice/route.ts');
- return{...api,env,requests,logs,get admissions(){return admissions;}};
+  {'@/lib/ai/admission':{admitAiRequest:async(req,service)=>{admissions++;assert.equal(service,'voice');return options.denied??null;},finalizeVoiceAdmission:async(req,commit)=>{finalizations.push(commit);return options.finalize?options.finalize(commit):true;}}})('app/api/voice/route.ts');
+ return{...api,env,requests,logs,finalizations,get admissions(){return admissions;}};
 }
 
 test('production defaults to the protected OpenAI voice and explicit rollback selects only that provider',async()=>{
@@ -38,6 +38,7 @@ test('production defaults to the protected OpenAI voice and explicit rollback se
   assert.deepEqual(body.session.tools.map(t=>t.name),['buscar_viaje','crear_itinerario']);
   assert.match(body.session.instructions,/Responde siempre en español/);
   assert(!JSON.stringify(body).includes('fake-openai-private'));assert.deepEqual(h.logs,[]);
+  assert.deepEqual(h.finalizations,[true]);
  }
 });
 
@@ -72,7 +73,7 @@ test('production Sofia identity and security mismatches never issue tokens',asyn
   c=>c.platform_settings.auth.enable_auth=false,c=>c.platform_settings.call_limits.bursting_enabled=true,
   c=>c.platform_settings.call_limits.agent_concurrency_limit=2,c=>c.platform_settings.call_limits.daily_limit=16];
  for(const mutate of mutations){
-  const config={...valid(),agent_id:agent,version_id:version};mutate(config);
+  const config={...valid(300),agent_id:agent,version_id:version};mutate(config);
   const h=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config});
   const res=await h.POST(request());assert.equal(res.status,503);assert.equal(h.admissions,1);assert.equal(h.requests.length,1);
   assert.equal(new URL(h.requests[0].url).pathname,'/v1/convai/agents/'+agent);
@@ -106,22 +107,37 @@ test('OpenAI invalid requests fail before admission and its server secret never 
  }
 });
 
-test('both selected production providers retain the same single atomic voice admission with the 31-day allowance',async()=>{
+test('both providers use bounded attempts and the Madrid day ledger without monthly quota keys',async()=>{
  for(const provider of ['openai','elevenlabs']){
-  const calls=[];const env={...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',AI_VOICE_PROVIDER:provider,ELEVENLABS_PRODUCTION_APPROVED:'true',
+  const calls=[],commands=[];const env={...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',AI_VOICE_PROVIDER:provider,ELEVENLABS_PRODUCTION_APPROVED:'true',
    OPENAI_API_KEY:'fake-openai',ELEVENLABS_API_KEY:'fake-elevenlabs',ELEVENLABS_ENABLED:'true',ELEVENLABS_AGENT_VERSION_ID:version,
    AI_REDIS_REST_URL:'https://unit-test.upstash.io',AI_REDIS_REST_TOKEN:'fake-redis',AI_RATE_LIMIT_SECRET:'fake-hmac-value-for-unit-tests-only'};
   const api=loader({process:{env},fetch:async(url,init)=>{
    const address=String(url);calls.push(address);
    if(address.includes('upstash.io')){
-    const command=JSON.parse(init.body);assert.equal(command[0],'EVAL');assert.equal(command[2],7);
-    assert(command[6].endsWith(':production:voice:elevenlabs:global:31days'));
-    assert.deepEqual(command.slice(16,18),[3,2678400]);assert.deepEqual(command.slice(-6),[1,60,2,86400,3,2678400]);return Response.json({result:[1,0]});
+    const command=JSON.parse(init.body);commands.push(command);assert.equal(command[0],'EVAL');
+    assert(!JSON.stringify(command.slice(3)).includes('31days'));
+    if(command[2]===4){assert.deepEqual(command.slice(7),[2,60,5,86400,20,86400,1,60]);}
+    else{assert.equal(command[2],1);assert.match(command[3],/^destinauta:ai:v2:production:voice:user:[a-f0-9]{64}:day:\d{4}-\d{2}-\d{2}$/);assert(['reserve','commit'].includes(command[4]));}
+    return Response.json({result:[1,0]});
    }
-   if(address.includes('/convai/agents/'))return Response.json({...valid(),agent_id:agent,version_id:version});
+   if(address.includes('/convai/agents/'))return Response.json({...valid(300),agent_id:agent,version_id:version});
    return Response.json(provider==='openai'?{value:'temporary-openai'}:{token:'temporary-elevenlabs'});
   }},{'@/lib/supabase/voice-auth':{verifyVoiceUser:async()=>({userId:'11111111-2222-4333-8444-555555555555'})}})('app/api/voice/route.ts');
   assert.equal((await api.POST(request())).status,200);
-  assert.equal(calls.filter(url=>url.includes('upstash.io')).length,1);assert(calls[0].includes('upstash.io'));
+  assert.equal(calls.filter(url=>url.includes('upstash.io')).length,3);assert(calls[0].includes('upstash.io'));
+  assert.deepEqual(commands.map(command=>command[2]===4?'attempts':command[4]),['attempts','reserve','commit']);
+ }
+});
+
+test('both providers release pre-token failures but never refund an ambiguous commit',async()=>{
+ for(const provider of ['openai','elevenlabs']){
+  const scope={AI_VOICE_PROVIDER:provider,ELEVENLABS_PRODUCTION_APPROVED:'true'};
+  const failed=harness(scope,{fetcher:async()=>new Response('private-error',{status:503})});
+  assert.equal((await failed.POST(request())).status,503);assert.deepEqual(failed.finalizations,[false]);
+  const ambiguous=harness(scope,{finalize:async()=>false});
+  const response=await ambiguous.POST(request());assert.equal(response.status,503);
+  assert.deepEqual(await response.json(),{error:'ai_unavailable'});assert.deepEqual(ambiguous.finalizations,[true]);
+  assert.equal(ambiguous.requests.length,provider==='openai'?1:2);
  }
 });

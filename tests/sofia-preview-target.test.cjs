@@ -2,19 +2,19 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path');
 const {loader}=require('./sofia-harness.cjs');
 const agent='agent_2201m677yj19e6499g2649n774f6';
-const version='agtvrsn_2501m679we79ekz985446fbyygkb';
+const version='agtvrsn_1101m6cddd37ewmtkrth2xr64n0m';
 const legacy='agent_9701m5zn3h9bf57ata0q3qzn1ag6';
 const legacyVersion='agtvrsn_3801m618j78bey69jjc08tdm4ppc';
 const scope={VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-elevenlabs',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web'};
 const source=fs.readFileSync(path.join(__dirname,'voice-route.test.cjs'),'utf8');
-const valid=new Function(source.slice(source.indexOf('function valid()'),source.indexOf('function route('))+';return valid;')();
+const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();
 function harness(change={},options={}){
  const requests=[],logs=[];
  const config=options.config??{...valid(),agent_id:agent,version_id:version};
  const api=loader({process:{env:{...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:version,...change}},console:{warn:(...args)=>logs.push(args)},fetch:async(url,init)=>{
   requests.push({url:String(url),init});
   return Response.json(requests.length===1?config:{token:'temporary-token',private:'must-not-leak'});
- }},{'@/lib/ai/admission':{admitAiRequest:async()=>options.denied??null}})('app/api/voice/route.ts');
+ }},{'@/lib/ai/admission':{admitAiRequest:async()=>options.denied??null,finalizeVoiceAdmission:async()=>true}})('app/api/voice/route.ts');
  return {...api,requests,logs};
 }
 const request=locale=>new Request('https://el-viajero-web-git-codex-sofia-elevenlabs-el-viajero.vercel.app/api/voice',{method:'POST',body:JSON.stringify({locale})});
@@ -35,7 +35,7 @@ test('legacy non-production targets remain compatible while unknown Vercel envir
  const changes=[{VERCEL_ENV:'development'}];
  for(const key of Object.keys(scope))changes.push({[key]:undefined},{[key]:'other'});
  for(const change of changes){
-  const h=harness({...change,ELEVENLABS_AGENT_VERSION_ID:legacyVersion}),response=await h.POST(request('es'));
+  const h=harness({...change,ELEVENLABS_AGENT_VERSION_ID:legacyVersion},{config:{...valid(300),agent_id:legacy,version_id:legacyVersion}}),response=await h.POST(request('es'));
   if (change.VERCEL_ENV === 'other' || Object.hasOwn(change,'VERCEL_ENV') && change.VERCEL_ENV === undefined) {
    assert.equal(response.status,503);assert.equal(h.requests.length,0);continue;
   }
@@ -46,12 +46,22 @@ test('legacy non-production targets remain compatible while unknown Vercel envir
  }
 });
 
-test('Preview with absent, old or unreviewed version fails closed before ElevenLabs',async()=>{
- for(const pinned of [undefined,'','agtvrsn_3801m618j78bey69jjc08tdm4ppc','agtvrsn_other']){
+test('Preview with absent, malformed or unreviewed version fails closed before ElevenLabs',async()=>{
+ for(const pinned of [undefined,'','not-a-version','agtvrsn_3801m618j78bey69jjc08tdm4ppc','agtvrsn_other']){
   const h=harness({ELEVENLABS_AGENT_VERSION_ID:pinned}),response=await h.POST(request('es'));
   assert.equal(response.status,503);assert.deepEqual(await response.json(),{error:'ai_unavailable'});
   assert.equal(h.requests.length,0);assert.deepEqual(h.logs,[['SOFIA_DIAGNOSTIC','VOICE_VERSION']]);
  }
+});
+
+test('Preview migrates only the previous reviewed environment pin to the fixed 360-second version',async()=>{
+ const h=harness({ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_2501m679we79ekz985446fbyygkb'});
+ const response=await h.POST(request('es'));
+ assert.equal(response.status,200);assert.deepEqual(await response.json(),{token:'temporary-token'});
+ assert.equal(h.requests.length,2);
+ for(const call of h.requests)assert.equal(new URL(call.url).searchParams.get('version_id'),version);
+ assert.equal(new URL(h.requests[0].url).pathname,'/v1/convai/agents/'+agent);
+ assert.equal(new URL(h.requests[1].url).searchParams.get('agent_id'),agent);
 });
 
 test('a mismatched or absent returned agent/version cannot reach the token endpoint',async()=>{

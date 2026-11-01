@@ -1,20 +1,23 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
-const root = path.resolve(__dirname, '..');
+const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
+const root = process.env.SOFIA_FINAL_REPO_ROOT || process.env.SOFIA_POLICY_REPO_ROOT || path.resolve(__dirname, '..');
+const sourceRoot = process.env.SOFIA_FINAL_SOURCE_ROOT || process.env.SOFIA_POLICY_SOURCE_ROOT || root;
+const ts = require(path.join(root, 'node_modules/typescript'));
+const locate = file => [path.join(sourceRoot, file), path.join(root, file)].find(p => fs.existsSync(p));
 const compilerOptions = { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.React };
 function loader(mocks = {}, globals = {}) {
   const cache = new Map();
   function load(file) {
     if (cache.has(file)) return cache.get(file);
     const exports = {}; cache.set(file, exports);
-    vm.runInNewContext(ts.transpileModule(fs.readFileSync(path.join(root, file), 'utf8'), { compilerOptions }).outputText, {
+    vm.runInNewContext(ts.transpileModule(fs.readFileSync(locate(file), 'utf8'), { compilerOptions }).outputText, {
       exports, AbortController, AbortSignal, Request, Response, URL, URLSearchParams, Date, Error, JSON,
       setTimeout, clearTimeout, queueMicrotask, ...globals,
       require: id => {
         if (Object.hasOwn(mocks, id)) return mocks[id];
         const base = id.startsWith('@/') ? id.slice(2) : path.join(path.dirname(file), id);
-        const resolved = [base + '.ts', base + '.tsx', path.join(base, 'index.ts')].find(p => fs.existsSync(path.join(root, p)));
+        const resolved = [base + '.ts', base + '.tsx', path.join(base, 'index.ts')].find(locate);
         if (!resolved) throw Error('Forbidden dependency: ' + id);
         return load(resolved);
       },
@@ -123,6 +126,7 @@ async function connected(onItinerary, getLocale = () => 'es') {
   const sent = [], calls = [], phases = [], errors = [];
   let sdk;
   const session = new voice.VoiceSession({
+    preflight: async () => {},
     onPhase: p => phases.push(p), onError: e => errors.push(e), onSearch() {}, onItinerary, getLocale,
     fetcher: async (url, options) => { calls.push({url,options}); return {ok:true,json:async()=>({token:'simulated-token'})}; },
     startConversation: async options => { sdk = options; return {endSession:async()=>{},setMicMuted(){},setVolume(){}}; },

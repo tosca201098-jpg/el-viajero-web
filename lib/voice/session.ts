@@ -1,6 +1,7 @@
 import { VoiceSession as ElevenLabsVoiceSession } from './elevenlabs-session';
 import { VoiceSession as OpenAIVoiceSession } from './openai-session';
 import type { VoiceError, VoicePhase, VoiceTurn } from './elevenlabs-session';
+import { preflightVoice, VoicePreflightError } from './preflight';
 
 export { parseVoiceSearchArguments } from './elevenlabs-session';
 export type { VoiceError, VoicePhase, VoiceTurn, VoiceSearchResult, VoiceSearchArguments } from './elevenlabs-session';
@@ -9,6 +10,7 @@ type VoiceSessionOptions = ConstructorParameters<typeof ElevenLabsVoiceSession>[
   ConstructorParameters<typeof OpenAIVoiceSession>[0] & {
     getAccessToken?: () => Promise<string | null>;
     onAuthRequired?: () => void;
+    preflight?: (signal: AbortSignal) => Promise<void>;
   };
 type ProviderSession = ElevenLabsVoiceSession | OpenAIVoiceSession;
 
@@ -35,7 +37,7 @@ export class VoiceSession {
     if (phase !== 'connecting') this.clearTimer();
     this.phase = phase;
     if (phase === 'active') {
-      this.timer = setTimeout(() => this.stop(), Math.min(this.options.sessionTimeoutMs ?? 300000, 300000));
+      this.timer = setTimeout(() => this.stop(), Math.min(this.options.sessionTimeoutMs ?? 360000, 360000));
     }
     if (!this.disposed) this.options.onPhase(phase);
   }
@@ -113,6 +115,9 @@ export class VoiceSession {
             return;
           }
         }
+        // Fail local permission/device/WebRTC checks before any quota admission or provider token.
+        await (this.options.preflight ?? preflightVoice)(signal);
+        if (!this.current(id)) return;
         const actualFetch = this.options.fetcher ?? fetch;
         const response = await actualFetch('/api/voice', {
           method: 'POST', headers: { 'Content-Type': 'application/json',
@@ -145,7 +150,8 @@ export class VoiceSession {
           return actualFetch(input, init);
         };
         // Do not pass account credentials or authentication callbacks to either adapter.
-        const { getAccessToken: _getAccessToken, onAuthRequired: _onAuthRequired, ...providerOptions } = this.options;
+        const { getAccessToken: _getAccessToken, onAuthRequired: _onAuthRequired,
+          preflight: _preflight, ...providerOptions } = this.options;
         const callbacks = {
           ...providerOptions, getLocale: () => locale, fetcher,
           onPhase: (phase: VoicePhase) => {
@@ -159,7 +165,7 @@ export class VoiceSession {
         this.delegate = delegate;
         await delegate.start();
         if (!this.current(id)) this.retire(delegate);
-      } catch { this.fail(id, 'connection'); }
+      } catch (error) { this.fail(id, error instanceof VoicePreflightError ? error.code : 'connection'); }
     };
     this.starting = run();
     try { await this.starting; } finally { this.starting = null; }

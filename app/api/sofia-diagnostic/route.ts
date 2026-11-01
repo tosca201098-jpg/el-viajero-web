@@ -89,7 +89,7 @@ export async function POST(request: Request) {
       if (response.ok) {
         const config = await response.json();
         elevenlabsPassed = config.agent_id === target.agentId && config.version_id === target.versionId &&
-          safeSofiaConfiguration(config) === true;
+          safeSofiaConfiguration(config, true) === true;
       }
     } catch { /* Only bounded public status leaves the server. */ }
     return reply(redisPassed && elevenlabsPassed ? 200 : 503, {

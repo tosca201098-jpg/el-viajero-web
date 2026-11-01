@@ -1,7 +1,47 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { loader, harness, deferred, tick } = require('./sofia-harness.cjs');
-const { VoiceSession } = loader()('lib/voice/session.ts');
+const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm');
+const repoRoot = process.env.SOFIA_FINAL_REPO_ROOT || process.env.SOFIA_POLICY_REPO_ROOT || path.resolve(__dirname, '..');
+const sourceRoot = process.env.SOFIA_FINAL_SOURCE_ROOT || process.env.SOFIA_POLICY_SOURCE_ROOT || repoRoot;
+const ts = require(path.join(repoRoot, 'node_modules/typescript'));
+function loader(globals = {}, mocks = {}) {
+  const cache = new Map();
+  const locate = file => [path.join(sourceRoot, file), path.join(repoRoot, file)].find(p => fs.existsSync(p));
+  function load(file) {
+    file = file.replaceAll('\\', '/');
+    if (cache.has(file)) return cache.get(file);
+    const exports = {}; cache.set(file, exports);
+    const code = ts.transpileModule(fs.readFileSync(locate(file), 'utf8'), { compilerOptions: {
+      module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022,
+    } }).outputText;
+    vm.runInNewContext(code, { exports, AbortController, AbortSignal, URL, URLSearchParams, Request, Response,
+      setTimeout, clearTimeout, console, JSON, Date, ...globals, require: id => {
+        if (id in mocks) return mocks[id];
+        if (id.startsWith('node:')) return require(id);
+        const base = id.startsWith('@/') ? id.slice(2) : path.join(path.dirname(file), id);
+        const found = [base + '.ts', base + '.tsx', path.join(base, 'index.ts')].find(locate);
+        if (!found) throw Error('Unexpected dependency ' + id);
+        return load(found);
+      } });
+    return exports;
+  }
+  return load;
+}
+const facadeLoad = loader();
+const { VoiceSession } = facadeLoad('lib/voice/session.ts');
+const { VoicePreflightError } = facadeLoad('lib/voice/preflight.ts');
+const deferred = () => { let resolve, reject; const promise = new Promise((a, b) => { resolve = a; reject = b; }); return { promise, resolve, reject }; };
+const tick = () => new Promise(setImmediate);
+function harness(extra = {}) {
+  let sdk; const phases = [], errors = [], turns = [], searches = [], mutes = [];
+  const connection = { ended: 0, endSession: async () => { connection.ended++; }, setMicMuted: value => mutes.push(value), setVolume() {} };
+  const session = new VoiceSession({ onPhase: phase => phases.push(phase), onError: error => errors.push(error), onTurn: turn => turns.push(turn),
+    onSearch: async args => { searches.push(args); return { status: 'success' }; },
+    preflight: async () => {},
+    fetcher: async () => ({ ok: true, json: async () => ({ token: 'fake-session-token' }) }),
+    startConversation: async options => { sdk = options; return connection; }, ...extra });
+  return { session, phases, errors, turns, searches, mutes, connection, get sdk() { return sdk; } };
+}
 
 function openai(extra = {}) {
   const calls = [], phases = [], errors = []; let sdk = 0, microphones = 0;
@@ -12,7 +52,7 @@ function openai(extra = {}) {
     createOffer: async () => ({ type: 'offer', sdp: 'v=0\noffer' }), setLocalDescription: async () => {},
     setRemoteDescription: async answer => { peer.answer = answer; }, close() { this.closed = true; } };
   const session = new VoiceSession({ onPhase: p => phases.push(p), onError: e => errors.push(e), onSearch() {},
-    createPeerConnection: () => peer, createAudio: () => ({ pause() {} }),
+    createPeerConnection: () => peer, createAudio: () => ({ pause() {} }), preflight: async () => {},
     getUserMedia: async () => { microphones++; return stream; },
     startConversation: async () => { sdk++; throw Error('Must never open ElevenLabs'); },
     fetcher: async (url, options) => {
@@ -202,4 +242,73 @@ test('the OpenAI rollback keeps its own ephemeral bearer and never receives the 
     assert.equal(h.calls[1].options.headers.Authorization, 'Bearer fake-openai-session');
     assert.equal(JSON.stringify(h.calls[1]).includes('fake-account-token'), false);
   } finally { h.session.stop(); }
+});
+
+test('authentication precedes local preflight and preflight precedes the single quota request', async () => {
+  const events = [];
+  const h = harness({ getAccessToken: async () => { events.push('auth'); return 'fake-account'; },
+    preflight: async signal => { assert.equal(signal.aborted, false); events.push('preflight'); },
+    fetcher: async () => { events.push('admission'); return Response.json({ token: 'fake-token' }); } });
+  await Promise.all([h.session.start(), h.session.start()]);
+  assert.deepEqual(events, ['auth', 'preflight', 'admission']); assert.equal(h.session.status, 'active');
+  assert.equal('preflight' in h.sdk, false); h.session.stop(); await tick();
+});
+
+test('a guest never requests microphone preflight or consumes quota', async () => {
+  let probes = 0, posts = 0, required = 0;
+  const h = harness({ getAccessToken: async () => null, onAuthRequired: () => required++,
+    preflight: async () => { probes++; }, fetcher: async () => { posts++; throw Error('Must not admit'); } });
+  await h.session.start(); assert.equal(probes, 0); assert.equal(posts, 0); assert.equal(required, 1);
+});
+
+test('permission, microphone and WebRTC preflight failures preserve public codes without admission or provider calls', async () => {
+  for (const code of ['permission', 'microphone', 'connection']) {
+    let posts = 0, opens = 0;
+    const h = harness({ preflight: async () => { throw new VoicePreflightError(code); },
+      fetcher: async () => { posts++; throw Error('No token on failed preflight'); },
+      startConversation: async () => { opens++; throw Error('No provider'); } });
+    await h.session.start(); assert.equal(posts, 0); assert.equal(opens, 0);
+    assert.deepEqual(h.errors, [code]); assert.equal(h.session.status, 'idle');
+  }
+});
+
+test('Stop during the real local preflight settles startup, stops a late stream and cannot submit a quota request', async () => {
+  const pending = deferred(); let posts = 0;
+  const track = { enabled: true, readyState: 'live', stopped: 0, stop() { this.stopped++; this.readyState = 'ended'; } };
+  const { preflightVoice } = facadeLoad('lib/voice/preflight.ts');
+  const h = harness({ preflight: signal => preflightVoice(signal, { secureContext: true,
+    createPeerConnection: () => ({ close() {} }), getUserMedia: () => pending.promise }),
+    fetcher: async () => { posts++; throw Error('Cancelled preflight cannot admit'); } });
+  const run = h.session.start(); await tick(); h.session.stop(); await run;
+  pending.resolve({ getTracks: () => [track], getAudioTracks: () => [track] }); await tick();
+  assert.equal(posts, 0); assert.equal(track.stopped, 1); assert.deepEqual(h.errors, []);
+});
+
+test('startup timeout during the real preflight does not consume quota and late browser errors are handled', async () => {
+  const pending = deferred(); let posts = 0;
+  const { preflightVoice } = facadeLoad('lib/voice/preflight.ts');
+  const h = harness({ startupTimeoutMs: 5, preflight: signal => preflightVoice(signal, { secureContext: true,
+    createPeerConnection: () => ({ close() {} }), getUserMedia: () => pending.promise }),
+    fetcher: async () => { posts++; throw Error('Timed out preflight cannot admit'); } });
+  const run = h.session.start(); await new Promise(resolve => setTimeout(resolve, 15)); await run;
+  pending.reject(Error('PRIVATE_LATE_MIC_FAILURE')); await tick();
+  assert.equal(posts, 0); assert.deepEqual(h.errors, ['timeout']); assert.equal(h.session.status, 'idle');
+});
+
+test('the facade clamps active duration to 360 seconds without permitting a caller to increase it', async () => {
+  for (const sessionTimeoutMs of [undefined, 1000, 720000]) {
+    const timers = [];
+    class Provider {
+      constructor(options) { this.options = options; }
+      async start() { this.options.onPhase('active'); }
+      dispose() {}
+      waitForCleanup() { return Promise.resolve(); }
+    }
+    const candidate = loader({ setTimeout: (_callback, milliseconds) => { timers.push(milliseconds); return 1; }, clearTimeout() {} }, {
+      './elevenlabs-session': { VoiceSession: Provider }, './openai-session': { VoiceSession: Provider },
+    })('lib/voice/session.ts');
+    const session = new candidate.VoiceSession({ sessionTimeoutMs, preflight: async () => {}, onPhase() {}, onError() {}, onSearch() {},
+      fetcher: async () => Response.json({ token: 'fake-token' }) });
+    await session.start(); assert.equal(timers[timers.length - 1], Math.min(sessionTimeoutMs ?? 360000, 360000)); session.stop();
+  }
 });

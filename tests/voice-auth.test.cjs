@@ -204,15 +204,20 @@ test('request cancellation aborts the Supabase verification GET as well as suppr
   assert.equal(h.calls.length, 1); assert.match(h.calls[0].url, /\/auth\/v1\/user$/);
 });
 
-test('one atomic EVAL reserves user, IP and global windows without exposing UUID, JWT or raw IP', async () => {
+test('verified user owns four attempt windows and a separate day hold without exposing UUID, JWT or raw IP', async () => {
   const h = harness(); assert.equal(await h.admit(request(), 'voice'), null);
-  assert.equal(h.tokens.length, 1); assert.equal(h.calls.length, 1);
+  assert.equal(h.tokens.length, 1); assert.equal(h.calls.length, 2);
   const command = JSON.parse(h.calls[0].init.body);
-  assert.equal(command[0], 'EVAL'); assert.equal(command[2], 7);
-  assert.deepEqual(command.slice(10), [2, 60, 5, 86400, 20, 86400, 3, 2678400, 1, 60, 2, 86400, 3, 2678400]);
-  assert(command[6].endsWith(':production:voice:elevenlabs:global:31days'));
-  for (const key of command.slice(7, 10)) assert.match(key, /:production:voice:user:[a-f0-9]{64}:(minute|day|31days)$/);
-  for (const value of [uid, jwt, '192.0.2.1', 'private@example.test']) assert.equal(JSON.stringify(command).includes(value), false);
+  assert.equal(command[0], 'EVAL'); assert.equal(command[2], 4);
+  assert.deepEqual(command.slice(7), [2, 60, 5, 86400, 20, 86400, 1, 60]);
+  assert.match(command[6], /:production:voice:user:[a-f0-9]{64}:minute$/);
+  const hold = JSON.parse(h.calls[1].init.body);
+  assert.equal(hold[2], 1); assert.equal(hold[4], 'reserve');
+  assert.match(hold[3], /^destinauta:ai:v2:production:voice:user:[a-f0-9]{64}:day:\d{4}-\d{2}-\d{2}$/);
+  assert.match(hold[5], /^[a-f0-9]{32}$/);
+  const userHash = require('node:crypto').createHmac('sha256', h.env.AI_RATE_LIMIT_SECRET).update('user:' + uid).digest('hex');
+  assert(hold[3].includes(':user:' + userHash + ':day:'));
+  for (const value of [uid, jwt, '192.0.2.1', 'private@example.test', '31days']) assert.equal(JSON.stringify([command, hold]).includes(value), false);
   assert.equal(JSON.stringify(h.calls).includes(jwt), false); assert.deepEqual(h.logs, []);
 });
 
@@ -220,6 +225,7 @@ test('same verified user keeps the same quota after IP changes or client identit
   const counts = new Map(), commands = [];
   const h = harness({ fetcher: async (url, init) => {
     const command = JSON.parse(init.body); commands.push(command);
+    if (command[2] === 1) return Response.json({ result: [1, 0] });
     const keys = command.slice(3, 3 + command[2]), args = command.slice(3 + command[2]);
     if (keys.some((key, i) => (counts.get(key) || 0) >= args[i * 2])) return Response.json({ result: [0, 60] });
     keys.forEach(key => counts.set(key, (counts.get(key) || 0) + 1)); return Response.json({ result: [1, 0] });
@@ -228,19 +234,18 @@ test('same verified user keeps the same quota after IP changes or client identit
   const before = [...counts];
   const denied = await h.admit(request(jwt, '192.0.2.2', { userId: otherUid }), 'voice');
   assert.equal(denied.status, 429); assert.deepEqual([...counts], before);
-  assert.deepEqual(commands[0].slice(7, 10), commands[1].slice(7, 10));
+  assert.equal(commands[0][6], commands[2][6]);
 });
 
-test('independent users have separate buckets and invalid user limits fail before EVAL', async () => {
+test('independent users have separate attempt and day keys; invalid minute limits fail before EVAL', async () => {
   const h = harness({ getUser: async token => ({ data: { user: { ...user(), id: token === jwt ? uid : otherUid } }, error: null }) });
   await h.admit(request(), 'voice'); await h.admit(request('other.header.signature'), 'voice');
-  assert.notEqual(JSON.parse(h.calls[0].init.body)[7], JSON.parse(h.calls[1].init.body)[7]);
-  for (const field of ['AI_VOICE_USER_MINUTE_LIMIT', 'AI_VOICE_USER_DAY_LIMIT', 'AI_VOICE_USER_31DAY_LIMIT']) {
-    for (const value of ['0', '-1', 'NaN', '1.5', '1000000']) {
-      const invalid = harness({ env: { [field]: value } });
+  assert.notEqual(JSON.parse(h.calls[0].init.body)[6], JSON.parse(h.calls[2].init.body)[6]);
+  assert.notEqual(JSON.parse(h.calls[1].init.body)[3], JSON.parse(h.calls[3].init.body)[3]);
+    for (const value of ['0', '-1', 'NaN', '1.5', '2', '1000000']) {
+      const invalid = harness({ env: { AI_VOICE_USER_MINUTE_LIMIT: value } });
       assert.equal((await invalid.admit(request(), 'voice')).status, 503); assert.equal(invalid.calls.length, 0);
     }
-  }
 });
 
 test('written itinerary admission remains public with only its previous three buckets', async () => {
