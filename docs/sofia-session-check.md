@@ -23,3 +23,23 @@ Con la sesión de la Preview ya iniciada, abrir la página temporal y pulsar una
 Tras registrar el informe, retirar la página, su componente, el endpoint, el módulo de alcance y sus dos suites de pruebas en la misma rama; conservar este informe como evidencia. La caducidad bloquea el diagnóstico aunque se retrase esa limpieza. No se deben activar o reutilizar el diagnóstico Redis/ElevenLabs anterior, la credencial DPAPI o sus variables.
 
 Las pruebas automatizadas usan servicios simulados y red externa bloqueada. La comprobación de Preview deberá registrarse aparte como evidencia real, sin sustituirla por los resultados locales.
+
+## Resultado real — 1 de noviembre de 2026
+
+Comprobación autorizada únicamente en Preview, realizada con la sesión existente mediante los controles de la propia página, sin extraer o registrar su JWT.
+
+| Comprobación | Resultado |
+|---|---|
+| Sesión real, verificada remotamente mediante Supabase | Correcta |
+| Identidad usada por el servidor y selección exclusiva de sus tres claves HMAC | Correcta |
+| Lectura real de Redis mediante MGET | Correcta |
+| Consulta sin bearer | Rechazada con 401 |
+| Consulta con bearer deliberadamente inválido | Rechazada con 401 |
+| Segunda lectura tras los rechazos | Mismos contadores; no se reservó ni descontó ningún intento |
+| Tokens de ElevenLabs/OpenAI, conversaciones, audio y modificación de agentes | Ninguna operación |
+
+Los límites observados coinciden con la política prevista: uno por minuto, dos por día y tres por ventana de 31 días. No se incluyen identificadores, datos personales, valores privados o contadores de la cuenta en este informe. Las identidades anónimas de Supabase se cubrieron con pruebas simuladas; no se creó otra cuenta para la comprobación.
+
+Validación previa: 530 pruebas correctas con red externa bloqueada, incluidas 31 específicas del diagnóstico; estas últimas volvieron a pasar tras corregir el enlace de Next.js. TypeScript y compilación completa correctos. Los paquetes cliente no contenían nombres de las variables privadas de servidor. La única advertencia de compilación restante corresponde a imágenes preexistentes.
+
+Commit ensayado: `1387c4eee9cffca492160173d70bf7f8f4992c4c`. Preview verificada: [despliegue de Vercel](https://vercel.com/el-viajero/el-viajero-web/4iY37kRdfqkMriwnXqphn3FmKYpX). Se retiran los seis archivos de ejecución y pruebas de este diagnóstico tras finalizar; su código probado permanece en ese commit y este informe se conserva en la PR en borrador. No se cambian las rutas de voz, las cuotas, las variables de Vercel ni Production.
