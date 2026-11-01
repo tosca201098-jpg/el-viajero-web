@@ -33,7 +33,7 @@ jobs:
         ports:
           - '127.0.0.1:16379:6379'
         options: >-
-          --health-cmd 'redis-cli ping'
+          --health-cmd "redis-cli ping"
           --health-interval 5s
           --health-timeout 3s
           --health-retries 5
