@@ -114,13 +114,13 @@ test('both selected production providers retain the same single atomic voice adm
   const api=loader({process:{env},fetch:async(url,init)=>{
    const address=String(url);calls.push(address);
    if(address.includes('upstash.io')){
-    const command=JSON.parse(init.body);assert.equal(command[0],'EVAL');assert.equal(command[2],4);
+    const command=JSON.parse(init.body);assert.equal(command[0],'EVAL');assert.equal(command[2],7);
     assert(command[6].endsWith(':production:voice:elevenlabs:global:31days'));
-    assert.deepEqual(command.slice(-2),[3,2678400]);return Response.json({result:[1,0]});
+    assert.deepEqual(command.slice(16,18),[3,2678400]);assert.deepEqual(command.slice(-6),[1,60,2,86400,3,2678400]);return Response.json({result:[1,0]});
    }
    if(address.includes('/convai/agents/'))return Response.json({...valid(),agent_id:agent,version_id:version});
    return Response.json(provider==='openai'?{value:'temporary-openai'}:{token:'temporary-elevenlabs'});
-  }})('app/api/voice/route.ts');
+  }},{'@/lib/supabase/voice-auth':{verifyVoiceUser:async()=>({userId:'11111111-2222-4333-8444-555555555555'})}})('app/api/voice/route.ts');
   assert.equal((await api.POST(request())).status,200);
   assert.equal(calls.filter(url=>url.includes('upstash.io')).length,1);assert(calls[0].includes('upstash.io'));
  }

@@ -34,7 +34,7 @@ function harness(overrides={},options={}){
   }
   assert(cmd[1].includes("redis.call('TTL'"));
   return Response.json({result:keys.flatMap(key=>[counts.get(key)||-1,options.badTTL?-1:120])});
- }})('app/api/sofia-diagnostic/route.ts');
+ }},{'@/lib/supabase/voice-auth':{verifyVoiceUser:async()=>{throw Error('Diagnostic must not authenticate voice users');}}})('app/api/sofia-diagnostic/route.ts');
  return{...api,requests,env,logs};
 }
 function request({headers={},url='https://'+host+'/api/sofia-diagnostic'}={}){return new Request(url,{method:'POST',headers:{authorization:'Bearer '+token,...headers}})}

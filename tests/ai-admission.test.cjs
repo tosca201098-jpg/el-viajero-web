@@ -10,7 +10,7 @@ function load(file, globals = {}, deps = {}) {
   const code = ts.transpileModule(fs.readFileSync(path.join(__dirname, '..', file), 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
-  vm.runInNewContext(code, { exports, require: id => deps[id] ?? (id === '@/lib/voice/preview-target' ? load('lib/voice/preview-target.ts', globals) : id === './preview-diagnostic' || id === '@/lib/ai/preview-diagnostic' ? load('lib/ai/preview-diagnostic.ts', globals) : require(id)),
+  vm.runInNewContext(code, { exports, require: id => deps[id] ?? (id === '@/lib/supabase/voice-auth' ? { verifyVoiceUser: async () => ({ userId: '11111111-2222-4333-8444-555555555555' }) } : id === '@/lib/voice/preview-target' ? load('lib/voice/preview-target.ts', globals) : id === './preview-diagnostic' || id === '@/lib/ai/preview-diagnostic' ? load('lib/ai/preview-diagnostic.ts', globals) : require(id)),
     Response, Request, URL, AbortSignal, AbortController, setTimeout, clearTimeout,
     console: { warn() {}, error() {} }, ...globals });
   return exports;
@@ -20,7 +20,7 @@ const configuration = () => ({ AI_ENABLED: 'true', AI_VOICE_ENABLED: 'true', AI_
   AI_REDIS_REST_TOKEN: 'fake-test-token', AI_RATE_LIMIT_SECRET: 'fake-unit-test-hmac-value-not-a-secret' });
 function request(ip = '192.0.2.1', extra = {}) {
   return new Request('https://preview.example/api/voice', { method: 'POST',
-    headers: { 'x-vercel-forwarded-for': ip, ...extra }, body: JSON.stringify({ locale: 'es' }) });
+    headers: { authorization: 'Bearer fake.header.signature', 'x-vercel-forwarded-for': ip, ...extra }, body: JSON.stringify({ locale: 'es' }) });
 }
 function limiter(env = configuration(), fetcher = async () => Response.json({ result: [1, 0] })) {
   return load('lib/ai/admission.ts', { process: { env }, fetch: fetcher }).admitAiRequest;
@@ -58,8 +58,8 @@ test('one atomic EVAL reserves private IP and shared global quotas with bounded 
   });
   assert.equal(await allow(request(), 'voice'), null);
   assert.equal(command[0], 'EVAL');
-  assert.equal(command[2], 4);
-  assert.deepEqual(command.slice(7), [2, 60, 5, 86400, 20, 86400, 3, 2678400]);
+  assert.equal(command[2], 7);
+  assert.deepEqual(command.slice(10), [2, 60, 5, 86400, 20, 86400, 3, 2678400, 1, 60, 2, 86400, 3, 2678400]);
   assert.ok(!JSON.stringify(command).includes('192.0.2.1'));
   assert.ok(!JSON.stringify(command).includes('fake-unit-test'));
   assert.ok(command[5].endsWith(':voice:global:day'));
@@ -96,7 +96,8 @@ test('separate workers and rotating IPs still encounter the shared global admiss
     for (const key of keys) counts.set(key, (counts.get(key) || 0) + 1);
     return Response.json({ result: [1, 0] });
   };
-  const workers = [limiter(configuration(), store), limiter(configuration(), store)];
+  const manyUsers = { ...configuration(), AI_VOICE_USER_MINUTE_LIMIT: '100', AI_VOICE_USER_DAY_LIMIT: '100', AI_VOICE_USER_31DAY_LIMIT: '100' };
+  const workers = [limiter(manyUsers, store), limiter(manyUsers, store)];
   const results = await Promise.all(Array.from({ length: 40 }, (_, i) => workers[i % 2](request('192.0.2.' + (i + 1)), 'voice')));
   assert.equal(results.filter(x => x === null).length, 3);
   assert.equal(results.filter(x => x?.status === 429).length, 37);

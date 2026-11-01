@@ -25,6 +25,7 @@ import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonali
 import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
 import { VoiceSession, type VoiceError, type VoicePhase, type VoiceTurn, type VoiceSearchResult, type VoiceSearchArguments } from "@/lib/voice/session";
+import { observeVoiceAuth, type VoiceAuthController, type VoiceAuthState } from "@/lib/voice/auth-client";
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
 import { hotelDefaults, hotelFlightDefaults, hotelsHref, validHotelSearch } from "@/lib/stay22/hotels";
@@ -162,6 +163,8 @@ const voiceItineraryHandlerRef = useRef<(args: VoiceItineraryArguments, context:
 const [voiceItineraryRequest, setVoiceItineraryRequest] = useState<VoiceItineraryRequest | null>(null);
 const [voiceItineraryUnknown, setVoiceItineraryUnknown] = useState(false);
 const vozActiva = voicePhase === "active";
+const [voiceAuth, setVoiceAuth] = useState<VoiceAuthState>({ ready: false, userId: null });
+const voiceAuthRef = useRef<VoiceAuthController | null>(null);
 
 useEffect(() => {
   const session = new VoiceSession({
@@ -171,6 +174,8 @@ useEffect(() => {
     onSearch: (datos, context) => voiceSearchRef.current(datos, context),
     onItinerary: (args, context) => voiceItineraryHandlerRef.current(args, context),
     getLocale: () => voiceLocaleRef.current,
+    getAccessToken: () => voiceAuthRef.current?.getAccessToken() ?? Promise.resolve(null),
+    onAuthRequired: () => { setVoiceError(null); setAuthMode('signin'); },
     onShowDestination: (name, context) => {
       if (context.signal.aborted) return { status: 'cancelled' };
       const destination = getDestinationById(name) ?? findDestinationProfile({ name }) ?? findDestinationCard(name);
@@ -181,10 +186,17 @@ useEffect(() => {
     },
   });
   voiceSessionRef.current = session;
+  try {
+    voiceAuthRef.current = observeVoiceAuth(getSupabaseClient().auth, setVoiceAuth, () => session.stop());
+  } catch {
+    setVoiceAuth({ ready: true, userId: null });
+  }
   const stopForPage = () => session.stop();
   window.addEventListener("pagehide", stopForPage);
   return () => {
     window.removeEventListener("pagehide", stopForPage);
+    voiceAuthRef.current?.dispose();
+    voiceAuthRef.current = null;
     session.dispose();
     voiceSessionRef.current = null;
   };
@@ -201,6 +213,8 @@ const apagarVoz = () => voiceSessionRef.current?.stop();
 const iniciarVoz = () => {
   setVoiceError(null);
   setVoiceItineraryUnknown(false);
+  if (!voiceAuth.ready) return;
+  if (!voiceAuth.userId) { setAuthMode('signin'); return; }
   void voiceSessionRef.current?.start();
 };
 
@@ -1196,13 +1210,17 @@ function abrirPaquete(destino = "") {
               <button
                 type="button"
                 onClick={voicePhase === "idle" ? iniciarVoz : apagarVoz}
-                aria-label={voicePhase === "connecting" ? t("voice.cancel") : vozActiva ? t("voice.stop") : t("voice.title")}
+                aria-label={!voiceAuth.ready ? t("auth.checking") : !voiceAuth.userId ? t("voice.authRequired") : voicePhase === "connecting" ? t("voice.cancel") : vozActiva ? t("voice.stop") : t("voice.title")}
                 aria-pressed={voicePhase !== "idle"}
+                aria-describedby={voiceAuth.ready && !voiceAuth.userId ? "voice-auth-required" : undefined}
+                disabled={!voiceAuth.ready}
                 tabIndex={voiceOverlayOpen ? -1 : 0}
-                className={`${voicePanel.microphone} relative my-5 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl text-white hover:bg-blue-700 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
+                className={`${voicePanel.microphone} relative my-5 flex h-20 w-20 items-center justify-center rounded-full bg-blue-600 text-4xl text-white hover:bg-blue-700 disabled:cursor-wait disabled:opacity-60 ${vozActiva ? "ring-4 ring-blue-300" : ""}`}
               >
                 <span className="relative z-10">🎙️</span>
               </button>
+              {!voiceAuth.ready && <p role="status" className={`${voicePanel.status} mt-1 text-xs`}>{t("auth.checking")}</p>}
+              {voiceAuth.ready && !voiceAuth.userId && <button id="voice-auth-required" type="button" onClick={() => setAuthMode('signin')} className="max-w-sm rounded-lg px-2 py-1 text-sm font-semibold text-white underline underline-offset-4 focus-visible:ring-2 focus-visible:ring-white">{t("voice.authRequired")}</button>}
               {voicePhase === "connecting" && <p role="status" className={`${voicePanel.status} mt-1 text-xs`}>{t("voice.connecting")}</p>}
               {vozActiva && <p role="status" aria-live="polite" className={`${voicePanel.status} mt-1 text-xs`}>{t(`voice.turn.${voiceTurn}`)}</p>}
               {voiceError && <p role="alert" className={`${voicePanel.error} mt-1 text-xs`}>{t(`voice.error.${voiceError}`)}</p>}
@@ -1859,7 +1877,7 @@ function abrirPaquete(destino = "") {
           document.head.appendChild(script);
         })();`}
       </Script>}
-      {authMode && <AuthDialog key={authMode} mode={authMode} onClose={() => setAuthMode(null)} />}
+      {authMode && <AuthDialog key={authMode} mode={authMode} onClose={() => setAuthMode(null)} onChangeMode={setAuthMode} />}
     </main>
   );
 }

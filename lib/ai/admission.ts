@@ -1,3 +1,4 @@
+import { verifyVoiceUser } from '@/lib/supabase/voice-auth';
 import { previewDiagnostic, type PreviewDiagnosticCode } from './preview-diagnostic';
 import { createHmac } from 'node:crypto';
 import { isIP } from 'node:net';
@@ -47,6 +48,7 @@ function networkIdentity(ip: string): string {
 
 /** Admission quotas, NOT a monetary cap or a limit on an already-issued provider token. */
 export async function admitAiRequest(request: Request, service: AiService): Promise<Response | null> {
+  if (service === 'voice' && request.signal.aborted) return denial(503, 'ai_unavailable');
   const origin = request.headers.get('origin');
   if (request.headers.get('sec-fetch-site') === 'cross-site' || (origin && origin !== new URL(request.url).origin)) {
     if (service === 'voice') previewDiagnostic('ADMISSION_ORIGIN');
@@ -56,6 +58,11 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
     if (service === 'voice') previewDiagnostic('ADMISSION_FLAGS');
     return denial(503, 'ai_unavailable');
   }
+  // Authentication is part of voice admission, including the preserved OpenAI transport.
+  // Itinerary admission remains public and never calls Supabase Auth.
+  const voiceUser = service === 'voice' ? await verifyVoiceUser(request) : null;
+  if (voiceUser instanceof Response) return voiceUser;
+  if (service === 'voice' && request.signal.aborted) return denial(503, 'ai_unavailable');
   let stage: PreviewDiagnosticCode = 'ADMISSION_REDIS_CONFIG';
   let signal: AbortSignal | undefined;
   try {
@@ -92,8 +99,20 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
       // this is a session allowance, not a billing-period or monetary guarantee.
       keys.push(prefix + ':elevenlabs:global:31days');
       quotas.push(limit(process.env.AI_VOICE_GLOBAL_31DAY_LIMIT, 3), 2678400);
+      // Only the identity returned by Supabase Auth is used. Domain separation avoids
+      // collisions with network identities; Redis never receives UUIDs or access tokens.
+      if (!voiceUser) throw new Error('missing_verified_user');
+      const userHash = createHmac('sha256', secret).update('user:' + voiceUser.userId).digest('hex');
+      const userPrefix = prefix + ':user:' + userHash;
+      keys.push(userPrefix + ':minute', userPrefix + ':day', userPrefix + ':31days');
+      quotas.push(
+        limit(process.env.AI_VOICE_USER_MINUTE_LIMIT, 1), 60,
+        limit(process.env.AI_VOICE_USER_DAY_LIMIT, 2), 86400,
+        limit(process.env.AI_VOICE_USER_31DAY_LIMIT, 3), 2678400,
+      );
     }
     stage = 'ADMISSION_REDIS_NETWORK';
+    if (service === 'voice' && request.signal.aborted) return denial(503, 'ai_unavailable');
     signal = AbortSignal.timeout(2500);
     const response = await fetch(url, {
       method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },

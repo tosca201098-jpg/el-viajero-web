@@ -6,7 +6,10 @@ export { parseVoiceSearchArguments } from './elevenlabs-session';
 export type { VoiceError, VoicePhase, VoiceTurn, VoiceSearchResult, VoiceSearchArguments } from './elevenlabs-session';
 
 type VoiceSessionOptions = ConstructorParameters<typeof ElevenLabsVoiceSession>[0] &
-  ConstructorParameters<typeof OpenAIVoiceSession>[0];
+  ConstructorParameters<typeof OpenAIVoiceSession>[0] & {
+    getAccessToken?: () => Promise<string | null>;
+    onAuthRequired?: () => void;
+  };
 type ProviderSession = ElevenLabsVoiceSession | OpenAIVoiceSession;
 
 /** The server response selects one provider. One admission POST; never an automatic fallback. */
@@ -63,6 +66,31 @@ export class VoiceSession {
     this.stop();
     if (!this.disposed) this.options.onError(error);
   }
+  private requireAuthentication(id: number) {
+    if (!this.current(id)) return;
+    this.stop();
+    if (this.disposed) return;
+    if (this.options.onAuthRequired) this.options.onAuthRequired();
+    else this.options.onError('connection');
+  }
+  private accountToken(signal: AbortSignal): Promise<string | null> {
+    return new Promise(resolve => {
+      let settled = false;
+      const finish = (value: string | null) => {
+        if (settled) return;
+        settled = true;
+        signal.removeEventListener('abort', cancel);
+        resolve(value);
+      };
+      const cancel = () => finish(null);
+      if (signal.aborted) { finish(null); return; }
+      signal.addEventListener('abort', cancel, { once: true });
+      try {
+        // Always attach both handlers: a late rejection after cancellation stays handled.
+        Promise.resolve(this.options.getAccessToken!()).then(finish, () => finish(null));
+      } catch { finish(null); }
+    });
+  }
   async start() {
     if (this.disposed || this.phase !== 'idle' || this.starting) return;
     const id = ++this.generation;
@@ -76,12 +104,24 @@ export class VoiceSession {
       try {
         await this.ending;
         if (!this.current(id)) return;
+        let accessToken: string | null = null;
+        if (this.options.getAccessToken) {
+          accessToken = await this.accountToken(signal);
+          if (!this.current(id)) return;
+          if (typeof accessToken !== 'string' || !accessToken.trim() || /[\r\n]/.test(accessToken)) {
+            this.requireAuthentication(id);
+            return;
+          }
+        }
         const actualFetch = this.options.fetcher ?? fetch;
         const response = await actualFetch('/api/voice', {
-          method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ locale }), signal,
+          method: 'POST', headers: { 'Content-Type': 'application/json',
+            ...(accessToken ? { Authorization: 'Bearer ' + accessToken } : {}) },
+          body: JSON.stringify({ locale }), signal,
         });
         if (!this.current(id)) return;
         if (!response.ok) {
+          if (response.status === 401) { this.requireAuthentication(id); return; }
           this.fail(id, response.status === 429 ? 'limited' : response.status === 503 ? 'unavailable' : 'connection');
           return;
         }
@@ -104,8 +144,10 @@ export class VoiceSession {
           }
           return actualFetch(input, init);
         };
+        // Do not pass account credentials or authentication callbacks to either adapter.
+        const { getAccessToken: _getAccessToken, onAuthRequired: _onAuthRequired, ...providerOptions } = this.options;
         const callbacks = {
-          ...this.options, getLocale: () => locale, fetcher,
+          ...providerOptions, getLocale: () => locale, fetcher,
           onPhase: (phase: VoicePhase) => {
             if (this.current(id)) this.setPhase(phase);
             // Keep this generation valid at idle: provider errors are reported AFTER idle.

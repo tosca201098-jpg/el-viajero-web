@@ -113,3 +113,93 @@ test('the facade bounds the preserved OpenAI session and releases its microphone
   assert.equal(h.session.status, 'idle'); assert.equal(h.peer.closed, true); assert.equal(h.track.stopped, 1);
   assert.deepEqual(h.errors, []);
 });
+
+test('guest and failed account-token reads open login without any admission or microphone request', async () => {
+  for (const getAccessToken of [async () => null, async () => '', async () => { throw Error('private-session-detail'); }]) {
+    let calls = 0, providers = 0, authRequired = 0;
+    const h = harness({ getAccessToken, onAuthRequired: () => authRequired++,
+      fetcher: async () => { calls++; throw Error('No admission for guests'); },
+      startConversation: async () => { providers++; throw Error('No provider for guests'); } });
+    await h.session.start();
+    assert.equal(calls, 0); assert.equal(providers, 0); assert.equal(authRequired, 1);
+    assert.equal(h.session.status, 'idle'); assert.deepEqual(h.errors, []);
+  }
+});
+
+test('the account bearer goes only to the single local admission, never to the SDK', async () => {
+  const calls = [];
+  const h = harness({ getAccessToken: async () => 'fake-account-token', onAuthRequired() {},
+    fetcher: async (url, options) => { calls.push({ url, options }); return Response.json({ token: 'fake-session-token' }); } });
+  try {
+    await h.session.start();
+    assert.equal(calls.length, 1); assert.equal(calls[0].url, '/api/voice');
+    assert.equal(calls[0].options.headers.Authorization, 'Bearer fake-account-token');
+    assert.equal(calls[0].options.body.includes('fake-account-token'), false);
+    assert.equal(h.sdk.conversationToken, 'fake-session-token');
+    assert.equal('getAccessToken' in h.sdk, false); assert.equal('onAuthRequired' in h.sdk, false);
+    assert.equal(JSON.stringify(h.sdk).includes('fake-account-token'), false);
+  } finally { h.session.stop(); await tick(); }
+});
+
+test('each new deliberate conversation reads the refreshed account token', async () => {
+  let reads = 0; const headers = [];
+  const h = harness({ getAccessToken: async () => 'fake-account-token-' + ++reads,
+    fetcher: async (_, options) => { headers.push(options.headers.Authorization); return Response.json({ token: 'fake-session-token' }); } });
+  await h.session.start(); h.session.stop(); await tick();
+  await h.session.start(); h.session.stop(); await tick();
+  assert.deepEqual(headers, ['Bearer fake-account-token-1', 'Bearer fake-account-token-2']);
+});
+
+test('cancel or sign-out during account-token refresh prevents a late admission', async () => {
+  const pending = deferred(); let posts = 0, authRequired = 0;
+  const h = harness({ getAccessToken: () => pending.promise, onAuthRequired: () => authRequired++,
+    fetcher: async () => { posts++; throw Error('Late account read must not admit'); } });
+  const run = h.session.start(); await tick(); h.session.stop();
+  pending.resolve('fake-late-account-token'); await run;
+  assert.equal(posts, 0); assert.equal(authRequired, 0); assert.equal(h.session.status, 'idle');
+});
+
+test('a hung account-token read is cancelled and cannot block another deliberate attempt', async () => {
+  const pending = deferred(); let reads = 0, posts = 0, authRequired = 0;
+  const h = harness({ getAccessToken: () => ++reads === 1 ? pending.promise : Promise.resolve('fake-current-account-token'),
+    onAuthRequired: () => authRequired++,
+    fetcher: async () => { posts++; return Response.json({ token: 'fake-session-token' }); } });
+  const first = h.session.start(); await tick(); h.session.stop();
+  await first;
+  assert.equal(posts, 0); assert.equal(authRequired, 0);
+  await h.session.start(); assert.equal(posts, 1); assert.equal(h.session.status, 'active');
+  pending.reject(Error('private-late-account-error')); await tick();
+  assert.equal(posts, 1); assert.equal(authRequired, 0); assert.deepEqual(h.errors, []);
+  h.session.stop(); await tick();
+});
+
+test('the startup timeout releases a hung token read so a later login attempt can succeed', async () => {
+  let reads = 0, posts = 0;
+  const h = harness({ startupTimeoutMs: 5,
+    getAccessToken: () => ++reads === 1 ? new Promise(() => {}) : Promise.resolve('fake-current-account-token'),
+    fetcher: async () => { posts++; return Response.json({ token: 'fake-session-token' }); } });
+  const first = h.session.start();
+  await new Promise(resolve => setTimeout(resolve, 15)); await first;
+  assert.equal(posts, 0); assert.deepEqual(h.errors, ['timeout']);
+  await h.session.start(); assert.equal(posts, 1); assert.equal(h.session.status, 'active');
+  h.session.stop(); await tick();
+});
+
+test('a server rejection of the account identity returns to login without opening either provider', async () => {
+  let authRequired = 0, opens = 0;
+  const h = harness({ getAccessToken: async () => 'fake-invalid-account-token', onAuthRequired: () => authRequired++,
+    fetcher: async () => new Response('private-auth-error', { status: 401 }),
+    startConversation: async () => { opens++; throw Error('Rejected user must not connect'); } });
+  await h.session.start();
+  assert.equal(authRequired, 1); assert.equal(opens, 0); assert.deepEqual(h.errors, []);
+});
+
+test('the OpenAI rollback keeps its own ephemeral bearer and never receives the account bearer', async () => {
+  const h = openai({ getAccessToken: async () => 'fake-account-token' });
+  try {
+    await h.session.start();
+    assert.equal(h.calls[0].options.headers.Authorization, 'Bearer fake-account-token');
+    assert.equal(h.calls[1].options.headers.Authorization, 'Bearer fake-openai-session');
+    assert.equal(JSON.stringify(h.calls[1]).includes('fake-account-token'), false);
+  } finally { h.session.stop(); }
+});
