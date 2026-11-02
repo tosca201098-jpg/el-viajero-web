@@ -40,10 +40,10 @@ const slugs = ['bratislava','kosice','poprad','high-tatras','levoca','spis-castl
 test('Slovakia adds twelve draft profiles to 197 unchanged profiles; original cards and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,197);
   assert.deepEqual(Array.from(slovak,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,209);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,209);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,209);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,14);
+  assert.equal(catalog.destinationProfiles.length,221);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,221);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,221);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,15);
   for (const previous of before.profiles) {
     const profile = catalog.getDestinationById(previous.id);
     assert.equal(profile.slug,previous.slug);
