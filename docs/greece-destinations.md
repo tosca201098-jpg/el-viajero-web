@@ -71,7 +71,7 @@ Textos breves de redacción propia, contrastados con el organismo turístico ofi
 
 | Destino | Archivo de Commons | Autor | Licencia |
 | --- | --- | --- | --- |
-| Atenas | View_of_Athen's_Acropolis.jpg | Davide Aversa | CC BY-SA 4.0 |
+| Atenas | Acropolis_Of_Athens_Greece_04.jpg | Spirosparas | CC BY-SA 4.0 |
 | Tesalónica | White_Tower_of_Thessaloniki_by_Joy_of_Museums_-_6.jpg | Joyofmuseums | CC BY-SA 4.0 |
 | Heraclión | Koules_Fortress_in_Heraklion.jpg | Antonios Palimetakis | CC BY-SA 4.0 |
 | La Canea | Chania_harbour_B.jpg | Wouter Hagens | CC BY-SA 3.0 |
