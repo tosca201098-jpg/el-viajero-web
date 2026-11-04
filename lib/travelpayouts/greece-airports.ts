@@ -1,6 +1,8 @@
 import { greeceDestinations } from '@/lib/destinations/greece';
+import { greeceAirportTownAliases } from '@/lib/destinations/greece-airport-towns';
+export { greeceAirportTown } from '@/lib/destinations/greece-airport-towns';
 
-// Twelve arrival airports for this curated block, not a complete national inventory.
+// Selected fifteen airports by 2025 international passenger traffic; see the documented sources.
 // The code/airport association does not promise a route, flight or price.
 const names: Readonly<Record<string, string>> = {
   ATH: 'Athens — Eleftherios Venizelos', SKG: 'Thessaloniki — Makedonia',
@@ -9,9 +11,12 @@ const names: Readonly<Record<string, string>> = {
   KGS: 'Kos — Ippokratis', JTR: 'Santorini (Thira)', JMK: 'Mykonos',
   ZTH: 'Zakynthos — Dionysios Solomos', EFL: 'Kefalonia — Anna Pollatou',
   JSI: 'Skiathos — Alexandros Papadiamantis',
+  PVK: 'Aktion — Preveza', SMI: 'Samos — Aristarchos', KLX: 'Kalamata',
 };
 export const greeceCityAliases: Readonly<Record<string, readonly string[]>> = Object.fromEntries(
-  greeceDestinations.map(profile => [profile.iataCodes[0], profile.aliases ?? [profile.name]]));
+  greeceDestinations.map(profile => [profile.iataCodes[0], Array.from(new Set([
+    ...(profile.aliases ?? [profile.name]), ...(greeceAirportTownAliases[profile.iataCodes[0]] ?? []),
+  ]))]));
 export const greeceAirports = greeceDestinations.map(profile => ({
   type: 'airport' as const, code: profile.iataCodes[0], name: names[profile.iataCodes[0]],
   country_code: 'GR' as const, city_code: profile.iataCodes[0], city_name: profile.name,
@@ -26,9 +31,9 @@ export function greeceAirportsForTerm(term: string) {
 export function greeceTouristPlacesForTerm(term: string) {
   const query = normalize(term);
   if (query.length < 2) return [];
-  return greeceDestinations.filter(profile => [profile.name, ...(profile.aliases ?? [])]
+  return greeceDestinations.filter(profile => [profile.name, ...(greeceCityAliases[profile.iataCodes[0]] ?? [])]
     .some(name => normalize(name).startsWith(query)))
     .map(profile => ({ type: 'city' as const, code: profile.iataCodes[0], name: profile.name,
       country_code: 'GR' as const, city_name: profile.name, city_code: profile.iataCodes[0],
-      index_strings: profile.aliases ?? [] }));
+      index_strings: greeceCityAliases[profile.iataCodes[0]] ?? [] }));
 }

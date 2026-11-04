@@ -1,6 +1,7 @@
 import type { Locale } from '@/lib/i18n/translations';
 import type { DestinationProfile, DestinationText } from './types';
 import { greeceImages } from './greece-images';
+import { greeceRegionalADestinations } from './greece-regional-a';
 
 const locales: Locale[] = ['es', 'en', 'fr', 'de', 'it', 'pt', 'ca'];
 type Seven = [string, string, string, string, string, string, string];
@@ -211,4 +212,5 @@ export const greeceDestinations: DestinationProfile[] = [
       'Passeios no porto, património local e costa arborizada nas Espórades.',
       'Passejades pel port, patrimoni local i costa arbrada a les Espòrades.',
     ], recommendations: ['Bourtzi', 'Casa Papadiamantis / Papadiamantis House', 'Koukounaries', 'Monasterio Evangelistria / Evangelistria Monastery'] }),
+  ...greeceRegionalADestinations,
 ];

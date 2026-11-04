@@ -20,11 +20,21 @@ function loader(globals={}) {
 const load=loader(),catalog=load('lib/destinations/index.ts'),greek=catalog.getDestinationsByCountry('GR');
 const selection=load('lib/destinations/selection.ts'),presentation=load('lib/destinations/presentation.ts');
 const localization=load('lib/destinations/localization.ts'),airports=load('lib/travelpayouts/greece-airports.ts');
-const codes=['ATH','SKG','HER','CHQ','RHO','CFU','KGS','JTR','JMK','ZTH','EFL','JSI'];
-test('Greece adds twelve unique profiles and preserves all 209 profiles, original cards and editorial pages',()=>{
-  assert.equal(greek.length,12);assert.equal(catalog.destinationProfiles.length,221);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,221);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,221);
+const codes=['ATH','SKG','HER','CHQ','RHO','CFU','KGS','JTR','JMK','ZTH','EFL','JSI','PVK','SMI','KLX'];
+
+test('the airport expansion preserves all 221 existing profiles and the approved Athens photograph',()=>{
+  const previous=require('./fixtures/pre-greece-airports-catalog.json');
+  assert.equal(previous.base,'af627894fc545d5f469a69ed126c3712756e1a8b');
+  assert.equal(previous.profiles.length,221);
+  for(const p of previous.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
+  const athens=catalog.getDestinationById('gr-athens');
+  for(const[key,value]of Object.entries(previous.athensImage))assert.equal(athens[key],value,key);
+  assert.equal(digest(load('lib/destinations/featured.ts').destinations),previous.featuredSha256);
+});
+test('Greece adds fifteen unique profiles and preserves all 209 profiles, original cards and editorial pages',()=>{
+  assert.equal(greek.length,15);assert.equal(catalog.destinationProfiles.length,224);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,224);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,224);
   assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,15);
   assert.equal(before.profiles.length,209);
   for(const p of before.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
@@ -46,7 +56,7 @@ for(const locale of locales)test(locale+': all Greek profiles have local text, f
     for(const key of ['bestMonths','lowSeasonMonths','highSeasonMonths'])assert.ok(p[key].length&&p[key].every(m=>Number.isInteger(m)&&m>=1&&m<=12));
   }
 });
-test('twelve distinct physical airport codes resolve to the expected Greek identity',()=>{
+test('fifteen distinct physical airport codes resolve to the expected Greek identity',()=>{
   assert.deepEqual(Array.from(airports.greeceAirports,a=>a.code),codes);
   for(let i=0;i<codes.length;i++){
     const p=greek[i],a=airports.greeceAirports[i];
@@ -91,12 +101,12 @@ test('Greek profiles remain selection-only drafts and publish no destination pag
   for(const p of greek){assert.equal(p.publication.status,'draft');assert.equal(presentation.canShowDestinationAutomatically(p),false);assert.ok(!published.some(entry=>entry.destinationId===p.id));}
   assert.equal(presentation.canShowDestinationAutomatically({country:' Grecia '}),false);
 });
-test('all twelve photographs preserve Commons source, creator and reuse statement',()=>{
+test('all fifteen photographs preserve Commons source, creator and reuse statement',()=>{
   const photos=new Set();
   for(const p of greek){
     assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);photos.add(p.image);
     assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(p.imageCredit);assert.match(p.imageLicense,/^CC(?: BY|0)/);
     assert.match(p.imageLicenseUrl,/^https:\/\/creativecommons\.org\//);
-  }assert.equal(photos.size,12);
+  }assert.equal(photos.size,15);
 });

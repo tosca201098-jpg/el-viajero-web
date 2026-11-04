@@ -1,102 +1,68 @@
-# Grecia: doce fichas por selección expresa
+# Grecia: quince fichas por selección expresa
 
-Preparación: 2 de noviembre de 2026. Base: main `bbf31cbc9b560151cf2301bb7bed81b6f0f25c41`.
+Revisión: 3 de noviembre de 2026. Rama `codex/greece-destinations`, PR #39 de borrador, independiente de Sofía (PR #38). Base main: `bbf31cbc9b560151cf2301bb7bed81b6f0f25c41`.
 
-## Alcance
+## Selección y ciudades
 
-Doce fichas nuevas, con el modelo compartido de los bloques anteriores: fotografía con atribución, descripción, cuatro recomendaciones, estancia orientativa, estacionalidad y textos en español, inglés, francés, alemán, italiano, portugués y catalán. Reutilizan el diseño, los vuelos, los hoteles y el planificador existentes. Los nombres propios pueden mantenerse entre idiomas; los rótulos descriptivos se traducen.
+El usuario pidió los quince aeropuertos con mayor tráfico internacional. Se utiliza el último año completo, 2025, contando pasajeros internacionales de llegada y salida. Se conservan las doce fichas ya preparadas y se añaden únicamente Préveza, Samos y Calamata. El catálogo de la rama contiene 224 perfiles (209 de main y 15 de Grecia). Croacia permanece en su PR #36.
 
-| Ficha | Slug / ID sin prefijo gr- | Aeropuerto de llegada |
+| Aeropuerto | Ficha | Ciudad o localidad de referencia visible |
 | --- | --- | --- |
-| Atenas | athens | ATH |
-| Tesalónica | thessaloniki | SKG |
-| Heraclión | heraklion | HER |
-| La Canea | chania | CHQ |
-| Rodas | rhodes | RHO |
-| Corfú | corfu | CFU |
-| Kos | kos | KGS |
-| Santorini | santorini | JTR |
-| Miconos | mykonos | JMK |
-| Zante | zakynthos | ZTH |
-| Cefalonia | kefalonia | EFL |
-| Scíathos | skiathos | JSI |
+| ATH | Atenas | Atenas |
+| HER | Heraclión | Heraclión |
+| RHO | Rodas | Rodas |
+| SKG | Tesalónica | Tesalónica |
+| CFU | Corfú | Corfú (Kérkyra) |
+| CHQ | La Canea | La Canea |
+| KGS | Kos | Kos |
+| ZTH | Zante | Zante (ciudad de Zakynthos) |
+| JTR | Santorini | Fira (Santorini) |
+| JMK | Miconos | Chora de Miconos |
+| PVK | Préveza | Préveza |
+| EFL | Cefalonia | Argostoli (Cefalonia) |
+| JSI | Scíathos | Ciudad de Scíathos |
+| KLX | Calamata | Calamata |
+| SMI | Samos | Pitagorio (Samos) |
 
-Heraclión y La Canea representan destinos distintos dentro de Creta, no dos fichas completas de toda la isla. Las demás fichas insulares representan la isla; las poblaciones y lugares propuestos son recomendaciones de esa ficha.
+La localidad es una referencia del destino servido. No indica que la terminal esté en el centro urbano. Las fichas insulares existentes mantienen su alcance y sus nombres; no se duplican como fichas de ciudades. El bloque de aeropuerto recuerda comprobar el traslado al alojamiento.
 
-Este bloque sigue la selección editorial de doce destinos utilizada en las ampliaciones anteriores. **No es un inventario completo de todos los aeropuertos de Grecia**, ni declara acabada la cobertura mundial. La rama contiene 221 perfiles de 15 países: los 209 de main más estos doce. Croacia sigue exclusivamente en su PR #36; no se incorpora ni se vuelve a crear aquí. Esta PR es independiente de Sofía, PR #38.
+## Justificación del corte por tráfico internacional
 
-## Visibilidad: solo cuando se pide el destino
+- [Fraport Greece, ejercicio completo 2025, página 1](https://www.fraport-greece.com/content/dam/fraport-company-greece/documents/en/our-expertise/traffic-figures/2025/december/Fraport_Greece_YTD_12_Traffic_2025vs2024.pdf/_jcr_content/renditions/original./Fraport_Greece_YTD_12_Traffic_2025vs2024.pdf): RHO 6.139.546; SKG 5.436.702; CFU 4.175.831; CHQ 3.176.322; KGS 2.826.641; ZTH 2.182.625; JTR 1.332.231; JMK 1.090.659; PVK 862.698; EFL 769.315; JSI 573.741; SMI 285.728. Son cifras provisionales del operador. Kavala (234.727) y Mitilene (181.954) quedan por debajo de Samos.
+- [AIA, Aerostat 2025](https://media.aia.gr/assets/aiaportal/media/root/corporate/corporate-publications/aerostat_handbook_2025.pdf), páginas impresas 10 y 144: ATH 24.362.437; HER 8.107.672 internacionales comerciales. El alcance comercial de esta última cifra sirve para acreditar su inclusión, sin presentarlo como una serie idéntica a todos los totales de operadores.
+- [Growthfund, información de Calamata, 22 de junio de 2026](https://growthfund.gr/en/ypografi-symvasis-parachorisis-gia-tin-aksiopoiisi-tou-diethnous-aerolimena-kalamatas/): 368.515 pasajeros totales en 2025 y 92,4 % internacionales, aproximadamente 340.500. Es una estimación a partir de un porcentaje redondeado, superior al corte de Samos.
+- [Growthfund, tabla de los otros 22 aeropuertos estatales](https://growthfund.gr/wp-content/uploads/2026/04/Growthfund_EoI_22-Regional-Airports_EN.pdf), páginas impresas 9–10: diecinueve tienen incluso su tráfico total por debajo de Samos. Paros, Alexandroupolis y Chios requieren separar el doméstico.
+- Para esos tres, la página impresa 33 de Aerostat registra respectivamente 351.706, 315.743 y 280.764 pasajeros domésticos programados con Atenas. Restarlos de sus totales anuales (371.989, 330.155 y 321.269) da máximos internacionales de 20.283, 14.412 y 40.505. **Son límites superiores inferidos, no cifras internacionales publicadas**: basta descontar esa parte doméstica para demostrar que quedan fuera.
 
-- Las doce fichas son `draft` y el filtro de presentación excluye GR/Grecia de las recomendaciones automáticas.
-- No se añaden tarjetas a la portada ni se sustituye la tarjeta editorial original de Santorini.
-- Se conservan íntegros los datos de las 16 tarjetas originales, las temporadas y las páginas mensuales.
-- Escribir por sí solo no abre una ficha. Al confirmar la sugerencia del buscador se ofrece «Ver destino»; pulsarlo abre la ficha elegida.
-- Se conserva el acceso directo existente, por ejemplo `/?ficha=Atenas` y `/?ficha=Cefalonia`, como petición expresa. No se publican rutas `/destinos/...` nuevas ni entradas de sitemap.
-- Las búsquedas exactas pueden mostrar la ficha correspondiente al destino solicitado junto a los resultados existentes de vuelos.
+Las estadísticas justifican esta selección editorial. No se añaden cifras de tráfico a la interfaz ni se prometen rutas, plazas o vuelos internacionales en cualquier fecha.
 
-Los datos forman parte del código del sitio cuando se despliega esta rama. «Solo por selección» describe su presentación, no una barrera de privacidad ni contenido secreto.
+## Diseño y contenido
 
-## Aeropuertos y transporte
+Se reutiliza la ficha compartida: fotografía con fuente, autor y licencia, descripción, cuatro recomendaciones, estancia orientativa, meses y notas prácticas, vuelos, hoteles y planificador. Los textos están en español, inglés, francés, alemán, italiano, portugués y catalán. El nuevo bloque de aeropuerto sigue los colores, bordes y tipografía de la ficha existente y muestra nombre, IATA y localidad traducida.
 
-Los doce códigos identifican aeropuertos físicos de llegada. No se inventan códigos de parques ni se asume que el aeropuerto está en el centro turístico. Las notas traducidas recuerdan prever el traslado terrestre hasta el alojamiento. No se prometen conexiones, horarios, plazas, precios ni traslados incluidos.
+Las doce fichas anteriores conservan sus datos y fotografías, incluida la Acrópolis iluminada elegida para Atenas. Las tres nuevas tienen textos originales contrastados con Visit Greece; véanse [fuentes de contenido](greece-regional-a-sources.md) y [fuentes fotográficas](greece-regional-photo-sources.md). Los meses y estancias son orientación editorial. No se copian precios ni horarios.
 
-Fuentes primarias consultadas:
+## Visibilidad
 
-- [HCAA: plan estatal de aviación 2024, tabla de aeropuertos e identificadores](https://hcaa.gov.gr/sites/default/files/documents/2024-greeceactionplan.pdf). Se utiliza para códigos, no para horarios actuales.
-- [HCAA: operadores de aeropuertos comerciales](https://hcaa.gov.gr/en/foreis-leitoyrgias-aerodromion).
-- [Fraport Greece: red de aeropuertos](https://www.fraport-greece.com/en/airport-profiles.html).
-- [Athens International Airport](https://www.aia.gr/en).
+- Las quince fichas son `draft`, accesibles solo al solicitar el destino mediante búsqueda/selección o enlace directo como `/?ficha=Preveza`.
+- Escribir o seleccionar una sugerencia no abre automáticamente la ficha: se mantiene «Ver destino».
+- No se añaden tarjetas a portada, temporadas, recomendaciones automáticas, páginas mensuales o sitemap. La tarjeta editorial original de Santorini se conserva.
+- Se mantienen íntegros los datos de las 16 tarjetas editoriales y de las páginas anteriores.
+- La búsqueda reconoce también las localidades de referencia, como Fira, Argostoli y Pitagorio, y sus variantes traducidas, sin duplicar fichas. El autocompletado conserva la llamada gratuita existente y el comportamiento seguro ante fallos. Las pruebas usan respuestas simuladas.
 
-Se amplían los datos del autocompletado de lugares, conservando su llamada gratuita y su rechazo seguro ante fallo del proveedor. Las sugerencias locales permiten los nombres en los siete idiomas, alias y búsquedas de IATA después de una respuesta válida del proveedor, incluso vacía. No se cambia la resolución de precios ni las consultas de vuelos. Las pruebas utilizan respuestas simuladas; no se han consultado tarifas ni autenticado proveedores para este bloque.
+«Solo por selección» describe la presentación del catálogo, no una barrera de privacidad.
 
-## Contenido turístico
+## Comprobaciones
 
-Textos breves de redacción propia, contrastados con el organismo turístico oficial. Meses y duración son orientación editorial, no garantías climáticas o de ahorro. No se copian precios ni horarios de entradas.
+- Suite completa final: 411 pruebas correctas; TypeScript correcto y lint sin errores, con avisos previos de imágenes.
+- Regresión adicional correcta: las 221 fichas del commit `af627894fc545d5f469a69ed126c3712756e1a8b`, su fotografía de Atenas y las tarjetas editoriales mantienen sus huellas. Las pruebas específicas de Grecia pasan 15/15.
+- La prueba de la interfaz real con React simulado recorre las quince fichas en siete idiomas, selección/apertura, fotografía, bloque de aeropuerto y conservación de vuelos, hoteles, planificador y portada.
+- La compilación local presenta las limitaciones previas de DNS de Google Fonts y permisos de Windows en `.next`; la compilación final se comprueba en Preview sin alterar la configuración.
+- La revisión visual de las tres nuevas imágenes y del bloque práctico se registra tras el despliegue de Preview.
+- No se realizan consultas reales de voz, generación de IA, tarifas, reservas ni pagos.
 
-- Atenas: [Acrópolis](https://www.visitgreece.gr/en/experiences/culture/archaeological-sites-monuments/acropolis-of-Athens), [barrios históricos](https://www.visitgreece.gr/inspirations/neighbourhoods-around-the-acropolis-hill/).
-- [Tesalónica](https://www.visitgreece.gr/en/mainland/Mac%C3%A9doine/thessaloniki).
-- Heraclión: [Knossos y Museo Arqueológico](https://www.visitgreece.gr/en/experiences/culture/archaeological-sites-monuments/the-palace-of-knossos), [ciudad y puerto](https://www.visitgreece.gr/en/islands/Cr%C3%A8te/irakleio).
-- [Puerto histórico de La Canea](https://www.visitgreece.gr/en/inspirations/the-old-port-area-of-chania).
-- [Rodas y Kos: patrimonio y poblaciones](https://www.visitgreece.gr/en/islands/dodecanese).
-- [Corfú: patrimonio y lugares de la isla](https://archivecollections.visitgreece.gr/entities/multimedia/a83b54ac-ac00-4335-9cf2-fa8cedaca545).
-- [Santorini: Oia, Fira, Akrotiri y Emporio](https://www.visitgreece.gr/en/experiences/culture/archaeological-sites-monuments/archaeological-sites-of-santorini).
-- [Miconos](https://www.visitgreece.gr/en/experiences/leisure/nightlife/mykonos-nightlife).
-- [Zante: capital y Bochali](https://www.visitgreece.gr/en/experiences/leisure/shopping/zakynthos-town).
-- [Cefalonia](https://www.visitgreece.gr/en/mainland/islands/kefalonia).
-- Scíathos: [isla](https://www.visitgreece.gr/en/islands/Sporades/skiathos), [patrimonio y Koukounaries](https://www.visitgreece.gr/en/islands/Sporades).
+## Revisión y publicación
 
-## Fotografías
+[Preview de Grecia](https://el-viajero-web-git-codex-greece-destinations-el-viajero.vercel.app/?ficha=Atenas). [PR #39](https://github.com/tosca201098-jpg/el-viajero-web/pull/39), de borrador.
 
-`greece-images.ts` conserva las doce miniaturas de Commons, su página de archivo, autor y licencia. Se revisaron las páginas originales y declaraciones de reutilización. La cabecera compartida puede recortar la imagen mediante `object-cover`, sin editar el original. No se modifican las fotos anteriores.
-
-| Destino | Archivo de Commons | Autor | Licencia |
-| --- | --- | --- | --- |
-| Atenas | Acropolis_Of_Athens_Greece_04.jpg | Spirosparas | CC BY-SA 4.0 |
-| Tesalónica | White_Tower_of_Thessaloniki_by_Joy_of_Museums_-_6.jpg | Joyofmuseums | CC BY-SA 4.0 |
-| Heraclión | Koules_Fortress_in_Heraklion.jpg | Antonios Palimetakis | CC BY-SA 4.0 |
-| La Canea | Chania_harbour_B.jpg | Wouter Hagens | CC BY-SA 3.0 |
-| Rodas | Rhodos,_Grand_Master_Palace.jpg | Georg Karl Ell | CC BY-SA 4.0 |
-| Corfú | The_Old_Fortress,_Corfu_Town.jpg | Plucas58 | CC BY-SA 4.0 |
-| Kos | Asklepieion_Kos.jpg | Nljst | CC BY-SA 4.0 |
-| Santorini | Santorini_Oia_Church.jpg | Danbu14 | CC BY-SA 3.0 |
-| Miconos | Windmills_of_Mykonos.jpg | Julian Lupyan | CC0 |
-| Zante | Zakynthos_Town_-_Panoramic_View.jpg | Nana B Agyei | CC BY 2.0 |
-| Cefalonia | Kefalonia_Assos_Village.jpg | Spiros Rokkos | CC BY-SA 4.0 |
-| Scíathos | View_of_the_harbour_of_Skiathos_-_panoramio.jpg | fabiolah | CC BY 3.0 |
-
-Limitación: las páginas y metadatos se pudieron consultar, pero la herramienta de búsqueda devolvió errores de caché al solicitar varias miniaturas. No se afirma haber comprobado HTTP 200 de las doce imágenes ni su recorte en un navegador real. La foto de Zante es panorámica; revisar su recorte en móvil.
-
-## Verificación
-
-- 391 pruebas anteriores correctas después de extender los cargadores y los recuentos para Grecia.
-- 14 pruebas específicas correctas: contenido en siete idiomas, conservación por huellas de las 209 fichas y páginas editoriales, códigos, alias sin colisiones, autocompletado, errores y exclusión automática/sitemap.
-- Prueba adicional de la interfaz real y sus manejadores con React simulado: doce fichas × siete idiomas; escribir/seleccionar no abre el cuadro, «Ver destino» abre la identidad elegida con foto y textos traducidos, y mantiene vuelos, hoteles, planificador y 16 tarjetas de portada. Las 18 pruebas de presentación son correctas.
-- TypeScript correcto. Lint sin errores, con avisos previos de imágenes.
-- Compilación local bloqueada por DNS de Google Fonts y EPERM de Windows al crear carpetas en `.next`. No se cambia configuración ni se falsean fuentes para superarlo. Comprobar el resultado de la Preview de Vercel del commit final.
-- Sin llamadas reales de voz, generación de IA, precios de vuelos, reservas ni escrituras en cuentas. Las pruebas de servicios son simuladas.
-
-No se ha realizado una nueva revisión visual en navegador: el control de permisos rechazó la apertura solicitada de la Preview anterior de Croacia y no se ha intentado eludirlo. No se cambian protecciones de acceso.
-
-## Publicación
-
-PR de borrador para revisar en Preview. No fusionar ni publicar Production sin autorización específica. No se cambian Sofía, cuotas, ElevenLabs, Redis, credenciales, dependencias, pagos ni configuración de Vercel. Los pagos previstos siguen aplazados al 4 de noviembre de 2026.
+No fusionar ni publicar Production sin autorización específica. No se alteran Sofía, cuotas, ElevenLabs, Redis, credenciales, dependencias, pagos ni configuración de Vercel. Los pagos previstos siguen aplazados al miércoles 4 de noviembre de 2026.
