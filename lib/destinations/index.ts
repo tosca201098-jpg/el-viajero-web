@@ -12,6 +12,7 @@ import { czechiaDestinations } from "./czechia";
 import { polandDestinations } from "./poland";
 import { hungaryDestinations } from "./hungary";
 import { slovakiaDestinations } from "./slovakia";
+import { sloveniaDestinations } from './slovenia';
 import { greeceDestinations } from "./greece";
 import { greeceAirportTownAliases } from "./greece-airport-towns";
 import type { DestinationId, DestinationProfile } from "./types";
@@ -34,9 +35,10 @@ export const destinationsByCountry: Readonly<Record<string, readonly Destination
   HU: hungaryDestinations,
   SK: slovakiaDestinations,
   GR: greeceDestinations,
+  SI: sloveniaDestinations,
 };
 
-export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations, ...greeceDestinations];
+export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations, ...greeceDestinations, ...sloveniaDestinations];
 
 export function getDestinationById(id: DestinationId): DestinationProfile | undefined {
   return destinationProfiles.find(destination => destination.id === id);

@@ -32,10 +32,10 @@ test('the airport expansion preserves all 221 existing profiles and the approved
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),previous.featuredSha256);
 });
 test('Greece adds fifteen unique profiles and preserves all 209 profiles, original cards and editorial pages',()=>{
-  assert.equal(greek.length,15);assert.equal(catalog.destinationProfiles.length,224);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,224);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,224);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,15);
+  assert.equal(greek.length,15);assert.equal(catalog.destinationProfiles.length,227);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,227);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,227);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,16);
   assert.equal(before.profiles.length,209);
   for(const p of before.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
   const featured=load('lib/destinations/featured.ts').destinations;
