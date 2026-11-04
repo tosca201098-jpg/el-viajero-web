@@ -38,8 +38,8 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 221 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,221);
+test('automatic catalog recommendations hide added France profiles; all 224 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,224);
   for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','HR'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
@@ -325,5 +325,42 @@ test('the shared destination summary uses catalog images and translated tourism 
     assert.ok(text(tree).includes(display.description));
     assert.ok(text(tree).includes(display.recommendedStay));
     for(const place of display.recommendations)assert.ok(text(tree).includes(place));
+  }
+});
+
+test('all fifteen Croatian cards open only after explicit selection and keep the shared detail in every language',()=>{
+  for(const locale of locales)for(const profile of catalog.getDestinationsByCountry('HR')){
+    const state=[];let index=0;
+    const hooks={...react,useState(initial){const slot=index++;if(!(slot in state))state[slot]=typeof initial==='function'?initial():initial;
+      return[state[slot],value=>{state[slot]=typeof value==='function'?value(state[slot]):value;}];}};
+    const load=renderLoader(locale,{react:hooks}),Home=load('app/page.tsx').default;
+    const render=()=>{index=0;return nodes(Home());};
+    let tree=render();
+    assert.equal(tree.filter(n=>n.type==='article').length,16);
+    assert.ok(!tree.some(n=>n.props.id==='destination-detail-title'));
+    const input=tree.find(n=>n.props.variant==='main'&&n.props.label===dictionaries.translate(locale,'search.destination'));
+    const display=localization.getDestinationText(profile,locale);
+    input.props.onChange(display.name);
+    assert.ok(!render().some(n=>n.props.id==='destination-detail-title'));
+    input.props.onSelect({type:'city',name:display.name,code:profile.iataCodes[0],country:profile.country,cityName:null,cityCode:null},display.name);
+    tree=render();
+    assert.ok(!tree.some(n=>n.props.id==='destination-detail-title'));
+    const button=tree.find(n=>n.type==='button'&&n.props['aria-haspopup']==='dialog'&&n.props['aria-label']===`${dictionaries.translate(locale,'monthly.viewDestination')}: ${display.name}`&&nodes(n).some(child=>child.props.destination?.id===profile.id));
+    assert.ok(button,profile.id+':'+locale);button.props.onClick();tree=render();
+    assert.ok(tree.some(n=>n.props.id==='destination-detail-title'&&text(n)===display.name),profile.id+':'+locale);
+    assert.ok(tree.some(n=>n.type==='img'&&n.props.src===profile.image));
+    assert.ok(tree.some(n=>n.props.role==='dialog'&&n.props.className.includes('bg-slate-950')));
+    for(const recommendation of display.recommendations)assert.ok(tree.some(n=>text(n)===dictionaries.translateText(locale,recommendation)||text(n).includes(recommendation)),recommendation);
+    assert.ok(tree.some(n=>n.props.destination?.id===profile.id&&n.props.context));
+    const arrival=tree.find(n=>n.props['aria-label']===dictionaries.translate(locale,'destinations.arrivalAirport'));
+    if(profile.airports.length){
+      assert.ok(arrival,profile.id+':'+locale);
+      assert.ok(text(arrival).includes(profile.iataCodes[0]));
+      assert.ok(text(arrival).includes(data('lib/travelpayouts/croatia-airports.ts').croatiaAirportTown(profile.iataCodes[0],locale)));
+    } else assert.equal(arrival,undefined,profile.id+':'+locale);
+    assert.ok(tree.some(n=>n.type==='button'&&text(n).includes(dictionaries.translate(locale,'search.findHotels'))));
+    if(profile.iataCodes.length)assert.ok(tree.some(n=>n.type==='button'&&text(n).includes(dictionaries.translate(locale,'search.findFlights'))),profile.id+':'+locale);
+    else for(const airport of profile.accessAirports)assert.ok(tree.some(n=>n.type==='button'&&text(n).includes(airport.iataCode)),profile.id+':'+locale+':'+airport.iataCode);
+    assert.equal(tree.filter(n=>n.type==='article').length,16);
   }
 });

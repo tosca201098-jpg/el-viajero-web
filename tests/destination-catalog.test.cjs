@@ -35,7 +35,7 @@ const czechia = load('lib/destinations/czechia.ts', { './czechia-images': load('
 const poland = load('lib/destinations/poland.ts', { './poland-images': load('lib/destinations/poland-images.ts') });
 const hungary = load('lib/destinations/hungary.ts', { './hungary-images': load('lib/destinations/hungary-images.ts') });
 const slovakia = load('lib/destinations/slovakia.ts', { './slovakia-images': load('lib/destinations/slovakia-images.ts') });
-const croatia = load('lib/destinations/croatia.ts', { './croatia-images': load('lib/destinations/croatia-images.ts') });
+const croatia = load('lib/destinations/croatia.ts', { './croatia-airport-coverage': load('lib/destinations/croatia-airport-coverage.ts'), './croatia-images': load('lib/destinations/croatia-images.ts') });
 const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './croatia': croatia });
 const localization = load('lib/destinations/localization.ts');
 const manifest = require('./fixtures/destination-legacy-digests.json');
@@ -52,8 +52,8 @@ test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
   assert.equal(legacyProfiles.length, 65);
   assert.equal(spain.spainDestinations.length, 43);
   assert.equal(portugal.portugalDestinations.length, 22);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 221);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 221);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 224);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 224);
   assert.deepEqual(Array.from(legacyProfiles, d => ({ id: d.id, slug: d.slug })),
     manifest.map(({ id, slug }) => ({ id, slug })));
   for (const destination of legacyProfiles) {

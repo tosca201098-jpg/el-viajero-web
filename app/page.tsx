@@ -11,6 +11,7 @@ import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryP
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
 import HeaderAuth from "./components/HeaderAuth";
 import LanguageSelector from "./components/LanguageSelector";
+import { croatiaAirports, croatiaAirportTown } from '@/lib/travelpayouts/croatia-airports';
 import DestinationProfileSummary from "./components/DestinationProfileSummary";
 import { getDestinationText, getDestinationCountryName } from '@/lib/destinations/localization';
 import type { Locale } from '@/lib/i18n/translations';
@@ -77,7 +78,7 @@ type DiscoverState =
 function localizedCatalogProfile(destination: Destination | null) {
   const profile = destination && 'id' in destination && typeof destination.id === 'string'
     ? getDestinationById(destination.id) : undefined;
-  return profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK'].includes(profile.countryCode) ? profile : undefined;
+  return profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'HR'].includes(profile.countryCode) ? profile : undefined;
 }
 function destinationDisplay(destination: Destination, locale: Locale) {
   const profile = localizedCatalogProfile(destination);
@@ -1456,6 +1457,18 @@ function abrirPaquete(destino = "") {
               <p className="text-lg leading-8 text-slate-300">
                 {text(selectedDisplay?.description ?? destinoSeleccionado.description)}
               </p>
+              {selectedCatalogProfile?.countryCode === 'HR' && selectedCatalogProfile.airports.length > 0 && (
+                <section className="mt-4 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm text-slate-200" aria-label={t('destinations.arrivalAirport')}>
+                  <h3 className="font-semibold text-white">✈️ {t('destinations.arrivalAirport')}</h3>
+                  {selectedCatalogProfile.airports.map(airport => (
+                    <div key={airport.iataCode} className="mt-2">
+                      <p>{croatiaAirports.find(item => item.code === airport.iataCode)?.name ?? airport.iataCode} ({airport.iataCode})</p>
+                      <p className="mt-1">{t('destinations.airportTown')}: {croatiaAirportTown(airport.iataCode, language)}</p>
+                    </div>
+                  ))}
+                  <p className="mt-2 text-xs text-slate-400">{t('destinations.airportTownNote')}</p>
+                </section>
+              )}
               {cardBudget && (
                 <p className="mt-4 rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-semibold text-cyan-100">
                   {budgetLabel(cardBudget)}
