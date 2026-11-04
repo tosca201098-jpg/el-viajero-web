@@ -1,5 +1,6 @@
 import type { Locale } from '@/lib/i18n/translations';
 import type { DestinationProfile, DestinationText } from './types';
+import { croatiaAirportCoverage } from './croatia-airport-coverage';
 import { croatiaImages } from './croatia-images';
 
 const locales: Locale[] = ['es', 'en', 'fr', 'de', 'it', 'pt', 'ca'];
@@ -324,4 +325,4 @@ const seeds: Seed[] = [
   },
 ];
 
-export const croatiaDestinations: DestinationProfile[] = seeds.map(profile);
+export const croatiaDestinations: DestinationProfile[] = [...seeds.map(profile), ...croatiaAirportCoverage];
