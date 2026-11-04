@@ -889,7 +889,7 @@ const seeds = [
       "Arribada per LXS. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "Myrina harbour and castle.JPG",
+      "Myrina_harbour_and_castle.JPG",
       "b3",
       "Phelim123",
       "CC BY-SA 3.0",
@@ -977,7 +977,7 @@ const seeds = [
       "Arribada per IOA, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
     ],
     "photo": [
-      "Pamvotida Lake (Λίμνη Παμβώτιδα) 01.jpg",
+      "Pamvotida_Lake_(Λίμνη_Παμβώτιδα)_01.jpg",
       "9d",
       "Pudelek (Marcin Szala)",
       "CC BY-SA 4.0",
@@ -1067,7 +1067,7 @@ const seeds = [
       "Arribada per JIK. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "Agios Kirikos, Ikaria.jpg",
+      "Agios_Kirikos,_Ikaria.jpg",
       "26",
       "Stelios Kiousis",
       "CC BY-SA 2.0",
@@ -1153,7 +1153,7 @@ const seeds = [
       "Arribada per LRS. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "Aghia Marina, Leros island, Greece - panoramio.jpg",
+      "Aghia_Marina,_Leros_island,_Greece_-_panoramio.jpg",
       "ca",
       "G Da",
       "CC BY-SA 3.0",
@@ -1240,7 +1240,7 @@ const seeds = [
       "Arribada per VOL, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
     ],
     "photo": [
-      "Volos waterfront.jpg",
+      "Volos_waterfront.jpg",
       "a6",
       "Khane Rokhl Barazani",
       "CC BY-SA 4.0",
@@ -1414,7 +1414,7 @@ const seeds = [
       "Arribada per JSY. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "View of Ermoupoli (Syros island) from a ferry boat 2.jpg",
+      "View_of_Ermoupoli_(Syros_island)_from_a_ferry_boat_2.jpg",
       "38",
       "Leeturtle",
       "CC BY-SA 4.0",
@@ -1504,7 +1504,7 @@ const seeds = [
       "Arribada per JTY. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "Chora and Castle. Astypalaia, Greece.jpg",
+      "Chora_and_Castle._Astypalaia,_Greece.jpg",
       "ce",
       "Ввласенко",
       "CC BY-SA 3.0",
@@ -1593,7 +1593,7 @@ const seeds = [
       "Arribada per JKL. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "Calymnos harbour.jpg",
+      "Calymnos_harbour.jpg",
       "c5",
       "Κ. Καλογερόπουλος Kalogeropoulos at Greek Wikipedia",
       "CC BY-SA 3.0",
@@ -1682,7 +1682,7 @@ const seeds = [
       "Arribada per KSJ. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "Kasos veduta del porticciolo.jpg",
+      "Kasos_veduta_del_porticciolo.jpg",
       "12",
       "Luca Aless",
       "CC0 1.0",
@@ -1771,7 +1771,7 @@ const seeds = [
       "Arribada per KZS. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional. La Cova Blava requereix una excursió en barca subjecta al temps i a l’estat del mar."
     ],
     "photo": [
-      "Kastellorizo harbour.jpg",
+      "Kastellorizo_harbour.jpg",
       "14",
       "TU-nor",
       "CC BY-SA 4.0",
@@ -1856,7 +1856,7 @@ const seeds = [
       "Arribada per KSO, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
     ],
     "photo": [
-      "Lake Orestiada and city of Kastoria.jpg",
+      "Lake_Orestiada_and_city_of_Kastoria.jpg",
       "7f",
       "Ioannis Fakis",
       "CC BY-SA 4.0",
@@ -1940,7 +1940,7 @@ const seeds = [
       "Arribada per KZI, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
     ],
     "photo": [
-      "Kozani new square - Flickr - Nick-K (Nikos Koutoulas).jpg",
+      "Kozani_new_square_-_Flickr_-_Nick-K_(Nikos_Koutoulas).jpg",
       "dd",
       "Nikos Koutoulas from Kozani, Greece",
       "CC BY 2.0",
@@ -2032,7 +2032,7 @@ const seeds = [
       "Arribada per KIT. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "Kythira - Hora 1.jpg",
+      "Kythira_-_Hora_1.jpg",
       "5c",
       "Ingo Mehling",
       "CC BY-SA 3.0",

@@ -88,6 +88,8 @@ La foto de Esciros está declarada de dominio público y se enlaza con Public Do
 
 Resultado local: **423 pruebas correctas**, distribuidas en 49 de Grecia/presentación y 374 de regresión, sin duplicación entre grupos. Incluyen las 39 fichas en los siete idiomas. Compilación y revisión visual móvil/tableta/ordenador se documentan en la PR #42 al finalizar. No se ejecutan pruebas de audio, IA, cuotas o servicios de pago reales; las conexiones externas de las pruebas están bloqueadas.
 
+La primera revisión de Preview detectó que los títulos con espacios devueltos por Commons no producían sus rutas canónicas de miniatura, que utilizan guiones bajos. Se corrigen únicamente los nombres de archivo de las fotos nuevas. Se añade una regresión que compara las 16 URL con las obtenidas de la API pública, conservadas en `greece-final-photo-urls.json`; no se alteran las fotos previas. Tras la corrección, las cinco pruebas afectadas pasan; junto a las ya superadas son **424 pruebas verificadas**, sin repetir toda la batería.
+
 La cobertura aeroportuaria de Grecia queda preparada en la rama de pruebas, no publicada. Todas las nuevas fichas continúan en `draft`, disponibles al buscar/seleccionar o por enlace `?ficha=`; no se añaden a las 16 tarjetas, recomendaciones automáticas, temporadas, páginas mensuales ni sitemap. Los informes anteriores se conservan como historial de sus lotes.
 
 No cambia main, Production, PR #39, Croacia (#36/#41), Eslovenia (#40), Sofía (#38), ElevenLabs, Redis, cuotas, variables, dependencias ni pagos. No se fusiona ninguna PR. El siguiente trabajo será continuar la revisión de cobertura de los países europeos anteriores antes de incorporar otras regiones del mundo.

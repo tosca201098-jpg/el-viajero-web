@@ -39,3 +39,8 @@ test('final photo releases retain the real attribution, distinguish public domai
  assert.match(kalymnos.image,/^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/.*Calymnos_harbour\.jpg$/);assert.ok(kalymnos.imageCredit.includes('Kalogeropoulos'));
  for(const slug of Object.values(additions)){const p=catalog.getDestinationById('gr-'+slug);assert.ok(p.imageCredit.trim());assert.ok(!/<[^>]+>/.test(p.imageCredit));assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);assert.match(p.imageLicenseUrl,/^https:\/\/creativecommons\.org\//);}
 });
+
+test('all sixteen new photo URLs match the canonical URLs actually returned by Commons, including underscores and Unicode filenames',()=>{
+ const urls=require('./fixtures/greece-final-photo-urls.json');assert.equal(Object.keys(urls).length,16);
+ for(const[id,url]of Object.entries(urls))assert.equal(decodeURIComponent(catalog.getDestinationById(id).image),decodeURIComponent(url),id);
+});
