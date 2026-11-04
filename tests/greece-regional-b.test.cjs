@@ -39,6 +39,10 @@ test('photo licences use their actual author release rather than treating every 
  const p=catalog.getDestinationById('gr-paros'),k=catalog.getDestinationById('gr-karpathos');
  assert.equal(p.imageCredit,'Holger Pfiffi');assert.equal(p.imageLicense,'Public domain');assert.equal(p.imageLicenseUrl,'https://creativecommons.org/publicdomain/mark/1.0/');
  assert.equal(k.imageCredit,'Luca Aless');assert.equal(k.imageLicense,'CC0 1.0');assert.equal(k.imageLicenseUrl,'https://creativecommons.org/publicdomain/zero/1.0/');
- assert.equal(catalog.getDestinationById('gr-naxos').imageLicense,'CC BY 3.0');
+ assert.equal(catalog.getDestinationById('gr-naxos').imageLicense,'CC BY-SA 3.0');
+ assert.equal(catalog.getDestinationById('gr-naxos').imageCredit,'User: Bgabel at wikivoyage shared');
+ assert.ok(catalog.getDestinationById('gr-naxos').imageSource.endsWith('GR-naxos-chora-portara.jpg'));
+ assert.equal(catalog.getDestinationById('gr-alexandroupoli').imageLicense,'CC BY-SA 4.0');
+ assert.ok(catalog.getDestinationById('gr-alexandroupoli').imageSource.endsWith('Alexandroupolis_lighthouse_(November_2018).jpg'));
  assert.equal(catalog.getDestinationById('gr-chios').imageCredit,'Güldem Üstün');
 });

@@ -291,11 +291,11 @@ const seeds = [
       "Νάξος"
     ],
     "photo": [
-      "Naxos_Portara.JPG",
-      "58",
-      "Iuevi",
-      "CC BY 3.0",
-      "https://creativecommons.org/licenses/by/3.0/"
+      "GR-naxos-chora-portara.jpg",
+      "7f",
+      "User: Bgabel at wikivoyage shared",
+      "CC BY-SA 3.0",
+      "https://creativecommons.org/licenses/by-sa/3.0/"
     ],
     "names": [
       "Naxos",
@@ -647,11 +647,11 @@ const seeds = [
       "Αλεξανδρούπολη"
     ],
     "photo": [
-      "Alexandroupolis_Lighthouse_(April_2017).jpg",
-      "5a",
+      "Alexandroupolis_lighthouse_(November_2018).jpg",
+      "77",
       "Texniths",
-      "CC BY-SA 3.0",
-      "https://creativecommons.org/licenses/by-sa/3.0/"
+      "CC BY-SA 4.0",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
     ],
     "names": [
       "Alejandrópolis",

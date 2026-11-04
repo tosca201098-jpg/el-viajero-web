@@ -37,11 +37,13 @@ Se utiliza la miniatura de 960 px observada en la página de cada archivo; se co
 | Destino | Fuente Commons | Autor | Licencia elegida | Original |
 | --- | --- | --- | --- | --- |
 | Paros | [Naoussa, Paros.jpg](https://commons.wikimedia.org/wiki/File:Naoussa,_Paros.jpg) | Holger Pfiffi | Dominio público por declaración del autor; Public Domain Mark, no CC0 | 1000 × 664 |
-| Naxos | [Naxos Portara.JPG](https://commons.wikimedia.org/wiki/File:Naxos_Portara.JPG) | Iuevi | CC BY 3.0 | 2048 × 1536 |
+| Naxos | [GR-naxos-chora-portara.jpg](https://commons.wikimedia.org/wiki/File:GR-naxos-chora-portara.jpg) | User: Bgabel at wikivoyage shared | CC BY-SA 3.0 | 1215 × 807 |
 | Milos | [Aerial view of Sarakiniko Beach on Milos Island, Greece.jpg](https://commons.wikimedia.org/wiki/File:Aerial_view_of_Sarakiniko_Beach_on_Milos_Island,_Greece.jpg) | dronepicr | CC BY 2.0 | 5288 × 3523 |
 | Quíos | [Chios - Port of Chios.jpg](https://commons.wikimedia.org/wiki/File:Chios_-_Port_of_Chios.jpg) | Güldem Üstün | CC BY 2.0 | 4675 × 2704 |
 | Kárpatos | [Olympos Karpathos 001.jpg](https://commons.wikimedia.org/wiki/File:Olympos_Karpathos_001.jpg) | Luca Aless | CC0 1.0 declarada expresamente | 2048 × 1536 |
-| Alejandrópolis | [Alexandroupolis Lighthouse (April 2017).jpg](https://commons.wikimedia.org/wiki/File:Alexandroupolis_Lighthouse_(April_2017).jpg) | Texniths | CC BY-SA 3.0 | 4128 × 2322 |
+| Alejandrópolis | [Alexandroupolis lighthouse (November 2018).jpg](https://commons.wikimedia.org/wiki/File:Alexandroupolis_lighthouse_(November_2018).jpg) | Texniths | CC BY-SA 4.0 | 4032 × 1960 |
+
+En la primera revisión de Preview se detectó que el recorte de las candidatas de Naxos y Alejandrópolis dejaba fuera parte del monumento. Se sustituyen exclusivamente esas dos fotos nuevas por encuadres más abiertos, con sus atribuciones y licencias específicas. Las fotos de las diecisiete fichas griegas previas permanecen intactas.
 
 ## Conservación, verificaciones y continuidad
 
