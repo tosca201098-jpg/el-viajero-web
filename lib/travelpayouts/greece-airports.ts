@@ -2,10 +2,26 @@ import { greeceDestinations } from '@/lib/destinations/greece';
 import { greeceAirportTownAliases } from '@/lib/destinations/greece-airport-towns';
 export { greeceAirportTown } from '@/lib/destinations/greece-airport-towns';
 
-// The original fifteen plus Kavala/Mytilene complete Fraport’s fourteen-airport subset.
-// The rest of Greece’s public commercial airport network remains under review.
+// All 39 commercial airport identities: Athens, Fraport’s 14 and HASP’s 24.
+// The 22-airport Growthfund inventory is covered; see greece-final-coverage.md.
 // The code/airport association does not promise a route, flight or price.
 const names: Readonly<Record<string, string>> = {
+  GPA: "Araxos Airport",
+  LXS: "Limnos — Ifaistos",
+  IOA: "Ioannina — King Pyrrhos",
+  JIK: "Ikaria Airport",
+  LRS: "Leros Airport",
+  VOL: "Nea Anchialos Airport",
+  JSH: "Sitia Airport",
+  JSY: "Syros Airport",
+  JTY: "Astypalaia Airport",
+  JKL: "Kalymnos Airport",
+  KSJ: "Kasos Airport",
+  KZS: "Kastellorizo Airport",
+  KSO: "Kastoria Airport",
+  KZI: "Kozani Airport",
+  KIT: "Kythira Airport",
+  SKU: "Skyros Airport",
   PAS: "Paros Airport",
   JNX: "Naxos Airport",
   MLO: "Milos Airport",

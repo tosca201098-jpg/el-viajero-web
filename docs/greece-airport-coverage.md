@@ -1,5 +1,7 @@
 # Grecia: ampliación de cobertura, primer lote
 
+Este informe conserva el estado de su lote. La cobertura actual completa de 39 aeropuertos revisados se documenta en [greece-final-coverage.md](greece-final-coverage.md).
+
 4 de noviembre de 2026. El objetivo vigente ya no limita Grecia a quince aeropuertos por tráfico internacional. Se conservan íntegramente las quince fichas aprobadas y se añaden dos huecos verificados de la [red de catorce aeropuertos regionales de Fraport](https://www.fraport-greece.com/en/airport-profiles.html). No se rehace la investigación del corte de tráfico de 2025: véase el informe anterior `greece-destinations.md`.
 
 | Ficha nueva | IATA | Nombre real del aeropuerto | Referencia turística |

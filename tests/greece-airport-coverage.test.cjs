@@ -9,9 +9,9 @@ test('all 224 prior profiles, approved Athens photo and sixteen original homepag
  const before=require('./fixtures/pre-greece-airport-coverage.json');assert.equal(before.profiles.length,224);
  for(const p of before.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
- assert.equal(catalog.getDestinationsByCountry('GR').length,23);assert.equal(catalog.destinationProfiles.length,232);
+ assert.equal(catalog.getDestinationsByCountry('GR').length,39);assert.equal(catalog.destinationProfiles.length,248);
 });
-test('all fourteen Fraport airport identities are covered once within the twenty-three-profile Greek batch',()=>{
+test('all fourteen Fraport airport identities are covered once within the thirty-nine-profile Greek batch',()=>{
  const official=['KVA','SKG','CFU','MJT','JSI','PVK','EFL','ZTH','SMI','JMK','KGS','JTR','RHO','CHQ'];
  for(const code of official){const found=catalog.getDestinationsByCountry('GR').filter(p=>p.airports.some(a=>a.iataCode===code));assert.equal(found.length,1,code);assert.equal(catalog.findDestinationProfile({iataCode:code}),found[0]);}
  for(const code of ['KVA','MJT'])assert.ok(airports.greeceAirports.find(a=>a.code===code)?.name);

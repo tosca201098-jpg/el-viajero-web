@@ -20,7 +20,7 @@ function loader(globals={}) {
 const load=loader(),catalog=load('lib/destinations/index.ts'),greek=catalog.getDestinationsByCountry('GR');
 const selection=load('lib/destinations/selection.ts'),presentation=load('lib/destinations/presentation.ts');
 const localization=load('lib/destinations/localization.ts'),airports=load('lib/travelpayouts/greece-airports.ts');
-const codes=['ATH','SKG','HER','CHQ','RHO','CFU','KGS','JTR','JMK','ZTH','EFL','JSI','PVK','SMI','KLX','KVA','MJT','PAS','JNX','MLO','JKH','AOK','AXD'];
+const codes=['ATH','SKG','HER','CHQ','RHO','CFU','KGS','JTR','JMK','ZTH','EFL','JSI','PVK','SMI','KLX','KVA','MJT','PAS','JNX','MLO','JKH','AOK','AXD','GPA','LXS','IOA','JIK','LRS','VOL','JSH','JSY','JTY','JKL','KSJ','KZS','KSO','KZI','KIT','SKU'];
 
 test('the airport expansion preserves all 221 existing profiles and the approved Athens photograph',()=>{
   const previous=require('./fixtures/pre-greece-airports-catalog.json');
@@ -31,10 +31,10 @@ test('the airport expansion preserves all 221 existing profiles and the approved
   for(const[key,value]of Object.entries(previous.athensImage))assert.equal(athens[key],value,key);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),previous.featuredSha256);
 });
-test('Greece adds twenty-three unique profiles and preserves all 209 profiles, original cards and editorial pages',()=>{
-  assert.equal(greek.length,23);assert.equal(catalog.destinationProfiles.length,232);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,232);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,232);
+test('Greece adds thirty-nine unique profiles and preserves all 209 profiles, original cards and editorial pages',()=>{
+  assert.equal(greek.length,39);assert.equal(catalog.destinationProfiles.length,248);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,248);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,248);
   assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,15);
   assert.equal(before.profiles.length,209);
   for(const p of before.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
@@ -56,7 +56,7 @@ for(const locale of locales)test(locale+': all Greek profiles have local text, f
     for(const key of ['bestMonths','lowSeasonMonths','highSeasonMonths'])assert.ok(p[key].length&&p[key].every(m=>Number.isInteger(m)&&m>=1&&m<=12));
   }
 });
-test('twenty-three distinct physical airport codes resolve to the expected Greek identity',()=>{
+test('thirty-nine distinct physical airport codes resolve to the expected Greek identity',()=>{
   assert.deepEqual(Array.from(airports.greeceAirports,a=>a.code),codes);
   for(let i=0;i<codes.length;i++){
     const p=greek[i],a=airports.greeceAirports[i];
@@ -101,12 +101,12 @@ test('Greek profiles remain selection-only drafts and publish no destination pag
   for(const p of greek){assert.equal(p.publication.status,'draft');assert.equal(presentation.canShowDestinationAutomatically(p),false);assert.ok(!published.some(entry=>entry.destinationId===p.id));}
   assert.equal(presentation.canShowDestinationAutomatically({country:' Grecia '}),false);
 });
-test('all twenty-three photographs preserve Commons source, creator and reuse statement',()=>{
+test('all thirty-nine photographs preserve Commons source, creator and reuse statement',()=>{
   const photos=new Set();
   for(const p of greek){
-    assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);photos.add(p.image);
+    if(p.id==='gr-kalymnos')assert.match(p.image,/^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/.*Calymnos_harbour\.jpg$/);else assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);photos.add(p.image);
     assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(p.imageCredit);assert.match(p.imageLicense,/^(?:CC(?: BY|0)|Public domain)/);
     assert.match(p.imageLicenseUrl,/^https:\/\/creativecommons\.org\//);
-  }assert.equal(photos.size,23);
+  }assert.equal(photos.size,39);
 });

@@ -718,6 +718,1414 @@ const seeds = [
       "AXD fica a leste de Alexandrópolis, fora do centro. Preveja o transporte terrestre e confirme voos para as suas datas. O delta do Evros é uma excursão fora da cidade: respeite as regras da área protegida e confirme acesso e visitas.",
       "AXD és a l’est d’Alexandrúpoli, fora del centre. Preveu el trasllat terrestre i consulta els vols per a les teves dates. El delta de l’Evros és una excursió fora de la ciutat: respecta les normes de l’espai protegit i comprova accés i visites."
     ]
+  },
+  {
+    "slug": "patras",
+    "code": "GPA",
+    "airport": "Araxos Airport",
+    "town": "Patras",
+    "stay": "2–3",
+    "aliases": [
+      "Patras",
+      "Patra",
+      "Patrasso",
+      "Patres",
+      "Araxos",
+      "Άραξος",
+      "Πάτρα"
+    ],
+    "names": [
+      "Patras",
+      "Patras",
+      "Patras",
+      "Patras",
+      "Patrasso",
+      "Patras",
+      "Patres"
+    ],
+    "descriptions": [
+      "Puerto, casco alto y patrimonio urbano para conocer la costa occidental del Peloponeso desde Patras.",
+      "Harbour, upper town and urban heritage introduce the western Peloponnese coast from Patras.",
+      "Port, ville haute et patrimoine urbain pour découvrir la côte occidentale du Péloponnèse depuis Patras.",
+      "Hafen, Oberstadt und städtisches Kulturerbe erschließen von Patras aus die westliche Peloponnesküste.",
+      "Porto, città alta e patrimonio urbano per scoprire la costa occidentale del Peloponneso da Patrasso.",
+      "Porto, cidade alta e património urbano para conhecer a costa ocidental do Peloponeso a partir de Patras.",
+      "Port, ciutat alta i patrimoni urbà per descobrir la costa occidental del Peloponès des de Patres."
+    ],
+    "recommendations": [
+      [
+        "Castillo de Patras",
+        "Patras Castle",
+        "Château de Patras",
+        "Burg von Patras",
+        "Castello di Patrasso",
+        "Castelo de Patras",
+        "Castell de Patres"
+      ],
+      [
+        "Ciudad Alta",
+        "Upper Town",
+        "Ville haute",
+        "Oberstadt",
+        "Città alta",
+        "Cidade Alta",
+        "Ciutat Alta"
+      ],
+      [
+        "Paseo del puerto",
+        "Harbour promenade",
+        "Promenade du port",
+        "Hafenpromenade",
+        "Passeggiata del porto",
+        "Passeio do porto",
+        "Passeig del port"
+      ],
+      [
+        "Puente de Río-Antírio",
+        "Rio–Antirrio bridge",
+        "Pont de Rio-Antirrio",
+        "Rio-Andirrio-Brücke",
+        "Ponte Rio-Antirio",
+        "Ponte de Rio-Antírio",
+        "Pont de Río-Antírio"
+      ]
+    ],
+    "notes": [
+      "Llegada por GPA, fuera del centro urbano. Prevé el traslado terrestre y comprueba vuelos, transporte y horarios para tus fechas: la oferta puede ser limitada o estacional. Las excursiones fuera de la ciudad requieren desplazamientos adicionales.",
+      "Arrive via GPA, outside the city centre. Allow for ground transport and check flights, transport and opening times for your dates: service may be limited or seasonal. Excursions outside town require additional travel.",
+      "Arrivée par GPA, hors du centre-ville. Prévoyez le transfert et vérifiez vols, transports et horaires pour vos dates : l’offre peut être limitée ou saisonnière. Les excursions hors de la ville nécessitent des trajets supplémentaires.",
+      "Anreise über GPA außerhalb des Stadtzentrums. Landtransfer planen und Flüge, Verkehr sowie Öffnungszeiten prüfen: das Angebot kann begrenzt oder saisonal sein. Ausflüge außerhalb der Stadt erfordern zusätzliche Fahrten.",
+      "Arrivo tramite GPA, fuori dal centro urbano. Prevedi il trasferimento e verifica voli, trasporti e orari per le tue date: l’offerta può essere limitata o stagionale. Le escursioni fuori città richiedono ulteriori spostamenti.",
+      "Chegada por GPA, fora do centro urbano. Preveja o transporte terrestre e confirme voos, transportes e horários para as suas datas: a oferta pode ser limitada ou sazonal. As excursões fora da cidade exigem deslocações adicionais.",
+      "Arribada per GPA, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
+    ],
+    "photo": [
+      "Patras_2008_view.jpg",
+      "75",
+      "Jérôme",
+      "CC BY-SA 3.0",
+      "https://creativecommons.org/licenses/by-sa/3.0/"
+    ]
+  },
+  {
+    "slug": "limnos",
+    "code": "LXS",
+    "airport": "Limnos — Ifaistos",
+    "town": "Myrina (Lemnos)",
+    "stay": "4–5",
+    "aliases": [
+      "Limnos",
+      "Lemnos",
+      "Lemno",
+      "Myrina",
+      "Mirina",
+      "Ifaistos",
+      "Hephaestus",
+      "Λήμνος"
+    ],
+    "names": [
+      "Lemnos",
+      "Lemnos",
+      "Lemnos",
+      "Limnos",
+      "Lemno",
+      "Lemnos",
+      "Lemnos"
+    ],
+    "descriptions": [
+      "El castillo de Myrina, los yacimientos antiguos y los paisajes volcánicos permiten explorar una isla del Egeo septentrional.",
+      "Myrina’s castle, ancient sites and volcanic scenery introduce an island in the northern Aegean.",
+      "Le château de Myrina, les sites antiques et les paysages volcaniques révèlent une île de l’Égée du Nord.",
+      "Myrinas Burg, antike Stätten und Vulkanlandschaften erschließen eine Insel der nördlichen Ägäis.",
+      "Il castello di Myrina, i siti antichi e i paesaggi vulcanici raccontano un’isola dell’Egeo settentrionale.",
+      "O castelo de Myrina, sítios antigos e paisagens vulcânicas revelam uma ilha do Egeu setentrional.",
+      "El castell de Myrina, els jaciments antics i els paisatges volcànics permeten explorar una illa de l’Egeu septentrional."
+    ],
+    "recommendations": [
+      [
+        "Castillo de Myrina",
+        "Myrina Castle",
+        "Château de Myrina",
+        "Burg von Myrina",
+        "Castello di Myrina",
+        "Castelo de Myrina",
+        "Castell de Myrina"
+      ],
+      [
+        "Puerto de Myrina",
+        "Myrina harbour",
+        "Port de Myrina",
+        "Hafen von Myrina",
+        "Porto di Myrina",
+        "Porto de Myrina",
+        "Port de Myrina"
+      ],
+      [
+        "Poliochni",
+        "Poliochni",
+        "Poliochni",
+        "Poliochni",
+        "Poliochni",
+        "Poliochni",
+        "Poliochni"
+      ],
+      [
+        "Hephaistia",
+        "Hephaistia",
+        "Hephaistia",
+        "Hephaistia",
+        "Hephaistia",
+        "Hephaistia",
+        "Hephaistia"
+      ]
+    ],
+    "notes": [
+      "Llegada por LXS. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via LXS. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par LXS. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über LXS. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite LXS. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por LXS. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per LXS. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "Myrina harbour and castle.JPG",
+      "b3",
+      "Phelim123",
+      "CC BY-SA 3.0",
+      "https://creativecommons.org/licenses/by-sa/3.0/"
+    ]
+  },
+  {
+    "slug": "ioannina",
+    "code": "IOA",
+    "airport": "Ioannina — King Pyrrhos",
+    "town": "Ioannina",
+    "stay": "3–4",
+    "aliases": [
+      "Ioannina",
+      "Ioánina",
+      "Ioànnina",
+      "Giannina",
+      "Janina",
+      "King Pyrrhos",
+      "Ιωάννινα"
+    ],
+    "names": [
+      "Ioánina",
+      "Ioannina",
+      "Ioannina",
+      "Ioannina",
+      "Giannina",
+      "Ioannina",
+      "Ioànnina"
+    ],
+    "descriptions": [
+      "Castillo, tradición artesana y paseos junto al lago Pamvótida para descubrir el patrimonio urbano de Epiro.",
+      "A castle, craft traditions and Lake Pamvotida walks reveal Epirus’s urban heritage.",
+      "Château, artisanat et promenades au bord du lac Pamvotida pour découvrir le patrimoine urbain de l’Épire.",
+      "Burg, Handwerkstraditionen und Spaziergänge am Pamvotida-See erschließen das städtische Kulturerbe des Epirus.",
+      "Castello, artigianato e passeggiate sul lago Pamvotida per scoprire il patrimonio urbano dell’Epiro.",
+      "Castelo, artesanato e passeios junto ao lago Pamvótida para descobrir o património urbano do Epiro.",
+      "Castell, tradició artesana i passejades vora el llac Pamvòtida per descobrir el patrimoni urbà de l’Epir."
+    ],
+    "recommendations": [
+      [
+        "Castillo de Ioánina",
+        "Ioannina Castle",
+        "Château d’Ioannina",
+        "Burg von Ioannina",
+        "Castello di Giannina",
+        "Castelo de Ioannina",
+        "Castell d’Ioànnina"
+      ],
+      [
+        "Paseo del lago Pamvótida",
+        "Lake Pamvotida promenade",
+        "Promenade du lac Pamvotida",
+        "Promenade am Pamvotida-See",
+        "Lungolago Pamvotida",
+        "Passeio do lago Pamvótida",
+        "Passeig del llac Pamvòtida"
+      ],
+      [
+        "Isla del lago Pamvótida",
+        "Lake Pamvotida island",
+        "Île du lac Pamvotida",
+        "Insel im Pamvotida-See",
+        "Isola del lago Pamvotida",
+        "Ilha do lago Pamvótida",
+        "Illa del llac Pamvòtida"
+      ],
+      [
+        "Museo de la Platería",
+        "Silversmithing Museum",
+        "Musée de l’orfèvrerie",
+        "Silberschmiedemuseum",
+        "Museo dell’argenteria",
+        "Museu da Prataria",
+        "Museu de l’Argenteria"
+      ]
+    ],
+    "notes": [
+      "Llegada por IOA, fuera del centro urbano. Prevé el traslado terrestre y comprueba vuelos, transporte y horarios para tus fechas: la oferta puede ser limitada o estacional. Las excursiones fuera de la ciudad requieren desplazamientos adicionales.",
+      "Arrive via IOA, outside the city centre. Allow for ground transport and check flights, transport and opening times for your dates: service may be limited or seasonal. Excursions outside town require additional travel.",
+      "Arrivée par IOA, hors du centre-ville. Prévoyez le transfert et vérifiez vols, transports et horaires pour vos dates : l’offre peut être limitée ou saisonnière. Les excursions hors de la ville nécessitent des trajets supplémentaires.",
+      "Anreise über IOA außerhalb des Stadtzentrums. Landtransfer planen und Flüge, Verkehr sowie Öffnungszeiten prüfen: das Angebot kann begrenzt oder saisonal sein. Ausflüge außerhalb der Stadt erfordern zusätzliche Fahrten.",
+      "Arrivo tramite IOA, fuori dal centro urbano. Prevedi il trasferimento e verifica voli, trasporti e orari per le tue date: l’offerta può essere limitata o stagionale. Le escursioni fuori città richiedono ulteriori spostamenti.",
+      "Chegada por IOA, fora do centro urbano. Preveja o transporte terrestre e confirme voos, transportes e horários para as suas datas: a oferta pode ser limitada ou sazonal. As excursões fora da cidade exigem deslocações adicionais.",
+      "Arribada per IOA, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
+    ],
+    "photo": [
+      "Pamvotida Lake (Λίμνη Παμβώτιδα) 01.jpg",
+      "9d",
+      "Pudelek (Marcin Szala)",
+      "CC BY-SA 4.0",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
+    ]
+  },
+  {
+    "slug": "ikaria",
+    "code": "JIK",
+    "airport": "Ikaria Airport",
+    "town": "Agios Kirykos (Ikaria)",
+    "stay": "4–5",
+    "aliases": [
+      "Ikaria",
+      "Icaria",
+      "Icarie",
+      "Icária",
+      "Icària",
+      "Agios Kirykos",
+      "Agios Kirikos",
+      "Evdilos",
+      "Ικαρία"
+    ],
+    "names": [
+      "Icaria",
+      "Ikaria",
+      "Icarie",
+      "Ikaria",
+      "Icaria",
+      "Icária",
+      "Icària"
+    ],
+    "descriptions": [
+      "Pueblos costeros, montañas y tradiciones locales para conocer Icaria reservando tiempo para los trayectos insulares.",
+      "Coastal villages, mountains and local traditions reward an Ikaria trip with time for island journeys.",
+      "Villages côtiers, montagnes et traditions locales pour découvrir Icarie en prévoyant les trajets insulaires.",
+      "Küstendörfer, Berge und lokale Traditionen laden zu einer Ikaria-Reise mit Zeit für Inselfahrten ein.",
+      "Paesi costieri, montagne e tradizioni locali per scoprire Icaria prevedendo tempo per gli spostamenti.",
+      "Aldeias costeiras, montanhas e tradições locais para conhecer Icária com tempo para as deslocações.",
+      "Pobles costaners, muntanyes i tradicions locals per conèixer Icària reservant temps per als trajectes insulars."
+    ],
+    "recommendations": [
+      [
+        "Agios Kirykos",
+        "Agios Kirykos",
+        "Agios Kirykos",
+        "Agios Kirykos",
+        "Agios Kirykos",
+        "Agios Kirykos",
+        "Agios Kirykos"
+      ],
+      [
+        "Evdilos",
+        "Evdilos",
+        "Evdilos",
+        "Evdilos",
+        "Evdilos",
+        "Evdilos",
+        "Evdilos"
+      ],
+      [
+        "Christos Raches",
+        "Christos Raches",
+        "Christos Raches",
+        "Christos Raches",
+        "Christos Raches",
+        "Christos Raches",
+        "Christos Raches"
+      ],
+      [
+        "Therma",
+        "Therma",
+        "Therma",
+        "Therma",
+        "Therma",
+        "Therma",
+        "Therma"
+      ]
+    ],
+    "notes": [
+      "Llegada por JIK. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via JIK. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par JIK. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über JIK. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite JIK. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por JIK. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per JIK. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "Agios Kirikos, Ikaria.jpg",
+      "26",
+      "Stelios Kiousis",
+      "CC BY-SA 2.0",
+      "https://creativecommons.org/licenses/by-sa/2.0/"
+    ]
+  },
+  {
+    "slug": "leros",
+    "code": "LRS",
+    "airport": "Leros Airport",
+    "town": "Agia Marina (Leros)",
+    "stay": "3–4",
+    "aliases": [
+      "Leros",
+      "Lero",
+      "Agia Marina Leros",
+      "Lakki",
+      "Λέρος"
+    ],
+    "names": [
+      "Leros",
+      "Leros",
+      "Leros",
+      "Leros",
+      "Lero",
+      "Leros",
+      "Leros"
+    ],
+    "descriptions": [
+      "Puertos resguardados, arquitectura de Lakki y patrimonio de Panteli para explorar una isla del Dodecaneso.",
+      "Sheltered harbours, Lakki’s architecture and Panteli’s heritage introduce a Dodecanese island.",
+      "Ports abrités, architecture de Lakki et patrimoine de Panteli pour découvrir une île du Dodécanèse.",
+      "Geschützte Häfen, Lakkis Architektur und Pantelis Kulturerbe erschließen eine Dodekanesinsel.",
+      "Porti riparati, architettura di Lakki e patrimonio di Panteli per scoprire un’isola del Dodecaneso.",
+      "Portos abrigados, arquitetura de Lakki e património de Panteli para explorar uma ilha do Dodecaneso.",
+      "Ports arrecerats, arquitectura de Lakki i patrimoni de Panteli per explorar una illa del Dodecanès."
+    ],
+    "recommendations": [
+      [
+        "Agia Marina",
+        "Agia Marina",
+        "Agia Marina",
+        "Agia Marina",
+        "Agia Marina",
+        "Agia Marina",
+        "Agia Marina"
+      ],
+      [
+        "Lakki",
+        "Lakki",
+        "Lakki",
+        "Lakki",
+        "Lakki",
+        "Lakki",
+        "Lakki"
+      ],
+      [
+        "Castillo de Panteli",
+        "Panteli Castle",
+        "Château de Panteli",
+        "Burg Panteli",
+        "Castello di Panteli",
+        "Castelo de Panteli",
+        "Castell de Panteli"
+      ],
+      [
+        "Alinda",
+        "Alinda",
+        "Alinda",
+        "Alinda",
+        "Alinda",
+        "Alinda",
+        "Alinda"
+      ]
+    ],
+    "notes": [
+      "Llegada por LRS. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via LRS. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par LRS. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über LRS. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite LRS. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por LRS. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per LRS. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "Aghia Marina, Leros island, Greece - panoramio.jpg",
+      "ca",
+      "G Da",
+      "CC BY-SA 3.0",
+      "https://creativecommons.org/licenses/by-sa/3.0/"
+    ]
+  },
+  {
+    "slug": "volos",
+    "code": "VOL",
+    "airport": "Nea Anchialos Airport",
+    "town": "Volos",
+    "stay": "3–4",
+    "aliases": [
+      "Volos",
+      "Vólos",
+      "Nea Anchialos",
+      "Nea Anhialos",
+      "Nea Agchialos",
+      "Βόλος"
+    ],
+    "names": [
+      "Volos",
+      "Volos",
+      "Vólos",
+      "Volos",
+      "Volos",
+      "Volos",
+      "Volos"
+    ],
+    "descriptions": [
+      "Paseos junto al golfo Pagasético y patrimonio de Tesalia, con excursiones que requieren salir de la ciudad.",
+      "Pagasetic Gulf walks and Thessalian heritage form a base for excursions outside the city.",
+      "Promenades au bord du golfe Pagasétique et patrimoine thessalien, avec des excursions hors de la ville.",
+      "Spaziergänge am Pagasitischen Golf und thessalisches Kulturerbe bilden eine Basis für Ausflüge außerhalb der Stadt.",
+      "Passeggiate sul golfo Pagaseo e patrimonio della Tessaglia, con escursioni che richiedono spostamenti fuori città.",
+      "Passeios junto ao golfo Pagasético e património da Tessália, com excursões que exigem sair da cidade.",
+      "Passejades vora el golf Pagasètic i patrimoni de Tessàlia, amb excursions que requereixen sortir de la ciutat."
+    ],
+    "recommendations": [
+      [
+        "Paseo marítimo de Volos",
+        "Volos waterfront",
+        "Front de mer de Volos",
+        "Uferpromenade von Volos",
+        "Lungomare di Volos",
+        "Passeio marítimo de Volos",
+        "Passeig marítim de Volos"
+      ],
+      [
+        "Museo Arqueológico Athanasakeio",
+        "Athanasakeio Archaeological Museum",
+        "Musée archéologique Athanasakeio",
+        "Archäologisches Museum Athanasakeio",
+        "Museo archeologico Athanasakeio",
+        "Museu Arqueológico Athanasakeio",
+        "Museu Arqueològic Athanasakeio"
+      ],
+      [
+        "Yacimiento de Sesklo",
+        "Sesklo archaeological site",
+        "Site archéologique de Sesklo",
+        "Ausgrabungsstätte Sesklo",
+        "Sito archeologico di Sesklo",
+        "Sítio arqueológico de Sesklo",
+        "Jaciment de Sesklo"
+      ],
+      [
+        "Yacimiento de Dimini",
+        "Dimini archaeological site",
+        "Site archéologique de Dimini",
+        "Ausgrabungsstätte Dimini",
+        "Sito archeologico di Dimini",
+        "Sítio arqueológico de Dimini",
+        "Jaciment de Dimini"
+      ]
+    ],
+    "notes": [
+      "Llegada por VOL, fuera del centro urbano. Prevé el traslado terrestre y comprueba vuelos, transporte y horarios para tus fechas: la oferta puede ser limitada o estacional. Las excursiones fuera de la ciudad requieren desplazamientos adicionales.",
+      "Arrive via VOL, outside the city centre. Allow for ground transport and check flights, transport and opening times for your dates: service may be limited or seasonal. Excursions outside town require additional travel.",
+      "Arrivée par VOL, hors du centre-ville. Prévoyez le transfert et vérifiez vols, transports et horaires pour vos dates : l’offre peut être limitée ou saisonnière. Les excursions hors de la ville nécessitent des trajets supplémentaires.",
+      "Anreise über VOL außerhalb des Stadtzentrums. Landtransfer planen und Flüge, Verkehr sowie Öffnungszeiten prüfen: das Angebot kann begrenzt oder saisonal sein. Ausflüge außerhalb der Stadt erfordern zusätzliche Fahrten.",
+      "Arrivo tramite VOL, fuori dal centro urbano. Prevedi il trasferimento e verifica voli, trasporti e orari per le tue date: l’offerta può essere limitata o stagionale. Le escursioni fuori città richiedono ulteriori spostamenti.",
+      "Chegada por VOL, fora do centro urbano. Preveja o transporte terrestre e confirme voos, transportes e horários para as suas datas: a oferta pode ser limitada ou sazonal. As excursões fora da cidade exigem deslocações adicionais.",
+      "Arribada per VOL, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
+    ],
+    "photo": [
+      "Volos waterfront.jpg",
+      "a6",
+      "Khane Rokhl Barazani",
+      "CC BY-SA 4.0",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
+    ]
+  },
+  {
+    "slug": "sitia",
+    "code": "JSH",
+    "airport": "Sitia Airport",
+    "town": "Sitia",
+    "stay": "3–4",
+    "aliases": [
+      "Sitia",
+      "Sitía",
+      "Sítia",
+      "Siteia",
+      "Σητεία"
+    ],
+    "names": [
+      "Sitia",
+      "Sitia",
+      "Sitia",
+      "Sitia",
+      "Sitia",
+      "Sítia",
+      "Sitia"
+    ],
+    "descriptions": [
+      "Puerto cretense, fortaleza veneciana y paisajes del este de Creta, con tiempo para los desplazamientos por la región.",
+      "A Cretan harbour, Venetian fortress and eastern Crete scenery reward time for regional journeys.",
+      "Port crétois, forteresse vénitienne et paysages de l’est de la Crète, en prévoyant les déplacements régionaux.",
+      "Kretischer Hafen, venezianische Festung und Ostkretas Landschaften lohnen Zeit für regionale Fahrten.",
+      "Porto cretese, fortezza veneziana e paesaggi di Creta orientale, prevedendo tempo per gli spostamenti.",
+      "Porto cretense, fortaleza veneziana e paisagens do leste de Creta, com tempo para as deslocações.",
+      "Port cretenc, fortalesa veneciana i paisatges de l’est de Creta, amb temps per als desplaçaments regionals."
+    ],
+    "recommendations": [
+      [
+        "Puerto de Sitia",
+        "Sitia harbour",
+        "Port de Sitia",
+        "Hafen von Sitia",
+        "Porto di Sitia",
+        "Porto de Sítia",
+        "Port de Sitia"
+      ],
+      [
+        "Fortaleza Kazarma",
+        "Kazarma fortress",
+        "Forteresse Kazarma",
+        "Festung Kazarma",
+        "Fortezza Kazarma",
+        "Fortaleza Kazarma",
+        "Fortalesa Kazarma"
+      ],
+      [
+        "Museo Arqueológico de Sitia",
+        "Archaeological Museum of Sitia",
+        "Musée archéologique de Sitia",
+        "Archäologisches Museum Sitia",
+        "Museo archeologico di Sitia",
+        "Museu Arqueológico de Sítia",
+        "Museu Arqueològic de Sitia"
+      ],
+      [
+        "Palmeral de Vai",
+        "Vai palm grove",
+        "Palmeraie de Vai",
+        "Palmenhain von Vai",
+        "Palmeto di Vai",
+        "Palmeiral de Vai",
+        "Palmerar de Vai"
+      ]
+    ],
+    "notes": [
+      "Llegada por JSH. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via JSH. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par JSH. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über JSH. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite JSH. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por JSH. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per JSH. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "SITIA-HARBOUR-NIGHT-12.jpg",
+      "bb",
+      "Petro Stelte",
+      "CC BY-SA 4.0",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
+    ]
+  },
+  {
+    "slug": "syros",
+    "code": "JSY",
+    "airport": "Syros Airport",
+    "town": "Ermoupoli (Syros)",
+    "stay": "3–4",
+    "aliases": [
+      "Syros",
+      "Siros",
+      "Siro",
+      "Ermoupoli",
+      "Ermoupolis",
+      "Hermoupolis",
+      "Σύρος"
+    ],
+    "names": [
+      "Siros",
+      "Syros",
+      "Syros",
+      "Syros",
+      "Siro",
+      "Siros",
+      "Siros"
+    ],
+    "descriptions": [
+      "Arquitectura neoclásica de Ermúpoli y callejuelas de Ano Syros para descubrir una isla con patrimonio urbano.",
+      "Ermoupoli’s neoclassical architecture and Ano Syros lanes reveal an island with distinctive urban heritage.",
+      "Architecture néoclassique d’Ermoupoli et ruelles d’Ano Syros pour découvrir un patrimoine urbain insulaire.",
+      "Ermoupolis neoklassische Architektur und Ano Syros’ Gassen erschließen städtisches Kulturerbe auf einer Insel.",
+      "Architettura neoclassica di Ermoupoli e vicoli di Ano Syros per scoprire il patrimonio urbano dell’isola.",
+      "Arquitetura neoclássica de Ermúpoli e ruelas de Ano Syros para descobrir o património urbano da ilha.",
+      "Arquitectura neoclàssica d’Ermúpoli i carrerons d’Ano Syros per descobrir el patrimoni urbà de l’illa."
+    ],
+    "recommendations": [
+      [
+        "Plaza Miaouli",
+        "Miaouli Square",
+        "Place Miaouli",
+        "Miaouli-Platz",
+        "Piazza Miaouli",
+        "Praça Miaouli",
+        "Plaça Miaouli"
+      ],
+      [
+        "Teatro Apollon",
+        "Apollon Theatre",
+        "Théâtre Apollon",
+        "Apollon-Theater",
+        "Teatro Apollon",
+        "Teatro Apollon",
+        "Teatre Apollon"
+      ],
+      [
+        "Ano Syros",
+        "Ano Syros",
+        "Ano Syros",
+        "Ano Syros",
+        "Ano Syros",
+        "Ano Syros",
+        "Ano Syros"
+      ],
+      [
+        "Puerto de Ermúpoli",
+        "Ermoupoli harbour",
+        "Port d’Ermoupoli",
+        "Hafen von Ermoupoli",
+        "Porto di Ermoupoli",
+        "Porto de Ermúpoli",
+        "Port d’Ermúpoli"
+      ]
+    ],
+    "notes": [
+      "Llegada por JSY. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via JSY. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par JSY. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über JSY. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite JSY. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por JSY. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per JSY. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "View of Ermoupoli (Syros island) from a ferry boat 2.jpg",
+      "38",
+      "Leeturtle",
+      "CC BY-SA 4.0",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
+    ]
+  },
+  {
+    "slug": "astypalaia",
+    "code": "JTY",
+    "airport": "Astypalaia Airport",
+    "town": "Chora (Astypalaia)",
+    "stay": "3–4",
+    "aliases": [
+      "Astypalaia",
+      "Astypalea",
+      "Astipalea",
+      "Astypalée",
+      "Astipaleia",
+      "Stampalia",
+      "Astropalia",
+      "Chora Astypalaia",
+      "Αστυπάλαια"
+    ],
+    "names": [
+      "Astipalea",
+      "Astypalaia",
+      "Astypalée",
+      "Astypalea",
+      "Stampalia",
+      "Astipaleia",
+      "Astipàlea"
+    ],
+    "descriptions": [
+      "Casas blancas, molinos y un castillo sobre Chora para descubrir una isla entre las Cícladas y el Dodecaneso.",
+      "Whitewashed houses, windmills and a castle above Chora reveal an island between the Cyclades and Dodecanese.",
+      "Maisons blanches, moulins et château dominant Chora révèlent une île entre Cyclades et Dodécanèse.",
+      "Weiße Häuser, Windmühlen und eine Burg über Chora erschließen eine Insel zwischen Kykladen und Dodekanes.",
+      "Case bianche, mulini e un castello sopra Chora raccontano un’isola tra Cicladi e Dodecaneso.",
+      "Casas brancas, moinhos e um castelo sobre Chora revelam uma ilha entre as Cíclades e o Dodecaneso.",
+      "Cases blanques, molins i un castell sobre Khora per descobrir una illa entre les Cíclades i el Dodecanès."
+    ],
+    "recommendations": [
+      [
+        "Chora de Astipalea",
+        "Chora of Astypalaia",
+        "Chora d’Astypalée",
+        "Chora von Astypalea",
+        "Chora di Stampalia",
+        "Chora de Astipaleia",
+        "Khora d’Astipàlea"
+      ],
+      [
+        "Castillo de Querini",
+        "Querini Castle",
+        "Château de Querini",
+        "Querini-Burg",
+        "Castello Querini",
+        "Castelo de Querini",
+        "Castell de Querini"
+      ],
+      [
+        "Molinos de Chora",
+        "Chora windmills",
+        "Moulins de Chora",
+        "Windmühlen von Chora",
+        "Mulini di Chora",
+        "Moinhos de Chora",
+        "Molins de Khora"
+      ],
+      [
+        "Livadi",
+        "Livadi",
+        "Livadi",
+        "Livadi",
+        "Livadi",
+        "Livadi",
+        "Livadi"
+      ]
+    ],
+    "notes": [
+      "Llegada por JTY. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via JTY. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par JTY. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über JTY. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite JTY. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por JTY. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per JTY. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "Chora and Castle. Astypalaia, Greece.jpg",
+      "ce",
+      "Ввласенко",
+      "CC BY-SA 3.0",
+      "https://creativecommons.org/licenses/by-sa/3.0/"
+    ]
+  },
+  {
+    "slug": "kalymnos",
+    "code": "JKL",
+    "airport": "Kalymnos Airport",
+    "town": "Pothia (Kalymnos)",
+    "stay": "4–5",
+    "aliases": [
+      "Kalymnos",
+      "Kálimnos",
+      "Calimnos",
+      "Calino",
+      "Cálimnos",
+      "Pothia",
+      "Póthia",
+      "Κάλυμνος"
+    ],
+    "names": [
+      "Kálimnos",
+      "Kalymnos",
+      "Kalymnos",
+      "Kalymnos",
+      "Calino",
+      "Cálimnos",
+      "Kàlimnos"
+    ],
+    "descriptions": [
+      "Puerto de Pothia, tradición de los pescadores de esponjas y pueblos entre montañas y costa.",
+      "Pothia’s harbour, sponge-diving heritage and villages lie between mountains and coastline.",
+      "Port de Pothia, patrimoine des pêcheurs d’éponges et villages entre montagnes et littoral.",
+      "Pothias Hafen, Schwammtauchertradition und Dörfer zwischen Bergen und Küste prägen die Insel.",
+      "Porto di Pothia, tradizione dei pescatori di spugne e paesi tra montagne e costa.",
+      "Porto de Pothia, tradição dos pescadores de esponjas e aldeias entre montanhas e costa.",
+      "Port de Pothia, tradició dels pescadors d’esponges i pobles entre muntanyes i costa."
+    ],
+    "recommendations": [
+      [
+        "Pothia",
+        "Pothia",
+        "Pothia",
+        "Pothia",
+        "Pothia",
+        "Pothia",
+        "Pothia"
+      ],
+      [
+        "Chorio",
+        "Chorio",
+        "Chorio",
+        "Chorio",
+        "Chorio",
+        "Chorio",
+        "Chorio"
+      ],
+      [
+        "Vathy",
+        "Vathy",
+        "Vathy",
+        "Vathy",
+        "Vathy",
+        "Vathy",
+        "Vathy"
+      ],
+      [
+        "Panagia Charitomeni",
+        "Panagia Charitomeni",
+        "Panagia Charitomeni",
+        "Panagia Charitomeni",
+        "Panagia Charitomeni",
+        "Panagia Charitomeni",
+        "Panagia Charitomeni"
+      ]
+    ],
+    "notes": [
+      "Llegada por JKL. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via JKL. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par JKL. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über JKL. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite JKL. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por JKL. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per JKL. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "Calymnos harbour.jpg",
+      "c5",
+      "Κ. Καλογερόπουλος Kalogeropoulos at Greek Wikipedia",
+      "CC BY-SA 3.0",
+      "https://creativecommons.org/licenses/by-sa/3.0/",
+      "https://upload.wikimedia.org/wikipedia/commons/c/c5/Calymnos_harbour.jpg"
+    ]
+  },
+  {
+    "slug": "kasos",
+    "code": "KSJ",
+    "airport": "Kasos Airport",
+    "town": "Fry (Kasos)",
+    "stay": "2–3",
+    "aliases": [
+      "Kasos",
+      "Casos",
+      "Cassos",
+      "Caso",
+      "Fry",
+      "Fri Kasos",
+      "Κάσος"
+    ],
+    "names": [
+      "Kasos",
+      "Kasos",
+      "Cassos",
+      "Kasos",
+      "Caso",
+      "Casos",
+      "Kasos"
+    ],
+    "descriptions": [
+      "El pequeño puerto de Fry y los pueblos tradicionales permiten descubrir el patrimonio marinero de Kasos.",
+      "Fry’s small harbour and traditional villages introduce Kasos’s seafaring heritage.",
+      "Le petit port de Fry et les villages traditionnels révèlent le patrimoine maritime de Cassos.",
+      "Frys kleiner Hafen und traditionelle Dörfer erschließen das maritime Erbe von Kasos.",
+      "Il piccolo porto di Fry e i paesi tradizionali raccontano il patrimonio marinaro di Caso.",
+      "O pequeno porto de Fry e as aldeias tradicionais revelam o património marítimo de Casos.",
+      "El petit port de Fry i els pobles tradicionals permeten descobrir el patrimoni mariner de Kasos."
+    ],
+    "recommendations": [
+      [
+        "Fry",
+        "Fry",
+        "Fry",
+        "Fry",
+        "Fry",
+        "Fry",
+        "Fry"
+      ],
+      [
+        "Puerto de Bouka",
+        "Bouka harbour",
+        "Port de Bouka",
+        "Hafen von Bouka",
+        "Porticciolo di Bouka",
+        "Porto de Bouka",
+        "Port de Bouka"
+      ],
+      [
+        "Emporios",
+        "Emporios",
+        "Emporios",
+        "Emporios",
+        "Emporios",
+        "Emporios",
+        "Emporios"
+      ],
+      [
+        "Panagia",
+        "Panagia",
+        "Panagia",
+        "Panagia",
+        "Panagia",
+        "Panagia",
+        "Panagia"
+      ]
+    ],
+    "notes": [
+      "Llegada por KSJ. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via KSJ. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par KSJ. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über KSJ. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite KSJ. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por KSJ. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per KSJ. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "Kasos veduta del porticciolo.jpg",
+      "12",
+      "Luca Aless",
+      "CC0 1.0",
+      "https://creativecommons.org/publicdomain/zero/1.0/"
+    ]
+  },
+  {
+    "slug": "kastellorizo",
+    "code": "KZS",
+    "airport": "Kastellorizo Airport",
+    "town": "Megisti (Kastellorizo)",
+    "stay": "2–3",
+    "aliases": [
+      "Kastellorizo",
+      "Kastelorizo",
+      "Castelórizo",
+      "Castellorizo",
+      "Castelrosso",
+      "Megisti",
+      "Μεγίστη",
+      "Καστελλόριζο"
+    ],
+    "names": [
+      "Castelórizo",
+      "Kastellorizo",
+      "Castellorizo",
+      "Kastellorizo",
+      "Castelrosso",
+      "Castelorizo",
+      "Castellorizo"
+    ],
+    "descriptions": [
+      "Fachadas de colores, puerto recogido y patrimonio insular en el extremo oriental del Dodecaneso.",
+      "Colourful waterfront houses, a sheltered harbour and island heritage mark the eastern Dodecanese.",
+      "Façades colorées, port abrité et patrimoine insulaire à l’extrémité orientale du Dodécanèse.",
+      "Bunte Uferhäuser, ein geschützter Hafen und Inselkulturerbe prägen den östlichen Dodekanes.",
+      "Facciate colorate, porto raccolto e patrimonio insulare all’estremità orientale del Dodecaneso.",
+      "Fachadas coloridas, porto abrigado e património insular no extremo oriental do Dodecaneso.",
+      "Façanes de colors, port arrecerat i patrimoni insular a l’extrem oriental del Dodecanès."
+    ],
+    "recommendations": [
+      [
+        "Paseo del puerto de Megisti",
+        "Megisti harbour waterfront",
+        "Front de mer de Megisti",
+        "Uferpromenade von Megisti",
+        "Lungomare di Megisti",
+        "Passeio do porto de Megisti",
+        "Passeig del port de Megisti"
+      ],
+      [
+        "Castello Rosso",
+        "Castello Rosso",
+        "Castello Rosso",
+        "Castello Rosso",
+        "Castello Rosso",
+        "Castello Rosso",
+        "Castello Rosso"
+      ],
+      [
+        "Tumba licia",
+        "Lycian tomb",
+        "Tombe lycienne",
+        "Lykisches Grab",
+        "Tomba licia",
+        "Túmulo lício",
+        "Tomba lícia"
+      ],
+      [
+        "Cueva Azul",
+        "Blue Cave",
+        "Grotte bleue",
+        "Blaue Grotte",
+        "Grotta Azzurra",
+        "Gruta Azul",
+        "Cova Blava"
+      ]
+    ],
+    "notes": [
+      "Llegada por KZS. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional. La Cueva Azul requiere una excursión en barco sujeta al tiempo y al estado del mar.",
+      "Arrive via KZS. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal. The Blue Cave requires a boat excursion subject to weather and sea conditions.",
+      "Arrivée par KZS. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier. La Grotte bleue nécessite une excursion en bateau selon la météo et l’état de la mer.",
+      "Anreise über KZS. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein. Die Blaue Grotte erfordert einen Bootsausflug abhängig von Wetter und Seegang.",
+      "Arrivo tramite KZS. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale. La Grotta Azzurra richiede un’escursione in barca soggetta al tempo e alle condizioni del mare.",
+      "Chegada por KZS. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal. A Gruta Azul exige uma excursão de barco sujeita ao tempo e ao estado do mar.",
+      "Arribada per KZS. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional. La Cova Blava requereix una excursió en barca subjecta al temps i a l’estat del mar."
+    ],
+    "photo": [
+      "Kastellorizo harbour.jpg",
+      "14",
+      "TU-nor",
+      "CC BY-SA 4.0",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
+    ]
+  },
+  {
+    "slug": "kastoria",
+    "code": "KSO",
+    "airport": "Kastoria Airport",
+    "town": "Kastoria",
+    "stay": "2–3",
+    "aliases": [
+      "Kastoria",
+      "Kastoriá",
+      "Castoria",
+      "Καστοριά"
+    ],
+    "names": [
+      "Kastoria",
+      "Kastoria",
+      "Kastoria",
+      "Kastoria",
+      "Kastoria",
+      "Kastoria",
+      "Kastoria"
+    ],
+    "descriptions": [
+      "Lago Orestiada, barrios históricos y patrimonio bizantino para pasear por una ciudad de Macedonia occidental.",
+      "Lake Orestiada, historic quarters and Byzantine heritage invite walks through a western Macedonian city.",
+      "Lac Orestiada, quartiers historiques et patrimoine byzantin pour flâner dans une ville de Macédoine occidentale.",
+      "Orestiada-See, historische Viertel und byzantinisches Erbe laden zu Spaziergängen in Westmakedonien ein.",
+      "Lago Orestiada, quartieri storici e patrimonio bizantino per passeggiare in una città della Macedonia occidentale.",
+      "Lago Orestiada, bairros históricos e património bizantino para passear numa cidade da Macedónia Ocidental.",
+      "Llac Orestiada, barris històrics i patrimoni bizantí per passejar per una ciutat de Macedònia occidental."
+    ],
+    "recommendations": [
+      [
+        "Paseo del lago Orestiada",
+        "Lake Orestiada promenade",
+        "Promenade du lac Orestiada",
+        "Promenade am Orestiada-See",
+        "Lungolago Orestiada",
+        "Passeio do lago Orestiada",
+        "Passeig del llac Orestiada"
+      ],
+      [
+        "Doltso",
+        "Doltso",
+        "Doltso",
+        "Doltso",
+        "Doltso",
+        "Doltso",
+        "Doltso"
+      ],
+      [
+        "Apozari",
+        "Apozari",
+        "Apozari",
+        "Apozari",
+        "Apozari",
+        "Apozari",
+        "Apozari"
+      ],
+      [
+        "Museo Bizantino de Kastoria",
+        "Byzantine Museum of Kastoria",
+        "Musée byzantin de Kastoria",
+        "Byzantinisches Museum Kastoria",
+        "Museo bizantino di Kastoria",
+        "Museu Bizantino de Kastoria",
+        "Museu Bizantí de Kastoria"
+      ]
+    ],
+    "notes": [
+      "Llegada por KSO, fuera del centro urbano. Prevé el traslado terrestre y comprueba vuelos, transporte y horarios para tus fechas: la oferta puede ser limitada o estacional. Las excursiones fuera de la ciudad requieren desplazamientos adicionales.",
+      "Arrive via KSO, outside the city centre. Allow for ground transport and check flights, transport and opening times for your dates: service may be limited or seasonal. Excursions outside town require additional travel.",
+      "Arrivée par KSO, hors du centre-ville. Prévoyez le transfert et vérifiez vols, transports et horaires pour vos dates : l’offre peut être limitée ou saisonnière. Les excursions hors de la ville nécessitent des trajets supplémentaires.",
+      "Anreise über KSO außerhalb des Stadtzentrums. Landtransfer planen und Flüge, Verkehr sowie Öffnungszeiten prüfen: das Angebot kann begrenzt oder saisonal sein. Ausflüge außerhalb der Stadt erfordern zusätzliche Fahrten.",
+      "Arrivo tramite KSO, fuori dal centro urbano. Prevedi il trasferimento e verifica voli, trasporti e orari per le tue date: l’offerta può essere limitata o stagionale. Le escursioni fuori città richiedono ulteriori spostamenti.",
+      "Chegada por KSO, fora do centro urbano. Preveja o transporte terrestre e confirme voos, transportes e horários para as suas datas: a oferta pode ser limitada ou sazonal. As excursões fora da cidade exigem deslocações adicionais.",
+      "Arribada per KSO, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
+    ],
+    "photo": [
+      "Lake Orestiada and city of Kastoria.jpg",
+      "7f",
+      "Ioannis Fakis",
+      "CC BY-SA 4.0",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
+    ]
+  },
+  {
+    "slug": "kozani",
+    "code": "KZI",
+    "airport": "Kozani Airport",
+    "town": "Kozani",
+    "stay": "2–3",
+    "aliases": [
+      "Kozani",
+      "Kozane",
+      "Κοζάνη"
+    ],
+    "names": [
+      "Kozani",
+      "Kozani",
+      "Kozani",
+      "Kozani",
+      "Kozani",
+      "Kozani",
+      "Kozani"
+    ],
+    "descriptions": [
+      "Plaza central, patrimonio local y colecciones culturales para conocer una ciudad de Macedonia occidental.",
+      "A central square, local heritage and cultural collections introduce a western Macedonian city.",
+      "Place centrale, patrimoine local et collections culturelles pour découvrir une ville de Macédoine occidentale.",
+      "Zentraler Platz, lokales Erbe und Kultursammlungen erschließen eine Stadt in Westmakedonien.",
+      "Piazza centrale, patrimonio locale e collezioni culturali per conoscere una città della Macedonia occidentale.",
+      "Praça central, património local e coleções culturais para conhecer uma cidade da Macedónia Ocidental.",
+      "Plaça central, patrimoni local i col·leccions culturals per conèixer una ciutat de Macedònia occidental."
+    ],
+    "recommendations": [
+      [
+        "Plaza Nikis",
+        "Nikis Square",
+        "Place Nikis",
+        "Nikis-Platz",
+        "Piazza Nikis",
+        "Praça Nikis",
+        "Plaça Nikis"
+      ],
+      [
+        "Iglesia de Agios Nikolaos",
+        "Agios Nikolaos church",
+        "Église Agios Nikolaos",
+        "Kirche Agios Nikolaos",
+        "Chiesa di Agios Nikolaos",
+        "Igreja de Agios Nikolaos",
+        "Església d’Agios Nikolaos"
+      ],
+      [
+        "Biblioteca Municipal Koventareios",
+        "Koventareios Municipal Library",
+        "Bibliothèque municipale Koventareios",
+        "Stadtbibliothek Koventareios",
+        "Biblioteca comunale Koventareios",
+        "Biblioteca Municipal Koventareios",
+        "Biblioteca Municipal Koventareios"
+      ],
+      [
+        "Colección Arqueológica de Kozani",
+        "Archaeological Collection of Kozani",
+        "Collection archéologique de Kozani",
+        "Archäologische Sammlung Kozani",
+        "Collezione archeologica di Kozani",
+        "Coleção Arqueológica de Kozani",
+        "Col·lecció Arqueològica de Kozani"
+      ]
+    ],
+    "notes": [
+      "Llegada por KZI, fuera del centro urbano. Prevé el traslado terrestre y comprueba vuelos, transporte y horarios para tus fechas: la oferta puede ser limitada o estacional. Las excursiones fuera de la ciudad requieren desplazamientos adicionales.",
+      "Arrive via KZI, outside the city centre. Allow for ground transport and check flights, transport and opening times for your dates: service may be limited or seasonal. Excursions outside town require additional travel.",
+      "Arrivée par KZI, hors du centre-ville. Prévoyez le transfert et vérifiez vols, transports et horaires pour vos dates : l’offre peut être limitée ou saisonnière. Les excursions hors de la ville nécessitent des trajets supplémentaires.",
+      "Anreise über KZI außerhalb des Stadtzentrums. Landtransfer planen und Flüge, Verkehr sowie Öffnungszeiten prüfen: das Angebot kann begrenzt oder saisonal sein. Ausflüge außerhalb der Stadt erfordern zusätzliche Fahrten.",
+      "Arrivo tramite KZI, fuori dal centro urbano. Prevedi il trasferimento e verifica voli, trasporti e orari per le tue date: l’offerta può essere limitata o stagionale. Le escursioni fuori città richiedono ulteriori spostamenti.",
+      "Chegada por KZI, fora do centro urbano. Preveja o transporte terrestre e confirme voos, transportes e horários para as suas datas: a oferta pode ser limitada ou sazonal. As excursões fora da cidade exigem deslocações adicionais.",
+      "Arribada per KZI, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
+    ],
+    "photo": [
+      "Kozani new square - Flickr - Nick-K (Nikos Koutoulas).jpg",
+      "dd",
+      "Nikos Koutoulas from Kozani, Greece",
+      "CC BY 2.0",
+      "https://creativecommons.org/licenses/by/2.0/"
+    ]
+  },
+  {
+    "slug": "kythira",
+    "code": "KIT",
+    "airport": "Kythira Airport",
+    "town": "Chora (Kythira)",
+    "stay": "4–5",
+    "aliases": [
+      "Kythira",
+      "Kithira",
+      "Kythera",
+      "Cythera",
+      "Citera",
+      "Cítera",
+      "Cythère",
+      "Cerigo",
+      "Tsirigo",
+      "Chora Kythira",
+      "Κύθηρα"
+    ],
+    "names": [
+      "Citera",
+      "Kythira",
+      "Cythère",
+      "Kythira",
+      "Cerigo",
+      "Cítera",
+      "Cítera"
+    ],
+    "descriptions": [
+      "Chora, castillos y pueblos de influencias venecianas para recorrer una isla entre el mar Jónico y el Egeo.",
+      "Chora, castles and Venetian-influenced villages invite exploration between the Ionian and Aegean seas.",
+      "Chora, châteaux et villages aux influences vénitiennes pour explorer une île entre mer Ionienne et Égée.",
+      "Chora, Burgen und venezianisch geprägte Dörfer laden zur Inselerkundung zwischen Ionischem Meer und Ägäis ein.",
+      "Chora, castelli e paesi dalle influenze veneziane per esplorare un’isola tra mar Ionio ed Egeo.",
+      "Chora, castelos e aldeias de influências venezianas para explorar uma ilha entre o mar Jónico e o Egeu.",
+      "Khora, castells i pobles d’influències venecianes per recórrer una illa entre el mar Jònic i l’Egeu."
+    ],
+    "recommendations": [
+      [
+        "Chora de Citera",
+        "Chora of Kythira",
+        "Chora de Cythère",
+        "Chora von Kythira",
+        "Chora di Cerigo",
+        "Chora de Cítera",
+        "Khora de Cítera"
+      ],
+      [
+        "Castillo de Chora",
+        "Chora Castle",
+        "Château de Chora",
+        "Burg von Chora",
+        "Castello di Chora",
+        "Castelo de Chora",
+        "Castell de Khora"
+      ],
+      [
+        "Kapsali",
+        "Kapsali",
+        "Kapsali",
+        "Kapsali",
+        "Kapsali",
+        "Kapsali",
+        "Kapsali"
+      ],
+      [
+        "Mylopotamos",
+        "Mylopotamos",
+        "Mylopotamos",
+        "Mylopotamos",
+        "Mylopotamos",
+        "Mylopotamos",
+        "Mylopotamos"
+      ]
+    ],
+    "notes": [
+      "Llegada por KIT. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via KIT. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par KIT. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über KIT. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite KIT. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por KIT. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per KIT. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "Kythira - Hora 1.jpg",
+      "5c",
+      "Ingo Mehling",
+      "CC BY-SA 3.0",
+      "https://creativecommons.org/licenses/by-sa/3.0/"
+    ]
+  },
+  {
+    "slug": "skyros",
+    "code": "SKU",
+    "airport": "Skyros Airport",
+    "town": "Chora (Skyros)",
+    "stay": "3–4",
+    "aliases": [
+      "Skyros",
+      "Skiros",
+      "Esciros",
+      "Sciro",
+      "Esquiro",
+      "Chora Skyros",
+      "Σκύρος"
+    ],
+    "names": [
+      "Esciros",
+      "Skyros",
+      "Skyros",
+      "Skyros",
+      "Sciro",
+      "Esquiro",
+      "Esciros"
+    ],
+    "descriptions": [
+      "Chora sobre la roca, artesanía y costa de las Espóradas para conocer el patrimonio de Esciros.",
+      "Chora on its rocky hill, crafts and Sporades coastline reveal Skyros’s heritage.",
+      "Chora perchée sur son rocher, artisanat et littoral des Sporades pour découvrir le patrimoine de Skyros.",
+      "Chora auf seinem Felsen, Handwerk und Sporadenküsten erschließen das Kulturerbe von Skyros.",
+      "Chora sulla roccia, artigianato e costa delle Sporadi per conoscere il patrimonio di Sciro.",
+      "Chora sobre a rocha, artesanato e costa das Espórades para conhecer o património de Esquiro.",
+      "Khora sobre la roca, artesania i costa de les Espòrades per conèixer el patrimoni d’Esciros."
+    ],
+    "recommendations": [
+      [
+        "Chora de Esciros",
+        "Chora of Skyros",
+        "Chora de Skyros",
+        "Chora von Skyros",
+        "Chora di Sciro",
+        "Chora de Esquiro",
+        "Khora d’Esciros"
+      ],
+      [
+        "Monasterio de Agios Georgios",
+        "Agios Georgios monastery",
+        "Monastère Agios Georgios",
+        "Kloster Agios Georgios",
+        "Monastero di Agios Georgios",
+        "Mosteiro de Agios Georgios",
+        "Monestir d’Agios Georgios"
+      ],
+      [
+        "Museo Faltaits",
+        "Faltaits Museum",
+        "Musée Faltaits",
+        "Faltaits-Museum",
+        "Museo Faltaits",
+        "Museu Faltaits",
+        "Museu Faltaits"
+      ],
+      [
+        "Playa de Molos",
+        "Molos beach",
+        "Plage de Molos",
+        "Strand Molos",
+        "Spiaggia di Molos",
+        "Praia de Molos",
+        "Platja de Molos"
+      ]
+    ],
+    "notes": [
+      "Llegada por SKU. La terminal y la localidad de referencia son lugares distintos. Organiza el traslado terrestre y los desplazamientos por la isla; comprueba vuelos, transportes y horarios para tus fechas. El servicio puede ser limitado o estacional.",
+      "Arrive via SKU. The terminal and reference town are separate places. Arrange ground transport and journeys around the island; check flights, transport and opening times for your dates. Service may be limited or seasonal.",
+      "Arrivée par SKU. Le terminal et la localité de référence sont distincts. Prévoyez le transfert terrestre et les trajets sur l’île ; vérifiez vols, transports et horaires pour vos dates. Le service peut être limité ou saisonnier.",
+      "Anreise über SKU. Terminal und Bezugsort sind getrennte Orte. Landtransfer und Inselfahrten planen; Flüge, Verkehr und Öffnungszeiten für die Reisedaten prüfen. Das Angebot kann begrenzt oder saisonal sein.",
+      "Arrivo tramite SKU. Il terminal e la località di riferimento sono luoghi distinti. Organizza il trasferimento e gli spostamenti sull’isola; verifica voli, trasporti e orari per le tue date. Il servizio può essere limitato o stagionale.",
+      "Chegada por SKU. O terminal e a localidade de referência são lugares distintos. Organize o transporte terrestre e as deslocações pela ilha; confirme voos, transportes e horários para as suas datas. O serviço pode ser limitado ou sazonal.",
+      "Arribada per SKU. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
+    ],
+    "photo": [
+      "Skyros-chora.JPG",
+      "ce",
+      "Han borg",
+      "Public domain",
+      "https://creativecommons.org/publicdomain/mark/1.0/"
+    ]
   }
 ];
 export const greeceAirportCoverage: DestinationProfile[] = seeds.map(seed => {
@@ -732,7 +2140,7 @@ export const greeceAirportCoverage: DestinationProfile[] = seeds.map(seed => {
   return {id:'gr-'+seed.slug,slug:seed.slug,countryCode:'GR',country:'Grecia',...translations.es,translations,
     airports:[{iataCode:seed.code}],iataCodes:[seed.code],metropolitanCodes:[],
     aliases:Array.from(new Set([...Object.values(names),...seed.aliases])),
-    image:'https://thumb.wikimedia.org/wikipedia/commons/thumb/'+hash[0]+'/'+hash+'/'+encoded+'/960px-'+encoded,
+    image:seed.photo[5] ?? 'https://thumb.wikimedia.org/wikipedia/commons/thumb/'+hash[0]+'/'+hash+'/'+encoded+'/960px-'+encoded,
     imageSource:'https://commons.wikimedia.org/wiki/File:'+encoded,imageCredit:credit,
     imageLicense:license,imageLicenseUrl:licenseUrl,
     bestMonths:[5,6,9],lowSeasonMonths:[1,2,11],highSeasonMonths:[7,8],publication:{status:'draft'},

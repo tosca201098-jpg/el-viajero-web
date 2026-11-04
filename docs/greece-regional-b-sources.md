@@ -1,5 +1,7 @@
 # Grecia: segundo lote de ampliación de aeropuertos
 
+Este informe conserva el estado de su lote. La cobertura actual completa de 39 aeropuertos revisados se documenta en [greece-final-coverage.md](greece-final-coverage.md).
+
 Revisión: 4 de noviembre de 2026. Continuación de la PR #42, sobre sus diecisiete fichas griegas. Se añaden seis destinos, sin cambiar los 226 perfiles anteriores ni sus fotografías: **23 fichas griegas y 232 perfiles en esta rama**. Este lote no declara Grecia terminada ni impone un máximo de fichas por país.
 
 ## Identidad y selección
