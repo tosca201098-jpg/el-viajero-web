@@ -6,6 +6,12 @@ export { greeceAirportTown } from '@/lib/destinations/greece-airport-towns';
 // The rest of Greece’s public commercial airport network remains under review.
 // The code/airport association does not promise a route, flight or price.
 const names: Readonly<Record<string, string>> = {
+  PAS: "Paros Airport",
+  JNX: "Naxos Airport",
+  MLO: "Milos Airport",
+  JKH: "Chios — Omiros",
+  AOK: "Karpathos Airport",
+  AXD: "Alexandroupolis — Dimokritos",
   KVA: 'Kavala — Alexander the Great', MJT: 'Mytilene — Odysseas Elytis',
   ATH: 'Athens — Eleftherios Venizelos', SKG: 'Thessaloniki — Makedonia',
   HER: 'Heraklion — Nikos Kazantzakis', CHQ: 'Chania — Ioannis Daskalogiannis',

@@ -3,6 +3,12 @@ import type { Locale } from '@/lib/i18n/translations';
 const locales: Locale[] = ['es', 'en', 'fr', 'de', 'it', 'pt', 'ca'];
 // Reference towns served by the airport; these labels do not place it in the town centre.
 const towns: Readonly<Record<string, readonly string[]>> = {
+  PAS: ["Parikia","Parikia","Parikia","Parikia","Parikia","Parikia","Parikia"],
+  JNX: ["Ciudad de Naxos (Chora)","Naxos Town (Chora)","Ville de Naxos (Chora)","Naxos-Stadt (Chora)","Città di Nasso (Chora)","Cidade de Naxos (Chora)","Ciutat de Naxos (Khora)"],
+  MLO: ["Adamas (Milos)","Adamas (Milos)","Adamas (Milos)","Adamas (Milos)","Adamas (Milos)","Adamas (Milos)","Adamas (Milos)"],
+  JKH: ["Ciudad de Quíos","Chios Town","Ville de Chios","Chios-Stadt","Città di Chio","Cidade de Quios","Ciutat de Quios"],
+  AOK: ["Pigadia (Karpathos)","Pigadia (Karpathos)","Pigadia (Karpathos)","Pigadia (Karpathos)","Pigadia (Karpathos)","Pigadia (Karpathos)","Pigadia (Karpathos)"],
+  AXD: ["Alejandrópolis","Alexandroupoli","Alexandroúpoli","Alexandroupoli","Alessandropoli","Alexandrópolis","Alexandrúpoli"],
   KVA: ['Kavala','Kavala','Kavala','Kavala','Kavala','Cavala','Kavala'],
   MJT: ['Mitilene','Mytilene','Mytilène','Mytilini','Mitilene','Mitilene','Mitilene'],
   ATH: ['Atenas', 'Athens', 'Athènes', 'Athen', 'Atene', 'Atenas', 'Atenes'],
