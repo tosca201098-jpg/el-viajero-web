@@ -2,9 +2,11 @@ import { greeceDestinations } from '@/lib/destinations/greece';
 import { greeceAirportTownAliases } from '@/lib/destinations/greece-airport-towns';
 export { greeceAirportTown } from '@/lib/destinations/greece-airport-towns';
 
-// Selected fifteen airports by 2025 international passenger traffic; see the documented sources.
+// The original fifteen plus Kavala/Mytilene complete Fraport’s fourteen-airport subset.
+// The rest of Greece’s public commercial airport network remains under review.
 // The code/airport association does not promise a route, flight or price.
 const names: Readonly<Record<string, string>> = {
+  KVA: 'Kavala — Alexander the Great', MJT: 'Mytilene — Odysseas Elytis',
   ATH: 'Athens — Eleftherios Venizelos', SKG: 'Thessaloniki — Makedonia',
   HER: 'Heraklion — Nikos Kazantzakis', CHQ: 'Chania — Ioannis Daskalogiannis',
   RHO: 'Rhodes — Diagoras', CFU: 'Corfu — Ioannis Kapodistrias',

@@ -40,9 +40,9 @@ const slugs = ['budapest','debrecen','szeged','pecs','eger','gyor','sopron','tih
 test('Hungary adds twelve draft profiles to 185 unchanged profiles; editorial pages stay intact', () => {
   assert.equal(before.profiles.length,185);
   assert.deepEqual(Array.from(hungarian,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,224);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,224);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,224);
+  assert.equal(catalog.destinationProfiles.length,226);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,226);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,226);
   assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,15);
   for (const previous of before.profiles) {
     const profile = catalog.getDestinationById(previous.id);

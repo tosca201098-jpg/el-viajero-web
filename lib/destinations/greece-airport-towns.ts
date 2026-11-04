@@ -3,6 +3,8 @@ import type { Locale } from '@/lib/i18n/translations';
 const locales: Locale[] = ['es', 'en', 'fr', 'de', 'it', 'pt', 'ca'];
 // Reference towns served by the airport; these labels do not place it in the town centre.
 const towns: Readonly<Record<string, readonly string[]>> = {
+  KVA: ['Kavala','Kavala','Kavala','Kavala','Kavala','Cavala','Kavala'],
+  MJT: ['Mitilene','Mytilene','Mytilène','Mytilini','Mitilene','Mitilene','Mitilene'],
   ATH: ['Atenas', 'Athens', 'Athènes', 'Athen', 'Atene', 'Atenas', 'Atenes'],
   SKG: ['Tesalónica', 'Thessaloniki', 'Thessalonique', 'Thessaloniki', 'Salonicco', 'Salónica', 'Tessalònica'],
   HER: ['Heraclión', 'Heraklion', 'Héraklion', 'Heraklion', 'Heraklion', 'Heraclião', 'Iràklio'],
