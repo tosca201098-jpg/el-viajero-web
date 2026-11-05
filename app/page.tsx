@@ -8,6 +8,7 @@ import Image from "next/image";
 import voicePanel from "./voice-panel.module.css";
 import AuthDialog from "./components/AuthDialog";
 import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryPlanner";
+import { franceAirports, franceAirportTown } from '@/lib/travelpayouts/france-airports';
 import { greeceAirports, greeceAirportTown } from '@/lib/travelpayouts/greece-airports';
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
 import HeaderAuth from "./components/HeaderAuth";
@@ -1457,13 +1458,13 @@ function abrirPaquete(destino = "") {
               <p className="text-lg leading-8 text-slate-300">
                 {text(selectedDisplay?.description ?? destinoSeleccionado.description)}
               </p>
-              {selectedCatalogProfile?.countryCode === 'GR' && (
+              {(selectedCatalogProfile?.countryCode === 'GR' || (selectedCatalogProfile?.countryCode === 'FR' && selectedCatalogProfile.airports.some(airport => franceAirports.some(item => item.code === airport.iataCode)))) && (
                 <section className="mt-4 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm text-slate-200" aria-label={t('destinations.arrivalAirport')}>
                   <h3 className="font-semibold text-white">✈️ {t('destinations.arrivalAirport')}</h3>
                   {selectedCatalogProfile.airports.map(airport => (
                     <div key={airport.iataCode} className="mt-2">
-                      <p>{greeceAirports.find(item => item.code === airport.iataCode)?.name ?? airport.iataCode} ({airport.iataCode})</p>
-                      <p className="mt-1">{t('destinations.airportTown')}: {greeceAirportTown(airport.iataCode, language)}</p>
+                      <p>{(selectedCatalogProfile.countryCode === 'FR' ? franceAirports : greeceAirports).find(item => item.code === airport.iataCode)?.name ?? airport.iataCode} ({airport.iataCode})</p>
+                      <p className="mt-1">{t('destinations.airportTown')}: {selectedCatalogProfile.countryCode === 'FR' ? franceAirportTown(airport.iataCode, language) : greeceAirportTown(airport.iataCode, language)}</p>
                     </div>
                   ))}
                   <p className="mt-2 text-xs text-slate-400">{t('destinations.airportTownNote')}</p>

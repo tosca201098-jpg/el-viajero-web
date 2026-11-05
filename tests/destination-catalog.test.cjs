@@ -23,7 +23,8 @@ function load(file, dependencies = {}, globals = {}) {
 }
 const spain = load('lib/destinations/spain.ts');
 const portugal = load('lib/destinations/portugal.ts');
-const france = load('lib/destinations/france.ts');
+const franceAirportCoverage = load('lib/destinations/france-airport-coverage.ts', { './france-airport-images': load('lib/destinations/france-airport-images.ts') });
+const france = load('lib/destinations/france.ts', { './france-airport-coverage': franceAirportCoverage });
 const italy = load('lib/destinations/italy.ts', { './italy-images': load('lib/destinations/italy-images.ts') });
 const uk = load('lib/destinations/uk.ts', { './uk-images': load('lib/destinations/uk-images.ts') });
 const germany = load('lib/destinations/germany.ts', { './germany-images': load('lib/destinations/germany-images.ts') });
@@ -54,8 +55,8 @@ test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
   assert.equal(legacyProfiles.length, 65);
   assert.equal(spain.spainDestinations.length, 43);
   assert.equal(portugal.portugalDestinations.length, 22);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 224);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 224);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 232);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 232);
   assert.deepEqual(Array.from(legacyProfiles, d => ({ id: d.id, slug: d.slug })),
     manifest.map(({ id, slug }) => ({ id, slug })));
   for (const destination of legacyProfiles) {

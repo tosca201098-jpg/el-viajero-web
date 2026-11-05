@@ -55,13 +55,13 @@ function endpoint() {
   } };
 }
 
-test('Austria remains intact in the 224-profile catalog without changing any earlier profile or editorial page', () => {
+test('Austria remains intact in the 232-profile catalog without changing any earlier profile or editorial page', () => {
   assert.equal(baseline.profiles.length, 149);
   assert.deepEqual(Array.from(austrian, p => p.slug), expected);
-  assert.equal(catalog.destinationProfiles.length, 224);
-  assert.equal(new Set(catalog.destinationProfiles.map(p => p.id)).size, 224);
-  assert.equal(new Set(catalog.destinationProfiles.map(p => p.slug)).size, 224);
-  assert.deepEqual(Array.from(catalog.destinationProfiles.slice(0, 149), p => p.id), baseline.profiles.map(p => p.id));
+  assert.equal(catalog.destinationProfiles.length, 232);
+  assert.equal(new Set(catalog.destinationProfiles.map(p => p.id)).size, 232);
+  assert.equal(new Set(catalog.destinationProfiles.map(p => p.slug)).size, 232);
+  assert.deepEqual(Array.from(catalog.destinationProfiles.filter(profile => baseline.profiles.some(old => old.id === profile.id)), p => p.id), baseline.profiles.map(p => p.id));
   for (const item of baseline.profiles) assert.equal(digest(catalog.getDestinationById(item.id)), item.sha256, item.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations), baseline.featuredSha256);
   assert.equal(load('lib/destinations/featured.ts').destinations.length, 16);

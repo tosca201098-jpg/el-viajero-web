@@ -1,0 +1,82 @@
+{
+  "montpellier": {
+    "file": "Montpellier Peyrou.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Montpellier_Peyrou.jpg/960px-Montpellier_Peyrou.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Montpellier_Peyrou.jpg",
+    "width": 6000,
+    "height": 3039,
+    "artist": "G.Mannaerts / Wikimedia Commons",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+  },
+  "ajaccio": {
+    "file": "Ajaccio phare citadelle.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Ajaccio_phare_citadelle.jpg/960px-Ajaccio_phare_citadelle.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Ajaccio_phare_citadelle.jpg",
+    "width": 4288,
+    "height": 2052,
+    "artist": "Myrabella",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "bastia": {
+    "file": "Jetée Nord Vieux Port - Bastia (FR2B) - 2021-09-12 - 3.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a9/Jet%C3%A9e_Nord_Vieux_Port_-_Bastia_%28FR2B%29_-_2021-09-12_-_3.jpg/960px-Jet%C3%A9e_Nord_Vieux_Port_-_Bastia_%28FR2B%29_-_2021-09-12_-_3.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Jet%C3%A9e_Nord_Vieux_Port_-_Bastia_(FR2B)_-_2021-09-12_-_3.jpg",
+    "width": 4032,
+    "height": 3024,
+    "artist": "Chabe01",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "biarritz": {
+    "file": "Panorama de la Grande Plage de Biarritz.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Panorama_de_la_Grande_Plage_de_Biarritz.jpg/960px-Panorama_de_la_Grande_Plage_de_Biarritz.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Panorama_de_la_Grande_Plage_de_Biarritz.jpg",
+    "width": 3872,
+    "height": 2592,
+    "artist": "SimonCourtecuisse",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "figari": {
+    "file": "BarrageTalza.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3b/BarrageTalza.jpg/960px-BarrageTalza.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:BarrageTalza.jpg",
+    "width": 3584,
+    "height": 2240,
+    "artist": "TeletubAstyanax",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "brest": {
+    "file": "Brest - Château 20160714.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Brest_-_Ch%C3%A2teau_20160714.jpg/960px-Brest_-_Ch%C3%A2teau_20160714.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Brest_-_Ch%C3%A2teau_20160714.jpg",
+    "width": 5472,
+    "height": 3648,
+    "artist": "Pymouss",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "lourdes": {
+    "file": "Lourdes basilique vue depuis château (1).JPG",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/Lourdes_basilique_vue_depuis_ch%C3%A2teau_%281%29.JPG/960px-Lourdes_basilique_vue_depuis_ch%C3%A2teau_%281%29.JPG",
+    "source": "https://commons.wikimedia.org/wiki/File:Lourdes_basilique_vue_depuis_ch%C3%A2teau_(1).JPG",
+    "width": 3264,
+    "height": 2448,
+    "artist": "Père Igor",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "rennes": {
+    "file": "Vue sud-est de la place du parlement de Bretagne, Rennes, France.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cf/Vue_sud-est_de_la_place_du_parlement_de_Bretagne%2C_Rennes%2C_France.jpg/960px-Vue_sud-est_de_la_place_du_parlement_de_Bretagne%2C_Rennes%2C_France.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Vue_sud-est_de_la_place_du_parlement_de_Bretagne,_Rennes,_France.jpg",
+    "width": 5586,
+    "height": 3724,
+    "artist": "Édouard Hue",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  }
+}

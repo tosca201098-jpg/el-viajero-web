@@ -35,12 +35,12 @@ const codes = ['es','en','fr','de','it','pt','ca'];
 const plain = value => JSON.parse(JSON.stringify(value));
 const byId = id => library.getDestinationById('fr-'+id);
 
-test('France adds exactly twelve canonical identities after the 65 unchanged legacy destinations', () => {
-  assert.equal(france.length,12); assert.equal(library.destinationProfiles.length,224);
-  assert.deepEqual(Array.from(france,d=>d.id), ['paris','nice','lyon','marseille','bordeaux','strasbourg','toulouse','annecy','chamonix','mont-saint-michel','nantes','lille'].map(s=>'fr-'+s));
+test('France keeps its original twelve identities and adds eight airport cities', () => {
+  assert.equal(france.length,20); assert.equal(library.destinationProfiles.length,232);
+  assert.deepEqual(Array.from(france,d=>d.id), ['paris','nice','lyon','marseille','bordeaux','strasbourg','toulouse','annecy','chamonix','mont-saint-michel','nantes','lille','montpellier','ajaccio','bastia','biarritz','figari','brest','lourdes','rennes'].map(s=>'fr-'+s));
   assert.equal(library.getDestinationsByCountry(' fr '),france);
-  assert.equal(new Set(library.destinationProfiles.map(d=>d.id)).size,224);
-  assert.equal(new Set(library.destinationProfiles.map(d=>d.slug)).size,224);
+  assert.equal(new Set(library.destinationProfiles.map(d=>d.id)).size,232);
+  assert.equal(new Set(library.destinationProfiles.map(d=>d.slug)).size,232);
   for(const d of france) {
     assert.equal(d.countryCode,'FR'); assert.equal(d.country,'Francia');
     assert.equal(library.getDestinationById(d.id),d); assert.equal(library.getDestinationBySlug(d.slug),d);
@@ -64,7 +64,7 @@ test('physical airports, the Paris metropolitan code and shared ground-transfer 
   assert.equal(byId('annecy').accessAirports[0].countryCode,'CH');
   assert.equal(library.findDestinationProfile({iataCode:'GVA'})?.id,'ch-geneva');
   assert.equal(library.findDestinationProfile({iataCode:'LYS'}),byId('lyon'));
-  assert.equal(library.findDestinationProfile({iataCode:'RNS'}),undefined);
+  assert.equal(library.findDestinationProfile({iataCode:'RNS'}),byId('rennes'));
   assert.deepEqual(Array.from(library.getDestinationById('es-tenerife').airports,a=>a.iataCode),['TFN','TFS']);
 });
 
