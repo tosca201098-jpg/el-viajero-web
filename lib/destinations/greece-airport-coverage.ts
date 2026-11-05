@@ -1771,11 +1771,11 @@ const seeds = [
       "Arribada per KZS. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional. La Cova Blava requereix una excursió en barca subjecta al temps i a l’estat del mar."
     ],
     "photo": [
-      "Kastellorizo_harbour.jpg",
-      "14",
-      "TU-nor",
-      "CC BY-SA 4.0",
-      "https://creativecommons.org/licenses/by-sa/4.0/"
+      "DIAFORES_FOTO_031.jpg",
+      "33",
+      "Papoutsis Travel",
+      "CC BY-SA 3.0",
+      "https://creativecommons.org/licenses/by-sa/3.0/"
     ]
   },
   {

@@ -74,11 +74,13 @@ Las imágenes proceden de Commons. Se consultan su descripción, autor, licencia
 | astypalaia | [Chora and Castle. Astypalaia, Greece.jpg](https://commons.wikimedia.org/wiki/File:Chora_and_Castle._Astypalaia,_Greece.jpg) | Ввласенко | CC BY-SA 3.0 | 5732 × 3330 |
 | kalymnos | [Calymnos harbour.jpg](https://commons.wikimedia.org/wiki/File:Calymnos_harbour.jpg) | Κ. Καλογερόπουλος Kalogeropoulos at Greek Wikipedia | CC BY-SA 3.0 | 960 × 541 |
 | kasos | [Kasos veduta del porticciolo.jpg](https://commons.wikimedia.org/wiki/File:Kasos_veduta_del_porticciolo.jpg) | Luca Aless | CC0 | 2048 × 1536 |
-| kastellorizo | [Kastellorizo harbour.jpg](https://commons.wikimedia.org/wiki/File:Kastellorizo_harbour.jpg) | TU-nor | CC BY-SA 4.0 | 1636 × 1112 |
+| kastellorizo | [DIAFORES FOTO 031.jpg](https://commons.wikimedia.org/wiki/File:DIAFORES_FOTO_031.jpg) | Papoutsis Travel | CC BY-SA 3.0 | 1024 × 768 |
 | kastoria | [Lake Orestiada and city of Kastoria.jpg](https://commons.wikimedia.org/wiki/File:Lake_Orestiada_and_city_of_Kastoria.jpg) | Ioannis Fakis | CC BY-SA 4.0 | 6800 × 5100 |
 | kozani | [Kozani new square - Flickr - Nick-K (Nikos Koutoulas).jpg](https://commons.wikimedia.org/wiki/File:Kozani_new_square_-_Flickr_-_Nick-K_(Nikos_Koutoulas).jpg) | Nikos Koutoulas from Kozani, Greece | CC BY 2.0 | 2331 × 1080 |
 | kythira | [Kythira - Hora 1.jpg](https://commons.wikimedia.org/wiki/File:Kythira_-_Hora_1.jpg) | Ingo Mehling | CC BY-SA 3.0 | 1866 × 1200 |
 | skyros | [Skyros-chora.JPG](https://commons.wikimedia.org/wiki/File:Skyros-chora.JPG) | Han borg | Public domain | 2288 × 1712 |
+
+La revisión visual descarta la primera candidata de Castelórizo por mostrar principalmente un cartel y una persona; se sustituye únicamente esa foto nueva por la vista del puerto de Papoutsis Travel, CC BY-SA 3.0, sin marcas de agua visibles.
 
 ## Conservación y comprobaciones
 
