@@ -47,3 +47,7 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 ## 2026-11-06 — Italia: aeropuertos pendientes (rama `claude/italy-airports-gaps`)
 
 24 fichas en borrador; los 40 aeropuertos italianos verificados quedan cubiertos. Apilada sobre `claude/uk-airports-gaps` (#56). Pruebas: 486; 479 pasan; 7 fallos de entorno previos. Siguiente: Alemania (12 aeropuertos), auditorías de otros países.
+
+## 2026-11-06 — Alemania: aeropuertos pendientes (rama `claude/germany-airports-gaps`)
+
+12 fichas en borrador; los 27 aeropuertos alemanes verificados quedan cubiertos. Apilada sobre `claude/italy-airports-gaps` (#57). Pruebas: 497; 490 pasan; 7 fallos de entorno previos. Siguiente: auditoría de España, Portugal, Francia, Polonia y demás países con fichas existentes.
