@@ -38,8 +38,8 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 248 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,248);
+test('automatic catalog recommendations hide added France profiles; all 260 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,260);
   for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);

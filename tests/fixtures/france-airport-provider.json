@@ -388,6 +388,198 @@
         "lon": 2.483866
       },
       "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Metz-Nancy-Lorraine Airport"
+      },
+      "city_code": "ETZ",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "ETZ",
+      "iata_type": "airport",
+      "name": "Metz-Nancy-Lorraine Airport",
+      "coordinates": {
+        "lat": 48.98165,
+        "lon": 6.243003
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Laroche Airport"
+      },
+      "city_code": "BVE",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "BVE",
+      "iata_type": "airport",
+      "name": "Laroche Airport",
+      "coordinates": {
+        "lat": 45.166668,
+        "lon": 1.533333
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Dole-Jura Airport"
+      },
+      "city_code": "DLE",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "DLE",
+      "iata_type": "airport",
+      "name": "Dole-Jura Airport",
+      "coordinates": {
+        "lat": 47.05,
+        "lon": 5.433333
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Poitiers-Biard Airport"
+      },
+      "city_code": "PIS",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "PIS",
+      "iata_type": "airport",
+      "name": "Poitiers-Biard Airport",
+      "coordinates": {
+        "lat": 46.58611,
+        "lon": 0.306389
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Chalons Vatry Airport"
+      },
+      "city_code": "XCR",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "XCR",
+      "iata_type": "airport",
+      "name": "Chalons Vatry Airport",
+      "coordinates": {
+        "lat": 48.767776,
+        "lon": 4.201111
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Saint Gatien Airport"
+      },
+      "city_code": "DOL",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "DOL",
+      "iata_type": "airport",
+      "name": "Saint Gatien Airport",
+      "coordinates": {
+        "lat": 49.362778,
+        "lon": 0.164167
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Mazamet Airport"
+      },
+      "city_code": "DCM",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "DCM",
+      "iata_type": "airport",
+      "name": "Mazamet Airport",
+      "coordinates": {
+        "lat": 43.555832,
+        "lon": 2.284167
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Aurillac Airport"
+      },
+      "city_code": "AUR",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "AUR",
+      "iata_type": "airport",
+      "name": "Aurillac Airport",
+      "coordinates": {
+        "lat": 44.8975,
+        "lon": 2.418056
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Boutheon Airport"
+      },
+      "city_code": "EBU",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "EBU",
+      "iata_type": "airport",
+      "name": "Boutheon Airport",
+      "coordinates": {
+        "lat": 45.54139,
+        "lon": 4.296944
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Lann Bihoue Airport"
+      },
+      "city_code": "LRT",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "LRT",
+      "iata_type": "airport",
+      "name": "Lann Bihoue Airport",
+      "coordinates": {
+        "lat": 47.75374,
+        "lon": -3.436394
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Loudes Airport"
+      },
+      "city_code": "LPY",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "LPY",
+      "iata_type": "airport",
+      "name": "Loudes Airport",
+      "coordinates": {
+        "lat": 45.083332,
+        "lon": 3.766667
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Ouessant Airport"
+      },
+      "city_code": "OUI",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "OUI",
+      "iata_type": "airport",
+      "name": "Ouessant Airport",
+      "coordinates": {
+        "lat": 48.463611,
+        "lon": -5.061944
+      },
+      "flightable": true
     }
   ],
   "cities": [
@@ -796,6 +988,210 @@
       "coordinates": {
         "lat": 44.410595,
         "lon": 2.483866
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Metz/Nancy"
+      },
+      "cases": {
+        "su": "Metz/Nancy"
+      },
+      "country_code": "FR",
+      "code": "ETZ",
+      "time_zone": "Europe/Paris",
+      "name": "Metz/Nancy",
+      "coordinates": {
+        "lat": 49.119666,
+        "lon": 6.176905
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Brive-La-Gaillarde"
+      },
+      "cases": {
+        "su": "Brive-La-Gaillarde"
+      },
+      "country_code": "FR",
+      "code": "BVE",
+      "time_zone": "Europe/Paris",
+      "name": "Brive-La-Gaillarde",
+      "coordinates": {
+        "lat": 45.166668,
+        "lon": 1.533333
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Dole"
+      },
+      "cases": {
+        "su": "Dole"
+      },
+      "country_code": "FR",
+      "code": "DLE",
+      "time_zone": "Europe/Paris",
+      "name": "Dole",
+      "coordinates": {
+        "lat": 47.05,
+        "lon": 5.433333
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Poitiers"
+      },
+      "cases": {
+        "su": "Poitiers"
+      },
+      "country_code": "FR",
+      "code": "PIS",
+      "time_zone": "Europe/Paris",
+      "name": "Poitiers",
+      "coordinates": {
+        "lat": 46.580224,
+        "lon": 0.340375
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Chalons-en-Champagne"
+      },
+      "cases": {
+        "su": "Chalons-en-Champagne"
+      },
+      "country_code": "FR",
+      "code": "XCR",
+      "time_zone": "Europe/Paris",
+      "name": "Chalons-en-Champagne",
+      "coordinates": {
+        "lat": 48.956682,
+        "lon": 4.363073
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Deauville"
+      },
+      "cases": {
+        "su": "Deauville"
+      },
+      "country_code": "FR",
+      "code": "DOL",
+      "time_zone": "Europe/Paris",
+      "name": "Deauville",
+      "coordinates": {
+        "lat": 49.362778,
+        "lon": 0.164167
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Castres"
+      },
+      "cases": {
+        "su": "Castres"
+      },
+      "country_code": "FR",
+      "code": "DCM",
+      "time_zone": "Europe/Paris",
+      "name": "Castres",
+      "coordinates": {
+        "lat": 43.555832,
+        "lon": 2.284167
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Aurillac"
+      },
+      "cases": {
+        "su": "Aurillac"
+      },
+      "country_code": "FR",
+      "code": "AUR",
+      "time_zone": "Europe/Paris",
+      "name": "Aurillac",
+      "coordinates": {
+        "lat": 44.8975,
+        "lon": 2.418056
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "St Etienne"
+      },
+      "cases": {
+        "su": "St Etienne"
+      },
+      "country_code": "FR",
+      "code": "EBU",
+      "time_zone": "Europe/Paris",
+      "name": "St Etienne",
+      "coordinates": {
+        "lat": 45.439695,
+        "lon": 4.3871779
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Lorient"
+      },
+      "cases": {
+        "su": "Lorient"
+      },
+      "country_code": "FR",
+      "code": "LRT",
+      "time_zone": "Europe/Paris",
+      "name": "Lorient",
+      "coordinates": {
+        "lat": 47.7482524,
+        "lon": -3.3702449
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Le Puy"
+      },
+      "cases": {
+        "su": "Le Puy"
+      },
+      "country_code": "FR",
+      "code": "LPY",
+      "time_zone": "Europe/Paris",
+      "name": "Le Puy",
+      "coordinates": {
+        "lat": 45.083332,
+        "lon": 3.766667
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Ouessant"
+      },
+      "cases": {
+        "su": "Ouessant"
+      },
+      "country_code": "FR",
+      "code": "OUI",
+      "time_zone": "Europe/Paris",
+      "name": "Ouessant",
+      "coordinates": {
+        "lat": 48.4581,
+        "lon": -5.0956
       },
       "has_flightable_airport": true
     }

@@ -172,5 +172,89 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imageCredit": "Espirat",
     "imageLicense": "CC BY-SA 4.0",
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "metz": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Metz_Cathedral_004.JPG/960px-Metz_Cathedral_004.JPG",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Metz_Cathedral_004.JPG",
+      "imageCredit": "H. Zell",
+      "imageLicense": "CC BY-SA 3.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "brive-la-gaillarde": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg/960px-Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg",
+      "imageCredit": "Benjamin Smith",
+      "imageLicense": "CC BY-SA 4.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "dole": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Dole_%28Jura%29_-_Canal_des_Tanneurs_-_Coll%C3%A9giale_Notre-Dame_%2851944624472%29.jpg/960px-Dole_%28Jura%29_-_Canal_des_Tanneurs_-_Coll%C3%A9giale_Notre-Dame_%2851944624472%29.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Dole_(Jura)_-_Canal_des_Tanneurs_-_Coll%C3%A9giale_Notre-Dame_(51944624472).jpg",
+      "imageCredit": "Patrick from Compiègne, France",
+      "imageLicense": "CC BY-SA 2.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  "poitiers": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Poitiers_-_Palais_de_Justice_2.jpg/960px-Poitiers_-_Palais_de_Justice_2.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Poitiers_-_Palais_de_Justice_2.jpg",
+      "imageCredit": "Christophe.Finot",
+      "imageLicense": "CC BY-SA 2.5",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
+  },
+  "chalons-en-champagne": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Ch%C3%A2lons-HDV%282025%29.jpg/960px-Ch%C3%A2lons-HDV%282025%29.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Ch%C3%A2lons-HDV(2025).jpg",
+      "imageCredit": "Matgrt",
+      "imageLicense": "CC BY-SA 4.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "deauville": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Plage_Deauville_-_panoramio.jpg/960px-Plage_Deauville_-_panoramio.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Plage_Deauville_-_panoramio.jpg",
+      "imageCredit": "minishooter",
+      "imageLicense": "CC BY-SA 3.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "castres": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/%28Castres%29_Maisons_sur_l%27Ago%C3%BBt_vues_du_pont_Neuf_vers_le_pont_Tourcaudi%C3%A8re.jpg/960px-%28Castres%29_Maisons_sur_l%27Ago%C3%BBt_vues_du_pont_Neuf_vers_le_pont_Tourcaudi%C3%A8re.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:(Castres)_Maisons_sur_l%27Ago%C3%BBt_vues_du_pont_Neuf_vers_le_pont_Tourcaudi%C3%A8re.jpg",
+      "imageCredit": "Didier Descouens",
+      "imageLicense": "CC BY-SA 4.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "aurillac": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Jordanne_Aurillac_Pont_Rouge.jpg/960px-Jordanne_Aurillac_Pont_Rouge.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Jordanne_Aurillac_Pont_Rouge.jpg",
+      "imageCredit": "Adrianstork",
+      "imageLicense": "CC BY-SA 4.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "saint-etienne": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Saint_%C3%89tienne-H%C3%B4tel_de_ville-20110117.jpg/960px-Saint_%C3%89tienne-H%C3%B4tel_de_ville-20110117.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Saint_%C3%89tienne-H%C3%B4tel_de_ville-20110117.jpg",
+      "imageCredit": "Daniel Villafruela",
+      "imageLicense": "CC BY-SA 3.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "lorient": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Lorient-Tour-D%C3%A9couverte.jpg/960px-Lorient-Tour-D%C3%A9couverte.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Lorient-Tour-D%C3%A9couverte.jpg",
+      "imageCredit": "Pline",
+      "imageLicense": "CC BY-SA 3.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "le-puy-en-velay": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/0_1138_Le_Puy-en-Velay_%28Frankreich%29_-_Saint-Michel-d%27Aiguiihe.jpg/960px-0_1138_Le_Puy-en-Velay_%28Frankreich%29_-_Saint-Michel-d%27Aiguiihe.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:0_1138_Le_Puy-en-Velay_(Frankreich)_-_Saint-Michel-d%27Aiguiihe.jpg",
+      "imageCredit": "W. Bulach",
+      "imageLicense": "CC BY-SA 4.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "ouessant": {
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Ouessant_-_Phare_du_Creac%27h_et_Maison.jpg/960px-Ouessant_-_Phare_du_Creac%27h_et_Maison.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Ouessant_-_Phare_du_Creac%27h_et_Maison.jpg",
+      "imageCredit": "Agnes DP",
+      "imageLicense": "CC BY-SA 4.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   }
 };

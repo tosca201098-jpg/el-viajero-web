@@ -1644,6 +1644,1112 @@ const seeds: Seed[] = [
       "RDZ fica em Salles-la-Source, fora de Rodez. Preveja o transporte e confirme os programas de voos e museus; o centro antigo tem subidas e piso irregular.",
       "RDZ és a Salles-la-Source, fora de Rodés. Preveu el trasllat i confirma els programes de vols i museus; el nucli antic té pendents i paviment irregular."
     ]
+  },
+  {
+    "slug": "metz",
+    "code": "ETZ",
+    "airport": "Metz-Nancy-Lorraine",
+    "aliases": [
+      "Metz-Nancy",
+      "Nancy",
+      "Goin",
+      "Lorraine",
+      "Lorraine Airport",
+      "Lorraine Aéroport",
+      "Metz Nancy Lorraine Airport"
+    ],
+    "names": [
+      "Metz",
+      "Metz",
+      "Metz",
+      "Metz",
+      "Metz",
+      "Metz",
+      "Metz"
+    ],
+    "descriptions": [
+      "La catedral de Saint-Étienne, famosa por sus vidrieras, el Temple Neuf junto al Mosela y el Centre Pompidou-Metz marcan una ciudad de piedra amarilla fácil de recorrer a pie.",
+      "Saint-Étienne Cathedral, famed for its stained glass, the Temple Neuf by the Moselle and the Centre Pompidou-Metz mark a yellow-stone city that is easy to explore on foot.",
+      "La cathédrale Saint-Étienne, célèbre pour ses vitraux, le Temple Neuf au bord de la Moselle et le Centre Pompidou-Metz marquent une ville de pierre jaune facile à parcourir à pied.",
+      "Die für ihre Glasfenster berühmte Kathedrale Saint-Étienne, der Temple Neuf an der Mosel und das Centre Pompidou-Metz prägen eine Stadt aus gelbem Stein, die sich gut zu Fuß erkunden lässt.",
+      "La cattedrale di Saint-Étienne, famosa per le vetrate, il Temple Neuf sulla Mosella e il Centre Pompidou-Metz caratterizzano una città di pietra gialla facile da visitare a piedi.",
+      "A catedral de Saint-Étienne, famosa pelos vitrais, o Temple Neuf junto ao Mosela e o Centre Pompidou-Metz marcam uma cidade de pedra amarela fácil de percorrer a pé.",
+      "La catedral de Saint-Étienne, famosa pels vitralls, el Temple Neuf vora el Mosel·la i el Centre Pompidou-Metz marquen una ciutat de pedra groga fàcil de recórrer a peu."
+    ],
+    "recommendations": [
+      [
+        "Visitar la catedral de Saint-Étienne",
+        "Visit Saint-Étienne Cathedral",
+        "Visiter la cathédrale Saint-Étienne",
+        "Die Kathedrale Saint-Étienne besuchen",
+        "Visitare la cattedrale di Saint-Étienne",
+        "Visitar a catedral de Saint-Étienne",
+        "Visitar la catedral de Saint-Étienne"
+      ],
+      [
+        "Ver el Centre Pompidou-Metz",
+        "See the Centre Pompidou-Metz",
+        "Voir le Centre Pompidou-Metz",
+        "Das Centre Pompidou-Metz ansehen",
+        "Vedere il Centre Pompidou-Metz",
+        "Ver o Centre Pompidou-Metz",
+        "Veure el Centre Pompidou-Metz"
+      ],
+      [
+        "Pasear por la place Saint-Louis",
+        "Stroll through Place Saint-Louis",
+        "Flâner place Saint-Louis",
+        "Über die Place Saint-Louis schlendern",
+        "Passeggiare in place Saint-Louis",
+        "Passear pela Place Saint-Louis",
+        "Passejar per la place Saint-Louis"
+      ],
+      [
+        "Caminar por el Temple Neuf y el Mosela",
+        "Walk to the Temple Neuf and the Moselle",
+        "Marcher jusqu’au Temple Neuf et à la Moselle",
+        "Zum Temple Neuf und an die Mosel spazieren",
+        "Camminare fino al Temple Neuf e alla Mosella",
+        "Caminhar até ao Temple Neuf e ao Mosela",
+        "Caminar fins al Temple Neuf i al Mosel·la"
+      ]
+    ],
+    "notes": [
+      "ETZ está en Goin, entre Metz y Nancy y a cierta distancia de ambas. Prevé el traslado por carretera; Nancy también queda a un trayecto.",
+      "ETZ is in Goin, between Metz and Nancy and some distance from both. Allow for a road transfer; Nancy is also a separate trip.",
+      "ETZ est situé à Goin, entre Metz et Nancy, à distance des deux villes. Prévoyez un transfert routier ; Nancy est aussi un trajet à part.",
+      "ETZ liegt in Goin zwischen Metz und Nancy, in einiger Entfernung von beiden Städten. Einen Straßentransfer einplanen; auch Nancy ist eine eigene Fahrt.",
+      "ETZ si trova a Goin, tra Metz e Nancy, a una certa distanza da entrambe. Prevedi un trasferimento su strada; anche Nancy richiede un altro tragitto.",
+      "ETZ fica em Goin, entre Metz e Nancy, a alguma distância de ambas. Preveja o transporte rodoviário; Nancy também implica outro trajeto.",
+      "ETZ és a Goin, entre Metz i Nancy, a certa distància de totes dues. Preveu el trasllat per carretera; Nancy també requereix un trajecte a part."
+    ],
+    "stay": "2–3",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ]
+  },
+  {
+    "slug": "brive-la-gaillarde",
+    "code": "BVE",
+    "airport": "Brive Vallée de la Dordogne",
+    "aliases": [
+      "Brive",
+      "Brive-la-Gaillarde",
+      "Brive Vallée de la Dordogne",
+      "Brive-Souillac",
+      "Souillac",
+      "Nespouls",
+      "Cressensac",
+      "Laroche Airport"
+    ],
+    "names": [
+      "Brive-la-Gaillarde",
+      "Brive-la-Gaillarde",
+      "Brive-la-Gaillarde",
+      "Brive-la-Gaillarde",
+      "Brive-la-Gaillarde",
+      "Brive-la-Gaillarde",
+      "Brive-la-Gaillarde"
+    ],
+    "descriptions": [
+      "La place Latreille, la colegiata de Saint-Martin y un mercado cubierto muy animado hacen de Brive una base tranquila para entrar en la Corrèze y el valle de la Dordoña.",
+      "Place Latreille, the Collégiale Saint-Martin and a lively covered market make Brive a relaxed base for the Corrèze and the Dordogne valley.",
+      "La place Latreille, la collégiale Saint-Martin et une halle de marché très animée font de Brive une base paisible pour explorer la Corrèze et la vallée de la Dordogne.",
+      "Die Place Latreille, die Stiftskirche Saint-Martin und eine lebhafte Markthalle machen Brive zu einem entspannten Standort für die Corrèze und das Dordogne-Tal.",
+      "Place Latreille, la collegiata di Saint-Martin e un mercato coperto molto vivace rendono Brive una base tranquilla per scoprire la Corrèze e la valle della Dordogna.",
+      "A Place Latreille, a colegiada de Saint-Martin e um mercado coberto muito animado fazem de Brive uma base tranquila para conhecer a Corrèze e o vale do Dordonha.",
+      "La place Latreille, la col·legiata de Saint-Martin i un mercat cobert molt animat fan de Brive una base tranquil·la per descobrir la Corrèze i la vall de la Dordonya."
+    ],
+    "recommendations": [
+      [
+        "Visitar la colegiata de Saint-Martin",
+        "Visit the Collégiale Saint-Martin",
+        "Visiter la collégiale Saint-Martin",
+        "Die Stiftskirche Saint-Martin besuchen",
+        "Visitare la collegiata di Saint-Martin",
+        "Visitar a colegiada de Saint-Martin",
+        "Visitar la col·legiata de Saint-Martin"
+      ],
+      [
+        "Pasear por la place Latreille",
+        "Stroll through Place Latreille",
+        "Flâner place Latreille",
+        "Über die Place Latreille schlendern",
+        "Passeggiare in place Latreille",
+        "Passear pela Place Latreille",
+        "Passejar per la place Latreille"
+      ],
+      [
+        "Entrar en la halle Georges-Brassens",
+        "Step inside the Halle Georges-Brassens",
+        "Entrer dans la halle Georges-Brassens",
+        "Die Halle Georges-Brassens besuchen",
+        "Entrare nella halle Georges-Brassens",
+        "Entrar na Halle Georges-Brassens",
+        "Entrar a la halle Georges-Brassens"
+      ],
+      [
+        "Conocer el Museo Labenche",
+        "Discover the Musée Labenche",
+        "Découvrir le musée Labenche",
+        "Das Musée Labenche entdecken",
+        "Scoprire il Musée Labenche",
+        "Conhecer o Musée Labenche",
+        "Conèixer el Musée Labenche"
+      ]
+    ],
+    "notes": [
+      "BVE está en Nespouls, junto a Cressensac y fuera de Brive; su denominación aeronáutica es Brive–Souillac. Prevé el traslado terrestre.",
+      "BVE is in Nespouls, next to Cressensac and outside Brive; its aeronautical name is Brive–Souillac. Allow for a ground transfer.",
+      "BVE se trouve à Nespouls, près de Cressensac et hors de Brive ; sa dénomination aéronautique est Brive–Souillac. Prévoyez un transfert terrestre.",
+      "BVE liegt in Nespouls bei Cressensac, außerhalb von Brive; die luftfahrtrechtliche Bezeichnung lautet Brive–Souillac. Einen Landtransfer einplanen.",
+      "BVE si trova a Nespouls, vicino a Cressensac e fuori da Brive; la denominazione aeronautica è Brive–Souillac. Prevedi il trasferimento via terra.",
+      "BVE fica em Nespouls, junto a Cressensac e fora de Brive; a designação aeronáutica é Brive–Souillac. Preveja o transporte terrestre.",
+      "BVE és a Nespouls, a prop de Cressensac i fora de Brive; la denominació aeronàutica és Brive–Souillac. Preveu el trasllat terrestre."
+    ],
+    "stay": "2",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "dole",
+    "code": "DLE",
+    "airport": "Dole Jura",
+    "aliases": [
+      "Dole-Jura",
+      "Dole Jura",
+      "Dole-Tavaux",
+      "Tavaux",
+      "Dole Jura Airport",
+      "Dole-Jura Airport"
+    ],
+    "names": [
+      "Dole",
+      "Dole",
+      "Dole",
+      "Dole",
+      "Dole",
+      "Dole",
+      "Dole"
+    ],
+    "descriptions": [
+      "Ciudad natal de Louis Pasteur, Dole se recorre entre canales, tejados de teja y la colegiata de Notre-Dame que domina el casco antiguo.",
+      "Birthplace of Louis Pasteur, Dole is best explored among canals, tiled roofs and the Collegiate Church of Notre-Dame above the old town.",
+      "Ville natale de Louis Pasteur, Dole se découvre entre canaux, toits de tuiles et la collégiale Notre-Dame qui domine la vieille ville.",
+      "Dole, der Geburtsort von Louis Pasteur, lässt sich zwischen Kanälen, Ziegeldächern und der Stiftskirche Notre-Dame über der Altstadt erkunden.",
+      "Città natale di Louis Pasteur, Dole si scopre tra canali, tetti di tegole e la collegiata di Notre-Dame che domina il centro storico.",
+      "Terra natal de Louis Pasteur, Dole descobre-se entre canais, telhados de telha e a colegiada de Notre-Dame que domina o centro histórico.",
+      "Ciutat natal de Louis Pasteur, Dole es descobreix entre canals, teulades de teula i la col·legiata de Notre-Dame que domina el nucli antic."
+    ],
+    "recommendations": [
+      [
+        "Visitar la colegiata de Notre-Dame",
+        "Visit the Collegiate Church of Notre-Dame",
+        "Visiter la collégiale Notre-Dame",
+        "Die Stiftskirche Notre-Dame besuchen",
+        "Visitare la collegiata di Notre-Dame",
+        "Visitar a colegiada de Notre-Dame",
+        "Visitar la col·legiata de Notre-Dame"
+      ],
+      [
+        "Pasear por el canal des Tanneurs",
+        "Walk along the Canal des Tanneurs",
+        "Longer le canal des Tanneurs",
+        "Am Canal des Tanneurs entlang spazieren",
+        "Passeggiare lungo il canal des Tanneurs",
+        "Passear ao longo do Canal des Tanneurs",
+        "Passejar pel canal des Tanneurs"
+      ],
+      [
+        "Conocer la casa natal de Pasteur",
+        "See Pasteur’s birthplace",
+        "Voir la maison natale de Pasteur",
+        "Das Geburtshaus von Pasteur ansehen",
+        "Vedere la casa natale di Pasteur",
+        "Ver a casa natal de Pasteur",
+        "Veure la casa natal de Pasteur"
+      ],
+      [
+        "Recorrer el casco antiguo",
+        "Explore the old town",
+        "Parcourir la vieille ville",
+        "Die Altstadt erkunden",
+        "Esplorare il centro storico",
+        "Percorrer o centro histórico",
+        "Recórrer el nucli antic"
+      ]
+    ],
+    "notes": [
+      "DLE está en Tavaux, fuera de Dole. Prevé el traslado terrestre; Dijon y Besançon quedan a otro trayecto y no tienen aquí ficha propia.",
+      "DLE is in Tavaux, outside Dole. Allow for a ground transfer; Dijon and Besançon are separate journeys and have no profile here.",
+      "DLE se trouve à Tavaux, hors de Dole. Prévoyez un transfert terrestre ; Dijon et Besançon sont des trajets distincts, sans fiche ici.",
+      "DLE liegt in Tavaux außerhalb von Dole. Einen Landtransfer einplanen; Dijon und Besançon sind eigene Fahrten und haben hier kein eigenes Profil.",
+      "DLE si trova a Tavaux, fuori da Dole. Prevedi il trasferimento via terra; Digione e Besançon richiedono altri tragitti e qui non hanno una scheda propria.",
+      "DLE fica em Tavaux, fora de Dole. Preveja o transporte terrestre; Dijon e Besançon são outros trajetos e não têm aqui ficha própria.",
+      "DLE és a Tavaux, fora de Dole. Preveu el trasllat terrestre; Dijon i Besançon són trajectes a part i aquí no tenen fitxa pròpia."
+    ],
+    "stay": "1–2",
+    "best": [
+      5,
+      6,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "poitiers",
+    "code": "PIS",
+    "airport": "Poitiers-Biard",
+    "aliases": [
+      "Poitiers-Biard",
+      "Poitiers Biard",
+      "Biard",
+      "Poitiers Airport",
+      "Poitiers-Biard Airport"
+    ],
+    "names": [
+      "Poitiers",
+      "Poitiers",
+      "Poitiers",
+      "Poitiers",
+      "Poitiers",
+      "Poitiers",
+      "Poitiers"
+    ],
+    "descriptions": [
+      "Iglesias románicas, el baptisterio más antiguo de Francia y el palacio de los duques de Aquitania convierten Poitiers en una escapada de historia y arte.",
+      "Romanesque churches, one of France’s oldest baptisteries and the palace of the Dukes of Aquitaine make Poitiers a break full of history and art.",
+      "Églises romanes, l’un des plus anciens baptistères de France et le palais des ducs d’Aquitaine font de Poitiers une escapade d’histoire et d’art.",
+      "Romanische Kirchen, eines der ältesten Baptisterien Frankreichs und der Palast der Herzöge von Aquitanien machen Poitiers zu einem Ausflug voller Geschichte und Kunst.",
+      "Chiese romaniche, uno dei battisteri più antichi di Francia e il palazzo dei duchi d’Aquitania fanno di Poitiers una gita ricca di storia e arte.",
+      "Igrejas românicas, um dos batistérios mais antigos de França e o palácio dos duques da Aquitânia fazem de Poitiers uma escapadela de história e arte.",
+      "Esglésies romàniques, un dels baptisteris més antics de França i el palau dels ducs d’Aquitània fan de Poitiers una escapada d’història i art."
+    ],
+    "recommendations": [
+      [
+        "Admirar Notre-Dame-la-Grande",
+        "Admire Notre-Dame-la-Grande",
+        "Admirer Notre-Dame-la-Grande",
+        "Notre-Dame-la-Grande bewundern",
+        "Ammirare Notre-Dame-la-Grande",
+        "Admirar Notre-Dame-la-Grande",
+        "Admirar Notre-Dame-la-Grande"
+      ],
+      [
+        "Visitar el baptisterio de Saint-Jean",
+        "Visit the Baptistère Saint-Jean",
+        "Visiter le baptistère Saint-Jean",
+        "Das Baptisterium Saint-Jean besuchen",
+        "Visitare il battistero di Saint-Jean",
+        "Visitar o Batistério de Saint-Jean",
+        "Visitar el baptisteri de Saint-Jean"
+      ],
+      [
+        "Ver el palacio de los duques de Aquitania",
+        "See the Palace of the Dukes of Aquitaine",
+        "Voir le palais des ducs d’Aquitaine",
+        "Den Palast der Herzöge von Aquitanien ansehen",
+        "Vedere il palazzo dei duchi d’Aquitania",
+        "Ver o palácio dos duques da Aquitânia",
+        "Veure el palau dels ducs d’Aquitània"
+      ],
+      [
+        "Entrar en la catedral de Saint-Pierre",
+        "Step inside Saint-Pierre Cathedral",
+        "Entrer dans la cathédrale Saint-Pierre",
+        "Die Kathedrale Saint-Pierre besichtigen",
+        "Entrare nella cattedrale di Saint-Pierre",
+        "Entrar na catedral de Saint-Pierre",
+        "Entrar a la catedral de Saint-Pierre"
+      ]
+    ],
+    "notes": [
+      "PIS está en Biard, fuera del centro de Poitiers. Prevé el traslado terrestre y comprueba los horarios de visita de los monumentos.",
+      "PIS is in Biard, outside central Poitiers. Allow for a ground transfer and check monument opening times.",
+      "PIS est situé à Biard, hors du centre de Poitiers. Prévoyez un transfert terrestre et vérifiez les horaires de visite des monuments.",
+      "PIS liegt in Biard außerhalb des Zentrums von Poitiers. Einen Landtransfer einplanen und die Öffnungszeiten der Denkmäler prüfen.",
+      "PIS si trova a Biard, fuori dal centro di Poitiers. Prevedi il trasferimento via terra e verifica gli orari di visita dei monumenti.",
+      "PIS fica em Biard, fora do centro de Poitiers. Preveja o transporte terrestre e confirme os horários de visita dos monumentos.",
+      "PIS és a Biard, fora del centre de Poitiers. Preveu el trasllat terrestre i comprova els horaris de visita dels monuments."
+    ],
+    "stay": "2",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "chalons-en-champagne",
+    "code": "XCR",
+    "airport": "Châlons-Vatry",
+    "aliases": [
+      "Châlons",
+      "Chalons",
+      "Chalons-en-Champagne",
+      "Châlons-Vatry",
+      "Chalons Vatry",
+      "Paris-Vatry",
+      "Paris Vatry",
+      "Vatry",
+      "Bussy-Lettrée",
+      "XCR Airport",
+      "Chalons Vatry Airport"
+    ],
+    "names": [
+      "Châlons-en-Champagne",
+      "Châlons-en-Champagne",
+      "Châlons-en-Champagne",
+      "Châlons-en-Champagne",
+      "Châlons-en-Champagne",
+      "Châlons-en-Champagne",
+      "Châlons-en-Champagne"
+    ],
+    "descriptions": [
+      "Canales, jardines y dos grandes iglesias, la catedral de Saint-Étienne y Notre-Dame-en-Vaux, dan a Châlons-en-Champagne un ritmo sosegado en el corazón de la región vinícola.",
+      "Canals, gardens and two great churches, Saint-Étienne Cathedral and Notre-Dame-en-Vaux, give Châlons-en-Champagne a calm pace in the heart of the wine region.",
+      "Canaux, jardins et deux grandes églises, la cathédrale Saint-Étienne et Notre-Dame-en-Vaux, donnent à Châlons-en-Champagne un rythme paisible au cœur de la région viticole.",
+      "Kanäle, Gärten und zwei große Kirchen, die Kathedrale Saint-Étienne und Notre-Dame-en-Vaux, verleihen Châlons-en-Champagne ein ruhiges Tempo im Herzen der Weinregion.",
+      "Canali, giardini e due grandi chiese, la cattedrale di Saint-Étienne e Notre-Dame-en-Vaux, danno a Châlons-en-Champagne un ritmo tranquillo nel cuore della regione vinicola.",
+      "Canais, jardins e duas grandes igrejas, a catedral de Saint-Étienne e Notre-Dame-en-Vaux, dão a Châlons-en-Champagne um ritmo tranquilo no coração da região vinícola.",
+      "Canals, jardins i dues grans esglésies, la catedral de Saint-Étienne i Notre-Dame-en-Vaux, donen a Châlons-en-Champagne un ritme assossegat al cor de la regió vinícola."
+    ],
+    "recommendations": [
+      [
+        "Visitar Notre-Dame-en-Vaux",
+        "Visit Notre-Dame-en-Vaux",
+        "Visiter Notre-Dame-en-Vaux",
+        "Notre-Dame-en-Vaux besuchen",
+        "Visitare Notre-Dame-en-Vaux",
+        "Visitar Notre-Dame-en-Vaux",
+        "Visitar Notre-Dame-en-Vaux"
+      ],
+      [
+        "Entrar en la catedral de Saint-Étienne",
+        "Step inside Saint-Étienne Cathedral",
+        "Entrer dans la cathédrale Saint-Étienne",
+        "Die Kathedrale Saint-Étienne besichtigen",
+        "Entrare nella cattedrale di Saint-Étienne",
+        "Entrar na catedral de Saint-Étienne",
+        "Entrar a la catedral de Saint-Étienne"
+      ],
+      [
+        "Pasear por el Jard",
+        "Stroll through the Jard gardens",
+        "Se promener au Jard",
+        "Durch den Jard spazieren",
+        "Passeggiare nel Jard",
+        "Passear pelo Jard",
+        "Passejar pel Jard"
+      ],
+      [
+        "Caminar junto a los canales",
+        "Walk beside the canals",
+        "Marcher le long des canaux",
+        "An den Kanälen entlang gehen",
+        "Camminare lungo i canali",
+        "Caminhar junto aos canais",
+        "Caminar vora els canals"
+      ]
+    ],
+    "notes": [
+      "XCR está en Bussy-Lettrée, lejos del centro de Châlons y de París pese a su antigua marca Paris-Vatry. Prevé el traslado terrestre.",
+      "XCR is in Bussy-Lettrée, far from central Châlons and from Paris despite its former Paris-Vatry brand. Allow for a ground transfer.",
+      "XCR se trouve à Bussy-Lettrée, loin du centre de Châlons et de Paris malgré son ancienne marque Paris-Vatry. Prévoyez un transfert terrestre.",
+      "XCR liegt in Bussy-Lettrée, weit vom Zentrum von Châlons und von Paris entfernt, trotz der früheren Marke Paris-Vatry. Einen Landtransfer einplanen.",
+      "XCR si trova a Bussy-Lettrée, lontano dal centro di Châlons e da Parigi nonostante l’antico marchio Paris-Vatry. Prevedi il trasferimento via terra.",
+      "XCR fica em Bussy-Lettrée, longe do centro de Châlons e de Paris apesar da antiga marca Paris-Vatry. Preveja o transporte terrestre.",
+      "XCR és a Bussy-Lettrée, lluny del centre de Châlons i de París malgrat l’antiga marca Paris-Vatry. Preveu el trasllat terrestre."
+    ],
+    "stay": "1–2",
+    "best": [
+      5,
+      6,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "deauville",
+    "code": "DOL",
+    "airport": "Deauville–Normandie",
+    "aliases": [
+      "Deauville-Normandie",
+      "Deauville Normandie",
+      "Saint-Gatien",
+      "Saint-Gatien-des-Bois",
+      "Trouville",
+      "Trouville-sur-Mer",
+      "Deauville Airport",
+      "Saint Gatien Airport"
+    ],
+    "names": [
+      "Deauville",
+      "Deauville",
+      "Deauville",
+      "Deauville",
+      "Deauville",
+      "Deauville",
+      "Deauville"
+    ],
+    "descriptions": [
+      "Las Planches, sus casetas de playa con nombres de estrellas de cine y una larga arena frente al Canal de la Mancha definen este elegante balneario normando.",
+      "The Planches boardwalk, its beach cabins named after film stars and a long beach on the English Channel define this elegant Normandy seaside resort.",
+      "Les Planches, leurs cabines de plage aux noms de vedettes de cinéma et une longue plage face à la Manche définissent cette élégante station balnéaire normande.",
+      "Die Planches, ihre nach Filmstars benannten Strandkabinen und ein langer Strand am Ärmelkanal prägen diesen eleganten normannischen Badeort.",
+      "Le Planches, con le cabine da spiaggia intitolate a star del cinema, e una lunga spiaggia sulla Manica definiscono questa elegante località balneare normanna.",
+      "As Planches, com cabines de praia com nomes de estrelas de cinema, e uma longa praia no Canal da Mancha definem esta elegante estância balnear normanda.",
+      "Les Planches, amb les casetes de platja amb noms d’estrelles de cinema, i una llarga platja al canal de la Mànega defineixen aquesta elegant localitat costanera normanda."
+    ],
+    "recommendations": [
+      [
+        "Pasear por Les Planches",
+        "Stroll along Les Planches",
+        "Se promener sur les Planches",
+        "Über Les Planches spazieren",
+        "Passeggiare lungo Les Planches",
+        "Passear por Les Planches",
+        "Passejar per Les Planches"
+      ],
+      [
+        "Ver las casetas de playa",
+        "See the beach cabins",
+        "Voir les cabines de plage",
+        "Die Strandkabinen ansehen",
+        "Vedere le cabine da spiaggia",
+        "Ver as cabines de praia",
+        "Veure les casetes de platja"
+      ],
+      [
+        "Cruzar a Trouville-sur-Mer",
+        "Cross to Trouville-sur-Mer",
+        "Traverser vers Trouville-sur-Mer",
+        "Nach Trouville-sur-Mer hinübergehen",
+        "Attraversare fino a Trouville-sur-Mer",
+        "Atravessar até Trouville-sur-Mer",
+        "Creuar fins a Trouville-sur-Mer"
+      ],
+      [
+        "Conocer el hipódromo de La Touques",
+        "See the La Touques racecourse",
+        "Découvrir l’hippodrome de La Touques",
+        "Die Rennbahn La Touques kennenlernen",
+        "Scoprire l’ippodromo di La Touques",
+        "Conhecer o hipódromo de La Touques",
+        "Conèixer l’hipòdrom de La Touques"
+      ]
+    ],
+    "notes": [
+      "DOL está en Saint-Gatien-des-Bois, fuera de Deauville. Prevé el traslado terrestre; las fechas de las carreras y la oferta de vuelos cambian por temporada.",
+      "DOL is in Saint-Gatien-des-Bois, outside Deauville. Allow for a ground transfer; race dates and flight offers change by season.",
+      "DOL se trouve à Saint-Gatien-des-Bois, hors de Deauville. Prévoyez un transfert terrestre ; les dates des courses et l’offre de vols varient selon la saison.",
+      "DOL liegt in Saint-Gatien-des-Bois außerhalb von Deauville. Einen Landtransfer einplanen; Renntermine und Flugangebot wechseln je nach Saison.",
+      "DOL si trova a Saint-Gatien-des-Bois, fuori da Deauville. Prevedi il trasferimento via terra; le date delle corse e l’offerta di voli cambiano in base alla stagione.",
+      "DOL fica em Saint-Gatien-des-Bois, fora de Deauville. Preveja o transporte terrestre; as datas das corridas e a oferta de voos mudam conforme a época.",
+      "DOL és a Saint-Gatien-des-Bois, fora de Deauville. Preveu el trasllat terrestre; les dates de les curses i l’oferta de vols canvien segons la temporada."
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "castres",
+    "code": "DCM",
+    "airport": "Castres-Mazamet",
+    "aliases": [
+      "Castres-Mazamet",
+      "Castres Mazamet",
+      "Mazamet",
+      "Le Causse",
+      "Castres Airport",
+      "Mazamet Airport"
+    ],
+    "names": [
+      "Castres",
+      "Castres",
+      "Castres",
+      "Castres",
+      "Castres",
+      "Castres",
+      "Castres"
+    ],
+    "descriptions": [
+      "Las casas de colores colgadas sobre el Agout, el museo dedicado a Goya y los jardines del antiguo palacio episcopal dan a Castres un encanto sereno en el Tarn.",
+      "Colourful houses overhanging the Agout, a museum devoted to Goya and the gardens of the former bishop’s palace give Castres a serene charm in the Tarn.",
+      "Les maisons colorées suspendues au-dessus de l’Agout, le musée consacré à Goya et les jardins de l’ancien palais épiscopal donnent à Castres un charme serein dans le Tarn.",
+      "Die bunten Häuser über dem Agout, ein Goya gewidmetes Museum und die Gärten des ehemaligen Bischofspalasts verleihen Castres im Tarn einen ruhigen Charme.",
+      "Le case colorate sospese sull’Agout, il museo dedicato a Goya e i giardini dell’antico palazzo episcopale danno a Castres un fascino sereno nel Tarn.",
+      "As casas coloridas suspensas sobre o Agout, o museu dedicado a Goya e os jardins do antigo palácio episcopal dão a Castres um encanto sereno no Tarn.",
+      "Les cases de colors penjades sobre l’Agout, el museu dedicat a Goya i els jardins de l’antic palau episcopal donen a Castres un encant serè al Tarn."
+    ],
+    "recommendations": [
+      [
+        "Ver las casas sobre el Agout",
+        "See the houses over the Agout",
+        "Voir les maisons sur l’Agout",
+        "Die Häuser über dem Agout ansehen",
+        "Vedere le case sull’Agout",
+        "Ver as casas sobre o Agout",
+        "Veure les cases sobre l’Agout"
+      ],
+      [
+        "Visitar el Museo Goya",
+        "Visit the Goya Museum",
+        "Visiter le musée Goya",
+        "Das Goya-Museum besuchen",
+        "Visitare il Museo Goya",
+        "Visitar o Museu Goya",
+        "Visitar el Museu Goya"
+      ],
+      [
+        "Pasear por los jardines del Obispado",
+        "Stroll through the Jardins de l’Évêché",
+        "Se promener dans les jardins de l’Évêché",
+        "Durch die Jardins de l’Évêché spazieren",
+        "Passeggiare nei Jardins de l’Évêché",
+        "Passear pelos Jardins de l’Évêché",
+        "Passejar pels Jardins de l’Évêché"
+      ],
+      [
+        "Entrar en la catedral de Saint-Benoît",
+        "Step inside Saint-Benoît Cathedral",
+        "Entrer dans la cathédrale Saint-Benoît",
+        "Die Kathedrale Saint-Benoît besichtigen",
+        "Entrare nella cattedrale di Saint-Benoît",
+        "Entrar na catedral de Saint-Benoît",
+        "Entrar a la catedral de Saint-Benoît"
+      ]
+    ],
+    "notes": [
+      "DCM está en Le Causse y da servicio a Castres y Mazamet. Prevé el traslado terrestre; Mazamet no tiene ficha propia.",
+      "DCM is at Le Causse and serves Castres and Mazamet. Allow for a ground transfer; Mazamet has no profile of its own.",
+      "DCM se trouve au Causse et dessert Castres et Mazamet. Prévoyez un transfert terrestre ; Mazamet n’a pas de fiche propre.",
+      "DCM liegt in Le Causse und bedient Castres und Mazamet. Einen Landtransfer einplanen; Mazamet hat kein eigenes Profil.",
+      "DCM si trova a Le Causse e serve Castres e Mazamet. Prevedi il trasferimento via terra; Mazamet non ha una scheda propria.",
+      "DCM fica em Le Causse e serve Castres e Mazamet. Preveja o transporte terrestre; Mazamet não tem ficha própria.",
+      "DCM és a Le Causse i dona servei a Castres i Mazamet. Preveu el trasllat terrestre; Mazamet no té fitxa pròpia."
+    ],
+    "stay": "1–2",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "aurillac",
+    "code": "AUR",
+    "airport": "Aurillac Marie Marvingt",
+    "aliases": [
+      "Aurillac Marie Marvingt",
+      "Marie Marvingt",
+      "Tronquières",
+      "Tronquieres",
+      "Arpajon-sur-Cère",
+      "Cantal",
+      "Aurillac Airport"
+    ],
+    "names": [
+      "Aurillac",
+      "Aurillac",
+      "Aurillac",
+      "Aurillac",
+      "Aurillac",
+      "Aurillac",
+      "Aurillac"
+    ],
+    "descriptions": [
+      "Capital del Cantal, Aurillac combina un casco antiguo de tejados de pizarra, el castillo de Saint-Étienne con la Maison des Volcans y el río Jordanne a las puertas de los volcanes de Auvernia.",
+      "Capital of the Cantal, Aurillac combines an old town of slate roofs, Saint-Étienne Castle with the Maison des Volcans and the Jordanne river at the gateway to Auvergne’s volcanoes.",
+      "Capitale du Cantal, Aurillac réunit une vieille ville aux toits d’ardoise, le château Saint-Étienne avec la Maison des Volcans et la Jordanne aux portes des volcans d’Auvergne.",
+      "Aurillac, die Hauptstadt des Cantal, verbindet eine Altstadt mit Schieferdächern, das Schloss Saint-Étienne mit der Maison des Volcans und die Jordanne am Tor zu den Vulkanen der Auvergne.",
+      "Capoluogo del Cantal, Aurillac riunisce un centro storico dai tetti d’ardesia, il castello di Saint-Étienne con la Maison des Volcans e la Jordanne alle porte dei vulcani d’Alvernia.",
+      "Capital do Cantal, Aurillac reúne um centro histórico de telhados de ardósia, o castelo de Saint-Étienne com a Maison des Volcans e o rio Jordanne às portas dos vulcões da Auvérnia.",
+      "Capital del Cantal, Aurillac reuneix un nucli antic de teulades de pissarra, el castell de Saint-Étienne amb la Maison des Volcans i el riu Jordanne a les portes dels volcans d’Alvèrnia."
+    ],
+    "recommendations": [
+      [
+        "Visitar la Maison des Volcans",
+        "Visit the Maison des Volcans",
+        "Visiter la Maison des Volcans",
+        "Die Maison des Volcans besuchen",
+        "Visitare la Maison des Volcans",
+        "Visitar a Maison des Volcans",
+        "Visitar la Maison des Volcans"
+      ],
+      [
+        "Recorrer el casco antiguo",
+        "Explore the old town",
+        "Parcourir la vieille ville",
+        "Die Altstadt erkunden",
+        "Esplorare il centro storico",
+        "Percorrer o centro histórico",
+        "Recórrer el nucli antic"
+      ],
+      [
+        "Caminar junto al Jordanne y el Pont Rouge",
+        "Walk by the Jordanne and the Pont Rouge",
+        "Marcher le long de la Jordanne et du Pont Rouge",
+        "An der Jordanne und der Pont Rouge entlang gehen",
+        "Camminare lungo la Jordanne e il Pont Rouge",
+        "Caminhar junto ao Jordanne e à Pont Rouge",
+        "Caminar vora la Jordanne i el Pont Rouge"
+      ],
+      [
+        "Entrar en Notre-Dame-aux-Neiges",
+        "Step inside Notre-Dame-aux-Neiges",
+        "Entrer à Notre-Dame-aux-Neiges",
+        "Notre-Dame-aux-Neiges besichtigen",
+        "Entrare a Notre-Dame-aux-Neiges",
+        "Entrar em Notre-Dame-aux-Neiges",
+        "Entrar a Notre-Dame-aux-Neiges"
+      ]
+    ],
+    "notes": [
+      "AUR está en Tronquières, entre Aurillac y Arpajon-sur-Cère. Prevé el traslado; para los volcanes del Cantal necesitarás coche o excursión organizada.",
+      "AUR is at Tronquières, between Aurillac and Arpajon-sur-Cère. Allow for a transfer; the Cantal volcanoes need a car or an organised excursion.",
+      "AUR se trouve à Tronquières, entre Aurillac et Arpajon-sur-Cère. Prévoyez un transfert ; pour les volcans du Cantal, il faut une voiture ou une excursion organisée.",
+      "AUR liegt in Tronquières zwischen Aurillac und Arpajon-sur-Cère. Einen Transfer einplanen; für die Vulkane des Cantal braucht man ein Auto oder einen organisierten Ausflug.",
+      "AUR si trova a Tronquières, tra Aurillac e Arpajon-sur-Cère. Prevedi il trasferimento; per i vulcani del Cantal servono un’auto o un’escursione organizzata.",
+      "AUR fica em Tronquières, entre Aurillac e Arpajon-sur-Cère. Preveja o transporte; para os vulcões do Cantal precisará de carro ou excursão organizada.",
+      "AUR és a Tronquières, entre Aurillac i Arpajon-sur-Cère. Preveu el trasllat; per als volcans del Cantal caldrà cotxe o una excursió organitzada."
+    ],
+    "stay": "2",
+    "best": [
+      5,
+      6,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "saint-etienne",
+    "code": "EBU",
+    "airport": "Saint-Étienne Loire",
+    "aliases": [
+      "Saint Etienne",
+      "St Etienne",
+      "Saint-Etienne",
+      "Saint-Étienne Loire",
+      "Saint-Étienne–Bouthéon",
+      "Bouthéon",
+      "Boutheon",
+      "Andrézieux-Bouthéon",
+      "Boutheon Airport"
+    ],
+    "names": [
+      "Saint-Étienne",
+      "Saint-Étienne",
+      "Saint-Étienne",
+      "Saint-Étienne",
+      "Saint-Étienne",
+      "Saint-Étienne",
+      "Saint-Étienne"
+    ],
+    "descriptions": [
+      "Ciudad creativa del diseño, Saint-Étienne mezcla la Cité du Design, el museo de arte moderno y el pozo minero Couriot, recuerdo vivo de su pasado industrial.",
+      "A UNESCO Creative City of Design, Saint-Étienne mixes the Cité du Design, a modern art museum and the Couriot mine shaft, a living reminder of its industrial past.",
+      "Ville créative de design, Saint-Étienne mêle la Cité du design, le musée d’art moderne et le puits Couriot, souvenir vivant de son passé industriel.",
+      "Saint-Étienne, Kreativstadt des Designs, verbindet die Cité du Design, das Museum für moderne Kunst und den Förderschacht Couriot als lebendige Erinnerung an die industrielle Vergangenheit.",
+      "Città creativa del design, Saint-Étienne unisce la Cité du Design, il museo d’arte moderna e il pozzo minerario Couriot, ricordo vivo del suo passato industriale.",
+      "Cidade criativa do design, Saint-Étienne reúne a Cité du Design, o museu de arte moderna e o poço mineiro Couriot, memória viva do seu passado industrial.",
+      "Ciutat creativa del disseny, Saint-Étienne barreja la Cité du Design, el museu d’art modern i el pou miner Couriot, record viu del seu passat industrial."
+    ],
+    "recommendations": [
+      [
+        "Visitar la Cité du Design",
+        "Visit the Cité du Design",
+        "Visiter la Cité du design",
+        "Die Cité du Design besuchen",
+        "Visitare la Cité du Design",
+        "Visitar a Cité du Design",
+        "Visitar la Cité du Design"
+      ],
+      [
+        "Conocer el Parc-Musée de la Mine",
+        "Discover the Mining Museum Park",
+        "Découvrir le Parc-Musée de la Mine",
+        "Den Bergbaumuseumspark kennenlernen",
+        "Scoprire il Parc-Musée de la Mine",
+        "Conhecer o Parc-Musée de la Mine",
+        "Conèixer el Parc-Musée de la Mine"
+      ],
+      [
+        "Ver el museo de arte moderno MAMC+",
+        "See the MAMC+ modern art museum",
+        "Voir le musée d’art moderne MAMC+",
+        "Das Museum für moderne Kunst MAMC+ ansehen",
+        "Vedere il museo d’arte moderna MAMC+",
+        "Ver o museu de arte moderna MAMC+",
+        "Veure el museu d’art modern MAMC+"
+      ],
+      [
+        "Pasear por la place du Peuple",
+        "Stroll through Place du Peuple",
+        "Flâner place du Peuple",
+        "Über die Place du Peuple schlendern",
+        "Passeggiare in place du Peuple",
+        "Passear pela Place du Peuple",
+        "Passejar per la place du Peuple"
+      ]
+    ],
+    "notes": [
+      "EBU está en Andrézieux-Bouthéon, fuera de Saint-Étienne. Prevé el traslado terrestre y comprueba los vuelos disponibles para tus fechas, que pueden ser limitados.",
+      "EBU is in Andrézieux-Bouthéon, outside Saint-Étienne. Allow for a ground transfer and check which flights run on your dates, as they may be limited.",
+      "EBU se trouve à Andrézieux-Bouthéon, hors de Saint-Étienne. Prévoyez un transfert terrestre et vérifiez les vols disponibles à vos dates, parfois limités.",
+      "EBU liegt in Andrézieux-Bouthéon außerhalb von Saint-Étienne. Einen Landtransfer einplanen und prüfen, welche Flüge an den Reisedaten verfügbar sind; das Angebot kann begrenzt sein.",
+      "EBU si trova ad Andrézieux-Bouthéon, fuori da Saint-Étienne. Prevedi il trasferimento via terra e verifica i voli disponibili per le tue date, che possono essere limitati.",
+      "EBU fica em Andrézieux-Bouthéon, fora de Saint-Étienne. Preveja o transporte terrestre e confirme os voos disponíveis nas suas datas, que podem ser limitados.",
+      "EBU és a Andrézieux-Bouthéon, fora de Saint-Étienne. Preveu el trasllat terrestre i comprova els vols disponibles per a les teves dates, que poden ser limitats."
+    ],
+    "stay": "2",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "lorient",
+    "code": "LRT",
+    "airport": "Lorient Bretagne Sud",
+    "aliases": [
+      "An Oriant",
+      "Lorient Bretagne Sud",
+      "Lorient Lann-Bihoué",
+      "Lann-Bihoué",
+      "Lann Bihoue",
+      "Larmor-Plage",
+      "Lorient Airport",
+      "Lann Bihoue Airport"
+    ],
+    "names": [
+      "Lorient",
+      "Lorient",
+      "Lorient",
+      "Lorient",
+      "Lorient",
+      "Lorient",
+      "Lorient"
+    ],
+    "descriptions": [
+      "Puerto bretón de velas y de memoria marinera, Lorient reúne la Cité de la Voile Éric Tabarly, la torre de la Découverte y la rada que se cruza en barco hasta Port-Louis.",
+      "A Breton port of sails and maritime memory, Lorient brings together the Cité de la Voile Éric Tabarly, the Tour de la Découverte and a harbour you can cross by boat to Port-Louis.",
+      "Port breton de voiles et de mémoire maritime, Lorient réunit la Cité de la Voile Éric Tabarly, la tour de la Découverte et une rade que l’on traverse en bateau jusqu’à Port-Louis.",
+      "Der bretonische Hafen der Segel und der Seefahrtserinnerung vereint die Cité de la Voile Éric Tabarly, den Tour de la Découverte und eine Reede, die man per Boot nach Port-Louis überquert.",
+      "Porto bretone di vele e memoria marinara, Lorient riunisce la Cité de la Voile Éric Tabarly, la Tour de la Découverte e una rada da attraversare in barca fino a Port-Louis.",
+      "Porto bretão de velas e de memória marítima, Lorient reúne a Cité de la Voile Éric Tabarly, a Tour de la Découverte e uma baía que se atravessa de barco até Port-Louis.",
+      "Port bretó de veles i de memòria mariner, Lorient reuneix la Cité de la Voile Éric Tabarly, la Tour de la Découverte i una rada que es creua en barca fins a Port-Louis."
+    ],
+    "recommendations": [
+      [
+        "Visitar la Cité de la Voile Éric Tabarly",
+        "Visit the Cité de la Voile Éric Tabarly",
+        "Visiter la Cité de la Voile Éric Tabarly",
+        "Die Cité de la Voile Éric Tabarly besuchen",
+        "Visitare la Cité de la Voile Éric Tabarly",
+        "Visitar a Cité de la Voile Éric Tabarly",
+        "Visitar la Cité de la Voile Éric Tabarly"
+      ],
+      [
+        "Subir a la Tour de la Découverte",
+        "Climb the Tour de la Découverte",
+        "Monter à la tour de la Découverte",
+        "Den Tour de la Découverte besteigen",
+        "Salire sulla Tour de la Découverte",
+        "Subir à Tour de la Découverte",
+        "Pujar a la Tour de la Découverte"
+      ],
+      [
+        "Conocer la base de submarinos de Keroman",
+        "See the Keroman submarine base",
+        "Voir la base de sous-marins de Keroman",
+        "Die U-Boot-Basis Keroman ansehen",
+        "Vedere la base dei sommergibili di Keroman",
+        "Ver a base de submarinos de Keroman",
+        "Veure la base de submarins de Keroman"
+      ],
+      [
+        "Cruzar en barco a Port-Louis",
+        "Take the boat across to Port-Louis",
+        "Traverser en bateau jusqu’à Port-Louis",
+        "Mit dem Boot nach Port-Louis übersetzen",
+        "Attraversare in barca fino a Port-Louis",
+        "Atravessar de barco até Port-Louis",
+        "Creuar en barca fins a Port-Louis"
+      ]
+    ],
+    "notes": [
+      "LRT está en el sector civil de Lann-Bihoué, fuera de Lorient. Prevé el traslado terrestre; la conexión regular puede ser limitada, así que comprueba los vuelos de tus fechas.",
+      "LRT is in the civil sector of Lann-Bihoué, outside Lorient. Allow for a ground transfer; the scheduled service may be limited, so check flights for your dates.",
+      "LRT se trouve dans le secteur civil de Lann-Bihoué, hors de Lorient. Prévoyez un transfert terrestre ; la liaison régulière peut être limitée, vérifiez les vols à vos dates.",
+      "LRT liegt im zivilen Bereich von Lann-Bihoué außerhalb von Lorient. Einen Landtransfer einplanen; die Linienverbindung kann begrenzt sein, daher die Flüge für die Reisedaten prüfen.",
+      "LRT si trova nel settore civile di Lann-Bihoué, fuori da Lorient. Prevedi il trasferimento via terra; il collegamento regolare può essere limitato, quindi verifica i voli per le tue date.",
+      "LRT fica no setor civil de Lann-Bihoué, fora de Lorient. Preveja o transporte terrestre; a ligação regular pode ser limitada, por isso confirme os voos nas suas datas.",
+      "LRT és al sector civil de Lann-Bihoué, fora de Lorient. Preveu el trasllat terrestre; la connexió regular pot ser limitada, així que comprova els vols per a les teves dates."
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      7,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "le-puy-en-velay",
+    "code": "LPY",
+    "airport": "Le Puy-en-Velay–Loudes",
+    "aliases": [
+      "Le Puy",
+      "Puy-en-Velay",
+      "Le Puy-en-Velay Loudes",
+      "Loudes",
+      "Chaspuzac",
+      "Le Puy Loudes Airport",
+      "Loudes Airport"
+    ],
+    "names": [
+      "Le Puy-en-Velay",
+      "Le Puy-en-Velay",
+      "Le Puy-en-Velay",
+      "Le Puy-en-Velay",
+      "Le Puy-en-Velay",
+      "Le Puy-en-Velay",
+      "Le Puy-en-Velay"
+    ],
+    "descriptions": [
+      "Una capilla sobre un pitón volcánico, una catedral de piedra bicolor y un casco antiguo de calles empinadas hacen de Le Puy-en-Velay una de las paradas más singulares de Auvernia.",
+      "A chapel on a volcanic needle, a two-tone stone cathedral and an old town of steep streets make Le Puy-en-Velay one of Auvergne’s most distinctive stops.",
+      "Une chapelle perchée sur un piton volcanique, une cathédrale de pierre bicolore et une vieille ville aux rues pentues font du Puy-en-Velay l’une des étapes les plus singulières d’Auvergne.",
+      "Eine Kapelle auf einem Vulkanschlot, eine zweifarbige Steinkathedrale und eine Altstadt mit steilen Gassen machen Le Puy-en-Velay zu einem der eigenwilligsten Ziele der Auvergne.",
+      "Una cappella su un picco vulcanico, una cattedrale di pietra bicolore e un centro storico dalle strade ripide fanno di Le Puy-en-Velay una delle tappe più singolari dell’Alvernia.",
+      "Uma capela sobre um pico vulcânico, uma catedral de pedra bicolor e um centro histórico de ruas íngremes fazem de Le Puy-en-Velay uma das paragens mais singulares da Auvérnia.",
+      "Una capella sobre un pitó volcànic, una catedral de pedra bicolor i un nucli antic de carrers costeruts fan de Le Puy-en-Velay una de les parades més singulars d’Alvèrnia."
+    ],
+    "recommendations": [
+      [
+        "Subir a la capilla de Saint-Michel d’Aiguilhe",
+        "Climb to the Saint-Michel d’Aiguilhe chapel",
+        "Monter à la chapelle Saint-Michel d’Aiguilhe",
+        "Zur Kapelle Saint-Michel d’Aiguilhe hinaufsteigen",
+        "Salire alla cappella di Saint-Michel d’Aiguilhe",
+        "Subir à capela de Saint-Michel d’Aiguilhe",
+        "Pujar a la capella de Saint-Michel d’Aiguilhe"
+      ],
+      [
+        "Visitar la catedral de Notre-Dame",
+        "Visit Notre-Dame Cathedral",
+        "Visiter la cathédrale Notre-Dame",
+        "Die Kathedrale Notre-Dame besuchen",
+        "Visitare la cattedrale di Notre-Dame",
+        "Visitar a catedral de Notre-Dame",
+        "Visitar la catedral de Notre-Dame"
+      ],
+      [
+        "Ver el rocher Corneille y su estatua",
+        "See the Rocher Corneille and its statue",
+        "Voir le rocher Corneille et sa statue",
+        "Den Rocher Corneille und seine Statue ansehen",
+        "Vedere il rocher Corneille e la sua statua",
+        "Ver o Rocher Corneille e a sua estátua",
+        "Veure el rocher Corneille i la seva estàtua"
+      ],
+      [
+        "Pasear por el casco antiguo",
+        "Stroll through the old town",
+        "Flâner dans la vieille ville",
+        "Durch die Altstadt schlendern",
+        "Passeggiare nel centro storico",
+        "Passear pelo centro histórico",
+        "Passejar pel nucli antic"
+      ]
+    ],
+    "notes": [
+      "LPY está en Loudes, fuera de Le Puy-en-Velay. Prevé el traslado terrestre y comprueba los vuelos de tus fechas, porque el servicio puede ser limitado. Hay muchos escalones y pendientes.",
+      "LPY is in Loudes, outside Le Puy-en-Velay. Allow for a ground transfer and check flights for your dates, as service may be limited. There are many steps and slopes.",
+      "LPY se trouve à Loudes, hors du Puy-en-Velay. Prévoyez un transfert terrestre et vérifiez les vols à vos dates, car le service peut être limité. Il y a beaucoup de marches et de pentes.",
+      "LPY liegt in Loudes außerhalb von Le Puy-en-Velay. Einen Landtransfer einplanen und die Flüge für die Reisedaten prüfen, da das Angebot begrenzt sein kann. Es gibt viele Stufen und Steigungen.",
+      "LPY si trova a Loudes, fuori da Le Puy-en-Velay. Prevedi il trasferimento via terra e verifica i voli per le tue date, perché il servizio può essere limitato. Ci sono molti gradini e salite.",
+      "LPY fica em Loudes, fora de Le Puy-en-Velay. Preveja o transporte terrestre e confirme os voos nas suas datas, porque o serviço pode ser limitado. Há muitos degraus e subidas.",
+      "LPY és a Loudes, fora de Le Puy-en-Velay. Preveu el trasllat terrestre i comprova els vols per a les teves dates, perquè el servei pot ser limitat. Hi ha molts esglaons i pendents."
+    ],
+    "stay": "2",
+    "best": [
+      5,
+      6,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
+  },
+  {
+    "slug": "ouessant",
+    "code": "OUI",
+    "airport": "Ouessant",
+    "aliases": [
+      "Ushant",
+      "Enez Eusa",
+      "Lampaul",
+      "Ouessant Airport",
+      "Île d’Ouessant",
+      "Ile d’Ouessant"
+    ],
+    "names": [
+      "Ouessant",
+      "Ouessant",
+      "Ouessant",
+      "Ouessant",
+      "Ouessant",
+      "Ouessant",
+      "Ouessant"
+    ],
+    "descriptions": [
+      "En el extremo occidental de Francia, la isla de Ouessant ofrece faros históricos, acantilados batidos por el Atlántico y caminos costeros para recorrer a pie o en bicicleta.",
+      "At France’s western tip, the island of Ouessant (Ushant) offers historic lighthouses, Atlantic-battered cliffs and coastal paths to explore on foot or by bike.",
+      "À l’extrémité occidentale de la France, l’île d’Ouessant offre des phares historiques, des falaises battues par l’Atlantique et des chemins côtiers à parcourir à pied ou à vélo.",
+      "Am westlichen Ende Frankreichs bietet die Insel Ouessant historische Leuchttürme, vom Atlantik umtoste Klippen und Küstenwege zum Erkunden zu Fuß oder mit dem Rad.",
+      "All’estremità occidentale della Francia, l’isola di Ouessant offre fari storici, scogliere battute dall’Atlantico e sentieri costieri da percorrere a piedi o in bicicletta.",
+      "No extremo ocidental de França, a ilha de Ouessant oferece faróis históricos, falésias fustigadas pelo Atlântico e caminhos costeiros para percorrer a pé ou de bicicleta.",
+      "A l’extrem occidental de França, l’illa d’Ouessant ofereix fars històrics, penya-segats batuts per l’Atlàntic i camins costaners per recórrer a peu o en bicicleta."
+    ],
+    "recommendations": [
+      [
+        "Ver el faro de Créac’h y su museo",
+        "See the Créac’h lighthouse and its museum",
+        "Voir le phare du Créac’h et son musée",
+        "Den Leuchtturm Créac’h und sein Museum ansehen",
+        "Vedere il faro di Créac’h e il suo museo",
+        "Ver o farol de Créac’h e o seu museu",
+        "Veure el far de Créac’h i el seu museu"
+      ],
+      [
+        "Conocer la Maison du Niou",
+        "Discover the Maison du Niou",
+        "Découvrir la Maison du Niou",
+        "Die Maison du Niou kennenlernen",
+        "Scoprire la Maison du Niou",
+        "Conhecer a Maison du Niou",
+        "Conèixer la Maison du Niou"
+      ],
+      [
+        "Caminar hasta la Pointe de Pern",
+        "Walk to the Pointe de Pern",
+        "Marcher jusqu’à la pointe de Pern",
+        "Zur Pointe de Pern wandern",
+        "Camminare fino alla Pointe de Pern",
+        "Caminhar até à Pointe de Pern",
+        "Caminar fins a la Pointe de Pern"
+      ],
+      [
+        "Pasear por la bahía de Lampaul",
+        "Stroll around Lampaul Bay",
+        "Se promener dans la baie de Lampaul",
+        "An der Bucht von Lampaul spazieren",
+        "Passeggiare nella baia di Lampaul",
+        "Passear pela baía de Lampaul",
+        "Passejar per la badia de Lampaul"
+      ]
+    ],
+    "notes": [
+      "OUI es el aeródromo de la propia isla de Ouessant, fuera de Lampaul. Los vuelos son en avioneta y dependen del tiempo; también hay barco desde Brest o Le Conquet. Comprueba ambas opciones.",
+      "OUI is the aerodrome on Ouessant island itself, outside Lampaul. Flights use small aircraft and depend on the weather; there is also a boat from Brest or Le Conquet. Check both options.",
+      "OUI est l’aérodrome de l’île d’Ouessant elle-même, hors de Lampaul. Les vols se font en petit avion et dépendent de la météo ; il existe aussi un bateau depuis Brest ou Le Conquet. Vérifiez les deux options.",
+      "OUI ist der Flugplatz auf der Insel Ouessant selbst, außerhalb von Lampaul. Die Flüge erfolgen mit Kleinflugzeugen und hängen vom Wetter ab; es gibt auch ein Boot ab Brest oder Le Conquet. Beide Möglichkeiten prüfen.",
+      "OUI è l’aerodromo dell’isola di Ouessant stessa, fuori da Lampaul. I voli sono con piccoli aerei e dipendono dal meteo; c’è anche il battello da Brest o Le Conquet. Verifica entrambe le opzioni.",
+      "OUI é o aeródromo da própria ilha de Ouessant, fora de Lampaul. Os voos são em avioneta e dependem do tempo; também há barco desde Brest ou Le Conquet. Confirme ambas as opções.",
+      "OUI és l’aeròdrom de la mateixa illa d’Ouessant, fora de Lampaul. Els vols són en avioneta i depenen del temps; també hi ha vaixell des de Brest o Le Conquet. Comprova totes dues opcions."
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ]
   }
 ];
 
