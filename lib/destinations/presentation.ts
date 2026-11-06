@@ -1,6 +1,6 @@
 /** Automatic catalog recommendations only. Original editorial cards (including Paris) keep their own lists. */
 export function canShowDestinationAutomatically(destination: { countryCode?: string; country?: string }) {
   return destination.countryCode
-    ? !['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'AL', 'TR', 'RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY', 'RO', 'BG', 'MD'].includes(destination.countryCode.trim().toUpperCase())
-    : !['francia', 'italia', 'reino unido', 'alemania', 'países bajos', 'bélgica', 'suiza', 'austria', 'chequia', 'polonia', 'hungría', 'eslovaquia', 'albania', 'turquía', 'serbia', 'bosnia y herzegovina', 'montenegro', 'macedonia del norte', 'kosovo', 'malta', 'chipre', 'rumanía', 'bulgaria', 'moldavia'].includes((destination.country ?? '').trim().toLowerCase());
+    ? !['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'AL', 'TR', 'RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY', 'RO', 'BG', 'MD', 'DK', 'IS', 'FI'].includes(destination.countryCode.trim().toUpperCase())
+    : !['francia', 'italia', 'reino unido', 'alemania', 'países bajos', 'bélgica', 'suiza', 'austria', 'chequia', 'polonia', 'hungría', 'eslovaquia', 'albania', 'turquía', 'serbia', 'bosnia y herzegovina', 'montenegro', 'macedonia del norte', 'kosovo', 'malta', 'chipre', 'rumanía', 'bulgaria', 'moldavia', 'dinamarca', 'islandia', 'finlandia'].includes((destination.country ?? '').trim().toLowerCase());
 }

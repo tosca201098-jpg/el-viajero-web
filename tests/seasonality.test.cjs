@@ -33,7 +33,8 @@ const albania = load('lib/destinations/albania.ts');
 const turkey = load('lib/destinations/turkey.ts');
 const southeastEurope = load('lib/destinations/southeast-europe.ts');
 const easternEurope = load('lib/destinations/eastern-europe.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope });
+const nordics = load('lib/destinations/nordics.ts');
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics });
 const formatting = load('lib/destinations/seasonality.ts');
 const { locales } = load('lib/i18n/translations.ts');
 
