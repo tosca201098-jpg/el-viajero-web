@@ -1,0 +1,108 @@
+{
+  "checkedAt": "2026-11-06",
+  "source": "https://api.travelpayouts.com/data/en/airports.json",
+  "airports": [
+    {
+      "code": "HAJ",
+      "name": "Hannover Airport",
+      "country_code": "DE",
+      "city_code": "HAJ",
+      "flightable": true
+    },
+    {
+      "code": "BRE",
+      "name": "Bremen Airport",
+      "country_code": "DE",
+      "city_code": "BRE",
+      "flightable": true
+    },
+    {
+      "code": "RLG",
+      "name": "Laage Airport",
+      "country_code": "DE",
+      "city_code": "RLG",
+      "flightable": true
+    },
+    {
+      "code": "DTM",
+      "name": "Dortmund Airport",
+      "country_code": "DE",
+      "city_code": "DTM",
+      "flightable": true
+    },
+    {
+      "code": "FMO",
+      "name": "Munster Osnabruck International Airport",
+      "country_code": "DE",
+      "city_code": "FMO",
+      "flightable": true
+    },
+    {
+      "code": "PAD",
+      "name": "Paderborn Lippstadt Airport",
+      "country_code": "DE",
+      "city_code": "PAD",
+      "flightable": true
+    },
+    {
+      "code": "FDH",
+      "name": "Friedrichshafen Airport",
+      "country_code": "DE",
+      "city_code": "FDH",
+      "flightable": true
+    },
+    {
+      "code": "ERF",
+      "name": "Erfurt Airport",
+      "country_code": "DE",
+      "city_code": "ERF",
+      "flightable": true
+    },
+    {
+      "code": "SCN",
+      "name": "Ensheim Airport",
+      "country_code": "DE",
+      "city_code": "SCN",
+      "flightable": true
+    },
+    {
+      "code": "GWT",
+      "name": "Westerland - Sylt Airport",
+      "country_code": "DE",
+      "city_code": "GWT",
+      "flightable": true
+    },
+    {
+      "code": "HDF",
+      "name": "Heringsdorf Airport",
+      "country_code": "DE",
+      "city_code": "HDF",
+      "flightable": true
+    },
+    {
+      "code": "KSF",
+      "name": "Kassel-Calden Airport",
+      "country_code": "DE",
+      "city_code": "KSF",
+      "flightable": true
+    }
+  ],
+  "pendingVerification": [
+    {
+      "code": "AGB",
+      "name": "Augsburg Airport",
+      "country_code": "DE",
+      "city_code": "AGB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    },
+    {
+      "code": "MHG",
+      "name": "Mannheim Airport",
+      "country_code": "DE",
+      "city_code": "MHG",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    }
+  ]
+}

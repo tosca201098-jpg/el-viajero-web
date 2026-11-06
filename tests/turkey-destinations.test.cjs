@@ -42,9 +42,9 @@ const codes = { istanbul:['IST','SAW'], ankara:['ESB'], izmir:['ADB'], antalya:[
 test('Turkey adds 23 draft profiles to 210 unchanged profiles; original cards and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,210);
   assert.deepEqual(Array.from(turkish,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,354);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,354);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,354);
+  assert.equal(catalog.destinationProfiles.length,366);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,366);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,366);
   for (const previous of before.profiles) {
     const profile = catalog.getDestinationById(previous.id);
     assert.equal(digest(profile),previous.sha256,previous.id);
