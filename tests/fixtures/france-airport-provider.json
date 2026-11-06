@@ -132,6 +132,134 @@
         "lon": 0.003368
       },
       "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Llabanere Airport"
+      },
+      "city_code": "PGF",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "PGF",
+      "iata_type": "airport",
+      "name": "Llabanere Airport",
+      "coordinates": {
+        "lat": 42.741016,
+        "lon": 2.868183
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Sainte Catherine Airport"
+      },
+      "city_code": "CLY",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "CLY",
+      "iata_type": "airport",
+      "name": "Sainte Catherine Airport",
+      "coordinates": {
+        "lat": 42.52778,
+        "lon": 8.791667
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Carpiquet Airport"
+      },
+      "city_code": "CFR",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "CFR",
+      "iata_type": "airport",
+      "name": "Carpiquet Airport",
+      "coordinates": {
+        "lat": 49.183437,
+        "lon": -0.459276
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Carcassonne Airport"
+      },
+      "city_code": "CCF",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "CCF",
+      "iata_type": "airport",
+      "name": "Carcassonne Airport",
+      "coordinates": {
+        "lat": 43.216667,
+        "lon": 2.316667
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Laleu Airport"
+      },
+      "city_code": "LRH",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "LRH",
+      "iata_type": "airport",
+      "name": "Laleu Airport",
+      "coordinates": {
+        "lat": 46.180557,
+        "lon": -1.185833
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Beziers Vias Airport"
+      },
+      "city_code": "BZR",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "BZR",
+      "iata_type": "airport",
+      "name": "Beziers Vias Airport",
+      "coordinates": {
+        "lat": 43.324165,
+        "lon": 3.354444
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Bellegarde Airport"
+      },
+      "city_code": "LIG",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "LIG",
+      "iata_type": "airport",
+      "name": "Bellegarde Airport",
+      "coordinates": {
+        "lat": 45.86218,
+        "lon": 1.176245
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Clermont-Ferrand Auvergne Airport"
+      },
+      "city_code": "CFE",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "CFE",
+      "iata_type": "airport",
+      "name": "Clermont-Ferrand Auvergne Airport",
+      "coordinates": {
+        "lat": 45.78032,
+        "lon": 3.163893
+      },
+      "flightable": true
     }
   ],
   "cities": [
@@ -268,6 +396,142 @@
       "coordinates": {
         "lat": 48.113475,
         "lon": -1.675708
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Perpignan"
+      },
+      "cases": {
+        "su": "Perpignan"
+      },
+      "country_code": "FR",
+      "code": "PGF",
+      "time_zone": "Europe/Paris",
+      "name": "Perpignan",
+      "coordinates": {
+        "lat": 42.6886591,
+        "lon": 2.8948332
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Calvi"
+      },
+      "cases": {
+        "su": "Calvi"
+      },
+      "country_code": "FR",
+      "code": "CLY",
+      "time_zone": "Europe/Paris",
+      "name": "Calvi",
+      "coordinates": {
+        "lat": 42.52778,
+        "lon": 8.791667
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Caen"
+      },
+      "cases": {
+        "su": "Caen"
+      },
+      "country_code": "FR",
+      "code": "CFR",
+      "time_zone": "Europe/Paris",
+      "name": "Caen",
+      "coordinates": {
+        "lat": 49.182863,
+        "lon": -0.370679
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Carcassonne"
+      },
+      "cases": {
+        "su": "Carcassonne"
+      },
+      "country_code": "FR",
+      "code": "CCF",
+      "time_zone": "Europe/Paris",
+      "name": "Carcassonne",
+      "coordinates": {
+        "lat": 43.216667,
+        "lon": 2.316667
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "La Rochelle"
+      },
+      "cases": {
+        "su": "La Rochelle"
+      },
+      "country_code": "FR",
+      "code": "LRH",
+      "time_zone": "Europe/Paris",
+      "name": "La Rochelle",
+      "coordinates": {
+        "lat": 46.160329,
+        "lon": -1.151139
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Beziers"
+      },
+      "cases": {
+        "su": "Beziers"
+      },
+      "country_code": "FR",
+      "code": "BZR",
+      "time_zone": "Europe/Paris",
+      "name": "Beziers",
+      "coordinates": {
+        "lat": 43.324165,
+        "lon": 3.354444
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Limoges"
+      },
+      "cases": {
+        "su": "Limoges"
+      },
+      "country_code": "FR",
+      "code": "LIG",
+      "time_zone": "Europe/Paris",
+      "name": "Limoges",
+      "coordinates": {
+        "lat": 45.833619,
+        "lon": 1.261105
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Clermont-Ferrand"
+      },
+      "cases": {
+        "su": "Clermont-Ferrand"
+      },
+      "country_code": "FR",
+      "code": "CFE",
+      "time_zone": "Europe/Paris",
+      "name": "Clermont-Ferrand",
+      "coordinates": {
+        "lat": 45.777222,
+        "lon": 3.087025
       },
       "has_flightable_airport": true
     }

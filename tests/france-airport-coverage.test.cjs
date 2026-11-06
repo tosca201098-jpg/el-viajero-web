@@ -6,16 +6,16 @@ function loader(globals={}){const cache=new Map();function load(file){file=file.
 const load=loader(),catalog=load('lib/destinations/index.ts'),coverage=load('lib/destinations/france-airport-coverage.ts'),airports=load('lib/travelpayouts/france-airports.ts');
 const select=load('lib/destinations/selection.ts').destinationFromPlaceSelection;
 const baseline=require('./fixtures/pre-france-airport-coverage.json');
-const codes={MPL:'montpellier',AJA:'ajaccio',BIA:'bastia',BIQ:'biarritz',FSC:'figari',BES:'brest',LDE:'lourdes',RNS:'rennes'};
+const codes={MPL:'montpellier',AJA:'ajaccio',BIA:'bastia',BIQ:'biarritz',FSC:'figari',BES:'brest',LDE:'lourdes',RNS:'rennes',PGF:'perpignan',CLY:'calvi',CFR:'caen',CCF:'carcassonne',LRH:'la-rochelle',BZR:'beziers',LIG:'limoges',CFE:'clermont-ferrand'};
 const locales=['es','en','fr','de','it','pt','ca'];
 const digest=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const plain=value=>JSON.parse(JSON.stringify(value));
 
-test('eight French airport cities preserve every prior profile, photo and original homepage card',()=>{
- assert.equal(baseline.profiles.length,224);assert.equal(catalog.destinationProfiles.length,232);assert.equal(catalog.getDestinationsByCountry('FR').length,20);
+test('sixteen French airport cities preserve every prior profile, photo and original homepage card',()=>{
+ assert.equal(baseline.profiles.length,224);assert.equal(catalog.destinationProfiles.length,240);assert.equal(catalog.getDestinationsByCountry('FR').length,28);
  for(const old of baseline.profiles)assert.equal(digest(catalog.getDestinationById(old.id)),old.sha256,old.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
- assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,232);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,232);
+ assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,240);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,240);
  assert.deepEqual(Array.from(coverage.franceAirportCoverage,p=>p.id),Object.values(codes).map(slug=>'fr-'+slug));
 });
 
@@ -33,8 +33,8 @@ test('airport codes open a single served-city card and retain existing multi-air
  assert.equal(catalog.findDestinationProfile({iataCode:'MLH'})?.id,'ch-basel');
 });
 
-test('all eight physical airports and city codes match the actual public provider snapshot',()=>{
- const snapshot=require('./fixtures/france-airport-provider.json');assert.equal(snapshot.airports.length,8);assert.equal(snapshot.cities.length,8);
+test('all sixteen physical airports and city codes match the actual public provider snapshot',()=>{
+ const snapshot=require('./fixtures/france-airport-provider.json');assert.equal(snapshot.airports.length,16);assert.equal(snapshot.cities.length,16);
  for(const code of Object.keys(codes)){
   const physical=snapshot.airports.find(a=>a.code===code);assert.equal(physical.country_code,'FR');assert.equal(physical.iata_type,'airport');assert.equal(physical.flightable,true);
   assert.equal(physical.city_code,code);assert.equal(snapshot.cities.find(c=>c.code===code).country_code,'FR');
@@ -71,7 +71,7 @@ test('new city cards remain draft and excluded from automatic recommendations an
 });
 
 test('real photo URLs and individual attribution match the Commons metadata without adding private or price data',()=>{
- const photos=require('./fixtures/france-airport-photos.json');assert.equal(Object.keys(photos).length,8);
+ const photos=require('./fixtures/france-airport-photos.json');assert.equal(Object.keys(photos).length,16);
  for(const[slug,photo]of Object.entries(photos)){
   const p=catalog.getDestinationById('fr-'+slug);assert.equal(p.image,photo.url);assert.equal(p.imageSource,photo.source);assert.equal(p.imageCredit,photo.artist);assert.equal(p.imageLicense,photo.license);assert.equal(p.imageLicenseUrl,photo.licenseUrl);
   assert.match(p.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(p.imageLicense,/^CC BY/);assert.ok(photo.width>=960);assert.ok(!/<[^>]+>/.test(p.imageCredit));
@@ -83,4 +83,17 @@ test('Lourdes does not recommend closed Pic du Jer paths and Figari labels its e
  const lourdes=catalog.getDestinationById('fr-lourdes'),figari=catalog.getDestinationById('fr-figari');
  for(const locale of locales){assert.ok(!/Pic du Jer/i.test(lourdes.translations[locale].recommendations.join(' ')));assert.ok(lourdes.translations[locale].seasonalityNote.includes('Tarbes'));}
  assert.match(figari.seasonalityNote,/excursiones fuera del pueblo/);assert.match(figari.seasonalityNote,/protegidos/);
+});
+
+test('second French lot preserves all 232 earlier profiles and documents the temporary CCF closure',()=>{
+ const previous=require('./fixtures/pre-france-second-batch.json');assert.equal(previous.profiles.length,232);
+ for(const old of previous.profiles)assert.equal(digest(catalog.getDestinationById(old.id)),old.sha256,old.id);
+ assert.equal(digest(load('lib/destinations/featured.ts').destinations),previous.featuredSha256);
+ const carcassonne=catalog.getDestinationById('fr-carcassonne');
+ for(const locale of locales){const note=carcassonne.translations[locale].seasonalityNote;const dates=locale==='en'?['5 November 2026','2 November 2026','13 December 2026','14 December 2026']:locale==='de'?['05.11.2026','02.11.2026','13.12.2026','14.12.2026']:['05/11/2026','02/11/2026','13/12/2026','14/12/2026'];for(const date of dates)assert.ok(note.includes(date),locale+':'+date);}
+ assert.match(catalog.getDestinationById('fr-la-rochelle').seasonalityNote,/continente/);
+ assert.match(catalog.getDestinationById('fr-beziers').seasonalityNote,/Portiragnes/);
+ assert.match(catalog.getDestinationById('fr-clermont-ferrand').seasonalityNote,/Aulnat/);
+ assert.equal(catalog.getDestinationById('fr-aulnat'),undefined);
+ assert.equal(catalog.getDestinationById('fr-montferrand'),undefined);
 });

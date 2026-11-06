@@ -215,6 +215,727 @@ const seeds: Seed[] = [
       'RNS fica em Saint-Jacques-de-la-Lande, fora do centro de Rennes. Preveja o transporte terrestre e confirme os horários do mercado e das visitas ao Parlamento.',
       'RNS és a Saint-Jacques-de-la-Lande, fora del centre de Rennes. Preveu el trasllat terrestre i confirma els horaris del mercat i de les visites al Parlament.',
     ] },
+{
+    "slug": "perpignan",
+    "code": "PGF",
+    "airport": "Perpignan Rivesaltes Méditerranée",
+    "aliases": [
+      "Perpignan",
+      "Perpiñán",
+      "Perpinyà",
+      "Perpignano",
+      "Perpinhã",
+      "Perpignan-Rivesaltes",
+      "Perpignan Rivesaltes Airport",
+      "Perpignan Llabanère",
+      "Llabanere Airport"
+    ],
+    "names": [
+      "Perpiñán",
+      "Perpignan",
+      "Perpignan",
+      "Perpignan",
+      "Perpignano",
+      "Perpinhã",
+      "Perpinyà"
+    ],
+    "stay": "2–3",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "El Castillet, las plazas del casco antiguo y el palacio de los Reyes de Mallorca acercan al patrimonio catalán de Perpiñán.",
+      "The Castillet, old-town squares and Palace of the Kings of Majorca introduce Perpignan’s Catalan heritage.",
+      "Le Castillet, les places du centre ancien et le palais des Rois de Majorque révèlent le patrimoine catalan de Perpignan.",
+      "Castillet, Altstadtplätze und der Palast der Könige von Mallorca erschließen das katalanische Erbe von Perpignan.",
+      "Il Castillet, le piazze del centro storico e il Palazzo dei Re di Maiorca raccontano il patrimonio catalano di Perpignano.",
+      "O Castillet, as praças do centro histórico e o Palácio dos Reis de Maiorca apresentam o património catalão de Perpinhã.",
+      "El Castellet, les places del nucli antic i el Palau dels Reis de Mallorca apropen al patrimoni català de Perpinyà."
+    ],
+    "recommendations": [
+      [
+        "Conocer el Castillet",
+        "Discover the Castillet",
+        "Découvrir le Castillet",
+        "Das Castillet entdecken",
+        "Scoprire il Castillet",
+        "Conhecer o Castillet",
+        "Conèixer el Castellet"
+      ],
+      [
+        "Visitar el palacio de los Reyes de Mallorca",
+        "Visit the Palace of the Kings of Majorca",
+        "Visiter le palais des Rois de Majorque",
+        "Den Palast der Könige von Mallorca besuchen",
+        "Visitare il Palazzo dei Re di Maiorca",
+        "Visitar o Palácio dos Reis de Maiorca",
+        "Visitar el Palau dels Reis de Mallorca"
+      ],
+      [
+        "Descubrir la catedral de Saint-Jean y el Campo Santo",
+        "Explore Saint-Jean Cathedral and the Campo Santo",
+        "Découvrir la cathédrale Saint-Jean et le Campo Santo",
+        "Die Kathedrale Saint-Jean und den Campo Santo erkunden",
+        "Scoprire la cattedrale Saint-Jean e il Campo Santo",
+        "Conhecer a catedral de Saint-Jean e o Campo Santo",
+        "Descobrir la catedral de Sant Joan i el Campo Santo"
+      ],
+      [
+        "Pasear por la plaza de la Loge y el casco antiguo",
+        "Walk through Place de la Loge and the old town",
+        "Flâner place de la Loge et dans le centre ancien",
+        "Über die Place de la Loge und durch die Altstadt spazieren",
+        "Passeggiare in place de la Loge e nel centro storico",
+        "Passear pela Place de la Loge e pelo centro histórico",
+        "Passejar per la plaça de la Llotja i el nucli antic"
+      ]
+    ],
+    "notes": [
+      "PGF está al norte de Perpiñán, fuera del centro histórico. Organiza el traslado a tu alojamiento y evita las horas de más calor en verano.",
+      "PGF is north of Perpignan, outside the historic centre. Arrange transport to your accommodation and avoid the hottest hours in summer.",
+      "PGF se trouve au nord de Perpignan, hors du centre historique. Organisez le transfert vers votre hébergement et évitez les heures les plus chaudes en été.",
+      "PGF liegt nördlich von Perpignan außerhalb der Altstadt. Den Transfer zur Unterkunft planen und im Sommer die heißesten Stunden meiden.",
+      "PGF si trova a nord di Perpignano, fuori dal centro storico. Organizza il trasferimento all’alloggio ed evita le ore più calde in estate.",
+      "PGF fica a norte de Perpinhã, fora do centro histórico. Organize o transporte até ao alojamento e evite as horas mais quentes no verão.",
+      "PGF és al nord de Perpinyà, fora del centre històric. Organitza el trasllat a l’allotjament i evita les hores de més calor a l’estiu."
+    ]
+  },
+  {
+    "slug": "calvi",
+    "code": "CLY",
+    "airport": "Calvi Sainte-Catherine",
+    "aliases": [
+      "Calvi-Sainte-Catherine",
+      "Calvi Sainte Catherine Airport",
+      "Calvi Saint Catherine Airport",
+      "Sainte Catherine Airport"
+    ],
+    "names": [
+      "Calvi",
+      "Calvi",
+      "Calvi",
+      "Calvi",
+      "Calvi",
+      "Calvi",
+      "Calvi"
+    ],
+    "stay": "3–4",
+    "best": [
+      5,
+      6,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11,
+      12
+    ],
+    "descriptions": [
+      "Una ciudadela sobre el mar, un puerto y la playa del golfo definen Calvi, una base para descubrir la Balagne en el noroeste de Córcega.",
+      "A seaside citadel, harbour and gulf-side beach define Calvi, a base for exploring the Balagne in northwestern Corsica.",
+      "Une citadelle sur la mer, un port et la plage du golfe dessinent Calvi, point de départ pour découvrir la Balagne au nord-ouest de la Corse.",
+      "Zitadelle am Meer, Hafen und Strand am Golf prägen Calvi, einen Ausgangspunkt für die Balagne im Nordwesten Korsikas.",
+      "Una cittadella sul mare, un porto e la spiaggia del golfo caratterizzano Calvi, base per scoprire la Balagne nella Corsica nordoccidentale.",
+      "Uma cidadela sobre o mar, um porto e a praia do golfo definem Calvi, base para descobrir a Balagne no noroeste da Córsega.",
+      "Una ciutadella sobre el mar, un port i la platja del golf defineixen Calvi, una base per descobrir la Balagne al nord-oest de Còrsega."
+    ],
+    "recommendations": [
+      [
+        "Recorrer las calles y murallas de la ciudadela",
+        "Explore the citadel’s streets and ramparts",
+        "Parcourir les rues et les remparts de la citadelle",
+        "Gassen und Festungsmauern der Zitadelle erkunden",
+        "Esplorare le vie e le mura della cittadella",
+        "Percorrer as ruas e muralhas da cidadela",
+        "Recórrer els carrers i les muralles de la ciutadella"
+      ],
+      [
+        "Conocer la catedral de Saint-Jean-Baptiste",
+        "Discover Saint-Jean-Baptiste Cathedral",
+        "Découvrir la cathédrale Saint-Jean-Baptiste",
+        "Die Kathedrale Saint-Jean-Baptiste entdecken",
+        "Scoprire la cattedrale Saint-Jean-Baptiste",
+        "Conhecer a catedral de Saint-Jean-Baptiste",
+        "Conèixer la catedral de Saint-Jean-Baptiste"
+      ],
+      [
+        "Pasear por el puerto y el quai Landry",
+        "Walk around the harbour and Quai Landry",
+        "Flâner sur le port et le quai Landry",
+        "Am Hafen und am Quai Landry spazieren",
+        "Passeggiare al porto e sul quai Landry",
+        "Passear pelo porto e pelo Quai Landry",
+        "Passejar pel port i el quai Landry"
+      ],
+      [
+        "Recorrer la pasarela junto a la playa de Calvi",
+        "Walk along the boardwalk beside Calvi beach",
+        "Parcourir la passerelle le long de la plage de Calvi",
+        "Auf dem Holzsteg am Strand von Calvi spazieren",
+        "Percorrere la passerella lungo la spiaggia di Calvi",
+        "Percorrer o passadiço junto à praia de Calvi",
+        "Recórrer la passarel·la vora la platja de Calvi"
+      ]
+    ],
+    "notes": [
+      "CLY está al sureste de Calvi, separado del centro y del puerto. Prevé el traslado terrestre; la ciudadela tiene cuestas y adoquines. Consulta el estado del mar antes de bañarte.",
+      "CLY is southeast of Calvi, separate from the centre and harbour. Allow for a ground transfer; the citadel has slopes and cobbles. Check sea conditions before swimming.",
+      "CLY se trouve au sud-est de Calvi, à l’écart du centre et du port. Prévoyez le transfert terrestre ; la citadelle comporte pentes et pavés. Vérifiez les conditions de baignade.",
+      "CLY liegt südöstlich von Calvi außerhalb von Zentrum und Hafen. Landtransfer einplanen; in der Zitadelle gibt es Steigungen und Kopfsteinpflaster. Vor dem Baden die Meeresbedingungen prüfen.",
+      "CLY si trova a sud-est di Calvi, separato dal centro e dal porto. Prevedi il trasferimento via terra; la cittadella ha salite e acciottolati. Controlla le condizioni del mare prima di nuotare.",
+      "CLY fica a sudeste de Calvi, separado do centro e do porto. Preveja o transporte terrestre; a cidadela tem subidas e calçada. Consulte o estado do mar antes de nadar.",
+      "CLY és al sud-est de Calvi, separat del centre i del port. Preveu el trasllat terrestre; la ciutadella té pendents i llambordes. Consulta l’estat del mar abans de banyar-te."
+    ]
+  },
+  {
+    "slug": "caen",
+    "code": "CFR",
+    "airport": "Caen Carpiquet",
+    "aliases": [
+      "Caen-Carpiquet",
+      "Caen Carpiquet Airport",
+      "Caen Airport",
+      "Carpiquet Airport"
+    ],
+    "names": [
+      "Caen",
+      "Caen",
+      "Caen",
+      "Caen",
+      "Caen",
+      "Caen",
+      "Caen"
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "El castillo y las dos grandes abadías recuerdan el pasado medieval de Caen; el Mémorial invita a comprender la historia del siglo XX.",
+      "The castle and two great abbeys recall Caen’s medieval past, while the Memorial Museum explores twentieth-century history.",
+      "Le château et les deux grandes abbayes rappellent le passé médiéval de Caen ; le Mémorial invite à comprendre l’histoire du XXe siècle.",
+      "Burg und zwei große Abteien erinnern an Caens mittelalterliche Vergangenheit; das Mémorial erschließt die Geschichte des 20. Jahrhunderts.",
+      "Il castello e le due grandi abbazie ricordano il passato medievale di Caen; il Mémorial invita a comprendere la storia del Novecento.",
+      "O castelo e as duas grandes abadias evocam o passado medieval de Caen; o Mémorial convida a compreender a história do século XX.",
+      "El castell i les dues grans abadies recorden el passat medieval de Caen; el Mémorial convida a comprendre la història del segle XX."
+    ],
+    "recommendations": [
+      [
+        "Explorar el castillo y sus museos",
+        "Explore the castle and its museums",
+        "Explorer le château et ses musées",
+        "Die Burg und ihre Museen erkunden",
+        "Esplorare il castello e i suoi musei",
+        "Explorar o castelo e os seus museus",
+        "Explorar el castell i els seus museus"
+      ],
+      [
+        "Conocer la Abbaye aux Hommes",
+        "Discover the Abbaye aux Hommes",
+        "Découvrir l’Abbaye aux Hommes",
+        "Die Abbaye aux Hommes entdecken",
+        "Scoprire l’Abbaye aux Hommes",
+        "Conhecer a Abbaye aux Hommes",
+        "Conèixer l’Abbaye aux Hommes"
+      ],
+      [
+        "Visitar la Abbaye aux Dames y su entorno",
+        "Visit the Abbaye aux Dames and its surroundings",
+        "Visiter l’Abbaye aux Dames et ses abords",
+        "Die Abbaye aux Dames und ihre Umgebung besuchen",
+        "Visitare l’Abbaye aux Dames e i dintorni",
+        "Visitar a Abbaye aux Dames e os seus arredores",
+        "Visitar l’Abbaye aux Dames i el seu entorn"
+      ],
+      [
+        "Dedicar tiempo al Mémorial de Caen",
+        "Allow time for the Caen Memorial Museum",
+        "Prendre le temps de visiter le Mémorial de Caen",
+        "Zeit für das Mémorial de Caen einplanen",
+        "Dedicare tempo al Mémorial de Caen",
+        "Reservar tempo para o Mémorial de Caen",
+        "Dedicar temps al Mémorial de Caen"
+      ]
+    ],
+    "notes": [
+      "CFR está en Carpiquet, fuera de Caen. Organiza el traslado al centro y consulta los avisos de acceso por obras del aeropuerto; lleva ropa para lluvia y viento.",
+      "CFR is in Carpiquet, outside Caen. Arrange a transfer to the centre and check the airport’s roadworks access notices; bring clothing for rain and wind.",
+      "CFR se trouve à Carpiquet, hors de Caen. Organisez le transfert vers le centre et consultez les avis d’accès liés aux travaux de l’aéroport ; prévoyez des vêtements contre pluie et vent.",
+      "CFR liegt in Carpiquet außerhalb von Caen. Transfer ins Zentrum und Hinweise des Flughafens zu Baustellen auf den Zufahrten prüfen; Kleidung für Regen und Wind mitnehmen.",
+      "CFR si trova a Carpiquet, fuori Caen. Organizza il trasferimento in centro e consulta gli avvisi dell’aeroporto sui lavori lungo gli accessi; porta abbigliamento per pioggia e vento.",
+      "CFR fica em Carpiquet, fora de Caen. Organize o transporte até ao centro e consulte os avisos do aeroporto sobre obras nos acessos; leve roupa para chuva e vento.",
+      "CFR és a Carpiquet, fora de Caen. Organitza el trasllat al centre i consulta els avisos de l’aeroport sobre obres als accessos; porta roba per a la pluja i el vent."
+    ]
+  },
+  {
+    "slug": "carcassonne",
+    "code": "CCF",
+    "airport": "Carcassonne Occitanie Sud de France",
+    "aliases": [
+      "Carcassonne",
+      "Carcasona",
+      "Carcassona",
+      "Carcassonne Salvaza",
+      "Carcassonne Airport",
+      "Carcassonne-Salvaza"
+    ],
+    "names": [
+      "Carcasona",
+      "Carcassonne",
+      "Carcassonne",
+      "Carcassonne",
+      "Carcassonne",
+      "Carcassona",
+      "Carcassona"
+    ],
+    "stay": "2–3",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "La Cité amurallada, la bastida Saint-Louis y el canal del Midi ofrecen tres formas de descubrir Carcasona junto al río Aude.",
+      "The walled Cité, Bastide Saint-Louis and Canal du Midi offer three ways to explore Carcassonne beside the River Aude.",
+      "La Cité fortifiée, la bastide Saint-Louis et le canal du Midi offrent trois façons de découvrir Carcassonne au bord de l’Aude.",
+      "Die befestigte Cité, die Bastide Saint-Louis und der Canal du Midi eröffnen drei Seiten von Carcassonne am Fluss Aude.",
+      "La Cité fortificata, la bastide Saint-Louis e il Canal du Midi offrono tre modi per scoprire Carcassonne lungo il fiume Aude.",
+      "A Cité amuralhada, a bastide Saint-Louis e o Canal du Midi oferecem três formas de descobrir Carcassona junto ao rio Aude.",
+      "La ciutat emmurallada, la bastida de Sant Lluís i el canal del Migdia ofereixen tres maneres de descobrir Carcassona vora el riu Aude."
+    ],
+    "recommendations": [
+      [
+        "Visitar el castillo y las murallas de la Cité",
+        "Visit the castle and ramparts of the Cité",
+        "Visiter le château et les remparts de la Cité",
+        "Burg und Festungsmauern der Cité besuchen",
+        "Visitare il castello e le mura della Cité",
+        "Visitar o castelo e as muralhas da Cité",
+        "Visitar el castell i les muralles de la ciutat medieval"
+      ],
+      [
+        "Conocer la basílica de Saint-Nazaire",
+        "Discover Saint-Nazaire Basilica",
+        "Découvrir la basilique Saint-Nazaire",
+        "Die Basilika Saint-Nazaire entdecken",
+        "Scoprire la basilica Saint-Nazaire",
+        "Conhecer a basílica de Saint-Nazaire",
+        "Conèixer la basílica de Sant Nazari"
+      ],
+      [
+        "Pasear por la bastida Saint-Louis y la plaza Carnot",
+        "Walk through Bastide Saint-Louis and Place Carnot",
+        "Flâner dans la bastide Saint-Louis et place Carnot",
+        "Durch die Bastide Saint-Louis und über die Place Carnot spazieren",
+        "Passeggiare nella bastide Saint-Louis e in place Carnot",
+        "Passear pela bastide Saint-Louis e pela Place Carnot",
+        "Passejar per la bastida de Sant Lluís i la plaça Carnot"
+      ],
+      [
+        "Recorrer a pie el entorno del puerto del canal del Midi",
+        "Walk around the Canal du Midi harbour",
+        "Parcourir à pied les abords du port du canal du Midi",
+        "Am Hafen des Canal du Midi spazieren",
+        "Passeggiare nei dintorni del porto del Canal du Midi",
+        "Passear junto ao porto do Canal du Midi",
+        "Recórrer a peu l’entorn del port del canal del Migdia"
+      ]
+    ],
+    "notes": [
+      "CCF está en Salvaza, fuera del centro. Aviso del gestor consultado el 05/11/2026: cierre por obras del 02/11/2026 al 13/12/2026; reanudación comercial prevista el 14/12/2026. Confirma la reapertura y el traslado antes de reservar.",
+      "CCF is at Salvaza, outside the centre. Operator notice checked on 5 November 2026: closed for works from 2 November 2026 to 13 December 2026; commercial services are expected to resume on 14 December 2026. Confirm reopening and transfers before booking.",
+      "CCF se trouve à Salvaza, hors du centre. Avis de l’exploitant consulté le 05/11/2026 : fermeture pour travaux du 02/11/2026 au 13/12/2026 ; reprise commerciale prévue le 14/12/2026. Confirmez la réouverture et le transfert avant de réserver.",
+      "CCF liegt in Salvaza außerhalb des Zentrums. Betreiberhinweis, geprüft am 05.11.2026: wegen Bauarbeiten vom 02.11.2026 bis 13.12.2026 geschlossen; Wiederaufnahme der kommerziellen Flüge für den 14.12.2026 vorgesehen. Wiedereröffnung und Transfer vor der Buchung bestätigen.",
+      "CCF si trova a Salvaza, fuori dal centro. Avviso del gestore consultato il 05/11/2026: chiusura per lavori dal 02/11/2026 al 13/12/2026; ripresa commerciale prevista il 14/12/2026. Conferma riapertura e trasferimento prima di prenotare.",
+      "CCF fica em Salvaza, fora do centro. Aviso do gestor consultado em 05/11/2026: encerramento para obras de 02/11/2026 a 13/12/2026; retoma comercial prevista para 14/12/2026. Confirme a reabertura e o transporte antes de reservar.",
+      "CCF és a Salvaza, fora del centre. Avís del gestor consultat el 05/11/2026: tancament per obres del 02/11/2026 al 13/12/2026; represa comercial prevista el 14/12/2026. Confirma la reobertura i el trasllat abans de reservar."
+    ]
+  },
+  {
+    "slug": "la-rochelle",
+    "code": "LRH",
+    "airport": "La Rochelle Île de Ré",
+    "aliases": [
+      "La Rochelle",
+      "La Rochelle-Ile de Re",
+      "La Rochelle Ile de Re Airport",
+      "La Rochelle Laleu",
+      "La Rochelle Airport",
+      "Laleu Airport"
+    ],
+    "names": [
+      "La Rochelle",
+      "La Rochelle",
+      "La Rochelle",
+      "La Rochelle",
+      "La Rochelle",
+      "La Rochelle",
+      "La Rochelle"
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "Las torres del Vieux-Port, las calles porticadas y el mercado cubierto unen patrimonio marítimo y vida cotidiana en La Rochelle.",
+      "The Vieux-Port towers, arcaded streets and covered market bring together maritime heritage and everyday life in La Rochelle.",
+      "Les tours du Vieux-Port, les rues à arcades et le marché couvert mêlent patrimoine maritime et vie quotidienne à La Rochelle.",
+      "Die Türme am Vieux-Port, Arkadengassen und die Markthalle verbinden maritimes Erbe und Alltag in La Rochelle.",
+      "Le torri del Vieux-Port, le vie porticate e il mercato coperto uniscono patrimonio marittimo e vita quotidiana a La Rochelle.",
+      "As torres do Vieux-Port, as ruas com arcadas e o mercado coberto unem património marítimo e vida quotidiana em La Rochelle.",
+      "Les torres del Vieux-Port, els carrers porxats i el mercat cobert uneixen patrimoni marítim i vida quotidiana a La Rochelle."
+    ],
+    "recommendations": [
+      [
+        "Pasear por el Vieux-Port y contemplar sus torres",
+        "Walk around the Vieux-Port and admire its towers",
+        "Flâner sur le Vieux-Port et admirer ses tours",
+        "Am Vieux-Port spazieren und seine Türme betrachten",
+        "Passeggiare nel Vieux-Port e ammirare le sue torri",
+        "Passear pelo Vieux-Port e contemplar as suas torres",
+        "Passejar pel Vieux-Port i contemplar-ne les torres"
+      ],
+      [
+        "Recorrer las calles porticadas del casco antiguo",
+        "Explore the arcaded streets of the old town",
+        "Parcourir les rues à arcades de la vieille ville",
+        "Die Arkadengassen der Altstadt erkunden",
+        "Esplorare le vie porticate del centro storico",
+        "Percorrer as ruas com arcadas do centro histórico",
+        "Recórrer els carrers porxats del nucli antic"
+      ],
+      [
+        "Descubrir los productos del mercado central",
+        "Discover local produce at the central market",
+        "Découvrir les produits du marché central",
+        "Regionale Produkte auf dem Zentralmarkt entdecken",
+        "Scoprire i prodotti del mercato centrale",
+        "Descobrir os produtos do mercado central",
+        "Descobrir els productes del mercat central"
+      ],
+      [
+        "Pasear por el parque Charruyer",
+        "Walk through Parc Charruyer",
+        "Se promener dans le parc Charruyer",
+        "Durch den Parc Charruyer spazieren",
+        "Passeggiare nel parc Charruyer",
+        "Passear pelo parque Charruyer",
+        "Passejar pel parc Charruyer"
+      ]
+    ],
+    "notes": [
+      "LRH está en Laleu, en el continente, fuera del centro histórico de La Rochelle. Prevé el traslado; visitar la isla de Ré requiere otro desplazamiento. Consulta horarios del mercado y avisos de obras en parques y paseos.",
+      "LRH is in Laleu, on the mainland, outside La Rochelle’s historic centre. Allow for a transfer; visiting Île de Ré requires a separate journey. Check market times and works notices for parks and promenades.",
+      "LRH se trouve à Laleu, sur le continent, hors du centre historique de La Rochelle. Prévoyez le transfert ; l’île de Ré nécessite un trajet distinct. Vérifiez les horaires du marché et les travaux dans les parcs et promenades.",
+      "LRH liegt in Laleu auf dem Festland außerhalb der Altstadt von La Rochelle. Den Transfer einplanen; für die Île de Ré ist eine weitere Fahrt nötig. Marktzeiten und Baustellenhinweise für Parks und Promenaden prüfen.",
+      "LRH si trova a Laleu, sulla terraferma, fuori dal centro storico di La Rochelle. Prevedi il trasferimento; visitare l’Île de Ré richiede un altro spostamento. Controlla orari del mercato e avvisi sui lavori in parchi e passeggiate.",
+      "LRH fica em Laleu, no continente, fora do centro histórico de La Rochelle. Preveja o transporte; visitar a Île de Ré exige outra deslocação. Consulte horários do mercado e avisos de obras em parques e passeios.",
+      "LRH és a Laleu, al continent, fora del centre històric de La Rochelle. Preveu el trasllat; visitar l’illa de Ré requereix un altre desplaçament. Consulta horaris del mercat i avisos d’obres en parcs i passeigs."
+    ]
+  },
+  {
+    "slug": "beziers",
+    "code": "BZR",
+    "airport": "Béziers Cap d’Agde",
+    "aliases": [
+      "Béziers",
+      "Beziers",
+      "Besiers",
+      "Béziers Cap d’Agde",
+      "Beziers Cap d'Agde Airport",
+      "Beziers Vias Airport",
+      "Béziers-Vias"
+    ],
+    "names": [
+      "Béziers",
+      "Béziers",
+      "Béziers",
+      "Béziers",
+      "Béziers",
+      "Béziers",
+      "Besiers"
+    ],
+    "stay": "2–3",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "La catedral sobre el río Orb, el Pont Vieux y las esclusas de Fonseranes conectan el casco antiguo de Béziers con el canal del Midi.",
+      "The cathedral above the River Orb, Pont Vieux and Fonseranes locks connect Béziers’s old town with the Canal du Midi.",
+      "La cathédrale au-dessus de l’Orb, le Pont Vieux et les écluses de Fonseranes relient le centre ancien de Béziers au canal du Midi.",
+      "Kathedrale über dem Orb, Pont Vieux und Schleusen von Fonseranes verbinden die Altstadt von Béziers mit dem Canal du Midi.",
+      "La cattedrale sopra il fiume Orb, il Pont Vieux e le chiuse di Fonseranes collegano il centro storico di Béziers al Canal du Midi.",
+      "A catedral sobre o rio Orb, o Pont Vieux e as eclusas de Fonseranes ligam o centro histórico de Béziers ao Canal du Midi.",
+      "La catedral sobre el riu Orb, el Pont Vieux i les rescloses de Fonseranes connecten el nucli antic de Besiers amb el canal del Migdia."
+    ],
+    "recommendations": [
+      [
+        "Conocer la catedral de Saint-Nazaire y sus vistas",
+        "Discover Saint-Nazaire Cathedral and its views",
+        "Découvrir la cathédrale Saint-Nazaire et ses vues",
+        "Die Kathedrale Saint-Nazaire und ihre Aussicht entdecken",
+        "Scoprire la cattedrale Saint-Nazaire e i suoi panorami",
+        "Conhecer a catedral de Saint-Nazaire e as suas vistas",
+        "Conèixer la catedral de Sant Nazari i les seves vistes"
+      ],
+      [
+        "Pasear por el Pont Vieux y las orillas del Orb",
+        "Walk across Pont Vieux and along the River Orb",
+        "Flâner sur le Pont Vieux et les berges de l’Orb",
+        "Über den Pont Vieux und am Orb entlang spazieren",
+        "Passeggiare sul Pont Vieux e sulle rive dell’Orb",
+        "Passear pelo Pont Vieux e pelas margens do Orb",
+        "Passejar pel Pont Vieux i les ribes de l’Orb"
+      ],
+      [
+        "Recorrer el conjunto de esclusas de Fonseranes",
+        "Explore the Fonseranes lock complex",
+        "Parcourir le site des écluses de Fonseranes",
+        "Die Schleusenanlage von Fonseranes erkunden",
+        "Esplorare il complesso delle chiuse di Fonseranes",
+        "Percorrer o conjunto de eclusas de Fonseranes",
+        "Recórrer el conjunt de rescloses de Fonseranes"
+      ],
+      [
+        "Descubrir las allées Paul Riquet y el Plateau des Poètes",
+        "Discover Allées Paul Riquet and Plateau des Poètes",
+        "Découvrir les allées Paul Riquet et le Plateau des Poètes",
+        "Allées Paul Riquet und Plateau des Poètes entdecken",
+        "Scoprire le allées Paul Riquet e il Plateau des Poètes",
+        "Conhecer as Allées Paul Riquet e o Plateau des Poètes",
+        "Descobrir les allées Paul Riquet i el Plateau des Poètes"
+      ]
+    ],
+    "notes": [
+      "La terminal de BZR está en Portiragnes, fuera de Béziers. Organiza el traslado al centro; la ciudad alta y el canal están a diferentes alturas. Evita las horas de más calor.",
+      "BZR’s terminal is in Portiragnes, outside Béziers. Arrange transport to the centre; the upper town and canal are at different levels. Avoid the hottest hours.",
+      "L’aérogare de BZR se trouve à Portiragnes, hors de Béziers. Organisez le transfert vers le centre ; ville haute et canal sont à des niveaux différents. Évitez les heures les plus chaudes.",
+      "Das Terminal von BZR liegt in Portiragnes außerhalb von Béziers. Transfer ins Zentrum planen; Oberstadt und Kanal liegen auf verschiedenen Höhen. Die heißesten Stunden meiden.",
+      "Il terminal di BZR si trova a Portiragnes, fuori Béziers. Organizza il trasferimento in centro; città alta e canale sono a quote diverse. Evita le ore più calde.",
+      "O terminal de BZR fica em Portiragnes, fora de Béziers. Organize o transporte até ao centro; cidade alta e canal ficam a cotas diferentes. Evite as horas mais quentes.",
+      "La terminal de BZR és a Portiragnes, fora de Besiers. Organitza el trasllat al centre; la ciutat alta i el canal són a diferents altures. Evita les hores de més calor."
+    ]
+  },
+  {
+    "slug": "limoges",
+    "code": "LIG",
+    "airport": "Limoges Bellegarde",
+    "aliases": [
+      "Limoges-Bellegarde",
+      "Limoges Bellegarde Airport",
+      "Limoges Airport",
+      "Llemotges",
+      "Bellegarde Airport"
+    ],
+    "names": [
+      "Limoges",
+      "Limoges",
+      "Limoges",
+      "Limoges",
+      "Limoges",
+      "Limoges",
+      "Llemotges"
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "La porcelana, el barrio de la Boucherie y el entorno de la catedral presentan Limoges entre oficios tradicionales, calles históricas y jardines.",
+      "Porcelain, the Boucherie quarter and the cathedral area introduce Limoges through traditional crafts, historic streets and gardens.",
+      "La porcelaine, le quartier de la Boucherie et les abords de la cathédrale révèlent Limoges entre savoir-faire, rues historiques et jardins.",
+      "Porzellan, das Viertel Boucherie und die Umgebung der Kathedrale erschließen Limoges zwischen Handwerk, historischen Gassen und Gärten.",
+      "La porcellana, il quartiere della Boucherie e i dintorni della cattedrale raccontano Limoges tra mestieri tradizionali, vie storiche e giardini.",
+      "A porcelana, o bairro da Boucherie e a zona da catedral apresentam Limoges entre ofícios tradicionais, ruas históricas e jardins.",
+      "La porcellana, el barri de la Boucherie i l’entorn de la catedral presenten Llemotges entre oficis tradicionals, carrers històrics i jardins."
+    ],
+    "recommendations": [
+      [
+        "Visitar el Museo Nacional Adrien Dubouché",
+        "Visit the Adrien Dubouché National Museum",
+        "Visiter le musée national Adrien Dubouché",
+        "Das Nationalmuseum Adrien Dubouché besuchen",
+        "Visitare il Museo nazionale Adrien Dubouché",
+        "Visitar o Museu Nacional Adrien Dubouché",
+        "Visitar el Museu Nacional Adrien Dubouché"
+      ],
+      [
+        "Pasear por el barrio de la Boucherie",
+        "Walk through the Boucherie quarter",
+        "Flâner dans le quartier de la Boucherie",
+        "Durch das Viertel Boucherie spazieren",
+        "Passeggiare nel quartiere della Boucherie",
+        "Passear pelo bairro da Boucherie",
+        "Passejar pel barri de la Boucherie"
+      ],
+      [
+        "Conocer la catedral de Saint-Étienne y los jardines del Évêché",
+        "Discover Saint-Étienne Cathedral and the Évêché gardens",
+        "Découvrir la cathédrale Saint-Étienne et les jardins de l’Évêché",
+        "Die Kathedrale Saint-Étienne und die Gärten des Évêché entdecken",
+        "Scoprire la cattedrale Saint-Étienne e i giardini dell’Évêché",
+        "Conhecer a catedral de Saint-Étienne e os jardins do Évêché",
+        "Conèixer la catedral de Sant Esteve i els jardins de l’Évêché"
+      ],
+      [
+        "Recorrer las orillas de la Vienne y sus puentes históricos",
+        "Explore the Vienne riverbanks and historic bridges",
+        "Parcourir les bords de Vienne et leurs ponts historiques",
+        "Das Ufer der Vienne und ihre historischen Brücken erkunden",
+        "Esplorare le rive della Vienne e i suoi ponti storici",
+        "Percorrer as margens do Vienne e as suas pontes históricas",
+        "Recórrer les ribes de la Viena i els seus ponts històrics"
+      ]
+    ],
+    "notes": [
+      "LIG está en Bellegarde, al oeste del centro de Limoges. Organiza el traslado y confirma sus horarios; entre los barrios históricos y la Vienne hay desniveles. Lleva ropa para lluvia.",
+      "LIG is at Bellegarde, west of central Limoges. Arrange a transfer and check its timetable; the historic quarters and River Vienne are at different levels. Bring rainwear.",
+      "LIG se trouve à Bellegarde, à l’ouest du centre de Limoges. Organisez le transfert et vérifiez ses horaires ; les quartiers historiques et la Vienne présentent des dénivelés. Prévoyez des vêtements de pluie.",
+      "LIG liegt in Bellegarde westlich des Zentrums von Limoges. Transfer und Fahrzeiten prüfen; zwischen historischen Vierteln und Vienne gibt es Höhenunterschiede. Regenkleidung mitnehmen.",
+      "LIG si trova a Bellegarde, a ovest del centro di Limoges. Organizza il trasferimento e verificane gli orari; tra i quartieri storici e la Vienne ci sono dislivelli. Porta abbigliamento antipioggia.",
+      "LIG fica em Bellegarde, a oeste do centro de Limoges. Organize o transporte e confirme os horários; há desníveis entre os bairros históricos e o Vienne. Leve roupa para chuva.",
+      "LIG és a Bellegarde, a l’oest del centre de Llemotges. Organitza el trasllat i confirma’n els horaris; hi ha desnivells entre els barris històrics i la Viena. Porta roba per a la pluja."
+    ]
+  },
+  {
+    "slug": "clermont-ferrand",
+    "code": "CFE",
+    "airport": "Clermont-Ferrand Auvergne",
+    "aliases": [
+      "Clermont Ferrand",
+      "Clermont-Ferrand Auvergne Airport",
+      "Clermont Ferrand Airport",
+      "Aulnat Airport"
+    ],
+    "names": [
+      "Clermont-Ferrand",
+      "Clermont-Ferrand",
+      "Clermont-Ferrand",
+      "Clermont-Ferrand",
+      "Clermont-Ferrand",
+      "Clermont-Ferrand",
+      "Clermont-Ferrand"
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "La catedral de piedra volcánica, la basílica de Notre-Dame-du-Port y las calles de Montferrand muestran distintas épocas de Clermont-Ferrand.",
+      "The volcanic-stone cathedral, Notre-Dame-du-Port Basilica and streets of Montferrand reveal different chapters of Clermont-Ferrand’s history.",
+      "La cathédrale en pierre volcanique, la basilique Notre-Dame-du-Port et les rues de Montferrand racontent plusieurs époques de Clermont-Ferrand.",
+      "Kathedrale aus Vulkangestein, Basilika Notre-Dame-du-Port und die Gassen von Montferrand zeigen verschiedene Epochen von Clermont-Ferrand.",
+      "La cattedrale in pietra vulcanica, la basilica Notre-Dame-du-Port e le vie di Montferrand raccontano diverse epoche di Clermont-Ferrand.",
+      "A catedral de pedra vulcânica, a basílica de Notre-Dame-du-Port e as ruas de Montferrand mostram diferentes épocas de Clermont-Ferrand.",
+      "La catedral de pedra volcànica, la basílica de Notre-Dame-du-Port i els carrers de Montferrand mostren diferents èpoques de Clermont-Ferrand."
+    ],
+    "recommendations": [
+      [
+        "Conocer la catedral de Notre-Dame-de-l’Assomption",
+        "Discover Notre-Dame-de-l’Assomption Cathedral",
+        "Découvrir la cathédrale Notre-Dame-de-l’Assomption",
+        "Die Kathedrale Notre-Dame-de-l’Assomption entdecken",
+        "Scoprire la cattedrale Notre-Dame-de-l’Assomption",
+        "Conhecer a catedral de Notre-Dame-de-l’Assomption",
+        "Conèixer la catedral de Notre-Dame-de-l’Assomption"
+      ],
+      [
+        "Visitar la basílica de Notre-Dame-du-Port",
+        "Visit Notre-Dame-du-Port Basilica",
+        "Visiter la basilique Notre-Dame-du-Port",
+        "Die Basilika Notre-Dame-du-Port besuchen",
+        "Visitare la basilica Notre-Dame-du-Port",
+        "Visitar a basílica de Notre-Dame-du-Port",
+        "Visitar la basílica de Notre-Dame-du-Port"
+      ],
+      [
+        "Pasear por la plaza de Jaude y el centro histórico",
+        "Walk around Place de Jaude and the historic centre",
+        "Flâner place de Jaude et dans le centre historique",
+        "Über die Place de Jaude und durch die Altstadt spazieren",
+        "Passeggiare in place de Jaude e nel centro storico",
+        "Passear pela Place de Jaude e pelo centro histórico",
+        "Passejar per la plaça de Jaude i el centre històric"
+      ],
+      [
+        "Recorrer las calles históricas de Montferrand",
+        "Explore the historic streets of Montferrand",
+        "Parcourir les rues historiques de Montferrand",
+        "Die historischen Gassen von Montferrand erkunden",
+        "Esplorare le vie storiche di Montferrand",
+        "Percorrer as ruas históricas de Montferrand",
+        "Recórrer els carrers històrics de Montferrand"
+      ]
+    ],
+    "notes": [
+      "CFE está en Aulnat, al este de Clermont-Ferrand. Prevé el traslado al centro; Montferrand es otro núcleo histórico de la misma ciudad. Las excursiones a los volcanes requieren desplazamiento y comprobar accesos y meteorología.",
+      "CFE is in Aulnat, east of Clermont-Ferrand. Allow for a transfer to the centre; Montferrand is another historic quarter of the same city. Volcano trips require travel and checks on access and weather.",
+      "CFE se trouve à Aulnat, à l’est de Clermont-Ferrand. Prévoyez le transfert vers le centre ; Montferrand est un autre noyau historique de la même ville. Les excursions aux volcans nécessitent un déplacement et une vérification des accès et de la météo.",
+      "CFE liegt in Aulnat östlich von Clermont-Ferrand. Transfer ins Zentrum einplanen; Montferrand ist ein weiterer historischer Stadtteil derselben Stadt. Für Vulkanausflüge Anfahrt, Zugänglichkeit und Wetter prüfen.",
+      "CFE si trova ad Aulnat, a est di Clermont-Ferrand. Prevedi il trasferimento in centro; Montferrand è un altro nucleo storico della stessa città. Le escursioni ai vulcani richiedono spostamenti e verifiche su accessi e meteo.",
+      "CFE fica em Aulnat, a leste de Clermont-Ferrand. Preveja o transporte até ao centro; Montferrand é outro núcleo histórico da mesma cidade. As excursões aos vulcões exigem deslocação e consulta dos acessos e da meteorologia.",
+      "CFE és a Aulnat, a l’est de Clermont-Ferrand. Preveu el trasllat al centre; Montferrand és un altre nucli històric de la mateixa ciutat. Les excursions als volcans requereixen desplaçament i comprovar accessos i meteorologia."
+    ]
+  }
 ];
 
 export const franceAirportCoverage: DestinationProfile[] = seeds.map(seed => {

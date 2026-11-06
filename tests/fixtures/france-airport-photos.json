@@ -78,5 +78,85 @@
     "artist": "Édouard Hue",
     "license": "CC BY-SA 3.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
+  },
+  "perpignan": {
+    "file": "Castillet - Perpignan.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/Castillet_-_Perpignan.jpg/960px-Castillet_-_Perpignan.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Castillet_-_Perpignan.jpg",
+    "width": 5184,
+    "height": 3456,
+    "artist": "Przemek P",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "calvi": {
+    "file": "Calvi panorama de la citadelle.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Calvi_panorama_de_la_citadelle.jpg/960px-Calvi_panorama_de_la_citadelle.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Calvi_panorama_de_la_citadelle.jpg",
+    "width": 8727,
+    "height": 3950,
+    "artist": "Pierre Bona",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "caen": {
+    "file": "Abbaye aux Hommes (Caen).jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c3/Abbaye_aux_Hommes_%28Caen%29.jpg/960px-Abbaye_aux_Hommes_%28Caen%29.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Abbaye_aux_Hommes_(Caen).jpg",
+    "width": 5930,
+    "height": 3943,
+    "artist": "Supercarwaar",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "carcassonne": {
+    "file": "Carcassonne-2.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Carcassonne-2.jpg/960px-Carcassonne-2.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Carcassonne-2.jpg",
+    "width": 4000,
+    "height": 1848,
+    "artist": "Pedemann",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "la-rochelle": {
+    "file": "Les tours du vieux port, La Rochelle.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Les_tours_du_vieux_port%2C_La_Rochelle.jpg/960px-Les_tours_du_vieux_port%2C_La_Rochelle.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Les_tours_du_vieux_port,_La_Rochelle.jpg",
+    "width": 4673,
+    "height": 2239,
+    "artist": "NemesisIII",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "beziers": {
+    "file": "CathedraleBeziers.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/29/CathedraleBeziers.jpg/960px-CathedraleBeziers.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:CathedraleBeziers.jpg",
+    "width": 3462,
+    "height": 2326,
+    "artist": "Sanchezn",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "limoges": {
+    "file": "France NA 87 Limoges 21.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/France_NA_87_Limoges_21.jpg/960px-France_NA_87_Limoges_21.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:France_NA_87_Limoges_21.jpg",
+    "width": 6016,
+    "height": 4016,
+    "artist": "Calips",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "clermont-ferrand": {
+    "file": "View of Clermont-Ferrand from Montjuzet Park 01.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0a/View_of_Clermont-Ferrand_from_Montjuzet_Park_01.jpg/960px-View_of_Clermont-Ferrand_from_Montjuzet_Park_01.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:View_of_Clermont-Ferrand_from_Montjuzet_Park_01.jpg",
+    "width": 4272,
+    "height": 2848,
+    "artist": "Jsamwrites",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   }
 }
