@@ -23,3 +23,7 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 - Rama: `claude/southeast-europe-airports` (apilada sobre `claude/turkey-airports`, PR #48).
 - Pruebas: 420; 413 pasan; 7 fallos de entorno previos. Sin build ni revisión visual.
 - Pendiente: Kraljevo (KVO). Siguiente: Rumanía, Bulgaria, Moldavia, países nórdicos, Irlanda, bálticos, Luxemburgo y territorios.
+
+## 2026-11-06 — Rumanía, Bulgaria y Moldavia (rama `claude/eastern-europe-airports`)
+
+15 fichas en borrador (10 RO, 4 BG, 1 MD). Pendientes: BBU, CND, BAY, ARW, BCM, SUJ, BZY. Detalle en `docs/eastern-europe-airports.md`.

@@ -15,6 +15,7 @@ import { slovakiaDestinations } from "./slovakia";
 import { albaniaDestinations } from "./albania";
 import { turkeyDestinations } from "./turkey";
 import { southeastEuropeDestinations } from "./southeast-europe";
+import { easternEuropeDestinations } from "./eastern-europe";
 import type { DestinationId, DestinationProfile } from "./types";
 
 export type { DestinationId, DestinationReference, DestinationAirport, DestinationText, DestinationProfile } from "./types";
@@ -43,9 +44,12 @@ export const destinationsByCountry: Readonly<Record<string, readonly Destination
   XK: southeastEuropeDestinations.filter(profile => profile.countryCode === 'XK'),
   MT: southeastEuropeDestinations.filter(profile => profile.countryCode === 'MT'),
   CY: southeastEuropeDestinations.filter(profile => profile.countryCode === 'CY'),
+  RO: easternEuropeDestinations.filter(profile => profile.countryCode === 'RO'),
+  BG: easternEuropeDestinations.filter(profile => profile.countryCode === 'BG'),
+  MD: easternEuropeDestinations.filter(profile => profile.countryCode === 'MD'),
 };
 
-export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations, ...albaniaDestinations, ...turkeyDestinations, ...southeastEuropeDestinations];
+export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations, ...albaniaDestinations, ...turkeyDestinations, ...southeastEuropeDestinations, ...easternEuropeDestinations];
 
 export function getDestinationById(id: DestinationId): DestinationProfile | undefined {
   return destinationProfiles.find(destination => destination.id === id);
