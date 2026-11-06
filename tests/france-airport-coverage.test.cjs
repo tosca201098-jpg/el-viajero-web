@@ -6,16 +6,16 @@ function loader(globals={}){const cache=new Map();function load(file){file=file.
 const load=loader(),catalog=load('lib/destinations/index.ts'),coverage=load('lib/destinations/france-airport-coverage.ts'),airports=load('lib/travelpayouts/france-airports.ts');
 const select=load('lib/destinations/selection.ts').destinationFromPlaceSelection;
 const baseline=require('./fixtures/pre-france-airport-coverage.json');
-const codes={MPL:'montpellier',AJA:'ajaccio',BIA:'bastia',BIQ:'biarritz',FSC:'figari',BES:'brest',LDE:'lourdes',RNS:'rennes',PGF:'perpignan',CLY:'calvi',CFR:'caen',CCF:'carcassonne',LRH:'la-rochelle',BZR:'beziers',LIG:'limoges',CFE:'clermont-ferrand'};
+const codes={MPL:'montpellier',AJA:'ajaccio',BIA:'bastia',BIQ:'biarritz',FSC:'figari',BES:'brest',LDE:'lourdes',RNS:'rennes',PGF:'perpignan',CLY:'calvi',CFR:'caen',CCF:'carcassonne',LRH:'la-rochelle',BZR:'beziers',LIG:'limoges',CFE:'clermont-ferrand',GNB:'grenoble',FNI:'nimes',EGC:'bergerac',TLN:'toulon',PUF:'pau',TUF:'tours',CMF:'chambery',RDZ:'rodez'};
 const locales=['es','en','fr','de','it','pt','ca'];
 const digest=value=>crypto.createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const plain=value=>JSON.parse(JSON.stringify(value));
 
-test('sixteen French airport cities preserve every prior profile, photo and original homepage card',()=>{
- assert.equal(baseline.profiles.length,224);assert.equal(catalog.destinationProfiles.length,240);assert.equal(catalog.getDestinationsByCountry('FR').length,28);
+test('twenty-four French airport cities preserve every prior profile, photo and original homepage card',()=>{
+ assert.equal(baseline.profiles.length,224);assert.equal(catalog.destinationProfiles.length,248);assert.equal(catalog.getDestinationsByCountry('FR').length,36);
  for(const old of baseline.profiles)assert.equal(digest(catalog.getDestinationById(old.id)),old.sha256,old.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
- assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,240);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,240);
+ assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,248);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,248);
  assert.deepEqual(Array.from(coverage.franceAirportCoverage,p=>p.id),Object.values(codes).map(slug=>'fr-'+slug));
 });
 
@@ -33,11 +33,11 @@ test('airport codes open a single served-city card and retain existing multi-air
  assert.equal(catalog.findDestinationProfile({iataCode:'MLH'})?.id,'ch-basel');
 });
 
-test('all sixteen physical airports and city codes match the actual public provider snapshot',()=>{
- const snapshot=require('./fixtures/france-airport-provider.json');assert.equal(snapshot.airports.length,16);assert.equal(snapshot.cities.length,16);
+test('all twenty-four physical airports and city codes match the actual public provider snapshot',()=>{
+ const snapshot=require('./fixtures/france-airport-provider.json');assert.equal(snapshot.airports.length,24);assert.equal(snapshot.cities.length,24);
  for(const code of Object.keys(codes)){
   const physical=snapshot.airports.find(a=>a.code===code);assert.equal(physical.country_code,'FR');assert.equal(physical.iata_type,'airport');assert.equal(physical.flightable,true);
-  assert.equal(physical.city_code,code);assert.equal(snapshot.cities.find(c=>c.code===code).country_code,'FR');
+  assert.equal(physical.city_code,code==='GNB'?'LYS':code);assert.equal(snapshot.cities.find(c=>c.code===physical.city_code).country_code,'FR');
  }
  assert.deepEqual(Array.from(airports.franceAirports,a=>a.code),Object.keys(codes));
 });
@@ -71,7 +71,7 @@ test('new city cards remain draft and excluded from automatic recommendations an
 });
 
 test('real photo URLs and individual attribution match the Commons metadata without adding private or price data',()=>{
- const photos=require('./fixtures/france-airport-photos.json');assert.equal(Object.keys(photos).length,16);
+ const photos=require('./fixtures/france-airport-photos.json');assert.equal(Object.keys(photos).length,24);
  for(const[slug,photo]of Object.entries(photos)){
   const p=catalog.getDestinationById('fr-'+slug);assert.equal(p.image,photo.url);assert.equal(p.imageSource,photo.source);assert.equal(p.imageCredit,photo.artist);assert.equal(p.imageLicense,photo.license);assert.equal(p.imageLicenseUrl,photo.licenseUrl);assert.equal(p.imagePosition,photo.position);
   assert.match(p.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(p.imageLicense,/^CC BY/);assert.ok(photo.width>=960);assert.ok(!/<[^>]+>/.test(p.imageCredit));
@@ -96,4 +96,24 @@ test('second French lot preserves all 232 earlier profiles and documents the tem
  assert.match(catalog.getDestinationById('fr-clermont-ferrand').seasonalityNote,/Aulnat/);
  assert.equal(catalog.getDestinationById('fr-aulnat'),undefined);
  assert.equal(catalog.getDestinationById('fr-montferrand'),undefined);
+});
+
+test('third French lot preserves all 240 previous profiles including their image focal points',()=>{
+ const previous=require('./fixtures/pre-france-third-batch.json');assert.equal(previous.profiles.length,240);
+ for(const old of previous.profiles)assert.equal(digest(catalog.getDestinationById(old.id)),old.sha256,old.id);
+ assert.equal(digest(load('lib/destinations/featured.ts').destinations),previous.featuredSha256);
+ const grenoble=catalog.getDestinationById('fr-grenoble');
+ for(const locale of locales)assert.ok(!grenoble.translations[locale].recommendations.some(r=>/Bastille|Bastilla/i.test(r)),'regulated Bastille access is not promoted as an open walk');
+ assert.match(catalog.getDestinationById('fr-toulon').seasonalityNote,/Hyères/);
+ assert.match(catalog.getDestinationById('fr-chambery').seasonalityNote,/invernal/);
+});
+
+test('Grenoble physical airport remains distinct from Lyon despite the upstream LYS city group',async()=>{
+ const raw=require('./fixtures/france-airport-provider.json').airports.find(a=>a.code==='GNB');assert.equal(raw.city_code,'LYS');
+ const route=loader({fetch:async()=>({ok:true,json:async()=>[{...raw,type:'airport',city_name:'Lyon'}]})})('app/api/travelpayouts/places/route.ts');
+ const response=await route.GET(new Request('https://example.test/api/travelpayouts/places?term=GNB'));assert.equal(response.status,200);const data=await response.json();
+ const suggestion=data.suggestions.find(s=>s.type==='airport'&&s.code==='GNB');assert.ok(suggestion);assert.equal(suggestion.cityName,'Grenoble');assert.equal(suggestion.cityCode,'GNB');
+ assert.equal(select(suggestion),catalog.getDestinationById('fr-grenoble'));
+ assert.equal(catalog.findDestinationProfile({iataCode:'LYS'}),catalog.getDestinationById('fr-lyon'));
+ assert.equal(select({...suggestion,cityName:'Lyon',cityCode:'LYS'}),catalog.getDestinationById('fr-grenoble'));
 });

@@ -935,6 +935,715 @@ const seeds: Seed[] = [
       "CFE fica em Aulnat, a leste de Clermont-Ferrand. Preveja o transporte até ao centro; Montferrand é outro núcleo histórico da mesma cidade. As excursões aos vulcões exigem deslocação e consulta dos acessos e da meteorologia.",
       "CFE és a Aulnat, a l’est de Clermont-Ferrand. Preveu el trasllat al centre; Montferrand és un altre nucli històric de la mateixa ciutat. Les excursions als volcans requereixen desplaçament i comprovar accessos i meteorologia."
     ]
+  },
+{
+    "slug": "grenoble",
+    "code": "GNB",
+    "airport": "Grenoble Alpes Isère",
+    "aliases": [
+      "Grenoble-Isère",
+      "Grenoble Isere Airport",
+      "Grenoble Alpes Isere",
+      "Saint-Étienne-de-Saint-Geoirs",
+      "Grenoble-Isere Airport"
+    ],
+    "names": [
+      "Grenoble",
+      "Grenoble",
+      "Grenoble",
+      "Grenoble",
+      "Grenoble",
+      "Grenoble",
+      "Grenoble"
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "low": [
+      11
+    ],
+    "descriptions": [
+      "Museos, plazas históricas y paseos junto al Isère permiten descubrir Grenoble entre la ciudad y sus paisajes alpinos.",
+      "Museums, historic squares and walks beside the Isère introduce Grenoble between its urban heritage and Alpine scenery.",
+      "Musées, places historiques et promenades le long de l’Isère font découvrir Grenoble entre patrimoine urbain et paysages alpins.",
+      "Museen, historische Plätze und Spaziergänge an der Isère erschließen Grenoble zwischen Stadtkultur und Alpenlandschaft.",
+      "Musei, piazze storiche e passeggiate lungo l’Isère raccontano Grenoble tra patrimonio urbano e paesaggi alpini.",
+      "Museus, praças históricas e passeios junto ao Isère revelam Grenoble entre património urbano e paisagens alpinas.",
+      "Museus, places històriques i passejades vora l’Isère permeten descobrir Grenoble entre patrimoni urbà i paisatges alpins."
+    ],
+    "recommendations": [
+      [
+        "Visitar las salas abiertas del Museo de Grenoble",
+        "Visit the open galleries of the Musée de Grenoble",
+        "Visiter les salles ouvertes du musée de Grenoble",
+        "Die geöffneten Säle des Musée de Grenoble besuchen",
+        "Visitare le sale aperte del Musée de Grenoble",
+        "Visitar as salas abertas do Museu de Grenoble",
+        "Visitar les sales obertes del Museu de Grenoble"
+      ],
+      [
+        "Pasear por la plaza Saint-André",
+        "Explore Place Saint-André",
+        "Flâner place Saint-André",
+        "Die Place Saint-André erkunden",
+        "Passeggiare in place Saint-André",
+        "Passear pela Place Saint-André",
+        "Passejar per la plaça Saint-André"
+      ],
+      [
+        "Descansar en el Jardin de Ville",
+        "Relax in the Jardin de Ville",
+        "Faire une pause au Jardin de Ville",
+        "Im Jardin de Ville entspannen",
+        "Fare una pausa nel Jardin de Ville",
+        "Descansar no Jardin de Ville",
+        "Descansar al Jardin de Ville"
+      ],
+      [
+        "Recorrer los muelles del Isère",
+        "Walk along the Isère quays",
+        "Parcourir les quais de l’Isère",
+        "An den Isère-Ufern spazieren",
+        "Percorrere i lungofiume dell’Isère",
+        "Percorrer os cais do Isère",
+        "Recórrer els molls de l’Isère"
+      ]
+    ],
+    "notes": [
+      "GNB está en Saint-Étienne-de-Saint-Geoirs, lejos del centro de Grenoble. Organiza el traslado y comprueba la oferta estacional; confirma las salas abiertas del museo. No improvises rutas de montaña sin consultar avisos.",
+      "GNB is in Saint-Étienne-de-Saint-Geoirs, well outside Grenoble. Plan a ground transfer and check seasonal flights and open museum galleries. Consult current notices before any mountain walk.",
+      "GNB est situé à Saint-Étienne-de-Saint-Geoirs, loin du centre de Grenoble. Organisez le transfert et vérifiez vols saisonniers et salles ouvertes du musée. Consultez les avis avant toute randonnée.",
+      "GNB liegt in Saint-Étienne-de-Saint-Geoirs weit außerhalb von Grenoble. Transfer, saisonale Flüge und geöffnete Museumssäle prüfen. Vor Bergwanderungen aktuelle Hinweise beachten.",
+      "GNB si trova a Saint-Étienne-de-Saint-Geoirs, lontano dal centro di Grenoble. Organizza il trasferimento e verifica voli stagionali e sale aperte del museo. Consulta gli avvisi prima delle escursioni in montagna.",
+      "GNB fica em Saint-Étienne-de-Saint-Geoirs, longe do centro de Grenoble. Organize o transporte e confirme voos sazonais e salas abertas do museu. Consulte os avisos antes de caminhadas na montanha.",
+      "GNB és a Saint-Étienne-de-Saint-Geoirs, lluny del centre de Grenoble. Organitza el trasllat i comprova vols estacionals i sales obertes del museu. Consulta els avisos abans de rutes de muntanya."
+    ]
+  },
+  {
+    "slug": "nimes",
+    "code": "FNI",
+    "airport": "Nîmes Grande Provence",
+    "aliases": [
+      "Nimes",
+      "Nîmes Garons",
+      "Nimes Garons Airport",
+      "Garons Airport"
+    ],
+    "names": [
+      "Nîmes",
+      "Nîmes",
+      "Nîmes",
+      "Nîmes",
+      "Nîmes",
+      "Nîmes",
+      "Nimes"
+    ],
+    "stay": "2–3",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "El anfiteatro, la Maison Carrée y los jardines de la Fontaine acercan a la herencia romana y los espacios públicos de Nîmes.",
+      "The amphitheatre, Maison Carrée and Jardins de la Fontaine introduce Nîmes through its Roman heritage and public spaces.",
+      "Les arènes, la Maison Carrée et les jardins de la Fontaine font découvrir Nîmes entre héritage romain et espaces publics.",
+      "Amphitheater, Maison Carrée und Jardins de la Fontaine zeigen Nîmes zwischen römischem Erbe und öffentlichen Gärten.",
+      "L’anfiteatro, la Maison Carrée e i Jardins de la Fontaine presentano Nîmes tra eredità romana e spazi pubblici.",
+      "O anfiteatro, a Maison Carrée e os Jardins de la Fontaine revelam Nîmes entre herança romana e espaços públicos.",
+      "L’amfiteatre, la Maison Carrée i els jardins de la Fontaine apropen al llegat romà i els espais públics de Nimes."
+    ],
+    "recommendations": [
+      [
+        "Conocer las Arènes de Nîmes",
+        "Discover the Arènes de Nîmes",
+        "Découvrir les arènes de Nîmes",
+        "Die Arènes de Nîmes entdecken",
+        "Scoprire le Arènes de Nîmes",
+        "Conhecer as Arènes de Nîmes",
+        "Conèixer les Arènes de Nîmes"
+      ],
+      [
+        "Visitar la Maison Carrée",
+        "Visit the Maison Carrée",
+        "Visiter la Maison Carrée",
+        "Die Maison Carrée besuchen",
+        "Visitare la Maison Carrée",
+        "Visitar a Maison Carrée",
+        "Visitar la Maison Carrée"
+      ],
+      [
+        "Pasear por los jardines de la Fontaine",
+        "Walk through the Jardins de la Fontaine",
+        "Flâner dans les jardins de la Fontaine",
+        "Durch die Jardins de la Fontaine spazieren",
+        "Passeggiare nei Jardins de la Fontaine",
+        "Passear pelos Jardins de la Fontaine",
+        "Passejar pels jardins de la Fontaine"
+      ],
+      [
+        "Descubrir la Tour Magne y sus vistas",
+        "Discover the Tour Magne and its views",
+        "Découvrir la tour Magne et ses vues",
+        "Die Tour Magne und ihre Aussicht entdecken",
+        "Scoprire la Tour Magne e i suoi panorami",
+        "Conhecer a Tour Magne e as suas vistas",
+        "Descobrir la Tour Magne i les seves vistes"
+      ]
+    ],
+    "notes": [
+      "FNI está en Saint-Gilles, junto a Garons y fuera del centro de Nîmes. Prevé el traslado; en verano evita las horas de más calor. La subida a la Tour Magne tiene pendientes y escaleras.",
+      "FNI is in Saint-Gilles near Garons, outside central Nîmes. Allow for a transfer and avoid the hottest summer hours. The Tour Magne approach and visit involve slopes and steps.",
+      "FNI est situé à Saint-Gilles, près de Garons et hors du centre de Nîmes. Prévoyez le transfert et évitez les fortes chaleurs estivales. L’accès à la tour Magne comporte pentes et escaliers.",
+      "FNI liegt in Saint-Gilles bei Garons außerhalb von Nîmes. Transfer einplanen und die heißesten Sommerstunden meiden. An der Tour Magne gibt es Steigungen und Treppen.",
+      "FNI si trova a Saint-Gilles, presso Garons, fuori dal centro di Nîmes. Prevedi il trasferimento ed evita le ore estive più calde. La Tour Magne comporta salite e scale.",
+      "FNI fica em Saint-Gilles, junto a Garons, fora do centro de Nîmes. Preveja o transporte e evite as horas de maior calor no verão. A Tour Magne envolve subidas e escadas.",
+      "FNI és a Saint-Gilles, prop de Garons i fora del centre de Nimes. Preveu el trasllat i evita les hores de més calor a l’estiu. La Tour Magne té pendents i escales."
+    ]
+  },
+  {
+    "slug": "bergerac",
+    "code": "EGC",
+    "airport": "Bergerac Dordogne Périgord",
+    "aliases": [
+      "Bergerac Roumanière",
+      "Bergerac Roumaniere",
+      "Bergerac Dordogne Perigord",
+      "Roumanieres Airport"
+    ],
+    "names": [
+      "Bergerac",
+      "Bergerac",
+      "Bergerac",
+      "Bergerac",
+      "Bergerac",
+      "Bergerac",
+      "Bergerac"
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "Los muelles de la Dordogne, el centro antiguo y el patrimonio de Dordonha presentan Bergerac entre historia fluvial y cultura del Périgord.",
+      "The Dordogne quays, old town and Dordonha heritage centre introduce Bergerac through river history and Périgord culture.",
+      "Les quais de la Dordogne, la vieille ville et le patrimoine de Dordonha révèlent Bergerac entre histoire fluviale et culture périgourdine.",
+      "Dordogne-Ufer, Altstadt und das Kulturzentrum Dordonha erschließen Bergerac zwischen Flussgeschichte und dem Périgord.",
+      "I lungofiume della Dordogna, il centro antico e Dordonha raccontano Bergerac tra storia fluviale e cultura del Périgord.",
+      "Os cais da Dordogne, o centro antigo e Dordonha apresentam Bergerac entre história fluvial e cultura do Périgord.",
+      "Els molls de la Dordonya, el nucli antic i Dordonha presenten Bergerac entre història fluvial i cultura del Périgord."
+    ],
+    "recommendations": [
+      [
+        "Pasear por los muelles y el antiguo puerto",
+        "Walk along the quays and old harbour",
+        "Flâner sur les quais et le vieux port",
+        "Ufer und alten Hafen erkunden",
+        "Passeggiare sui lungofiume e al porto antico",
+        "Passear pelos cais e pelo porto antigo",
+        "Passejar pels molls i el port antic"
+      ],
+      [
+        "Recorrer las calles del casco antiguo",
+        "Explore the old-town streets",
+        "Parcourir les rues de la vieille ville",
+        "Durch die Altstadtgassen spazieren",
+        "Esplorare le vie del centro antico",
+        "Percorrer as ruas do centro antigo",
+        "Recórrer els carrers del nucli antic"
+      ],
+      [
+        "Visitar el centro cultural Dordonha",
+        "Visit the Dordonha heritage centre",
+        "Visiter le centre patrimonial Dordonha",
+        "Das Kulturzentrum Dordonha besuchen",
+        "Visitare il centro culturale Dordonha",
+        "Visitar o centro cultural Dordonha",
+        "Visitar el centre cultural Dordonha"
+      ],
+      [
+        "Conocer Quai Cyrano y el claustro de los Récollets",
+        "Discover Quai Cyrano and the Récollets cloister",
+        "Découvrir Quai Cyrano et le cloître des Récollets",
+        "Quai Cyrano und den Récollets-Kreuzgang entdecken",
+        "Scoprire Quai Cyrano e il chiostro dei Récollets",
+        "Conhecer Quai Cyrano e o claustro dos Récollets",
+        "Conèixer Quai Cyrano i el claustre dels Récollets"
+      ]
+    ],
+    "notes": [
+      "EGC está en Roumanière, al sur de Bergerac, y requiere traslado al centro. Comprueba las conexiones estacionales; las excursiones por el Périgord necesitan desplazamientos adicionales.",
+      "EGC is at Roumanière, south of Bergerac, and requires a transfer to the centre. Check seasonal flights; trips around the Périgord need additional travel.",
+      "EGC se trouve à Roumanière, au sud de Bergerac, avec transfert vers le centre. Vérifiez les liaisons saisonnières ; les excursions en Périgord demandent d’autres déplacements.",
+      "EGC liegt in Roumanière südlich von Bergerac und erfordert einen Transfer ins Zentrum. Saisonale Flüge prüfen; Ausflüge im Périgord benötigen zusätzliche Fahrten.",
+      "EGC si trova a Roumanière, a sud di Bergerac, e richiede un trasferimento in centro. Verifica i voli stagionali; le escursioni nel Périgord richiedono altri spostamenti.",
+      "EGC fica em Roumanière, a sul de Bergerac, e exige transporte até ao centro. Confirme as ligações sazonais; passeios pelo Périgord exigem outras deslocações.",
+      "EGC és a Roumanière, al sud de Bergerac, i requereix trasllat al centre. Comprova les connexions estacionals; les excursions pel Périgord necessiten altres desplaçaments."
+    ]
+  },
+  {
+    "slug": "toulon",
+    "code": "TLN",
+    "airport": "Toulon Hyères",
+    "aliases": [
+      "Toulon-Hyères",
+      "Toulon Hyeres",
+      "Hyeres Airport",
+      "Tolón",
+      "Toló"
+    ],
+    "names": [
+      "Tolón",
+      "Toulon",
+      "Toulon",
+      "Toulon",
+      "Tolone",
+      "Toulon",
+      "Toló"
+    ],
+    "stay": "2–3",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "El puerto, los mercados y los museos revelan Tolón, una ciudad marítima de la costa mediterránea entre barrios históricos y la rada.",
+      "The harbour, markets and museums reveal Toulon, a Mediterranean maritime city of historic quarters and waterfront views.",
+      "Le port, les marchés et les musées révèlent Toulon, ville maritime méditerranéenne entre quartiers historiques et rade.",
+      "Hafen, Märkte und Museen erschließen Toulon, eine Mittelmeerstadt zwischen historischen Vierteln und Reede.",
+      "Il porto, i mercati e i musei raccontano Tolone, città marittima mediterranea tra quartieri storici e rada.",
+      "O porto, os mercados e os museus revelam Toulon, cidade marítima mediterrânica entre bairros históricos e a rada.",
+      "El port, els mercats i els museus revelen Toló, ciutat marítima mediterrània entre barris històrics i la rada."
+    ],
+    "recommendations": [
+      [
+        "Pasear por el puerto de Tolón",
+        "Walk along Toulon harbour",
+        "Flâner sur le port de Toulon",
+        "Am Hafen von Toulon spazieren",
+        "Passeggiare al porto di Tolone",
+        "Passear pelo porto de Toulon",
+        "Passejar pel port de Toló"
+      ],
+      [
+        "Visitar el Museo Nacional de la Marina",
+        "Visit the National Maritime Museum",
+        "Visiter le musée national de la Marine",
+        "Das Nationale Marinemuseum besuchen",
+        "Visitare il Museo nazionale della Marina",
+        "Visitar o Museu Nacional da Marinha",
+        "Visitar el Museu Nacional de la Marina"
+      ],
+      [
+        "Recorrer el cours Lafayette y el casco antiguo",
+        "Explore Cours Lafayette and the old town",
+        "Parcourir le cours Lafayette et la vieille ville",
+        "Cours Lafayette und die Altstadt erkunden",
+        "Percorrere il cours Lafayette e il centro antico",
+        "Percorrer o Cours Lafayette e o centro antigo",
+        "Recórrer el cours Lafayette i el nucli antic"
+      ],
+      [
+        "Conocer el Museo de Arte de Tolón",
+        "Discover Toulon Art Museum",
+        "Découvrir le musée d’Art de Toulon",
+        "Das Kunstmuseum Toulon entdecken",
+        "Scoprire il Museo d’arte di Tolone",
+        "Conhecer o Museu de Arte de Toulon",
+        "Conèixer el Museu d’Art de Toló"
+      ]
+    ],
+    "notes": [
+      "TLN está en Hyères, fuera de Tolón, y sirve a ambas ciudades. Organiza el traslado a tu alojamiento y comprueba horarios de museos y mercado; la rada militar no es un espacio de acceso libre.",
+      "TLN is in Hyères, outside Toulon, and serves both cities. Plan transport to your accommodation and check museum and market times; military harbour areas are not freely accessible.",
+      "TLN se trouve à Hyères, hors de Toulon, et dessert les deux villes. Organisez le transfert et vérifiez les horaires des musées et du marché ; les zones militaires ne sont pas en accès libre.",
+      "TLN liegt in Hyères außerhalb von Toulon und bedient beide Städte. Transfer sowie Museums- und Marktzeiten prüfen; Militärhafenbereiche sind nicht frei zugänglich.",
+      "TLN si trova a Hyères, fuori Tolone, e serve entrambe le città. Organizza il trasferimento e verifica orari di musei e mercato; le zone militari non sono ad accesso libero.",
+      "TLN fica em Hyères, fora de Toulon, e serve ambas as cidades. Organize o transporte e confirme horários dos museus e mercado; as zonas militares não são de acesso livre.",
+      "TLN és a Hyères, fora de Toló, i serveix totes dues ciutats. Organitza el trasllat i comprova horaris dels museus i del mercat; les zones militars no són d’accés lliure."
+    ]
+  },
+  {
+    "slug": "pau",
+    "code": "PUF",
+    "airport": "Pau Pyrénées",
+    "aliases": [
+      "Pau Pyrenees",
+      "Pau Uzein",
+      "Air’Py",
+      "The Pau-Pyrenees International Airport"
+    ],
+    "names": [
+      "Pau",
+      "Pau",
+      "Pau",
+      "Pau",
+      "Pau",
+      "Pau",
+      "Pau"
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "El castillo, el boulevard des Pyrénées y los parques de Pau combinan historia del Béarn, arte y vistas hacia las montañas.",
+      "The castle, Boulevard des Pyrénées and Pau’s parks combine Béarn history, art and mountain views.",
+      "Le château, le boulevard des Pyrénées et les parcs de Pau réunissent histoire du Béarn, art et vues sur les montagnes.",
+      "Schloss, Boulevard des Pyrénées und die Parks von Pau verbinden die Geschichte des Béarn mit Kunst und Bergblicken.",
+      "Il castello, il boulevard des Pyrénées e i parchi di Pau uniscono storia del Béarn, arte e viste sulle montagne.",
+      "O castelo, o Boulevard des Pyrénées e os parques de Pau combinam história do Béarn, arte e vistas para as montanhas.",
+      "El castell, el boulevard des Pyrénées i els parcs de Pau combinen història del Bearn, art i vistes cap a les muntanyes."
+    ],
+    "recommendations": [
+      [
+        "Visitar el castillo de Pau",
+        "Visit Pau Castle",
+        "Visiter le château de Pau",
+        "Das Schloss Pau besuchen",
+        "Visitare il castello di Pau",
+        "Visitar o castelo de Pau",
+        "Visitar el castell de Pau"
+      ],
+      [
+        "Pasear por el boulevard des Pyrénées",
+        "Walk along Boulevard des Pyrénées",
+        "Flâner sur le boulevard des Pyrénées",
+        "Über den Boulevard des Pyrénées spazieren",
+        "Passeggiare sul boulevard des Pyrénées",
+        "Passear pelo Boulevard des Pyrénées",
+        "Passejar pel boulevard des Pyrénées"
+      ],
+      [
+        "Conocer el Museo de Bellas Artes",
+        "Discover the Fine Arts Museum",
+        "Découvrir le musée des Beaux-Arts",
+        "Das Museum der Schönen Künste entdecken",
+        "Scoprire il Museo di Belle Arti",
+        "Conhecer o Museu de Belas-Artes",
+        "Conèixer el Museu de Belles Arts"
+      ],
+      [
+        "Recorrer el parque Beaumont",
+        "Explore Parc Beaumont",
+        "Parcourir le parc Beaumont",
+        "Den Parc Beaumont erkunden",
+        "Percorrere il parco Beaumont",
+        "Percorrer o parque Beaumont",
+        "Recórrer el parc Beaumont"
+      ]
+    ],
+    "notes": [
+      "PUF está en Uzein, fuera del centro de Pau. Prevé el traslado; las vistas de los Pirineos dependen de la visibilidad. Consulta avisos antes de excursiones por ríos o montañas.",
+      "PUF is in Uzein, outside central Pau. Allow for a transfer; Pyrenean views depend on visibility. Check current notices before river or mountain outings.",
+      "PUF est situé à Uzein, hors du centre de Pau. Prévoyez le transfert ; la vue sur les Pyrénées dépend de la visibilité. Consultez les avis avant les sorties en rivière ou en montagne.",
+      "PUF liegt in Uzein außerhalb von Pau. Transfer einplanen; der Pyrenäenblick hängt von der Sicht ab. Vor Fluss- oder Bergausflügen Hinweise prüfen.",
+      "PUF si trova a Uzein, fuori dal centro di Pau. Prevedi il trasferimento; le viste sui Pirenei dipendono dalla visibilità. Consulta gli avvisi prima di escursioni lungo i fiumi o in montagna.",
+      "PUF fica em Uzein, fora do centro de Pau. Preveja o transporte; as vistas dos Pirenéus dependem da visibilidade. Consulte os avisos antes de passeios pelos rios ou montanhas.",
+      "PUF és a Uzein, fora del centre de Pau. Preveu el trasllat; les vistes dels Pirineus depenen de la visibilitat. Consulta els avisos abans d’excursions per rius o muntanyes."
+    ]
+  },
+  {
+    "slug": "tours",
+    "code": "TUF",
+    "airport": "Tours Val de Loire",
+    "aliases": [
+      "Tours Val-de-Loire",
+      "Tours Loire Valley",
+      "Val de Loire Airport"
+    ],
+    "names": [
+      "Tours",
+      "Tours",
+      "Tours",
+      "Tours",
+      "Tours",
+      "Tours",
+      "Tours"
+    ],
+    "stay": "2–3",
+    "best": [
+      4,
+      5,
+      6,
+      9,
+      10
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "La catedral, las plazas del Vieux-Tours y los museos presentan Tours como base urbana para descubrir el patrimonio del valle del Loira.",
+      "The cathedral, Vieux-Tours squares and museums introduce Tours as an urban base for the heritage of the Loire Valley.",
+      "La cathédrale, les places du Vieux-Tours et les musées présentent Tours comme point de départ urbain pour le patrimoine du Val de Loire.",
+      "Kathedrale, Plätze von Vieux-Tours und Museen machen Tours zum städtischen Ausgangspunkt für das Kulturerbe des Loiretals.",
+      "La cattedrale, le piazze del Vieux-Tours e i musei presentano Tours come base urbana per il patrimonio della Valle della Loira.",
+      "A catedral, as praças de Vieux-Tours e os museus apresentam Tours como base urbana para o património do Vale do Loire.",
+      "La catedral, les places del Vieux-Tours i els museus presenten Tours com a base urbana per descobrir el patrimoni de la vall del Loira."
+    ],
+    "recommendations": [
+      [
+        "Conocer la catedral de Saint-Gatien",
+        "Discover Saint-Gatien Cathedral",
+        "Découvrir la cathédrale Saint-Gatien",
+        "Die Kathedrale Saint-Gatien entdecken",
+        "Scoprire la cattedrale Saint-Gatien",
+        "Conhecer a catedral de Saint-Gatien",
+        "Conèixer la catedral de Saint-Gatien"
+      ],
+      [
+        "Pasear por la plaza Plumereau y el Vieux-Tours",
+        "Explore Place Plumereau and Vieux-Tours",
+        "Flâner place Plumereau et dans le Vieux-Tours",
+        "Place Plumereau und Vieux-Tours erkunden",
+        "Passeggiare in place Plumereau e nel Vieux-Tours",
+        "Passear pela Place Plumereau e por Vieux-Tours",
+        "Passejar per la plaça Plumereau i el Vieux-Tours"
+      ],
+      [
+        "Visitar el Museo del Compagnonnage",
+        "Visit the Musée du Compagnonnage",
+        "Visiter le musée du Compagnonnage",
+        "Das Musée du Compagnonnage besuchen",
+        "Visitare il Musée du Compagnonnage",
+        "Visitar o Musée du Compagnonnage",
+        "Visitar el Museu del Compagnonnage"
+      ],
+      [
+        "Conocer el castillo de Tours",
+        "Discover Tours Castle",
+        "Découvrir le château de Tours",
+        "Das Schloss Tours entdecken",
+        "Scoprire il castello di Tours",
+        "Conhecer o castelo de Tours",
+        "Conèixer el castell de Tours"
+      ]
+    ],
+    "notes": [
+      "TUF está al norte de Tours, fuera del centro histórico. Organiza el traslado; los castillos de otras localidades del Loira requieren otro desplazamiento y comprobar su apertura.",
+      "TUF is north of Tours, outside the historic centre. Arrange a transfer; Loire castles in other towns require additional travel and checks on opening times.",
+      "TUF se trouve au nord de Tours, hors du centre historique. Organisez le transfert ; les châteaux des autres communes du Val de Loire nécessitent un déplacement et une vérification des ouvertures.",
+      "TUF liegt nördlich von Tours außerhalb der Altstadt. Transfer planen; Schlösser in anderen Orten des Loiretals erfordern weitere Fahrten und eine Prüfung der Öffnungszeiten.",
+      "TUF si trova a nord di Tours, fuori dal centro storico. Organizza il trasferimento; i castelli di altre località della Loira richiedono altri spostamenti e verifiche sulle aperture.",
+      "TUF fica a norte de Tours, fora do centro histórico. Organize o transporte; os castelos noutras localidades do Loire exigem outra deslocação e consulta das aberturas.",
+      "TUF és al nord de Tours, fora del centre històric. Organitza el trasllat; els castells d’altres localitats del Loira requereixen un altre desplaçament i comprovar-ne l’obertura."
+    ]
+  },
+  {
+    "slug": "chambery",
+    "code": "CMF",
+    "airport": "Chambéry Savoie Mont Blanc",
+    "aliases": [
+      "Chambery",
+      "Chambéry Aix-les-Bains",
+      "Chambery Aix les Bains",
+      "Chambéry Savoie"
+    ],
+    "names": [
+      "Chambéry",
+      "Chambéry",
+      "Chambéry",
+      "Chambéry",
+      "Chambéry",
+      "Chambéry",
+      "Chambéry"
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "low": [
+      11
+    ],
+    "descriptions": [
+      "El castillo de los duques, la fuente de los Elefantes y los pasajes del casco antiguo muestran Chambéry entre patrimonio saboyano y montañas.",
+      "The ducal castle, Elephant Fountain and old-town passages reveal Chambéry between Savoyard heritage and mountain scenery.",
+      "Le château des ducs, la fontaine des Éléphants et les allées du centre ancien présentent Chambéry entre patrimoine savoyard et montagnes.",
+      "Herzogsschloss, Elefantenbrunnen und Altstadtpassagen zeigen Chambéry zwischen savoyischem Erbe und Berglandschaft.",
+      "Il castello dei duchi, la Fontana degli Elefanti e i passaggi del centro storico raccontano Chambéry tra patrimonio savoiardo e montagne.",
+      "O castelo dos duques, a Fonte dos Elefantes e as passagens do centro antigo mostram Chambéry entre património saboiano e montanhas.",
+      "El castell dels ducs, la font dels Elefants i els passatges del nucli antic mostren Chambéry entre patrimoni savoià i muntanyes."
+    ],
+    "recommendations": [
+      [
+        "Conocer el castillo de los duques de Saboya",
+        "Discover the Castle of the Dukes of Savoy",
+        "Découvrir le château des ducs de Savoie",
+        "Das Schloss der Herzöge von Savoyen entdecken",
+        "Scoprire il castello dei duchi di Savoia",
+        "Conhecer o castelo dos duques de Saboia",
+        "Conèixer el castell dels ducs de Savoia"
+      ],
+      [
+        "Contemplar la fuente de los Elefantes",
+        "See the Elephant Fountain",
+        "Contempler la fontaine des Éléphants",
+        "Den Elefantenbrunnen betrachten",
+        "Ammirare la Fontana degli Elefanti",
+        "Contemplar a Fonte dos Elefantes",
+        "Contemplar la font dels Elefants"
+      ],
+      [
+        "Visitar la catedral de Saint-François-de-Sales",
+        "Visit Saint-François-de-Sales Cathedral",
+        "Visiter la cathédrale Saint-François-de-Sales",
+        "Die Kathedrale Saint-François-de-Sales besuchen",
+        "Visitare la cattedrale Saint-François-de-Sales",
+        "Visitar a catedral de Saint-François-de-Sales",
+        "Visitar la catedral de Saint-François-de-Sales"
+      ],
+      [
+        "Recorrer la plaza Saint-Léger y los pasajes históricos",
+        "Explore Place Saint-Léger and historic passages",
+        "Parcourir la place Saint-Léger et les allées historiques",
+        "Place Saint-Léger und historische Passagen erkunden",
+        "Percorrere place Saint-Léger e i passaggi storici",
+        "Percorrer a Place Saint-Léger e as passagens históricas",
+        "Recórrer la plaça Saint-Léger i els passatges històrics"
+      ]
+    ],
+    "notes": [
+      "CMF está junto a Voglans y Viviers-du-Lac, fuera del centro de Chambéry. La oferta aérea es especialmente invernal; confirma vuelos y traslado para tus fechas. Las excursiones a los Alpes requieren planificación aparte.",
+      "CMF is near Voglans and Viviers-du-Lac, outside central Chambéry. Air services are particularly winter-focused; confirm flights and transfers for your dates. Alpine excursions need separate planning.",
+      "CMF est situé près de Voglans et Viviers-du-Lac, hors du centre de Chambéry. L’offre aérienne est surtout hivernale ; confirmez vols et transferts pour vos dates. Les excursions alpines demandent une préparation distincte.",
+      "CMF liegt bei Voglans und Viviers-du-Lac außerhalb von Chambéry. Das Flugangebot ist besonders auf den Winter ausgerichtet; Flüge und Transfer prüfen. Alpenausflüge separat planen.",
+      "CMF si trova presso Voglans e Viviers-du-Lac, fuori Chambéry. L’offerta aerea è soprattutto invernale; conferma voli e trasferimenti per le tue date. Le escursioni alpine richiedono una pianificazione separata.",
+      "CMF fica junto a Voglans e Viviers-du-Lac, fora do centro de Chambéry. A oferta aérea concentra-se no inverno; confirme voos e transportes para as suas datas. As excursões alpinas exigem planeamento próprio.",
+      "CMF és prop de Voglans i Viviers-du-Lac, fora del centre de Chambéry. L’oferta aèria és sobretot hivernal; confirma vols i trasllats per a les teves dates. Les excursions als Alps requereixen planificació pròpia."
+    ]
+  },
+  {
+    "slug": "rodez",
+    "code": "RDZ",
+    "airport": "Rodez Aveyron",
+    "aliases": [
+      "Rodez-Aveyron",
+      "Rodez Marcillac",
+      "Rodez Marcillac Airport",
+      "Marcillac Airport"
+    ],
+    "names": [
+      "Rodez",
+      "Rodez",
+      "Rodez",
+      "Rodez",
+      "Rodez",
+      "Rodez",
+      "Rodez"
+    ],
+    "stay": "2–3",
+    "best": [
+      5,
+      6,
+      7,
+      8,
+      9
+    ],
+    "low": [
+      1,
+      2,
+      11
+    ],
+    "descriptions": [
+      "La catedral, las plazas históricas y los museos Soulages y Fenaille permiten conocer Rodez entre patrimonio del Rouergue y creación artística.",
+      "The cathedral, historic squares and Soulages and Fenaille museums introduce Rodez through Rouergue heritage and artistic creation.",
+      "La cathédrale, les places historiques et les musées Soulages et Fenaille font découvrir Rodez entre patrimoine du Rouergue et création artistique.",
+      "Kathedrale, historische Plätze sowie die Museen Soulages und Fenaille erschließen Rodez zwischen dem Erbe des Rouergue und Kunst.",
+      "La cattedrale, le piazze storiche e i musei Soulages e Fenaille presentano Rodez tra patrimonio del Rouergue e creazione artistica.",
+      "A catedral, as praças históricas e os museus Soulages e Fenaille revelam Rodez entre património do Rouergue e criação artística.",
+      "La catedral, les places històriques i els museus Soulages i Fenaille permeten conèixer Rodés entre patrimoni del Roergue i creació artística."
+    ],
+    "recommendations": [
+      [
+        "Conocer la catedral de Notre-Dame",
+        "Discover Notre-Dame Cathedral",
+        "Découvrir la cathédrale Notre-Dame",
+        "Die Kathedrale Notre-Dame entdecken",
+        "Scoprire la cattedrale Notre-Dame",
+        "Conhecer a catedral de Notre-Dame",
+        "Conèixer la catedral de Notre-Dame"
+      ],
+      [
+        "Visitar el Museo Soulages",
+        "Visit the Soulages Museum",
+        "Visiter le musée Soulages",
+        "Das Museum Soulages besuchen",
+        "Visitare il Museo Soulages",
+        "Visitar o Museu Soulages",
+        "Visitar el Museu Soulages"
+      ],
+      [
+        "Descubrir el Museo Fenaille",
+        "Discover the Fenaille Museum",
+        "Découvrir le musée Fenaille",
+        "Das Museum Fenaille entdecken",
+        "Scoprire il Museo Fenaille",
+        "Conhecer o Museu Fenaille",
+        "Descobrir el Museu Fenaille"
+      ],
+      [
+        "Pasear por la plaza del Bourg y el centro antiguo",
+        "Explore Place du Bourg and the old town",
+        "Flâner place du Bourg et dans le centre ancien",
+        "Place du Bourg und die Altstadt erkunden",
+        "Passeggiare in place du Bourg e nel centro antico",
+        "Passear pela Place du Bourg e pelo centro antigo",
+        "Passejar per la plaça del Bourg i el nucli antic"
+      ]
+    ],
+    "notes": [
+      "RDZ está en Salles-la-Source, fuera de Rodez. Prevé el traslado y confirma la programación de vuelos y museos; el casco antiguo tiene pendientes y pavimento irregular.",
+      "RDZ is in Salles-la-Source, outside Rodez. Allow for a transfer and check flight and museum schedules; the old town has slopes and uneven paving.",
+      "RDZ se trouve à Salles-la-Source, hors de Rodez. Prévoyez le transfert et vérifiez les programmes des vols et musées ; le centre ancien comporte des pentes et des pavés.",
+      "RDZ liegt in Salles-la-Source außerhalb von Rodez. Transfer sowie Flug- und Museumszeiten prüfen; in der Altstadt gibt es Steigungen und unebenes Pflaster.",
+      "RDZ si trova a Salles-la-Source, fuori Rodez. Prevedi il trasferimento e verifica programmi di voli e musei; il centro antico presenta salite e pavimentazione irregolare.",
+      "RDZ fica em Salles-la-Source, fora de Rodez. Preveja o transporte e confirme os programas de voos e museus; o centro antigo tem subidas e piso irregular.",
+      "RDZ és a Salles-la-Source, fora de Rodés. Preveu el trasllat i confirma els programes de vols i museus; el nucli antic té pendents i paviment irregular."
+    ]
   }
 ];
 

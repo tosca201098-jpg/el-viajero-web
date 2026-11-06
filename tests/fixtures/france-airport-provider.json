@@ -260,6 +260,134 @@
         "lon": 3.163893
       },
       "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Grenoble-Isere Airport"
+      },
+      "city_code": "LYS",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "GNB",
+      "iata_type": "airport",
+      "name": "Grenoble-Isere Airport",
+      "coordinates": {
+        "lat": 45.359833,
+        "lon": 5.332019
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Garons Airport"
+      },
+      "city_code": "FNI",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "FNI",
+      "iata_type": "airport",
+      "name": "Garons Airport",
+      "coordinates": {
+        "lat": 43.75,
+        "lon": 4.416667
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Roumanieres Airport"
+      },
+      "city_code": "EGC",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "EGC",
+      "iata_type": "airport",
+      "name": "Roumanieres Airport",
+      "coordinates": {
+        "lat": 44.85,
+        "lon": 0.483333
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Hyeres Airport"
+      },
+      "city_code": "TLN",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "TLN",
+      "iata_type": "airport",
+      "name": "Hyeres Airport",
+      "coordinates": {
+        "lat": 43.09349,
+        "lon": 6.159303
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "The Pau-Pyrenees International Airport"
+      },
+      "city_code": "PUF",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "PUF",
+      "iata_type": "airport",
+      "name": "The Pau-Pyrenees International Airport",
+      "coordinates": {
+        "lat": 43.382347,
+        "lon": -0.413573
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Val de Loire Airport"
+      },
+      "city_code": "TUF",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "TUF",
+      "iata_type": "airport",
+      "name": "Val de Loire Airport",
+      "coordinates": {
+        "lat": 47.428333,
+        "lon": 0.7275
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Chambery"
+      },
+      "city_code": "CMF",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "CMF",
+      "iata_type": "airport",
+      "name": "Chambery",
+      "coordinates": {
+        "lat": 45.637993,
+        "lon": 5.88437
+      },
+      "flightable": true
+    },
+    {
+      "name_translations": {
+        "en": "Marcillac Airport"
+      },
+      "city_code": "RDZ",
+      "country_code": "FR",
+      "time_zone": "Europe/Paris",
+      "code": "RDZ",
+      "iata_type": "airport",
+      "name": "Marcillac Airport",
+      "coordinates": {
+        "lat": 44.410595,
+        "lon": 2.483866
+      },
+      "flightable": true
     }
   ],
   "cities": [
@@ -532,6 +660,142 @@
       "coordinates": {
         "lat": 45.777222,
         "lon": 3.087025
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Lyon"
+      },
+      "cases": {
+        "su": "Lyon"
+      },
+      "country_code": "FR",
+      "code": "LYS",
+      "time_zone": "Europe/Paris",
+      "name": "Lyon",
+      "coordinates": {
+        "lat": 45.764043,
+        "lon": 4.835659
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Nimes"
+      },
+      "cases": {
+        "su": "Nimes"
+      },
+      "country_code": "FR",
+      "code": "FNI",
+      "time_zone": "Europe/Paris",
+      "name": "Nimes",
+      "coordinates": {
+        "lat": 43.836699,
+        "lon": 4.360054
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Bergerac"
+      },
+      "cases": {
+        "su": "Bergerac"
+      },
+      "country_code": "FR",
+      "code": "EGC",
+      "time_zone": "Europe/Paris",
+      "name": "Bergerac",
+      "coordinates": {
+        "lat": 44.85,
+        "lon": 0.483333
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Toulon"
+      },
+      "cases": {
+        "su": "Toulon"
+      },
+      "country_code": "FR",
+      "code": "TLN",
+      "time_zone": "Europe/Paris",
+      "name": "Toulon",
+      "coordinates": {
+        "lat": 43.120541,
+        "lon": 6.128639
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Pau"
+      },
+      "cases": {
+        "su": "Pau"
+      },
+      "country_code": "FR",
+      "code": "PUF",
+      "time_zone": "Europe/Paris",
+      "name": "Pau",
+      "coordinates": {
+        "lat": 43.2951,
+        "lon": -0.370797
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Tours"
+      },
+      "cases": {
+        "su": "Tours"
+      },
+      "country_code": "FR",
+      "code": "TUF",
+      "time_zone": "Europe/Paris",
+      "name": "Tours",
+      "coordinates": {
+        "lat": 47.394144,
+        "lon": 0.68484
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Chambery"
+      },
+      "cases": {
+        "su": "Chambery"
+      },
+      "country_code": "FR",
+      "code": "CMF",
+      "time_zone": "Europe/Paris",
+      "name": "Chambery",
+      "coordinates": {
+        "lat": 45.637993,
+        "lon": 5.88437
+      },
+      "has_flightable_airport": true
+    },
+    {
+      "name_translations": {
+        "en": "Rodez"
+      },
+      "cases": {
+        "su": "Rodez"
+      },
+      "country_code": "FR",
+      "code": "RDZ",
+      "time_zone": "Europe/Paris",
+      "name": "Rodez",
+      "coordinates": {
+        "lat": 44.410595,
+        "lon": 2.483866
       },
       "has_flightable_airport": true
     }

@@ -114,5 +114,63 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imageCredit": "Jsamwrites",
     "imageLicense": "CC BY-SA 4.0",
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "grenoble": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg/960px-Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
+    "imageCredit": "Zairon",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "nimes": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/N%C3%AEmes%2C_Maison_Carr%C3%A9e_%281._Jhdt.n.Chr.%29_%2846755595574%29.jpg/960px-N%C3%AEmes%2C_Maison_Carr%C3%A9e_%281._Jhdt.n.Chr.%29_%2846755595574%29.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:N%C3%AEmes,_Maison_Carr%C3%A9e_(1._Jhdt.n.Chr.)_(46755595574).jpg",
+    "imageCredit": "Herbert Frank from Wien (Vienna), AT",
+    "imageLicense": "CC BY 2.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "bergerac": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Bergerac_-_View_in_late_afternoon.jpg/960px-Bergerac_-_View_in_late_afternoon.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Bergerac_-_View_in_late_afternoon.jpg",
+    "imageCredit": "Benjamin Smith",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "toulon": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Panorama_de_Toulon.JPG/960px-Panorama_de_Toulon.JPG",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Panorama_de_Toulon.JPG",
+    "imageCredit": "Artemisia Levé",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "pau": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Ch%C3%A2teau_Pau_Enceinte.jpg/960px-Ch%C3%A2teau_Pau_Enceinte.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Ch%C3%A2teau_Pau_Enceinte.jpg",
+    "imageCredit": "Capbourrut",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "imagePosition": "center top"
+  },
+  "tours": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Tours_-_Cath%C3%A9drale_Saint-Gatien_-_Exterior_-_02.jpg/960px-Tours_-_Cath%C3%A9drale_Saint-Gatien_-_Exterior_-_02.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Tours_-_Cath%C3%A9drale_Saint-Gatien_-_Exterior_-_02.jpg",
+    "imageCredit": "Benjamin Smith",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "imagePosition": "left top"
+  },
+  "chambery": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Panorama_Chamb%C3%A9ry-Centre_%282014%29.jpeg/960px-Panorama_Chamb%C3%A9ry-Centre_%282014%29.jpeg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Panorama_Chamb%C3%A9ry-Centre_(2014).jpeg",
+    "imageCredit": "Florian Pépellin",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "rodez": {
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Centre_de_Rodez%2C_vu_du_square_Buanton.jpg/960px-Centre_de_Rodez%2C_vu_du_square_Buanton.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Centre_de_Rodez,_vu_du_square_Buanton.jpg",
+    "imageCredit": "Espirat",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   }
 };

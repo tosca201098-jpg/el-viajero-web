@@ -159,5 +159,87 @@
     "artist": "Jsamwrites",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "grenoble": {
+    "file": "Grenoble Fort de la Bastille Vue sur Grenoble 13.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg/960px-Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
+    "width": 4574,
+    "height": 3424,
+    "artist": "Zairon",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "nimes": {
+    "file": "Nîmes, Maison Carrée (1. Jhdt.n.Chr.) (46755595574).jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/N%C3%AEmes%2C_Maison_Carr%C3%A9e_%281._Jhdt.n.Chr.%29_%2846755595574%29.jpg/960px-N%C3%AEmes%2C_Maison_Carr%C3%A9e_%281._Jhdt.n.Chr.%29_%2846755595574%29.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:N%C3%AEmes,_Maison_Carr%C3%A9e_(1._Jhdt.n.Chr.)_(46755595574).jpg",
+    "width": 3840,
+    "height": 2160,
+    "artist": "Herbert Frank from Wien (Vienna), AT",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0"
+  },
+  "bergerac": {
+    "file": "Bergerac - View in late afternoon.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7e/Bergerac_-_View_in_late_afternoon.jpg/960px-Bergerac_-_View_in_late_afternoon.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Bergerac_-_View_in_late_afternoon.jpg",
+    "width": 6744,
+    "height": 3372,
+    "artist": "Benjamin Smith",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "toulon": {
+    "file": "Panorama de Toulon.JPG",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/63/Panorama_de_Toulon.JPG/960px-Panorama_de_Toulon.JPG",
+    "source": "https://commons.wikimedia.org/wiki/File:Panorama_de_Toulon.JPG",
+    "width": 5184,
+    "height": 3456,
+    "artist": "Artemisia Levé",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "pau": {
+    "file": "Château Pau Enceinte.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5f/Ch%C3%A2teau_Pau_Enceinte.jpg/960px-Ch%C3%A2teau_Pau_Enceinte.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Ch%C3%A2teau_Pau_Enceinte.jpg",
+    "width": 3586,
+    "height": 2689,
+    "artist": "Capbourrut",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "position": "center top"
+  },
+  "tours": {
+    "file": "Tours - Cathédrale Saint-Gatien - Exterior - 02.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Tours_-_Cath%C3%A9drale_Saint-Gatien_-_Exterior_-_02.jpg/960px-Tours_-_Cath%C3%A9drale_Saint-Gatien_-_Exterior_-_02.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Tours_-_Cath%C3%A9drale_Saint-Gatien_-_Exterior_-_02.jpg",
+    "width": 6184,
+    "height": 4417,
+    "artist": "Benjamin Smith",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0",
+    "position": "left top"
+  },
+  "chambery": {
+    "file": "Panorama Chambéry-Centre (2014).jpeg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Panorama_Chamb%C3%A9ry-Centre_%282014%29.jpeg/960px-Panorama_Chamb%C3%A9ry-Centre_%282014%29.jpeg",
+    "source": "https://commons.wikimedia.org/wiki/File:Panorama_Chamb%C3%A9ry-Centre_(2014).jpeg",
+    "width": 2974,
+    "height": 2168,
+    "artist": "Florian Pépellin",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "rodez": {
+    "file": "Centre de Rodez, vu du square Buanton.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Centre_de_Rodez%2C_vu_du_square_Buanton.jpg/960px-Centre_de_Rodez%2C_vu_du_square_Buanton.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Centre_de_Rodez,_vu_du_square_Buanton.jpg",
+    "width": 3910,
+    "height": 2932,
+    "artist": "Espirat",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   }
 }
