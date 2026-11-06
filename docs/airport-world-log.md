@@ -51,3 +51,7 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 ## 2026-11-06 — Alemania: aeropuertos pendientes (rama `claude/germany-airports-gaps`)
 
 12 fichas en borrador; los 27 aeropuertos alemanes verificados quedan cubiertos. Apilada sobre `claude/italy-airports-gaps` (#57). Pruebas: 497; 490 pasan; 7 fallos de entorno previos. Siguiente: auditoría de España, Portugal, Francia, Polonia y demás países con fichas existentes.
+
+## 2026-11-06 — Europa regional: Polonia, Irlanda, Noruega y Suecia (rama `claude/europe-regional-gaps`)
+
+10 fichas en borrador (RZE, CFN, ALF, KRS, HAU, MOL, KSU, EVE, LKN, UME) con servicio regular verificado. Apilada sobre `claude/germany-airports-gaps` (#58). Croacia, Eslovenia y Grecia se dejan al trabajo de Codex. Pruebas: 508; 501 pasan; 7 fallos de entorno previos. Siguiente: Francia (comparar con #44 y #47), resto de Noruega/Suecia/Finlandia/Dinamarca/Islandia y Rumanía tras verificar servicio.
