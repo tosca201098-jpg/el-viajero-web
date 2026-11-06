@@ -39,3 +39,7 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 ## 2026-11-06 — Irlanda, bálticos, Luxemburgo y territorios (rama `claude/ireland-baltics-airports`)
 
 17 fichas en borrador (5 IE, 1 EE, 1 LV, 3 LT, 1 LU, 6 territorios), apiladas sobre `claude/scandinavia-airports`. Pruebas: 464; 457 pasan; 7 fallos de entorno previos. Siguiente: completar países parciales (Reino Unido, Italia, Alemania, auditorías de España, Portugal, Polonia, Grecia, Croacia y Eslovenia) y pendientes de Francia y Turquía.
+
+## 2026-11-06 — Reino Unido: aeropuertos pendientes (rama `claude/uk-airports-gaps`)
+
+20 fichas en borrador para los aeropuertos verificados de GB que no tenían ficha; los 38 quedan cubiertos. Apiladas sobre `claude/ireland-baltics-airports` (#54) tras cerrar la #55 por duplicar a Codex (Croacia/Eslovenia). Pruebas: 475; 468 pasan; 7 fallos de entorno previos. Siguiente: Italia (24 aeropuertos), Alemania (12), auditorías de otros países.
