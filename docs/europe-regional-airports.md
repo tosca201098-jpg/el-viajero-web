@@ -27,11 +27,10 @@ Contenido completo en los siete idiomas (descripción, 4 recomendaciones, mejor 
 | LUG, SIR | Lugano, Sion (CH) | Sin servicio regular suficiente (ya documentado en la fase de Suiza) |
 | KSD, SDL, ORB, JKG | Karlstad, Sundsvall, Örebro, Jönköping (SE) | Servicio regular por verificar |
 | EBJ, KRP, SGD | Esbjerg, Karup, Sønderborg (DK) | Servicio regular por verificar |
-| EGS, IFJ | Egilsstaðir, Ísafjörður (IS) | Servicio regular por verificar |
 | RDO, IEG | Radom, Zielona Góra (PL) | Servicio regular por verificar |
 | BBU, CND, BAY, ARW, BCM, SUJ | Baneasa, Constanța, Baia Mare, Arad, Bacău, Satu Mare (RO) | Servicio regular por verificar (BBU es sobre todo aviación de negocios) |
 
-Quedan registrados como `pendingVerification` en el fixture del proveedor y el test comprueba que no tienen ficha. Pendiente además: resto de aeropuertos pequeños de Noruega y Suecia, Finlandia regional, Francia (comparar con PR #44 de Codex y #47) y Turquía menor.
+Quedan registrados como `pendingVerification` en el fixture del proveedor y el test comprueba que no tienen ficha. Egilsstaðir e Ísafjörður pasaron a tener ficha en el lote siguiente (`docs/nordic-regional-airports.md`). Pendiente además: resto de aeropuertos pequeños de Noruega y Suecia, Finlandia regional, Francia (comparar con PR #44 de Codex y #47) y Turquía menor.
 
 ## Pruebas
 Huella de los 366 perfiles previos y de las 16 tarjetas; 10 fichas × 7 idiomas; unicidad de nombres y alias; cada IATA resuelve a una única ficha; fotos con licencia y hash de Commons; selección por país. Se actualizaron los totales de las pruebas anteriores (366 → 376) y el número de fichas de Polonia (12 → 13). Batería completa: 508 pruebas, 501 pasan; 7 fallos de entorno previos. Sin compilación completa ni revisión visual (sin red en Bash; Preview de Vercel protegido).

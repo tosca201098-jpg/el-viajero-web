@@ -129,18 +129,6 @@
       "reason": "Servicio regular de pasajeros por verificar"
     },
     {
-      "code": "EGS",
-      "name": "Egilsstadir Airport",
-      "country_code": "IS",
-      "reason": "Servicio regular de pasajeros por verificar"
-    },
-    {
-      "code": "IFJ",
-      "name": "Isafjordur Airport",
-      "country_code": "IS",
-      "reason": "Servicio regular de pasajeros por verificar"
-    },
-    {
       "code": "RDO",
       "name": "Radom Airport",
       "country_code": "PL",

@@ -55,3 +55,7 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 ## 2026-11-06 — Europa regional: Polonia, Irlanda, Noruega y Suecia (rama `claude/europe-regional-gaps`)
 
 10 fichas en borrador (RZE, CFN, ALF, KRS, HAU, MOL, KSU, EVE, LKN, UME) con servicio regular verificado. Apilada sobre `claude/germany-airports-gaps` (#58). Croacia, Eslovenia y Grecia se dejan al trabajo de Codex. Pruebas: 508; 501 pasan; 7 fallos de entorno previos. Siguiente: Francia (comparar con #44 y #47), resto de Noruega/Suecia/Finlandia/Dinamarca/Islandia y Rumanía tras verificar servicio.
+
+## 2026-11-06 — Nórdicos regional: Noruega, Finlandia e Islandia (rama `claude/nordic-regional-gaps`)
+
+10 fichas en borrador (TRF, JOE, JYV, KAJ, KEM, KOK, POR, SVL, EGS, IFJ). Apilada sobre `claude/europe-regional-gaps` (#59). Francia revisada: ya cubierta por Codex #44 y #47 (48 fichas). Pendientes: LYR (requiere país SJ), HFN (no reservable), VAA, KUO, resto de Noruega/Suecia/Dinamarca, Rumanía, Turquía menor.
