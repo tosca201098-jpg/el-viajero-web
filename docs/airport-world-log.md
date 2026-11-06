@@ -27,3 +27,7 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 ## 2026-11-06 — Rumanía, Bulgaria y Moldavia (rama `claude/eastern-europe-airports`)
 
 15 fichas en borrador (10 RO, 4 BG, 1 MD). Pendientes: BBU, CND, BAY, ARW, BCM, SUJ, BZY. Detalle en `docs/eastern-europe-airports.md`.
+
+## 2026-11-06 — Dinamarca, Islandia y Finlandia (rama `claude/nordics-airports`)
+
+15 fichas en borrador (5 DK, 2 IS, 8 FI), apiladas sobre `claude/eastern-europe-airports`. Pruebas: 442; 435 pasan; 7 fallos de entorno previos. Siguiente: Suecia y Noruega, Irlanda, bálticos, Luxemburgo y territorios.

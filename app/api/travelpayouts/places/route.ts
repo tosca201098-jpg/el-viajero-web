@@ -11,9 +11,11 @@ import { hungaryAirports, hungaryAirportsForTerm, hungaryCityAliases, hungaryTou
 import { slovakiaAirports, slovakiaAirportsForTerm, slovakiaCityAliases, slovakiaTouristPlacesForTerm } from '@/lib/travelpayouts/slovakia-airports';
 import { albaniaAirports, albaniaAirportsForTerm, albaniaCityAliases, albaniaTouristPlacesForTerm } from '@/lib/travelpayouts/albania-airports';
 import { turkeyAirports, turkeyAirportsForTerm, turkeyCityAliases, turkeyTouristPlacesForTerm } from '@/lib/travelpayouts/turkey-airports';
+import { nordicsAirports, nordicsAirportsForTerm, nordicsCityAliases, nordicsTouristPlacesForTerm } from '@/lib/travelpayouts/nordics-airports';
 import { easternEuropeAirports, easternEuropeAirportsForTerm, easternEuropeCityAliases, easternEuropeTouristPlacesForTerm } from '@/lib/travelpayouts/eastern-europe-airports';
 import { southeastEuropeAirports, southeastEuropeAirportsForTerm, southeastEuropeCityAliases, southeastEuropeTouristPlacesForTerm } from '@/lib/travelpayouts/southeast-europe-airports';
 
+const NORDICS_COUNTRIES = ['DK', 'IS', 'FI'];
 const EASTERN_EUROPE_COUNTRIES = ['RO', 'BG', 'MD'];
 const SOUTHEAST_EUROPE_COUNTRIES = ['RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY'];
 
@@ -243,6 +245,16 @@ export async function GET(request: Request) {
         index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
       if (place.type !== 'city') return place;
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(easternEuropeCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...nordicsAirportsForTerm(term), ...nordicsTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || !NORDICS_COUNTRIES.includes(String(place.country_code))) return place;
+      const placeCode = code(place.code, 3);
+      const airport = nordicsAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(nordicsCityAliases[placeCode] ?? [])] };
     });
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);
