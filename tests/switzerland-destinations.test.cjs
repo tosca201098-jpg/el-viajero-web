@@ -59,10 +59,10 @@ function endpoint() {
 test('Switzerland adds 12 unique canonical profiles while all 137 previous identities and editorial cards remain byte-for-byte equivalent', () => {
   assert.equal(baseline.profiles.length, 137);
   assert.equal(swiss.length, 12);
-  assert.equal(catalog.destinationProfiles.length, 224);
-  assert.equal(new Set(catalog.destinationProfiles.map(item => item.id)).size, 224);
-  assert.equal(new Set(catalog.destinationProfiles.map(item => item.slug)).size, 224);
-  assert.deepEqual(Array.from(catalog.destinationProfiles.slice(0, 137), item => item.id), baseline.profiles.map(item => item.id));
+  assert.equal(catalog.destinationProfiles.length, 248);
+  assert.equal(new Set(catalog.destinationProfiles.map(item => item.id)).size, 248);
+  assert.equal(new Set(catalog.destinationProfiles.map(item => item.slug)).size, 248);
+  assert.deepEqual(Array.from(catalog.destinationProfiles.filter(profile => baseline.profiles.some(old => old.id === profile.id)), item => item.id), baseline.profiles.map(item => item.id));
   for (const item of baseline.profiles) assert.equal(digest(catalog.getDestinationById(item.id)), item.sha256, item.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations), baseline.featuredSha256);
   for (const [season, hash] of Object.entries(baseline.seasonFiles)) {

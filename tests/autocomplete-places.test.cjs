@@ -24,6 +24,7 @@ function endpoint(payload, options = {}) {
       if(id === '@/lib/travelpayouts/poland-airports') return {polandAirportsForTerm:()=>[],polandTouristPlacesForTerm:()=>[],polandAirports:[],polandCityAliases:{}};
       if(id === '@/lib/travelpayouts/hungary-airports') return {hungaryAirportsForTerm:()=>[],hungaryTouristPlacesForTerm:()=>[],hungaryAirports:[],hungaryCityAliases:{}};
       if(id === '@/lib/travelpayouts/slovakia-airports') return {slovakiaAirportsForTerm:()=>[],slovakiaTouristPlacesForTerm:()=>[],slovakiaAirports:[],slovakiaCityAliases:{}};
+      if(id === '@/lib/travelpayouts/france-airports') return {franceAirportsForTerm:()=>[],franceTouristPlacesForTerm:()=>[],franceAirports:[],franceCityAliases:{}};
       if(id === '@/lib/travelpayouts/greece-airports') return {greeceAirportsForTerm:()=>[],greeceTouristPlacesForTerm:()=>[],greeceAirports:[],greeceCityAliases:{}};
       if(id === '@/lib/travelpayouts/czechia-airports') return {czechiaAirportsForTerm:()=>[],czechiaTouristPlacesForTerm:()=>[],czechiaAirports:[],czechiaCityAliases:{}};
       if(id === '@/lib/travelpayouts/netherlands-airports') return {isNetherlandsCountryTerm:()=>false,netherlandsAirportsForTerm:()=>[],netherlandsCityAliases:{},netherlandsPassengerAirports:[],netherlandsUnavailablePassengerCodes:[]};
