@@ -1,7 +1,7 @@
 import { turkeyDestinations } from '@/lib/destinations/turkey';
 import type { Locale } from '@/lib/i18n/translations';
 
-// Physical airports of the Turkish catalog (batch 1). Names follow the provider inventory and operator naming.
+// Physical airports of the Turkish catalog (batches 1 and 2). Names follow the provider inventory and operator naming.
 // An identity is not a promise of service: Kayseri (ASR) is only an access airport of Cappadocia.
 const airportNames: Readonly<Record<string, string>> = {
   IST: 'Estambul — Aeropuerto de Estambul (IST)',
@@ -16,6 +16,18 @@ const airportNames: Readonly<Record<string, string>> = {
   GZT: 'Gaziantep',
   KYA: 'Konya',
   GZP: 'Alanya — Gazipaşa',
+  COV: 'Adana — Çukurova',
+  YEI: 'Bursa — Yenişehir',
+  SZF: 'Samsun — Çarşamba',
+  GNY: 'Şanlıurfa — GAP',
+  MQM: 'Mardin',
+  VAN: 'Van — Ferit Melen',
+  ERZ: 'Erzurum',
+  DIY: 'Diyarbakır',
+  KSY: 'Kars',
+  CKZ: 'Çanakkale',
+  DNZ: 'Pamukkale — Denizli Çardak',
+  RZV: 'Rize — Rize-Artvin',
 };
 // City codes of the provider inventory for airports whose city code differs from the airport code.
 const providerCityCodes: Readonly<Record<string, string>> = { SAW: 'IST', ESB: 'ANK', ADB: 'IZM' };

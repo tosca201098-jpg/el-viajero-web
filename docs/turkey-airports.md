@@ -1,4 +1,4 @@
-# Turquía: aeropuertos y fichas (lote 1)
+# Turquía: aeropuertos y fichas (lotes 1 y 2)
 
 Estado: borrador (`publication.status = 'draft'`). No aparece en portada, sitemap ni recomendaciones automáticas; solo con selección explícita en el buscador. Turquía se incluye en el catálogo europeo por decisión del usuario (6/11/2026).
 
@@ -18,6 +18,42 @@ Estado: borrador (`publication.status = 'draft'`). No aparece en portada, sitema
 | Konya | KYA | `tr-konya` |
 | Alanya | GZP | `tr-alanya` |
 
+## Lote 2 (12 fichas más, total 23)
+
+| Destino | Aeropuerto | Id |
+|---|---|---|
+| Adana | COV | `tr-adana` |
+| Bursa | YEI | `tr-bursa` |
+| Samsun | SZF | `tr-samsun` |
+| Şanlıurfa | GNY | `tr-sanliurfa` |
+| Mardin | MQM | `tr-mardin` |
+| Van | VAN | `tr-van` |
+| Erzurum | ERZ | `tr-erzurum` |
+| Diyarbakır | DIY | `tr-diyarbakir` |
+| Kars | KSY | `tr-kars` |
+| Çanakkale | CKZ | `tr-canakkale` |
+| Pamukkale (Denizli) | DNZ | `tr-pamukkale` |
+| Rize | RZV | `tr-rize` |
+
+Notas del lote 2: COV (Çukurova) sirve a Adana y Mersin y el proveedor lo asocia a Mersin; la ficha describe Adana. GNY figura como «Golgen» en el proveedor. Pamukkale se atiende desde Denizli Çardak (DNZ). Adana, Şanlıurfa, Mardin y Diyarbakır tienen temporada alta en primavera y otoño por el calor estival; Mardin, Şanlıurfa, Diyarbakır, Van y Gaziantep llevan aviso de consultar las recomendaciones oficiales de viaje. Fotos del lote 2:
+
+| Destino | Archivo | Autor | Licencia |
+|---|---|---|---|
+| Adana | Adana Sabancı Central Mosque - Sabancı Merkez Camii 02.JPG | Zeynel Cebeci | CC BY-SA 4.0 |
+| Bursa | Green Tomb - Yeşil Türbe (11).jpg | Yahia.Mokhtar | CC BY-SA 4.0 |
+| Samsun | Onur Anıtı.JPG | Cobija | CC0 1.0 |
+| Şanlıurfa | Balıklıgöl, Urfa 2015.jpg | Hamdigumus | CC0 1.0 |
+| Mardin | Mardin panorama 1.png | KediÇobanı | CC BY-SA 4.0 |
+| Van | 00 0390 Lake Van, church on Akdamar Island.jpg | W. Bulach | CC BY-SA 4.0 |
+| Erzurum | Çifte Minareli Medrese (Erzurum) Exterior front side in 2006 3278 straightened.jpg | Dosseman | CC BY-SA 4.0 |
+| Diyarbakır | City walls in Diyarbakır (1).jpg | Radosław Botev | CC BY 3.0 PL |
+| Kars | Ani Archeological Site, March 2020 3.jpg | Héctor Ochoa “Robot8A” | CC BY-SA 4.0 |
+| Çanakkale | Troy National Park 1.jpg | Ebru Sargın L. | CC BY-SA 4.0 |
+| Pamukkale (Denizli) | The travertines of Pamukkale 3.jpg | Slyronit | CC BY-SA 4.0 |
+| Rize | Ayder Plateau @ Rize-Turkey.JPG | Dr. Zeynel Cebeci | CC BY-SA 3.0 |
+
+Mejorables en la fase 2: Bursa (detalle de azulejos, no panorámica), Mardin (vista lejana) y Çanakkale (ruinas de Troya poco expresivas).
+
 ## Criterios y fuentes
 
 - Aeropuertos con actividad comercial de pasajeros conocida (estadísticas de DHMİ) y registrados en el inventario de Travelpayouts como `airport` y `flightable=true` (consulta del 6/11/2026; ver `tests/fixtures/turkey-airport-provider.json`). Un `flightable=true` no prueba servicio actual: no se ha inventado ninguna ruta, precio ni disponibilidad.
@@ -29,7 +65,7 @@ Estado: borrador (`publication.status = 'draft'`). No aparece en portada, sitema
 ## Excluidos o pendientes
 
 - ISL (Atatürk) y ANK Etimesgut: el proveedor los marca `flightable=false`.
-- Pendientes de verificar servicio regular en el siguiente lote: Adana, Bursa, Kayseri (ficha propia), Samsun, Şanlıurfa, Mardin, Van, Erzurum, Diyarbakır, Kars, Hatay, Çanakkale, Edremit y otros regionales.
+- Pendientes de verificar servicio regular: Hatay (HTY), Edremit (EDO), Kayseri (ASR, solo aeropuerto de acceso de Capadocia), Eskişehir (AOE), Çorlu (TEQ), Ordu-Giresun (OGU) y pequeños regionales (KCM, MLX, EZS, VAS, ERC, BAL, SXZ, MSR, AJI, IGD, ADF, TJK, MZH, KFS, NOP, ONQ, KCO, KZR, ISE, BGG, YKO, NKT).
 - Georgia, Armenia y Azerbaiyán quedan para la fase mundial.
 
 ## Fotos (Wikimedia Commons, miniatura de 960 px)
@@ -52,7 +88,7 @@ Origen de cada una: `https://commons.wikimedia.org/wiki/File:<archivo>` (campo `
 
 ## Comprobaciones
 
-- Pruebas: 409 en total; 402 pasan. Los 7 fallos son de entorno (faltan react, postcss, js-yaml) y ya fallaban antes.
+- Pruebas: 409 en total; 402 pasan (con los 23 destinos). Los 7 fallos son de entorno (faltan react, postcss, js-yaml) y ya fallaban antes.
 - NO ejecutado: compilación (`next build`) ni revisión visual en móvil/tablet/escritorio. Pendiente de Vercel Preview (protegida).
 - Fichas con 7 idiomas, 4 recomendaciones, IATA y fotos con licencia comprobados por test.
 

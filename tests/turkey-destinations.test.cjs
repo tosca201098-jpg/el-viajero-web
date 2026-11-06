@@ -36,15 +36,15 @@ const turkish = load('lib/destinations/turkey.ts').turkeyDestinations;
 const airports = load('lib/travelpayouts/turkey-airports.ts');
 const selection = load('lib/destinations/selection.ts');
 const presentation = load('lib/destinations/presentation.ts');
-const slugs = ['istanbul','ankara','izmir','antalya','bodrum','dalaman','trabzon','cappadocia','gaziantep','konya','alanya'];
-const codes = { istanbul:['IST','SAW'], ankara:['ESB'], izmir:['ADB'], antalya:['AYT'], bodrum:['BJV'], dalaman:['DLM'], trabzon:['TZX'], cappadocia:['NAV'], gaziantep:['GZT'], konya:['KYA'], alanya:['GZP'] };
+const slugs = ['istanbul','ankara','izmir','antalya','bodrum','dalaman','trabzon','cappadocia','gaziantep','konya','alanya','adana','bursa','samsun','sanliurfa','mardin','van','erzurum','diyarbakir','kars','canakkale','pamukkale','rize'];
+const codes = { istanbul:['IST','SAW'], ankara:['ESB'], izmir:['ADB'], antalya:['AYT'], bodrum:['BJV'], dalaman:['DLM'], trabzon:['TZX'], cappadocia:['NAV'], gaziantep:['GZT'], konya:['KYA'], alanya:['GZP'], adana:['COV'], bursa:['YEI'], samsun:['SZF'], sanliurfa:['GNY'], mardin:['MQM'], van:['VAN'], erzurum:['ERZ'], diyarbakir:['DIY'], kars:['KSY'], canakkale:['CKZ'], pamukkale:['DNZ'], rize:['RZV'] };
 
-test('Turkey adds 11 draft profiles to 210 unchanged profiles; original cards and editorial pages stay intact', () => {
+test('Turkey adds 23 draft profiles to 210 unchanged profiles; original cards and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,210);
   assert.deepEqual(Array.from(turkish,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,221);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,221);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,221);
+  assert.equal(catalog.destinationProfiles.length,233);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,233);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,233);
   for (const previous of before.profiles) {
     const profile = catalog.getDestinationById(previous.id);
     assert.equal(digest(profile),previous.sha256,previous.id);
@@ -55,7 +55,7 @@ test('Turkey adds 11 draft profiles to 210 unchanged profiles; original cards an
     assert.equal(digest(fs.readFileSync(path.join(root,'app/temporadas',season,'page.tsx'),'utf8').replace(/\r\n/g,'\n')),hash);
   for (const [file,hash] of Object.entries(before.monthPages))
     assert.equal(digest(fs.readFileSync(path.join(root,'app/viajes-baratos/[mes]',file),'utf8').replace(/\r\n/g,'\n')),hash);
-  assert.equal(catalog.getDestinationsByCountry('TR').length,11);
+  assert.equal(catalog.getDestinationsByCountry('TR').length,23);
   for (const profile of turkish) {
     assert.equal(profile.publication.status,'draft');
     assert.equal(presentation.canShowDestinationAutomatically(profile),false);
@@ -85,7 +85,7 @@ test('physical airports match the provider inventory and resolve to one profile 
       assert.equal(catalog.findDestinationProfile({iataCode}).id,profile.id);
     }
   }
-  assert.deepEqual(Array.from(airports.turkeyAirports,a=>a.code).sort(),['ADB','AYT','BJV','DLM','ESB','GZP','GZT','IST','KYA','NAV','SAW','TZX']);
+  assert.deepEqual(Array.from(airports.turkeyAirports,a=>a.code).sort(),['ADB','AYT','BJV','CKZ','COV','DIY','DLM','DNZ','ERZ','ESB','GNY','GZP','GZT','IST','KSY','KYA','MQM','NAV','RZV','SAW','SZF','TZX','VAN','YEI']);
   assert.equal(catalog.findDestinationProfile({iataCode:'ANK'}).id,'tr-ankara');
   assert.equal(catalog.findDestinationProfile({iataCode:'IZM'}).id,'tr-izmir');
   assert.equal(catalog.findDestinationProfile({iataCode:'ASR'}).id,'tr-cappadocia');
@@ -112,7 +112,7 @@ test('every Turkish photo is a licensed Commons thumbnail with documented origin
   for (const p of turkish) {
     assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/wikipedia\/commons\/thumb\/[0-9a-f]\/[0-9a-f]{2}\//);
     assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
-    assert.match(p.imageLicense,/^(CC BY(-SA)? [234]\.[05]|CC0 1\.0)$/);
+    assert.match(p.imageLicense,/^(CC BY(-SA)? [234]\.[05]( PL)?|CC0 1\.0)$/);
     for (const key of ['imageCredit','imageLicenseUrl']) assert.ok(p[key],key);
     assert.equal(photos[p.slug].license,p.imageLicense);
     assert.equal(photos[p.slug].author,p.imageCredit);
