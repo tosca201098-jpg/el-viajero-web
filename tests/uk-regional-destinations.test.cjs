@@ -43,9 +43,9 @@ const names = { 'lewis-harris':'Lewis y Harris', orkney:'Orcadas', shetland:'She
 test('UK airport gaps add 20 draft GB profiles to 310 unchanged profiles; original cards, the 12 existing GB profiles and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,310);
   assert.deepEqual(Array.from(ibs,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,376);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,376);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,376);
+  assert.equal(catalog.destinationProfiles.length,386);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,386);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,386);
   for (const previous of before.profiles) assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   assert.equal(catalog.getDestinationsByCountry('GB').length,32);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);

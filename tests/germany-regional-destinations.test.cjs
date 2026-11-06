@@ -42,9 +42,9 @@ const codes = {"hannover": "HAJ", "bremen": "BRE", "rostock-baltic": "RLG", "dor
 test('Germany airport gaps add 12 draft DE profiles to 354 unchanged profiles; original cards, the 12 existing DE profiles and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,354);
   assert.deepEqual(Array.from(ibs,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,376);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,376);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,376);
+  assert.equal(catalog.destinationProfiles.length,386);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,386);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,386);
   for (const previous of before.profiles) assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   assert.equal(catalog.getDestinationsByCountry('DE').length,24);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);

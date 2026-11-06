@@ -40,7 +40,8 @@ const ukRegional = load('lib/destinations/uk-regional.ts');
 const italyRegional = load('lib/destinations/italy-regional.ts');
 const germanyRegional = load('lib/destinations/germany-regional.ts');
 const europeRegional = load('lib/destinations/europe-regional.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics, './scandinavia': scandinavia, './ireland-baltics': irelandBaltics, './uk-regional': ukRegional, './italy-regional': italyRegional, './germany-regional': germanyRegional, './europe-regional': europeRegional });
+const nordicRegional = load('lib/destinations/nordic-regional.ts');
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics, './scandinavia': scandinavia, './ireland-baltics': irelandBaltics, './uk-regional': ukRegional, './italy-regional': italyRegional, './germany-regional': germanyRegional, './europe-regional': europeRegional, './nordic-regional': nordicRegional });
 const months = load('lib/destinations/months.ts');
 const monthly = load('lib/destinations/monthly.ts', { './index': library });
 
