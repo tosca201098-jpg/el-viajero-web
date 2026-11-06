@@ -1,0 +1,156 @@
+{
+  "source": "Travelpayouts airports.json (code, country and flightable=true checked 2026-11-06; display names abbreviated; a flightable flag is not proof of current service)",
+  "airports": [
+    {
+      "code": "DUB",
+      "country_code": "IE",
+      "name": "Dublin Airport",
+      "city": "Dublin",
+      "flightable": true
+    },
+    {
+      "code": "ORK",
+      "country_code": "IE",
+      "name": "Cork Airport",
+      "city": "Cork",
+      "flightable": true
+    },
+    {
+      "code": "SNN",
+      "country_code": "IE",
+      "name": "Shannon Airport",
+      "city": "Shannon",
+      "flightable": true
+    },
+    {
+      "code": "NOC",
+      "country_code": "IE",
+      "name": "Ireland West Airport Knock",
+      "city": "Knock",
+      "flightable": true
+    },
+    {
+      "code": "KIR",
+      "country_code": "IE",
+      "name": "Kerry County Airport",
+      "city": "Kerry",
+      "flightable": true
+    },
+    {
+      "code": "TLL",
+      "country_code": "EE",
+      "name": "Tallinn Airport",
+      "city": "Tallinn",
+      "flightable": true
+    },
+    {
+      "code": "RIX",
+      "country_code": "LV",
+      "name": "Riga International Airport",
+      "city": "Riga",
+      "flightable": true
+    },
+    {
+      "code": "VNO",
+      "country_code": "LT",
+      "name": "Vilnius International Airport",
+      "city": "Vilnius",
+      "flightable": true
+    },
+    {
+      "code": "KUN",
+      "country_code": "LT",
+      "name": "Kaunas Airport",
+      "city": "Kaunas",
+      "flightable": true
+    },
+    {
+      "code": "PLQ",
+      "country_code": "LT",
+      "name": "Palanga International Airport",
+      "city": "Palanga",
+      "flightable": true
+    },
+    {
+      "code": "LUX",
+      "country_code": "LU",
+      "name": "Luxembourg Airport",
+      "city": "Luxembourg",
+      "flightable": true
+    },
+    {
+      "code": "GIB",
+      "country_code": "GI",
+      "name": "North Front Airport",
+      "city": "Gibraltar",
+      "flightable": true
+    },
+    {
+      "code": "JER",
+      "country_code": "JE",
+      "name": "Jersey Airport",
+      "city": "Jersey",
+      "flightable": true
+    },
+    {
+      "code": "GCI",
+      "country_code": "GG",
+      "name": "Guernsey Airport",
+      "city": "Guernsey",
+      "flightable": true
+    },
+    {
+      "code": "IOM",
+      "country_code": "IM",
+      "name": "Isle of Man Airport",
+      "city": "Isle of Man",
+      "flightable": true
+    },
+    {
+      "code": "FAE",
+      "country_code": "FO",
+      "name": "Vagar Airport",
+      "city": "Faroe Islands",
+      "flightable": true
+    },
+    {
+      "code": "MHQ",
+      "country_code": "AX",
+      "name": "Mariehamn Airport",
+      "city": "Aland",
+      "flightable": true
+    }
+  ],
+  "pendingVerification": [
+    {
+      "code": "CFN",
+      "country_code": "IE",
+      "city": "Donegal",
+      "flightable": true
+    },
+    {
+      "code": "TAY",
+      "country_code": "EE",
+      "city": "Tartu",
+      "flightable": true
+    },
+    {
+      "code": "KDL",
+      "country_code": "EE",
+      "city": "Kardla",
+      "flightable": true
+    },
+    {
+      "code": "URE",
+      "country_code": "EE",
+      "city": "Kuressaare",
+      "flightable": true
+    },
+    {
+      "code": "LPX",
+      "country_code": "LV",
+      "city": "Liepaja",
+      "flightable": true
+    }
+  ]
+}

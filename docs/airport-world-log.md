@@ -35,3 +35,7 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 ## 2026-11-06 — Suecia y Noruega (rama `claude/scandinavia-airports`)
 
 16 fichas en borrador (7 SE, 9 NO), apiladas sobre `claude/nordics-airports`. Bergen (Noruega) se nombra «Bergen (Noruega)» por el alias existente de Mons. Pruebas: 453; 446 pasan; 7 fallos de entorno previos. Siguiente: Irlanda, bálticos, Luxemburgo y territorios.
+
+## 2026-11-06 — Irlanda, bálticos, Luxemburgo y territorios (rama `claude/ireland-baltics-airports`)
+
+17 fichas en borrador (5 IE, 1 EE, 1 LV, 3 LT, 1 LU, 6 territorios), apiladas sobre `claude/scandinavia-airports`. Pruebas: 464; 457 pasan; 7 fallos de entorno previos. Siguiente: completar países parciales (Reino Unido, Italia, Alemania, auditorías de España, Portugal, Polonia, Grecia, Croacia y Eslovenia) y pendientes de Francia y Turquía.

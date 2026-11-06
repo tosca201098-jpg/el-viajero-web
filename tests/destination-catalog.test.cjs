@@ -41,7 +41,8 @@ const southeastEurope = load('lib/destinations/southeast-europe.ts');
 const easternEurope = load('lib/destinations/eastern-europe.ts');
 const nordics = load('lib/destinations/nordics.ts');
 const scandinavia = load('lib/destinations/scandinavia.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics, './scandinavia': scandinavia });
+const irelandBaltics = load('lib/destinations/ireland-baltics.ts');
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics, './scandinavia': scandinavia, './ireland-baltics': irelandBaltics });
 const localization = load('lib/destinations/localization.ts');
 const manifest = require('./fixtures/destination-legacy-digests.json');
 const legacyProfiles = library.destinationProfiles.filter(profile => ['ES', 'PT'].includes(profile.countryCode));
@@ -57,8 +58,8 @@ test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
   assert.equal(legacyProfiles.length, 65);
   assert.equal(spain.spainDestinations.length, 43);
   assert.equal(portugal.portugalDestinations.length, 22);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 293);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 293);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 310);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 310);
   assert.deepEqual(Array.from(legacyProfiles, d => ({ id: d.id, slug: d.slug })),
     manifest.map(({ id, slug }) => ({ id, slug })));
   for (const destination of legacyProfiles) {
@@ -133,10 +134,10 @@ test('monthly rendering uses the country helper for a future country without add
       '@/lib/destinations/localization': localization,
       '@/lib/destinations/presentation': load('lib/destinations/presentation.ts', { './index': library }),
     }, { React: { createElement } }).default;
-    const fixture = { ...library.destinationProfiles[0], countryCode: 'IE', country: 'Irlanda' };
+    const fixture = { ...library.destinationProfiles[0], countryCode: 'JP', country: 'Japón' };
     const tree = component({ month: 4, recommendations: [{ destination: fixture, reason: 'best' }] });
     const text = textNodes(tree);
-    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('IE')), language);
+    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('JP')), language);
     assert.ok(!text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('PT')), language);
   }
 });

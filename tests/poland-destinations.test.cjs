@@ -39,10 +39,10 @@ const slugs = ['warsaw','krakow','gdansk-tricity','wroclaw','poznan','torun','lu
 test('Poland adds twelve profiles to 173 unchanged profiles, leaving the original editorial pages intact', () => {
   assert.equal(before.profiles.length, 173);
   assert.deepEqual(Array.from(polish, profile => profile.slug), slugs);
-  assert.equal(catalog.destinationProfiles.length, 293);
-  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.id)).size, 293);
-  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.slug)).size, 293);
-  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.countryCode)).size,31);
+  assert.equal(catalog.destinationProfiles.length, 310);
+  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.id)).size, 310);
+  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.slug)).size, 310);
+  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.countryCode)).size,42);
   for (const previous of before.profiles) {
     const profile = catalog.getDestinationById(previous.id);
     assert.equal(profile.slug, previous.slug);

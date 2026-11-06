@@ -11,11 +11,13 @@ import { hungaryAirports, hungaryAirportsForTerm, hungaryCityAliases, hungaryTou
 import { slovakiaAirports, slovakiaAirportsForTerm, slovakiaCityAliases, slovakiaTouristPlacesForTerm } from '@/lib/travelpayouts/slovakia-airports';
 import { albaniaAirports, albaniaAirportsForTerm, albaniaCityAliases, albaniaTouristPlacesForTerm } from '@/lib/travelpayouts/albania-airports';
 import { turkeyAirports, turkeyAirportsForTerm, turkeyCityAliases, turkeyTouristPlacesForTerm } from '@/lib/travelpayouts/turkey-airports';
+import { irelandBalticsAirports, irelandBalticsAirportsForTerm, irelandBalticsCityAliases, irelandBalticsTouristPlacesForTerm } from '@/lib/travelpayouts/ireland-baltics-airports';
 import { scandinaviaAirports, scandinaviaAirportsForTerm, scandinaviaCityAliases, scandinaviaTouristPlacesForTerm } from '@/lib/travelpayouts/scandinavia-airports';
 import { nordicsAirports, nordicsAirportsForTerm, nordicsCityAliases, nordicsTouristPlacesForTerm } from '@/lib/travelpayouts/nordics-airports';
 import { easternEuropeAirports, easternEuropeAirportsForTerm, easternEuropeCityAliases, easternEuropeTouristPlacesForTerm } from '@/lib/travelpayouts/eastern-europe-airports';
 import { southeastEuropeAirports, southeastEuropeAirportsForTerm, southeastEuropeCityAliases, southeastEuropeTouristPlacesForTerm } from '@/lib/travelpayouts/southeast-europe-airports';
 
+const IRELAND_BALTICS_COUNTRIES = ['IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX'];
 const SCANDINAVIA_COUNTRIES = ['SE', 'NO'];
 const NORDICS_COUNTRIES = ['DK', 'IS', 'FI'];
 const EASTERN_EUROPE_COUNTRIES = ['RO', 'BG', 'MD'];
@@ -267,6 +269,16 @@ export async function GET(request: Request) {
         index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
       if (place.type !== 'city') return place;
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(scandinaviaCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...irelandBalticsAirportsForTerm(term), ...irelandBalticsTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || !IRELAND_BALTICS_COUNTRIES.includes(String(place.country_code))) return place;
+      const placeCode = code(place.code, 3);
+      const airport = irelandBalticsAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(irelandBalticsCityAliases[placeCode] ?? [])] };
     });
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);

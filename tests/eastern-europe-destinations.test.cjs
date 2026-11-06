@@ -44,9 +44,9 @@ const spanish = { RO:'Rumanía', BG:'Bulgaria', MD:'Moldavia' };
 test('Romania, Bulgaria and Moldova adds 15 draft profiles to 247 unchanged profiles; original cards and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,247);
   assert.deepEqual(Array.from(ees,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,293);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,293);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,293);
+  assert.equal(catalog.destinationProfiles.length,310);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,310);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,310);
   for (const previous of before.profiles) assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
   assert.equal(load('lib/destinations/featured.ts').destinations.length,16);
