@@ -1,0 +1,114 @@
+{
+  "source": "api.travelpayouts.com/data/en/airports.json and cities.json, consulted 2026-11-06 (a flightable flag is not proof of current service)",
+  "airports": [
+    {
+      "code": "BEG",
+      "country_code": "RS",
+      "name": "Belgrad Nikola Tesla Airport",
+      "city": "Belgrade",
+      "flightable": true
+    },
+    {
+      "code": "INI",
+      "country_code": "RS",
+      "name": "Nis Constantine the Great Airport",
+      "city": "Nis",
+      "flightable": true
+    },
+    {
+      "code": "SJJ",
+      "country_code": "BA",
+      "name": "Sarajevo International Airport",
+      "city": "Sarajevo",
+      "flightable": true
+    },
+    {
+      "code": "OMO",
+      "country_code": "BA",
+      "name": "Mostar Airport",
+      "city": "Mostar",
+      "flightable": true
+    },
+    {
+      "code": "TZL",
+      "country_code": "BA",
+      "name": "Tuzla International Airport",
+      "city": "Tuzla",
+      "flightable": true
+    },
+    {
+      "code": "BNX",
+      "country_code": "BA",
+      "name": "Banja Luka Airport",
+      "city": "Banja Luka",
+      "flightable": true
+    },
+    {
+      "code": "TGD",
+      "country_code": "ME",
+      "name": "Podgorica Airport",
+      "city": "Podgorica",
+      "flightable": true
+    },
+    {
+      "code": "TIV",
+      "country_code": "ME",
+      "name": "Tivat Airport",
+      "city": "Tivat",
+      "flightable": true
+    },
+    {
+      "code": "SKP",
+      "country_code": "MK",
+      "name": "Skopje Alexander the Great Airport",
+      "city": "Skopje",
+      "flightable": true
+    },
+    {
+      "code": "OHD",
+      "country_code": "MK",
+      "name": "Ohrid Airport",
+      "city": "Ohrid",
+      "flightable": true
+    },
+    {
+      "code": "PRN",
+      "country_code": "XK",
+      "name": "Pristina International Airport",
+      "city": "Pristina",
+      "flightable": true
+    },
+    {
+      "code": "MLA",
+      "country_code": "MT",
+      "name": "Malta International Airport",
+      "city": "Malta",
+      "flightable": true
+    },
+    {
+      "code": "LCA",
+      "country_code": "CY",
+      "name": "Larnaca International Airport",
+      "city": "Larnaca",
+      "flightable": true
+    },
+    {
+      "code": "PFO",
+      "country_code": "CY",
+      "name": "Paphos International Airport",
+      "city": "Paphos",
+      "flightable": true
+    }
+  ],
+  "pendingVerification": [
+    {
+      "code": "KVO",
+      "country_code": "RS",
+      "name": "Kraljevo",
+      "reason": "flightable in provider, no verified scheduled passenger service"
+    }
+  ],
+  "notInProvider": [
+    "ECN (Ercan, northern Cyprus): not listed as flightable by the provider; not included"
+  ]
+}

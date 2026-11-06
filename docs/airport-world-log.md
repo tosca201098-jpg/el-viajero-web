@@ -17,3 +17,9 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 - Adana, Bursa, Samsun, Şanlıurfa, Mardin, Van, Erzurum, Diyarbakır, Kars, Çanakkale, Pamukkale (DNZ), Rize. Misma rama y PR #48.
 - Pruebas: 409; 402 pasan; 7 fallos de entorno previos. Sin build ni revisión visual.
 - Pendientes de Turquía: Hatay, Edremit, Eskişehir, Çorlu, Ordu-Giresun y pequeños regionales (ver docs/turkey-airports.md).
+
+## 2026-11-06 — Sureste de Europa e islas (14 fichas)
+- Serbia (Belgrado, Niš), Bosnia y Herzegovina (Sarajevo, Mostar, Tuzla, Banja Luka), Montenegro (Podgorica, Tivat), Macedonia del Norte (Skopie, Ohrid), Kosovo (Pristina), Malta, Chipre (Lárnaca, Pafos).
+- Rama: `claude/southeast-europe-airports` (apilada sobre `claude/turkey-airports`, PR #48).
+- Pruebas: 420; 413 pasan; 7 fallos de entorno previos. Sin build ni revisión visual.
+- Pendiente: Kraljevo (KVO). Siguiente: Rumanía, Bulgaria, Moldavia, países nórdicos, Irlanda, bálticos, Luxemburgo y territorios.
