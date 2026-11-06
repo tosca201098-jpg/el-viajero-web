@@ -1,0 +1,57 @@
+{
+  "istanbul": {
+    "file": "Fatihistanbul.jpg",
+    "author": "Hunanuk",
+    "license": "CC0 1.0"
+  },
+  "ankara": {
+    "file": "Anıtkabir, Ankara, Turquía, 2024-10-03, DD 20.jpg",
+    "author": "Diego Delso",
+    "license": "CC BY-SA 4.0"
+  },
+  "izmir": {
+    "file": "Izmir Konak Square and Clock Tower, 2026.jpg",
+    "author": "Mors et Vita",
+    "license": "CC BY 4.0"
+  },
+  "antalya": {
+    "file": "Antalya kaleiçi 2.jpg",
+    "author": "REHBER0770",
+    "license": "CC BY-SA 4.0"
+  },
+  "bodrum": {
+    "file": "Bodrum castle 3.JPG",
+    "author": "Ad Meskens",
+    "license": "CC BY-SA 3.0"
+  },
+  "dalaman": {
+    "file": "Blue Lagoon - 2014.10 - panoramio.jpg",
+    "author": "rheins",
+    "license": "CC BY 3.0"
+  },
+  "trabzon": {
+    "file": "Sumela From Across Valley.JPG",
+    "author": "Bjørn Christian Tørrissen",
+    "license": "CC BY-SA 3.0"
+  },
+  "cappadocia": {
+    "file": "Hot air balloons over valleys near Göreme, Cappadocia at dawn.JPG",
+    "author": "MusikAnimal",
+    "license": "CC BY-SA 4.0"
+  },
+  "gaziantep": {
+    "file": "Gaziantep Kalesi 4696.jpg",
+    "author": "Dosseman",
+    "license": "CC BY-SA 4.0"
+  },
+  "konya": {
+    "file": "Mevlana Müzesi 01.jpg",
+    "author": "Bernard Gagnon",
+    "license": "CC BY-SA 3.0"
+  },
+  "alanya": {
+    "file": "Alanya Castle Ehmedek View from height to Red Tower 3141.jpg",
+    "author": "Dosseman",
+    "license": "CC BY-SA 4.0"
+  }
+}

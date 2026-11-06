@@ -30,7 +30,8 @@ const poland = load('lib/destinations/poland.ts', { './poland-images': load('lib
 const hungary = load('lib/destinations/hungary.ts', { './hungary-images': load('lib/destinations/hungary-images.ts') });
 const slovakia = load('lib/destinations/slovakia.ts', { './slovakia-images': load('lib/destinations/slovakia-images.ts') });
 const albania = load('lib/destinations/albania.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania });
+const turkey = load('lib/destinations/turkey.ts');
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania, './turkey': turkey });
 const months = load('lib/destinations/months.ts');
 const monthly = load('lib/destinations/monthly.ts', { './index': library });
 

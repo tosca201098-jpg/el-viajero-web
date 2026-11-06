@@ -7,3 +7,8 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 - Pruebas: 389 en total; 382 pasan. Los 7 fallos son de entorno (faltan react, postcss, js-yaml) y ya fallaban antes de los cambios.
 - Pendiente: push y PR en borrador (falta instalar la app de Claude en GitHub), Preview de Vercel, comprobación de TIA en el inventario de Travelpayouts, revisión visual y build.
 - Siguiente país: Francia (PR #44 como base), después el resto de Europa pendiente (Bosnia, Serbia, Montenegro, Macedonia del Norte, Malta, nórdicos, Irlanda, bálticos, Rumanía, Bulgaria…).
+
+## 2026-11-06 — Turquía, lote 1 (11 fichas)
+- Rama: `claude/turkey-airports` (apilada sobre `claude/albania-airports`, PR #45).
+- Pruebas: 409; 402 pasan; 7 fallos de entorno previos. Sin build ni revisión visual (Preview protegida).
+- Siguiente: lote 2 de Turquía (regionales a verificar), Rusia/Bielorrusia/Ucrania (solo documentación), resto de Europa.
