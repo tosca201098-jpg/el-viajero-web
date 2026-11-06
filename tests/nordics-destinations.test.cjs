@@ -44,9 +44,9 @@ const spanish = { DK:'Dinamarca', IS:'Islandia', FI:'Finlandia' };
 test('Denmark, Iceland and Finland adds 15 draft profiles to 262 unchanged profiles; original cards and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,262);
   assert.deepEqual(Array.from(nds,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,310);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,310);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,310);
+  assert.equal(catalog.destinationProfiles.length,317);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,317);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,317);
   for (const previous of before.profiles) assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
   assert.equal(load('lib/destinations/featured.ts').destinations.length,16);

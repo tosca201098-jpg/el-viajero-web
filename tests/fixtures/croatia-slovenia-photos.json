@@ -1,0 +1,37 @@
+{
+  "zagreb": {
+    "file": "Zagreb 2015 - Zagrebačka katedrala - pogled s Gornjeg Grada (Zagreb Cathedral - view from Upper Town) - panoramio.jpg",
+    "author": "Nikolai Karaneschev",
+    "license": "CC BY 3.0"
+  },
+  "split": {
+    "file": "Peristyle of Diocletian's Palace, Split (11907674235).jpg",
+    "author": "Following Hadrian",
+    "license": "CC BY-SA 2.0"
+  },
+  "dubrovnik": {
+    "file": "Dubrovnik june 2011..JPG",
+    "author": "Bracodbk",
+    "license": "CC BY-SA 3.0"
+  },
+  "zadar": {
+    "file": "Sea Orgles Zadar Croatia.jpg",
+    "author": "Rpuljiz",
+    "license": "CC BY-SA 4.0"
+  },
+  "pula": {
+    "file": "Pula Arena, Roman Amphitheatre, Colonia Pietas Iulia Pola Pollentia Herculanea, Histria (10384269305).jpg",
+    "author": "Carole Raddato",
+    "license": "CC BY-SA 2.0"
+  },
+  "rijeka": {
+    "file": "Rijeka, Trsat P6290046.JPG",
+    "author": "Laslovarga",
+    "license": "CC BY-SA 3.0"
+  },
+  "ljubljana": {
+    "file": "Ljubljanica 01.jpg",
+    "author": "Mihael Grmek",
+    "license": "CC BY-SA 3.0"
+  }
+}

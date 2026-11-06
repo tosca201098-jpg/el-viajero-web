@@ -1,0 +1,80 @@
+{
+  "source": "Travelpayouts airports.json (code, country and flightable=true checked 2026-11-06; display names abbreviated; a flightable flag is not proof of current service)",
+  "airports": [
+    {
+      "code": "ZAG",
+      "country_code": "HR",
+      "name": "Zagreb International Airport",
+      "city": "Zagreb",
+      "flightable": true
+    },
+    {
+      "code": "SPU",
+      "country_code": "HR",
+      "name": "Split Airport",
+      "city": "Split",
+      "flightable": true
+    },
+    {
+      "code": "DBV",
+      "country_code": "HR",
+      "name": "Dubrovnik Airport",
+      "city": "Dubrovnik",
+      "flightable": true
+    },
+    {
+      "code": "ZAD",
+      "country_code": "HR",
+      "name": "Zadar Airport",
+      "city": "Zadar",
+      "flightable": true
+    },
+    {
+      "code": "PUY",
+      "country_code": "HR",
+      "name": "Pula Airport",
+      "city": "Pula",
+      "flightable": true
+    },
+    {
+      "code": "RJK",
+      "country_code": "HR",
+      "name": "Rijeka Airport",
+      "city": "Rijeka",
+      "flightable": true
+    },
+    {
+      "code": "LJU",
+      "country_code": "SI",
+      "name": "Ljubljana Joze Pucnik Airport",
+      "city": "Ljubljana",
+      "flightable": true
+    }
+  ],
+  "pendingVerification": [
+    {
+      "code": "OSI",
+      "country_code": "HR",
+      "city": "Osijek",
+      "flightable": true
+    },
+    {
+      "code": "BWK",
+      "country_code": "HR",
+      "city": "Brac",
+      "flightable": true
+    },
+    {
+      "code": "POW",
+      "country_code": "SI",
+      "city": "Portoroz",
+      "flightable": true
+    },
+    {
+      "code": "MBX",
+      "country_code": "SI",
+      "city": "Maribor",
+      "flightable": true
+    }
+  ]
+}

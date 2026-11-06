@@ -42,7 +42,8 @@ const easternEurope = load('lib/destinations/eastern-europe.ts');
 const nordics = load('lib/destinations/nordics.ts');
 const scandinavia = load('lib/destinations/scandinavia.ts');
 const irelandBaltics = load('lib/destinations/ireland-baltics.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics, './scandinavia': scandinavia, './ireland-baltics': irelandBaltics });
+const croatiaSlovenia = load('lib/destinations/croatia-slovenia.ts');
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics, './scandinavia': scandinavia, './ireland-baltics': irelandBaltics, './croatia-slovenia': croatiaSlovenia });
 const localization = load('lib/destinations/localization.ts');
 const manifest = require('./fixtures/destination-legacy-digests.json');
 const legacyProfiles = library.destinationProfiles.filter(profile => ['ES', 'PT'].includes(profile.countryCode));
@@ -58,8 +59,8 @@ test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
   assert.equal(legacyProfiles.length, 65);
   assert.equal(spain.spainDestinations.length, 43);
   assert.equal(portugal.portugalDestinations.length, 22);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 310);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 310);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 317);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 317);
   assert.deepEqual(Array.from(legacyProfiles, d => ({ id: d.id, slug: d.slug })),
     manifest.map(({ id, slug }) => ({ id, slug })));
   for (const destination of legacyProfiles) {
