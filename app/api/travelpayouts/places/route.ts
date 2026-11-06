@@ -11,6 +11,9 @@ import { hungaryAirports, hungaryAirportsForTerm, hungaryCityAliases, hungaryTou
 import { slovakiaAirports, slovakiaAirportsForTerm, slovakiaCityAliases, slovakiaTouristPlacesForTerm } from '@/lib/travelpayouts/slovakia-airports';
 import { albaniaAirports, albaniaAirportsForTerm, albaniaCityAliases, albaniaTouristPlacesForTerm } from '@/lib/travelpayouts/albania-airports';
 import { turkeyAirports, turkeyAirportsForTerm, turkeyCityAliases, turkeyTouristPlacesForTerm } from '@/lib/travelpayouts/turkey-airports';
+import { southeastEuropeAirports, southeastEuropeAirportsForTerm, southeastEuropeCityAliases, southeastEuropeTouristPlacesForTerm } from '@/lib/travelpayouts/southeast-europe-airports';
+
+const SOUTHEAST_EUROPE_COUNTRIES = ['RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY'];
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -218,6 +221,16 @@ export async function GET(request: Request) {
         index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
       if (place.type !== 'city') return place;
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(turkeyCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...southeastEuropeAirportsForTerm(term), ...southeastEuropeTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || !SOUTHEAST_EUROPE_COUNTRIES.includes(String(place.country_code))) return place;
+      const placeCode = code(place.code, 3);
+      const airport = southeastEuropeAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(southeastEuropeCityAliases[placeCode] ?? [])] };
     });
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);
