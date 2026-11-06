@@ -73,7 +73,7 @@ test('new city cards remain draft and excluded from automatic recommendations an
 test('real photo URLs and individual attribution match the Commons metadata without adding private or price data',()=>{
  const photos=require('./fixtures/france-airport-photos.json');assert.equal(Object.keys(photos).length,16);
  for(const[slug,photo]of Object.entries(photos)){
-  const p=catalog.getDestinationById('fr-'+slug);assert.equal(p.image,photo.url);assert.equal(p.imageSource,photo.source);assert.equal(p.imageCredit,photo.artist);assert.equal(p.imageLicense,photo.license);assert.equal(p.imageLicenseUrl,photo.licenseUrl);
+  const p=catalog.getDestinationById('fr-'+slug);assert.equal(p.image,photo.url);assert.equal(p.imageSource,photo.source);assert.equal(p.imageCredit,photo.artist);assert.equal(p.imageLicense,photo.license);assert.equal(p.imageLicenseUrl,photo.licenseUrl);assert.equal(p.imagePosition,photo.position);
   assert.match(p.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(p.imageLicense,/^CC BY/);assert.ok(photo.width>=960);assert.ok(!/<[^>]+>/.test(p.imageCredit));
   for(const key of ['price','hotelId','flightPrice','available','apiKey','token'])assert.equal(p[key],undefined);
  }

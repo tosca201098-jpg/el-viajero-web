@@ -1,7 +1,7 @@
 import type { DestinationProfile } from './types';
 
 // Public Commons metadata verified 2026-11-05/06; real photos inspected before use.
-export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image' | 'imageSource' | 'imageCredit' | 'imageLicense' | 'imageLicenseUrl'>> = {
+export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image' | 'imageSource' | 'imageCredit' | 'imageLicense' | 'imageLicenseUrl' | 'imagePosition'>> = {
   "montpellier": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Montpellier_Peyrou.jpg/960px-Montpellier_Peyrou.jpg",
     "imageSource": "https://commons.wikimedia.org/wiki/File:Montpellier_Peyrou.jpg",
@@ -101,6 +101,7 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   "limoges": {
+    "imagePosition": "center top",
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/France_NA_87_Limoges_21.jpg/960px-France_NA_87_Limoges_21.jpg",
     "imageSource": "https://commons.wikimedia.org/wiki/File:France_NA_87_Limoges_21.jpg",
     "imageCredit": "Calips",

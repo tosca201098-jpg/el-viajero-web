@@ -182,6 +182,18 @@ test('Greek and new French city cards open only after explicit selection and kee
     assert.equal(tree.filter(n=>n.type==='article').length,16);
   }
 });
+test('Limoges focal point reaches the existing detail image without replacing the original photograph',()=>{
+  const state=[];let index=0;const hooks={...react,useState(initial){const slot=index++;if(!(slot in state))state[slot]=typeof initial==='function'?initial():initial;return[state[slot],value=>{state[slot]=typeof value==='function'?value(state[slot]):value;}];}};
+  const Home=renderLoader('es',{react:hooks})('app/page.tsx').default;
+  const render=()=>{index=0;return nodes(Home());};
+  const input=render().find(n=>n.props.variant==='main'&&n.props.label==='Destino');
+  input.props.onChange('Limoges');render();
+  input.props.onSelect({type:'airport',name:'Limoges Bellegarde',code:'LIG',country:'Francia',cityName:'Limoges',cityCode:'LIG'},'Limoges');
+  const button=render().find(n=>n.type==='button'&&n.props['aria-label']==='Ver destino: Limoges');assert.ok(button);button.props.onClick();
+  const image=render().find(n=>n.type==='img'&&n.props.alt==='Limoges');assert.ok(image);
+  assert.equal(image.props.src,catalog.getDestinationById('fr-limoges').image);assert.equal(image.props.style.objectPosition,'center top');
+});
+
 test('budget discovery UI hides French cards while retaining the same ES/PT result objects and prices',()=>{
   let expression;
   (function walk(node){if(ts.isVariableDeclaration(node)&&node.name.getText(page)==='automaticDiscoverResults')expression=node.initializer.getText(page);ts.forEachChild(node,walk);})(page);

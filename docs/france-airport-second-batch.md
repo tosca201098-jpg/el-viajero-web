@@ -27,7 +27,7 @@ Actividad de pasajeros contrastada con fuentes de operadores: [PGF](https://www.
 
 Descripciones y cuatro recomendaciones propias por ciudad en español, inglés, francés, alemán, italiano, portugués y catalán. Meses y duración son orientación editorial; no son previsiones meteorológicas ni tarifas. Se mantienen vuelos, hoteles y el contrato del planificador existentes, sin llamadas reales a IA, voz, precios o reservas.
 
-Fotografías examinadas el 06/11/2026, con metadatos canónicos de Commons y licencia individual visible. Se descartaron un primer plano de viviendas en Perpiñán, una composición monocroma en Carcasona y detalles interiores/edificio protegido en la búsqueda de Limoges. Las ocho imágenes nuevas son fotografías de lugares identificados; no se modifica ninguna foto anterior. Solo se aplica el recorte CSS compartido.
+Fotografías examinadas el 06/11/2026, con metadatos canónicos de Commons y licencia individual visible. Se descartaron un primer plano de viviendas en Perpiñán, una composición monocroma en Carcasona y detalles interiores/edificio protegido en la búsqueda de Limoges. Las ocho imágenes nuevas son fotografías de lugares identificados; no se modifica ninguna foto anterior. Solo se aplica el recorte CSS compartido. En Limoges se reutiliza el campo existente `imagePosition: center top` para conservar la torre de la catedral dentro del encuadre; no se cambia la imagen ni el componente común.
 
 | Destino | Vista | Archivo original | Autor | Licencia |
 | --- | --- | --- | --- | --- |
@@ -45,5 +45,7 @@ Fotografías examinadas el 06/11/2026, con metadatos canónicos de Commons y lic
 TypeScript correcto. 235 pruebas aprobadas en esta actualización (41 de Francia y presentación; 194 de regresión del catálogo y buscador), con conexiones externas bloqueadas. Se comprueban huellas de los 232 perfiles previos, las 16 tarjetas, siete idiomas, asociaciones e IATA, nombres históricos, países, selección expresa, fotos/licencias y advertencia de cierre de CCF. La batería anterior de 419 pruebas sigue documentada en el primer lote; no se suman repeticiones como pruebas nuevas. Revisión responsive y compilación de la Preview se registran en la PR #44 al terminar.
 
 [Primer lote](france-airport-coverage.md) · [Política de cobertura](airport-coverage-policy.md).
+
+Tras la revisión de Preview se añadió una prueba del recorrido real de selección hasta la imagen de Limoges y se repitieron las nueve pruebas de datos afectadas: diez correctas. Son 236 pruebas distintas comprobadas para este lote, sin sumar las repeticiones. El ajuste de encuadre reutiliza una propiedad existente y queda limitado a esa foto nueva.
 
 Sin cambios en main, Producción, destinauta.com, Sofía/PR #38, ElevenLabs, Redis, autenticación, cuotas, variables o integraciones comerciales. Sin pagos ni fusiones.
