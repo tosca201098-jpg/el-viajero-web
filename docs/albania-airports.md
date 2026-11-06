@@ -10,7 +10,7 @@ Estado: borrador (`publication.status = 'draft'`). No aparece en portada, ni en 
 | KFZ | Kukës | — | Excluido: sin servicio regular verificado. |
 | VLO | Vlorë | — | Excluido: sin operación verificada. |
 
-Pendiente de verificar antes de publicar: comprobar en el inventario de Travelpayouts (`iata_type=airport`, `flightable=true`) que TIA figura como volable. Desde el entorno de desarrollo no se pudo acceder a ese inventario. No se ha inventado ningún dato de rutas, precios ni disponibilidad.
+Verificado el 6/11/2026 en el inventario de Travelpayouts: TIA figura como `airport` y `flightable=true`. KFZ también figura como volable en el proveedor; queda pendiente de revisar si tiene servicio regular antes de incorporarlo. VLO figura como no volable. No se ha inventado ningún dato de rutas, precios ni disponibilidad.
 
 ## Foto
 
