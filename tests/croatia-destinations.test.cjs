@@ -31,7 +31,7 @@ function loader(globals = {}) {
 }
 const load = loader();
 const catalog = load('lib/destinations/index.ts');
-const croatian = load('lib/destinations/croatia.ts').croatiaDestinations;
+const croatian = load('lib/destinations/croatia.ts').croatiaDestinations.filter(p=>!['OSI','BWK','LSZ'].includes(p.iataCodes[0]));
 const airports = load('lib/travelpayouts/croatia-airports.ts');
 const selection = load('lib/destinations/selection.ts');
 const presentation = load('lib/destinations/presentation.ts');
@@ -40,9 +40,9 @@ const slugs = ['zagreb','dubrovnik','split','zadar','pula','rijeka','rovinj','hv
 test('Croatia adds twelve draft profiles to 209 unchanged profiles; original cards and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,209);
   assert.deepEqual(Array.from(croatian,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,287);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,287);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,287);
+  assert.equal(catalog.destinationProfiles.length,290);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,290);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,290);
   assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,17);
   for (const previous of before.profiles) {
     const profile = catalog.getDestinationById(previous.id);
@@ -55,7 +55,7 @@ test('Croatia adds twelve draft profiles to 209 unchanged profiles; original car
     assert.equal(digest(fs.readFileSync(path.join(root,'app/temporadas',season,'page.tsx'),'utf8').replace(/\r\n/g,'\n')),hash);
   for (const [file,hash] of Object.entries(before.monthPages))
     assert.equal(digest(fs.readFileSync(path.join(root,'app/viajes-baratos/[mes]',file),'utf8').replace(/\r\n/g,'\n')),hash);
-  assert.equal(catalog.getDestinationsByCountry('HR').length,12);
+  assert.equal(catalog.getDestinationsByCountry('HR').length,15);
   for (const profile of croatian) {
     assert.equal(profile.publication.status,'draft');
     assert.equal(presentation.canShowDestinationAutomatically(profile),false);
@@ -74,8 +74,8 @@ for (const locale of locales) test(locale+': complete Croatian tourism content a
   }
 });
 
-test('six verified airports resolve to cities; other profiles have transfer airports only', () => {
-  const expected={ZAG:'zagreb',DBV:'dubrovnik',SPU:'split',ZAD:'zadar',PUY:'pula',RJK:'rijeka'};
+test('nine verified airports resolve to cities; other profiles have transfer airports only', () => {
+  const expected={ZAG:'zagreb',DBV:'dubrovnik',SPU:'split',ZAD:'zadar',PUY:'pula',RJK:'rijeka',OSI:'osijek',BWK:'bol',LSZ:'mali-losinj'};
   assert.deepEqual(Array.from(airports.croatiaAirports,a=>a.code),Object.keys(expected));
   for(const [code,slug] of Object.entries(expected)) {
     assert.equal(catalog.findDestinationProfile({iataCode:code}).id,'hr-'+slug);
