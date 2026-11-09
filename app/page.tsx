@@ -8,6 +8,7 @@ import Image from "next/image";
 import voicePanel from "./voice-panel.module.css";
 import AuthDialog from "./components/AuthDialog";
 import ItineraryPlanner, { type ItineraryContext } from "./components/ItineraryPlanner";
+import { sloveniaAirports, sloveniaAirportTown } from '@/lib/travelpayouts/slovenia-airports';
 import { greeceAirports, greeceAirportTown } from '@/lib/travelpayouts/greece-airports';
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
 import HeaderAuth from "./components/HeaderAuth";
@@ -78,7 +79,7 @@ type DiscoverState =
 function localizedCatalogProfile(destination: Destination | null) {
   const profile = destination && 'id' in destination && typeof destination.id === 'string'
     ? getDestinationById(destination.id) : undefined;
-  return profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'GR'].includes(profile.countryCode) ? profile : undefined;
+  return profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'GR', 'SI'].includes(profile.countryCode) ? profile : undefined;
 }
 function destinationDisplay(destination: Destination, locale: Locale) {
   const profile = localizedCatalogProfile(destination);
@@ -1304,7 +1305,7 @@ function abrirPaquete(destino = "") {
 
                 <div className="absolute bottom-2.5 left-2.5 right-2.5 max-sm:bottom-2 max-sm:left-2 max-sm:right-2">
                   <p className="text-[13px] leading-4 text-cyan-200 max-sm:text-xs max-sm:leading-[14px]">
-                    {destino.emoji ?? (localizedCatalogProfile(destino)?.countryCode === 'GR' ? '🇬🇷' : localizedCatalogProfile(destino)?.countryCode === 'SK' ? '🇸🇰' : localizedCatalogProfile(destino)?.countryCode === 'HU' ? '🇭🇺' : localizedCatalogProfile(destino)?.countryCode === 'PL' ? '🇵🇱' : localizedCatalogProfile(destino)?.countryCode === 'CZ' ? '🇨🇿' : localizedCatalogProfile(destino)?.countryCode === 'AT' ? '🇦🇹' : localizedCatalogProfile(destino)?.countryCode === 'CH' ? '🇨🇭' : localizedCatalogProfile(destino)?.countryCode === 'BE' ? '🇧🇪' : localizedCatalogProfile(destino)?.countryCode === 'NL' ? '🇳🇱' : localizedCatalogProfile(destino)?.countryCode === 'DE' ? '🇩🇪' : localizedCatalogProfile(destino)?.countryCode === 'GB' ? '🇬🇧' : localizedCatalogProfile(destino)?.countryCode === 'IT' ? '🇮🇹' : localizedCatalogProfile(destino) ? '🇫🇷' : '')} {destinationCountry(destino, language)}
+                    {destino.emoji ?? (localizedCatalogProfile(destino)?.countryCode === 'SI' ? '🇸🇮' : localizedCatalogProfile(destino)?.countryCode === 'GR' ? '🇬🇷' : localizedCatalogProfile(destino)?.countryCode === 'SK' ? '🇸🇰' : localizedCatalogProfile(destino)?.countryCode === 'HU' ? '🇭🇺' : localizedCatalogProfile(destino)?.countryCode === 'PL' ? '🇵🇱' : localizedCatalogProfile(destino)?.countryCode === 'CZ' ? '🇨🇿' : localizedCatalogProfile(destino)?.countryCode === 'AT' ? '🇦🇹' : localizedCatalogProfile(destino)?.countryCode === 'CH' ? '🇨🇭' : localizedCatalogProfile(destino)?.countryCode === 'BE' ? '🇧🇪' : localizedCatalogProfile(destino)?.countryCode === 'NL' ? '🇳🇱' : localizedCatalogProfile(destino)?.countryCode === 'DE' ? '🇩🇪' : localizedCatalogProfile(destino)?.countryCode === 'GB' ? '🇬🇧' : localizedCatalogProfile(destino)?.countryCode === 'IT' ? '🇮🇹' : localizedCatalogProfile(destino) ? '🇫🇷' : '')} {destinationCountry(destino, language)}
                   </p>
 
                   <h3 className="mt-0.5 text-lg leading-5 font-black text-white lg:text-base lg:leading-5 max-sm:text-sm max-sm:leading-4">
@@ -1433,7 +1434,7 @@ function abrirPaquete(destino = "") {
 
               <div className="absolute bottom-6 left-6">
                 <p className="text-cyan-200">
-                  {destinoSeleccionado.emoji ?? (selectedCatalogProfile?.countryCode === 'GR' ? '🇬🇷' : selectedCatalogProfile?.countryCode === 'SK' ? '🇸🇰' : selectedCatalogProfile?.countryCode === 'HU' ? '🇭🇺' : selectedCatalogProfile?.countryCode === 'PL' ? '🇵🇱' : selectedCatalogProfile?.countryCode === 'CZ' ? '🇨🇿' : selectedCatalogProfile?.countryCode === 'AT' ? '🇦🇹' : selectedCatalogProfile?.countryCode === 'CH' ? '🇨🇭' : selectedCatalogProfile?.countryCode === 'BE' ? '🇧🇪' : selectedCatalogProfile?.countryCode === 'NL' ? '🇳🇱' : selectedCatalogProfile?.countryCode === 'DE' ? '🇩🇪' : selectedCatalogProfile?.countryCode === 'GB' ? '🇬🇧' : selectedCatalogProfile?.countryCode === 'IT' ? '🇮🇹' : selectedCatalogProfile ? '🇫🇷' : '')}{" "}
+                  {destinoSeleccionado.emoji ?? (selectedCatalogProfile?.countryCode === 'SI' ? '🇸🇮' : selectedCatalogProfile?.countryCode === 'GR' ? '🇬🇷' : selectedCatalogProfile?.countryCode === 'SK' ? '🇸🇰' : selectedCatalogProfile?.countryCode === 'HU' ? '🇭🇺' : selectedCatalogProfile?.countryCode === 'PL' ? '🇵🇱' : selectedCatalogProfile?.countryCode === 'CZ' ? '🇨🇿' : selectedCatalogProfile?.countryCode === 'AT' ? '🇦🇹' : selectedCatalogProfile?.countryCode === 'CH' ? '🇨🇭' : selectedCatalogProfile?.countryCode === 'BE' ? '🇧🇪' : selectedCatalogProfile?.countryCode === 'NL' ? '🇳🇱' : selectedCatalogProfile?.countryCode === 'DE' ? '🇩🇪' : selectedCatalogProfile?.countryCode === 'GB' ? '🇬🇧' : selectedCatalogProfile?.countryCode === 'IT' ? '🇮🇹' : selectedCatalogProfile ? '🇫🇷' : '')}{" "}
                   {destinationCountry(destinoSeleccionado, language)}
                 </p>
 
@@ -1457,13 +1458,13 @@ function abrirPaquete(destino = "") {
               <p className="text-lg leading-8 text-slate-300">
                 {text(selectedDisplay?.description ?? destinoSeleccionado.description)}
               </p>
-              {selectedCatalogProfile?.countryCode === 'GR' && (
+              {selectedCatalogProfile && ['GR', 'SI'].includes(selectedCatalogProfile.countryCode) && (
                 <section className="mt-4 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm text-slate-200" aria-label={t('destinations.arrivalAirport')}>
                   <h3 className="font-semibold text-white">✈️ {t('destinations.arrivalAirport')}</h3>
                   {selectedCatalogProfile.airports.map(airport => (
                     <div key={airport.iataCode} className="mt-2">
-                      <p>{greeceAirports.find(item => item.code === airport.iataCode)?.name ?? airport.iataCode} ({airport.iataCode})</p>
-                      <p className="mt-1">{t('destinations.airportTown')}: {greeceAirportTown(airport.iataCode, language)}</p>
+                      <p>{(selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirports : greeceAirports).find(item => item.code === airport.iataCode)?.name ?? airport.iataCode} ({airport.iataCode})</p>
+                      <p className="mt-1">{t('destinations.airportTown')}: {(selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirportTown : greeceAirportTown)(airport.iataCode, language)}</p>
                     </div>
                   ))}
                   <p className="mt-2 text-xs text-slate-400">{t('destinations.airportTownNote')}</p>
