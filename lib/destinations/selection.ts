@@ -9,6 +9,7 @@ import { czechiaAccessSearchCity } from '@/lib/travelpayouts/czechia-airports';
 import { polandAccessSearchCity } from '@/lib/travelpayouts/poland-airports';
 import { hungaryAccessSearchCity } from '@/lib/travelpayouts/hungary-airports';
 import { slovakiaAccessSearchCity } from '@/lib/travelpayouts/slovakia-airports';
+import { croatiaAccessSearchCity } from '@/lib/travelpayouts/croatia-airports';
 
 /** Called only after an autocomplete choice is committed, never for free-form typing. */
 export function destinationFromPlaceSelection(selection: {
@@ -42,6 +43,7 @@ export function accessAirportSearchInput(destination: { countryCode: string; nam
   if (destination.countryCode === 'PL') return polandAccessSearchCity(airportCode);
   if (destination.countryCode === 'HU') return hungaryAccessSearchCity(airportCode);
   if (destination.countryCode === 'SK') return slovakiaAccessSearchCity(airportCode);
+  if (destination.countryCode === 'HR') return croatiaAccessSearchCity(airportCode);
   if (destination.countryCode === 'GB') {
     return ukPassengerAirports.find(airport => airport.code === airportCode)?.city_name ?? airportCode;
   }

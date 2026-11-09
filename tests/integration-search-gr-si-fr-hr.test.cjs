@@ -1,4 +1,4 @@
-// Comprueba que el buscador de lugares conserva a la vez Grecia, Eslovenia y Francia tras integrar las ramas de Codex.
+// Comprueba que el buscador de lugares conserva a la vez Grecia, Eslovenia, Francia y Croacia tras integrar las ramas de Codex.
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),ts=require('typescript');
 const root=path.resolve(__dirname,'..');
@@ -10,8 +10,8 @@ const load=loader({fetch:async()=>({ok:true,json:async()=>[]})});
 const select=load('lib/destinations/selection.ts').destinationFromPlaceSelection;
 const route=load('app/api/travelpayouts/places/route.ts');
 const ask=async term=>(await (await route.GET(new Request('https://example.test/api/travelpayouts/places?term='+encodeURIComponent(term)))).json()).suggestions;
-test('el buscador devuelve a la vez resultados de Grecia, Eslovenia y Francia sin perder ninguno',async()=>{
-  for(const [term,id]of [['Kavala — Alexander the Great','gr-kavala'],['Ljubljana','si-ljubljana'],['Montpellier','fr-montpellier']]){
+test('el buscador devuelve a la vez resultados de Grecia, Eslovenia, Francia y Croacia sin perder ninguno',async()=>{
+  for(const [term,id]of [['Kavala — Alexander the Great','gr-kavala'],['Ljubljana','si-ljubljana'],['Montpellier','fr-montpellier'],['Dubrovnik','hr-dubrovnik']]){
     const suggestions=await ask(term);
     assert.ok(Array.isArray(suggestions)&&suggestions.length>0,term);
     assert.ok(suggestions.some(s=>select(s)?.id===id),`${term} debe resolver a ${id}`);

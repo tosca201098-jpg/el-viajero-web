@@ -33,7 +33,8 @@ const slovakia = load('lib/destinations/slovakia.ts', { './slovakia-images': loa
 const greeceRegionalImages = load('lib/destinations/greece-regional-images.ts');
 const greeceRegionalA = load('lib/destinations/greece-regional-a.ts', { './greece-regional-images': greeceRegionalImages });
 const greece = load('lib/destinations/greece.ts', { './greece-airport-coverage': load('lib/destinations/greece-airport-coverage.ts'), './greece-regional-a': greeceRegionalA, './greece-images': load('lib/destinations/greece-images.ts') });
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './greece': greece, './slovenia': load('lib/destinations/slovenia.ts'), './greece-airport-towns': load('lib/destinations/greece-airport-towns.ts') });
+const croatia = load('lib/destinations/croatia.ts', { './croatia-images': load('lib/destinations/croatia-images.ts') });
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './croatia': croatia, './greece': greece, './slovenia': load('lib/destinations/slovenia.ts'), './greece-airport-towns': load('lib/destinations/greece-airport-towns.ts') });
 const formatting = load('lib/destinations/seasonality.ts');
 const { locales } = load('lib/i18n/translations.ts');
 

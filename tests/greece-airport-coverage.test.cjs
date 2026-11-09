@@ -9,7 +9,7 @@ test('all 224 prior profiles, approved Athens photo and sixteen original homepag
  const before=require('./fixtures/pre-greece-airport-coverage.json');assert.equal(before.profiles.length,224);
  for(const p of before.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
- assert.equal(catalog.getDestinationsByCountry('GR').length,39);assert.equal(catalog.destinationProfiles.length,275);
+ assert.equal(catalog.getDestinationsByCountry('GR').length,39);assert.equal(catalog.destinationProfiles.length,287);
 });
 test('all fourteen Fraport airport identities are covered once within the thirty-nine-profile Greek batch',()=>{
  const official=['KVA','SKG','CFU','MJT','JSI','PVK','EFL','ZTH','SMI','JMK','KGS','JTR','RHO','CHQ'];

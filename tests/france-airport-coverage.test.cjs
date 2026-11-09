@@ -12,10 +12,10 @@ const digest=value=>crypto.createHash('sha256').update(JSON.stringify(value)).di
 const plain=value=>JSON.parse(JSON.stringify(value));
 
 test('twenty-four French airport cities preserve every prior profile, photo and original homepage card',()=>{
- assert.equal(baseline.profiles.length,224);assert.equal(catalog.destinationProfiles.length,275);assert.equal(catalog.getDestinationsByCountry('FR').length,36);
+ assert.equal(baseline.profiles.length,224);assert.equal(catalog.destinationProfiles.length,287);assert.equal(catalog.getDestinationsByCountry('FR').length,36);
  for(const old of baseline.profiles)assert.equal(digest(catalog.getDestinationById(old.id)),old.sha256,old.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
- assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,275);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,275);
+ assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,287);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,287);
  assert.deepEqual(Array.from(coverage.franceAirportCoverage,p=>p.id),Object.values(codes).map(slug=>'fr-'+slug));
 });
 
