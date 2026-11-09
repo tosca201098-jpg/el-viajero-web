@@ -2,9 +2,33 @@ import { greeceDestinations } from '@/lib/destinations/greece';
 import { greeceAirportTownAliases } from '@/lib/destinations/greece-airport-towns';
 export { greeceAirportTown } from '@/lib/destinations/greece-airport-towns';
 
-// Selected fifteen airports by 2025 international passenger traffic; see the documented sources.
+// All 39 commercial airport identities: Athens, Fraport’s 14 and HASP’s 24.
+// The 22-airport Growthfund inventory is covered; see greece-final-coverage.md.
 // The code/airport association does not promise a route, flight or price.
 const names: Readonly<Record<string, string>> = {
+  GPA: "Araxos Airport",
+  LXS: "Limnos — Ifaistos",
+  IOA: "Ioannina — King Pyrrhos",
+  JIK: "Ikaria Airport",
+  LRS: "Leros Airport",
+  VOL: "Nea Anchialos Airport",
+  JSH: "Sitia Airport",
+  JSY: "Syros Airport",
+  JTY: "Astypalaia Airport",
+  JKL: "Kalymnos Airport",
+  KSJ: "Kasos Airport",
+  KZS: "Kastellorizo Airport",
+  KSO: "Kastoria Airport",
+  KZI: "Kozani Airport",
+  KIT: "Kythira Airport",
+  SKU: "Skyros Airport",
+  PAS: "Paros Airport",
+  JNX: "Naxos Airport",
+  MLO: "Milos Airport",
+  JKH: "Chios — Omiros",
+  AOK: "Karpathos Airport",
+  AXD: "Alexandroupolis — Dimokritos",
+  KVA: 'Kavala — Alexander the Great', MJT: 'Mytilene — Odysseas Elytis',
   ATH: 'Athens — Eleftherios Venizelos', SKG: 'Thessaloniki — Makedonia',
   HER: 'Heraklion — Nikos Kazantzakis', CHQ: 'Chania — Ioannis Daskalogiannis',
   RHO: 'Rhodes — Diagoras', CFU: 'Corfu — Ioannis Kapodistrias',

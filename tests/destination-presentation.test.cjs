@@ -38,8 +38,8 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 224 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,224);
+test('automatic catalog recommendations hide added France profiles; all 248 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,248);
   for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
@@ -149,7 +149,7 @@ const methods={},names=['changeFlightDestination','confirmFlightDestination','op
 })(page);
 const bridgeCode=ts.transpileModule(`const DestinationProfileSummary='summary';\n${methods.changeFlightDestination}\n${methods.confirmFlightDestination}\n${methods.openDestinationProfile}\nthis.change=changeFlightDestination;this.confirm=confirmFlightDestination;this.button=()=>{const confirmedFlightProfile=${confirmedExpression};${methods.renderConfirmedDestination};return renderConfirmedDestination();};`,{compilerOptions}).outputText;
 
-test('all fifteen Greek cards open only after explicit selection and keep the shared detail in every language',()=>{
+test('all thirty-nine Greek cards open only after explicit selection and keep the shared detail in every language',()=>{
   for(const locale of locales)for(const profile of catalog.getDestinationsByCountry('GR')){
     const state=[];let index=0;
     const hooks={...react,useState(initial){const slot=index++;if(!(slot in state))state[slot]=typeof initial==='function'?initial():initial;
