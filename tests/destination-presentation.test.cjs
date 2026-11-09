@@ -38,9 +38,9 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 209 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,209);
-  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK'].includes(d.countryCode));
+test('automatic catalog recommendations hide added France profiles; all 224 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,224);
+  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
   assert.equal(presentation.canShowDestinationAutomatically({country:'Portugal'}),true);
@@ -123,7 +123,7 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const tree=Monthly({month,recommendations});
       const cards=nodes(tree).filter(n=>n.type==='article');
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
-      const expected=recommendations.filter(r=>!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
+      const expected=recommendations.filter(r=>!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
     }
   }
@@ -148,6 +148,40 @@ const methods={},names=['changeFlightDestination','confirmFlightDestination','op
   ts.forEachChild(node,walk);
 })(page);
 const bridgeCode=ts.transpileModule(`const DestinationProfileSummary='summary';\n${methods.changeFlightDestination}\n${methods.confirmFlightDestination}\n${methods.openDestinationProfile}\nthis.change=changeFlightDestination;this.confirm=confirmFlightDestination;this.button=()=>{const confirmedFlightProfile=${confirmedExpression};${methods.renderConfirmedDestination};return renderConfirmedDestination();};`,{compilerOptions}).outputText;
+
+test('all fifteen Greek cards open only after explicit selection and keep the shared detail in every language',()=>{
+  for(const locale of locales)for(const profile of catalog.getDestinationsByCountry('GR')){
+    const state=[];let index=0;
+    const hooks={...react,useState(initial){const slot=index++;if(!(slot in state))state[slot]=typeof initial==='function'?initial():initial;
+      return[state[slot],value=>{state[slot]=typeof value==='function'?value(state[slot]):value;}];}};
+    const load=renderLoader(locale,{react:hooks}),Home=load('app/page.tsx').default;
+    const render=()=>{index=0;return nodes(Home());};
+    let tree=render();
+    assert.equal(tree.filter(n=>n.type==='article').length,16);
+    assert.ok(!tree.some(n=>n.props.id==='destination-detail-title'));
+    const input=tree.find(n=>n.props.variant==='main'&&n.props.label===dictionaries.translate(locale,'search.destination'));
+    const display=localization.getDestinationText(profile,locale);
+    input.props.onChange(display.name);
+    assert.ok(!render().some(n=>n.props.id==='destination-detail-title'));
+    input.props.onSelect({type:'city',name:display.name,code:profile.iataCodes[0],country:'Grecia',cityName:null,cityCode:null},display.name);
+    tree=render();
+    assert.ok(!tree.some(n=>n.props.id==='destination-detail-title'));
+    const button=tree.find(n=>n.type==='button'&&n.props['aria-haspopup']==='dialog'&&n.props['aria-label']===`${dictionaries.translate(locale,'monthly.viewDestination')}: ${display.name}`&&nodes(n).some(child=>child.props.destination?.id===profile.id));
+    assert.ok(button,profile.id+':'+locale);button.props.onClick();tree=render();
+    assert.ok(tree.some(n=>n.props.id==='destination-detail-title'&&text(n)===display.name),profile.id+':'+locale);
+    assert.ok(tree.some(n=>n.type==='img'&&n.props.src===profile.image));
+    assert.ok(tree.some(n=>n.props.role==='dialog'&&n.props.className.includes('bg-slate-950')));
+    for(const recommendation of display.recommendations)assert.ok(tree.some(n=>text(n)===dictionaries.translateText(locale,recommendation)||text(n).includes(recommendation)),recommendation);
+    assert.ok(tree.some(n=>n.props.destination?.id===profile.id&&n.props.context));
+    const arrival=tree.find(n=>n.props['aria-label']===dictionaries.translate(locale,'destinations.arrivalAirport'));
+    assert.ok(arrival,profile.id+':'+locale);
+    assert.ok(text(arrival).includes(profile.iataCodes[0]));
+    assert.ok(text(arrival).includes(data('lib/travelpayouts/greece-airports.ts').greeceAirportTown(profile.iataCodes[0],locale)));
+    assert.ok(tree.some(n=>n.type==='button'&&text(n).includes(dictionaries.translate(locale,'search.findHotels'))));
+    assert.ok(tree.some(n=>n.type==='button'&&text(n).includes(dictionaries.translate(locale,'search.findFlights'))));
+    assert.equal(tree.filter(n=>n.type==='article').length,16);
+  }
+});
 test('budget discovery UI hides French cards while retaining the same ES/PT result objects and prices',()=>{
   let expression;
   (function walk(node){if(ts.isVariableDeclaration(node)&&node.name.getText(page)==='automaticDiscoverResults')expression=node.initializer.getText(page);ts.forEachChild(node,walk);})(page);

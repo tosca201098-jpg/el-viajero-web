@@ -12,6 +12,8 @@ import { czechiaDestinations } from "./czechia";
 import { polandDestinations } from "./poland";
 import { hungaryDestinations } from "./hungary";
 import { slovakiaDestinations } from "./slovakia";
+import { greeceDestinations } from "./greece";
+import { greeceAirportTownAliases } from "./greece-airport-towns";
 import type { DestinationId, DestinationProfile } from "./types";
 
 export type { DestinationId, DestinationReference, DestinationAirport, DestinationText, DestinationProfile } from "./types";
@@ -31,9 +33,10 @@ export const destinationsByCountry: Readonly<Record<string, readonly Destination
   PL: polandDestinations,
   HU: hungaryDestinations,
   SK: slovakiaDestinations,
+  GR: greeceDestinations,
 };
 
-export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations];
+export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations, ...greeceDestinations];
 
 export function getDestinationById(id: DestinationId): DestinationProfile | undefined {
   return destinationProfiles.find(destination => destination.id === id);
@@ -97,5 +100,8 @@ export function findDestinationProfile({ iataCode, name }: {
   if (!normalized) return undefined;
   return destinationProfiles.find((destination) =>
     [destination.name, ...(destination.aliases ?? []), ...(destination.auxiliaryCodes ?? [])]
-      .some((candidate) => normalizeDestinationName(candidate) === normalized));
+      .some((candidate) => normalizeDestinationName(candidate) === normalized))
+    ?? greeceDestinations.find(destination =>
+      (greeceAirportTownAliases[destination.iataCodes[0]] ?? []).some(candidate =>
+        normalizeDestinationName(candidate) === normalized));
 }
