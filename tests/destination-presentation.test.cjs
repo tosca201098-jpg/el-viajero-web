@@ -38,8 +38,8 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 251 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,251);
+test('automatic catalog recommendations hide added France profiles; all 275 profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,275);
   for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR','SI'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
@@ -149,8 +149,11 @@ const methods={},names=['changeFlightDestination','confirmFlightDestination','op
 })(page);
 const bridgeCode=ts.transpileModule(`const DestinationProfileSummary='summary';\n${methods.changeFlightDestination}\n${methods.confirmFlightDestination}\n${methods.openDestinationProfile}\nthis.change=changeFlightDestination;this.confirm=confirmFlightDestination;this.button=()=>{const confirmedFlightProfile=${confirmedExpression};${methods.renderConfirmedDestination};return renderConfirmedDestination();};`,{compilerOptions}).outputText;
 
-test('all Greek and Slovenian cards open only after explicit selection and keep the shared detail in every language',()=>{
-  for(const locale of locales)for(const profile of [...catalog.getDestinationsByCountry('GR'), ...catalog.getDestinationsByCountry('SI')]){
+const allDetailProfiles=[...catalog.getDestinationsByCountry('GR'),...catalog.getDestinationsByCountry('SI'),...data('lib/destinations/france-airport-coverage.ts').franceAirportCoverage];
+const requestedDetailIds=process.env.DESTINAUTA_CARD_TEST_IDS?.split(',').filter(Boolean);
+const detailProfiles=requestedDetailIds?requestedDetailIds.map(id=>{const profile=allDetailProfiles.find(p=>p.id===id);assert.ok(profile,'Unknown requested detail profile: '+id);return profile;}):allDetailProfiles;
+test('Greek, Slovenian and new French city cards open only after explicit selection and keep the shared detail in every language',()=>{
+  for(const locale of locales)for(const profile of detailProfiles){
     const state=[];let index=0;
     const hooks={...react,useState(initial){const slot=index++;if(!(slot in state))state[slot]=typeof initial==='function'?initial():initial;
       return[state[slot],value=>{state[slot]=typeof value==='function'?value(state[slot]):value;}];}};
@@ -176,12 +179,24 @@ test('all Greek and Slovenian cards open only after explicit selection and keep 
     const arrival=tree.find(n=>n.props['aria-label']===dictionaries.translate(locale,'destinations.arrivalAirport'));
     assert.ok(arrival,profile.id+':'+locale);
     assert.ok(text(arrival).includes(profile.iataCodes[0]));
-    assert.ok(text(arrival).includes((profile.countryCode==='SI' ? data('lib/travelpayouts/slovenia-airports.ts').sloveniaAirportTown : data('lib/travelpayouts/greece-airports.ts').greeceAirportTown)(profile.iataCodes[0],locale)));
+    assert.ok(text(arrival).includes((profile.countryCode==='SI'?data('lib/travelpayouts/slovenia-airports.ts').sloveniaAirportTown:profile.countryCode==='FR'?data('lib/travelpayouts/france-airports.ts').franceAirportTown:data('lib/travelpayouts/greece-airports.ts').greeceAirportTown)(profile.iataCodes[0],locale)));
     assert.ok(tree.some(n=>n.type==='button'&&text(n).includes(dictionaries.translate(locale,'search.findHotels'))));
     assert.ok(tree.some(n=>n.type==='button'&&text(n).includes(dictionaries.translate(locale,'search.findFlights'))));
     assert.equal(tree.filter(n=>n.type==='article').length,16);
   }
 });
+test('Limoges focal point reaches the existing detail image without replacing the original photograph',()=>{
+  const state=[];let index=0;const hooks={...react,useState(initial){const slot=index++;if(!(slot in state))state[slot]=typeof initial==='function'?initial():initial;return[state[slot],value=>{state[slot]=typeof value==='function'?value(state[slot]):value;}];}};
+  const Home=renderLoader('es',{react:hooks})('app/page.tsx').default;
+  const render=()=>{index=0;return nodes(Home());};
+  const input=render().find(n=>n.props.variant==='main'&&n.props.label==='Destino');
+  input.props.onChange('Limoges');render();
+  input.props.onSelect({type:'airport',name:'Limoges Bellegarde',code:'LIG',country:'Francia',cityName:'Limoges',cityCode:'LIG'},'Limoges');
+  const button=render().find(n=>n.type==='button'&&n.props['aria-label']==='Ver destino: Limoges');assert.ok(button);button.props.onClick();
+  const image=render().find(n=>n.type==='img'&&n.props.alt==='Limoges');assert.ok(image);
+  assert.equal(image.props.src,catalog.getDestinationById('fr-limoges').image);assert.equal(image.props.style.objectPosition,'center top');
+});
+
 test('budget discovery UI hides French cards while retaining the same ES/PT result objects and prices',()=>{
   let expression;
   (function walk(node){if(ts.isVariableDeclaration(node)&&node.name.getText(page)==='automaticDiscoverResults')expression=node.initializer.getText(page);ts.forEachChild(node,walk);})(page);

@@ -1,3 +1,4 @@
+import { franceAirportCoverage } from './france-airport-coverage';
 import type { Locale } from '@/lib/i18n/translations';
 import type { DestinationProfile, DestinationText } from './types';
 
@@ -280,4 +281,5 @@ export const franceDestinations: DestinationProfile[] = [
     pt: ['Lille','Arquitetura de influência flamenga, praças e museus no norte de França.', ['Grand-Place','Vieille Bourse','Vieux-Lille','Palais des Beaux-Arts']],
     ca: ['Lilla','Arquitectura d’influència flamenca, places i museus al nord de França.', ['Grand-Place','Vieille Bourse','Vieux-Lille','Palais des Beaux-Arts']],
   }),
+  ...franceAirportCoverage,
 ];

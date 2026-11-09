@@ -26,9 +26,9 @@ test('Slovenia preserves every one of the 224 earlier profiles and all 16 origin
   assert.equal(baseline.profiles.length,224);
   for(const p of baseline.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
-  assert.equal(catalog.destinationProfiles.length,251);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,251);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,251);
+  assert.equal(catalog.destinationProfiles.length,275);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,275);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,275);
 });
 test('the complete official international-airport set is associated with three distinct served destinations',()=>{
   assert.equal(profiles.length,3);
