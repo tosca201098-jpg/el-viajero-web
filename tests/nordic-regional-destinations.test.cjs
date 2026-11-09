@@ -38,14 +38,14 @@ const presentation = load('lib/destinations/presentation.ts');
 const slugs = ["sandefjord-vestfold", "joensuu-karelia", "jyvaskyla", "kajaani-kainuu", "kemi-tornio", "kokkola-jakobstad", "pori", "savonlinna", "egilsstadir-east-iceland", "isafjordur-westfjords"];
 const codes = {"sandefjord-vestfold": "TRF", "joensuu-karelia": "JOE", "jyvaskyla": "JYV", "kajaani-kainuu": "KAJ", "kemi-tornio": "KEM", "kokkola-jakobstad": "KOK", "pori": "POR", "savonlinna": "SVL", "egilsstadir-east-iceland": "EGS", "isafjordur-westfjords": "IFJ"};
 const countries = {NO: 'Noruega', FI: 'Finlandia', IS: 'Islandia'};
-const expected = {NO: 17, FI: 15, IS: 4};
+const expected = {NO: 21, FI: 15, IS: 4};
 
 test('Nordic regional gaps add 10 draft profiles (NO, FI, IS) to 376 unchanged profiles; original cards, existing profiles and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,376);
   assert.deepEqual(Array.from(ibs,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,386);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,386);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,386);
+  assert.equal(catalog.destinationProfiles.length,393);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,393);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,393);
   for (const previous of before.profiles) assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   for (const [cc,n] of Object.entries(expected)) assert.equal(catalog.getDestinationsByCountry(cc).length,n,cc);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);

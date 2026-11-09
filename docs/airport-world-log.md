@@ -59,3 +59,7 @@ Rama de trabajo por país, siempre en borrador, nunca a producción sin autoriza
 ## 2026-11-06 — Nórdicos regional: Noruega, Finlandia e Islandia (rama `claude/nordic-regional-gaps`)
 
 10 fichas en borrador (TRF, JOE, JYV, KAJ, KEM, KOK, POR, SVL, EGS, IFJ). Apilada sobre `claude/europe-regional-gaps` (#59). Francia revisada: ya cubierta por Codex #44 y #47 (48 fichas). Pendientes: LYR (requiere país SJ), HFN (no reservable), VAA, KUO, resto de Noruega/Suecia/Dinamarca, Rumanía, Turquía menor.
+
+## 2026-11-06 — Noruega y Suecia, tercer lote (rama `claude/scandinavia-regional-gaps`)
+
+7 fichas en borrador (NYO, KLR, GEV, HVG, HFT, BDU, SOG). Apilada sobre `claude/nordic-regional-gaps` (#60). Pruebas: 530; 523 pasan; 7 fallos de entorno previos. Pendientes: resto de aeropuertos pequeños de Noruega y Suecia tras verificar servicio, Dinamarca, Rumanía, Turquía menor, LYR (país SJ).
