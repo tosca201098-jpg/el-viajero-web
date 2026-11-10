@@ -1,0 +1,102 @@
+{
+  "nottingham": {
+    "file": "Nottingham Castle and Gardens 03.jpg",
+    "author": "Enchufla Con Clave",
+    "license": "CC BY-SA 4.0"
+  },
+  "newcastle": {
+    "file": "Newcastle upon Tyne - Tyne Bridge.jpg",
+    "author": "Benjamin Smith",
+    "license": "CC BY-SA 4.0"
+  },
+  "teesside": {
+    "file": "Durham MMB 02 Cathedral.jpg",
+    "author": "mattbuck",
+    "license": "CC BY-SA 4.0"
+  },
+  "southampton": {
+    "file": "Bargate 1.jpg",
+    "author": "Peter Glyn",
+    "license": "CC0"
+  },
+  "bournemouth": {
+    "file": "Durdle Door Dorset.jpg",
+    "author": "Luni22",
+    "license": "CC BY-SA 4.0"
+  },
+  "exeter": {
+    "file": "Exeter (Devon, UK), Cathedral Church of Saint Peter -- 2013 -- 1417.jpg",
+    "author": "Dietmar Rabich",
+    "license": "CC BY-SA 4.0"
+  },
+  "newquay-cornwall": {
+    "file": "Eden Project geodesic domes panorama.jpg",
+    "author": "Jürgen Matern",
+    "license": "CC BY-SA 2.5"
+  },
+  "norwich": {
+    "file": "Norwich Castle Exterior 2.jpg",
+    "author": "MrsEllacott",
+    "license": "CC BY-SA 4.0"
+  },
+  "aberdeen": {
+    "file": "Marischal College, Aberdeen - geograph.org.uk - 2465557.jpg",
+    "author": "Carl Farnell",
+    "license": "CC BY-SA 2.0"
+  },
+  "dundee": {
+    "file": "V&A Dundee Near Completion Feb 2018 (Alex Liivet).jpg",
+    "author": "Alex Liivet",
+    "license": "CC BY 2.0"
+  },
+  "lewis-harris": {
+    "file": "Calanais Standing Stones - geograph.org.uk - 3473906.jpg",
+    "author": "M J Richardson",
+    "license": "CC BY-SA 2.0"
+  },
+  "orkney": {
+    "file": "Stenness Ring of Brodgar seen closeby 1.jpg",
+    "author": "Ymblanter",
+    "license": "CC BY-SA 4.0"
+  },
+  "shetland": {
+    "file": "Jarlshof - 37173809593.jpg",
+    "author": "Stephan Ridgway",
+    "license": "CC BY 2.0"
+  },
+  "islay": {
+    "file": "Laphroaig Distillery - geograph.org.uk - 1945490.jpg",
+    "author": "Barbara Carr",
+    "license": "CC BY-SA 2.0"
+  },
+  "barra": {
+    "file": "Kisimul Castle (Chiosmuil ) Castlebay.JPG",
+    "author": "Nessy-Pic",
+    "license": "CC BY-SA 3.0"
+  },
+  "benbecula-uist": {
+    "file": "Prince's Beach on Eriskay - geograph.org.uk - 2739782.jpg",
+    "author": "Mike O'Shea",
+    "license": "CC BY-SA 2.0"
+  },
+  "derry-londonderry": {
+    "file": "Peace Bridge, Derry 04.jpg",
+    "author": "Simon Burchell",
+    "license": "CC BY-SA 4.0"
+  },
+  "hull-humberside": {
+    "file": "Beverley Minster (23655270595).jpg",
+    "author": "Michael D Beckwith",
+    "license": "CC0"
+  },
+  "campbeltown-kintyre": {
+    "file": "Kintyre Way follows a promenade beside Campbeltown Loch - geograph.org.uk - 5793929.jpg",
+    "author": "Tim Glover",
+    "license": "CC BY-SA 2.0"
+  },
+  "tiree": {
+    "file": "Tiree beach - geograph.org.uk - 4763969.jpg",
+    "author": "M J Richardson",
+    "license": "CC BY-SA 2.0"
+  }
+}

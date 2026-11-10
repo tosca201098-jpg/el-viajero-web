@@ -181,7 +181,7 @@ const seeds: Seed[] = [
       'Entre muralhas e Adriático, Dubrovnik reúne praças de pedra, palácios e vistas sobre os telhados da cidade antiga.',
       'Entre muralles i Adriàtic, Dubrovnik reuneix places de pedra, palaus i miradors sobre les teulades del nucli antic.',
     ],
-    places: ['Gradske zidine','Stradun','Tvrđava Lovrijenac','Knežev dvor'], aliases: ['Ragusa'],
+    places: ['Gradske zidine','Stradun','Tvrđava Lovrijenac','Knežev dvor'], aliases: [],
   },
   {
     slug: 'split', imageKey: 'split', airport: 'SPU', stay: '3–4', season: 'coast',

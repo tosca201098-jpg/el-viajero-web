@@ -1,0 +1,196 @@
+{
+  "source": "Travelpayouts airports.json (code, country and flightable=true checked 2026-11-06; display names abbreviated; a flightable flag is not proof of current service)",
+  "airports": [
+    {
+      "code": "CPH",
+      "country_code": "DK",
+      "name": "Copenhagen Kastrup Airport",
+      "city": "Copenhagen",
+      "flightable": true
+    },
+    {
+      "code": "AAR",
+      "country_code": "DK",
+      "name": "Aarhus Airport",
+      "city": "Aarhus",
+      "flightable": true
+    },
+    {
+      "code": "BLL",
+      "country_code": "DK",
+      "name": "Billund Airport",
+      "city": "Billund",
+      "flightable": true
+    },
+    {
+      "code": "AAL",
+      "country_code": "DK",
+      "name": "Aalborg Airport",
+      "city": "Aalborg",
+      "flightable": true
+    },
+    {
+      "code": "RNN",
+      "country_code": "DK",
+      "name": "Bornholm Airport",
+      "city": "Rønne",
+      "flightable": true
+    },
+    {
+      "code": "KEF",
+      "country_code": "IS",
+      "name": "Keflavik International Airport",
+      "city": "Reykjavik",
+      "flightable": true
+    },
+    {
+      "code": "AEY",
+      "country_code": "IS",
+      "name": "Akureyri Airport",
+      "city": "Akureyri",
+      "flightable": true
+    },
+    {
+      "code": "HEL",
+      "country_code": "FI",
+      "name": "Helsinki Vantaa Airport",
+      "city": "Helsinki",
+      "flightable": true
+    },
+    {
+      "code": "RVN",
+      "country_code": "FI",
+      "name": "Rovaniemi Airport",
+      "city": "Rovaniemi",
+      "flightable": true
+    },
+    {
+      "code": "TKU",
+      "country_code": "FI",
+      "name": "Turku Airport",
+      "city": "Turku",
+      "flightable": true
+    },
+    {
+      "code": "TMP",
+      "country_code": "FI",
+      "name": "Tampere-Pirkkala Airport",
+      "city": "Tampere",
+      "flightable": true
+    },
+    {
+      "code": "OUL",
+      "country_code": "FI",
+      "name": "Oulu Airport",
+      "city": "Oulu",
+      "flightable": true
+    },
+    {
+      "code": "KTT",
+      "country_code": "FI",
+      "name": "Kittila Airport",
+      "city": "Levi",
+      "flightable": true
+    },
+    {
+      "code": "IVL",
+      "country_code": "FI",
+      "name": "Ivalo Airport",
+      "city": "Ivalo",
+      "flightable": true
+    },
+    {
+      "code": "KAO",
+      "country_code": "FI",
+      "name": "Kuusamo Airport",
+      "city": "Kuusamo",
+      "flightable": true
+    }
+  ],
+  "pendingVerification": [
+    {
+      "code": "EBJ",
+      "country_code": "DK",
+      "city": "Esbjerg",
+      "flightable": true
+    },
+    {
+      "code": "KRP",
+      "country_code": "DK",
+      "city": "Karup",
+      "flightable": true
+    },
+    {
+      "code": "SGD",
+      "country_code": "DK",
+      "city": "Sonderborg",
+      "flightable": true
+    },
+    {
+      "code": "EGS",
+      "country_code": "IS",
+      "city": "Egilsstadir",
+      "flightable": true
+    },
+    {
+      "code": "IFJ",
+      "country_code": "IS",
+      "city": "Isafjordur",
+      "flightable": true
+    },
+    {
+      "code": "JOE",
+      "country_code": "FI",
+      "city": "Joensuu",
+      "flightable": true
+    },
+    {
+      "code": "VAA",
+      "country_code": "FI",
+      "city": "Vaasa",
+      "flightable": true
+    },
+    {
+      "code": "KUO",
+      "country_code": "FI",
+      "city": "Kuopio",
+      "flightable": true
+    },
+    {
+      "code": "JYV",
+      "country_code": "FI",
+      "city": "Jyvaskyla",
+      "flightable": true
+    },
+    {
+      "code": "POR",
+      "country_code": "FI",
+      "city": "Pori",
+      "flightable": true
+    },
+    {
+      "code": "KEM",
+      "country_code": "FI",
+      "city": "Kemi",
+      "flightable": true
+    },
+    {
+      "code": "KAJ",
+      "country_code": "FI",
+      "city": "Kajaani",
+      "flightable": true
+    },
+    {
+      "code": "SVL",
+      "country_code": "FI",
+      "city": "Savonlinna",
+      "flightable": true
+    },
+    {
+      "code": "KOK",
+      "country_code": "FI",
+      "city": "Kokkola",
+      "flightable": true
+    }
+  ]
+}

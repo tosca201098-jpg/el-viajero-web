@@ -16,6 +16,19 @@ import { sloveniaDestinations } from './slovenia';
 import { greeceDestinations } from "./greece";
 import { greeceAirportTownAliases } from "./greece-airport-towns";
 import { croatiaDestinations } from "./croatia";
+import { albaniaDestinations } from "./albania";
+import { turkeyDestinations } from "./turkey";
+import { southeastEuropeDestinations } from "./southeast-europe";
+import { easternEuropeDestinations } from "./eastern-europe";
+import { nordicsDestinations } from "./nordics";
+import { scandinaviaDestinations } from "./scandinavia";
+import { irelandBalticsDestinations } from "./ireland-baltics";
+import { ukRegionalDestinations } from "./uk-regional";
+import { italyRegionalDestinations } from "./italy-regional";
+import { germanyRegionalDestinations } from "./germany-regional";
+import { europeRegionalDestinations } from "./europe-regional";
+import { nordicRegionalDestinations } from "./nordic-regional";
+import { scandinaviaRegionalDestinations } from "./scandinavia-regional";
 import type { DestinationId, DestinationProfile } from "./types";
 
 export type { DestinationId, DestinationReference, DestinationAirport, DestinationText, DestinationProfile } from "./types";
@@ -24,23 +37,52 @@ export const destinationsByCountry: Readonly<Record<string, readonly Destination
   ES: spainDestinations,
   PT: portugalDestinations,
   FR: franceDestinations,
-  IT: italyDestinations,
-  GB: ukDestinations,
-  DE: germanyDestinations,
+  IT: [...italyDestinations, ...italyRegionalDestinations],
+  GB: [...ukDestinations, ...ukRegionalDestinations],
+  DE: [...germanyDestinations, ...germanyRegionalDestinations],
   NL: netherlandsDestinations,
   BE: belgiumDestinations,
   CH: switzerlandDestinations,
   AT: austriaDestinations,
   CZ: czechiaDestinations,
-  PL: polandDestinations,
+  PL: [...polandDestinations, ...europeRegionalDestinations.filter(profile => profile.countryCode === 'PL')],
   HU: hungaryDestinations,
   SK: slovakiaDestinations,
   GR: greeceDestinations,
   SI: sloveniaDestinations,
   HR: croatiaDestinations,
+  AL: albaniaDestinations,
+  TR: turkeyDestinations,
+  RS: southeastEuropeDestinations.filter(profile => profile.countryCode === 'RS'),
+  BA: southeastEuropeDestinations.filter(profile => profile.countryCode === 'BA'),
+  ME: southeastEuropeDestinations.filter(profile => profile.countryCode === 'ME'),
+  MK: southeastEuropeDestinations.filter(profile => profile.countryCode === 'MK'),
+  XK: southeastEuropeDestinations.filter(profile => profile.countryCode === 'XK'),
+  MT: southeastEuropeDestinations.filter(profile => profile.countryCode === 'MT'),
+  CY: southeastEuropeDestinations.filter(profile => profile.countryCode === 'CY'),
+  RO: easternEuropeDestinations.filter(profile => profile.countryCode === 'RO'),
+  BG: easternEuropeDestinations.filter(profile => profile.countryCode === 'BG'),
+  MD: easternEuropeDestinations.filter(profile => profile.countryCode === 'MD'),
+  DK: nordicsDestinations.filter(profile => profile.countryCode === 'DK'),
+  IS: [...nordicsDestinations, ...nordicRegionalDestinations].filter(profile => profile.countryCode === 'IS'),
+  FI: [...nordicsDestinations, ...nordicRegionalDestinations].filter(profile => profile.countryCode === 'FI'),
+  SE: [...scandinaviaDestinations, ...europeRegionalDestinations, ...scandinaviaRegionalDestinations].filter(profile => profile.countryCode === 'SE'),
+  NO: [...scandinaviaDestinations, ...europeRegionalDestinations, ...nordicRegionalDestinations, ...scandinaviaRegionalDestinations].filter(profile => profile.countryCode === 'NO'),
+  IE: [...irelandBalticsDestinations, ...europeRegionalDestinations].filter(profile => profile.countryCode === 'IE'),
+  EE: irelandBalticsDestinations.filter(profile => profile.countryCode === 'EE'),
+  LV: irelandBalticsDestinations.filter(profile => profile.countryCode === 'LV'),
+  LT: irelandBalticsDestinations.filter(profile => profile.countryCode === 'LT'),
+  LU: irelandBalticsDestinations.filter(profile => profile.countryCode === 'LU'),
+  GI: irelandBalticsDestinations.filter(profile => profile.countryCode === 'GI'),
+  JE: irelandBalticsDestinations.filter(profile => profile.countryCode === 'JE'),
+  GG: irelandBalticsDestinations.filter(profile => profile.countryCode === 'GG'),
+  IM: irelandBalticsDestinations.filter(profile => profile.countryCode === 'IM'),
+  FO: irelandBalticsDestinations.filter(profile => profile.countryCode === 'FO'),
+  AX: irelandBalticsDestinations.filter(profile => profile.countryCode === 'AX'),
 };
 
-export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations, ...greeceDestinations, ...sloveniaDestinations, ...croatiaDestinations];
+export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations, ...greeceDestinations, ...sloveniaDestinations, ...croatiaDestinations, ...albaniaDestinations, ...turkeyDestinations, ...southeastEuropeDestinations, ...easternEuropeDestinations, ...nordicsDestinations, ...scandinaviaDestinations, ...irelandBalticsDestinations, ...ukRegionalDestinations, ...italyRegionalDestinations, ...germanyRegionalDestinations, ...europeRegionalDestinations, ...nordicRegionalDestinations, ...scandinaviaRegionalDestinations];
+
 
 export function getDestinationById(id: DestinationId): DestinationProfile | undefined {
   return destinationProfiles.find(destination => destination.id === id);

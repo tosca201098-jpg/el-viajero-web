@@ -1,0 +1,191 @@
+{
+  "source": "Travelpayouts airports.json (code, country and flightable=true checked 2026-11-06; display names abbreviated; a flightable flag is not proof of current service)",
+  "airports": [
+    {
+      "code": "ARN",
+      "country_code": "SE",
+      "name": "Stockholm Arlanda Airport",
+      "city": "Stockholm",
+      "flightable": true
+    },
+    {
+      "code": "GOT",
+      "country_code": "SE",
+      "name": "Gothenburg Landvetter Airport",
+      "city": "Gothenburg",
+      "flightable": true
+    },
+    {
+      "code": "MMX",
+      "country_code": "SE",
+      "name": "Malmo Sturup Airport",
+      "city": "Malmo",
+      "flightable": true
+    },
+    {
+      "code": "KRN",
+      "country_code": "SE",
+      "name": "Kiruna Airport",
+      "city": "Kiruna",
+      "flightable": true
+    },
+    {
+      "code": "LLA",
+      "country_code": "SE",
+      "name": "Lulea Airport",
+      "city": "Lulea",
+      "flightable": true
+    },
+    {
+      "code": "OSD",
+      "country_code": "SE",
+      "name": "Are Ostersund Airport",
+      "city": "Ostersund",
+      "flightable": true
+    },
+    {
+      "code": "VBY",
+      "country_code": "SE",
+      "name": "Visby Airport",
+      "city": "Visby",
+      "flightable": true
+    },
+    {
+      "code": "OSL",
+      "country_code": "NO",
+      "name": "Oslo Gardermoen Airport",
+      "city": "Oslo",
+      "flightable": true
+    },
+    {
+      "code": "BGO",
+      "country_code": "NO",
+      "name": "Bergen Flesland Airport",
+      "city": "Bergen",
+      "flightable": true
+    },
+    {
+      "code": "TRD",
+      "country_code": "NO",
+      "name": "Trondheim Vaernes Airport",
+      "city": "Trondheim",
+      "flightable": true
+    },
+    {
+      "code": "SVG",
+      "country_code": "NO",
+      "name": "Stavanger Sola Airport",
+      "city": "Stavanger",
+      "flightable": true
+    },
+    {
+      "code": "TOS",
+      "country_code": "NO",
+      "name": "Tromso Airport",
+      "city": "Tromso",
+      "flightable": true
+    },
+    {
+      "code": "BOO",
+      "country_code": "NO",
+      "name": "Bodo Airport",
+      "city": "Bodo",
+      "flightable": true
+    },
+    {
+      "code": "AES",
+      "country_code": "NO",
+      "name": "Alesund Vigra Airport",
+      "city": "Alesund",
+      "flightable": true
+    },
+    {
+      "code": "KKN",
+      "country_code": "NO",
+      "name": "Kirkenes Hoybuktmoen Airport",
+      "city": "Kirkenes",
+      "flightable": true
+    },
+    {
+      "code": "SVJ",
+      "country_code": "NO",
+      "name": "Svolvaer Helle Airport",
+      "city": "Svolvaer",
+      "flightable": true
+    }
+  ],
+  "pendingVerification": [
+    {
+      "code": "UME",
+      "country_code": "SE",
+      "city": "Umea",
+      "flightable": true
+    },
+    {
+      "code": "KSD",
+      "country_code": "SE",
+      "city": "Karlstad",
+      "flightable": true
+    },
+    {
+      "code": "SDL",
+      "country_code": "SE",
+      "city": "Sundsvall",
+      "flightable": true
+    },
+    {
+      "code": "JKG",
+      "country_code": "SE",
+      "city": "Jonkoping",
+      "flightable": true
+    },
+    {
+      "code": "ORB",
+      "country_code": "SE",
+      "city": "Orebro",
+      "flightable": true
+    },
+    {
+      "code": "KRS",
+      "country_code": "NO",
+      "city": "Kristiansand",
+      "flightable": true
+    },
+    {
+      "code": "ALF",
+      "country_code": "NO",
+      "city": "Alta",
+      "flightable": true
+    },
+    {
+      "code": "HAU",
+      "country_code": "NO",
+      "city": "Haugesund",
+      "flightable": true
+    },
+    {
+      "code": "MOL",
+      "country_code": "NO",
+      "city": "Molde",
+      "flightable": true
+    },
+    {
+      "code": "KSU",
+      "country_code": "NO",
+      "city": "Kristiansund",
+      "flightable": true
+    },
+    {
+      "code": "EVE",
+      "country_code": "NO",
+      "city": "Harstad-Narvik",
+      "flightable": true
+    },
+    {
+      "code": "LKN",
+      "country_code": "NO",
+      "city": "Leknes",
+      "flightable": true
+    }
+  ]
+}

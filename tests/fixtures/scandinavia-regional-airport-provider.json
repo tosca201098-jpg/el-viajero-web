@@ -1,0 +1,84 @@
+{
+  "checkedAt": "2026-11-06",
+  "source": "https://api.travelpayouts.com/data/en/airports.json",
+  "airports": [
+    {
+      "code": "NYO",
+      "name": "Stockholm Skavsta Airport",
+      "country_code": "SE",
+      "city_code": "STO",
+      "flightable": true
+    },
+    {
+      "code": "KLR",
+      "name": "Kalmar Oland",
+      "country_code": "SE",
+      "flightable": true
+    },
+    {
+      "code": "GEV",
+      "name": "Gallivare",
+      "country_code": "SE",
+      "flightable": true
+    },
+    {
+      "code": "HVG",
+      "name": "Valan",
+      "country_code": "NO",
+      "flightable": true
+    },
+    {
+      "code": "HFT",
+      "name": "Hammerfest",
+      "country_code": "NO",
+      "flightable": true
+    },
+    {
+      "code": "BDU",
+      "name": "Bardufoss",
+      "country_code": "NO",
+      "flightable": true
+    },
+    {
+      "code": "SOG",
+      "name": "Sogndal",
+      "country_code": "NO",
+      "flightable": true
+    }
+  ],
+  "serviceEvidence": {
+    "NYO": "https://en.wikipedia.org/wiki/Stockholm_Skavsta_Airport",
+    "KLR": "https://en.wikipedia.org/wiki/Kalmar_Airport",
+    "GEV": "https://en.wikipedia.org/wiki/G%C3%A4llivare_Lapland_Airport",
+    "HVG": "https://en.wikipedia.org/wiki/Honningsv%C3%A5g_Airport,_Valan",
+    "HFT": "https://en.wikipedia.org/wiki/Hammerfest_Airport",
+    "BDU": "https://www.airportroutes.com/airports/endu/",
+    "SOG": "https://en.wikipedia.org/wiki/Sogndal_Airport,_Haukasen"
+  },
+  "pendingVerification": [
+    {
+      "code": "LYR",
+      "name": "Svalbard Airport",
+      "country_code": "SJ",
+      "reason": "Provider country code is SJ (Svalbard); needs a new country entry before a profile can be added"
+    },
+    {
+      "code": "HFN",
+      "name": "Hornafjordur",
+      "country_code": "IS",
+      "reason": "Provider marks it as not flightable"
+    },
+    {
+      "code": "VAA",
+      "name": "Vaasa Airport",
+      "country_code": "FI",
+      "reason": "Scheduled service to be verified"
+    },
+    {
+      "code": "KUO",
+      "name": "Kuopio Airport",
+      "country_code": "FI",
+      "reason": "Scheduled service to be verified"
+    }
+  ]
+}

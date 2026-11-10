@@ -1,0 +1,114 @@
+{
+  "checkedAt": "2026-11-06",
+  "source": "https://api.travelpayouts.com/data/en/airports.json",
+  "airports": [
+    {
+      "code": "TRF",
+      "name": "Torp Sandefjord Airport",
+      "country_code": "NO",
+      "city_code": "TRF",
+      "flightable": true
+    },
+    {
+      "code": "JOE",
+      "name": "Joensuu Airport",
+      "country_code": "FI",
+      "city_code": "JOE",
+      "flightable": true
+    },
+    {
+      "code": "JYV",
+      "name": "Jyvaskyla Airport",
+      "country_code": "FI",
+      "city_code": "JYV",
+      "flightable": true
+    },
+    {
+      "code": "KAJ",
+      "name": "Kajaani Airport",
+      "country_code": "FI",
+      "city_code": "KAJ",
+      "flightable": true
+    },
+    {
+      "code": "KEM",
+      "name": "Kemi/Tornio Airport",
+      "country_code": "FI",
+      "city_code": "KEM",
+      "flightable": true
+    },
+    {
+      "code": "KOK",
+      "name": "Kruunupyy Airport",
+      "country_code": "FI",
+      "city_code": "KOK",
+      "flightable": true
+    },
+    {
+      "code": "POR",
+      "name": "Pori Airport",
+      "country_code": "FI",
+      "city_code": "POR",
+      "flightable": true
+    },
+    {
+      "code": "SVL",
+      "name": "Savonlinna Airport",
+      "country_code": "FI",
+      "city_code": "SVL",
+      "flightable": true
+    },
+    {
+      "code": "EGS",
+      "name": "Egilsstadir Airport",
+      "country_code": "IS",
+      "city_code": "EGS",
+      "flightable": true
+    },
+    {
+      "code": "IFJ",
+      "name": "Isafjordur Airport",
+      "country_code": "IS",
+      "city_code": "IFJ",
+      "flightable": true
+    }
+  ],
+  "serviceEvidence": {
+    "TRF": "https://www.airportroutes.com/airports/ento/",
+    "JOE": "https://traficom.fi/en/news/base-airlines-ltd-wins-public-tender-air-services-savonlinna-helsinki-route-finnair-operate-state-subsidised-flights-five-regional-airports-until-27-february-2028",
+    "JYV": "https://traficom.fi/en/news/base-airlines-ltd-wins-public-tender-air-services-savonlinna-helsinki-route-finnair-operate-state-subsidised-flights-five-regional-airports-until-27-february-2028",
+    "KAJ": "https://traficom.fi/en/news/base-airlines-ltd-wins-public-tender-air-services-savonlinna-helsinki-route-finnair-operate-state-subsidised-flights-five-regional-airports-until-27-february-2028",
+    "KEM": "https://traficom.fi/en/news/base-airlines-ltd-wins-public-tender-air-services-savonlinna-helsinki-route-finnair-operate-state-subsidised-flights-five-regional-airports-until-27-february-2028",
+    "KOK": "https://traficom.fi/en/news/base-airlines-ltd-wins-public-tender-air-services-savonlinna-helsinki-route-finnair-operate-state-subsidised-flights-five-regional-airports-until-27-february-2028",
+    "POR": "https://traficom.fi/en/news/base-airlines-ltd-wins-public-tender-air-services-savonlinna-helsinki-route-finnair-operate-state-subsidised-flights-five-regional-airports-until-27-february-2028",
+    "SVL": "https://traficom.fi/en/news/base-airlines-ltd-wins-public-tender-air-services-savonlinna-helsinki-route-finnair-operate-state-subsidised-flights-five-regional-airports-until-27-february-2028",
+    "EGS": "https://www.innanlandsflugvellir.is/en/reykjavik-airport/flight-schedule/destinations",
+    "IFJ": "https://www.innanlandsflugvellir.is/en/reykjavik-airport/flight-schedule/destinations"
+  },
+  "pendingVerification": [
+    {
+      "code": "LYR",
+      "name": "Svalbard Airport",
+      "country_code": "SJ",
+      "reason": "Provider country code is SJ (Svalbard); needs a new country entry before a profile can be added"
+    },
+    {
+      "code": "HFN",
+      "name": "Hornafjordur",
+      "country_code": "IS",
+      "reason": "Provider marks it as not flightable"
+    },
+    {
+      "code": "VAA",
+      "name": "Vaasa Airport",
+      "country_code": "FI",
+      "reason": "Scheduled service to be verified"
+    },
+    {
+      "code": "KUO",
+      "name": "Kuopio Airport",
+      "country_code": "FI",
+      "reason": "Scheduled service to be verified"
+    }
+  ]
+}

@@ -1,0 +1,276 @@
+{
+  "source": "api.travelpayouts.com/data/en/airports.json and cities.json, consulted 2026-11-06 (fields captured for the batch; a flightable flag is not proof of current service)",
+  "airports": [
+    {
+      "code": "GZP",
+      "city_code": "GZP",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 36.2993,
+        "lon": 32.3014
+      }
+    },
+    {
+      "code": "KYA",
+      "city_code": "KYA",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 37.979168,
+        "lon": 32.56222
+      }
+    },
+    {
+      "code": "ADB",
+      "city_code": "IZM",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 38.294403,
+        "lon": 27.147594
+      },
+      "name": "Izmir Adnan Menderes Airport"
+    },
+    {
+      "code": "ESB",
+      "city_code": "ANK",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 40.11494,
+        "lon": 32.993145
+      },
+      "name": "Esenboga International Airport"
+    },
+    {
+      "code": "GZT",
+      "city_code": "GZT",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 36.944935,
+        "lon": 37.473747
+      }
+    },
+    {
+      "code": "DLM",
+      "city_code": "DLM",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 36.716667,
+        "lon": 28.783333
+      }
+    },
+    {
+      "code": "TZX",
+      "city_code": "TZX",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 40.99419,
+        "lon": 39.78168
+      }
+    },
+    {
+      "code": "ASR",
+      "city_code": "ASR",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 38.7742,
+        "lon": 35.490707
+      }
+    },
+    {
+      "code": "SAW",
+      "city_code": "IST",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 40.904675,
+        "lon": 29.309189
+      },
+      "name": "Sabiha Gokcen International Airport"
+    },
+    {
+      "code": "IST",
+      "city_code": "IST",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 40.9769,
+        "lon": 28.82055
+      },
+      "name": "Istanbul New Airport"
+    },
+    {
+      "code": "AYT",
+      "city_code": "AYT",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 36.89928,
+        "lon": 30.80135
+      }
+    },
+    {
+      "code": "NAV",
+      "city_code": "NAV",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 38.63333,
+        "lon": 34.716667
+      },
+      "name": "Nevsehir"
+    },
+    {
+      "code": "BJV",
+      "city_code": "BJV",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true,
+      "coordinates": {
+        "lat": 37.243954,
+        "lon": 27.672781
+      },
+      "name": "Milas-Bodrum Airport"
+    },
+    {
+      "code": "COV",
+      "name": "Çukurova International Airport",
+      "city_code": "COV",
+      "provider_city": "Mersin",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "YEI",
+      "name": "Yenisehir Airport",
+      "city_code": "YEI",
+      "provider_city": "Bursa",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "SZF",
+      "name": "Samsun-Carsamba Airport",
+      "city_code": "SZF",
+      "provider_city": "Samsun",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "GNY",
+      "name": "Sanliurfa GAP Airport",
+      "city_code": "GNY",
+      "provider_city": "Golgen",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "MQM",
+      "name": "Mardin Airport",
+      "city_code": "MQM",
+      "provider_city": "Mardin",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "VAN",
+      "name": "Van Ferit Melen Airport",
+      "city_code": "VAN",
+      "provider_city": "Van",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "ERZ",
+      "name": "Erzurum Airport",
+      "city_code": "ERZ",
+      "provider_city": "Erzurum",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "DIY",
+      "name": "Diyarbakir Airport",
+      "city_code": "DIY",
+      "provider_city": "Diyarbakir",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "KSY",
+      "name": "Kars Airport",
+      "city_code": "KSY",
+      "provider_city": "Kars",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "CKZ",
+      "name": "Canakkale Airport",
+      "city_code": "CKZ",
+      "provider_city": "Canakkale",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "DNZ",
+      "name": "Cardak Airport",
+      "city_code": "DNZ",
+      "provider_city": "Denizli",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    },
+    {
+      "code": "RZV",
+      "name": "Rize-Artvin Airport",
+      "city_code": "RZV",
+      "provider_city": "Rize",
+      "country_code": "TR",
+      "time_zone": "Europe/Istanbul",
+      "flightable": true
+    }
+  ],
+  "excludedProviderRecords": [
+    "ISL (Atatürk, flightable=false)",
+    "ANK (Etimesgut, flightable=false)"
+  ],
+  "batch2_consulted": "2026-11-06",
+  "pendingVerification": [
+    "HTY (Hatay, provider city Antakya)",
+    "EDO (Edremit/Balıkesir Koca Seyit)",
+    "ASR (Kayseri, access airport of Cappadocia only)",
+    "AOE (Eskişehir)",
+    "TEQ (Çorlu)",
+    "OGU (Ordu-Giresun)",
+    "KCM, MLX, EZS, VAS, ERC, BAL, SXZ, MSR, AJI, IGD, ADF, TJK, MZH, KFS, NOP, ONQ, KCO, KZR, ISE, BGG, YKO, NKT (small regional airports)"
+  ]
+}
