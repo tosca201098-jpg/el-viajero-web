@@ -25,9 +25,9 @@ test('all 221 prior profiles, twelve approved Croatian photos and sixteen home c
   const before=require('./fixtures/pre-croatia-airport-coverage.json');assert.equal(before.profiles.length,221);
   for(const p of before.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
-  assert.equal(all.length,15);assert.equal(profiles.length,3);assert.equal(catalog.destinationProfiles.length,474);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,474);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,474);
+  assert.equal(all.length,15);assert.equal(profiles.length,3);assert.equal(catalog.destinationProfiles.length,486);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,486);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,486);
 });
 test('nine physical public-transport airports resolve once each, without confusing transfers or tourist towns',()=>{
   const codes=['ZAG','DBV','SPU','ZAD','PUY','RJK','OSI','BWK','LSZ'];

@@ -43,9 +43,9 @@ const expected = {NO: 21, SE: 11};
 test('Scandinavia regional gaps add 7 draft profiles (NO, SE) to 386 unchanged profiles; original cards, existing profiles and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,386);
   assert.deepEqual(Array.from(ibs,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,474);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,474);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,474);
+  assert.equal(catalog.destinationProfiles.length,486);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,486);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,486);
   for (const previous of before.profiles) assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   for (const [cc,n] of Object.entries(expected)) assert.equal(catalog.getDestinationsByCountry(cc).length,n,cc);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);

@@ -241,5 +241,125 @@
     "artist": "Espirat",
     "license": "CC BY-SA 4.0",
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "metz": {
+    "file": "Metz Cathedral 004.JPG",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Metz_Cathedral_004.JPG/960px-Metz_Cathedral_004.JPG",
+    "source": "https://commons.wikimedia.org/wiki/File:Metz_Cathedral_004.JPG",
+    "width": 4752,
+    "height": 3168,
+    "artist": "H. Zell",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "brive-la-gaillarde": {
+    "file": "Brive-la-Gaillarde - Place Latreille - 1.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg/960px-Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg",
+    "width": 5952,
+    "height": 3971,
+    "artist": "Benjamin Smith",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "dole": {
+    "file": "Dole (Jura) - Canal des Tanneurs - Collégiale Notre-Dame (51944624472).jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Dole_%28Jura%29_-_Canal_des_Tanneurs_-_Coll%C3%A9giale_Notre-Dame_%2851944624472%29.jpg/960px-Dole_%28Jura%29_-_Canal_des_Tanneurs_-_Coll%C3%A9giale_Notre-Dame_%2851944624472%29.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Dole_(Jura)_-_Canal_des_Tanneurs_-_Coll%C3%A9giale_Notre-Dame_(51944624472).jpg",
+    "width": 4821,
+    "height": 3194,
+    "artist": "Patrick from Compiègne, France",
+    "license": "CC BY-SA 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
+  },
+  "poitiers": {
+    "file": "Poitiers - Palais de Justice 2.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Poitiers_-_Palais_de_Justice_2.jpg/960px-Poitiers_-_Palais_de_Justice_2.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Poitiers_-_Palais_de_Justice_2.jpg",
+    "width": 2592,
+    "height": 1944,
+    "artist": "Christophe.Finot",
+    "license": "CC BY-SA 2.5",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/2.5"
+  },
+  "chalons-en-champagne": {
+    "file": "Châlons-HDV(2025).jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Ch%C3%A2lons-HDV%282025%29.jpg/960px-Ch%C3%A2lons-HDV%282025%29.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Ch%C3%A2lons-HDV(2025).jpg",
+    "width": 4991,
+    "height": 3579,
+    "artist": "Matgrt",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "deauville": {
+    "file": "Plage Deauville - panoramio.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/Plage_Deauville_-_panoramio.jpg/960px-Plage_Deauville_-_panoramio.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Plage_Deauville_-_panoramio.jpg",
+    "width": 2592,
+    "height": 1944,
+    "artist": "minishooter",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "castres": {
+    "file": "(Castres) Maisons sur l'Agoût vues du pont Neuf vers le pont Tourcaudière.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/%28Castres%29_Maisons_sur_l%27Ago%C3%BBt_vues_du_pont_Neuf_vers_le_pont_Tourcaudi%C3%A8re.jpg/960px-%28Castres%29_Maisons_sur_l%27Ago%C3%BBt_vues_du_pont_Neuf_vers_le_pont_Tourcaudi%C3%A8re.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:(Castres)_Maisons_sur_l%27Ago%C3%BBt_vues_du_pont_Neuf_vers_le_pont_Tourcaudi%C3%A8re.jpg",
+    "width": 8748,
+    "height": 5049,
+    "artist": "Didier Descouens",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "aurillac": {
+    "file": "Jordanne Aurillac Pont Rouge.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Jordanne_Aurillac_Pont_Rouge.jpg/960px-Jordanne_Aurillac_Pont_Rouge.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Jordanne_Aurillac_Pont_Rouge.jpg",
+    "width": 3264,
+    "height": 2176,
+    "artist": "Adrianstork",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "saint-etienne": {
+    "file": "Saint Étienne-Hôtel de ville-20110117.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/81/Saint_%C3%89tienne-H%C3%B4tel_de_ville-20110117.jpg/960px-Saint_%C3%89tienne-H%C3%B4tel_de_ville-20110117.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Saint_%C3%89tienne-H%C3%B4tel_de_ville-20110117.jpg",
+    "width": 4272,
+    "height": 2848,
+    "artist": "Daniel Villafruela",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "lorient": {
+    "file": "Lorient-Tour-Découverte.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Lorient-Tour-D%C3%A9couverte.jpg/960px-Lorient-Tour-D%C3%A9couverte.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Lorient-Tour-D%C3%A9couverte.jpg",
+    "width": 3264,
+    "height": 2448,
+    "artist": "Pline",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+  },
+  "le-puy-en-velay": {
+    "file": "0 1138 Le Puy-en-Velay (Frankreich) - Saint-Michel-d'Aiguiihe.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/68/0_1138_Le_Puy-en-Velay_%28Frankreich%29_-_Saint-Michel-d%27Aiguiihe.jpg/960px-0_1138_Le_Puy-en-Velay_%28Frankreich%29_-_Saint-Michel-d%27Aiguiihe.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:0_1138_Le_Puy-en-Velay_(Frankreich)_-_Saint-Michel-d%27Aiguiihe.jpg",
+    "width": 3000,
+    "height": 2000,
+    "artist": "W. Bulach",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+  },
+  "ouessant": {
+    "file": "Ouessant - Phare du Creac'h et Maison.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/Ouessant_-_Phare_du_Creac%27h_et_Maison.jpg/960px-Ouessant_-_Phare_du_Creac%27h_et_Maison.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Ouessant_-_Phare_du_Creac%27h_et_Maison.jpg",
+    "width": 3888,
+    "height": 2592,
+    "artist": "Agnes DP",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   }
 }
