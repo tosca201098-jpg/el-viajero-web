@@ -1,4 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto'),ts=require('typescript');
 const root=path.resolve(__dirname,'..');
 function loader(globals={}){const cache=new Map();function load(file){file=file.replaceAll('\\','/');if(cache.has(file))return cache.get(file);const exports={};cache.set(file,exports);
@@ -9,7 +10,7 @@ test('all 224 prior profiles, approved Athens photo and sixteen original homepag
  const before=require('./fixtures/pre-greece-airport-coverage.json');assert.equal(before.profiles.length,224);
  for(const p of before.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
- assert.equal(catalog.getDestinationsByCountry('GR').length,39);assert.equal(catalog.destinationProfiles.length,486);
+ assert.equal(catalog.getDestinationsByCountry('GR').length,39);assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
 });
 test('all fourteen Fraport airport identities are covered once within the thirty-nine-profile Greek batch',()=>{
  const official=['KVA','SKG','CFU','MJT','JSI','PVK','EFL','ZTH','SMI','JMK','KGS','JTR','RHO','CHQ'];

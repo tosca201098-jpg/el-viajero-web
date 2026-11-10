@@ -1,5 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -42,9 +43,9 @@ const codes = {"genoa": "GOA", "trieste": "TRS", "perugia-umbria": "PEG", "ancon
 test('Italy airport gaps add 24 draft IT profiles to 330 unchanged profiles; original cards, the 12 existing IT profiles and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,330);
   assert.deepEqual(Array.from(ibs,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,486);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,486);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,486);
+  assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,catalog.destinationProfiles.length);
   for (const previous of before.profiles) assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   assert.equal(catalog.getDestinationsByCountry('IT').length,36);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);

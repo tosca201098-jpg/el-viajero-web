@@ -1,5 +1,6 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto'),ts=require('typescript');
 const root=path.resolve(__dirname,'..');
 const locales=['es','en','fr','de','it','pt','ca'];
@@ -25,9 +26,9 @@ test('all 221 prior profiles, twelve approved Croatian photos and sixteen home c
   const before=require('./fixtures/pre-croatia-airport-coverage.json');assert.equal(before.profiles.length,221);
   for(const p of before.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
-  assert.equal(all.length,15);assert.equal(profiles.length,3);assert.equal(catalog.destinationProfiles.length,486);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,486);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,486);
+  assert.equal(all.length,15);assert.equal(profiles.length,3);assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,catalog.destinationProfiles.length);
 });
 test('nine physical public-transport airports resolve once each, without confusing transfers or tourist towns',()=>{
   const codes=['ZAG','DBV','SPU','ZAD','PUY','RJK','OSI','BWK','LSZ'];

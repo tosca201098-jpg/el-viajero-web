@@ -1,4 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto'),ts=require('typescript');
 const root=path.resolve(__dirname,'..');
 function loader(globals={}){const cache=new Map();function load(file){file=file.replaceAll('\\','/');if(cache.has(file))return cache.get(file);const exports={};cache.set(file,exports);
@@ -12,10 +13,10 @@ const digest=value=>crypto.createHash('sha256').update(JSON.stringify(value)).di
 const plain=value=>JSON.parse(JSON.stringify(value));
 
 test('thirty-six French airport cities preserve every prior profile, photo and original homepage card',()=>{
- assert.equal(baseline.profiles.length,224);assert.equal(catalog.destinationProfiles.length,486);assert.equal(catalog.getDestinationsByCountry('FR').length,48);
+ assert.equal(baseline.profiles.length,224);assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));assert.equal(catalog.getDestinationsByCountry('FR').length,48);
  for(const old of baseline.profiles)assert.equal(digest(catalog.getDestinationById(old.id)),old.sha256,old.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
- assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,486);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,486);
+ assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,catalog.destinationProfiles.length);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,catalog.destinationProfiles.length);
  assert.deepEqual(Array.from(coverage.franceAirportCoverage,p=>p.id),Object.values(codes).map(slug=>'fr-'+slug));
 });
 

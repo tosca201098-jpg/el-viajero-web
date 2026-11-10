@@ -1,5 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -43,9 +44,9 @@ const expected = {NO: 21, FI: 15, IS: 4};
 test('Nordic regional gaps add 10 draft profiles (NO, FI, IS) to 376 unchanged profiles; original cards, existing profiles and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,376);
   assert.deepEqual(Array.from(ibs,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,486);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,486);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,486);
+  assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,catalog.destinationProfiles.length);
   for (const previous of before.profiles) assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   for (const [cc,n] of Object.entries(expected)) assert.equal(catalog.getDestinationsByCountry(cc).length,n,cc);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);

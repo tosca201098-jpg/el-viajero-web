@@ -1,5 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -40,9 +41,9 @@ const slugs = ['tirana'];
 test('Albania adds one draft profile to 209 unchanged profiles; original cards and editorial pages stay intact', () => {
   assert.equal(before.profiles.length,209);
   assert.deepEqual(Array.from(albanian,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,486);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,486);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,486);
+  assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,catalog.destinationProfiles.length);
   for (const previous of before.profiles) {
     const profile = catalog.getDestinationById(previous.id);
     assert.equal(profile.slug,previous.slug);

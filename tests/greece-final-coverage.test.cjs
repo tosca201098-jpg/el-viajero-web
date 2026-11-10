@@ -1,4 +1,5 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto'),ts=require('typescript');
 const root=path.resolve(__dirname,'..');
 function loader(globals={}){const cache=new Map();function load(file){file=file.replaceAll('\\','/');if(cache.has(file))return cache.get(file);const exports={};cache.set(file,exports);
@@ -11,7 +12,7 @@ test('final Greece expansion preserves all 232 previous profiles, approved photo
  const before=require('./fixtures/pre-greece-final.json');assert.equal(before.base,'b74020902464625a699ee95cde8b6849354f1a62');assert.equal(before.profiles.length,232);
  for(const p of before.profiles)assert.equal(digest(catalog.getDestinationById(p.id)),p.sha256,p.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
- assert.equal(catalog.destinationProfiles.length,486);assert.equal(catalog.getDestinationsByCountry('GR').length,39);
+ assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));assert.equal(catalog.getDestinationsByCountry('GR').length,39);
 });
 test('all 39 physical airports in the HCAA network and all 22 Growthfund regional airports have exactly one Greek card',()=>{
  const regional=['PAS','AXD','JKH','AOK','JNX','GPA','LXS','IOA','MLO','JIK','JSH','KIT','VOL','JTY','LRS','JSY','SKU','JKL','KZS','KZI','KSJ','KSO'];

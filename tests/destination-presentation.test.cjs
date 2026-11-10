@@ -1,5 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
 const root = path.resolve(__dirname, '..');
 const compilerOptions = {module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020,jsx:ts.JsxEmit.React};
@@ -38,8 +39,8 @@ function renderLoader(locale='es',extra={}) {
     '@/lib/supabase/saved-trips':{saveTrip:()=>{throw Error('Unexpected save');}},...extra},{React:extra.react??react});
 }
 
-test('automatic catalog recommendations hide added France profiles; all 486 profiles remain available',()=>{
-  assert.equal(catalog.destinationProfiles.length,486);
+test('automatic catalog recommendations hide added France profiles; all profiles remain available',()=>{
+  assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
   for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR','SI','HR','AL','TR','RS','BA','ME','MK','XK','MT','CY','RO','BG','MD','DK','IS','FI','SE','NO','IE','EE','LV','LT','LU','GI','JE','GG','IM','FO','AX'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);

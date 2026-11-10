@@ -1,5 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
 const root = path.resolve(__dirname, '..');
 function loader(mocks = {}, globals = {}) {
@@ -36,9 +37,9 @@ const samples=require('./fixtures/italy-places.json');
 const airports=require('./fixtures/italy-airports.json').airports;
 
 test('Italy adds twelve unique canonical profiles without changing any of the previous 77 or the original cards',()=>{
-  assert.equal(catalog.destinationProfiles.length,486);assert.equal(italy.length,12);
-  assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,486);
-  assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,486);
+  assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));assert.equal(italy.length,12);
+  assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,catalog.destinationProfiles.length);
   for(const previous of baseline.profiles)assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
   for(const [season,sha]of Object.entries(baseline.seasonFiles))assert.equal(digest(fs.readFileSync(path.join(root,`app/temporadas/${season}/page.tsx`),'utf8').replace(/\r\n/g,'\n')),sha,season);
