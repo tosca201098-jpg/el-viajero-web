@@ -1414,7 +1414,7 @@ function abrirPaquete(destino = "") {
         >
           <div role="dialog" aria-modal="true" aria-labelledby="destination-detail-title" className="max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl sm:max-h-[calc(100dvh-2rem)]">
             {renderVoiceControls()}
-            <div className="relative h-72 md:h-96">
+            <div className="relative h-52 max-sm:h-[140px] sm:h-72" data-destination-photo-frame="panoramic">
               <img
                 src={destinoSeleccionado.image}
                 alt={destinoSeleccionado.name}
@@ -1434,13 +1434,16 @@ function abrirPaquete(destino = "") {
                 ✕
               </button>
 
-              <div className="absolute bottom-6 left-6">
+              <div className="absolute bottom-6 left-6 right-20 max-sm:bottom-3 max-sm:right-[4.75rem]">
                 <p className="text-cyan-200">
                   {destinoSeleccionado.emoji ?? (selectedCatalogProfile?.countryCode === 'HR' ? '🇭🇷' : selectedCatalogProfile?.countryCode === 'SI' ? '🇸🇮' : selectedCatalogProfile?.countryCode === 'GR' ? '🇬🇷' : selectedCatalogProfile?.countryCode === 'SK' ? '🇸🇰' : selectedCatalogProfile?.countryCode === 'HU' ? '🇭🇺' : selectedCatalogProfile?.countryCode === 'PL' ? '🇵🇱' : selectedCatalogProfile?.countryCode === 'CZ' ? '🇨🇿' : selectedCatalogProfile?.countryCode === 'AT' ? '🇦🇹' : selectedCatalogProfile?.countryCode === 'CH' ? '🇨🇭' : selectedCatalogProfile?.countryCode === 'BE' ? '🇧🇪' : selectedCatalogProfile?.countryCode === 'NL' ? '🇳🇱' : selectedCatalogProfile?.countryCode === 'DE' ? '🇩🇪' : selectedCatalogProfile?.countryCode === 'GB' ? '🇬🇧' : selectedCatalogProfile?.countryCode === 'IT' ? '🇮🇹' : selectedCatalogProfile?.countryCode === 'IE' ? '🇮🇪' : selectedCatalogProfile?.countryCode === 'EE' ? '🇪🇪' : selectedCatalogProfile?.countryCode === 'LV' ? '🇱🇻' : selectedCatalogProfile?.countryCode === 'LT' ? '🇱🇹' : selectedCatalogProfile?.countryCode === 'LU' ? '🇱🇺' : selectedCatalogProfile?.countryCode === 'GI' ? '🇬🇮' : selectedCatalogProfile?.countryCode === 'JE' ? '🇯🇪' : selectedCatalogProfile?.countryCode === 'GG' ? '🇬🇬' : selectedCatalogProfile?.countryCode === 'IM' ? '🇮🇲' : selectedCatalogProfile?.countryCode === 'FO' ? '🇫🇴' : selectedCatalogProfile?.countryCode === 'AX' ? '🇦🇽' : selectedCatalogProfile?.countryCode === 'SE' ? '🇸🇪' : selectedCatalogProfile?.countryCode === 'NO' ? '🇳🇴' : selectedCatalogProfile?.countryCode === 'DK' ? '🇩🇰' : selectedCatalogProfile?.countryCode === 'IS' ? '🇮🇸' : selectedCatalogProfile?.countryCode === 'FI' ? '🇫🇮' : selectedCatalogProfile?.countryCode === 'RO' ? '🇷🇴' : selectedCatalogProfile?.countryCode === 'BG' ? '🇧🇬' : selectedCatalogProfile?.countryCode === 'MD' ? '🇲🇩' : selectedCatalogProfile?.countryCode === 'RS' ? '🇷🇸' : selectedCatalogProfile?.countryCode === 'BA' ? '🇧🇦' : selectedCatalogProfile?.countryCode === 'ME' ? '🇲🇪' : selectedCatalogProfile?.countryCode === 'MK' ? '🇲🇰' : selectedCatalogProfile?.countryCode === 'XK' ? '🇽🇰' : selectedCatalogProfile?.countryCode === 'MT' ? '🇲🇹' : selectedCatalogProfile?.countryCode === 'CY' ? '🇨🇾' : selectedCatalogProfile?.countryCode === 'TR' ? '🇹🇷' : selectedCatalogProfile?.countryCode === 'AL' ? '🇦🇱' : selectedCatalogProfile ? '🇫🇷' : '')}{" "}
                   {destinationCountry(destinoSeleccionado, language)}
                 </p>
 
-                <h2 id="destination-detail-title" className="text-4xl font-black md:text-5xl">
+                <h2
+                  id="destination-detail-title"
+                  className={`break-words font-black md:text-5xl ${(selectedDisplay?.name?.length ?? 0) > 24 ? "max-sm:text-xl max-sm:leading-6" : (selectedDisplay?.name?.length ?? 0) > 12 ? "max-sm:text-2xl max-sm:leading-7" : ""} text-4xl`}
+                >
                   {selectedDisplay?.name}
                 </h2>
               </div>
