@@ -174,7 +174,7 @@ test('Greek, Slovenian and new French city cards open only after explicit select
     assert.ok(button,profile.id+':'+locale);button.props.onClick();tree=render();
     assert.ok(tree.some(n=>n.props.id==='destination-detail-title'&&text(n)===display.name),profile.id+':'+locale);
     assert.ok(tree.some(n=>n.type==='img'&&n.props.src===profile.image));
-    assert.ok(tree.some(n=>n.props.role==='dialog'&&n.props.className.includes('bg-slate-950')));
+    assert.ok(tree.some(n=>n.props.role==='dialog'&&n.props.className.includes('bg-white')));
     for(const recommendation of display.recommendations)assert.ok(tree.some(n=>text(n)===dictionaries.translateText(locale,recommendation)||text(n).includes(recommendation)),recommendation);
     assert.ok(tree.some(n=>n.props.destination?.id===profile.id&&n.props.context));
     const arrival=tree.find(n=>n.props['aria-label']===dictionaries.translate(locale,'destinations.arrivalAirport'));
@@ -399,7 +399,7 @@ test('all fifteen Croatian cards open only after explicit selection and keep the
     assert.ok(button,profile.id+':'+locale);button.props.onClick();tree=render();
     assert.ok(tree.some(n=>n.props.id==='destination-detail-title'&&text(n)===display.name),profile.id+':'+locale);
     assert.ok(tree.some(n=>n.type==='img'&&n.props.src===profile.image));
-    assert.ok(tree.some(n=>n.props.role==='dialog'&&n.props.className.includes('bg-slate-950')));
+    assert.ok(tree.some(n=>n.props.role==='dialog'&&n.props.className.includes('bg-white')));
     for(const recommendation of display.recommendations)assert.ok(tree.some(n=>text(n)===dictionaries.translateText(locale,recommendation)||text(n).includes(recommendation)),recommendation);
     assert.ok(tree.some(n=>n.props.destination?.id===profile.id&&n.props.context));
     const arrival=tree.find(n=>n.props['aria-label']===dictionaries.translate(locale,'destinations.arrivalAirport'));
