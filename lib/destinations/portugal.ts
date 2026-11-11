@@ -144,7 +144,7 @@ export const portugalDestinations: DestinationProfile[] = [
       "Porto Santo Island",
       "Isla de Porto Santo"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Porto_santo_strand_5-2007.jpg/960px-Porto_santo_strand_5-2007.jpg",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Porto_Santo_Picos_do_Facho_e_Branco.jpg/960px-Porto_Santo_Picos_do_Facho_e_Branco.jpg",
     "description": "Larga playa dorada y paisajes tranquilos al noreste de Madeira.",
     "recommendations": [
       "Praia do Porto Santo",
@@ -156,10 +156,10 @@ export const portugalDestinations: DestinationProfile[] = [
     "bestMonths": [5,6,9,10],
     "lowSeasonMonths": [1,2,11,12],
     "highSeasonMonths": [7,8],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Porto_santo_strand_5-2007.jpg",
-    "imageCredit": "Hedwig Storch",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Porto_Santo_Picos_do_Facho_e_Branco.jpg",
+    "imageCredit": "António Ernesto Martins",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   {
     "id": "pt-beja",
@@ -340,7 +340,7 @@ export const portugalDestinations: DestinationProfile[] = [
       "Terceira / Lajes",
       "Isla Terceira"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Ayuntamiento%2C_Angra_do_Hero%C3%ADsmo%2C_isla_de_Terceira%2C_Azores%2C_Portugal%2C_2020-07-25%2C_DD_12.jpg/960px-Ayuntamiento%2C_Angra_do_Hero%C3%ADsmo%2C_isla_de_Terceira%2C_Azores%2C_Portugal%2C_2020-07-25%2C_DD_12.jpg",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ee/Angra_do_Hero%C3%ADsmo_at_dusk%2C_seen_from_Alto_da_Mem%C3%B3ria%2C_Azores%2C_Portugal_%28PPL2-Enhanced%29_julesvernex2.jpg/960px-Angra_do_Hero%C3%ADsmo_at_dusk%2C_seen_from_Alto_da_Mem%C3%B3ria%2C_Azores%2C_Portugal_%28PPL2-Enhanced%29_julesvernex2.jpg",
     "description": "Historia atlántica, paisajes verdes y cuevas volcánicas.",
     "recommendations": [
       "Angra do Heroísmo",
@@ -352,10 +352,10 @@ export const portugalDestinations: DestinationProfile[] = [
     "bestMonths": [5,6,7,8,9],
     "lowSeasonMonths": [1,2,11,12],
     "highSeasonMonths": [7,8],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Ayuntamiento,_Angra_do_Hero%C3%ADsmo,_isla_de_Terceira,_Azores,_Portugal,_2020-07-25,_DD_12.jpg",
-    "imageCredit": "Diego Delso",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Angra_do_Hero%C3%ADsmo_at_dusk,_seen_from_Alto_da_Mem%C3%B3ria,_Azores,_Portugal_(PPL2-Enhanced)_julesvernex2.jpg",
+    "imageCredit": "Jules Verne Times Two",
     "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   {
     "id": "pt-pico",
@@ -436,7 +436,7 @@ export const portugalDestinations: DestinationProfile[] = [
       "Isla Graciosa",
       "Graciosa Island"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ce/Caldeira_da_Graciosa%2C_vulc%C3%A3o_visto_da_localidade_da_Faj%C3%A3_%28Santa_Cruz_da_Graciosa%29%2C_ilha_Graciosa%2C_A%C3%A7ores%2C_Portugal.JPG/960px-Caldeira_da_Graciosa%2C_vulc%C3%A3o_visto_da_localidade_da_Faj%C3%A3_%28Santa_Cruz_da_Graciosa%29%2C_ilha_Graciosa%2C_A%C3%A7ores%2C_Portugal.JPG",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/Harbour_near_Santa_Cruz_da_Graciosa%2C_Graciosa_Island%2C_Azores%2C_Portugal_%28PPL1-Corrected%29_julesvernex2.jpg/960px-Harbour_near_Santa_Cruz_da_Graciosa%2C_Graciosa_Island%2C_Azores%2C_Portugal_%28PPL1-Corrected%29_julesvernex2.jpg",
     "description": "Una isla serena de pueblos blancos, viñedos y paisajes volcánicos.",
     "recommendations": [
       "Furna do Enxofre",
@@ -448,9 +448,10 @@ export const portugalDestinations: DestinationProfile[] = [
     "bestMonths": [5,6,7,8,9],
     "lowSeasonMonths": [1,2,11,12],
     "highSeasonMonths": [7,8],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Caldeira_da_Graciosa,_vulc%C3%A3o_visto_da_localidade_da_Faj%C3%A3_(Santa_Cruz_da_Graciosa),_ilha_Graciosa,_A%C3%A7ores,_Portugal.JPG",
-    "imageCredit": "José Luís Ávila Silveira/Pedro Noronha e Costa",
-    "imageLicense": "Public domain"
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Harbour_near_Santa_Cruz_da_Graciosa,_Graciosa_Island,_Azores,_Portugal_(PPL1-Corrected)_julesvernex2.jpg",
+    "imageCredit": "Jules Verne Times Two",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   {
     "id": "pt-corvo",
@@ -590,7 +591,7 @@ export const portugalDestinations: DestinationProfile[] = [
     "aliases": [
       "Viseu (Portugal)"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/64/S%C3%A9_de_Viseu_IMG_20141226_155323-Pano_%2836162491774%29.jpg/960px-S%C3%A9_de_Viseu_IMG_20141226_155323-Pano_%2836162491774%29.jpg",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Viseu_S%C3%A9_841.jpg/960px-Viseu_S%C3%A9_841.jpg",
     "description": "Centro histórico, arte y gastronomía en el corazón de la región del Dão.",
     "recommendations": [
       "Catedral de Viseu",
@@ -602,10 +603,10 @@ export const portugalDestinations: DestinationProfile[] = [
     "bestMonths": [5,6,7,8,9],
     "lowSeasonMonths": [1,2,11,12],
     "highSeasonMonths": [7,8],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:S%C3%A9_de_Viseu_IMG_20141226_155323-Pano_(36162491774).jpg",
-    "imageCredit": "nborges from Portugal",
-    "imageLicense": "CC BY 2.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Viseu_S%C3%A9_841.jpg",
+    "imageCredit": "GFreihalter",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   {
     "id": "pt-portimao",

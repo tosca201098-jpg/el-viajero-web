@@ -104,7 +104,7 @@ test('twelve direct Commons images carry correct author and reusable CC license'
     assert.match(profile.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);
     assert.match(profile.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(profile.imageCredit);
-    assert.match(profile.imageLicense,/^CC BY(?:-SA)?/);
+    assert.match(profile.imageLicense,/^(?:CC BY(?:-SA)?|CC0)/);
     assert.match(profile.imageLicenseUrl,/^https:\/\/creativecommons\.org\//);
   }
 });

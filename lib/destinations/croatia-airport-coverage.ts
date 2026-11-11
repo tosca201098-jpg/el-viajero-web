@@ -197,9 +197,11 @@ const seeds = [
     ],
     "stay": "3–4",
     "photo": [
-      "Lošinj.jpg",
-      "b7",
-      "August Dominus"
+      "Mali_Lošinj_croatia.jpg",
+      "27",
+      "Arne Müseler",
+      "CC BY-SA 3.0 de",
+      "https://creativecommons.org/licenses/by-sa/3.0/de/"
     ],
     "names": [
       "Mali Lošinj",
@@ -277,13 +279,13 @@ export const croatiaAirportCoverage: DestinationProfile[] = seeds.map(seed => {
     recommendations:recommendations.map(place=>place[locale]) as DestinationText['recommendations'],
     recommendedStay:seed.stay+' '+days[locale],seasonalityNote:seasons[locale]+' '+notes[locale],
   }])) as Record<Locale,DestinationText>;
-  const [file,hash,credit]=seed.photo, encoded=encodeURIComponent(file);
+  const [file,hash,credit,license='CC BY-SA 4.0',licenseUrl='https://creativecommons.org/licenses/by-sa/4.0/']=seed.photo, encoded=encodeURIComponent(file);
   return {id:'hr-'+seed.slug,slug:seed.slug,countryCode:'HR',country:'Croacia',...translations.es,translations,
     airports:[{iataCode:seed.code}],iataCodes:[seed.code],metropolitanCodes:[],
     aliases:Array.from(new Set([...Object.values(names),...seed.aliases])),
     image:'https://thumb.wikimedia.org/wikipedia/commons/thumb/'+hash[0]+'/'+hash+'/'+encoded+'/960px-'+encoded,
     imageSource:'https://commons.wikimedia.org/wiki/File:'+encoded,imageCredit:credit,
-    imageLicense:'CC BY-SA 4.0',imageLicenseUrl:'https://creativecommons.org/licenses/by-sa/4.0/',
+    imageLicense:license,imageLicenseUrl:licenseUrl,
     bestMonths:[5,6,9],lowSeasonMonths:[1,2,11],highSeasonMonths:[7,8],publication:{status:'draft'},
   };
 });

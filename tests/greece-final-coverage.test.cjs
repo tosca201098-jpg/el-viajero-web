@@ -33,11 +33,11 @@ test('new full airport names and all translated reference towns resolve without 
  assert.equal(catalog.findDestinationProfile({name:'Chora'}),undefined);
  for(const[term,id]of [['Chora of Astypalaia','gr-astypalaia'],['Chora of Kythira','gr-kythira'],['Chora of Skyros','gr-skyros']])assert.equal(catalog.findDestinationProfile({name:term})?.id,id);
 });
-test('final photo releases retain the real attribution, distinguish public domain from CC0 and use the unscaled 960px Kalymnos original',()=>{
+test('final photo releases retain the real attribution, distinguish public domain from CC0 and use the 960px Kalymnos panorama thumbnail',()=>{
  const skyros=catalog.getDestinationById('gr-skyros'),kasos=catalog.getDestinationById('gr-kasos'),kalymnos=catalog.getDestinationById('gr-kalymnos');
  assert.equal(skyros.imageCredit,'Han borg');assert.equal(skyros.imageLicense,'Public domain');assert.equal(skyros.imageLicenseUrl,'https://creativecommons.org/publicdomain/mark/1.0/');
  assert.equal(kasos.imageCredit,'Luca Aless');assert.equal(kasos.imageLicense,'CC0 1.0');assert.equal(kasos.imageLicenseUrl,'https://creativecommons.org/publicdomain/zero/1.0/');
- assert.match(kalymnos.image,/^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/.*Calymnos_harbour\.jpg$/);assert.ok(kalymnos.imageCredit.includes('Kalogeropoulos'));
+ assert.match(kalymnos.image,/^https:\/\/thumb\.wikimedia\.org\/wikipedia\/commons\/thumb\/d\/de\/Kalymnos_Pothia_panorama\.jpg\/960px-Kalymnos_Pothia_panorama\.jpg$/);assert.equal(kalymnos.imageCredit,'Tomisti');
  for(const slug of Object.values(additions)){const p=catalog.getDestinationById('gr-'+slug);assert.ok(p.imageCredit.trim());assert.ok(!/<[^>]+>/.test(p.imageCredit));assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);assert.match(p.imageLicenseUrl,/^https:\/\/creativecommons\.org\//);}
 });
 

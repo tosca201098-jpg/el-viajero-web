@@ -105,7 +105,7 @@ test('Greek profiles remain selection-only drafts and publish no destination pag
 test('all thirty-nine photographs preserve Commons source, creator and reuse statement',()=>{
   const photos=new Set();
   for(const p of greek){
-    if(p.id==='gr-kalymnos')assert.match(p.image,/^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/.*Calymnos_harbour\.jpg$/);else assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);photos.add(p.image);
+    assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);photos.add(p.image);
     assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(p.imageCredit);assert.match(p.imageLicense,/^(?:CC(?: BY|0)|Public domain)/);
     assert.match(p.imageLicenseUrl,/^https:\/\/creativecommons\.org\//);

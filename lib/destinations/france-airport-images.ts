@@ -3,11 +3,11 @@ import type { DestinationProfile } from './types';
 // Public Commons metadata verified 2026-11-05/06; real photos inspected before use.
 export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image' | 'imageSource' | 'imageCredit' | 'imageLicense' | 'imageLicenseUrl' | 'imagePosition'>> = {
   "montpellier": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Montpellier_Peyrou.jpg/960px-Montpellier_Peyrou.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Montpellier_Peyrou.jpg",
-    "imageCredit": "G.Mannaerts / Wikimedia Commons",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Montpellier_Place_de_la_Com%C3%A9die.jpg/960px-Montpellier_Place_de_la_Com%C3%A9die.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Montpellier_Place_de_la_Com%C3%A9die.jpg",
+    "imageCredit": "Wolfgang Staudt",
+    "imageLicense": "CC BY 2.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0/"
   },
   "ajaccio": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Ajaccio_phare_citadelle.jpg/960px-Ajaccio_phare_citadelle.jpg",
@@ -80,11 +80,11 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "carcassonne": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Carcassonne-2.jpg/960px-Carcassonne-2.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Carcassonne-2.jpg",
-    "imageCredit": "Pedemann",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/1_carcassonne_aerial_2016.jpg/960px-1_carcassonne_aerial_2016.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:1_carcassonne_aerial_2016.jpg",
+    "imageCredit": "Chensiyuan",
     "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   "la-rochelle": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Les_tours_du_vieux_port%2C_La_Rochelle.jpg/960px-Les_tours_du_vieux_port%2C_La_Rochelle.jpg",
@@ -116,11 +116,11 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "grenoble": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg/960px-Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
-    "imageCredit": "Zairon",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Grenoble_panorama_2012.jpg/960px-Grenoble_panorama_2012.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Grenoble_panorama_2012.jpg",
+    "imageCredit": "Marcin Białek",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   "nimes": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/N%C3%AEmes%2C_Maison_Carr%C3%A9e_%281._Jhdt.n.Chr.%29_%2846755595574%29.jpg/960px-N%C3%AEmes%2C_Maison_Carr%C3%A9e_%281._Jhdt.n.Chr.%29_%2846755595574%29.jpg",
@@ -160,11 +160,11 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imagePosition": "left top"
   },
   "chambery": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Panorama_Chamb%C3%A9ry-Centre_%282014%29.jpeg/960px-Panorama_Chamb%C3%A9ry-Centre_%282014%29.jpeg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Panorama_Chamb%C3%A9ry-Centre_(2014).jpeg",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Panorama_Chamb%C3%A9ry_-_Rotonde_%2B_TGV.JPG/960px-Panorama_Chamb%C3%A9ry_-_Rotonde_%2B_TGV.JPG",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Panorama_Chamb%C3%A9ry_-_Rotonde_%2B_TGV.JPG",
     "imageCredit": "Florian Pépellin",
     "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   "rodez": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9b/Centre_de_Rodez%2C_vu_du_square_Buanton.jpg/960px-Centre_de_Rodez%2C_vu_du_square_Buanton.jpg",
@@ -174,11 +174,11 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "metz": {
-      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Metz_Cathedral_004.JPG/960px-Metz_Cathedral_004.JPG",
-      "imageSource": "https://commons.wikimedia.org/wiki/File:Metz_Cathedral_004.JPG",
-      "imageCredit": "H. Zell",
-      "imageLicense": "CC BY-SA 3.0",
-      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Metz_centre_ville.jpg/960px-Metz_centre_ville.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Metz_centre_ville.jpg",
+      "imageCredit": "Philippe Gisselbrecht / Ville de Metz",
+      "imageLicense": "CC BY-SA 4.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   "brive-la-gaillarde": {
       "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg/960px-Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg",

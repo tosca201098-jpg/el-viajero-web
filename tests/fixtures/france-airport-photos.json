@@ -1,13 +1,13 @@
 {
   "montpellier": {
-    "file": "Montpellier Peyrou.jpg",
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Montpellier_Peyrou.jpg/960px-Montpellier_Peyrou.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:Montpellier_Peyrou.jpg",
-    "width": 6000,
-    "height": 3039,
-    "artist": "G.Mannaerts / Wikimedia Commons",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    "file": "Montpellier Place de la Comédie.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c4/Montpellier_Place_de_la_Com%C3%A9die.jpg/960px-Montpellier_Place_de_la_Com%C3%A9die.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Montpellier_Place_de_la_Com%C3%A9die.jpg",
+    "width": 4288,
+    "height": 2848,
+    "artist": "Wolfgang Staudt",
+    "license": "CC BY 2.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by/2.0/"
   },
   "ajaccio": {
     "file": "Ajaccio phare citadelle.jpg",
@@ -110,14 +110,14 @@
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "carcassonne": {
-    "file": "Carcassonne-2.jpg",
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Carcassonne-2.jpg/960px-Carcassonne-2.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:Carcassonne-2.jpg",
-    "width": 4000,
-    "height": 1848,
-    "artist": "Pedemann",
+    "file": "1 carcassonne aerial 2016.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/25/1_carcassonne_aerial_2016.jpg/960px-1_carcassonne_aerial_2016.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:1_carcassonne_aerial_2016.jpg",
+    "width": 7007,
+    "height": 4134,
+    "artist": "Chensiyuan",
     "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   "la-rochelle": {
     "file": "Les tours du vieux port, La Rochelle.jpg",
@@ -161,14 +161,14 @@
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "grenoble": {
-    "file": "Grenoble Fort de la Bastille Vue sur Grenoble 13.jpg",
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg/960px-Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
-    "source": "https://commons.wikimedia.org/wiki/File:Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
-    "width": 4574,
-    "height": 3424,
-    "artist": "Zairon",
-    "license": "CC BY-SA 4.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "file": "Grenoble panorama 2012.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Grenoble_panorama_2012.jpg/960px-Grenoble_panorama_2012.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Grenoble_panorama_2012.jpg",
+    "width": 7923,
+    "height": 2645,
+    "artist": "Marcin Białek",
+    "license": "CC BY-SA 3.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   "nimes": {
     "file": "Nîmes, Maison Carrée (1. Jhdt.n.Chr.) (46755595574).jpg",
@@ -223,14 +223,14 @@
     "position": "left top"
   },
   "chambery": {
-    "file": "Panorama Chambéry-Centre (2014).jpeg",
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/17/Panorama_Chamb%C3%A9ry-Centre_%282014%29.jpeg/960px-Panorama_Chamb%C3%A9ry-Centre_%282014%29.jpeg",
-    "source": "https://commons.wikimedia.org/wiki/File:Panorama_Chamb%C3%A9ry-Centre_(2014).jpeg",
-    "width": 2974,
-    "height": 2168,
+    "file": "Panorama Chambéry - Rotonde + TGV.JPG",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/Panorama_Chamb%C3%A9ry_-_Rotonde_%2B_TGV.JPG/960px-Panorama_Chamb%C3%A9ry_-_Rotonde_%2B_TGV.JPG",
+    "source": "https://commons.wikimedia.org/wiki/File:Panorama_Chamb%C3%A9ry_-_Rotonde_%2B_TGV.JPG",
+    "width": 4170,
+    "height": 2527,
     "artist": "Florian Pépellin",
     "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   "rodez": {
     "file": "Centre de Rodez, vu du square Buanton.jpg",
@@ -243,14 +243,14 @@
     "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "metz": {
-    "file": "Metz Cathedral 004.JPG",
-    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Metz_Cathedral_004.JPG/960px-Metz_Cathedral_004.JPG",
-    "source": "https://commons.wikimedia.org/wiki/File:Metz_Cathedral_004.JPG",
-    "width": 4752,
-    "height": 3168,
-    "artist": "H. Zell",
-    "license": "CC BY-SA 3.0",
-    "licenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "file": "Metz centre ville.jpg",
+    "url": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/Metz_centre_ville.jpg/960px-Metz_centre_ville.jpg",
+    "source": "https://commons.wikimedia.org/wiki/File:Metz_centre_ville.jpg",
+    "width": 6651,
+    "height": 4439,
+    "artist": "Philippe Gisselbrecht / Ville de Metz",
+    "license": "CC BY-SA 4.0",
+    "licenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   "brive-la-gaillarde": {
     "file": "Brive-la-Gaillarde - Place Latreille - 1.jpg",

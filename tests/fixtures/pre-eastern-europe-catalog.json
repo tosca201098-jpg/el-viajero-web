@@ -47,7 +47,7 @@
     },
     {
       "id": "es-fuerteventura",
-      "sha256": "feb5edfded7b41940aa070f3ef8b06d391566108a24834ad615e2bde031630c2"
+      "sha256": "364df0c15808372429e032c1f01e58f7df6903619248c286c7c19ef283be7c83"
     },
     {
       "id": "es-girona",
@@ -63,7 +63,7 @@
     },
     {
       "id": "es-region-de-murcia",
-      "sha256": "563cd9f034632ce2c009a418cb82ff14faae4a4c93cf60bd040e8b6f69f17117"
+      "sha256": "45f8114ae2cc26940d7576db20f80a60cd7ca2fd55d8cec25a94501e1a9f18c7"
     },
     {
       "id": "es-jerez-de-la-frontera",
@@ -83,7 +83,7 @@
     },
     {
       "id": "es-leon",
-      "sha256": "72644cee0bc0bb387c609fe2e9ebfa3c2c5c94b447fd425581271bbd2b256dee"
+      "sha256": "876ba9ed9aed33e1397c51583a015455f479ba5ea09bd79caf9e298ecf4e8ea4"
     },
     {
       "id": "es-logrono",
@@ -143,7 +143,7 @@
     },
     {
       "id": "es-valladolid",
-      "sha256": "8d365a0b700f59a222d5eebe8ed1d3c7227a66581107b80b990464913a3c0b1a"
+      "sha256": "10a36376c6998566a3f13d35c6b3f762884d3f9453608b4aaa9e61a68298e9ce"
     },
     {
       "id": "es-vigo",
@@ -151,7 +151,7 @@
     },
     {
       "id": "es-vitoria-gasteiz",
-      "sha256": "95b5382d563a7500b28f849f8e4f783b2bb58bcc0d76d5d9af14588a6cbc7659"
+      "sha256": "3673b6173e5317e070991ad34ffed8a64db82f9f4a95ef18b18ec959a3e3088a"
     },
     {
       "id": "es-zaragoza",
@@ -191,7 +191,7 @@
     },
     {
       "id": "pt-porto-santo",
-      "sha256": "9afa7737fa7c278123b3dd0165aa63c47199e9ee8df4db9adfa42335da9080bd"
+      "sha256": "625bd085f8f8bae1621a0d794a5718cd13eb4c3f8569a24a753b8d276b94565e"
     },
     {
       "id": "pt-beja",
@@ -215,7 +215,7 @@
     },
     {
       "id": "pt-terceira",
-      "sha256": "8bed49afdafc5a55281a044ee198f2085aec7f06f684b0b128740b5db51ea4f9"
+      "sha256": "aa0241e0c7f53fbf63e65bc3deb238156fb7e4b13d736ce14e92c8757cab1fb2"
     },
     {
       "id": "pt-pico",
@@ -227,7 +227,7 @@
     },
     {
       "id": "pt-graciosa",
-      "sha256": "75335325e435f8ec8a864ebaa662dc5413949bdcb52151ed8c057ea2e3b94365"
+      "sha256": "705180d8b84c36471d6becf62c41dc087a328dad570baaa5c4343ffdab262bf6"
     },
     {
       "id": "pt-corvo",
@@ -247,7 +247,7 @@
     },
     {
       "id": "pt-viseu",
-      "sha256": "9fe3ac9608743e5c621aad9c6c27553903e4d2a6fb9806347ac4da465e55a89b"
+      "sha256": "ab8fecda8458848edf11d0a794cc26a75e6a28aa673b4420cc22fb29cc27a519"
     },
     {
       "id": "pt-portimao",
@@ -279,7 +279,7 @@
     },
     {
       "id": "fr-bordeaux",
-      "sha256": "b04d382b4c3bf881579c456a7af8ef634d30794f5738ca900341adb9cad6606f"
+      "sha256": "f3dc0d880a46947a0abb02a4ae4e3a48fc9594007ff1a3e80145ebd7ba711457"
     },
     {
       "id": "fr-strasbourg",
@@ -291,7 +291,7 @@
     },
     {
       "id": "fr-annecy",
-      "sha256": "d569d83c788359c48feb07ed89ff69ab81c1117d0742fb11579825c6aac9e9a9"
+      "sha256": "db7d0ccfff7a43d03796cb4fca1b1af464ebb49ba7a003ebd46f7ec0d7587c42"
     },
     {
       "id": "fr-chamonix",
@@ -303,7 +303,7 @@
     },
     {
       "id": "fr-nantes",
-      "sha256": "0e0e88814521ac76365d1c9568628b6bffcc8b951c52e4a683c720d72f4de71e"
+      "sha256": "d352da3049f485f4f799d286b261fab173d7ef3e508a5a516c0a03fe8ef00019"
     },
     {
       "id": "fr-lille",
@@ -323,7 +323,7 @@
     },
     {
       "id": "it-florence",
-      "sha256": "d852d65daace8df1788b0b8953938dcf55b600b23585d47cae4dbc23c53fa6e0"
+      "sha256": "edeec3b0528bf163ee2d71f88e84a348751f0ca6c05f1b0f99e4616a99dcac3a"
     },
     {
       "id": "it-naples",
@@ -375,7 +375,7 @@
     },
     {
       "id": "gb-birmingham",
-      "sha256": "ec004d9c9d525357e10e91eb53e72de8e64de340cf47efc0187dbaf447065226"
+      "sha256": "aa8a11d2bf7833d68f518b8e6d2e1a79c02bf4a3f228958ada8f5ddc382b73da"
     },
     {
       "id": "gb-bristol-bath",
@@ -383,7 +383,7 @@
     },
     {
       "id": "gb-york",
-      "sha256": "f59ac94e1fac0a50996c77350d4f58476652b510d8f38978b746694a9242b571"
+      "sha256": "4541777179c4beb0c884bb2f826f77ff7d9ff527af8c3698aafe317d46bde11a"
     },
     {
       "id": "gb-oxford-cotswolds",
@@ -507,7 +507,7 @@
     },
     {
       "id": "be-bruges",
-      "sha256": "476c56e34a7aca65854b729d50d68ba8222ad214c07557deddd39a70b195c231"
+      "sha256": "729aecf09684696fc188e366508525f3c1035c08fd0a0676c2a626394be42e6d"
     },
     {
       "id": "be-ghent",
@@ -551,7 +551,7 @@
     },
     {
       "id": "ch-zurich",
-      "sha256": "6e6032f12610e7cf73c159bebc14ed3bf8a378bdaac88579d3ed7775fbb359bd"
+      "sha256": "e947eb4696e44f2e7a0aa5f0a154207e040b353d06d8f9cdc3a0ea72df4f9e13"
     },
     {
       "id": "ch-geneva",
@@ -571,15 +571,15 @@
     },
     {
       "id": "ch-lausanne-lavaux",
-      "sha256": "2b98f68eeec29fca4122a56425f6c3fa2a605f629dac0193d61c6a491e5a6f8c"
+      "sha256": "4f36e407296b922ad990a9fbcf0bdca2734ac27efdefe87199ba203861249cfc"
     },
     {
       "id": "ch-montreux-chillon",
-      "sha256": "53e2aee65c87dd0bafcb72f581fecd0614275f994597fb99a35d34cd04315a13"
+      "sha256": "d2c111421748854c291d166d02d89131cb0c6ea6111daec4d48795383f27875b"
     },
     {
       "id": "ch-interlaken-jungfrau",
-      "sha256": "8cdad8922d1cf46a0e527c7d8c8727493869c50f54d7b115c99e4b44ebf185d0"
+      "sha256": "9525a415693136c907cd09566a855b4926a054728b0308e97da21df599fbf3d4"
     },
     {
       "id": "ch-zermatt-matterhorn",
@@ -607,7 +607,7 @@
     },
     {
       "id": "at-innsbruck",
-      "sha256": "48d0dcc83aa7a5715654c1c4a881b4cce746c9c8c06c26a1bf78936735b9862e"
+      "sha256": "c299849730209a346fafaaefb81d73f19676824b04d81944bd4b7136bce8d268"
     },
     {
       "id": "at-graz",
@@ -631,7 +631,7 @@
     },
     {
       "id": "at-zell-am-see",
-      "sha256": "07db7895cecdc9d628ba04ce232dc416e4d99cec160519dc5f736389a2d5cb7c"
+      "sha256": "a61a3c7b8fd18537befc8e1fc5b298dd882ce8d3d944c4dc6562ddee772874fb"
     },
     {
       "id": "at-kitzbuehel",
@@ -651,7 +651,7 @@
     },
     {
       "id": "cz-brno",
-      "sha256": "8329b9d686f7042ad37700975da6b05862200c945588440fb10b3dec27c2abc8"
+      "sha256": "e3805889bca3c202f38fca2ab781e5d1f19bef30c285d2275cbce6192cad7172"
     },
     {
       "id": "cz-cesky-krumlov",
@@ -663,7 +663,7 @@
     },
     {
       "id": "cz-kutna-hora",
-      "sha256": "05f4e9588456882c25bd7ed51369fd5157202d016f11022e5c1fbaf053e7fbd9"
+      "sha256": "53879cd0aeacc326e9e3295e89a23562aaf5cd955d53e8b7fbbe5e856d1c3a22"
     },
     {
       "id": "cz-olomouc",
@@ -719,7 +719,7 @@
     },
     {
       "id": "pl-lublin",
-      "sha256": "ffc967f8dd7220b80e447015aa19455739df76c0743aa70507235938e1ee3120"
+      "sha256": "6ad44a2a5c4eb4bafe5da989dfa25ac464c3232e2b8fe046167a8d5fc530ffb5"
     },
     {
       "id": "pl-lodz",
@@ -727,11 +727,11 @@
     },
     {
       "id": "pl-zakopane-tatras",
-      "sha256": "02e163050a06f6f47af4ebba148901570d94df671ada47ee3f8657e19fd16728"
+      "sha256": "66505bcc1fcb64973fd16d1fa281a97f601fb4ce49cffecd1ecdd9e8fe800571"
     },
     {
       "id": "pl-masurian-lakes",
-      "sha256": "47d72df3e1e1c5e1f0ff0f78b0188b8277b57a977bd80060fbca088771898d39"
+      "sha256": "d4dde4b6e1af909f6b7e987b84f45c6b91f1bdea630c93030eacee7ba85564f4"
     },
     {
       "id": "pl-szczecin",
@@ -759,7 +759,7 @@
     },
     {
       "id": "hu-eger",
-      "sha256": "03673d7ae9694ba7c80bdd2ea43c248a3a37ae181526c06263746bd34d242282"
+      "sha256": "0176e3641eb4aacaf85e115658efb47fec7a7202cfd10ab1b739c1df080a3a48"
     },
     {
       "id": "hu-gyor",
@@ -767,11 +767,11 @@
     },
     {
       "id": "hu-sopron",
-      "sha256": "1ed5dac7a4de866748f914a545f02cd141e4a3abd49224f0bddf895398f5bfaa"
+      "sha256": "71d21cea906dd432b215788dbd5246fb302bc97d388981a24ca8f100b6e7d00e"
     },
     {
       "id": "hu-tihany",
-      "sha256": "7324e09a83811731ae31a310fa2a1907d0bbfad89bba217b172469a9d6ee5938"
+      "sha256": "306c766b51437d053bdb016268aa4db15399c45b9250f14d18cb4175122797c9"
     },
     {
       "id": "hu-heviz",
@@ -803,11 +803,11 @@
     },
     {
       "id": "sk-high-tatras",
-      "sha256": "fd0f3c4d781cda58bcaa6806d43cde39424d5bc1d81bd1ccef837834a09b761e"
+      "sha256": "6c5f4aed7ff08698358367c0b0aac5366cf7933c9343eba2c112c99fdc0b8c4d"
     },
     {
       "id": "sk-levoca",
-      "sha256": "e2d1b36fd8eeb68db1384090f1387cf92729adb250104544b94c489c0ae0cc1c"
+      "sha256": "51ac92a7cdba748111db2a9b85ee79bc0666c99fadc6222fd7beac001a93aa4c"
     },
     {
       "id": "sk-spis-castle",
@@ -815,7 +815,7 @@
     },
     {
       "id": "sk-banska-stiavnica",
-      "sha256": "5dd6ae3712045c6e75769bc923542aacfb37ea09795d1e5a94483b74bb7e41d7"
+      "sha256": "f4aa4dd7dadc64a5ee892ddb0c6ab50a985c1bbe7b48a1f999d90740ee1ab3b5"
     },
     {
       "id": "sk-banska-bystrica",
@@ -851,7 +851,7 @@
     },
     {
       "id": "tr-izmir",
-      "sha256": "cda7f21b1144de49f2d4ad178279ce0277bceea9a22aebfcd40ce1a9cda05503"
+      "sha256": "13888b7a3e3d5559ae6f82d3ed4a6f51b3bdc9790d28fe71a7309598c183f114"
     },
     {
       "id": "tr-antalya",
@@ -871,7 +871,7 @@
     },
     {
       "id": "tr-cappadocia",
-      "sha256": "4abcbbcf5a2cdc1e16c69af34b6aa76f545441edd9e701cc32151dc114cb853e"
+      "sha256": "1e1e627262f401b1e3ce2f98861c1d2607318277fc89c020a57168726c69b9b2"
     },
     {
       "id": "tr-gaziantep",
@@ -887,19 +887,19 @@
     },
     {
       "id": "tr-adana",
-      "sha256": "5838519f17a810eb55bbfa65a0d1060f9a149aa0523f2b2d581582fb6c662a04"
+      "sha256": "812e8dfe1cbab81f60d1da24ad1bbf16a898c6f5683e4fcf54684a18e95762db"
     },
     {
       "id": "tr-bursa",
-      "sha256": "ec2c06d964669537f12822ec13c4b6390054065e8031cfa3671f818a7f995eb3"
+      "sha256": "63cbc462b396a3a21155e614b55e465746e7bbbf329bb66390694755d7285201"
     },
     {
       "id": "tr-samsun",
-      "sha256": "72d04923fad9fe512f258aa2f9b49325ff79ab8d52b276e559626eda4494388e"
+      "sha256": "3169ef136ae66fed4b693d5921634829ab091f64300776d5d9cbc28e0c352266"
     },
     {
       "id": "tr-sanliurfa",
-      "sha256": "83d1dae2b6d707f65abdb030c849ffd309f83af349c36e6ff615f5cacc70d107"
+      "sha256": "cc987856d19a10e43c1257ce5e031d1534d42fae8fa9a45189bd6ca41878e050"
     },
     {
       "id": "tr-mardin",
@@ -927,7 +927,7 @@
     },
     {
       "id": "tr-pamukkale",
-      "sha256": "c2e8a7e71c165195df251830fc78ab92672b7885b88f91ce46f3075e9bc06d59"
+      "sha256": "7b6549e82920f57c793895398d23b4362f944fa2d91950080a6f12580ee7fe75"
     },
     {
       "id": "tr-rize",

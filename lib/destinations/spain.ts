@@ -338,7 +338,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "FUE"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Azul%2C_Dunas_de_Corralejo%2C_Fuerteventura%2C_Espa%C3%B1a%2C_2015.JPG/960px-Azul%2C_Dunas_de_Corralejo%2C_Fuerteventura%2C_Espa%C3%B1a%2C_2015.JPG",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d7/Aerial_view_of_Esquinzo_on_Fuerteventura%2C_Canary_Islands.jpg/960px-Aerial_view_of_Esquinzo_on_Fuerteventura%2C_Canary_Islands.jpg",
     "description": "Dunas extensas, playas de aguas turquesas y pueblos de tradición canaria.",
     "recommendations": [
       "Dunas de Corralejo",
@@ -353,10 +353,10 @@ export const spainDestinations: DestinationProfile[] = [
     "aliases": [
       "Puerto del Rosario"
     ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Azul,_Dunas_de_Corralejo,_Fuerteventura,_Espa%C3%B1a,_2015.JPG",
-    "imageCredit": "Benjamín Núñez González",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Aerial_view_of_Esquinzo_on_Fuerteventura,_Canary_Islands.jpg",
+    "imageCredit": "dronepicr",
+    "imageLicense": "CC BY 2.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0/"
   },
   {
     "id": "es-girona",
@@ -459,7 +459,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "RMU"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Catedral_de_Murcia_-_Campanario.jpg/960px-Catedral_de_Murcia_-_Campanario.jpg",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/15/S%C3%A1bado_Santo_en_Murcia_19-04-2014_edited.jpg/960px-S%C3%A1bado_Santo_en_Murcia_19-04-2014_edited.jpg",
     "description": "Ciudades con historia, espacios naturales y playas en el sureste mediterráneo.",
     "recommendations": [
       "Catedral de Murcia",
@@ -474,10 +474,10 @@ export const spainDestinations: DestinationProfile[] = [
     "aliases": [
       "Murcia"
     ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Catedral_de_Murcia_-_Campanario.jpg",
-    "imageCredit": "Galopax",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageSource": "https://commons.wikimedia.org/wiki/File:S%C3%A1bado_Santo_en_Murcia_19-04-2014_edited.jpg",
+    "imageCredit": "nesimo",
+    "imageLicense": "CC BY-SA 2.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/"
   },
   {
     "id": "es-jerez-de-la-frontera",
@@ -607,7 +607,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "LEN"
     ],
-    "image": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Catedral_G%C3%B3tica_de_Le%C3%B3n_edited.jpg",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Cathedral_of_Le%C3%B3n_-_general_view.JPG/960px-Cathedral_of_Le%C3%B3n_-_general_view.JPG",
     "description": "Gótico, arte medieval y tapeo en el centro histórico de la ciudad.",
     "recommendations": [
       "Catedral de León",
@@ -619,10 +619,10 @@ export const spainDestinations: DestinationProfile[] = [
     "bestMonths": [5,6,7,8,9],
     "lowSeasonMonths": [1,2,11,12],
     "highSeasonMonths": [7,8],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Catedral_G%C3%B3tica_de_Le%C3%B3n_edited.jpg",
-    "imageCredit": "David Jiménez Llanes",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Cathedral_of_Le%C3%B3n_-_general_view.JPG",
+    "imageCredit": "José Luiz",
     "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   {
     "id": "es-logrono",
@@ -1048,7 +1048,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "VLL"
     ],
-    "image": "https://upload.wikimedia.org/wikipedia/commons/3/37/Ciudad_de_Valladolid%2C_desde_el_aire_edited.jpg",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8b/Plaza_Mayor_de_Valladolid.jpg/960px-Plaza_Mayor_de_Valladolid.jpg",
     "description": "Plazas monumentales, museos y tradición castellana en el valle del Duero.",
     "recommendations": [
       "Plaza Mayor",
@@ -1060,10 +1060,10 @@ export const spainDestinations: DestinationProfile[] = [
     "bestMonths": [4,5,6,9,10],
     "lowSeasonMonths": [1,2,7,8,12],
     "highSeasonMonths": [4,5,9,10],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Ciudad_de_Valladolid,_desde_el_aire_edited.jpg",
-    "imageCredit": "User:Queninosta",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Plaza_Mayor_de_Valladolid.jpg",
+    "imageCredit": "Jl FilpoC",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   {
     "id": "es-vigo",
@@ -1104,7 +1104,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "VIT"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Vitoria_-_Plaza_de_la_Virgen_Blanca%2C_Escultura_vegetal_Vitoria_Gasteiz_%21.jpg/960px-Vitoria_-_Plaza_de_la_Virgen_Blanca%2C_Escultura_vegetal_Vitoria_Gasteiz_%21.jpg",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f8/Vitoria_-_Plaza_de_la_Virgen_Blanca_01.jpg/960px-Vitoria_-_Plaza_de_la_Virgen_Blanca_01.jpg",
     "description": "Centro medieval, plazas animadas y una extensa red de parques.",
     "recommendations": [
       "Catedral de Santa María",
@@ -1119,10 +1119,10 @@ export const spainDestinations: DestinationProfile[] = [
     "aliases": [
       "Vitoria"
     ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Vitoria_-_Plaza_de_la_Virgen_Blanca,_Escultura_vegetal_Vitoria_Gasteiz_!.jpg",
-    "imageCredit": "Zarateman",
-    "imageLicense": "CC0",
-    "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Vitoria_-_Plaza_de_la_Virgen_Blanca_01.jpg",
+    "imageCredit": "Basotxerri",
+    "imageLicense": "CC BY-SA 4.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   {
     "id": "es-zaragoza",

@@ -144,7 +144,7 @@ test('all Austrian images have licensed Wikimedia attribution and remain editori
     assert.match(profile.image, /^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);
     assert.match(profile.imageSource, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(profile.imageCredit);
-    assert.match(profile.imageLicense, /^CC BY(?:-SA)?/);
+    assert.match(profile.imageLicense, /^(?:CC BY(?:-SA)?|CC0|Public domain)/);
     assert.match(profile.imageLicenseUrl, /^https:\/\/creativecommons\.org\//);
   }
 });

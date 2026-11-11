@@ -68,5 +68,5 @@ test('all new codes, airport names, multilingual aliases and prefixes produce se
 });
 test('new photos preserve three distinct Commons files with named authors and verified reuse statements',()=>{
  assert.equal(new Set(profiles.map(p=>p.image)).size,3);
- for(const p of profiles){assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\//);assert.ok(p.imageCredit);assert.equal(p.imageLicense,'CC BY-SA 4.0');assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);}
+ for(const p of profiles){assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\//);assert.ok(p.imageCredit);assert.match(p.imageLicense,/^CC BY-SA \d\.\d(?: de)?$/);assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);}
 });

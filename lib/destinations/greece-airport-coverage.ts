@@ -28,11 +28,11 @@ const seeds = [
     ],
     "stay": "2–3",
     "photo": [
-      "Harbour_Kavala.jpg",
-      "cc",
-      "DocWoKav",
-      "CC BY-SA 4.0",
-      "https://creativecommons.org/licenses/by-sa/4.0/"
+      "Kavala_Greece_01.jpg",
+      "51",
+      "Nikodem Nijaki",
+      "CC BY-SA 3.0",
+      "https://creativecommons.org/licenses/by-sa/3.0/"
     ],
     "names": [
       "Kavala",
@@ -1240,8 +1240,8 @@ const seeds = [
       "Arribada per VOL, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
     ],
     "photo": [
-      "Volos_waterfront.jpg",
-      "a6",
+      "Volos_port_February_2023.jpg",
+      "42",
       "Khane Rokhl Barazani",
       "CC BY-SA 4.0",
       "https://creativecommons.org/licenses/by-sa/4.0/"
@@ -1326,8 +1326,8 @@ const seeds = [
       "Arribada per JSH. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "SITIA-HARBOUR-NIGHT-12.jpg",
-      "bb",
+      "SITIA-HARBOUR-KAZARMA-FORTRESS-CRETE-GREECE-1.jpg",
+      "79",
       "Petro Stelte",
       "CC BY-SA 4.0",
       "https://creativecommons.org/licenses/by-sa/4.0/"
@@ -1593,12 +1593,11 @@ const seeds = [
       "Arribada per JKL. La terminal i la localitat de referència són llocs diferents. Organitza el trasllat terrestre i els desplaçaments per l’illa; comprova vols, transports i horaris per a les teves dates. El servei pot ser limitat o estacional."
     ],
     "photo": [
-      "Calymnos_harbour.jpg",
-      "c5",
-      "Κ. Καλογερόπουλος Kalogeropoulos at Greek Wikipedia",
-      "CC BY-SA 3.0",
-      "https://creativecommons.org/licenses/by-sa/3.0/",
-      "https://upload.wikimedia.org/wikipedia/commons/c/c5/Calymnos_harbour.jpg"
+      "Kalymnos_Pothia_panorama.jpg",
+      "de",
+      "Tomisti",
+      "CC BY-SA 4.0",
+      "https://creativecommons.org/licenses/by-sa/4.0/"
     ]
   },
   {
@@ -1856,9 +1855,9 @@ const seeds = [
       "Arribada per KSO, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
     ],
     "photo": [
-      "Lake_Orestiada_and_city_of_Kastoria.jpg",
-      "7f",
-      "Ioannis Fakis",
+      "Golden_Hour_in_Kastoria_Greece.jpg",
+      "f0",
+      "Jolovema",
       "CC BY-SA 4.0",
       "https://creativecommons.org/licenses/by-sa/4.0/"
     ]

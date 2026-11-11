@@ -43,11 +43,11 @@ export const polandImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   "lublin": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Lublin_Old_Town_Skyline.jpg/960px-Lublin_Old_Town_Skyline.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Lublin_Old_Town_Skyline.jpg",
-    "imageCredit": "Max Dziekański",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6a/Lublin_PanoramaStaregoMiasta.JPG/960px-Lublin_PanoramaStaregoMiasta.JPG",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Lublin_PanoramaStaregoMiasta.JPG",
+    "imageCredit": "Pankrzysztoff",
+    "imageLicense": "CC BY-SA 3.0 pl",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/pl/"
   },
   "lodz": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/%C5%81%C3%B3d%C5%BA_-_Ulica_Piotrkowska_-_panoramio.jpg/960px-%C5%81%C3%B3d%C5%BA_-_Ulica_Piotrkowska_-_panoramio.jpg",
@@ -57,18 +57,18 @@ export const polandImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   "zakopane-tatras": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/2018-07-03_Zakopane_aerial_panorama.jpg/960px-2018-07-03_Zakopane_aerial_panorama.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:2018-07-03_Zakopane_aerial_panorama.jpg",
-    "imageCredit": "Maksym Kozlenko",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/54/Panorama_Tatr_z_Guba%C5%82%C3%B3wki.jpg/960px-Panorama_Tatr_z_Guba%C5%82%C3%B3wki.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Panorama_Tatr_z_Guba%C5%82%C3%B3wki.jpg",
+    "imageCredit": "Daro998",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   "masurian-lakes": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Gizycko_marina_jezioro_Niegocin_2012.jpg/960px-Gizycko_marina_jezioro_Niegocin_2012.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Gizycko_marina_jezioro_Niegocin_2012.jpg",
-    "imageCredit": "Miłośnik Podróży",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7c/Jezioro_Niegocin_w_okolicach_Gi%C5%BCycka_071.jpg/960px-Jezioro_Niegocin_w_okolicach_Gi%C5%BCycka_071.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Jezioro_Niegocin_w_okolicach_Gi%C5%BCycka_071.jpg",
+    "imageCredit": "Ludwig Schneider",
+    "imageLicense": "CC BY-SA 3.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   "szczecin": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/Szczecin_Wa%C5%82y_Chrobrego_-_panoramio.jpg/960px-Szczecin_Wa%C5%82y_Chrobrego_-_panoramio.jpg",

@@ -22,11 +22,11 @@ export const ukImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0"
   },
   "birmingham": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/Centenary_Square_from_Library_of_Birmingham_2024-07-19.jpg/960px-Centenary_Square_from_Library_of_Birmingham_2024-07-19.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Centenary_Square_from_Library_of_Birmingham_2024-07-19.jpg",
-    "imageCredit": "The wub",
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Birmingham_panorama_2016.jpg/960px-Birmingham_panorama_2016.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:Birmingham_panorama_2016.jpg",
+    "imageCredit": "kallerna",
     "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
   },
   "bristol-bath": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/5c/Pulteney_bridge_in_Bath_view_from_south_before_noon.jpg/960px-Pulteney_bridge_in_Bath_view_from_south_before_noon.jpg",
@@ -36,11 +36,11 @@ export const ukImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   "york": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/The_York_Minster.jpg/960px-The_York_Minster.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:The_York_Minster.jpg",
-    "imageCredit": "Dudva",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/York_-_York_Minster_from_the_north_west_city_walls_-_geograph.org.uk_-_8081888.jpg/960px-York_-_York_Minster_from_the_north_west_city_walls_-_geograph.org.uk_-_8081888.jpg",
+    "imageSource": "https://commons.wikimedia.org/wiki/File:York_-_York_Minster_from_the_north_west_city_walls_-_geograph.org.uk_-_8081888.jpg",
+    "imageCredit": "Chris Gorringe",
+    "imageLicense": "CC BY-SA 2.0",
+    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/2.0/"
   },
   "oxford-cotswolds": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Radcliffe_Camera_Oxford_2018_03.jpg/960px-Radcliffe_Camera_Oxford_2018_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",

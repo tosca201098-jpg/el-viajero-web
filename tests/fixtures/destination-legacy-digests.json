@@ -57,7 +57,7 @@
   {
     "id": "es-fuerteventura",
     "slug": "fuerteventura",
-    "legacySha256": "606e1854a602a8563b51b2ed2a0862b933868ef6d9e74722bdd668ee464486b0"
+    "legacySha256": "5aef9b231d8446aa50aea327b1fcd21bb5fb01a8aa982f09716289655711aba8"
   },
   {
     "id": "es-girona",
@@ -77,7 +77,7 @@
   {
     "id": "es-region-de-murcia",
     "slug": "region-de-murcia",
-    "legacySha256": "49d0ec9f155a2a9539ae6036afe0b0e630db17c161e30ba4bc04d37852940183"
+    "legacySha256": "f2303b4504e1e59a3668fc4b9a8c55e9831020935f2dbc576d79f1fc6500f5df"
   },
   {
     "id": "es-jerez-de-la-frontera",
@@ -102,7 +102,7 @@
   {
     "id": "es-leon",
     "slug": "leon",
-    "legacySha256": "cb06b90d3d698c77c19a49d7679f2b27a551087b3a23895d53edaf62bb885e67"
+    "legacySha256": "9003fbb566b99a90d62375b31f9075d1b66393979d18b812cb8b68ce892bfe64"
   },
   {
     "id": "es-logrono",
@@ -177,7 +177,7 @@
   {
     "id": "es-valladolid",
     "slug": "valladolid",
-    "legacySha256": "edaba70c85272c98e18b1416a8a4d686246f4e5d038251b0f59e4a91a3553d42"
+    "legacySha256": "64782a5caaf4e3ba57c3b0cde5cc4695c8a85c4258dc7699640cdf454f058048"
   },
   {
     "id": "es-vigo",
@@ -187,7 +187,7 @@
   {
     "id": "es-vitoria-gasteiz",
     "slug": "vitoria-gasteiz",
-    "legacySha256": "2766103cd8d67690175fefa071bf2a740066a477e95fbfa288afd06662354fbf"
+    "legacySha256": "0c2be3b54be6bb4c0aad2982c24c07c97f9cd25a410e657adac803d734cd6228"
   },
   {
     "id": "es-zaragoza",
@@ -237,7 +237,7 @@
   {
     "id": "pt-porto-santo",
     "slug": "porto-santo",
-    "legacySha256": "556c0cd83d0873d5e54c9b2483e87a31b94ca3d4ebea71826be9bbfb3283a6d6"
+    "legacySha256": "31b0bd4e5ea6af8d64c8e874441c5b0d6b832b88f15c67de16f72a0f13416226"
   },
   {
     "id": "pt-beja",
@@ -267,7 +267,7 @@
   {
     "id": "pt-terceira",
     "slug": "terceira",
-    "legacySha256": "a8b1e24a270609907353b272ca9ddfd7875322faee489808eb77f51f4352d14c"
+    "legacySha256": "50e3361aedbe27723cf886c2ddef03c34c51c966a1600cf0b1b06996a8aa3853"
   },
   {
     "id": "pt-pico",
@@ -282,7 +282,7 @@
   {
     "id": "pt-graciosa",
     "slug": "graciosa",
-    "legacySha256": "7429cc76b8c7d9f6eb172af5277847e870afbe5d0a543f4a416aa34c8848db03"
+    "legacySha256": "1a5afd8e892868cf6a939417fd4108e39454972cf43a591d87b75354b31c960e"
   },
   {
     "id": "pt-corvo",
@@ -307,7 +307,7 @@
   {
     "id": "pt-viseu",
     "slug": "viseu",
-    "legacySha256": "9c0b0d115caa22638bb565694c7bfda39abd755dbb7c65bc19343d27485590f1"
+    "legacySha256": "57e0c93c4e230bbbf4cb0b4bd16afb4ad5c96e1d3c1d7ae41294cced26f00c9f"
   },
   {
     "id": "pt-portimao",
