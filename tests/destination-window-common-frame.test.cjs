@@ -3,8 +3,8 @@
 // 1. La ventana de las 16 tarjetas originales y de los 486 perfiles del catálogo, en los siete idiomas,
 //    sale EXACTAMENTE igual que antes de mover el marco a los archivos compartidos
 //    (huellas generadas con la rama de la PR #64, antes de tocar nada de la PR 3A). La única diferencia
-//    permitida son los colores de las tarjetas interiores (ahora claras): para compararlas, esas clases se
-//    devuelven a su valor anterior; ver tests/destination-window-light-cards.test.cjs.
+//    permitida son los colores de la ventana (ahora clara: fondo blanco y tarjetas claras): para compararlos,
+//    esas clases se devuelven a su valor anterior; ver tests/destination-window-light-cards.test.cjs.
 // 2. "Vuelo + hotel" NO se ofrece en la ficha: la función está aplazada y no debe presentarse como operativa.
 // 3. La bandera nunca se pone "por defecto".
 const { test } = require('node:test');
@@ -19,8 +19,8 @@ const baseline = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'fi
 const source = file => fs.readFileSync(path.join(root, file), 'utf8');
 const text = n => n == null || n === false ? '' : Array.isArray(n) ? n.map(text).join('') : typeof n === 'object' ? text(n.children) : String(n);
 
-// Las tarjetas interiores ahora son claras; se devuelven a su color anterior para comparar todo lo demás.
-const current = commonFrameSnapshots(root, { originalCardColors: true });
+// La ventana ahora es clara; se devuelven sus colores a los anteriores para comparar todo lo demás.
+const current = commonFrameSnapshots(root, { originalColors: true });
 
 test('the baseline covers the home page, the 16 original windows and every catalog window in seven languages', () => {
   assert.deepEqual(Object.keys(baseline.home), LOCALES);
@@ -96,7 +96,7 @@ test('the window uses the common style: no copy of the Oslo classes stays inside
     assert.ok(!page.includes(klass), klass);
   }
   const style = source('app/components/destination-window-style.ts');
-  for (const klass of ['relative h-52 max-sm:h-[140px] sm:h-72', 'absolute bottom-6 left-6 right-20 max-sm:bottom-3 max-sm:right-[4.75rem]', 'max-w-3xl overflow-y-auto overscroll-contain rounded-[30px]']) {
+  for (const klass of ['relative h-52 max-sm:h-[140px] sm:h-72', 'absolute bottom-6 left-6 right-20 text-white max-sm:bottom-3 max-sm:right-[4.75rem]', 'max-w-3xl overflow-y-auto overscroll-contain rounded-[30px]']) {
     assert.ok(style.includes(klass), klass);
   }
 });

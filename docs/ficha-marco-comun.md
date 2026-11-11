@@ -17,26 +17,32 @@
    país no está en la tabla, no se muestra bandera. Se acabó la bandera francesa "por defecto" en la
    ventana de ficha (Francia está en la tabla como cualquier otro país).
 
-## Tarjetas interiores claras (sin fondos negros)
+## Ventana clara (sin fondos oscuros ni tarjetas negras)
 
-Las tarjetas de dentro de la ventana de ficha (recomendaciones, estancia recomendada, mejor época,
-aeropuertos de llegada y de acceso, presupuesto, planificador de itinerario y resultados de vuelos) tenían
-un fondo casi negro (blanco al 5 % o azul muy oscuro sobre la ventana oscura). Ahora todas son claras y de
-texto oscuro, con la misma regla en todas las fichas:
+La ventana de ficha era azul oscura y sus tarjetas interiores (recomendaciones, estancia recomendada, mejor
+época, aeropuertos de llegada y de acceso, presupuesto, planificador de itinerario y resultados de vuelos)
+tenían un fondo casi negro. Ahora **toda la ventana es clara**, con la misma regla en todas las fichas:
 
-- gris azulado muy claro (`bg-slate-100`) para recomendaciones, estancia y resultados de vuelos;
-- azul cielo muy claro (`bg-sky-50`) para los bloques de información y el planificador de itinerario.
+- **Ventana**: fondo blanco, texto oscuro (`bg-white text-slate-900`) y un telón que atenúa la página
+  (`bg-slate-900/60`). Solo la foto de la cabecera conserva texto blanco (título, país y botón de cerrar),
+  con un degradado oscuro por abajo para que se lea sobre cualquier foto.
+- **Tarjetas**: gris azulado muy claro (`bg-slate-100`) para recomendaciones, estancia y resultados de vuelos;
+  azul cielo muy claro (`bg-sky-50`) para los bloques de información y el planificador de itinerario.
+- **Textos de apoyo** (descripción, notas, créditos de la foto, avisos de error, barra de la voz): oscuros y
+  con contraste WCAG AA sobre el blanco.
 
-Los colores están en `app/components/destination-window-style.ts`. El planificador (`ItineraryPlanner`) y su
-contenido (`ItineraryContent`) se usan también en `/vuelos` y en «Mis itinerarios», que son pantallas
-oscuras: por eso tienen una propiedad opcional `surface` (por defecto `"dark"`, el aspecto de siempre) y
-solo la ventana de ficha pide `surface="light"`. Solo cambian clases de color: ningún texto, foto, enlace
-ni función cambia.
+Todos los colores están en `app/components/destination-window-style.ts`, así que cambiar el tono de todas las
+fichas es tocar ese único archivo. El planificador (`ItineraryPlanner`) y su contenido (`ItineraryContent`) se
+usan también en `/vuelos` y en «Mis itinerarios», que son pantallas oscuras: por eso tienen una propiedad
+opcional `surface` (por defecto `"dark"`, el aspecto de siempre) y solo la ventana de ficha pide
+`surface="light"`. Lo mismo con la barra de la voz, que tiene una variante clara solo dentro de la ficha.
+Solo cambian clases de color: ningún texto, foto, enlace ni función cambia.
 
-`tests/destination-window-light-cards.test.cjs` comprueba, en las 502 fichas × 7 idiomas, que no queda
-ninguna tarjeta con fondo oscuro ni texto claro sobre fondo claro, y que cada pareja de colores cumple
-contraste WCAG AA (4,5:1). `tests/destination-window-common-frame.test.cjs` y `destination-photo-frame.test.cjs`
-devuelven esas clases a su color anterior antes de comparar, para demostrar que **solo** cambian los colores.
+`tests/destination-window-light-cards.test.cjs` comprueba, en las 502 fichas × 7 idiomas, que la ventana es
+blanca con texto oscuro, que no queda ninguna tarjeta con fondo oscuro ni texto claro fuera de la foto, que
+ningún texto hereda el blanco, y que cada pareja de colores cumple contraste WCAG AA (4,5:1).
+`tests/destination-window-common-frame.test.cjs` y `destination-photo-frame.test.cjs` devuelven esas clases
+a su color anterior antes de comparar, para demostrar que **solo** cambian los colores.
 
 ## "Vuelo + hotel": aplazado
 
@@ -47,7 +53,7 @@ provisionales que ya existían en el buscador, y una prueba lo vigila.
 
 ## Qué NO cambia
 
-- Textos, fotografías, recomendaciones, enlaces, vuelos, hoteles, itinerarios, voz y guardado (solo cambian los colores de las tarjetas interiores).
+- Textos, fotografías, recomendaciones, enlaces, vuelos, hoteles, itinerarios, voz y guardado (solo cambian los colores de la ventana).
 - Las 16 tarjetas originales de la portada, los datos de los destinos y las fotografías.
 - Las páginas de temporadas, los resúmenes del buscador, las tarjetas mensuales y `/destinos/*`.
 
@@ -56,5 +62,5 @@ provisionales que ya existían en el buscador, y una prueba lo vigila.
 `tests/destination-window-common-frame.test.cjs` compara la portada y la ventana de las 16 tarjetas
 originales y de los 486 perfiles del catálogo en los siete idiomas (3.514 ventanas) con las huellas de
 `tests/fixtures/ficha-baseline-before-common-frame.json`, generadas con la rama de la PR #64 antes de
-tocar nada. La comparación es exacta; la única diferencia permitida son los colores de las tarjetas interiores. También comprueba que la ventana no ofrece
+tocar nada. La comparación es exacta; la única diferencia permitida son los colores de la ventana. También comprueba que la ventana no ofrece
 "Vuelo + hotel", que `abrirPaquete` no ha cambiado y que la ventana no tiene bandera por defecto.

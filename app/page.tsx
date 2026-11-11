@@ -857,12 +857,12 @@ function abrirPaquete(destino = "") {
       (!inDestinationCard && flightSearch.results.length === 0 && !flightSearch.query.budget)) return null;
     const flexible = flightSearch.query.flexDays !== undefined;
     return (
-      <section className={inDestinationCard ? "mt-8 border-t border-white/10 pt-6" : "mt-5"}>
-        <h3 className={inDestinationCard ? "text-xl font-bold text-white" : "text-lg font-black text-slate-900 sm:text-xl"}>
+      <section className={inDestinationCard ? windowStyle.flightSection : "mt-5"}>
+        <h3 className={inDestinationCard ? windowStyle.flightHeading : "text-lg font-black text-slate-900 sm:text-xl"}>
           ✈️ {t("search.recentFlights")}
         </h3>
         {inDestinationCard && (
-          <p className="mt-2 text-sm leading-6 text-slate-300">
+          <p className={windowStyle.flightSummary}>
             {flightSearch.query.origin} → {flightSearch.query.destination} · {formatFlightDate(flightSearch.query.departureDate)} – {formatFlightDate(flightSearch.query.returnDate)} · {t("search.travelers")}: {flightSearch.query.travelers}
           </p>
         )}
@@ -916,7 +916,7 @@ function abrirPaquete(destino = "") {
           ))}
         </div>}
         {flightSearch.results.length > 0 && (
-          <p className={inDestinationCard ? "mt-4 text-xs leading-5 text-slate-400" : "mt-4 text-xs leading-5 text-slate-500"}>
+          <p className={inDestinationCard ? windowStyle.flightOfferNote : "mt-4 text-xs leading-5 text-slate-500"}>
             {t("search.recentPricesNote")}
           </p>
         )}
@@ -967,11 +967,15 @@ function abrirPaquete(destino = "") {
 
   const voiceOverlayOpen = Boolean(destinoSeleccionado || modal || (flightResultsOpen && flightSearch.status === 'success' &&
     (flightSearch.results.length > 0 || flightSearch.query.budget) && !flightDestinationCard));
-  const renderVoiceControls = () => vozActiva && (
-    <div className="sticky top-0 z-20 flex flex-wrap items-center justify-between gap-3 border-b border-white/20 bg-slate-950 px-4 py-2 text-white">
+  const renderVoiceControls = (inDestinationWindow = false) => vozActiva && (
+    <div className={inDestinationWindow
+      ? windowStyle.voiceBar
+      : "sticky top-0 z-20 flex flex-wrap items-center justify-between gap-3 border-b border-white/20 bg-slate-950 px-4 py-2 text-white"}>
       <p role="status" aria-live="polite" className="text-xs">{t(`voice.turn.${voiceTurn}`)}</p>
       <button type="button" onClick={apagarVoz} aria-label={t('voice.stop')}
-        className="min-h-[44px] shrink-0 rounded-xl border border-cyan-300 px-4 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white">
+        className={inDestinationWindow
+          ? windowStyle.voiceStop
+          : "min-h-[44px] shrink-0 rounded-xl border border-cyan-300 px-4 py-2 text-sm font-semibold focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"}>
         ■ {t('voice.stop')}
       </button>
     </div>
@@ -1415,7 +1419,7 @@ function abrirPaquete(destino = "") {
           onClick={(event) => { if (event.target === event.currentTarget) closeDestinationDetail(); }}
         >
           <div role="dialog" aria-modal="true" aria-labelledby="destination-detail-title" className={windowStyle.dialog}>
-            {renderVoiceControls()}
+            {renderVoiceControls(true)}
             {destinationWindowHeader({
               image: destinoSeleccionado.image,
               imageAlt: destinoSeleccionado.name,
@@ -1431,7 +1435,7 @@ function abrirPaquete(destino = "") {
 
             <div className={windowStyle.body}>
               {destinoSeleccionado.imageSource && (
-                <p className="mb-3 text-xs text-slate-400">
+                <p className={windowStyle.photoCredit}>
                   <a href={destinoSeleccionado.imageSource} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
                     {destinoSeleccionado.imageCredit ? `Foto: ${destinoSeleccionado.imageCredit}` : "Foto"}
                   </a>
@@ -1518,12 +1522,12 @@ function abrirPaquete(destino = "") {
                 surface="light"
               />
 
-              {featuredFlightSearch?.destination === destinoSeleccionado && <section className="mt-8 border-t border-white/10 pt-6" aria-label={t("search.recentFlights")}>
-                <h3 className="text-xl font-bold text-white">✈️ {t("search.recentFlights")}</h3>
-                <p className="mt-2 text-xs leading-5 text-slate-300">{t("search.recentPricesNote")}</p>
+              {featuredFlightSearch?.destination === destinoSeleccionado && <section className={windowStyle.flightSection} aria-label={t("search.recentFlights")}>
+                <h3 className={windowStyle.flightHeading}>✈️ {t("search.recentFlights")}</h3>
+                <p className={windowStyle.flightWidgetNote}>{t("search.recentPricesNote")}</p>
                 <div id="tpwl-search" hidden aria-hidden="true" />
                 <div id="tpwl-tickets" className="mt-4 min-w-0 text-slate-900" />
-                <p className="mt-3 text-xs leading-5 text-slate-400">{t("search.widgetNoFlightsHint")}</p>
+                <p className={windowStyle.flightFootnote}>{t("search.widgetNoFlightsHint")}</p>
               </section>}
 
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}
@@ -1546,7 +1550,7 @@ function abrirPaquete(destino = "") {
                   🏨 {t("search.findHotels")}
                 </button>
               </div>
-              {flightSearch.status === "error" && <p role="alert" className="mt-3 text-sm text-red-200">{t(flightSearch.key)}</p>}
+              {flightSearch.status === "error" && <p role="alert" className={windowStyle.errorText}>{t(flightSearch.key)}</p>}
             </div>
           </div>
         </div>

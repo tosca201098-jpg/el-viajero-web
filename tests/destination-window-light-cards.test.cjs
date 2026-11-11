@@ -1,9 +1,9 @@
-// PR 3A · tarjetas interiores de la ventana de ficha: claras y legibles, nunca negras.
+// PR 3A · ventana de ficha CLARA: fondo blanco, tarjetas claras y texto oscuro; nunca fondos negros.
 //
-// Antes, recomendaciones, estancia, mejor época, aeropuertos, presupuesto e itinerario usaban fondos casi
-// negros (blanco al 5 % o azul muy oscuro sobre la ventana oscura). Ahora son gris azulado / azul cielo muy
-// claros con texto oscuro. Solo cambian clases de color: que el resto de la ventana sea idéntico lo comprueba
-// tests/destination-window-common-frame.test.cjs.
+// Antes, la ventana era azul oscura y recomendaciones, estancia, mejor época, aeropuertos, presupuesto e
+// itinerario usaban fondos casi negros. Ahora la ventana es blanca y las tarjetas son gris azulado / azul
+// cielo muy claros con texto oscuro; solo la foto de la cabecera conserva texto blanco. Solo cambian clases
+// de color: que el resto de la ventana sea idéntico lo comprueba tests/destination-window-common-frame.test.cjs.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
@@ -18,7 +18,7 @@ const classes = n => String(n?.props?.className ?? '').split(/\s+/).filter(Boole
 
 // Colores usados como fondo oscuro / texto pensado para fondo oscuro.
 const DARK_BACKGROUNDS = /(^|\s)(bg-white\/5|bg-white\/10|bg-slate-950(\/\d+)?|bg-slate-900(\/\d+)?|bg-slate-800|bg-black(\/\d+)?|bg-cyan-300\/\[0\.06\]|bg-cyan-300\/10|bg-rose-400\/10)(\s|$)/;
-const DARK_TEXT = /(^|\s)(text-white|text-slate-(100|200|300|400)|text-cyan-(100|200)|text-rose-(100|200))(\s|$)/;
+const DARK_TEXT = /(^|\s)(text-white|text-slate-(100|200|300|400)|text-cyan-(100|200)|text-rose-(100|200)|text-red-(100|200))(\s|$)/;
 const LIGHT_BACKGROUND = /(^|\s)(bg-slate-100|bg-sky-50|bg-sky-100|bg-rose-50|bg-white)(\s|$)/;
 
 test('in all 502 windows × 7 languages no inner card has a dark background', () => {
@@ -44,6 +44,33 @@ test('in all 502 windows × 7 languages no inner card has a dark background', ()
     }
   }
   assert.ok(cards > 20000, 'many light cards were checked: ' + cards);
+});
+
+test('in all 502 windows × 7 languages the window itself is light: white background, dark text, light veil', () => {
+  for (const locale of LOCALES) {
+    const renderer = createRenderer(root, locale);
+    for (const destination of [...renderer.featured, ...renderer.profiles]) {
+      const nodes = flatten(renderer.detail(destination));
+      const dialog = nodes.find(n => n.props.role === 'dialog');
+      const dialogClasses = classes(dialog);
+      assert.ok(dialogClasses.includes('bg-white') && dialogClasses.includes('text-slate-900'), `${locale} ${destination.name}: ${dialogClasses.join(' ')}`);
+      assert.ok(!dialogClasses.some(c => /^bg-(slate-950|black|slate-900)/.test(c)), `${locale} ${destination.name}`);
+      const overlay = nodes.find(n => n.children?.includes(dialog));
+      assert.ok(overlay && !classes(overlay).includes('text-white') && !classes(overlay).includes('bg-black/80'), `${locale} ${destination.name}: overlay`);
+      // Fuera de la foto de la cabecera, ningún texto lleva un color pensado para fondo oscuro.
+      const frame = flatten(dialog).find(n => n.props['data-destination-photo-frame']);
+      const insideFrame = new Set(flatten(frame));
+      for (const node of flatten(dialog)) {
+        if (insideFrame.has(node)) continue;
+        assert.ok(!DARK_TEXT.test(classes(node).join(' ')), `${locale} ${destination.name}: ${classes(node).join(' ')}`);
+      }
+      // La foto conserva texto blanco para el título, el país y el botón de cerrar.
+      const frameNodes = [...insideFrame];
+      assert.ok(frameNodes.some(n => classes(n).includes('text-white') && classes(n).includes('right-20')), `${locale} ${destination.name}: title`);
+      assert.ok(frameNodes.some(n => n.type === 'button' && classes(n).includes('text-white')), `${locale} ${destination.name}: close button`);
+      assert.ok(frameNodes.some(n => /from-black\/70/.test(classes(n).join(' '))), `${locale} ${destination.name}: gradient`);
+    }
+  }
 });
 
 test('recommendations, stay, best time, airports and budget share the light card colors', () => {
@@ -187,6 +214,19 @@ test('the flight results shown inside the window use light cards, and the other 
   // La variante que no es de la ventana (buscador de la portada) conserva exactamente sus clases.
   for (const original of ['"mt-3 rounded-xl border border-blue-200 bg-blue-50 p-3 text-blue-950"', '"rounded-2xl border border-blue-100 bg-white p-4 shadow-sm"',
     '"text-lg font-black text-blue-700"', '"mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 sm:text-sm"']) assert.ok(page.includes(original), original);
+  // En el bloque de la ventana de ficha ya no queda texto claro ni bordes blancos pensados para el fondo oscuro.
+  const windowStart = page.indexOf('{/* MODAL DESTINO */}');
+  const windowEnd = page.indexOf('{/* MODAL VUELOS */}');
+  assert.ok(windowStart > 0 && windowEnd > windowStart);
+  const windowBlock = page.slice(windowStart, windowEnd);
+  for (const klass of windowBlock.match(/(?:text-white|text-slate-[1234]00|text-cyan-\d+|text-red-[12]00|border-white\/\d+|ring-white|bg-slate-9\d+)/g) ?? []) assert.fail('dark-window class left in the window block: ' + klass);
+  // Los bloques de vuelos de la ficha usan los colores claros y los del resto de pantallas conservan los suyos.
+  for (const original of ['"mt-3 min-h-[44px] w-full rounded-xl border border-cyan-300/70', 'sticky top-0 z-20 flex flex-wrap items-center justify-between gap-3 border-b border-white/20 bg-slate-950 px-4 py-2 text-white']) assert.ok(page.includes(original), original);
+  for (const token of ['voiceBar', 'voiceStop', 'flightSection', 'flightHeading', 'flightSummary', 'flightOfferNote', 'errorText', 'photoCredit']) {
+    const line = style.split('\n').find(l => l.trim().startsWith(token + ':'));
+    assert.ok(line && !DARK_TEXT.test(line.split('"')[1]) && !DARK_BACKGROUNDS.test(line.split('"')[1]), token);
+    assert.ok(page.includes('windowStyle.' + token), token + ' is used');
+  }
   // Dentro del bloque de la ventana no queda ninguna tarjeta con fondo oscuro.
   const start = page.indexOf('role="dialog" aria-modal="true" aria-labelledby="destination-detail-title"');
   const end = page.indexOf('{/* MODAL VUELOS */}');
@@ -197,7 +237,7 @@ test('the flight results shown inside the window use light cards, and the other 
 
 // ---------- legibilidad ----------
 const PALETTE = { 'slate-100': '#f1f5f9', 'slate-300': '#cbd5e1', 'slate-600': '#475569', 'slate-700': '#334155', 'slate-800': '#1e293b', 'slate-900': '#0f172a', 'slate-950': '#020617',
-  'sky-50': '#f0f9ff', 'sky-100': '#e0f2fe', 'sky-800': '#075985', 'sky-900': '#0c4a6e', 'white': '#ffffff', 'cyan-300': '#67e8f9', 'rose-50': '#fff1f2', 'rose-800': '#9f1239', 'rose-900': '#881337' };
+  'sky-50': '#f0f9ff', 'sky-100': '#e0f2fe', 'sky-800': '#075985', 'sky-900': '#0c4a6e', 'white': '#ffffff', 'cyan-300': '#67e8f9', 'rose-50': '#fff1f2', 'red-700': '#b91c1c', 'rose-800': '#9f1239', 'rose-900': '#881337' };
 const luminance = hex => {
   const [r, g, b] = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4);
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
@@ -213,6 +253,6 @@ test('every text/background pair of the light cards reaches WCAG AA (4.5:1)', ()
     ['sky-900', 'sky-100'], ['slate-950', 'cyan-300'], ['rose-900', 'rose-50'], ['rose-800', 'sky-50'],
   ];
   for (const [fg, bg] of pairs) assert.ok(contrast(fg, bg) >= 4.5, `${fg} on ${bg}: ${contrast(fg, bg).toFixed(2)}`);
-  // La ventana sigue siendo oscura: el texto claro de la descripción lee bien sobre ella.
-  assert.ok(contrast('slate-300', 'slate-950') >= 7);
+  // Ventana blanca: descripción, títulos, notas, avisos y barra de voz leen bien sobre ella.
+  for (const [fg, bg] of [['slate-700', 'white'], ['slate-600', 'white'], ['slate-900', 'white'], ['red-700', 'white'], ['sky-900', 'sky-50']]) assert.ok(contrast(fg, bg) >= 4.5, `${fg} on ${bg}`);
 });
