@@ -3,13 +3,14 @@ const assert = require('node:assert/strict');
 const path = require('node:path');
 const fs = require('node:fs');
 const helpers = require('./helpers/ficha-snapshots.cjs');
-const { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, snapshots } = helpers;
+const { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, loadFraming, snapshots } = helpers;
 
 const root = path.resolve(__dirname, '..');
 const baseline = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'ficha-baseline-before-photo-frame.json'), 'utf8'));
 const FRAME_CLASS = 'relative h-52 max-sm:h-[140px] sm:h-72';
 const text = n => n == null || n === false ? '' : Array.isArray(n) ? n.map(text).join(' ') : typeof n === 'object' ? text(n.children) : String(n);
 
+const framing = loadFraming(root);
 const current = snapshots(root, { normalizeFrame: true });
 
 test('the home page, including the 16 original cards, is identical to the version before the photo-frame change', () => {
@@ -41,7 +42,7 @@ test('every detail window uses the panoramic photo frame and keeps photo, positi
       const image = flatten(frame).find(n => n.type === 'img');
       assert.equal(image.props.src, destination.image, destination.name);
       assert.equal(image.props.className, 'h-full w-full object-cover');
-      assert.equal(JSON.stringify(image.props.style ?? null), JSON.stringify(destination.imagePosition ? { objectPosition: destination.imagePosition } : null), destination.name);
+      assert.equal(JSON.stringify(image.props.style ?? null), JSON.stringify(framing.panoramicImagePosition(destination) ? { objectPosition: framing.panoramicImagePosition(destination) } : null), destination.name);
       assert.ok(flatten(frame).some(n => n.type === 'button' && n.props.className.includes('absolute right-5 top-5')), 'close button as before');
       const title = flatten(frame).find(n => n.props.id === 'destination-detail-title');
       assert.ok(title, destination.name);

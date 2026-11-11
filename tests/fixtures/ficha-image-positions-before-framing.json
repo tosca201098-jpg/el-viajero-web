@@ -1,0 +1,22 @@
+{
+ "profiles": {
+  "fr-limoges": "center top",
+  "fr-pau": "center top",
+  "fr-tours": "left top",
+  "de-cologne-bonn": "center top",
+  "de-dusseldorf": "left center",
+  "de-dresden": "center top",
+  "de-heidelberg-neckar": "center top",
+  "de-freiburg-black-forest": "center top",
+  "nl-utrecht": "center top",
+  "nl-delft": "center top",
+  "nl-haarlem-zaanse-schans": "right top",
+  "nl-groningen": "center top",
+  "be-brussels": "center top",
+  "be-leuven": "center top",
+  "be-ypres": "center top",
+  "be-dinant-meuse-valley": "center top",
+  "be-belgian-ardennes-durbuy-la-roche": "center top"
+ },
+ "featured": {}
+}

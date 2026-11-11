@@ -42,3 +42,40 @@ nombres largos no se corten ni tapen el botón de cerrar:
 5. El título solo se reduce en móvil y solo para nombres largos.
 
 `tests/helpers/ficha-snapshots.cjs` contiene el renderizado y la normalización usados por la prueba.
+
+## Fase 2: encuadre de las fotografías
+
+Con el marco panorámico, las fotos poco apaisadas (verticales o casi cuadradas) enseñan solo una franja
+horizontal; por defecto se centra (50 %) y a veces se corta lo reconocible (torre, cúpula, rascacielos,
+castillo, villas sobre el agua). La Fase 2 solo cambia **qué franja de la foto se ve en la ventana de ficha**
+(`object-position` vertical, valores `center N%`, 0 % = parte alta, 100 % = parte baja). Los valores se
+eligieron uno por uno mirando la foto real en el marco panorámico, y se prefirió el cambio mínimo que deja
+visible lo importante (por eso París y Nueva York usan 35 %, no 10 %).
+
+- `lib/destinations/image-framing.ts` (archivo nuevo, sin dependencias):
+  - `imageFraming`: 102 destinos del catálogo por `id` (incluida París, `fr-paris` = 35 %).
+  - `featuredImageFraming`: los 8 destinos originales que no están en el catálogo, por URL de la foto
+    (Nueva York 35 %, Bali 30 %, Maldivas 45 %, Dubái 30 %, Suiza 40 %, Tailandia 30 %, Sídney 30 %, Río de Janeiro 40 %).
+  - `panoramicImagePosition(destination)`: devuelve la posición propia si el destino ya la tenía; si no, la de la
+    tabla por `id`; si no, la de la tabla por URL de foto; si no, nada (foto centrada como siempre).
+- `app/page.tsx`: la foto de la ventana de ficha usa `panoramicImagePosition(...)` en lugar de
+  `imagePosition` a secas (una línea y su `import`).
+- **No se modifica ningún dato**: los archivos de destinos (`featured.ts`, catálogo, fotos, créditos, textos) quedan
+  byte a byte iguales, así que las pruebas históricas de "perfiles idénticos" siguen valiendo.
+- Las tarjetas de la portada no leen este valor. Tokio, Roma, Londres, Santorini, Islandia, Barcelona y El Cairo
+  siguen centrados.
+- Se respetan los 17 destinos que ya tenían posición propia (p. ej. `center top`).
+- No se tocan las 86 fotos que sustituye la PR #63 (en esa PR habrá que revisar su encuadre cuando se fusione).
+- `DestinationProfileSummary` (miniaturas y resumen de `/destinos/*`) no cambia.
+
+### Pruebas de la Fase 2
+
+- `tests/destination-photo-framing.test.cjs` (7 pruebas): formato `center N%`; cada id existe y no tenía posición
+  propia; ningún dato cambia (las posiciones del dato son exactamente las que ya existían, antes de la Fase 2);
+  los 16 originales (nombres, orden, fotos) con el encuadre previsto y los otros siete sin cambio; la portada no
+  usa encuadre; la ventana de ficha pasa el valor a la foto en 7 idiomas y en todo el catálogo encuadrado;
+  prioridad posición propia > id > URL.
+- Las pruebas de la Fase 1 ignoran únicamente el valor `objectPosition` de la foto al comparar con la versión
+  anterior (`tests/fixtures/ficha-baseline-before-photo-frame.json`, regenerada desde `integration/europe`
+  limpio): cualquier otro cambio en portada o fichas (texto, foto, enlaces, clases) hace fallar la prueba.
+- `tests/fixtures/ficha-image-positions-before-framing.json`: posiciones que ya existían antes de la Fase 2.

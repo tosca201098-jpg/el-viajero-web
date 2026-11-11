@@ -103,12 +103,26 @@ function withOriginalFrame(serialized) {
   return serialized.replace(FRAME_NEW, FRAME_OLD).replace(TITLE_BOX_NEW, TITLE_BOX_OLD).replace(TITLE_NEW, TITLE_OLD);
 }
 
+// Phase 2 changes only which part of the photo is shown (object-position), so the digests
+// ignore that single style value; tests/destination-photo-framing.test.cjs checks it separately.
+const OBJECT_POSITION = /,?"style":\{"objectPosition":"[^"]*"\}/g;
+
+function withoutObjectPosition(serialized) {
+  return serialized.replace(OBJECT_POSITION, '');
+}
+
+// lib/destinations/image-framing.ts has no imports, so it can be loaded on its own.
+function loadFraming(root) {
+  return loader(root)('lib/destinations/image-framing.ts');
+}
+
 function snapshots(root, options = {}) {
-  const normalize = options.normalizeFrame ? withOriginalFrame : value => value;
+  const frame = options.normalizeFrame ? withOriginalFrame : value => value;
+  const normalize = value => withoutObjectPosition(frame(value));
   const result = { home: {}, featuredDetail: {}, profileDetail: {} };
   for (const locale of LOCALES) {
     const renderer = createRenderer(root, locale);
-    result.home[locale] = digest(serialize(renderer.home()));
+    result.home[locale] = digest(withoutObjectPosition(serialize(renderer.home())));
     result.featuredDetail[locale] = {};
     renderer.featured.forEach((destination, index) => {
       result.featuredDetail[locale][index] = digest(normalize(serialize(renderer.detail(destination))));
@@ -121,4 +135,4 @@ function snapshots(root, options = {}) {
   return result;
 }
 
-module.exports = { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, snapshots };
+module.exports = { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, withoutObjectPosition, loadFraming, snapshots };

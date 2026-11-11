@@ -25,6 +25,7 @@ import { findDestinationProfile, getDestinationById, normalizeDestinationName } 
 import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
 import { destinationFromPlaceSelection, accessAirportSearchInput } from '@/lib/destinations/selection';
 import { destinations, type Destination } from "@/lib/destinations/featured";
+import { panoramicImagePosition } from "@/lib/destinations/image-framing";
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
@@ -1419,7 +1420,7 @@ function abrirPaquete(destino = "") {
                 src={destinoSeleccionado.image}
                 alt={destinoSeleccionado.name}
                 className="h-full w-full object-cover"
-                style={destinoSeleccionado.imagePosition ? { objectPosition: destinoSeleccionado.imagePosition } : undefined}
+                style={panoramicImagePosition(destinoSeleccionado) ? { objectPosition: panoramicImagePosition(destinoSeleccionado) } : undefined}
               />
 
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/20" />
