@@ -8,7 +8,7 @@ import { isItinerary } from "@/lib/itinerary/schema";
 import type { Itinerary, ItineraryRequest } from "@/lib/itinerary/types";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { saveItinerary } from "@/lib/supabase/saved-itineraries";
-import ItineraryContent from "./ItineraryContent";
+import ItineraryContent, { type ItinerarySurface } from "./ItineraryContent";
 import type { VoiceItineraryRequest } from '@/lib/voice/itinerary';
 
 export type ItineraryContext = {
@@ -18,12 +18,49 @@ export type ItineraryContext = {
   budget?: { amount: number; type: "total" | "por_persona" };
 };
 
-export default function ItineraryPlanner({ destination, context, voiceRequest }: {
+// "dark" es el aspecto de siempre (/vuelos). "light" lo usa la ventana de ficha: tarjeta clara con
+// texto oscuro, sin fondos negros. Solo cambian clases de estilo.
+const surfaces = {
+  dark: {
+    section: "mt-6 min-w-0 rounded-2xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 sm:p-5",
+    duration: "mb-3 text-sm text-slate-300",
+    durationValue: "font-semibold text-white",
+    maxDays: "mt-1 block text-xs text-slate-400",
+    legend: "mb-2 text-sm font-semibold text-slate-200",
+    dayOn: "border-cyan-300 bg-cyan-300 text-slate-950",
+    dayOff: "border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10",
+    status: "mt-3 text-sm text-cyan-100",
+    error: "mt-3 rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-100",
+    result: "mt-6 min-w-0 border-t border-white/10 pt-5",
+    save: "mt-5 min-h-[44px] rounded-xl border border-cyan-300/60 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10 disabled:opacity-60",
+    saveSignin: "mt-2 text-sm text-cyan-100",
+    saveError: "mt-2 text-sm text-rose-100",
+  },
+  light: {
+    section: "mt-6 min-w-0 rounded-2xl border border-sky-200 bg-sky-50 p-4 sm:p-5",
+    duration: "mb-3 text-sm text-slate-700",
+    durationValue: "font-semibold text-slate-900",
+    maxDays: "mt-1 block text-xs text-slate-600",
+    legend: "mb-2 text-sm font-semibold text-slate-800",
+    dayOn: "border-cyan-300 bg-cyan-300 text-slate-950",
+    dayOff: "border-sky-300 bg-white text-sky-900 hover:bg-sky-100",
+    status: "mt-3 text-sm text-sky-900",
+    error: "mt-3 rounded-xl border border-rose-300 bg-rose-50 p-3 text-sm text-rose-900",
+    result: "mt-6 min-w-0 border-t border-sky-200 pt-5",
+    save: "mt-5 min-h-[44px] rounded-xl border border-sky-400 bg-white px-4 py-2 text-sm font-semibold text-sky-900 transition hover:bg-sky-100 disabled:opacity-60",
+    saveSignin: "mt-2 text-sm text-sky-900",
+    saveError: "mt-2 text-sm text-rose-800",
+  },
+} as const;
+
+export default function ItineraryPlanner({ destination, context, voiceRequest, surface = "dark" }: {
   destination: Destination;
   context: ItineraryContext;
   voiceRequest?: VoiceItineraryRequest;
+  surface?: ItinerarySurface;
 }) {
   const { language, t } = useLanguage();
+  const look = surfaces[surface];
   const calendarDays = context.departureDate && context.returnDate
     ? calendarTripDays(context.departureDate, context.returnDate) : null;
   const hasDates = calendarDays !== null && calendarDays <= 90;
@@ -176,21 +213,21 @@ export default function ItineraryPlanner({ destination, context, voiceRequest }:
   }
 
   return (
-    <section ref={plannerRef} tabIndex={-1} className="mt-6 min-w-0 rounded-2xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 sm:p-5" aria-label={t("itinerary.create")}>
+    <section ref={plannerRef} tabIndex={-1} className={look.section} aria-label={t("itinerary.create")}>
       {hasDates ? (
-        <p className="mb-3 text-sm text-slate-300">
-          {t("itinerary.duration")}: <span className="font-semibold text-white">{dayLabel(Math.min(7, calendarDays))}</span>
-          {calendarDays > 7 && <span className="mt-1 block text-xs text-slate-400">{t("itinerary.maxDays")}</span>}
+        <p className={look.duration}>
+          {t("itinerary.duration")}: <span className={look.durationValue}>{dayLabel(Math.min(7, calendarDays))}</span>
+          {calendarDays > 7 && <span className={look.maxDays}>{t("itinerary.maxDays")}</span>}
         </p>
       ) : (
         <fieldset className="mb-3">
-          <legend className="mb-2 text-sm font-semibold text-slate-200">{t("itinerary.duration")}</legend>
+          <legend className={look.legend}>{t("itinerary.duration")}</legend>
           <div className="grid grid-cols-7 gap-1.5">
             {([1, 2, 3, 4, 5, 6, 7] as const).map((day) => (
               <button key={day} type="button" aria-label={dayLabel(day)}
                 aria-pressed={selectedDays === day} onClick={() => { setSelectedDays(day); setItinerary(null); setError(false); setSaveStatus("idle"); variationRef.current = 0; }} disabled={loading || saving}
                 className={`min-h-[44px] min-w-0 rounded-lg border text-sm font-semibold ${selectedDays === day
-                  ? "border-cyan-300 bg-cyan-300 text-slate-950" : "border-cyan-300/30 text-cyan-100 hover:bg-cyan-300/10"}`}>
+                  ? look.dayOn : look.dayOff}`}>
                 {day}
               </button>
             ))}
@@ -202,19 +239,19 @@ export default function ItineraryPlanner({ destination, context, voiceRequest }:
         className="flex min-h-[44px] w-full items-center justify-center rounded-xl bg-cyan-300 px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-cyan-200 disabled:cursor-wait disabled:opacity-60 sm:w-auto">
         {loading ? t("itinerary.creating") : itinerary ? t("itinerary.regenerate") : t("itinerary.create")}
       </button>
-      {loading && <p role="status" className="mt-3 text-sm text-cyan-100">{t("itinerary.creating")}</p>}
-      {error && <p role="alert" className="mt-3 rounded-xl border border-rose-400/30 bg-rose-400/10 p-3 text-sm text-rose-100">{t("itinerary.error")}</p>}
+      {loading && <p role="status" className={look.status}>{t("itinerary.creating")}</p>}
+      {error && <p role="alert" className={look.error}>{t("itinerary.error")}</p>}
 
       {itinerary && (
-        <div className="mt-6 min-w-0 border-t border-white/10 pt-5">
-          <ItineraryContent itinerary={itinerary} />
+        <div className={look.result}>
+          <ItineraryContent itinerary={itinerary} surface={surface} />
           <button type="button" onClick={() => void saveGenerated()}
             disabled={saving || loading || saveStatus === "saved"}
-            className="mt-5 min-h-[44px] rounded-xl border border-cyan-300/60 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10 disabled:opacity-60">
+            className={look.save}>
             {saving ? t("itinerary.saving") : saveStatus === "saved" ? t("itinerary.saved") : t("itinerary.save")}
           </button>
-          {saveStatus === "signin" && <p role="alert" className="mt-2 text-sm text-cyan-100">{t("itinerary.signinRequired")}</p>}
-          {saveStatus === "error" && <p role="alert" className="mt-2 text-sm text-rose-100">{t("itinerary.saveError")}</p>}
+          {saveStatus === "signin" && <p role="alert" className={look.saveSignin}>{t("itinerary.signinRequired")}</p>}
+          {saveStatus === "error" && <p role="alert" className={look.saveError}>{t("itinerary.saveError")}</p>}
         </div>
       )}
     </section>

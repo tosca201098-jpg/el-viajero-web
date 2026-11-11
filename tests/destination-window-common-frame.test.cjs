@@ -2,7 +2,9 @@
 //
 // 1. La ventana de las 16 tarjetas originales y de los 486 perfiles del catálogo, en los siete idiomas,
 //    sale EXACTAMENTE igual que antes de mover el marco a los archivos compartidos
-//    (huellas generadas con la rama de la PR #64, antes de tocar nada de la PR 3A; sin ninguna excepción).
+//    (huellas generadas con la rama de la PR #64, antes de tocar nada de la PR 3A). La única diferencia
+//    permitida son los colores de las tarjetas interiores (ahora claras): para compararlas, esas clases se
+//    devuelven a su valor anterior; ver tests/destination-window-light-cards.test.cjs.
 // 2. "Vuelo + hotel" NO se ofrece en la ficha: la función está aplazada y no debe presentarse como operativa.
 // 3. La bandera nunca se pone "por defecto".
 const { test } = require('node:test');
@@ -17,7 +19,8 @@ const baseline = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'fi
 const source = file => fs.readFileSync(path.join(root, file), 'utf8');
 const text = n => n == null || n === false ? '' : Array.isArray(n) ? n.map(text).join('') : typeof n === 'object' ? text(n.children) : String(n);
 
-const current = commonFrameSnapshots(root);
+// Las tarjetas interiores ahora son claras; se devuelven a su color anterior para comparar todo lo demás.
+const current = commonFrameSnapshots(root, { originalCardColors: true });
 
 test('the baseline covers the home page, the 16 original windows and every catalog window in seven languages', () => {
   assert.deepEqual(Object.keys(baseline.home), LOCALES);

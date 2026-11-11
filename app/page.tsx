@@ -873,14 +873,14 @@ function abrirPaquete(destino = "") {
         )}
         {flightSearch.results.length === 0 ? (
           <p role="status" className={inDestinationCard
-            ? "mt-3 rounded-xl border border-cyan-300/20 bg-cyan-300/10 p-3 text-cyan-100"
+            ? windowStyle.flightOfferEmpty
             : "mt-3 rounded-xl border border-blue-200 bg-blue-50 p-3 text-blue-950"}>
             {noFlightResultsMessage(flightSearch.query.budget)}
           </p>
         ) : <div className="mt-3 grid gap-3">
           {flightSearch.results.map((flight, index) => (
             <article key={`${flight.departureAt ?? "flight"}-${index}`} className={inDestinationCard
-              ? "rounded-2xl border border-white/10 bg-white/5 p-4"
+              ? windowStyle.flightOfferCard
               : "rounded-2xl border border-blue-100 bg-white p-4 shadow-sm"}>
               {flexible && flight.departureAt && flight.returnAt && (
                 <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
@@ -893,12 +893,12 @@ function abrirPaquete(destino = "") {
               )}
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <p className="min-w-0 break-words text-sm font-bold">{flightSearch.origin.name} ({flight.origin}) → {flightSearch.destination.name} ({flight.destination})</p>
-                <p className={inDestinationCard ? "text-lg font-black text-cyan-200" : "text-lg font-black text-blue-700"}>
+                <p className={inDestinationCard ? windowStyle.flightOfferPrice : "text-lg font-black text-blue-700"}>
                   {new Intl.NumberFormat(language, { style: "currency", currency: "EUR" }).format(flight.price)}
                 </p>
               </div>
               <div className={inDestinationCard
-                ? "mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-300 sm:text-sm"
+                ? windowStyle.flightOfferDetails
                 : "mt-2 flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 sm:text-sm"}>
                 {!flexible && flight.departureAt && <span>{t("search.flightDeparture")}: {formatFlightDate(flight.departureAt)}</span>}
                 {!flexible && flight.returnAt && <span>{t("search.flightReturn")}: {formatFlightDate(flight.returnAt)}</span>}
@@ -907,7 +907,7 @@ function abrirPaquete(destino = "") {
               </div>
               {flight.offerUrl && (
                 <a href={flight.offerUrl} target="_blank" rel="noopener noreferrer sponsored" className={inDestinationCard
-                  ? "mt-3 inline-flex min-h-[44px] items-center rounded-lg border border-cyan-300/60 px-3 py-1 text-xs font-bold text-cyan-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-300"
+                  ? windowStyle.flightOfferLink
                   : "mt-3 inline-flex min-h-[44px] items-center rounded-lg border border-blue-500 px-3 py-1 text-xs font-bold text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"}>
                   {t("search.viewOffer")}
                 </a>
@@ -1444,19 +1444,19 @@ function abrirPaquete(destino = "") {
                 {text(selectedDisplay?.description ?? destinoSeleccionado.description)}
               </p>
               {(selectedCatalogProfile?.countryCode === 'GR' || selectedCatalogProfile?.countryCode === 'SI' || (selectedCatalogProfile?.countryCode === 'HR' && selectedCatalogProfile.airports.length > 0) || (selectedCatalogProfile?.countryCode === 'FR' && selectedCatalogProfile.airports.some(airport => franceAirports.some(item => item.code === airport.iataCode)))) && (
-                <section className="mt-4 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm text-slate-200" aria-label={t('destinations.arrivalAirport')}>
-                  <h3 className="font-semibold text-white">✈️ {t('destinations.arrivalAirport')}</h3>
+                <section className={windowStyle.infoCard} aria-label={t('destinations.arrivalAirport')}>
+                  <h3 className={windowStyle.infoTitle}>✈️ {t('destinations.arrivalAirport')}</h3>
                   {selectedCatalogProfile.airports.map(airport => (
                     <div key={airport.iataCode} className="mt-2">
                       <p>{(selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirports : selectedCatalogProfile.countryCode === 'FR' ? franceAirports : selectedCatalogProfile.countryCode === 'HR' ? croatiaAirports : greeceAirports).find(item => item.code === airport.iataCode)?.name ?? airport.iataCode} ({airport.iataCode})</p>
                       <p className="mt-1">{t('destinations.airportTown')}: {(selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirportTown : selectedCatalogProfile.countryCode === 'FR' ? franceAirportTown : selectedCatalogProfile.countryCode === 'HR' ? croatiaAirportTown : greeceAirportTown)(airport.iataCode, language)}</p>
                     </div>
                   ))}
-                  <p className="mt-2 text-xs text-slate-400">{t('destinations.airportTownNote')}</p>
+                  <p className={windowStyle.airportNote}>{t('destinations.airportTownNote')}</p>
                 </section>
               )}
               {cardBudget && (
-                <p className="mt-4 rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-semibold text-cyan-100">
+                <p className={windowStyle.budgetCard}>
                   {budgetLabel(cardBudget)}
                 </p>
               )}
@@ -1486,24 +1486,24 @@ function abrirPaquete(destino = "") {
               )}
 
               {!!destinoSeleccionado.bestMonths?.length && (
-                <section className="mt-4 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm text-slate-200" aria-label={t("destinations.bestTime")}>
-                  <h3 className="font-semibold text-white">📅 {t("destinations.bestTime")}</h3>
+                <section className={windowStyle.infoCard} aria-label={t("destinations.bestTime")}>
+                  <h3 className={windowStyle.infoTitle}>📅 {t("destinations.bestTime")}</h3>
                   <p className="mt-1">{formatMonthRanges(destinoSeleccionado.bestMonths, language)}</p>
                   {!!destinoSeleccionado.lowSeasonMonths?.length && (
-                    <p className="mt-1 text-slate-300">{t("destinations.quietSeason")}: {formatMonthList(destinoSeleccionado.lowSeasonMonths, language)}</p>
+                    <p className={windowStyle.infoText}>{t("destinations.quietSeason")}: {formatMonthList(destinoSeleccionado.lowSeasonMonths, language)}</p>
                   )}
-                  {destinoSeleccionado.seasonalityNote && <p className="mt-1 text-slate-300">{text(selectedDisplay?.seasonalityNote ?? destinoSeleccionado.seasonalityNote)}</p>}
-                  <p className="mt-1 text-xs text-slate-400">{t("destinations.seasonalityGuide")}</p>
+                  {destinoSeleccionado.seasonalityNote && <p className={windowStyle.infoText}>{text(selectedDisplay?.seasonalityNote ?? destinoSeleccionado.seasonalityNote)}</p>}
+                  <p className={windowStyle.infoNote}>{t("destinations.seasonalityGuide")}</p>
                 </section>
               )}
 
               {!!selectedCatalogProfile?.accessAirports?.length && (
-                <section className="mt-4 rounded-2xl border border-cyan-300/20 p-4" aria-label={t('destinations.accessAirports')}>
-                  <h3 className="font-semibold text-white">{t('destinations.accessAirports')}</h3>
-                  <p className="mt-2 text-sm text-slate-300">{selectedCatalogProfile.countryCode === 'IT' || (selectedCatalogProfile.countryCode === 'GB' && selectedCatalogProfile.airports.length > 0) ? t('destinations.cityAirportSearch', { destination: selectedDisplay?.name ?? selectedCatalogProfile.name }) : t('destinations.transferRequired')}</p>
+                <section className={windowStyle.accessCard} aria-label={t('destinations.accessAirports')}>
+                  <h3 className={windowStyle.infoTitle}>{t('destinations.accessAirports')}</h3>
+                  <p className={windowStyle.accessText}>{selectedCatalogProfile.countryCode === 'IT' || (selectedCatalogProfile.countryCode === 'GB' && selectedCatalogProfile.airports.length > 0) ? t('destinations.cityAirportSearch', { destination: selectedDisplay?.name ?? selectedCatalogProfile.name }) : t('destinations.transferRequired')}</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {selectedCatalogProfile.accessAirports.map(airport => <button key={airport.iataCode} type="button"
-                      onClick={() => abrirVuelos(accessAirportSearchInput(selectedCatalogProfile, airport.iataCode))} className="min-h-[44px] rounded-xl border border-cyan-300/40 px-3 py-2 text-sm text-cyan-100">
+                      onClick={() => abrirVuelos(accessAirportSearchInput(selectedCatalogProfile, airport.iataCode))} className={windowStyle.accessButton}>
                       ✈️ {airport.name} ({airport.iataCode}) · {getDestinationCountryName({ countryCode: airport.countryCode, country: airport.countryCode }, language)}
                     </button>)}
                   </div>
@@ -1515,6 +1515,7 @@ function abrirPaquete(destino = "") {
                 destination={destinoSeleccionado}
                 context={itineraryVoiceRequest ? {} : itineraryContext}
                 voiceRequest={itineraryVoiceRequest}
+                surface="light"
               />
 
               {featuredFlightSearch?.destination === destinoSeleccionado && <section className="mt-8 border-t border-white/10 pt-6" aria-label={t("search.recentFlights")}>

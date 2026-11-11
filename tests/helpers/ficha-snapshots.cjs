@@ -119,6 +119,8 @@ function loadFraming(root) {
 
 function snapshots(root, options = {}) {
   const frame = options.normalizeFrame ? withOriginalFrame : value => value;
+  // Con originalCardColors las tarjetas interiores (ahora claras) vuelven a su color anterior antes de comparar.
+  const cards = options.originalCardColors ? withOriginalCardColors : value => value;
   const normalize = value => withoutObjectPosition(frame(value));
   const result = { home: {}, featuredDetail: {}, profileDetail: {} };
   for (const locale of LOCALES) {
@@ -126,31 +128,63 @@ function snapshots(root, options = {}) {
     result.home[locale] = digest(withoutObjectPosition(serialize(renderer.home())));
     result.featuredDetail[locale] = {};
     renderer.featured.forEach((destination, index) => {
-      result.featuredDetail[locale][index] = digest(normalize(serialize(renderer.detail(destination))));
+      result.featuredDetail[locale][index] = digest(normalize(serialize(cards(renderer.detail(destination)))));
     });
     if (locale === 'es' || locale === 'en') {
       result.profileDetail[locale] = {};
-      for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(normalize(serialize(renderer.detail(profile))));
+      for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(normalize(serialize(cards(renderer.detail(profile)))));
     }
   }
   return result;
 }
 
+// Tarjetas interiores de la ventana de ficha: antes casi negras, ahora claras (diseño de tarjetas claras).
+// Cada par es [clases nuevas, clases que tenía antes el mismo elemento]. Con ellas se demuestra que el
+// cambio de color NO toca nada más: al devolver estas clases a su valor anterior, la ventana de cada
+// ficha vuelve a ser idéntica, carácter por carácter, a la de la rama de la PR #64.
+const LIGHT_CARD_CLASSES = [
+  ['rounded-2xl border border-slate-300 bg-slate-100 p-4 text-slate-800', 'rounded-2xl border border-white/10 bg-white/5 p-4 text-slate-300'],
+  ['mt-5 rounded-2xl border border-slate-300 bg-slate-100 px-4 py-3 text-slate-700', 'mt-5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-300'],
+  ['font-semibold text-slate-900', 'font-semibold text-white'],
+  ['mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-slate-700', 'mt-4 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm text-slate-200'],
+  ['mt-1 text-slate-600', 'mt-1 text-slate-300'],
+  ['mt-1 text-xs text-slate-600', 'mt-1 text-xs text-slate-400'],
+  ['mt-2 text-xs text-slate-600', 'mt-2 text-xs text-slate-400'],
+  ['mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-900', 'mt-4 rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-semibold text-cyan-100'],
+  ['mt-4 rounded-2xl border border-sky-200 bg-sky-50 p-4', 'mt-4 rounded-2xl border border-cyan-300/20 p-4'],
+  ['mt-2 text-sm text-slate-700', 'mt-2 text-sm text-slate-300'],
+  ['min-h-[44px] rounded-xl border border-sky-300 bg-white px-3 py-2 text-sm text-sky-900', 'min-h-[44px] rounded-xl border border-cyan-300/40 px-3 py-2 text-sm text-cyan-100'],
+  ['rounded-2xl border border-sky-300 bg-sky-50 px-6 py-4 font-bold text-sky-900', 'rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-4 font-bold text-cyan-200'],
+];
+
+// Devuelve la ventana (solo ella) a los colores anteriores; el planificador recibe además surface="light".
+function withOriginalCardColors(node) {
+  if (Array.isArray(node)) return node.map(withOriginalCardColors);
+  if (!node || typeof node !== 'object') return node;
+  if (node.props?.role === 'dialog') {
+    let json = serialize(node);
+    for (const [light, dark] of LIGHT_CARD_CLASSES) json = json.replaceAll(`"className":"${light}"`, `"className":"${dark}"`);
+    return JSON.parse(json.replaceAll(',"surface":"light"', ''));
+  }
+  return { ...node, children: (node.children ?? []).map(withOriginalCardColors) };
+}
+
 // Huellas de la portada y de TODAS las ventanas de ficha (las 16 originales y los 486 perfiles del
-// catálogo) en los siete idiomas, sin ninguna normalización: el resultado debe ser idéntico al original.
-function commonFrameSnapshots(root) {
+// catálogo) en los siete idiomas. Con originalCardColors se devuelven las tarjetas a su color anterior.
+function commonFrameSnapshots(root, options = {}) {
+  const prepare = options.originalCardColors ? withOriginalCardColors : value => value;
   const result = { home: {}, featuredDetail: {}, profileDetail: {} };
   for (const locale of LOCALES) {
     const renderer = createRenderer(root, locale);
     result.home[locale] = digest(serialize(renderer.home()));
     result.featuredDetail[locale] = {};
     renderer.featured.forEach((destination, index) => {
-      result.featuredDetail[locale][index] = digest(serialize(renderer.detail(destination)));
+      result.featuredDetail[locale][index] = digest(serialize(prepare(renderer.detail(destination))));
     });
     result.profileDetail[locale] = {};
-    for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(serialize(renderer.detail(profile)));
+    for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(serialize(prepare(renderer.detail(profile))));
   }
   return result;
 }
 
-module.exports = { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, withoutObjectPosition, loadFraming, snapshots, commonFrameSnapshots };
+module.exports = { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, withoutObjectPosition, loadFraming, snapshots, commonFrameSnapshots, withOriginalCardColors, LIGHT_CARD_CLASSES, loader, makeReact };
