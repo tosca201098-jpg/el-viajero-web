@@ -128,6 +128,38 @@ test('the planner keeps its dark look by default and has a light look for the wi
   }
 });
 
+// El texto sin color propio hereda el blanco de la ventana: en el planificador claro todo texto debe llevar un color
+// oscuro propio o estar dentro de un elemento que lo lleve.
+function textWithoutOwnColor(node, inherited, found, trail = []) {
+  if (Array.isArray(node)) { node.forEach(child => textWithoutOwnColor(child, inherited, found, trail)); return found; }
+  if (!node || typeof node !== 'object') return found;
+  if (typeof node.type === 'function') { (node.children ?? []).forEach(child => textWithoutOwnColor(child, inherited, found, trail)); return found; }
+  const own = classes(node).some(c => /^text-(slate|sky|rose)-\d+$/.test(c));
+  const hasColor = inherited || own;
+  const directText = (node.children ?? []).some(child => typeof child === 'string' && child.trim());
+  if (directText && !hasColor) found.push(`${node.type}: ${text(node).slice(0, 40)}`);
+  (node.children ?? []).forEach(child => textWithoutOwnColor(child, hasColor, found, trail));
+  return found;
+}
+
+test('in the light planner and itinerary every text has its own dark color (nothing falls back to the window white)', () => {
+  const { Planner, Content } = loadItinerary();
+  assert.deepEqual(textWithoutOwnColor(Content({ itinerary: sampleItinerary, surface: 'light' }), false, []), []);
+  const states = [[], [3, null, true], [3, null, false, true], [3, sampleItinerary, false, false, false, 'idle'], [3, sampleItinerary, false, false, false, 'signin'], [3, sampleItinerary, false, false, false, 'error']];
+  // Sin fechas se ve el selector de duración; con fechas, la línea "Duración del itinerario: N días" (más de 7 días añade un aviso).
+  const contexts = [{}, { departureDate: '2026-12-01', returnDate: '2026-12-05' }, { departureDate: '2026-12-01', returnDate: '2026-12-20' }];
+  let paragraphs = 0;
+  for (const context of contexts) for (const state of states) {
+    const { Planner: P } = loadItinerary([...state]);
+    const tree = P({ destination: londres, context, surface: 'light' });
+    const found = textWithoutOwnColor(tree, false, []);
+    if (flatten(tree).some(n => n.type === 'p' && text(n).startsWith('Duración'))) paragraphs++;
+    // El contenido del itinerario se revisa aparte (arriba).
+    assert.deepEqual(found, [], JSON.stringify({ context, state }));
+  }
+  assert.ok(paragraphs > 0, 'the duration line with dates was rendered');
+});
+
 test('the window asks for the light look and the other screens keep the dark one', () => {
   const page = source('app/page.tsx');
   assert.equal(page.split('surface="light"').length - 1, 1, 'only the window planner');
