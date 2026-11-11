@@ -1,9 +1,9 @@
-// PR 3A: marco común de la ventana de ficha (modelo Oslo) y botón "Vuelo + hotel".
+// PR 3A: marco común de la ventana de ficha (modelo Oslo).
 //
 // 1. La ventana de las 16 tarjetas originales y de los 486 perfiles del catálogo, en los siete idiomas,
 //    sale EXACTAMENTE igual que antes de mover el marco a los archivos compartidos
-//    (huellas generadas con la rama de la PR #64, antes de tocar nada de la PR 3A).
-// 2. Lo único nuevo es el botón "Vuelo + hotel", que reutiliza abrirPaquete() sin cambiarla.
+//    (huellas generadas con la rama de la PR #64, antes de tocar nada de la PR 3A; sin ninguna excepción).
+// 2. "Vuelo + hotel" NO se ofrece en la ficha: la función está aplazada y no debe presentarse como operativa.
 // 3. La bandera nunca se pone "por defecto".
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -17,7 +17,7 @@ const baseline = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'fi
 const source = file => fs.readFileSync(path.join(root, file), 'utf8');
 const text = n => n == null || n === false ? '' : Array.isArray(n) ? n.map(text).join('') : typeof n === 'object' ? text(n.children) : String(n);
 
-const current = commonFrameSnapshots(root, { ignorePackageButton: true });
+const current = commonFrameSnapshots(root);
 
 test('the baseline covers the home page, the 16 original windows and every catalog window in seven languages', () => {
   assert.deepEqual(Object.keys(baseline.home), LOCALES);
@@ -31,11 +31,11 @@ test('the home page and its 16 original cards are identical to the version befor
   assert.deepEqual(current.home, baseline.home);
 });
 
-test('the window of the 16 original destinations is identical in the seven languages (apart from the new button)', () => {
+test('the window of the 16 original destinations is identical in the seven languages', () => {
   assert.deepEqual(current.featuredDetail, baseline.featuredDetail);
 });
 
-test('the window of every catalog destination is identical in the seven languages (apart from the new button)', () => {
+test('the window of every catalog destination is identical in the seven languages', () => {
   for (const locale of LOCALES) {
     assert.deepEqual(Object.keys(current.profileDetail[locale]), Object.keys(baseline.profileDetail[locale]), locale);
     const different = Object.keys(baseline.profileDetail[locale]).filter(id => current.profileDetail[locale][id] !== baseline.profileDetail[locale][id]);
@@ -43,72 +43,29 @@ test('the window of every catalog destination is identical in the seven language
   }
 });
 
-const findFlights = (renderer, tree) => flatten(tree).filter(n => n.type === 'button' && text(n) === `✈️ ${renderer.t('search.findFlights')}`);
-const findHotels = (renderer, tree) => flatten(tree).filter(n => n.type === 'button' && text(n) === `🏨 ${renderer.t('search.findHotels')}`);
-const findPackage = tree => flatten(tree).filter(n => n.props['data-destination-action'] === 'package');
-
-test('every window that offers flights also offers one "Vuelo + hotel" button, after the hotels button, in its own language', () => {
-  let withPackage = 0, withoutPackage = 0;
+test('the window keeps its flights and hotels buttons and offers no "Vuelo + hotel" button', () => {
   for (const locale of LOCALES) {
     const renderer = createRenderer(root, locale);
-    const label = renderer.t('search.findPackage');
+    const flights = `✈️ ${renderer.t('search.findFlights')}`, hotels = `🏨 ${renderer.t('search.findHotels')}`;
+    const labels = [renderer.t('trips.package'), renderer.t('search.findPackage')];
     for (const destination of [...renderer.featured, ...renderer.profiles]) {
-      const tree = renderer.detail(destination);
-      const hotels = findHotels(renderer, tree), pack = findPackage(tree), flightButtons = findFlights(renderer, tree);
-      assert.equal(hotels.length, 1, `${locale} ${destination.name}: hotels button kept`);
-      assert.equal(pack.length, flightButtons.length, `${locale} ${destination.name}: package button appears together with the flights button`);
-      if (pack.length) {
-        withPackage++;
-        const [button] = pack;
-        assert.equal(button.type, 'button');
-        assert.equal(button.props.type, 'button');
-        assert.equal(typeof button.props.onClick, 'function');
-        assert.equal(text(button), `✈️🏨 ${label}`, `${locale} ${destination.name}`);
-        assert.ok(button.props.className.includes('sm:col-span-2'));
-        const grid = flatten(tree).find(n => n.children?.includes(button));
-        const order = grid.children.filter(c => c?.type === 'button');
-        assert.equal(order[order.length - 1], button, 'it goes after flights and hotels');
-      } else withoutPackage++;
+      const buttons = flatten(renderer.detail(destination)).filter(n => n.type === 'button').map(text);
+      assert.equal(buttons.filter(label => label === hotels).length, 1, `${locale} ${destination.name}: hotels button kept`);
+      assert.ok(buttons.filter(label => label === flights).length <= 1, `${locale} ${destination.name}`);
+      assert.ok(!buttons.some(label => labels.some(name => label.includes(name))), `${locale} ${destination.name}: no Vuelo + hotel button`);
     }
-  }
-  assert.ok(withPackage > 2500, 'most windows get the button: ' + withPackage);
-  assert.ok(withoutPackage > 0, 'windows without airports for flights get neither flights nor package: ' + withoutPackage);
-});
-
-test('the three buttons are present together on the 16 original windows', () => {
-  for (const locale of LOCALES) {
-    const renderer = createRenderer(root, locale);
     for (const destination of renderer.featured) {
-      const tree = renderer.detail(destination);
-      assert.equal(findPackage(tree).length, 1, `${locale} ${destination.name}`);
-      assert.equal(findHotels(renderer, tree).length, 1);
-      assert.equal(findFlights(renderer, tree).length, 1);
+      assert.equal(flatten(renderer.detail(destination)).filter(n => n.type === 'button' && text(n) === flights).length, 1, `${locale} ${destination.name}: flights button kept`);
     }
   }
 });
 
-test('the labels exist in the seven languages and are the same ones the site already used for "Vuelo + Hotel"', () => {
-  const labels = LOCALES.map(locale => createRenderer(root, locale).t('search.findPackage'));
-  assert.deepEqual(labels, ['Buscar Vuelo + Hotel', 'Find Flight + Hotel', 'Rechercher Vol + Hôtel', 'Flug + Hotel suchen', 'Cerca Volo + Hotel', 'Pesquisar Voo + Hotel', 'Busca Vol + Hotel']);
-});
-
-test('clicking "Vuelo + hotel" runs the existing abrirPaquete(): it opens the Vuelo + Hotel form with the destination filled in', () => {
-  for (const name of ['Oslo', 'Nueva York']) {
-    const renderer = createRenderer(root, 'es');
-    const destination = [...renderer.featured, ...renderer.profiles].find(item => item.name === name);
-    assert.ok(destination, name);
-    const button = findPackage(renderer.detail(destination))[0];
-    button.props.onClick();
-    const home = flatten(renderer.home());
-    assert.ok(!home.some(n => n.props.id === 'destination-detail-title'), 'the window closes, as with the flights button');
-    assert.ok(home.some(n => n.type === 'h2' && text(n).includes('✈️🏨 Vuelo + Hotel')), 'the existing Vuelo + Hotel window opens');
-    const inputs = home.filter(n => n.type === 'input' && n.props.placeholder === 'Roma');
-    assert.ok(inputs.some(n => n.props.value === destination.name), 'destination filled in: ' + destination.name);
-  }
-});
-
-test('the existing "Vuelo + hotel" function and its messages are untouched', () => {
+test('the window does not call the Vuelo + Hotel function, which stays untouched and postponed', () => {
   const page = source('app/page.tsx');
+  const modal = page.slice(page.indexOf('{/* MODAL DESTINO */}'), page.indexOf('{/* MODAL VUELOS */}'));
+  assert.ok(modal.length > 1000);
+  assert.ok(!/abrirPaquete|findPackage|trips\.package|data-destination-action/.test(modal));
+  assert.ok(!source('app/components/destination-window-style.ts').includes('sm:col-span-2'));
   const fn = page.slice(page.indexOf('function abrirPaquete('), page.indexOf('function abrirHoteles('));
   assert.equal(fn.trim(), `function abrirPaquete(destino = "") {
   if (destino) {
@@ -120,7 +77,7 @@ test('the existing "Vuelo + hotel" function and its messages are untouched', () 
 }`);
   assert.equal(page.split('El buscador de Vuelo + Hotel está preparado. Conectaremos las ofertas reales mediante la API.').length - 1, 2, 'the two existing forms keep their message');
   assert.match(page, /const tab = service === "ambos" \? "paquete" : "vuelos";/);
-  assert.equal(page.split('abrirPaquete(').length - 1, 3, 'definition + voice flow + the new button');
+  assert.equal(page.split('abrirPaquete(').length - 1, 2, 'only the definition and the voice flow, as before');
 });
 
 test('the common window style lives under /app, where Tailwind looks for classes', () => {
@@ -142,9 +99,9 @@ test('the window uses the common style: no copy of the Oslo classes stays inside
 });
 
 test('the flag is shown only when there is a reliable country code, and the French flag is never the default', () => {
-  const flags = require('typescript');
+  const ts = require('typescript');
   const mod = {};
-  new Function('exports', flags.transpileModule(source('lib/destinations/country-flags.ts'), { compilerOptions: { module: flags.ModuleKind.CommonJS, target: flags.ScriptTarget.ES2020 } }).outputText)(mod);
+  new Function('exports', ts.transpileModule(source('lib/destinations/country-flags.ts'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText)(mod);
   assert.equal(mod.flagForCountryCode('FR'), '🇫🇷');
   assert.equal(mod.flagForCountryCode('NO'), '🇳🇴');
   for (const unknown of ['ZZ', 'XX', '', 'constructor', 'toString', undefined, null]) assert.equal(mod.flagForCountryCode(unknown), undefined, String(unknown));

@@ -11,9 +11,7 @@ const FRAME_CLASS = 'relative h-52 max-sm:h-[140px] sm:h-72';
 const text = n => n == null || n === false ? '' : Array.isArray(n) ? n.map(text).join(' ') : typeof n === 'object' ? text(n.children) : String(n);
 
 const framing = loadFraming(root);
-// PR 3A añade el botón "Vuelo + hotel" a la ficha; se descarta aquí y se comprueba aparte en
-// tests/destination-window-common-frame.test.cjs. Todo lo demás se sigue comparando igual.
-const current = snapshots(root, { normalizeFrame: true, ignorePackageButton: true });
+const current = snapshots(root, { normalizeFrame: true });
 
 test('the home page, including the 16 original cards, is identical to the version before the photo-frame change', () => {
   assert.deepEqual(current.home, baseline.home);

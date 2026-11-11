@@ -27,11 +27,10 @@ export const destinationWindowStyle = {
   stayCard: "mt-5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-300",
   stayLabel: "font-semibold text-white",
 
-  // Botones de acción del final: vuelos, hoteles y vuelo + hotel.
+  // Botones de acción del final: vuelos y hoteles.
   actions: "mt-8 grid gap-3 sm:grid-cols-2",
   primaryAction: "rounded-2xl bg-cyan-300 px-6 py-4 font-bold text-slate-950 disabled:cursor-wait disabled:opacity-60",
   secondaryAction: "rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-4 font-bold text-cyan-200",
-  secondaryActionWide: "rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-4 font-bold text-cyan-200 sm:col-span-2",
 } as const;
 
 // El título se reduce en móvil según la longitud del nombre para que no tape el botón de cierre.

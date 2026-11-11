@@ -16,11 +16,13 @@
 3. **Banderas**: `lib/destinations/country-flags.ts` es una tabla de países con bandera. Si el código de
    país no está en la tabla, no se muestra bandera. Se acabó la bandera francesa "por defecto" en la
    ventana de ficha (Francia está en la tabla como cualquier otro país).
-4. **Botón "Vuelo + hotel"** (`✈️🏨 Buscar Vuelo + Hotel`, siete idiomas con la clave existente
-   `search.findPackage`) como tercer botón de la ventana. Sale en las mismas fichas y con la misma
-   condición que el botón de vuelos. Al pulsarlo llama a `abrirPaquete(nombre)`, la función que ya usaba
-   el asistente de voz: abre la ventana "Vuelo + Hotel" con el destino rellenado. No se ha tocado esa
-   función ni sus mensajes.
+
+## "Vuelo + hotel": aplazado
+
+La función "Vuelo + hotel" todavía no se ha empezado a desarrollar (se abordará cuando Europa esté
+terminada y publicada). Por eso **la ventana de ficha no ofrece ningún botón de "Vuelo + hotel"**: tiene
+solo "Buscar vuelos" y "Buscar hoteles", como antes. No se ha tocado `abrirPaquete()` ni los formularios
+provisionales que ya existían en el buscador, y una prueba lo vigila.
 
 ## Qué NO cambia
 
@@ -33,6 +35,5 @@
 `tests/destination-window-common-frame.test.cjs` compara la portada y la ventana de las 16 tarjetas
 originales y de los 486 perfiles del catálogo en los siete idiomas (3.514 ventanas) con las huellas de
 `tests/fixtures/ficha-baseline-before-common-frame.json`, generadas con la rama de la PR #64 antes de
-tocar nada. Lo único que se descarta de la comparación es el botón nuevo. También comprueba el botón
-(presente donde hay vuelos, texto en cada idioma, orden, que abre el formulario existente), que
-`abrirPaquete` no ha cambiado y que la ventana no tiene bandera por defecto.
+tocar nada. La comparación es exacta, sin excepciones. También comprueba que la ventana no ofrece
+"Vuelo + hotel", que `abrirPaquete` no ha cambiado y que la ventana no tiene bandera por defecto.

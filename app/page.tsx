@@ -977,11 +977,6 @@ function abrirPaquete(destino = "") {
     </div>
   );
 
-  // El botón de vuelo + hotel incluye vuelo, así que sale en las mismas fichas y con la misma
-  // condición que el de vuelos (si no hay vuelos que buscar, tampoco se ofrece el paquete).
-  const showFlightActions = !featuredFlightSearch && !flightResultsOpen &&
-    (!selectedCatalogProfile || selectedCatalogProfile.iataCodes.length > 0);
-
   return (
     <main className="min-h-screen overflow-hidden bg-[#F7F2E8] text-stone-800">
       {/* FONDOS DE CIUDADES */}
@@ -1533,7 +1528,7 @@ function abrirPaquete(destino = "") {
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}
 
               <div className={windowStyle.actions}>
-                {showFlightActions && <button
+                {!featuredFlightSearch && !flightResultsOpen && (!selectedCatalogProfile || selectedCatalogProfile.iataCodes.length > 0) && <button
                   onClick={() => flightsFromDestinationCard(destinoSeleccionado)}
                   disabled={flightSearch.status === "loading"}
                   className={windowStyle.primaryAction}
@@ -1549,15 +1544,6 @@ function abrirPaquete(destino = "") {
                 >
                   🏨 {t("search.findHotels")}
                 </button>
-
-                {showFlightActions && <button
-                  type="button"
-                  data-destination-action="package"
-                  onClick={() => abrirPaquete(destinoSeleccionado.name)}
-                  className={windowStyle.secondaryActionWide}
-                >
-                  ✈️🏨 {t("search.findPackage")}
-                </button>}
               </div>
               {flightSearch.status === "error" && <p role="alert" className="mt-3 text-sm text-red-200">{t(flightSearch.key)}</p>}
             </div>
