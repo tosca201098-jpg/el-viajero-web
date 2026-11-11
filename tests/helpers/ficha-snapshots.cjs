@@ -71,6 +71,7 @@ function createRenderer(root, locale) {
   const slot = hit[0];
   state[slot] = null;
   return {
+    t: key => dictionaries.translate(locale, key),
     featured, profiles: catalog.destinationProfiles,
     home: () => { state[slot] = null; return render(); },
     detail: destination => { state[slot] = destination; const tree = render(); state[slot] = null; return tree; },
@@ -118,6 +119,7 @@ function loadFraming(root) {
 
 function snapshots(root, options = {}) {
   const frame = options.normalizeFrame ? withOriginalFrame : value => value;
+  const prepare = options.ignorePackageButton ? withoutPackageButton : value => value;
   const normalize = value => withoutObjectPosition(frame(value));
   const result = { home: {}, featuredDetail: {}, profileDetail: {} };
   for (const locale of LOCALES) {
@@ -125,14 +127,44 @@ function snapshots(root, options = {}) {
     result.home[locale] = digest(withoutObjectPosition(serialize(renderer.home())));
     result.featuredDetail[locale] = {};
     renderer.featured.forEach((destination, index) => {
-      result.featuredDetail[locale][index] = digest(normalize(serialize(renderer.detail(destination))));
+      result.featuredDetail[locale][index] = digest(normalize(serialize(prepare(renderer.detail(destination)))));
     });
     if (locale === 'es' || locale === 'en') {
       result.profileDetail[locale] = {};
-      for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(normalize(serialize(renderer.detail(profile))));
+      for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(normalize(serialize(prepare(renderer.detail(profile)))));
     }
   }
   return result;
 }
 
-module.exports = { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, withoutObjectPosition, loadFraming, snapshots };
+// PR 3A añade a la ventana de ficha un tercer botón ("Vuelo + hotel", data-destination-action="package").
+// Para demostrar que todo lo demás sale idéntico, este filtro lo quita del árbol antes de compararlo.
+// Cuando el botón no se ofrece, React recibe un `false` en su lugar (no pinta nada); también se descarta.
+const ACTIONS_GRID = 'mt-8 grid gap-3 sm:grid-cols-2';
+function withoutPackageButton(node) {
+  if (Array.isArray(node)) return node.map(withoutPackageButton);
+  if (!node || typeof node !== 'object') return node;
+  let children = (node.children ?? []).filter(child => child?.props?.['data-destination-action'] !== 'package');
+  if (node.props?.className === ACTIONS_GRID && children[children.length - 1] === false) children = children.slice(0, -1);
+  return { ...node, children: children.map(withoutPackageButton) };
+}
+
+// Huellas de la portada y de TODAS las ventanas de ficha (las 16 originales y los 486 perfiles del
+// catálogo) en los siete idiomas. Con ignorePackageButton se descarta el botón nuevo de la PR 3A.
+function commonFrameSnapshots(root, options = {}) {
+  const prepare = options.ignorePackageButton ? withoutPackageButton : value => value;
+  const result = { home: {}, featuredDetail: {}, profileDetail: {} };
+  for (const locale of LOCALES) {
+    const renderer = createRenderer(root, locale);
+    result.home[locale] = digest(serialize(renderer.home()));
+    result.featuredDetail[locale] = {};
+    renderer.featured.forEach((destination, index) => {
+      result.featuredDetail[locale][index] = digest(serialize(prepare(renderer.detail(destination))));
+    });
+    result.profileDetail[locale] = {};
+    for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(serialize(prepare(renderer.detail(profile))));
+  }
+  return result;
+}
+
+module.exports = { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, withoutObjectPosition, withoutPackageButton, loadFraming, snapshots, commonFrameSnapshots };

@@ -26,6 +26,9 @@ import { canShowDestinationAutomatically } from '@/lib/destinations/presentation
 import { destinationFromPlaceSelection, accessAirportSearchInput } from '@/lib/destinations/selection';
 import { destinations, type Destination } from "@/lib/destinations/featured";
 import { panoramicImagePosition } from "@/lib/destinations/image-framing";
+import { flagForCountryCode } from "@/lib/destinations/country-flags";
+import { destinationWindowHeader } from "@/app/components/destination-window-header";
+import { destinationWindowStyle as windowStyle } from "@/app/components/destination-window-style";
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
@@ -974,6 +977,11 @@ function abrirPaquete(destino = "") {
     </div>
   );
 
+  // El botón de vuelo + hotel incluye vuelo, así que sale en las mismas fichas y con la misma
+  // condición que el de vuelos (si no hay vuelos que buscar, tampoco se ofrece el paquete).
+  const showFlightActions = !featuredFlightSearch && !flightResultsOpen &&
+    (!selectedCatalogProfile || selectedCatalogProfile.iataCodes.length > 0);
+
   return (
     <main className="min-h-screen overflow-hidden bg-[#F7F2E8] text-stone-800">
       {/* FONDOS DE CIUDADES */}
@@ -1408,49 +1416,25 @@ function abrirPaquete(destino = "") {
       {/* MODAL DESTINO */}
       {destinoSeleccionado && (
         <div
-          className={flightResultsOpen
-            ? "fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-3 text-white backdrop-blur-md sm:p-4"
-            : "fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 text-white backdrop-blur-md sm:p-4"}
+          className={flightResultsOpen ? windowStyle.overlayRaised : windowStyle.overlay}
           onClick={(event) => { if (event.target === event.currentTarget) closeDestinationDetail(); }}
         >
-          <div role="dialog" aria-modal="true" aria-labelledby="destination-detail-title" className="max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl sm:max-h-[calc(100dvh-2rem)]">
+          <div role="dialog" aria-modal="true" aria-labelledby="destination-detail-title" className={windowStyle.dialog}>
             {renderVoiceControls()}
-            <div className="relative h-52 max-sm:h-[140px] sm:h-72" data-destination-photo-frame="panoramic">
-              <img
-                src={destinoSeleccionado.image}
-                alt={destinoSeleccionado.name}
-                className="h-full w-full object-cover"
-                style={panoramicImagePosition(destinoSeleccionado) ? { objectPosition: panoramicImagePosition(destinoSeleccionado) } : undefined}
-              />
+            {destinationWindowHeader({
+              image: destinoSeleccionado.image,
+              imageAlt: destinoSeleccionado.name,
+              imagePosition: panoramicImagePosition(destinoSeleccionado),
+              closeLabel: t("common.close"),
+              onClose: closeDestinationDetail,
+              closeButtonRef: flightResultsOpen ? flightResultsCloseRef : undefined,
+              flag: destinoSeleccionado.emoji ?? flagForCountryCode(selectedCatalogProfile?.countryCode) ?? "",
+              country: destinationCountry(destinoSeleccionado, language),
+              title: selectedDisplay?.name,
+              titleId: "destination-detail-title",
+            })}
 
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/20" />
-
-              <button
-                ref={flightResultsOpen ? flightResultsCloseRef : undefined}
-                type="button"
-                onClick={closeDestinationDetail}
-                aria-label={t("common.close")}
-                className="absolute right-5 top-5 rounded-full bg-black/60 px-4 py-2 font-bold backdrop-blur"
-              >
-                ✕
-              </button>
-
-              <div className="absolute bottom-6 left-6 right-20 max-sm:bottom-3 max-sm:right-[4.75rem]">
-                <p className="text-cyan-200">
-                  {destinoSeleccionado.emoji ?? (selectedCatalogProfile?.countryCode === 'HR' ? '🇭🇷' : selectedCatalogProfile?.countryCode === 'SI' ? '🇸🇮' : selectedCatalogProfile?.countryCode === 'GR' ? '🇬🇷' : selectedCatalogProfile?.countryCode === 'SK' ? '🇸🇰' : selectedCatalogProfile?.countryCode === 'HU' ? '🇭🇺' : selectedCatalogProfile?.countryCode === 'PL' ? '🇵🇱' : selectedCatalogProfile?.countryCode === 'CZ' ? '🇨🇿' : selectedCatalogProfile?.countryCode === 'AT' ? '🇦🇹' : selectedCatalogProfile?.countryCode === 'CH' ? '🇨🇭' : selectedCatalogProfile?.countryCode === 'BE' ? '🇧🇪' : selectedCatalogProfile?.countryCode === 'NL' ? '🇳🇱' : selectedCatalogProfile?.countryCode === 'DE' ? '🇩🇪' : selectedCatalogProfile?.countryCode === 'GB' ? '🇬🇧' : selectedCatalogProfile?.countryCode === 'IT' ? '🇮🇹' : selectedCatalogProfile?.countryCode === 'IE' ? '🇮🇪' : selectedCatalogProfile?.countryCode === 'EE' ? '🇪🇪' : selectedCatalogProfile?.countryCode === 'LV' ? '🇱🇻' : selectedCatalogProfile?.countryCode === 'LT' ? '🇱🇹' : selectedCatalogProfile?.countryCode === 'LU' ? '🇱🇺' : selectedCatalogProfile?.countryCode === 'GI' ? '🇬🇮' : selectedCatalogProfile?.countryCode === 'JE' ? '🇯🇪' : selectedCatalogProfile?.countryCode === 'GG' ? '🇬🇬' : selectedCatalogProfile?.countryCode === 'IM' ? '🇮🇲' : selectedCatalogProfile?.countryCode === 'FO' ? '🇫🇴' : selectedCatalogProfile?.countryCode === 'AX' ? '🇦🇽' : selectedCatalogProfile?.countryCode === 'SE' ? '🇸🇪' : selectedCatalogProfile?.countryCode === 'NO' ? '🇳🇴' : selectedCatalogProfile?.countryCode === 'DK' ? '🇩🇰' : selectedCatalogProfile?.countryCode === 'IS' ? '🇮🇸' : selectedCatalogProfile?.countryCode === 'FI' ? '🇫🇮' : selectedCatalogProfile?.countryCode === 'RO' ? '🇷🇴' : selectedCatalogProfile?.countryCode === 'BG' ? '🇧🇬' : selectedCatalogProfile?.countryCode === 'MD' ? '🇲🇩' : selectedCatalogProfile?.countryCode === 'RS' ? '🇷🇸' : selectedCatalogProfile?.countryCode === 'BA' ? '🇧🇦' : selectedCatalogProfile?.countryCode === 'ME' ? '🇲🇪' : selectedCatalogProfile?.countryCode === 'MK' ? '🇲🇰' : selectedCatalogProfile?.countryCode === 'XK' ? '🇽🇰' : selectedCatalogProfile?.countryCode === 'MT' ? '🇲🇹' : selectedCatalogProfile?.countryCode === 'CY' ? '🇨🇾' : selectedCatalogProfile?.countryCode === 'TR' ? '🇹🇷' : selectedCatalogProfile?.countryCode === 'AL' ? '🇦🇱' : selectedCatalogProfile ? '🇫🇷' : '')}{" "}
-                  {destinationCountry(destinoSeleccionado, language)}
-                </p>
-
-                <h2
-                  id="destination-detail-title"
-                  className={`break-words font-black md:text-5xl ${(selectedDisplay?.name?.length ?? 0) > 24 ? "max-sm:text-xl max-sm:leading-6" : (selectedDisplay?.name?.length ?? 0) > 12 ? "max-sm:text-2xl max-sm:leading-7" : ""} text-4xl`}
-                >
-                  {selectedDisplay?.name}
-                </h2>
-              </div>
-            </div>
-
-            <div className="p-7 md:p-9">
+            <div className={windowStyle.body}>
               {destinoSeleccionado.imageSource && (
                 <p className="mb-3 text-xs text-slate-400">
                   <a href={destinoSeleccionado.imageSource} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
@@ -1461,7 +1445,7 @@ function abrirPaquete(destino = "") {
                   )}
                 </p>
               )}
-              <p className="text-lg leading-8 text-slate-300">
+              <p className={windowStyle.description}>
                 {text(selectedDisplay?.description ?? destinoSeleccionado.description)}
               </p>
               {(selectedCatalogProfile?.countryCode === 'GR' || selectedCatalogProfile?.countryCode === 'SI' || (selectedCatalogProfile?.countryCode === 'HR' && selectedCatalogProfile.airports.length > 0) || (selectedCatalogProfile?.countryCode === 'FR' && selectedCatalogProfile.airports.some(airport => franceAirports.some(item => item.code === airport.iataCode)))) && (
@@ -1482,16 +1466,16 @@ function abrirPaquete(destino = "") {
                 </p>
               )}
 
-              <h3 className="mt-8 text-xl font-bold">
+              <h3 className={windowStyle.sectionHeading}>
                 ✨ {t("destinations.recommendations")}
               </h3>
 
-              <div className="mt-4 grid gap-3 sm:grid-cols-2">
+              <div className={windowStyle.recommendationsGrid}>
                 {(selectedDisplay?.recommendations ?? destinoSeleccionado.recommendations).map(
                   (recomendacion) => (
                     <div
                       key={recomendacion}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-4 text-slate-300"
+                      className={windowStyle.recommendationCard}
                     >
                       📍 {text(recomendacion)}
                     </div>
@@ -1500,8 +1484,8 @@ function abrirPaquete(destino = "") {
               </div>
 
               {destinoSeleccionado.recommendedStay && (
-                <p className="mt-5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-300">
-                  <span className="font-semibold text-white">{t("destinations.recommendedStay")}:</span>{" "}
+                <p className={windowStyle.stayCard}>
+                  <span className={windowStyle.stayLabel}>{t("destinations.recommendedStay")}:</span>{" "}
                   {selectedDisplay?.recommendedStay}
                 </p>
               )}
@@ -1548,11 +1532,11 @@ function abrirPaquete(destino = "") {
 
               {flightResultsOpen && flightDestinationCard?.name === destinoSeleccionado.name && renderFlightOffers(true)}
 
-              <div className="mt-8 grid gap-3 sm:grid-cols-2">
-                {!featuredFlightSearch && !flightResultsOpen && (!selectedCatalogProfile || selectedCatalogProfile.iataCodes.length > 0) && <button
+              <div className={windowStyle.actions}>
+                {showFlightActions && <button
                   onClick={() => flightsFromDestinationCard(destinoSeleccionado)}
                   disabled={flightSearch.status === "loading"}
-                  className="rounded-2xl bg-cyan-300 px-6 py-4 font-bold text-slate-950 disabled:cursor-wait disabled:opacity-60"
+                  className={windowStyle.primaryAction}
                 >
                   ✈️ {flightSearch.status === "loading" ? t("search.searchingFlights") : t("search.findFlights")}
                 </button>}
@@ -1561,10 +1545,19 @@ function abrirPaquete(destino = "") {
                   onClick={() =>
                     abrirHoteles(destinoSeleccionado, itineraryContext)
                   }
-                  className="rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-4 font-bold text-cyan-200"
+                  className={windowStyle.secondaryAction}
                 >
                   🏨 {t("search.findHotels")}
                 </button>
+
+                {showFlightActions && <button
+                  type="button"
+                  data-destination-action="package"
+                  onClick={() => abrirPaquete(destinoSeleccionado.name)}
+                  className={windowStyle.secondaryActionWide}
+                >
+                  ✈️🏨 {t("search.findPackage")}
+                </button>}
               </div>
               {flightSearch.status === "error" && <p role="alert" className="mt-3 text-sm text-red-200">{t(flightSearch.key)}</p>}
             </div>
