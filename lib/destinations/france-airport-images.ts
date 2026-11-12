@@ -80,11 +80,11 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "carcassonne": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bf/Carcassonne-2.jpg/960px-Carcassonne-2.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Carcassonne-2.jpg",
-    "imageCredit": "Pedemann",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://images.unsplash.com/photo-1620815253545-03cf0bd96140?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/vO4SExwFVHI",
+    "imageCredit": "Hugo Margolles",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "la-rochelle": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3f/Les_tours_du_vieux_port%2C_La_Rochelle.jpg/960px-Les_tours_du_vieux_port%2C_La_Rochelle.jpg",
@@ -174,11 +174,11 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "metz": {
-      "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Metz_Cathedral_004.JPG/960px-Metz_Cathedral_004.JPG",
-      "imageSource": "https://commons.wikimedia.org/wiki/File:Metz_Cathedral_004.JPG",
-      "imageCredit": "H. Zell",
-      "imageLicense": "CC BY-SA 3.0",
-      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      "image": "https://images.unsplash.com/photo-1609496594181-8bf4ced53ae1?auto=format&fit=crop&w=1600&q=80",
+      "imageSource": "https://unsplash.com/photos/l8r0iD7_gtU",
+      "imageCredit": "Timothée Gidenne",
+      "imageLicense": "Unsplash License",
+      "imageLicenseUrl": "https://unsplash.com/license"
   },
   "brive-la-gaillarde": {
       "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg/960px-Brive-la-Gaillarde_-_Place_Latreille_-_1.jpg",

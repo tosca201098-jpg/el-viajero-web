@@ -1,6 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -101,6 +102,7 @@ test('Hungarian autocomplete supports airport and tourist selections without fab
 });
 test('twelve direct Commons images carry correct author and reusable CC license', () => {
   for (const profile of hungarian) {
+    if (unsplash.checked(profile)) continue;
     assert.match(profile.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);
     assert.match(profile.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(profile.imageCredit);

@@ -1,6 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto'),ts=require('typescript');
 const root=path.resolve(__dirname,'..'),before=require('./fixtures/pre-greece-catalog.json');
 const locales=['es','en','fr','de','it','pt','ca'];
@@ -105,6 +106,7 @@ test('Greek profiles remain selection-only drafts and publish no destination pag
 test('all thirty-nine photographs preserve Commons source, creator and reuse statement',()=>{
   const photos=new Set();
   for(const p of greek){
+    if(unsplash.checked(p)){photos.add(p.image);continue;}
     if(p.id==='gr-kalymnos')assert.match(p.image,/^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/.*Calymnos_harbour\.jpg$/);else assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);photos.add(p.image);
     assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(p.imageCredit);assert.match(p.imageLicense,/^(?:CC(?: BY|0)|Public domain)/);

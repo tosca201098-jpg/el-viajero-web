@@ -1,5 +1,6 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto'),ts=require('typescript');
 const root=path.resolve(__dirname,'..');
 function loader(globals={}){const cache=new Map();function load(file){file=file.replaceAll('\\','/');if(cache.has(file))return cache.get(file);const exports={};cache.set(file,exports);
@@ -74,7 +75,10 @@ test('new city cards remain draft and excluded from automatic recommendations an
 test('real photo URLs and individual attribution match the Commons metadata without adding private or price data',()=>{
  const photos=require('./fixtures/france-airport-photos.json');assert.equal(Object.keys(photos).length,36);
  for(const[slug,photo]of Object.entries(photos)){
-  const p=catalog.getDestinationById('fr-'+slug);assert.equal(p.image,photo.url);assert.equal(p.imageSource,photo.source);assert.equal(p.imageCredit,photo.artist);assert.equal(p.imageLicense,photo.license);assert.equal(p.imageLicenseUrl,photo.licenseUrl);assert.equal(p.imagePosition,photo.position);
+  const p=catalog.getDestinationById('fr-'+slug);
+  // Metz y Carcasona usan ahora una foto de Unsplash (prioridad 1): se comprueba aparte; el fichero de Commons queda como registro de la foto anterior.
+  if(unsplash.checked(p)){for(const key of ['price','hotelId','flightPrice','available','apiKey','token'])assert.equal(p[key],undefined);continue;}
+  assert.equal(p.image,photo.url);assert.equal(p.imageSource,photo.source);assert.equal(p.imageCredit,photo.artist);assert.equal(p.imageLicense,photo.license);assert.equal(p.imageLicenseUrl,photo.licenseUrl);assert.equal(p.imagePosition,photo.position);
   assert.match(p.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(p.imageLicense,/^CC BY/);assert.ok(photo.width>=960);assert.ok(!/<[^>]+>/.test(p.imageCredit));
   for(const key of ['price','hotelId','flightPrice','available','apiKey','token'])assert.equal(p[key],undefined);
  }

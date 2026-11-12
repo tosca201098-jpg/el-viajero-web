@@ -144,7 +144,7 @@ export const portugalDestinations: DestinationProfile[] = [
       "Porto Santo Island",
       "Isla de Porto Santo"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Porto_santo_strand_5-2007.jpg/960px-Porto_santo_strand_5-2007.jpg",
+    "image": "https://images.unsplash.com/photo-1639058198237-1f98a2e19dca?auto=format&fit=crop&w=1600&q=80",
     "description": "Larga playa dorada y paisajes tranquilos al noreste de Madeira.",
     "recommendations": [
       "Praia do Porto Santo",
@@ -156,10 +156,10 @@ export const portugalDestinations: DestinationProfile[] = [
     "bestMonths": [5,6,9,10],
     "lowSeasonMonths": [1,2,11,12],
     "highSeasonMonths": [7,8],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Porto_santo_strand_5-2007.jpg",
-    "imageCredit": "Hedwig Storch",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "imageSource": "https://unsplash.com/photos/mbKgSUWuuVQ",
+    "imageCredit": "Daniele Franchi",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "pt-beja",

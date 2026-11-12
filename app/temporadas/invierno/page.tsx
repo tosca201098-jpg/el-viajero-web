@@ -55,14 +55,14 @@ const destinosInvierno = [
   {
     nombre: "Nueva York",
     pais: "Estados Unidos",
-    imagen: "https://images.unsplash.com/photo-1758229561242-9b9f1c1a00f7?auto=format&fit=crop&w=1200&q=80",
+    imagen: "https://images.unsplash.com/photo-1522479968247-63eafc78951e?auto=format&fit=crop&w=1200&q=80",
     categoria: "🎄 Ciudad invernal",
     descripcion: "Luces, mercadillos y pistas de hielo dan ambiente invernal a la ciudad.",
   },
   {
     nombre: "Fuerteventura",
     pais: "España",
-    imagen: "https://images.unsplash.com/photo-1566156411617-7987737028d0?auto=format&fit=crop&w=1200&q=80",
+    imagen: "https://images.unsplash.com/photo-1545289415-50dff9405935?auto=format&fit=crop&w=1200&q=80",
     categoria: "☀️ Sol de invierno",
     descripcion: "Playas y clima suave para escapar del frío durante el invierno europeo.",
   },

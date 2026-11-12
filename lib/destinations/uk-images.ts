@@ -36,11 +36,11 @@ export const ukImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   "york": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/The_York_Minster.jpg/960px-The_York_Minster.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:The_York_Minster.jpg",
-    "imageCredit": "Dudva",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "image": "https://images.unsplash.com/photo-1586432680458-bcbfcc1e4bd8?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/JBJmXBiCBPk",
+    "imageCredit": "Karl Moran",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "oxford-cotswolds": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b2/Radcliffe_Camera_Oxford_2018_03.jpg/960px-Radcliffe_Camera_Oxford_2018_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
