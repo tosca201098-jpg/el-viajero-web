@@ -64,3 +64,20 @@ originales y de los 486 perfiles del catálogo en los siete idiomas (3.514 venta
 `tests/fixtures/ficha-baseline-before-common-frame.json`, generadas con la rama de la PR #64 antes de
 tocar nada. La comparación es exacta; la única diferencia permitida son los colores de la ventana. También comprueba que la ventana no ofrece
 "Vuelo + hotel", que `abrirPaquete` no ha cambiado y que la ventana no tiene bandera por defecto.
+
+## Páginas de temporadas (PR 4B)
+
+Las tarjetas y la ventana de `/temporadas/primavera`, `verano`, `otono` e `invierno` (16 tarjetas cada una,
+64 en total) usan ahora los mismos colores que la ficha de Roma: tarjeta blanca con la foto y el nombre
+encima, ventana blanca con texto oscuro, lugares y estancia en tarjetas claras, etiqueta de categoría y botones
+secundarios en azul cielo muy claro, y el degradado de la foto y el telón de la ficha. **Solo cambian colores**:
+tamaños, posiciones, textos, fotos, enlaces y funciones son los de antes.
+
+- `tests/season-windows-common-design.test.cjs` compara las 4 páginas y las 64 ventanas con las huellas de
+  `tests/fixtures/season-windows-baseline-before-light.json` (generadas con la rama anterior) devolviendo antes
+  los colores a su valor anterior (`tests/helpers/season-pages.cjs`), igual que en la ficha.
+- Las pruebas de cada país (`tests/*-destinations.test.cjs`) vigilan que añadir un país no toque las páginas de
+  temporadas, comparando su contenido con una huella. Esas huellas (en `tests/fixtures/pre-*-catalog.json`) se han
+  **actualizado a los archivos nuevos**; sigue vigilándose lo mismo, pero ahora respecto al diseño claro.
+- «Vuelo + Hotel» (botón que ya existía en estas ventanas) se conserva tal cual; solo cambia de color como los
+  otros botones secundarios. Su futuro está pendiente de decisión.
