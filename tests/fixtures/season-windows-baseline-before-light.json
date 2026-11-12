@@ -1,0 +1,86 @@
+{
+  "primavera": {
+    "page": "4aefa0cd319d1b6e",
+    "windows": {
+      "Tokio": "2ffde92f95c922f5",
+      "Kioto": "656c9d4d9298750e",
+      "Ámsterdam": "0e4d6f4120e2f422",
+      "París": "9cf6136362b29e2b",
+      "Sevilla": "66c280656082b48b",
+      "Córdoba": "0ff7e9eda59928db",
+      "Lisboa": "f742dbed5431a5b8",
+      "Madeira": "cdc067e250915d0e",
+      "Roma": "ed36538e345eb9aa",
+      "Florencia": "e7915be6ed57ec58",
+      "Estambul": "fcac70d1430c019e",
+      "Capadocia": "bc39b559618ac5c2",
+      "Washington D. C.": "db6771b2dc4a52a8",
+      "Seúl": "b53b32d306e76d56",
+      "Jeju": "78c181dbd38659f3",
+      "Valle del Loira": "9bf7f76975fd2ac1"
+    }
+  },
+  "verano": {
+    "page": "4bd8dca23cd333ff",
+    "windows": {
+      "Dubrovnik": "e68b914ad49aa966",
+      "Santorini": "53388094fc983300",
+      "Mallorca": "5515556c6e1162e4",
+      "Algarve": "e23cf5a99c1c954f",
+      "Dolomitas": "ad92b398077ef2ae",
+      "Islandia": "fb1a21dde4cf7969",
+      "Islas Lofoten": "c11968c2cacba122",
+      "Edimburgo": "d124ce12310b7ee6",
+      "Banff": "432a354427f9db81",
+      "Vancouver": "a85c8b7799a017c3",
+      "Cusco y Machu Picchu": "19ea856f8f0ab0b7",
+      "Bali": "726d2f002279908f",
+      "Zanzíbar": "0cff2fb365b9bb5e",
+      "Curaçao": "97ad07824fa4157f",
+      "Riviera Albanesa / Ksamil": "270bd36b612e83e6",
+      "Split": "ac38df32d031c2f0"
+    }
+  },
+  "otono": {
+    "page": "8d1027293c878ff6",
+    "windows": {
+      "Kioto": "a634b3ec7bfbf3a9",
+      "Tōhoku": "8293e3e6f92057c5",
+      "Seúl": "6149f0cc2efd0e9a",
+      "Pokhara y Annapurna": "945371d1c42d1c5c",
+      "Nueva Inglaterra": "633d7b301ff4c4bd",
+      "Nueva York": "b2482faf99d82d60",
+      "Quebec": "43f0bd8b90b835ff",
+      "Oaxaca": "a15a186c5bca2444",
+      "Highlands de Escocia": "dd3bf0a4832f1425",
+      "Borgoña": "0fc9177d8ac5bee8",
+      "Umbría": "72ac3bbd80a01e08",
+      "Lago Bohinj": "f31082456e59bdb8",
+      "Montenegro": "5eb8c859ddb3fad4",
+      "Fez": "be7e8fa5b6044ddd",
+      "Menorca": "0d5b0beb513b4376",
+      "Luxor y el Nilo": "b3eb659fff9e773d"
+    }
+  },
+  "invierno": {
+    "page": "2cd877b00ca3ebf6",
+    "windows": {
+      "Rovaniemi y Laponia": "9c9b645bfd8be721",
+      "Tromsø": "570023a6945cffb9",
+      "Islandia": "59ee5b27369b0f16",
+      "Zermatt": "2685ef6870e61081",
+      "Dolomitas / Cortina d’Ampezzo": "c83307c63a547bc0",
+      "Banff": "1fde5f7a549d5690",
+      "Hokkaido / Sapporo": "c9a638ed8f785c6a",
+      "Nueva York": "ee63d0a75a67e0fe",
+      "Fuerteventura": "b0980458e68e2cb3",
+      "Madeira": "23a4e811dc2ecf6f",
+      "Maldivas": "eeae9e9b08bc2828",
+      "Phuket y Krabi": "f16f9d4b58eba8d8",
+      "Ciudad del Cabo": "76a3bc22d2c1a5a7",
+      "Patagonia": "7269d0d032fd7891",
+      "Singapur": "dc4ad187a8109d0b",
+      "Río de Janeiro": "5d5d75948f66b629"
+    }
+  }
+}
