@@ -46,7 +46,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "MAD"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Madrid_-_Sky_Bar_360%C2%BA_%28Hotel_Riu_Plaza_Espa%C3%B1a%29%2C_vistas_19.jpg/960px-Madrid_-_Sky_Bar_360%C2%BA_%28Hotel_Riu_Plaza_Espa%C3%B1a%29%2C_vistas_19.jpg",
+    "image": "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1600&q=80",
     "description": "Museos de primer nivel, parques y barrios para descubrir la capital a cualquier hora.",
     "recommendations": [
       "Museo del Prado",
@@ -65,10 +65,10 @@ export const spainDestinations: DestinationProfile[] = [
     "auxiliaryCodes": [
       "LECU"
     ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Madrid_-_Sky_Bar_360%C2%BA_(Hotel_Riu_Plaza_Espa%C3%B1a),_vistas_19.jpg",
-    "imageCredit": "Zarateman",
-    "imageLicense": "CC0",
-    "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    "imageSource": "https://unsplash.com/photos/metropolis-building-and-gran-via-madrid-WBGjg0DsO_g",
+    "imageCredit": "Florian Wehde",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "es-alicante",
