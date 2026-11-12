@@ -77,7 +77,7 @@ const destinosOtono = [
     nombre: "Umbría",
     pais: "Italia",
     categoria: "🍷 Gastronomía y vendimia",
-    imagen: "https://images.unsplash.com/photo-1607727562102-9319ef500e24?auto=format&fit=crop&w=1200&q=80",
+    imagen: "https://images.unsplash.com/photo-1595359170695-7d7df4f23d4a?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Ciudades medievales y colinas tranquilas en el corazón de Italia.",
   },
   {
@@ -91,7 +91,7 @@ const destinosOtono = [
     nombre: "Montenegro",
     pais: "Montenegro",
     categoria: "🥾 Montaña y senderismo",
-    imagen: "https://images.unsplash.com/photo-1642356775128-fc3bd3a43459?auto=format&fit=crop&w=1200&q=80",
+    imagen: "https://images.unsplash.com/photo-1614122027743-50a9e6e8002f?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Bahías históricas y montañas espectaculares con clima suave.",
   },
   {

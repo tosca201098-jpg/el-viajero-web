@@ -1,6 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
 const root = path.resolve(__dirname, '..');
 function loader(mocks = {}, globals = {}) {
@@ -162,7 +163,7 @@ test('country-aware city resolution preserves ES/PT and selects verified French 
 test('French photographs carry source and license metadata; no invented price or hotel identifiers are stored', () => {
   for(const d of france) {
     assert.ok(d.image.startsWith('https://'));
-    if(d.id!=='fr-paris') {assert.ok(d.imageSource.startsWith('https://commons.wikimedia.org/wiki/File:'));assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC/);assert.ok(d.imageLicenseUrl);}
+    if(d.id!=='fr-paris'&&!unsplash.checked(d)) {assert.ok(d.imageSource.startsWith('https://commons.wikimedia.org/wiki/File:'));assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC/);assert.ok(d.imageLicenseUrl);}
     for(const key of ['price','hotelPrice','flightPrice','available','hotelId']) assert.equal(d[key],undefined);
   }
 });

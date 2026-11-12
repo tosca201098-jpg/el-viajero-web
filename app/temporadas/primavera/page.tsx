@@ -75,7 +75,7 @@ const destinosPrimavera = [
     nombre: "Madeira",
     pais: "Portugal",
     categoria: "🌋 Naturaleza",
-    imagen: "https://images.pexels.com/photos/35062415/pexels-photo-35062415.jpeg?auto=compress&cs=tinysrgb&w=1200",
+    imagen: "https://images.unsplash.com/photo-1674333362725-84e9996aa6fb?auto=format&fit=crop&w=1200&q=80",
     descripcion: "Flores, montañas, senderos y naturaleza exuberante.",
   },
   {
@@ -157,7 +157,7 @@ const destinosPrimavera = [
     pais: "Turquía",
     categoria: "🎭 Cultura y tradición",
     imagen:
-      "https://images.unsplash.com/photo-1756760910079-3952b792b0ef?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1636537511494-c3e558e0702b?auto=format&fit=crop&w=1200&q=80",
     descripcion:
       "Tulipanes, mezquitas, mercados y el fascinante Bósforo.",
   },

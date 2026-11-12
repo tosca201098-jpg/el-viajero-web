@@ -47,7 +47,7 @@
     },
     {
       "id": "es-fuerteventura",
-      "sha256": "feb5edfded7b41940aa070f3ef8b06d391566108a24834ad615e2bde031630c2"
+      "sha256": "08353ef34feb6321cf87d947dca5ac1ac885539b07531c1467d14100a6ee7387"
     },
     {
       "id": "es-girona",
@@ -63,7 +63,7 @@
     },
     {
       "id": "es-region-de-murcia",
-      "sha256": "563cd9f034632ce2c009a418cb82ff14faae4a4c93cf60bd040e8b6f69f17117"
+      "sha256": "0410e6d5d99a26a309eba799281a217f30a8fd6e8b0299331631ca739f31d21a"
     },
     {
       "id": "es-jerez-de-la-frontera",
@@ -83,7 +83,7 @@
     },
     {
       "id": "es-leon",
-      "sha256": "72644cee0bc0bb387c609fe2e9ebfa3c2c5c94b447fd425581271bbd2b256dee"
+      "sha256": "37b37265c103671107f980458adfef57c50813cc5921eb35fe3d79fe37a13149"
     },
     {
       "id": "es-logrono",
@@ -143,7 +143,7 @@
     },
     {
       "id": "es-valladolid",
-      "sha256": "8d365a0b700f59a222d5eebe8ed1d3c7227a66581107b80b990464913a3c0b1a"
+      "sha256": "baeee9f159dbafd6ea0a3f77ab550f6b228318682a2e74ffebbc48d36ca3c3dd"
     },
     {
       "id": "es-vigo",
@@ -151,7 +151,7 @@
     },
     {
       "id": "es-vitoria-gasteiz",
-      "sha256": "95b5382d563a7500b28f849f8e4f783b2bb58bcc0d76d5d9af14588a6cbc7659"
+      "sha256": "8b456791a855b4472604a524ee96dc9ed11e464a78cd777f1abd228e8d22dc48"
     },
     {
       "id": "es-zaragoza",
@@ -191,7 +191,7 @@
     },
     {
       "id": "pt-porto-santo",
-      "sha256": "9afa7737fa7c278123b3dd0165aa63c47199e9ee8df4db9adfa42335da9080bd"
+      "sha256": "a7b9b2ba2221a4d5128c7062e90ad248949e6802704b94c9daa7a99e7e6511c4"
     },
     {
       "id": "pt-beja",
@@ -279,7 +279,7 @@
     },
     {
       "id": "fr-bordeaux",
-      "sha256": "b04d382b4c3bf881579c456a7af8ef634d30794f5738ca900341adb9cad6606f"
+      "sha256": "544bad59db3bc59ce3ef1532c616493ef1ed3f9f1581f26fd03e7957d79e35ff"
     },
     {
       "id": "fr-strasbourg",
@@ -291,7 +291,7 @@
     },
     {
       "id": "fr-annecy",
-      "sha256": "d569d83c788359c48feb07ed89ff69ab81c1117d0742fb11579825c6aac9e9a9"
+      "sha256": "c07ec82282ebd9e9d2236557fe859b464ab7a2a052bd8c17eb8eb1f3fa317838"
     },
     {
       "id": "fr-chamonix",
@@ -312,9 +312,9 @@
   ],
   "featuredSha256": "121ad9dbc2409e5b72fc2faab5f346887a08331cda5520fe093e2873a634ad20",
   "seasonFiles": {
-    "primavera": "2a854f06f72d80bfa3b8de5279748205295c719e24447ff1bc9bc49deda63357",
+    "primavera": "07ad1babc0e1e54e07e6b95d8f32084d49a21fe510600dee8e620443a8c26e2d",
     "verano": "0e91bdb91d4818cd5a6d2586dd872f8d0f25c62ae27d4e706bb090eada687710",
-    "otono": "108ca367a9419e7c04743d73edcd399595c7fa0986618b2bbe6fa2a9a5a28b22",
-    "invierno": "47fbc087c2a7996d0e50861ee74e806bcbe6d4117ae09924a71fabdfaa89a786"
+    "otono": "38b0405b00d48bceaf3f4bd9904b2ecae7d8432cd0d538727df6ae8f0563792f",
+    "invierno": "796415fb3c0ae931ae7ef13088a01a9479e4e98ce68da2e2ca9baa0488460963"
   }
 }

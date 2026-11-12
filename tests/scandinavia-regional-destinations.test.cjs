@@ -1,6 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -100,6 +101,7 @@ test('selection from autocomplete resolves profiles only for the matching countr
 test('every photo is a licensed Commons thumbnail with documented origin', () => {
   const photos = JSON.parse(fs.readFileSync(path.join(root,'tests/fixtures/scandinavia-regional-photos.json'),'utf8'));
   for (const p of ibs) {
+    if (unsplash.checked(p)) continue;
     assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/wikipedia\/commons\/thumb\/[0-9a-f]\/[0-9a-f]{2}\//);
     assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.match(p.imageLicense,/^(CC0|CC BY(-SA)? [234]\.[05])$/);

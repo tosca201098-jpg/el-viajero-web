@@ -1,6 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -159,6 +160,7 @@ test('licensed 960px photographs are attributed and Swiss profiles remain opt-in
   for (const profile of swiss) {
     assert.equal(policy(profile), false);
     assert.equal(profile.publication.status, 'draft');
+    if (unsplash.checked(profile)) continue;
     assert.match(profile.image, /^https:\/\/thumb\.wikimedia\.org\//);
     assert.match(profile.imageSource, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(profile.imageCredit);

@@ -1,5 +1,6 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),ts=require('typescript'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..');
 function loader(globals={}){
@@ -99,6 +100,7 @@ test('UK data stays reusable without automatic monthly/budget cards, new public 
  assert.ok(catalog.getDestinationsForMonth(5).some(d=>d.countryCode==='GB'));
  for(const d of uk){
   assert.equal(policy(d),false);assert.equal(d.publication.status,'draft');
+  if(unsplash.checked(d)){for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);continue;}
   assert.match(d.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(d.imageSource,/^https:\/\/commons.wikimedia.org\/wiki\/File:/);
   assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons.org/);
   for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);

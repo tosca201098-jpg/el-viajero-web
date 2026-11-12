@@ -1,6 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -141,6 +142,7 @@ test('all Austrian images have licensed Wikimedia attribution and remain editori
   for (const profile of austrian) {
     assert.equal(policy(profile), false);
     assert.equal(profile.publication.status, 'draft');
+    if (unsplash.checked(profile)) continue;
     assert.match(profile.image, /^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);
     assert.match(profile.imageSource, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(profile.imageCredit);
