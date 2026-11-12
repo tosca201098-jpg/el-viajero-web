@@ -187,10 +187,12 @@ test('in the light planner and itinerary every text has its own dark color (noth
   assert.ok(paragraphs > 0, 'the duration line with dates was rendered');
 });
 
-test('the window asks for the light look and the other screens keep the dark one', () => {
+test('the window and the flight search card ask for the light look and the other screens keep the dark one', () => {
   const page = source('app/page.tsx');
   assert.equal(page.split('surface="light"').length - 1, 1, 'only the window planner');
-  for (const file of ['app/vuelos/page.tsx', 'app/components/SavedItineraries.tsx', 'app/components/HeaderAuth.tsx']) assert.ok(!source(file).includes('surface='), file);
+  // «Buscar vuelos» usa la tarjeta común (PR 4A) y por eso también pide el planificador claro; el resto sigue oscuro.
+  assert.equal(source('app/vuelos/page.tsx').split('surface="light"').length - 1, 1, 'the flight search card planner');
+  for (const file of ['app/components/SavedItineraries.tsx', 'app/components/HeaderAuth.tsx']) assert.ok(!source(file).includes('surface='), file);
   // El planificador de la ventana recibe la superficie clara en las 502 fichas.
   const renderer = createRenderer(root, 'es');
   for (const destination of [...renderer.featured, ...renderer.profiles]) {
