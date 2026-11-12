@@ -19,6 +19,9 @@ export const destinationWindowStyle = {
   titleBox: "absolute bottom-6 left-6 right-20 text-white max-sm:bottom-3 max-sm:right-[4.75rem]",
   country: "text-cyan-200",
 
+  // Tarjeta de destino dentro de una página (no emergente), p. ej. el resumen de «Buscar vuelos».
+  inlineCard: "mt-5 overflow-hidden rounded-[30px] border border-slate-200 bg-white text-slate-900 shadow-sm",
+
   // Cuerpo de la ventana.
   body: "p-7 md:p-9",
   photoCredit: "mb-3 text-xs text-slate-600",
@@ -66,6 +69,8 @@ export const destinationWindowStyle = {
   actions: "mt-8 grid gap-3 sm:grid-cols-2",
   primaryAction: "rounded-2xl bg-cyan-300 px-6 py-4 font-bold text-slate-950 disabled:cursor-wait disabled:opacity-60",
   secondaryAction: "rounded-2xl border border-sky-300 bg-sky-50 px-6 py-4 font-bold text-sky-900",
+  // El mismo botón cuando es un enlace (p. ej. «Buscar hoteles» fuera de la ventana emergente).
+  secondaryActionLink: "flex min-h-11 items-center justify-center rounded-2xl border border-sky-300 bg-sky-50 px-6 py-4 text-center font-bold text-sky-900 hover:bg-sky-100",
 } as const;
 
 // El título se reduce en móvil según la longitud del nombre para que no tape el botón de cierre.

@@ -1,0 +1,72 @@
+{
+ "es": {
+  "es-madrid": "03363117847e682d",
+  "pt-lisboa": "db3e3254e30df812",
+  "fr-paris": "56ad92e3122abc0e",
+  "it-rome": "7e33c1574b00a53c",
+  "no-oslo": "72b8693fbcb5218c",
+  "gr-santorini": "0a86c186a52270a5",
+  "hr-dubrovnik": "c0a653431f62a5fd",
+  "de-berlin": "150f9388de92103d"
+ },
+ "en": {
+  "es-madrid": "49bcc31d3e725114",
+  "pt-lisboa": "4239e59a13e3de1a",
+  "fr-paris": "baf5112920681e69",
+  "it-rome": "fda83641a8068468",
+  "no-oslo": "f94a766ea4012673",
+  "gr-santorini": "e0d5e3993458a98b",
+  "hr-dubrovnik": "1ef3284eb0ac9193",
+  "de-berlin": "553a6f6b674e04e2"
+ },
+ "fr": {
+  "es-madrid": "c99eb49dded83acd",
+  "pt-lisboa": "21003a881feb99b5",
+  "fr-paris": "b3d0659497fe925d",
+  "it-rome": "b91b716c71c02c23",
+  "no-oslo": "350f2920b62c3658",
+  "gr-santorini": "a1b6eec0a94a429d",
+  "hr-dubrovnik": "3b17eaa922d2aa71",
+  "de-berlin": "a286faa54a52902e"
+ },
+ "de": {
+  "es-madrid": "1dd106631086844f",
+  "pt-lisboa": "80a1e3d525e7db20",
+  "fr-paris": "8db672be042666e9",
+  "it-rome": "0dfc07fd0a1311fd",
+  "no-oslo": "2b6bd634c2697118",
+  "gr-santorini": "084f7ced401598e0",
+  "hr-dubrovnik": "c6a6db4c5f41031f",
+  "de-berlin": "8a31cc9c26b5552a"
+ },
+ "it": {
+  "es-madrid": "ee8d8858491e6534",
+  "pt-lisboa": "834dc6712c47bae5",
+  "fr-paris": "b48c585ca0ee3bd1",
+  "it-rome": "c26dc7249a0db64a",
+  "no-oslo": "76ce13b36df213ae",
+  "gr-santorini": "978e2ce685bd105a",
+  "hr-dubrovnik": "732011bb250cbdc0",
+  "de-berlin": "47f73778fb1bea9a"
+ },
+ "pt": {
+  "es-madrid": "d61db3393294fc4f",
+  "pt-lisboa": "db3e3254e30df812",
+  "fr-paris": "0e9dc248321cf5e2",
+  "it-rome": "25056f01e862ec5c",
+  "no-oslo": "011f619b83568791",
+  "gr-santorini": "2d9ee4faf91316b7",
+  "hr-dubrovnik": "b66fba14fa393a95",
+  "de-berlin": "4873c3213d2c097f"
+ },
+ "ca": {
+  "es-madrid": "512dc12bea7465ab",
+  "pt-lisboa": "1a8fe29f539a473b",
+  "fr-paris": "0c69f2a872401fac",
+  "it-rome": "185a5de2f685e59a",
+  "no-oslo": "208170d848e1bf4f",
+  "gr-santorini": "417e2c8c6d11d2e6",
+  "hr-dubrovnik": "d1acb956b6d02976",
+  "de-berlin": "57a4f921ffad8d5a"
+ }
+}

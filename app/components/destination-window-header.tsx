@@ -6,8 +6,9 @@ type DestinationWindowHeaderProps = {
   imageAlt: string;
   /** Qué parte de la foto se ve en el marco panorámico (valor CSS de object-position). */
   imagePosition?: string;
-  closeLabel: string;
-  onClose: () => void;
+  /** Sin onClose (tarjetas que no son una ventana emergente) no se dibuja el botón de cerrar. */
+  closeLabel?: string;
+  onClose?: () => void;
   closeButtonRef?: Ref<HTMLButtonElement>;
   /** Bandera: texto vacío cuando no hay un dato fiable. */
   flag: string;
@@ -33,15 +34,17 @@ export function destinationWindowHeader({
 
       <div className={style.photoGradient} />
 
-      <button
-        ref={closeButtonRef}
-        type="button"
-        onClick={onClose}
-        aria-label={closeLabel}
-        className={style.closeButton}
-      >
-        ✕
-      </button>
+      {onClose && (
+        <button
+          ref={closeButtonRef}
+          type="button"
+          onClick={onClose}
+          aria-label={closeLabel}
+          className={style.closeButton}
+        >
+          ✕
+        </button>
+      )}
 
       <div className={style.titleBox}>
         <p className={style.country}>
