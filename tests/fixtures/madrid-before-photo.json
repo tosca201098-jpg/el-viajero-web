@@ -1,0 +1,53 @@
+{
+ "id": "es-madrid",
+ "slug": "madrid",
+ "countryCode": "ES",
+ "airports": [
+  {
+   "iataCode": "MAD"
+  }
+ ],
+ "metropolitanCodes": [],
+ "name": "Madrid",
+ "country": "España",
+ "iataCodes": [
+  "MAD"
+ ],
+ "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Madrid_-_Sky_Bar_360%C2%BA_%28Hotel_Riu_Plaza_Espa%C3%B1a%29%2C_vistas_19.jpg/960px-Madrid_-_Sky_Bar_360%C2%BA_%28Hotel_Riu_Plaza_Espa%C3%B1a%29%2C_vistas_19.jpg",
+ "description": "Museos de primer nivel, parques y barrios para descubrir la capital a cualquier hora.",
+ "recommendations": [
+  "Museo del Prado",
+  "Parque del Retiro",
+  "Palacio Real",
+  "Plaza Mayor"
+ ],
+ "recommendedStay": "3–4 días",
+ "bestMonths": [
+  4,
+  5,
+  6,
+  9,
+  10
+ ],
+ "lowSeasonMonths": [
+  1,
+  2,
+  11
+ ],
+ "highSeasonMonths": [
+  7,
+  8,
+  12
+ ],
+ "aliases": [
+  "Madrid-Cuatro Vientos",
+  "Cuatro Vientos"
+ ],
+ "auxiliaryCodes": [
+  "LECU"
+ ],
+ "imageSource": "https://commons.wikimedia.org/wiki/File:Madrid_-_Sky_Bar_360%C2%BA_(Hotel_Riu_Plaza_Espa%C3%B1a),_vistas_19.jpg",
+ "imageCredit": "Zarateman",
+ "imageLicense": "CC0",
+ "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+}
