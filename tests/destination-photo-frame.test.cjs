@@ -11,7 +11,8 @@ const FRAME_CLASS = 'relative h-52 max-sm:h-[140px] sm:h-72';
 const text = n => n == null || n === false ? '' : Array.isArray(n) ? n.map(text).join(' ') : typeof n === 'object' ? text(n.children) : String(n);
 
 const framing = loadFraming(root);
-const current = snapshots(root, { normalizeFrame: true });
+// La ventana de ficha ahora es clara (PR 3A); se devuelven sus colores a los anteriores para comparar solo el marco.
+const current = snapshots(root, { normalizeFrame: true, originalColors: true });
 
 test('the home page, including the 16 original cards, is identical to the version before the photo-frame change', () => {
   assert.deepEqual(current.home, baseline.home);

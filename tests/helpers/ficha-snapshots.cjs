@@ -71,6 +71,7 @@ function createRenderer(root, locale) {
   const slot = hit[0];
   state[slot] = null;
   return {
+    t: key => dictionaries.translate(locale, key),
     featured, profiles: catalog.destinationProfiles,
     home: () => { state[slot] = null; return render(); },
     detail: destination => { state[slot] = destination; const tree = render(); state[slot] = null; return tree; },
@@ -118,6 +119,8 @@ function loadFraming(root) {
 
 function snapshots(root, options = {}) {
   const frame = options.normalizeFrame ? withOriginalFrame : value => value;
+  // Con originalColors la ventana (ahora clara) vuelve a sus colores anteriores antes de comparar.
+  const colors = options.originalColors ? originalColorsText : value => value;
   const normalize = value => withoutObjectPosition(frame(value));
   const result = { home: {}, featuredDetail: {}, profileDetail: {} };
   for (const locale of LOCALES) {
@@ -125,14 +128,78 @@ function snapshots(root, options = {}) {
     result.home[locale] = digest(withoutObjectPosition(serialize(renderer.home())));
     result.featuredDetail[locale] = {};
     renderer.featured.forEach((destination, index) => {
-      result.featuredDetail[locale][index] = digest(normalize(serialize(renderer.detail(destination))));
+      result.featuredDetail[locale][index] = digest(normalize(colors(serialize(renderer.detail(destination)))));
     });
     if (locale === 'es' || locale === 'en') {
       result.profileDetail[locale] = {};
-      for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(normalize(serialize(renderer.detail(profile))));
+      for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(normalize(colors(serialize(renderer.detail(profile)))));
     }
   }
   return result;
 }
 
-module.exports = { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, withoutObjectPosition, loadFraming, snapshots };
+// Colores de la ventana de ficha: antes ventana azul oscura con tarjetas casi negras, ahora ventana blanca con
+// tarjetas claras. Cada par es [clases nuevas, clases que tenía antes el mismo elemento]. Con ellas se demuestra
+// que el cambio de color NO toca nada más: al devolver estas clases a su valor anterior, la ventana de cada
+// ficha vuelve a ser idéntica, carácter por carácter, a la de la rama de la PR #64.
+const LIGHT_WINDOW_CLASSES = [
+  // telón, ventana y cabecera
+  ['fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-3 backdrop-blur-md sm:p-4', 'fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-3 text-white backdrop-blur-md sm:p-4'],
+  ['fixed inset-0 z-[70] flex items-center justify-center bg-slate-900/60 p-3 backdrop-blur-md sm:p-4', 'fixed inset-0 z-[70] flex items-center justify-center bg-black/80 p-3 text-white backdrop-blur-md sm:p-4'],
+  ['max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-[30px] border border-slate-200 bg-white text-slate-900 shadow-2xl sm:max-h-[calc(100dvh-2rem)]', 'max-h-[calc(100dvh-1.5rem)] w-full max-w-3xl overflow-y-auto overscroll-contain rounded-[30px] border border-white/10 bg-slate-950 shadow-2xl sm:max-h-[calc(100dvh-2rem)]'],
+  ['absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-black/20', 'absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-black/20'],
+  ['absolute right-5 top-5 rounded-full bg-black/60 px-4 py-2 font-bold text-white backdrop-blur', 'absolute right-5 top-5 rounded-full bg-black/60 px-4 py-2 font-bold backdrop-blur'],
+  ['absolute bottom-6 left-6 right-20 text-white max-sm:bottom-3 max-sm:right-[4.75rem]', 'absolute bottom-6 left-6 right-20 max-sm:bottom-3 max-sm:right-[4.75rem]'],
+  // cuerpo
+  ['mb-3 text-xs text-slate-600', 'mb-3 text-xs text-slate-400'],
+  ['text-lg leading-8 text-slate-700', 'text-lg leading-8 text-slate-300'],
+  ['mt-8 text-xl font-bold text-slate-900', 'mt-8 text-xl font-bold'],
+  // tarjetas interiores
+  ['rounded-2xl border border-slate-300 bg-slate-100 p-4 text-slate-800', 'rounded-2xl border border-white/10 bg-white/5 p-4 text-slate-300'],
+  ['mt-5 rounded-2xl border border-slate-300 bg-slate-100 px-4 py-3 text-slate-700', 'mt-5 rounded-2xl border border-white/10 bg-white/5 px-4 py-3 text-slate-300'],
+  ['font-semibold text-slate-900', 'font-semibold text-white'],
+  ['mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm text-slate-700', 'mt-4 rounded-2xl border border-cyan-300/20 bg-cyan-300/[0.06] px-4 py-3 text-sm text-slate-200'],
+  ['mt-1 text-slate-600', 'mt-1 text-slate-300'],
+  ['mt-1 text-xs text-slate-600', 'mt-1 text-xs text-slate-400'],
+  ['mt-2 text-xs text-slate-600', 'mt-2 text-xs text-slate-400'],
+  ['mt-4 rounded-2xl border border-sky-200 bg-sky-50 px-4 py-3 text-sm font-semibold text-sky-900', 'mt-4 rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-4 py-3 text-sm font-semibold text-cyan-100'],
+  ['mt-4 rounded-2xl border border-sky-200 bg-sky-50 p-4', 'mt-4 rounded-2xl border border-cyan-300/20 p-4'],
+  ['mt-2 text-sm text-slate-700', 'mt-2 text-sm text-slate-300'],
+  ['min-h-[44px] rounded-xl border border-sky-300 bg-white px-3 py-2 text-sm text-sky-900', 'min-h-[44px] rounded-xl border border-cyan-300/40 px-3 py-2 text-sm text-cyan-100'],
+  ['rounded-2xl border border-sky-300 bg-sky-50 px-6 py-4 font-bold text-sky-900', 'rounded-2xl border border-cyan-300/30 bg-cyan-300/10 px-6 py-4 font-bold text-cyan-200'],
+  // bloques de vuelos al final de la ficha (solo aparecen con el widget o tras buscar vuelos)
+  ['mt-8 border-t border-slate-200 pt-6', 'mt-8 border-t border-white/10 pt-6'],
+  ['text-xl font-bold text-slate-900', 'text-xl font-bold text-white'],
+  ['mt-2 text-sm leading-6 text-slate-700', 'mt-2 text-sm leading-6 text-slate-300'],
+  ['mt-2 text-xs leading-5 text-slate-700', 'mt-2 text-xs leading-5 text-slate-300'],
+  ['mt-3 text-xs leading-5 text-slate-600', 'mt-3 text-xs leading-5 text-slate-400'],
+  ['mt-4 text-xs leading-5 text-slate-600', 'mt-4 text-xs leading-5 text-slate-400'],
+  ['mt-3 text-sm text-red-700', 'mt-3 text-sm text-red-200'],
+];
+
+// Devuelve el texto de la ventana a los colores anteriores; el planificador recibe además surface="light".
+function originalColorsText(json) {
+  for (const [light, dark] of LIGHT_WINDOW_CLASSES) json = json.replaceAll(`"className":"${light}"`, `"className":"${dark}"`);
+  return json.replaceAll(',"surface":"light"', '');
+}
+const withOriginalColors = node => JSON.parse(originalColorsText(serialize(node)));
+
+// Huellas de la portada y de TODAS las ventanas de ficha (las 16 originales y los 486 perfiles del
+// catálogo) en los siete idiomas. Con originalColors se devuelven los colores de la ventana a su valor anterior.
+function commonFrameSnapshots(root, options = {}) {
+  const colors = options.originalColors ? originalColorsText : value => value;
+  const result = { home: {}, featuredDetail: {}, profileDetail: {} };
+  for (const locale of LOCALES) {
+    const renderer = createRenderer(root, locale);
+    result.home[locale] = digest(serialize(renderer.home()));
+    result.featuredDetail[locale] = {};
+    renderer.featured.forEach((destination, index) => {
+      result.featuredDetail[locale][index] = digest(colors(serialize(renderer.detail(destination))));
+    });
+    result.profileDetail[locale] = {};
+    for (const profile of renderer.profiles) result.profileDetail[locale][profile.id] = digest(colors(serialize(renderer.detail(profile))));
+  }
+  return result;
+}
+
+module.exports = { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, withoutObjectPosition, loadFraming, snapshots, commonFrameSnapshots, withOriginalColors, originalColorsText, LIGHT_WINDOW_CLASSES, loader, makeReact };
