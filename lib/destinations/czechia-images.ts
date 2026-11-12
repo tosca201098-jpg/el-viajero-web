@@ -8,11 +8,11 @@ export const czechiaImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "brno": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/Panorama_view_from_Avanti_Hotel_in_Brno_2.jpg/960px-Panorama_view_from_Avanti_Hotel_in_Brno_2.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Panorama_view_from_Avanti_Hotel_in_Brno_2.jpg",
-    "imageCredit": "Michal Josef Špaček",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://images.unsplash.com/photo-1664658366549-3960633f6e0b?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/fLP4rIrzt7s",
+    "imageCredit": "Leonhard Niederwimmer",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "cesky-krumlov": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0d/%C4%8Cesk%C3%BD_Krumlov_%28Krummau%29_-_panorama_-_old_city.JPG/960px-%C4%8Cesk%C3%BD_Krumlov_%28Krummau%29_-_panorama_-_old_city.JPG",
@@ -29,11 +29,11 @@ export const czechiaImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   "kutna-hora": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Kutna_Hora_2021_35.jpg/960px-Kutna_Hora_2021_35.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Kutna_Hora_2021_35.jpg",
-    "imageCredit": "Scotch Mist",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://images.unsplash.com/photo-1722950830106-6af5d5666729?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/Bdg-ljC12EA",
+    "imageCredit": "Ale",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "olomouc": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Olomouc%2C_Horn%C3%AD_n%C3%A1m%C4%9Bst%C3%AD_%282017%29.jpg/960px-Olomouc%2C_Horn%C3%AD_n%C3%A1m%C4%9Bst%C3%AD_%282017%29.jpg",

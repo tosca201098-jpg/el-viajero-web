@@ -1,5 +1,6 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),ts=require('typescript'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..');
 function loader(globals={}){
@@ -74,6 +75,6 @@ test('all local names and aliases resolve the intended canonical profile; eight 
 test('new Belgian profiles have commercial-use image licenses and remain opt-in, without automatic cards, new sitemap routes or invented prices',()=>{
  const policy=load('lib/destinations/presentation.ts').canShowDestinationAutomatically;
  assert.ok(catalog.getDestinationsForMonth(5).some(d=>d.countryCode==='BE'));
- for(const d of belgium){assert.equal(policy(d),false);assert.equal(d.publication.status,'draft');assert.match(d.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(d.imageSource,/^https:\/\/commons.wikimedia.org\/wiki\/File:/);assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons.org/);for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);}
+ for(const d of belgium){assert.equal(policy(d),false);assert.equal(d.publication.status,'draft');if(unsplash.checked(d)){for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);continue;}assert.match(d.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(d.imageSource,/^https:\/\/commons.wikimedia.org\/wiki\/File:/);assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons.org/);for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);}
  assert.equal(catalog.getPublishedDestinationPages().length,0);
 });

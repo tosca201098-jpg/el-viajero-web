@@ -43,11 +43,11 @@ export const polandImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0/"
   },
   "lublin": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Lublin_Old_Town_Skyline.jpg/960px-Lublin_Old_Town_Skyline.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Lublin_Old_Town_Skyline.jpg",
-    "imageCredit": "Max Dziekański",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://images.unsplash.com/photo-1699791914023-91d9e5585e7b?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/to1I4axDYmY",
+    "imageCredit": "Tomasz Zielonka",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "lodz": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/47/%C5%81%C3%B3d%C5%BA_-_Ulica_Piotrkowska_-_panoramio.jpg/960px-%C5%81%C3%B3d%C5%BA_-_Ulica_Piotrkowska_-_panoramio.jpg",
@@ -57,11 +57,11 @@ export const polandImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   "zakopane-tatras": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/2018-07-03_Zakopane_aerial_panorama.jpg/960px-2018-07-03_Zakopane_aerial_panorama.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:2018-07-03_Zakopane_aerial_panorama.jpg",
-    "imageCredit": "Maksym Kozlenko",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://images.unsplash.com/photo-1592770397923-85e1612ef7af?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/Z9X936FC8gM",
+    "imageCredit": "Mateusz Bajdak",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "masurian-lakes": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a1/Gizycko_marina_jezioro_Niegocin_2012.jpg/960px-Gizycko_marina_jezioro_Niegocin_2012.jpg",

@@ -268,7 +268,7 @@
     {
       "id": "pt-terceira",
       "slug": "terceira",
-      "sha256": "8bed49afdafc5a55281a044ee198f2085aec7f06f684b0b128740b5db51ea4f9"
+      "sha256": "71397c59d99720d260133a1b4a913807e31241be5b8a840ae05f5c8a11067612"
     },
     {
       "id": "pt-pico",
@@ -378,7 +378,7 @@
     {
       "id": "fr-nantes",
       "slug": "nantes",
-      "sha256": "0e0e88814521ac76365d1c9568628b6bffcc8b951c52e4a683c720d72f4de71e"
+      "sha256": "5a083cd140e05e0e31a0a3bc513ec8e65321b3dc76372481a002ae5970a62895"
     },
     {
       "id": "fr-lille",
@@ -403,7 +403,7 @@
     {
       "id": "it-florence",
       "slug": "florence",
-      "sha256": "d852d65daace8df1788b0b8953938dcf55b600b23585d47cae4dbc23c53fa6e0"
+      "sha256": "09ba95e4f3979d81901ea61e8550e01e1ef363fcf437feaad21e39cc53cc15a7"
     },
     {
       "id": "it-naples",
@@ -633,7 +633,7 @@
     {
       "id": "be-bruges",
       "slug": "bruges",
-      "sha256": "476c56e34a7aca65854b729d50d68ba8222ad214c07557deddd39a70b195c231"
+      "sha256": "7855ef57bb75de2c85cd2810b9edea7cdc3bd855f31f9761d54adf9d8845a34d"
     },
     {
       "id": "be-ghent",
@@ -713,7 +713,7 @@
     {
       "id": "ch-lausanne-lavaux",
       "slug": "lausanne-lavaux",
-      "sha256": "2b98f68eeec29fca4122a56425f6c3fa2a605f629dac0193d61c6a491e5a6f8c"
+      "sha256": "71e23736f26035166a8a4212be0779387ef411f0d00971ac0b80def8384b7d99"
     },
     {
       "id": "ch-montreux-chillon",
@@ -758,7 +758,7 @@
     {
       "id": "at-innsbruck",
       "slug": "innsbruck",
-      "sha256": "48d0dcc83aa7a5715654c1c4a881b4cce746c9c8c06c26a1bf78936735b9862e"
+      "sha256": "6cda07914b3b601bc4f3046d0632daf6bfd2e542ea8900c02a322eb20b186af6"
     },
     {
       "id": "at-graz",
@@ -813,7 +813,7 @@
     {
       "id": "cz-brno",
       "slug": "brno",
-      "sha256": "8329b9d686f7042ad37700975da6b05862200c945588440fb10b3dec27c2abc8"
+      "sha256": "c67f516778eeda5a7a783cce052c7cc7365c428ce51e63f43dc34def865d45be"
     },
     {
       "id": "cz-cesky-krumlov",
@@ -828,7 +828,7 @@
     {
       "id": "cz-kutna-hora",
       "slug": "kutna-hora",
-      "sha256": "05f4e9588456882c25bd7ed51369fd5157202d016f11022e5c1fbaf053e7fbd9"
+      "sha256": "9468da51fc03fc64e87294f448bcd35d68c8b399bce527dc24d0abc77a76a12d"
     },
     {
       "id": "cz-olomouc",
@@ -871,7 +871,7 @@
     "primavera": "07ad1babc0e1e54e07e6b95d8f32084d49a21fe510600dee8e620443a8c26e2d",
     "verano": "0e91bdb91d4818cd5a6d2586dd872f8d0f25c62ae27d4e706bb090eada687710",
     "otono": "38b0405b00d48bceaf3f4bd9904b2ecae7d8432cd0d538727df6ae8f0563792f",
-    "invierno": "796415fb3c0ae931ae7ef13088a01a9479e4e98ce68da2e2ca9baa0488460963"
+    "invierno": "fb2865334bcbd09a374ee5e328a233920e32d03c2130708da4284597324dbb47"
   },
   "monthPages": {
     "page.tsx": "6b21598bd6394ff1bba1f326360584fd3193da54bb9792c8864fccfbba66560c",

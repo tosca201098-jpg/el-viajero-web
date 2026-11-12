@@ -215,7 +215,7 @@
     },
     {
       "id": "pt-terceira",
-      "sha256": "8bed49afdafc5a55281a044ee198f2085aec7f06f684b0b128740b5db51ea4f9"
+      "sha256": "71397c59d99720d260133a1b4a913807e31241be5b8a840ae05f5c8a11067612"
     },
     {
       "id": "pt-pico",
@@ -303,7 +303,7 @@
     },
     {
       "id": "fr-nantes",
-      "sha256": "0e0e88814521ac76365d1c9568628b6bffcc8b951c52e4a683c720d72f4de71e"
+      "sha256": "5a083cd140e05e0e31a0a3bc513ec8e65321b3dc76372481a002ae5970a62895"
     },
     {
       "id": "fr-lille",
@@ -323,7 +323,7 @@
     },
     {
       "id": "it-florence",
-      "sha256": "d852d65daace8df1788b0b8953938dcf55b600b23585d47cae4dbc23c53fa6e0"
+      "sha256": "09ba95e4f3979d81901ea61e8550e01e1ef363fcf437feaad21e39cc53cc15a7"
     },
     {
       "id": "it-naples",
@@ -507,7 +507,7 @@
     },
     {
       "id": "be-bruges",
-      "sha256": "476c56e34a7aca65854b729d50d68ba8222ad214c07557deddd39a70b195c231"
+      "sha256": "7855ef57bb75de2c85cd2810b9edea7cdc3bd855f31f9761d54adf9d8845a34d"
     },
     {
       "id": "be-ghent",
@@ -571,7 +571,7 @@
     },
     {
       "id": "ch-lausanne-lavaux",
-      "sha256": "2b98f68eeec29fca4122a56425f6c3fa2a605f629dac0193d61c6a491e5a6f8c"
+      "sha256": "71e23736f26035166a8a4212be0779387ef411f0d00971ac0b80def8384b7d99"
     },
     {
       "id": "ch-montreux-chillon",
@@ -607,7 +607,7 @@
     },
     {
       "id": "at-innsbruck",
-      "sha256": "48d0dcc83aa7a5715654c1c4a881b4cce746c9c8c06c26a1bf78936735b9862e"
+      "sha256": "6cda07914b3b601bc4f3046d0632daf6bfd2e542ea8900c02a322eb20b186af6"
     },
     {
       "id": "at-graz",
@@ -651,7 +651,7 @@
     },
     {
       "id": "cz-brno",
-      "sha256": "8329b9d686f7042ad37700975da6b05862200c945588440fb10b3dec27c2abc8"
+      "sha256": "c67f516778eeda5a7a783cce052c7cc7365c428ce51e63f43dc34def865d45be"
     },
     {
       "id": "cz-cesky-krumlov",
@@ -663,7 +663,7 @@
     },
     {
       "id": "cz-kutna-hora",
-      "sha256": "05f4e9588456882c25bd7ed51369fd5157202d016f11022e5c1fbaf053e7fbd9"
+      "sha256": "9468da51fc03fc64e87294f448bcd35d68c8b399bce527dc24d0abc77a76a12d"
     },
     {
       "id": "cz-olomouc",
@@ -719,7 +719,7 @@
     },
     {
       "id": "pl-lublin",
-      "sha256": "ffc967f8dd7220b80e447015aa19455739df76c0743aa70507235938e1ee3120"
+      "sha256": "42776fc36bb75bc4bedd7da8b17781da2728029e93d872a6142006530596948b"
     },
     {
       "id": "pl-lodz",
@@ -727,7 +727,7 @@
     },
     {
       "id": "pl-zakopane-tatras",
-      "sha256": "02e163050a06f6f47af4ebba148901570d94df671ada47ee3f8657e19fd16728"
+      "sha256": "8ce6d56ff4b32b7a7321e56bb629e953d830f90bbeed5c9f6b3afd03edc6b8ce"
     },
     {
       "id": "pl-masurian-lakes",
@@ -851,7 +851,7 @@
     },
     {
       "id": "tr-izmir",
-      "sha256": "cda7f21b1144de49f2d4ad178279ce0277bceea9a22aebfcd40ce1a9cda05503"
+      "sha256": "0babab9713bc256c9f8e7a36846b8fd3a3c4ed1ada600605777ebc15c0ee3ef5"
     },
     {
       "id": "tr-antalya",
@@ -871,7 +871,7 @@
     },
     {
       "id": "tr-cappadocia",
-      "sha256": "4abcbbcf5a2cdc1e16c69af34b6aa76f545441edd9e701cc32151dc114cb853e"
+      "sha256": "ce8a1324e5154eadacc0770ef543b896b99f7a6f1b53b16bce0a4016640f1bc7"
     },
     {
       "id": "tr-gaziantep",
@@ -899,7 +899,7 @@
     },
     {
       "id": "tr-sanliurfa",
-      "sha256": "83d1dae2b6d707f65abdb030c849ffd309f83af349c36e6ff615f5cacc70d107"
+      "sha256": "b233b72d41876d9a83f0ce38c7649b5796996cd4e1532ce8f328f06c0e44c954"
     },
     {
       "id": "tr-mardin",
@@ -927,7 +927,7 @@
     },
     {
       "id": "tr-pamukkale",
-      "sha256": "c2e8a7e71c165195df251830fc78ab92672b7885b88f91ce46f3075e9bc06d59"
+      "sha256": "8fc8dd970e1607f6ecd43bf8ba07cbae09a5f92170b01756f0c7ec0df99ba6b5"
     },
     {
       "id": "tr-rize",
@@ -1055,7 +1055,7 @@
     },
     {
       "id": "dk-aarhus",
-      "sha256": "e3321b903262f7d1396e556a8f394daf7ec3f40632d96d9c9fb37af89c7a213c"
+      "sha256": "3f4c8f2a7777a16ea382469836aff5cd06ca26ccff88f6d5ecaea3e9f2913beb"
     },
     {
       "id": "dk-billund",
@@ -1067,15 +1067,15 @@
     },
     {
       "id": "dk-bornholm",
-      "sha256": "f3e9ed4dfc62eaf0356b3412593a915c54bc5ba5a7b5aa61b0070e69159d40ae"
+      "sha256": "b067886e922d2c83289be8cf40dd04c5ba69838e2917b4ac8429d37b544aa2b1"
     },
     {
       "id": "is-reykjavik",
-      "sha256": "c835b18bc80289649b556b425a59eed58b151d70e75d046315748c072aa89f83"
+      "sha256": "1e11b125e057008315dac3c3767d650011e62fa87806a316d217ea394b44881b"
     },
     {
       "id": "is-akureyri",
-      "sha256": "c83e73ab65d90a2edb7ac64a67fee8b733360f46e0cbff94497aec9d8a575634"
+      "sha256": "d03849193de2569ad714059b3c2914095e3f17570d068acf09514a73c5a97327"
     },
     {
       "id": "fi-helsinki",
@@ -1095,11 +1095,11 @@
     },
     {
       "id": "fi-oulu",
-      "sha256": "af49957189b67687423dacbf5ddea2f7e8e4bd4c3400816666cdfee4f56b6d6e"
+      "sha256": "b90b680538beb7fc17a04b5596d056a7d1b5d8e4bfc3e8a2108f9b521be48262"
     },
     {
       "id": "fi-levi",
-      "sha256": "ebbbda7230dab8affcd8335eb497e57b1c41fdfb0cb8dda0a0d44b30e4600181"
+      "sha256": "26a136a6189e8f635a9a56814c2577b5c4374b78d44d3d0a69bd75c9a6321bca"
     },
     {
       "id": "fi-ivalo",
@@ -1147,7 +1147,7 @@
     },
     {
       "id": "no-trondheim",
-      "sha256": "b48907038d37fefac00c23db4e364009fa6b43a55f0140eabc4a207aecd703bb"
+      "sha256": "91fa1dacbb0999ab9a8574e70bd6bf594c6cec60d188c3dd03e91239737e03a0"
     },
     {
       "id": "no-stavanger",
@@ -1271,7 +1271,7 @@
     },
     {
       "id": "gb-norwich",
-      "sha256": "31b416857efa8a434c8e2f32ffa85290c8ac0c68b0a104094ae02a160c0f0d90"
+      "sha256": "c28135b82c5ef2d35168c5405eccc9d9d89341e6795b5add5de934fc5e09a052"
     },
     {
       "id": "gb-aberdeen",
@@ -1471,7 +1471,7 @@
     "primavera": "07ad1babc0e1e54e07e6b95d8f32084d49a21fe510600dee8e620443a8c26e2d",
     "verano": "0e91bdb91d4818cd5a6d2586dd872f8d0f25c62ae27d4e706bb090eada687710",
     "otono": "38b0405b00d48bceaf3f4bd9904b2ecae7d8432cd0d538727df6ae8f0563792f",
-    "invierno": "796415fb3c0ae931ae7ef13088a01a9479e4e98ce68da2e2ca9baa0488460963"
+    "invierno": "fb2865334bcbd09a374ee5e328a233920e32d03c2130708da4284597324dbb47"
   },
   "monthPages": {
     "page.tsx": "6b21598bd6394ff1bba1f326360584fd3193da54bb9792c8864fccfbba66560c",

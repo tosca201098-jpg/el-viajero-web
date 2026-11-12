@@ -28,11 +28,13 @@ const seeds = [
     ],
     "stay": "2–3",
     "photo": [
-      "Harbour_Kavala.jpg",
-      "cc",
-      "DocWoKav",
-      "CC BY-SA 4.0",
-      "https://creativecommons.org/licenses/by-sa/4.0/"
+      "unsplash-dOdGLQxrp2w",
+      "unsplash",
+      "Mehmet Talha Onuk",
+      "Unsplash License",
+      "https://unsplash.com/license",
+      "https://images.unsplash.com/photo-1691247443738-aeff5a0deba3?auto=format&fit=crop&w=1600&q=80",
+      "https://unsplash.com/photos/dOdGLQxrp2w"
     ],
     "names": [
       "Kavala",
@@ -1856,11 +1858,13 @@ const seeds = [
       "Arribada per KSO, fora del centre urbà. Preveu el trasllat terrestre i comprova vols, transport i horaris per a les teves dates: l’oferta pot ser limitada o estacional. Les excursions fora de la ciutat requereixen desplaçaments addicionals."
     ],
     "photo": [
-      "Lake_Orestiada_and_city_of_Kastoria.jpg",
-      "7f",
-      "Ioannis Fakis",
-      "CC BY-SA 4.0",
-      "https://creativecommons.org/licenses/by-sa/4.0/"
+      "unsplash-tkUOD75ytko",
+      "unsplash",
+      "Anastasius",
+      "Unsplash License",
+      "https://unsplash.com/license",
+      "https://images.unsplash.com/photo-1664261961919-d5efe235c7c9?auto=format&fit=crop&w=1600&q=80",
+      "https://unsplash.com/photos/tkUOD75ytko"
     ]
   },
   {
@@ -2141,7 +2145,7 @@ export const greeceAirportCoverage: DestinationProfile[] = seeds.map(seed => {
     airports:[{iataCode:seed.code}],iataCodes:[seed.code],metropolitanCodes:[],
     aliases:Array.from(new Set([...Object.values(names),...seed.aliases])),
     image:seed.photo[5] ?? 'https://thumb.wikimedia.org/wikipedia/commons/thumb/'+hash[0]+'/'+hash+'/'+encoded+'/960px-'+encoded,
-    imageSource:'https://commons.wikimedia.org/wiki/File:'+encoded,imageCredit:credit,
+    imageSource:seed.photo[6] ?? 'https://commons.wikimedia.org/wiki/File:'+encoded,imageCredit:credit,
     imageLicense:license,imageLicenseUrl:licenseUrl,
     bestMonths:[5,6,9],lowSeasonMonths:[1,2,11],highSeasonMonths:[7,8],publication:{status:'draft'},
   };
