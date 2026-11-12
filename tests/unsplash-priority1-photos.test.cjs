@@ -11,6 +11,7 @@ const { LOCALES, flatten, serialize, createRenderer, loader, loadFraming } = hel
 
 const root = path.resolve(__dirname, '..');
 const photos = require('./fixtures/unsplash-priority1.json');
+const photos2 = require('./fixtures/unsplash-priority2.json'); // PR apilada: sus fotos de temporada se devuelven a la dirección anterior
 const before = require('./fixtures/unsplash-priority1-before.json');
 const catalog = loader(root)('lib/destinations/index.ts');
 const featured = loader(root)('lib/destinations/featured.ts');
@@ -110,6 +111,10 @@ test('the six season cards use their Unsplash photo and the season pages differ 
   assert.deepEqual(Object.keys(byFile).sort(), ['app/temporadas/invierno/page.tsx', 'app/temporadas/otono/page.tsx', 'app/temporadas/primavera/page.tsx']);
   for (const [file, list] of Object.entries(byFile)) {
     let current = page(file);
+    for (const next of photos2.seasons.filter(p => p.file === file)) {
+      assert.equal(current.split(next.image).length - 1, 1, `${next.card} (prioridad 2) appears once`);
+      current = current.replace(next.image, next.oldImage);
+    }
     for (const photo of list) {
       assert.equal(current.split(photo.image).length - 1, 1, `${photo.card} appears once`);
       assert.match(photo.image, /^https:\/\/images\.unsplash\.com\/photo-[0-9a-f-]+\?auto=format&fit=crop&w=1200&q=80$/);

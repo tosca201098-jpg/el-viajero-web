@@ -6,7 +6,7 @@ const destinosInvierno = [
   {
     nombre: "Rovaniemi y Laponia",
     pais: "Finlandia",
-    imagen: "https://images.unsplash.com/photo-1588406254021-966a6c78ee2d?auto=format&fit=crop&w=1200&q=80",
+    imagen: "https://images.unsplash.com/photo-1645020455080-794aded408ca?auto=format&fit=crop&w=1200&q=80",
     categoria: "❄️ Nieve y auroras",
     descripcion: "Bosques nevados, renos y noches ideales para buscar auroras boreales.",
   },
@@ -34,7 +34,7 @@ const destinosInvierno = [
   {
     nombre: "Dolomitas / Cortina d’Ampezzo",
     pais: "Italia",
-    imagen: "https://images.unsplash.com/photo-1773137175525-91a521aefe31?auto=format&fit=crop&w=1200&q=80",
+    imagen: "https://images.unsplash.com/photo-1676043598815-597487beff46?auto=format&fit=crop&w=1200&q=80",
     categoria: "⛷️ Esquí y montaña",
     descripcion: "Pistas y pueblos de montaña rodeados de cumbres nevadas.",
   },
@@ -83,7 +83,7 @@ const destinosInvierno = [
   {
     nombre: "Phuket y Krabi",
     pais: "Tailandia",
-    imagen: "https://images.unsplash.com/photo-1673627114086-768d7a405a22?auto=format&fit=crop&w=1200&q=80",
+    imagen: "https://images.unsplash.com/photo-1673627114831-72296089fb6d?auto=format&fit=crop&w=1200&q=80",
     categoria: "🌴 Escapada tropical",
     descripcion: "Playas e islas en temporada seca, lejos del frío del invierno europeo.",
   },

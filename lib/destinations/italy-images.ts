@@ -22,11 +22,11 @@ export const italyImages = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "florence": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Florence_panorama_as_seen_from_The_Piazza_Michelangelo.jpg/960px-Florence_panorama_as_seen_from_The_Piazza_Michelangelo.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Florence_panorama_as_seen_from_The_Piazza_Michelangelo.jpg",
-    "imageCredit": "Ray in Manila",
-    "imageLicense": "CC BY 2.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by/2.0"
+    "image": "https://images.unsplash.com/photo-1543429257-3eb0b65d9c58?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/xWZa0GYCMbo",
+    "imageCredit": "Pretty Pink",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "naples": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6b/Napoli_panorama_di_Napoli_da_Castel_Sant%27Elmo_-.jpg/960px-Napoli_panorama_di_Napoli_da_Castel_Sant%27Elmo_-.jpg",

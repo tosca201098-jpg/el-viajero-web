@@ -1,5 +1,6 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),crypto=require('node:crypto'),ts=require('typescript');
 const root=path.resolve(__dirname,'..');
 function loader(globals={}){const cache=new Map();function load(file){file=file.replaceAll('\\','/');if(cache.has(file))return cache.get(file);const exports={};cache.set(file,exports);
@@ -38,10 +39,10 @@ test('final photo releases retain the real attribution, distinguish public domai
  assert.equal(skyros.imageCredit,'Han borg');assert.equal(skyros.imageLicense,'Public domain');assert.equal(skyros.imageLicenseUrl,'https://creativecommons.org/publicdomain/mark/1.0/');
  assert.equal(kasos.imageCredit,'Luca Aless');assert.equal(kasos.imageLicense,'CC0 1.0');assert.equal(kasos.imageLicenseUrl,'https://creativecommons.org/publicdomain/zero/1.0/');
  assert.match(kalymnos.image,/^https:\/\/upload\.wikimedia\.org\/wikipedia\/commons\/.*Calymnos_harbour\.jpg$/);assert.ok(kalymnos.imageCredit.includes('Kalogeropoulos'));
- for(const slug of Object.values(additions)){const p=catalog.getDestinationById('gr-'+slug);assert.ok(p.imageCredit.trim());assert.ok(!/<[^>]+>/.test(p.imageCredit));assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);assert.match(p.imageLicenseUrl,/^https:\/\/creativecommons\.org\//);}
+ for(const slug of Object.values(additions)){const p=catalog.getDestinationById('gr-'+slug);if(unsplash.checked(p))continue;assert.ok(p.imageCredit.trim());assert.ok(!/<[^>]+>/.test(p.imageCredit));assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);assert.match(p.imageLicenseUrl,/^https:\/\/creativecommons\.org\//);}
 });
 
 test('all sixteen new photo URLs match the canonical URLs actually returned by Commons, including underscores and Unicode filenames',()=>{
  const urls=require('./fixtures/greece-final-photo-urls.json');assert.equal(Object.keys(urls).length,16);
- for(const[id,url]of Object.entries(urls))assert.equal(decodeURIComponent(catalog.getDestinationById(id).image),decodeURIComponent(url),id);
+ for(const[id,url]of Object.entries(urls)){if(unsplash.checked(catalog.getDestinationById(id)))continue;assert.equal(decodeURIComponent(catalog.getDestinationById(id).image),decodeURIComponent(url),id);}
 });

@@ -215,7 +215,7 @@
     },
     {
       "id": "pt-terceira",
-      "sha256": "8bed49afdafc5a55281a044ee198f2085aec7f06f684b0b128740b5db51ea4f9"
+      "sha256": "71397c59d99720d260133a1b4a913807e31241be5b8a840ae05f5c8a11067612"
     },
     {
       "id": "pt-pico",
@@ -303,7 +303,7 @@
     },
     {
       "id": "fr-nantes",
-      "sha256": "0e0e88814521ac76365d1c9568628b6bffcc8b951c52e4a683c720d72f4de71e"
+      "sha256": "5a083cd140e05e0e31a0a3bc513ec8e65321b3dc76372481a002ae5970a62895"
     },
     {
       "id": "fr-lille",
@@ -323,7 +323,7 @@
     },
     {
       "id": "it-florence",
-      "sha256": "d852d65daace8df1788b0b8953938dcf55b600b23585d47cae4dbc23c53fa6e0"
+      "sha256": "09ba95e4f3979d81901ea61e8550e01e1ef363fcf437feaad21e39cc53cc15a7"
     },
     {
       "id": "it-naples",
@@ -363,6 +363,6 @@
     "primavera": "07ad1babc0e1e54e07e6b95d8f32084d49a21fe510600dee8e620443a8c26e2d",
     "verano": "0e91bdb91d4818cd5a6d2586dd872f8d0f25c62ae27d4e706bb090eada687710",
     "otono": "38b0405b00d48bceaf3f4bd9904b2ecae7d8432cd0d538727df6ae8f0563792f",
-    "invierno": "796415fb3c0ae931ae7ef13088a01a9479e4e98ce68da2e2ca9baa0488460963"
+    "invierno": "fb2865334bcbd09a374ee5e328a233920e32d03c2130708da4284597324dbb47"
   }
 }

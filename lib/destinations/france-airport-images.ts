@@ -3,11 +3,11 @@ import type { DestinationProfile } from './types';
 // Public Commons metadata verified 2026-11-05/06; real photos inspected before use.
 export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image' | 'imageSource' | 'imageCredit' | 'imageLicense' | 'imageLicenseUrl' | 'imagePosition'>> = {
   "montpellier": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Montpellier_Peyrou.jpg/960px-Montpellier_Peyrou.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Montpellier_Peyrou.jpg",
-    "imageCredit": "G.Mannaerts / Wikimedia Commons",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0/"
+    "image": "https://images.unsplash.com/photo-1690132007585-1ef4b16f49d3?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/J5iirAB17TA",
+    "imageCredit": "Julien Daga",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "ajaccio": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0b/Ajaccio_phare_citadelle.jpg/960px-Ajaccio_phare_citadelle.jpg",
@@ -116,11 +116,11 @@ export const franceAirportImages: Record<string, Pick<DestinationProfile, 'image
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "grenoble": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ef/Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg/960px-Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Grenoble_Fort_de_la_Bastille_Vue_sur_Grenoble_13.jpg",
-    "imageCredit": "Zairon",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://images.unsplash.com/photo-1580920950500-597f23bd6f72?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/diqJhQtHHNk",
+    "imageCredit": "Fabe collage",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "nimes": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8f/N%C3%AEmes%2C_Maison_Carr%C3%A9e_%281._Jhdt.n.Chr.%29_%2846755595574%29.jpg/960px-N%C3%AEmes%2C_Maison_Carr%C3%A9e_%281._Jhdt.n.Chr.%29_%2846755595574%29.jpg",

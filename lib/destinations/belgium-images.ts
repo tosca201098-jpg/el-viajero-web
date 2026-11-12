@@ -9,11 +9,11 @@ export const belgiumImages = {
     "imagePosition": "center top"
   },
   "bruges": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e2/Brugge_Rozenhoedkaai_Winter_R03.jpg/960px-Brugge_Rozenhoedkaai_Winter_R03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Brugge_Rozenhoedkaai_Winter_R03.jpg",
-    "imageCredit": "Marc Ryckaert (MJJR)",
-    "imageLicense": "CC BY 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
+    "image": "https://images.unsplash.com/photo-1572895854902-117546c75fb3?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/_BBlUZhRzjg",
+    "imageCredit": "Elijah G",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "ghent": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d4/Gent_Graslei_Panorama_R02.jpg/960px-Gent_Graslei_Panorama_R02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",

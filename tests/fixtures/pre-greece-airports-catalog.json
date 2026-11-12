@@ -269,7 +269,7 @@
     {
       "id": "pt-terceira",
       "slug": "terceira",
-      "sha256": "8bed49afdafc5a55281a044ee198f2085aec7f06f684b0b128740b5db51ea4f9"
+      "sha256": "71397c59d99720d260133a1b4a913807e31241be5b8a840ae05f5c8a11067612"
     },
     {
       "id": "pt-pico",
@@ -379,7 +379,7 @@
     {
       "id": "fr-nantes",
       "slug": "nantes",
-      "sha256": "0e0e88814521ac76365d1c9568628b6bffcc8b951c52e4a683c720d72f4de71e"
+      "sha256": "5a083cd140e05e0e31a0a3bc513ec8e65321b3dc76372481a002ae5970a62895"
     },
     {
       "id": "fr-lille",
@@ -404,7 +404,7 @@
     {
       "id": "it-florence",
       "slug": "florence",
-      "sha256": "d852d65daace8df1788b0b8953938dcf55b600b23585d47cae4dbc23c53fa6e0"
+      "sha256": "09ba95e4f3979d81901ea61e8550e01e1ef363fcf437feaad21e39cc53cc15a7"
     },
     {
       "id": "it-naples",
@@ -634,7 +634,7 @@
     {
       "id": "be-bruges",
       "slug": "bruges",
-      "sha256": "476c56e34a7aca65854b729d50d68ba8222ad214c07557deddd39a70b195c231"
+      "sha256": "7855ef57bb75de2c85cd2810b9edea7cdc3bd855f31f9761d54adf9d8845a34d"
     },
     {
       "id": "be-ghent",
@@ -714,7 +714,7 @@
     {
       "id": "ch-lausanne-lavaux",
       "slug": "lausanne-lavaux",
-      "sha256": "2b98f68eeec29fca4122a56425f6c3fa2a605f629dac0193d61c6a491e5a6f8c"
+      "sha256": "71e23736f26035166a8a4212be0779387ef411f0d00971ac0b80def8384b7d99"
     },
     {
       "id": "ch-montreux-chillon",
@@ -759,7 +759,7 @@
     {
       "id": "at-innsbruck",
       "slug": "innsbruck",
-      "sha256": "48d0dcc83aa7a5715654c1c4a881b4cce746c9c8c06c26a1bf78936735b9862e"
+      "sha256": "6cda07914b3b601bc4f3046d0632daf6bfd2e542ea8900c02a322eb20b186af6"
     },
     {
       "id": "at-graz",
@@ -814,7 +814,7 @@
     {
       "id": "cz-brno",
       "slug": "brno",
-      "sha256": "8329b9d686f7042ad37700975da6b05862200c945588440fb10b3dec27c2abc8"
+      "sha256": "c67f516778eeda5a7a783cce052c7cc7365c428ce51e63f43dc34def865d45be"
     },
     {
       "id": "cz-cesky-krumlov",
@@ -829,7 +829,7 @@
     {
       "id": "cz-kutna-hora",
       "slug": "kutna-hora",
-      "sha256": "05f4e9588456882c25bd7ed51369fd5157202d016f11022e5c1fbaf053e7fbd9"
+      "sha256": "9468da51fc03fc64e87294f448bcd35d68c8b399bce527dc24d0abc77a76a12d"
     },
     {
       "id": "cz-olomouc",
@@ -899,7 +899,7 @@
     {
       "id": "pl-lublin",
       "slug": "lublin",
-      "sha256": "ffc967f8dd7220b80e447015aa19455739df76c0743aa70507235938e1ee3120"
+      "sha256": "42776fc36bb75bc4bedd7da8b17781da2728029e93d872a6142006530596948b"
     },
     {
       "id": "pl-lodz",
@@ -909,7 +909,7 @@
     {
       "id": "pl-zakopane-tatras",
       "slug": "zakopane-tatras",
-      "sha256": "02e163050a06f6f47af4ebba148901570d94df671ada47ee3f8657e19fd16728"
+      "sha256": "8ce6d56ff4b32b7a7321e56bb629e953d830f90bbeed5c9f6b3afd03edc6b8ce"
     },
     {
       "id": "pl-masurian-lakes",
@@ -1104,7 +1104,7 @@
     {
       "id": "gr-skiathos",
       "slug": "skiathos",
-      "sha256": "4363a71f45379fc76904f47ae991ba172d53d3d1f0aed9043f45d8fba75d7d02"
+      "sha256": "7d17af2b1d928696cfaa5bc337145200b73f81cd21b93d367b5e2dd2edece741"
     }
   ],
   "featuredSha256": "121ad9dbc2409e5b72fc2faab5f346887a08331cda5520fe093e2873a634ad20",

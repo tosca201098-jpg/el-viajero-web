@@ -68,11 +68,11 @@ const images = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "nantes": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Panorama_tour_du_chateau_des_ducs.jpg/960px-Panorama_tour_du_chateau_des_ducs.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Panorama_tour_du_chateau_des_ducs.jpg",
-    "imageCredit": "Elie Métayer",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "image": "https://images.unsplash.com/photo-1676283898167-addc4238bee8?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/LxJ5FHD495Y",
+    "imageCredit": "Pascal Bernardon",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "lille": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Grand-Place_Lille_panorama.jpg/960px-Grand-Place_Lille_panorama.jpg",

@@ -1,6 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
 const root = path.resolve(__dirname, '..');
 function loader(mocks = {}, globals = {}) {
@@ -110,8 +111,8 @@ test('Italian seasonality remains reusable data without automatic cards, publica
   for(const d of italy){
     assert.equal(policy(d),false);assert.equal(d.publication.status,'draft');
     for(const field of ['bestMonths','lowSeasonMonths','highSeasonMonths'])assert.ok(d[field].length&&d[field].every(m=>m>=1&&m<=12));
-    assert.match(d.image,/^https:\/\/thumb\.wikimedia\.org\//);assert.match(d.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
-    assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons\.org/);
+    if(!unsplash.checked(d)){assert.match(d.image,/^https:\/\/thumb\.wikimedia\.org\//);assert.match(d.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+    assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons\.org/);}
     for(const field of ['price','hotelPrice','flightPrice','available','hotelId'])assert.equal(d[field],undefined);
   }
 });

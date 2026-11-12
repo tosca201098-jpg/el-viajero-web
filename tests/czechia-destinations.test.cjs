@@ -1,6 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
@@ -58,6 +59,6 @@ test('provider-backed autocomplete resolves real codes and all twelve Czech tour
   assert.equal((await jcl.json()).suggestions.length,0);
 });
 test('all twelve Commons images carry direct 960px URLs and CC BY/SA attribution',()=>{
-  for(const p of czech){assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+  for(const p of czech){if(unsplash.checked(p))continue;assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(p.imageCredit);assert.match(p.imageLicense,/^CC BY(?:-SA)?/);assert.match(p.imageLicenseUrl,/^https:\/\/creativecommons\.org\//)}
 });
