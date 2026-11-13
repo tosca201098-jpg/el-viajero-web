@@ -28,6 +28,7 @@ function endpoint(payload, options = {}) {
       if(id === '@/lib/travelpayouts/france-airports') return {franceAirportsForTerm:()=>[],franceTouristPlacesForTerm:()=>[],franceAirports:[],franceCityAliases:{}};
       if(id === '@/lib/travelpayouts/greece-airports') return {greeceAirportsForTerm:()=>[],greeceTouristPlacesForTerm:()=>[],greeceAirports:[],greeceCityAliases:{}};
       if(id === '@/lib/travelpayouts/croatia-airports') return {croatiaAirportsForTerm:()=>[],croatiaTouristPlacesForTerm:()=>[],croatiaAirports:[],croatiaCityAliases:{}};
+      if(id === '@/lib/travelpayouts/japan-airports') return {japanAirportsForTerm:()=>[],japanTouristPlacesForTerm:()=>[],japanAirports:[],japanCityAliases:{}};
       if(id === '@/lib/travelpayouts/albania-airports') return {albaniaAirportsForTerm:()=>[],albaniaTouristPlacesForTerm:()=>[],albaniaAirports:[],albaniaCityAliases:{}};
       if(id === '@/lib/travelpayouts/turkey-airports') return {turkeyAirportsForTerm:()=>[],turkeyTouristPlacesForTerm:()=>[],turkeyAirports:[],turkeyCityAliases:{}};
       if(id === '@/lib/travelpayouts/southeast-europe-airports') return {southeastEuropeAirportsForTerm:()=>[],southeastEuropeTouristPlacesForTerm:()=>[],southeastEuropeAirports:[],southeastEuropeCityAliases:{}};
