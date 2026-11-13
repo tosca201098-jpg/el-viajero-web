@@ -47,3 +47,10 @@ devuelve `not_configured` y la página muestra la lista de siempre.
 
 `tests/monthly-offers.test.cjs` (elección de destinos y precios, bloques, ruta de la API) y
 `tests/monthly-offers-ui.test.cjs` (selector, carga, tarjetas, errores). Usan datos simulados del proveedor.
+
+## Huella de `MonthlyDestinations.tsx`
+
+Las pruebas de cada lote del catálogo (`tests/fixtures/pre-*-catalog.json`, campo `monthPages`) guardan la huella
+(SHA-256) de `MonthlyDestinations.tsx` y `page.tsx` para detectar cambios no intencionados en las páginas de mes.
+Este cambio es intencionado, así que se actualizó esa huella de `MonthlyDestinations.tsx` en los 20 archivos que la
+contenían. `page.tsx` no cambia. Si se vuelve a editar `MonthlyDestinations.tsx`, hay que actualizar la huella de nuevo.
