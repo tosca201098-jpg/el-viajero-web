@@ -139,6 +139,8 @@ test('monthly rendering uses the country helper for a future country without add
     : typeof node === 'object' ? (node.children ?? []).map(textNodes).join(' ') : String(node);
   for (const language of locales) {
     const component = load('app/viajes-baratos/[mes]/MonthlyDestinations.tsx', {
+      // La lista recomendada va dentro de MonthlyOffers: se simula como contenedor para seguir comprobando sus tarjetas.
+      './MonthlyOffers': { __esModule: true, default: 'monthly-offers' },
       'next/link': { default: () => null },
       '@/app/components/LanguageSelector': { default: () => null },
       '@/app/components/LanguageProvider': { useLanguage: () => ({ language, t: (key, vars) => translations.translate(language, key, vars) }) },

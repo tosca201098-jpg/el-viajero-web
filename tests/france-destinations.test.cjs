@@ -116,6 +116,7 @@ for(const locale of codes) test(`${locale}: all French text is localized while I
 function renderHarness(locale) {
   const react={createElement:(type,props,...children)=>({type,props:props||{},children:children.flat(Infinity)})};
   const renderLoad=loader({
+    './MonthlyOffers':{__esModule:true,default:'monthly-offers'}, // la lista recomendada va dentro; se simula como contenedor
     'next/link':{default:'a'}, './LanguageProvider':{useLanguage:()=>({language:locale,t:(k,v)=>translations.translate(locale,k,v)})},
     '@/app/components/LanguageProvider':{useLanguage:()=>({language:locale,t:(k,v)=>translations.translate(locale,k,v)})},
     '@/app/components/LanguageSelector':{default:()=>null},
