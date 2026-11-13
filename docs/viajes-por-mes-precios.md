@@ -14,6 +14,8 @@ de ida y vuelta más baratos **para una escapada (2 a 5 noches)**, en dos bloque
   muestra: ocupa su sitio el siguiente destino válido que sí lo tiene. Nunca se rellena con tarjetas «sin precio» ni
   se inventa ninguno. Si no hay 12 destinos con precio, el bloque queda más corto (o vacío, con un aviso) y la
   página lo explica.
+- Las tarjetas de fuera (esta lista y la de siempre) solo tienen el botón «Ver destino»: el botón «Buscar vuelos» está
+  dentro de la ficha de cada destino, así que no se repite en la tarjeta.
 - Solo entran fichas del catálogo que marcan ese mes en `bestMonths`, `lowSeasonMonths` o `highSeasonMonths`
   y que tienen aeropuerto verificado (`iataCodes`) y foto. **El clima no se usa para elegir destinos.**
 - Si la consulta falla o no hay ningún precio en ninguno de los dos bloques, la página muestra un aviso y la lista de destinos recomendados de
@@ -54,5 +56,5 @@ devuelve `not_configured` y la página muestra la lista de siempre.
 
 Las pruebas de cada lote del catálogo (`tests/fixtures/pre-*-catalog.json`, campo `monthPages`) guardan la huella
 (SHA-256) de `MonthlyDestinations.tsx` y `page.tsx` para detectar cambios no intencionados en las páginas de mes.
-Este cambio es intencionado, así que se actualizó esa huella de `MonthlyDestinations.tsx` en los 20 archivos que la
+Estos cambios son intencionados (nueva lista con precios y, después, quitar el botón «Buscar vuelos» de la tarjeta), así que se actualizó esa huella de `MonthlyDestinations.tsx` en los 20 archivos que la
 contenían. `page.tsx` no cambia. Si se vuelve a editar `MonthlyDestinations.tsx`, hay que actualizar la huella de nuevo.

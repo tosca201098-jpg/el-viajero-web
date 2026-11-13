@@ -45,7 +45,6 @@ function OfferCards({ cards, zone }: { cards: MonthlyCard[]; zone: "spain" | "in
       {cards.map((card) => {
         const text = card.texts[language] ?? card.texts.es;
         const profileUrl = `/?ficha=${encodeURIComponent(card.name)}`;
-        const flightsUrl = `/?primaveraServicio=vuelo&destino=${encodeURIComponent(card.name)}`;
         const stops = card.transfers === null ? "" : card.transfers === 0 ? t("monthly.direct")
           : card.transfers === 1 ? t("monthly.oneStop") : t("monthly.stops", { count: card.transfers });
         const details = [
@@ -85,9 +84,6 @@ function OfferCards({ cards, zone }: { cards: MonthlyCard[]; zone: "spain" | "in
               <div className="mt-auto grid gap-2 pt-4">
                 <Link href={profileUrl} className="flex min-h-[44px] items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-bold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
                   {t("monthly.viewDestination")}
-                </Link>
-                <Link href={flightsUrl} className="flex min-h-[44px] items-center justify-center rounded-xl border border-blue-600/50 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
-                  ✈️ {t("search.findFlights")}
                 </Link>
               </div>
             </div>

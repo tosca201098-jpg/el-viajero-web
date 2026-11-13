@@ -143,7 +143,9 @@ test('lee el aeropuerto recordado, lo consulta y dibuja los dos bloques con prec
   assert.ok(cards.every((card) => /\d\s?€/.test(text(card))));
   const hrefs = flatten(first).filter((node) => node.type === 'a').map((node) => node.props.href);
   assert.ok(hrefs.includes('/?ficha=Palma%20de%20Mallorca'));
-  assert.ok(hrefs.includes('/?primaveraServicio=vuelo&destino=Palma%20de%20Mallorca'));
+  assert.equal(hrefs.some((href) => href.includes('primaveraServicio')), false, 'fuera de la ficha no hay botón «Buscar vuelos»');
+  assert.doesNotMatch(text(tree), /Buscar vuelos/);
+  assert.equal(flatten(first).filter((node) => node.type === 'a' && node.props.href === '/?ficha=Palma%20de%20Mallorca').length, 1, 'el botón Ver destino sigue');
   assert.match(text(tree), /Para enero hay pocos precios guardados/);
   assert.match(text(tree), /solo mostramos los destinos que tienen un precio real/);
   assert.match(text(tree), /escapadas de 2 a 5 noches/);

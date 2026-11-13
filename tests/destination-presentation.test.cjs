@@ -128,6 +128,10 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
       const expected=recommendations.filter(r=>!['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'GR', 'SI', 'HR', 'AL', 'TR', 'RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY', 'RO', 'BG', 'MD', 'DK', 'IS', 'FI', 'SE', 'NO', 'IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
+      // Fuera de la ficha ya no hay botón «Buscar vuelos»: está dentro de cada destino. «Ver destino» se mantiene.
+      assert.ok(!nodes(tree).some(n=>String(n.props?.href??'').includes('primaveraServicio')),`${locale}:${month}`);
+      assert.ok(!text(tree).includes(dictionaries.translate(locale,'search.findFlights')),`${locale}:${month}`);
+      assert.equal(nodes(tree).filter(n=>String(n.props?.href??'').startsWith('/?ficha=')).length,cards.length,`${locale}:${month}`);
     }
   }
 });
