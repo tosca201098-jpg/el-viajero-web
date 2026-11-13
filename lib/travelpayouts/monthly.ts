@@ -236,13 +236,22 @@ async function fetchPage(
   return payload.data as unknown[];
 }
 
-/**
- * Consulta Travelpayouts (una petición por mes de vuelta) y, si una página viene llena y aún faltan
- * destinos con precio, pide la siguiente (máximo 3 páginas por mes de vuelta).
- */
-export async function getMonthlyBlocks(options: {
+/** Mezcla ofertas guardadas con las de la consulta en directo: por ficha, el precio de hoy manda. */
+export function mergeOffers(live: ReadonlyMap<string, MonthlyOffer>, stored: ReadonlyMap<string, MonthlyOffer> = new Map()) {
+  const merged = new Map<string, MonthlyOffer>(stored);
+  live.forEach((offer, id) => merged.set(id, offer));
+  return merged;
+}
+
+type CollectOptions = {
   token: string; origin: MonthlyOrigin; month: number; now?: Date; fetchImpl?: FetchLike;
-}) {
+  /** Precios guardados y recientes (Supabase). Solo cuentan para decidir si ya hay suficientes tarjetas. */
+  stored?: ReadonlyMap<string, MonthlyOffer>;
+  /** true: deja de pedir páginas cuando ya hay 12 + 12 tarjetas. false: pide todas las páginas (tarea diaria). */
+  stopWhenFull: boolean;
+};
+
+async function collectOffers(options: CollectOptions) {
   const { token, origin, month } = options;
   const fetchImpl = options.fetchImpl ?? (fetch as unknown as FetchLike);
   const year = targetYear(month, options.now);
@@ -255,11 +264,34 @@ export async function getMonthlyBlocks(options: {
       fetchPage(fetchImpl, token, origin.code, windows.departure, returning, page)));
     pages.forEach((data) => records.push(...data));
     open = open.filter((_, index) => pages[index].length >= PAGE_SIZE);
+    if (!options.stopWhenFull) continue;
     const { offers } = pickOffers(records, origin.code, month, year, candidates);
-    const priced = Array.from(offers.values());
+    const priced = Array.from(mergeOffers(offers, options.stored).values());
     const spain = priced.filter((offer) => offer.profile.countryCode === 'ES').length;
     if (spain >= CARDS_PER_BLOCK && priced.length - spain >= CARDS_PER_BLOCK) break;
   }
   const { offers, counts } = pickOffers(records, origin.code, month, year, candidates);
-  return { year, counts, ...buildBlocks(offers, CARDS_PER_BLOCK) };
+  return { year, counts, offers };
+}
+
+/**
+ * Consulta Travelpayouts (una petición por mes de vuelta) y, si una página viene llena y aún faltan
+ * destinos con precio, pide la siguiente (máximo 3 páginas por mes de vuelta). Si recibe precios guardados
+ * recientes (`stored`), los usa para los destinos que el proveedor no devuelve hoy.
+ */
+export async function getMonthlyBlocks(options: Omit<CollectOptions, 'stopWhenFull'>) {
+  const { year, counts, offers: live } = await collectOffers({ ...options, stopWhenFull: true });
+  const stored = options.stored ?? new Map<string, MonthlyOffer>();
+  const merged = mergeOffers(live, stored);
+  const usedFromStorage = Array.from(merged.keys()).filter((id) => !live.has(id)).length;
+  return {
+    year,
+    counts: { ...counts, storedOffers: stored.size, usedFromStorage },
+    ...buildBlocks(merged, CARDS_PER_BLOCK),
+  };
+}
+
+/** Para la tarea diaria: todas las ofertas de hoy de un mes y un aeropuerto (sin mezclar nada guardado). */
+export async function collectMonthlyOffers(options: Omit<CollectOptions, 'stopWhenFull' | 'stored'>) {
+  return collectOffers({ ...options, stopWhenFull: false });
 }
