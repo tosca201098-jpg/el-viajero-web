@@ -118,6 +118,7 @@ export function pickOffers(
     providerRecords: records.length, fromOrigin: 0, escapadaStay: 0, matchedDestinations: 0, unmatchedCodes: [],
   };
   const unmatched = new Set<string>();
+  const seen = new Set<string>();
   for (const flight of records) {
     if (!isRecord(flight)) continue;
     const origin = code(flight.origin) || code(flight.origin_code);
@@ -127,9 +128,6 @@ export function pickOffers(
     const departureAt = dateOnly(flight.departure_at);
     const returnAt = dateOnly(flight.return_at);
     if (!price || !departureAt || !returnAt || departureAt.slice(0, 7) !== `${year}-${pad(month)}`) continue;
-    const nights = nightsBetween(departureAt, returnAt);
-    if (!(nights >= MIN_NIGHTS && nights <= MAX_NIGHTS)) continue;
-    counts.escapadaStay += 1;
     const destinationCode = code(flight.destination) || code(flight.destination_code);
     const profile = profileForCodes(destinationCode, code(flight.destination_airport));
     if (!profile) {
@@ -137,6 +135,11 @@ export function pickOffers(
       continue;
     }
     if (!allowed.has(profile) || isOriginCity(profile, originCode)) continue;
+    // Hay vuelos de este aeropuerto a ese destino en el mes, aunque no sean de escapada: sirve para ordenar los «sin precio».
+    seen.add(profile.id);
+    const nights = nightsBetween(departureAt, returnAt);
+    if (!(nights >= MIN_NIGHTS && nights <= MAX_NIGHTS)) continue;
+    counts.escapadaStay += 1;
     const offer: MonthlyOffer = {
       profile, price, departureAt, returnAt, nights,
       transfers: typeof flight.transfers === 'number' && Number.isInteger(flight.transfers) && flight.transfers >= 0
@@ -148,7 +151,7 @@ export function pickOffers(
   }
   counts.matchedDestinations = best.size;
   counts.unmatchedCodes = Array.from(unmatched).sort();
-  return { offers: best, counts };
+  return { offers: best, seen, counts };
 }
 
 function isBetter(next: MonthlyOffer, previous: MonthlyOffer) {
@@ -196,6 +199,7 @@ export function buildBlocks(
   offers: ReadonlyMap<string, MonthlyOffer>, originCode: string, month: number,
   candidates: readonly DestinationProfile[] = candidatesForMonth(month),
   limit = CARDS_PER_BLOCK,
+  seen: ReadonlySet<string> = new Set(),
 ) {
   const priced = Array.from(offers.values())
     .sort((a, b) => a.price - b.price || a.profile.name.localeCompare(b.profile.name, 'es'));
@@ -203,9 +207,11 @@ export function buildBlocks(
     const cards = priced.filter((offer) => (offer.profile.countryCode === 'ES') === isSpain)
       .slice(0, limit).map((offer) => toCard(offer.profile, offer));
     const used = new Set(cards.map((card) => card.id));
-    // Misma prioridad que la lista de meses: primero la temporada tranquila y luego la mejor época.
-    const ordered = [...candidates.filter((d) => d.lowSeasonMonths?.includes(month)),
-      ...candidates.filter((d) => !d.lowSeasonMonths?.includes(month))];
+    // Primero los destinos con vuelos desde este aeropuerto ese mes (aunque no sean de escapada) y, dentro de cada
+    // grupo, la misma prioridad que la lista de meses: temporada tranquila antes que mejor época.
+    const rank = (destination: DestinationProfile) =>
+      (seen.has(destination.id) ? 0 : 2) + (destination.lowSeasonMonths?.includes(month) ? 0 : 1);
+    const ordered = [...candidates].sort((a, b) => rank(a) - rank(b));
     for (const destination of ordered) {
       if (cards.length >= limit) break;
       if ((destination.countryCode === 'ES') !== isSpain || used.has(destination.id) ||
@@ -274,6 +280,6 @@ export async function getMonthlyBlocks(options: {
     const spain = priced.filter((offer) => offer.profile.countryCode === 'ES').length;
     if (spain >= CARDS_PER_BLOCK && priced.length - spain >= CARDS_PER_BLOCK) break;
   }
-  const { offers, counts } = pickOffers(records, origin.code, month, year, candidates);
-  return { year, counts, ...buildBlocks(offers, origin.code, month, candidates) };
+  const { offers, seen, counts } = pickOffers(records, origin.code, month, year, candidates);
+  return { year, counts, ...buildBlocks(offers, origin.code, month, candidates, CARDS_PER_BLOCK, seen) };
 }

@@ -167,6 +167,25 @@ test('dos bloques de 12: primero los destinos con precio (de menor a mayor) y el
   assert.equal(spain.find((card) => card.id === 'es-lanzarote').transfers, 1);
 });
 
+test('los destinos sin precio de escapada pero con vuelos ese mes van primero entre los «sin precio reciente»', () => {
+  const { offers, seen } = monthly.pickOffers([
+    rec('PMI', 36, '01-01', '01-06'),
+    rec('SVQ', 51, '01-22', '01-28'), // 6 noches: no es escapada, pero hay vuelos a Sevilla
+    rec('AGP', 60, '01-02', '01-12'), // 10 noches: igual con Málaga
+    rec('FNC', 119, '01-18', '01-23'), // Madeira no es válida en enero: no cuenta
+  ], 'MAD', 1, YEAR);
+  assert.deepEqual([...offers.keys()], ['es-palma-de-mallorca']);
+  assert.deepEqual([...seen].sort(), ['es-malaga', 'es-palma-de-mallorca', 'es-sevilla']);
+  const { spain } = monthly.buildBlocks(offers, 'MAD', 1, undefined, 12, seen);
+  assert.equal(spain[0].id, 'es-palma-de-mallorca');
+  assert.deepEqual(ids(spain).slice(1, 3).sort(), ['es-malaga', 'es-sevilla']);
+  assert.ok(spain.slice(1).every((card) => card.price === null));
+  assert.equal(spain.length, 12);
+  // Sin esa información el orden sigue siendo el de la lista de meses (temporada tranquila primero).
+  const plain = monthly.buildBlocks(offers, 'MAD', 1).spain;
+  assert.equal(plain.length, 12);
+});
+
 test('si hay más de 12 destinos con precio solo salen los 12 más baratos', () => {
   const spanish = ['PMI', 'TCI', 'LPA', 'IBZ', 'ACE', 'BCN', 'SVQ', 'AGP', 'ALC', 'FUE', 'SPC', 'LEI', 'VLC', 'BIO', 'MAH'];
   const { offers } = monthly.pickOffers(spanish.map((destination, index) => rec(destination, 30 + index, '01-10', '01-13')), 'MAD', 1, YEAR);
