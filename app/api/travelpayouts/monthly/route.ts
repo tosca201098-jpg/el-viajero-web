@@ -29,7 +29,7 @@ export async function GET(request: Request) {
     };
     // `?debug=1` añade los recuentos de la consulta (útil para revisar la Preview); no incluye datos privados.
     if (params.get('debug') === '1') body.counts = counts;
-    const priced = [...spain, ...international].some((card) => card.price !== null);
+    const priced = spain.length + international.length > 0;
     return Response.json(body, { headers: { 'Cache-Control': priced ? CACHE_WITH_PRICES : CACHE_WITHOUT_PRICES } });
   } catch {
     return errorResponse('provider_unavailable', 502);

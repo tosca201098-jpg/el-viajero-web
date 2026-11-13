@@ -9,14 +9,16 @@ de ida y vuelta más baratos **para una escapada (2 a 5 noches)**, en dos bloque
   Bilbao, Palma, Alicante, Tenerife (TFN/TFS) y Gran Canaria. La elección se recuerda en el navegador
   (`localStorage`, clave `destinauta.origenSalida`).
 - Cada bloque tiene hasta 12 tarjetas (3 filas de 4), con el mismo diseño que las tarjetas de siempre más la
-  etiqueta España/Internacional y el precio. Primero van los destinos con precio, de menor a mayor.
-- Si un bloque no llega a 12 destinos con precio, se completa con fichas válidas para ese mes que salen como
-  «Sin precio reciente» (con el aviso «Mira el precio al buscar el vuelo»). No se inventa ningún precio. Entre los
-  «sin precio» van primero los destinos que sí tienen vuelos ese mes desde ese aeropuerto pero no de escapada
-  (por ejemplo, solo de 6 o más noches).
+  etiqueta España/Internacional y el precio, del vuelo más barato al más caro.
+- **Todas las tarjetas llevan un precio real.** Un destino válido que no tiene precio de escapada ese mes no se
+  muestra: ocupa su sitio el siguiente destino válido que sí lo tiene. Nunca se rellena con tarjetas «sin precio» ni
+  se inventa ninguno. Si no hay 12 destinos con precio, el bloque queda más corto (o vacío, con un aviso) y la
+  página lo explica.
+- Las tarjetas de fuera (esta lista y la de siempre) solo tienen el botón «Ver destino»: el botón «Buscar vuelos» está
+  dentro de la ficha de cada destino, así que no se repite en la tarjeta.
 - Solo entran fichas del catálogo que marcan ese mes en `bestMonths`, `lowSeasonMonths` o `highSeasonMonths`
   y que tienen aeropuerto verificado (`iataCodes`) y foto. **El clima no se usa para elegir destinos.**
-- Si la consulta falla o no hay ningún precio, la página muestra un aviso y la lista de destinos recomendados de
+- Si la consulta falla o no hay ningún precio en ninguno de los dos bloques, la página muestra un aviso y la lista de destinos recomendados de
   siempre (`MonthlyDestinations`, sin cambios en su diseño). Esa lista también está dentro de `<noscript>`.
 
 ## Cómo funciona
@@ -26,7 +28,7 @@ de ida y vuelta más baratos **para una escapada (2 a 5 noches)**, en dos bloque
 1. Valida el mes y que el aeropuerto esté en la lista de 10 (si no, `400`). Sin `TRAVELPAYOUTS_API_TOKEN`, `503`.
 2. Consulta `prices_for_dates` de Travelpayouts (1 petición por mes de vuelta; la salida es siempre el mes pedido y
    la vuelta puede caer en el mes siguiente; hasta 3 páginas de 1000 si hacen falta). El token solo viaja en la cabecera.
-3. Se queda, por destino, con el vuelo más barato de 2 a 5 noches (a igual precio, el directo y luego el más temprano).
+3. Se queda, por destino, con el vuelo más barato de 2 a 5 noches (a igual precio, el directo y luego el más temprano). Los destinos sin ese vuelo se descartan.
 4. Respuesta cacheada en Vercel: 2 h con precios (`s-maxage=7200`), 10 min si no hay ninguno. Los errores no se cachean.
 5. `&debug=1` añade `counts` (registros del proveedor, de ese aeropuerto, de escapada reconocidos, destinos con precio y
    códigos del proveedor que no corresponden a ninguna ficha) para revisar la Preview.
@@ -54,5 +56,5 @@ devuelve `not_configured` y la página muestra la lista de siempre.
 
 Las pruebas de cada lote del catálogo (`tests/fixtures/pre-*-catalog.json`, campo `monthPages`) guardan la huella
 (SHA-256) de `MonthlyDestinations.tsx` y `page.tsx` para detectar cambios no intencionados en las páginas de mes.
-Este cambio es intencionado, así que se actualizó esa huella de `MonthlyDestinations.tsx` en los 20 archivos que la
+Estos cambios son intencionados (nueva lista con precios y, después, quitar el botón «Buscar vuelos» de la tarjeta), así que se actualizó esa huella de `MonthlyDestinations.tsx` en los 20 archivos que la
 contenían. `page.tsx` no cambia. Si se vuelve a editar `MonthlyDestinations.tsx`, hay que actualizar la huella de nuevo.
