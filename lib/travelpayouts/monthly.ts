@@ -1,6 +1,7 @@
 // Precios reales de «Viajes por mes»: para un mes y un aeropuerto de salida de España devuelve, por
 // separado, los destinos de España y los internacionales con el vuelo de ida y vuelta más barato de
-// 2 a 5 noches (una escapada). Solo se usan precios que devuelve Travelpayouts: nada se inventa.
+// 2 a 5 noches (una escapada). Solo salen tarjetas con un precio real de Travelpayouts: nada se inventa
+// y un destino sin precio no se muestra; ocupa su sitio el siguiente destino válido que sí tenga precio.
 // Solo entran fichas del catálogo que marcan ese mes como válido (mejor época, temporada tranquila o alta).
 // El clima no se usa para elegir destinos.
 
@@ -118,7 +119,6 @@ export function pickOffers(
     providerRecords: records.length, fromOrigin: 0, escapadaStay: 0, matchedDestinations: 0, unmatchedCodes: [],
   };
   const unmatched = new Set<string>();
-  const seen = new Set<string>();
   for (const flight of records) {
     if (!isRecord(flight)) continue;
     const origin = code(flight.origin) || code(flight.origin_code);
@@ -135,8 +135,6 @@ export function pickOffers(
       continue;
     }
     if (!allowed.has(profile) || isOriginCity(profile, originCode)) continue;
-    // Hay vuelos de este aeropuerto a ese destino en el mes, aunque no sean de escapada: sirve para ordenar los «sin precio».
-    seen.add(profile.id);
     const nights = nightsBetween(departureAt, returnAt);
     if (!(nights >= MIN_NIGHTS && nights <= MAX_NIGHTS)) continue;
     counts.escapadaStay += 1;
@@ -151,7 +149,7 @@ export function pickOffers(
   }
   counts.matchedDestinations = best.size;
   counts.unmatchedCodes = Array.from(unmatched).sort();
-  return { offers: best, seen, counts };
+  return { offers: best, counts };
 }
 
 function isBetter(next: MonthlyOffer, previous: MonthlyOffer) {
@@ -173,7 +171,7 @@ function texts(profile: DestinationProfile): Record<Locale, MonthlyCardText> {
   })) as Record<Locale, MonthlyCardText>;
 }
 
-export function toCard(profile: DestinationProfile, offer?: MonthlyOffer): MonthlyCard {
+export function toCard(profile: DestinationProfile, offer: MonthlyOffer): MonthlyCard {
   return {
     id: profile.id,
     name: profile.name,
@@ -182,45 +180,27 @@ export function toCard(profile: DestinationProfile, offer?: MonthlyOffer): Month
     texts: texts(profile),
     credit: profile.countryCode === 'FR' && profile.imageSource
       ? { source: profile.imageSource, credit: profile.imageCredit ?? '', license: profile.imageLicense ?? '' } : null,
-    price: offer?.price ?? null,
-    departureAt: offer?.departureAt ?? null,
-    returnAt: offer?.returnAt ?? null,
-    nights: offer?.nights ?? null,
-    transfers: offer?.transfers ?? null,
-    offerUrl: offer?.offerUrl ?? null,
+    price: offer.price,
+    departureAt: offer.departureAt,
+    returnAt: offer.returnAt,
+    nights: offer.nights,
+    transfers: offer.transfers,
+    offerUrl: offer.offerUrl,
   };
 }
 
 /**
- * Dos bloques (España e Internacional) de hasta 12 tarjetas: primero los destinos con precio, del más barato
- * al más caro; si no llegan a 12 se completan con fichas válidas para el mes que salen como «sin precio reciente».
+ * Dos bloques (España e Internacional) de hasta 12 tarjetas, del vuelo más barato al más caro. Solo hay tarjetas
+ * con precio real: si un destino válido no tiene precio ese mes no sale, y entra el siguiente que sí lo tiene.
+ * Si no hay 12 destinos con precio, el bloque se queda más corto (nunca se rellena con tarjetas sin precio).
  */
-export function buildBlocks(
-  offers: ReadonlyMap<string, MonthlyOffer>, originCode: string, month: number,
-  candidates: readonly DestinationProfile[] = candidatesForMonth(month),
-  limit = CARDS_PER_BLOCK,
-  seen: ReadonlySet<string> = new Set(),
-) {
+export function buildBlocks(offers: ReadonlyMap<string, MonthlyOffer>, limit = CARDS_PER_BLOCK) {
   const priced = Array.from(offers.values())
     .sort((a, b) => a.price - b.price || a.profile.name.localeCompare(b.profile.name, 'es'));
-  const block = (isSpain: boolean) => {
-    const cards = priced.filter((offer) => (offer.profile.countryCode === 'ES') === isSpain)
-      .slice(0, limit).map((offer) => toCard(offer.profile, offer));
-    const used = new Set(cards.map((card) => card.id));
-    // Primero los destinos con vuelos desde este aeropuerto ese mes (aunque no sean de escapada) y, dentro de cada
-    // grupo, la misma prioridad que la lista de meses: temporada tranquila antes que mejor época.
-    const rank = (destination: DestinationProfile) =>
-      (seen.has(destination.id) ? 0 : 2) + (destination.lowSeasonMonths?.includes(month) ? 0 : 1);
-    const ordered = [...candidates].sort((a, b) => rank(a) - rank(b));
-    for (const destination of ordered) {
-      if (cards.length >= limit) break;
-      if ((destination.countryCode === 'ES') !== isSpain || used.has(destination.id) ||
-        offers.has(destination.id) || isOriginCity(destination, originCode)) continue;
-      used.add(destination.id);
-      cards.push(toCard(destination));
-    }
-    return cards;
-  };
+  const block = (isSpain: boolean) => priced
+    .filter((offer) => (offer.profile.countryCode === 'ES') === isSpain)
+    .slice(0, limit)
+    .map((offer) => toCard(offer.profile, offer));
   return { spain: block(true), international: block(false) };
 }
 
@@ -280,6 +260,6 @@ export async function getMonthlyBlocks(options: {
     const spain = priced.filter((offer) => offer.profile.countryCode === 'ES').length;
     if (spain >= CARDS_PER_BLOCK && priced.length - spain >= CARDS_PER_BLOCK) break;
   }
-  const { offers, seen, counts } = pickOffers(records, origin.code, month, year, candidates);
-  return { year, counts, ...buildBlocks(offers, origin.code, month, candidates, CARDS_PER_BLOCK, seen) };
+  const { offers, counts } = pickOffers(records, origin.code, month, year, candidates);
+  return { year, counts, ...buildBlocks(offers, CARDS_PER_BLOCK) };
 }

@@ -127,12 +127,12 @@ test('nunca se ofrece como destino la ciudad de salida', () => {
   assert.equal(palma.offers.has('es-palma-de-mallorca'), false);
   const tenerife = monthly.pickOffers([rec('TCI', 20, '01-10', '01-12', { origin: 'TCI' })], 'TCI', 1, YEAR);
   assert.equal(tenerife.offers.size, 0);
-  const blocks = monthly.buildBlocks(new Map(), 'TCI', 1);
-  assert.equal(ids(blocks.spain).includes('es-tenerife'), false);
-  assert.equal(ids(monthly.buildBlocks(new Map(), 'PMI', 1).spain).includes('es-palma-de-mallorca'), false);
+  // Sin precios no hay tarjetas: nunca se rellena con destinos sin precio (tampoco con la ciudad de salida).
+  const empty = monthly.buildBlocks(new Map());
+  assert.deepEqual([empty.spain.length, empty.international.length], [0, 0]);
 });
 
-test('dos bloques de 12: primero los destinos con precio (de menor a mayor) y el resto sin precio reciente', () => {
+test('dos bloques: solo destinos con precio real, de menor a mayor, y nunca tarjetas de relleno sin precio', () => {
   const records = [
     rec('PMI', 36, '01-01', '01-06'), rec('TCI', 52, '01-08', '01-13'), rec('LPA', 55, '01-26', '01-31'),
     rec('IBZ', 72, '01-05', '01-10'), rec('ACE', 86, '01-12', '01-17', { transfers: 1 }), rec('BCN', 92, '01-10', '01-12'),
@@ -143,23 +143,22 @@ test('dos bloques de 12: primero los destinos con precio (de menor a mayor) y el
     rec('BUD', 82, '01-19', '01-21'),
   ];
   const { offers } = monthly.pickOffers(records, 'MAD', 1, YEAR);
-  const { spain, international } = monthly.buildBlocks(offers, 'MAD', 1);
-  assert.equal(spain.length, 12);
+  const { spain, international } = monthly.buildBlocks(offers);
+  assert.equal(spain.length, 6, 'España solo tiene 6 destinos con precio: no se rellena con otros sin precio');
   assert.equal(international.length, 12);
-  assert.deepEqual(ids(spain).slice(0, 6), ['es-palma-de-mallorca', 'es-tenerife', 'es-gran-canaria', 'es-ibiza', 'es-lanzarote', 'es-barcelona']);
-  assert.deepEqual(prices(spain).slice(0, 6), [36, 52, 55, 72, 86, 92]);
-  assert.ok(spain.slice(6).every((card) => card.price === null && card.departureAt === null && card.offerUrl === null));
+  assert.deepEqual(ids(spain), ['es-palma-de-mallorca', 'es-tenerife', 'es-gran-canaria', 'es-ibiza', 'es-lanzarote', 'es-barcelona']);
+  assert.deepEqual(prices(spain), [36, 52, 55, 72, 86, 92]);
   assert.ok(spain.every((card) => card.countryCode === 'ES'));
   assert.ok(international.every((card) => card.countryCode !== 'ES'));
   assert.equal(international[0].id, 'it-milan');
   assert.deepEqual(prices(international).slice(0, 11), [35, 45, 46, 46, 48, 70, 71, 72, 73, 75, 75]);
   assert.equal(international[11].price, 80, 'Budapest (82 €) queda fuera del top 12');
   assert.equal(international.some((card) => card.id === 'hu-budapest'), false);
-  assert.ok(international.every((card) => card.price !== null));
   for (const block of [spain, international]) {
     assert.equal(new Set(ids(block)).size, block.length, 'sin repetidos');
-    const firstUnpriced = block.findIndex((card) => card.price === null);
-    if (firstUnpriced >= 0) assert.ok(block.slice(firstUnpriced).every((card) => card.price === null), 'sin precio siempre al final');
+    assert.ok(block.every((card) => typeof card.price === 'number' && card.price > 0), 'todas las tarjetas tienen precio real');
+    assert.ok(block.every((card) => card.departureAt && card.returnAt && card.nights >= 2 && card.nights <= 5));
+    assert.deepEqual(prices(block), [...prices(block)].sort((x, y) => x - y), 'del más barato al más caro');
   }
   const tenerife = spain.find((card) => card.id === 'es-tenerife');
   assert.equal(tenerife.nights, 5);
@@ -167,29 +166,33 @@ test('dos bloques de 12: primero los destinos con precio (de menor a mayor) y el
   assert.equal(spain.find((card) => card.id === 'es-lanzarote').transfers, 1);
 });
 
-test('los destinos sin precio de escapada pero con vuelos ese mes van primero entre los «sin precio reciente»', () => {
-  const { offers, seen } = monthly.pickOffers([
+test('un destino sin precio de escapada no sale: su sitio lo ocupa el siguiente destino válido que sí tiene precio', () => {
+  const { offers } = monthly.pickOffers([
+    rec('SVQ', 51, '01-22', '01-28'), // 6 noches: no es escapada, Sevilla no sale
+    rec('AGP', 60, '01-02', '01-12'), // 10 noches: Málaga tampoco
+    rec('FNC', 119, '01-18', '01-23'), // Madeira no es válida en enero
     rec('PMI', 36, '01-01', '01-06'),
-    rec('SVQ', 51, '01-22', '01-28'), // 6 noches: no es escapada, pero hay vuelos a Sevilla
-    rec('AGP', 60, '01-02', '01-12'), // 10 noches: igual con Málaga
-    rec('FNC', 119, '01-18', '01-23'), // Madeira no es válida en enero: no cuenta
+    rec('ALC', 58, '01-09', '01-11'), // otro destino válido con precio real
+    rec('GRX', 77, '01-14', '01-16'),
   ], 'MAD', 1, YEAR);
-  assert.deepEqual([...offers.keys()], ['es-palma-de-mallorca']);
-  assert.deepEqual([...seen].sort(), ['es-malaga', 'es-palma-de-mallorca', 'es-sevilla']);
-  const { spain } = monthly.buildBlocks(offers, 'MAD', 1, undefined, 12, seen);
-  assert.equal(spain[0].id, 'es-palma-de-mallorca');
-  assert.deepEqual(ids(spain).slice(1, 3).sort(), ['es-malaga', 'es-sevilla']);
-  assert.ok(spain.slice(1).every((card) => card.price === null));
-  assert.equal(spain.length, 12);
-  // Sin esa información el orden sigue siendo el de la lista de meses (temporada tranquila primero).
-  const plain = monthly.buildBlocks(offers, 'MAD', 1).spain;
-  assert.equal(plain.length, 12);
+  const { spain } = monthly.buildBlocks(offers);
+  assert.deepEqual(ids(spain), ['es-palma-de-mallorca', 'es-alicante', 'es-granada']);
+  assert.equal(ids(spain).includes('es-sevilla') || ids(spain).includes('es-malaga'), false);
+});
+
+test('sin precios en un bloque, ese bloque queda vacío (y el otro sigue con los suyos)', () => {
+  const { offers } = monthly.pickOffers([rec('LIS', 46, '01-22', '01-24')], 'MAD', 1, YEAR);
+  const blocks = monthly.buildBlocks(offers);
+  assert.equal(blocks.spain.length, 0);
+  assert.deepEqual(ids(blocks.international), ['pt-lisboa']);
+  const none = monthly.buildBlocks(new Map());
+  assert.deepEqual([none.spain.length, none.international.length], [0, 0]);
 });
 
 test('si hay más de 12 destinos con precio solo salen los 12 más baratos', () => {
   const spanish = ['PMI', 'TCI', 'LPA', 'IBZ', 'ACE', 'BCN', 'SVQ', 'AGP', 'ALC', 'FUE', 'SPC', 'LEI', 'VLC', 'BIO', 'MAH'];
   const { offers } = monthly.pickOffers(spanish.map((destination, index) => rec(destination, 30 + index, '01-10', '01-13')), 'MAD', 1, YEAR);
-  const { spain } = monthly.buildBlocks(offers, 'MAD', 1);
+  const { spain } = monthly.buildBlocks(offers);
   assert.equal(spain.length, 12);
   assert.ok(spain.every((card) => card.price !== null));
   assert.deepEqual(prices(spain), Array.from({ length: 12 }, (_, index) => 30 + index));
@@ -197,7 +200,7 @@ test('si hay más de 12 destinos con precio solo salen los 12 más baratos', () 
 
 test('cada tarjeta lleva sus textos en los siete idiomas y no necesita el catálogo en el navegador', () => {
   const { offers } = monthly.pickOffers([rec('LIS', 46, '01-22', '01-24'), rec('PAR', 73, '01-14', '01-17')], 'MAD', 1, YEAR);
-  const { international } = monthly.buildBlocks(offers, 'MAD', 1);
+  const { international } = monthly.buildBlocks(offers);
   const lisbon = international.find((card) => card.id === 'pt-lisboa');
   assert.deepEqual(Array.from(Object.keys(lisbon.texts)).sort(), ['ca', 'de', 'en', 'es', 'fr', 'it', 'pt']);
   for (const text of Object.values(lisbon.texts)) assert.ok(text.name && text.country && text.stay);
@@ -249,7 +252,8 @@ test('la consulta al proveedor: un mes de salida, dos de vuelta, EUR y el token 
   assert.equal(result.year, 2027);
   assert.equal(result.international.find((card) => card.id === 'pt-lisboa').price, 46);
   assert.equal(result.counts.providerRecords, 2, 'el mismo vuelo llega por las dos consultas y se cuenta una vez por destino');
-  assert.equal(new Set(ids(result.international)).size, 12);
+  assert.deepEqual(ids(result.international), ['pt-lisboa'], 'solo sale el destino con precio real; no se rellena con otros');
+  assert.equal(result.spain.length, 0);
 });
 
 test('si una página viene llena y faltan destinos con precio, se pide la siguiente (máximo 3 páginas)', async () => {
@@ -310,8 +314,8 @@ test('la ruta devuelve los dos bloques, usa Madrid por defecto y guarda en cach�
   assert.equal(body.origin.code, 'MAD');
   assert.equal(body.month, 1);
   assert.equal(body.year, year);
-  assert.equal(body.spain.length, 12);
-  assert.equal(body.international.length, 12);
+  assert.equal(body.spain.length, 1, 'solo hay un destino de España con precio: no se rellena');
+  assert.equal(body.international.length, 1);
   assert.equal(body.spain[0].id, 'es-palma-de-mallorca');
   assert.equal(body.spain[0].price, 36);
   assert.equal(body.counts, undefined);
@@ -329,7 +333,7 @@ test('sin ningún precio la caché es corta y un fallo del proveedor no se guard
   assert.equal(emptyResponse.status, 200);
   assert.match(emptyResponse.headers.get('Cache-Control'), /s-maxage=600/);
   const body = await emptyResponse.json();
-  assert.ok(body.spain.every((card) => card.price === null) && body.international.every((card) => card.price === null));
+  assert.deepEqual([body.spain.length, body.international.length], [0, 0]);
   const failing = loadRoute({ TRAVELPAYOUTS_API_TOKEN: 't' }, provider(() => ({ ok: false, json: async () => ({}) })).fetchImpl);
   const failure = await get(failing, '?month=1&origin=MAD');
   assert.equal(failure.status, 502);

@@ -76,7 +76,7 @@ const rec = (destination, price, departure, back, extra = {}) => ({
 });
 function response(records, origin = 'MAD') {
   const { offers } = monthly.pickOffers(records, origin, 1, YEAR);
-  const blocks = monthly.buildBlocks(offers, origin, 1);
+  const blocks = monthly.buildBlocks(offers);
   return plain({
     success: true, month: 1, year: YEAR, origin: { code: origin, label: origin }, generatedAt: new Date().toISOString(),
     spain: blocks.spain, international: blocks.international,
@@ -123,7 +123,7 @@ test('lee el aeropuerto recordado, lo consulta y dibuja los dos bloques con prec
   assert.deepEqual(headings.slice(0, 1), ['En España']);
   assert.ok(headings.includes('Internacional'));
   const cards = flatten(tree).filter((node) => node.type === 'article');
-  assert.equal(cards.length, 24);
+  assert.equal(cards.length, 7, 'solo hay tarjetas de los 7 destinos con precio real');
   const pricedLinks = flatten(tree).filter((node) => node.type === 'a' && typeof node.props.href === 'string' && node.props.href.startsWith('https://www.aviasales.com/'));
   assert.equal(pricedLinks.length, 7);
   for (const link of pricedLinks) {
@@ -139,16 +139,36 @@ test('lee el aeropuerto recordado, lo consulta y dibuja los dos bloques con prec
   assert.match(text(first), /directo/);
   assert.match(text(first), /Precio visto hace unos días/);
   assert.match(text(cards[2]), /1 escala/, 'Lanzarote tiene una escala');
-  const unpriced = cards.filter((card) => /Sin precio reciente/.test(text(card)));
-  assert.equal(unpriced.length, 24 - 7);
+  assert.equal(cards.filter((card) => /Sin precio reciente/.test(text(card))).length, 0, 'nunca tarjetas sin precio');
+  assert.ok(cards.every((card) => /\d\s?€/.test(text(card))));
   const hrefs = flatten(first).filter((node) => node.type === 'a').map((node) => node.props.href);
   assert.ok(hrefs.includes('/?ficha=Palma%20de%20Mallorca'));
   assert.ok(hrefs.includes('/?primaveraServicio=vuelo&destino=Palma%20de%20Mallorca'));
   assert.match(text(tree), /Para enero hay pocos precios guardados/);
+  assert.match(text(tree), /solo mostramos los destinos que tienen un precio real/);
   assert.match(text(tree), /escapadas de 2 a 5 noches/);
   const badges = flatten(tree).filter((node) => node.type === 'span' && /^(España|Internacional)$/.test(node.children.join('')));
-  assert.equal(badges.filter((badge) => badge.children.join('') === 'España').length, 12);
+  assert.equal(badges.filter((badge) => badge.children.join('') === 'España').length, 3);
   assert.equal(flatten(tree).find((node) => node.type === 'noscript').children[0].props['data-fallback'], 'lista-de-siempre');
+});
+
+test('un bloque sin precios se avisa y el otro se muestra; con los dos bloques completos no hay aviso', async () => {
+  const onlyAbroad = setup({ fetchImpl: ok(response([rec('LIS', 46, '01-22', '01-24'), rec('PAR', 73, '01-14', '01-17')])) });
+  onlyAbroad.view(); onlyAbroad.harness.run(); onlyAbroad.view(); onlyAbroad.harness.run();
+  await onlyAbroad.settle();
+  const tree = onlyAbroad.view();
+  assert.deepEqual(titles(tree).slice(0, 2), ['En España', 'Internacional']);
+  assert.match(onlyAbroad.text(tree), /no hay precios recientes de escapada a destinos de España desde este aeropuerto en enero/);
+  assert.equal(flatten(tree).filter((node) => node.type === 'article').length, 2);
+  assert.equal(flatten(tree).filter((node) => node === onlyAbroad.FALLBACK).length, 1, 'con algún precio la lista antigua solo queda en <noscript>');
+  const spainCodes = ['PMI', 'TCI', 'LPA', 'IBZ', 'ACE', 'BCN', 'SVQ', 'AGP', 'ALC', 'FUE', 'SPC', 'LEI'];
+  const abroadCodes = ['MIL', 'LON', 'BLQ', 'LIS', 'ROM', 'KRK', 'NAP', 'OPO', 'PAR', 'BRU', 'GVA', 'GDN'];
+  const full = setup({ fetchImpl: ok(response([...spainCodes, ...abroadCodes].map((code, index) => rec(code, 30 + index, '01-10', '01-13')))) });
+  full.view(); full.harness.run(); full.view(); full.harness.run();
+  await full.settle();
+  const fullTree = full.view();
+  assert.equal(flatten(fullTree).filter((node) => node.type === 'article').length, 24);
+  assert.doesNotMatch(full.text(fullTree), /pocos precios guardados|no hay precios recientes/);
 });
 
 test('los textos de las tarjetas cambian con el idioma sin volver a pedir los precios', async () => {

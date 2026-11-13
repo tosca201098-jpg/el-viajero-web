@@ -45,11 +45,11 @@ export type MonthlyCard = {
   texts: Record<Locale, MonthlyCardText>;
   /** Solo para fichas francesas: atribución de la foto, igual que en la lista actual. */
   credit: { source: string; credit: string; license: string } | null;
-  /** Precio real más barato de ida y vuelta (EUR, 1 persona) o null si no hay precio reciente. */
-  price: number | null;
-  departureAt: string | null;
-  returnAt: string | null;
-  nights: number | null;
+  /** Precio real más barato de ida y vuelta (EUR, 1 persona). Nunca hay tarjetas sin precio. */
+  price: number;
+  departureAt: string;
+  returnAt: string;
+  nights: number;
   transfers: number | null;
   offerUrl: string | null;
 };
