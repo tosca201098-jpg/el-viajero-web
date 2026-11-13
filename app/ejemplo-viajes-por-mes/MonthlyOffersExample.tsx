@@ -13,15 +13,17 @@ type Offer = { id: string; price: number | null; dates?: string; stops?: number 
 // sin precio aparecen como «Sin precio reciente». No hay ningún precio inventado.
 const SPAIN: Offer[] = [
   { id: "es-palma-de-mallorca", price: 36, dates: "9–11 ene", stops: 0 },
+  { id: "es-santiago-de-compostela", price: 39, dates: "28 ene–4 feb", stops: 0 },
   { id: "es-gran-canaria", price: 50, dates: "5–12 ene", stops: 0 },
   { id: "es-sevilla", price: 51, dates: "22–28 ene", stops: 0 },
   { id: "es-tenerife", price: 52, dates: "8–13 ene", stops: 0 },
+  { id: "es-ibiza", price: 72, dates: "5–10 ene", stops: 0 },
   { id: "es-lanzarote", price: 86, dates: "12–17 ene", stops: 1 },
+  { id: "es-barcelona", price: 92, dates: "10–12 ene", stops: 0 },
   { id: "es-malaga", price: null },
   { id: "es-alicante", price: null },
   { id: "es-fuerteventura", price: null },
   { id: "es-la-palma", price: null },
-  { id: "es-almeria", price: null },
 ];
 
 const INTERNATIONAL: Offer[] = [
@@ -35,6 +37,8 @@ const INTERNATIONAL: Offer[] = [
   { id: "ch-geneva", price: 75, dates: "29 ene–1 feb", stops: 0 },
   { id: "fr-paris", price: 81, dates: "14–17 ene", stops: 0 },
   { id: "pl-warsaw", price: 83, dates: "22–24 ene", stops: 0 },
+  { id: "pt-madeira", price: 119, dates: "18–23 ene", stops: 1 },
+  { id: "de-berlin", price: 119, dates: "19–26 ene", stops: 0 },
 ];
 
 const AIRPORTS = [
@@ -117,7 +121,7 @@ export default function MonthlyOffersExample() {
 
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
         <div className="rounded-xl border border-amber-500/40 bg-amber-50 px-4 py-3 text-sm leading-5 text-amber-900">
-          <strong>Página de ejemplo, no es la web real.</strong> Los precios son reales (consultados el 13-11-2026, ida y vuelta, 1 persona, salida desde Madrid). Para enero hay pocos precios guardados, por eso algunos destinos de España salen sin precio. Los botones de esta página llevan a la web real.
+          <strong>Página de ejemplo, no es la web real.</strong> Los precios son reales (consultados el 13-11-2026, ida y vuelta, 1 persona, salida desde Madrid). Para enero hay pocos precios guardados, por eso cuatro destinos de España salen sin precio. Los botones de esta página llevan a la web real.
         </div>
 
         <Link href="/" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-semibold text-blue-700 hover:underline">
@@ -127,7 +131,7 @@ export default function MonthlyOffersExample() {
           <p className="text-sm font-bold uppercase tracking-[0.2em] text-cyan-800">{t("monthly.homeTitle")}</p>
           <h1 className="mt-2 text-3xl font-black leading-tight sm:text-4xl lg:text-5xl">Vuelos más baratos en enero</h1>
           <p className="mt-3 text-base leading-6 text-stone-700 sm:text-lg">
-            Los 10 vuelos más baratos a destinos de España y los 10 más baratos a destinos internacionales, saliendo desde tu aeropuerto.
+            Los 12 vuelos más baratos a destinos de España y los 12 más baratos a destinos internacionales, saliendo desde tu aeropuerto.
           </p>
           <p className="mt-3 text-sm leading-5 text-stone-600">
             Precios de ida y vuelta por persona, vistos hace unos días en búsquedas reales. Pueden cambiar o agotarse. Los precios finales los muestra la web de reserva.
@@ -144,13 +148,13 @@ export default function MonthlyOffersExample() {
 
         <section className="mt-10">
           <h2 className="text-2xl font-black text-stone-900">En España</h2>
-          <p className="mt-1 text-sm text-stone-600">Los 5 primeros tienen precio reciente; los otros 5 salen sin precio porque aún no hay búsquedas guardadas para enero.</p>
+          <p className="mt-1 text-sm text-stone-600">Los 8 primeros tienen precio reciente; los otros 4 salen sin precio porque aún no hay búsquedas guardadas para enero.</p>
           <OfferCards offers={SPAIN} zone="spain" />
         </section>
 
         <section className="mt-12">
           <h2 className="text-2xl font-black text-stone-900">Internacional</h2>
-          <p className="mt-1 text-sm text-stone-600">Los 10 con el precio más bajo entre los destinos que tienen ficha y precio reciente.</p>
+          <p className="mt-1 text-sm text-stone-600">Los 12 con el precio más bajo entre los destinos que tienen ficha y precio reciente.</p>
           <OfferCards offers={INTERNATIONAL} zone="international" />
         </section>
       </div>
