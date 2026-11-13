@@ -21,6 +21,7 @@ import { sloveniaAirports, sloveniaAirportsForTerm, sloveniaCityAliases, sloveni
 import { franceAirports, franceAirportsForTerm, franceCityAliases, franceTouristPlacesForTerm } from '@/lib/travelpayouts/france-airports';
 import { croatiaAirports, croatiaAirportsForTerm, croatiaCityAliases, croatiaTouristPlacesForTerm } from '@/lib/travelpayouts/croatia-airports';
 import { japanAirports, japanAirportsForTerm, japanCityAliases, japanTouristPlacesForTerm } from '@/lib/travelpayouts/japan-airports';
+import { southKoreaAirports, southKoreaAirportsForTerm, southKoreaCityAliases, southKoreaTouristPlacesForTerm } from '@/lib/travelpayouts/south-korea-airports';
 
 const IRELAND_BALTICS_COUNTRIES = ['IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX'];
 const SCANDINAVIA_COUNTRIES = ['SE', 'NO'];
@@ -334,6 +335,16 @@ export async function GET(request: Request) {
         index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
       if (place.type !== 'city') return place;
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(japanCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...southKoreaAirportsForTerm(term), ...southKoreaTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'KR') return place;
+      const placeCode = code(place.code, 3);
+      const airport = southKoreaAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(southKoreaCityAliases[placeCode] ?? [])] };
     });
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);

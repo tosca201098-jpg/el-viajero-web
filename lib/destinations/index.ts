@@ -30,6 +30,7 @@ import { europeRegionalDestinations } from "./europe-regional";
 import { nordicRegionalDestinations } from "./nordic-regional";
 import { scandinaviaRegionalDestinations } from "./scandinavia-regional";
 import { japanDestinations } from './japan';
+import { southKoreaDestinations } from "./south-korea";
 import type { DestinationId, DestinationProfile } from "./types";
 
 export type { DestinationId, DestinationReference, DestinationAirport, DestinationText, DestinationProfile } from "./types";
@@ -81,9 +82,10 @@ export const destinationsByCountry: Readonly<Record<string, readonly Destination
   FO: irelandBalticsDestinations.filter(profile => profile.countryCode === 'FO'),
   AX: irelandBalticsDestinations.filter(profile => profile.countryCode === 'AX'),
   JP: japanDestinations,
+  KR: southKoreaDestinations,
 };
 
-export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations, ...greeceDestinations, ...sloveniaDestinations, ...croatiaDestinations, ...albaniaDestinations, ...turkeyDestinations, ...southeastEuropeDestinations, ...easternEuropeDestinations, ...nordicsDestinations, ...scandinaviaDestinations, ...irelandBalticsDestinations, ...ukRegionalDestinations, ...italyRegionalDestinations, ...germanyRegionalDestinations, ...europeRegionalDestinations, ...nordicRegionalDestinations, ...scandinaviaRegionalDestinations, ...japanDestinations];
+export const destinationProfiles: DestinationProfile[] = [...spainDestinations, ...portugalDestinations, ...franceDestinations, ...italyDestinations, ...ukDestinations, ...germanyDestinations, ...netherlandsDestinations, ...belgiumDestinations, ...switzerlandDestinations, ...austriaDestinations, ...czechiaDestinations, ...polandDestinations, ...hungaryDestinations, ...slovakiaDestinations, ...greeceDestinations, ...sloveniaDestinations, ...croatiaDestinations, ...albaniaDestinations, ...turkeyDestinations, ...southeastEuropeDestinations, ...easternEuropeDestinations, ...nordicsDestinations, ...scandinaviaDestinations, ...irelandBalticsDestinations, ...ukRegionalDestinations, ...italyRegionalDestinations, ...germanyRegionalDestinations, ...europeRegionalDestinations, ...nordicRegionalDestinations, ...scandinaviaRegionalDestinations, ...japanDestinations, ...southKoreaDestinations];
 
 
 export function getDestinationById(id: DestinationId): DestinationProfile | undefined {
