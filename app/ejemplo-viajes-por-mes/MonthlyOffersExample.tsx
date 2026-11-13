@@ -6,39 +6,40 @@ import { useLanguage } from "@/app/components/LanguageProvider";
 import { getDestinationById } from "@/lib/destinations";
 import { getDestinationCountryName, getDestinationText } from "@/lib/destinations/localization";
 
-type Offer = { id: string; price: number | null; dates?: string; stops?: number };
+// climate: "mild" = invierno suave en enero; "cold" = hace frío, con el plan de invierno que se indica.
+type Offer = { id: string; price: number | null; dates?: string; stops?: number; climate: "mild" | "cold"; plan?: string };
 
 // Precios reales (ida y vuelta, 1 persona, salida desde Madrid) consultados el 13-11-2026 a través de
 // las consultas de Travelpayouts que ya usa la web. Para enero hay pocos precios guardados: los destinos
 // sin precio aparecen como «Sin precio reciente». No hay ningún precio inventado.
 const SPAIN: Offer[] = [
-  { id: "es-palma-de-mallorca", price: 36, dates: "9–11 ene", stops: 0 },
-  { id: "es-santiago-de-compostela", price: 39, dates: "28 ene–4 feb", stops: 0 },
-  { id: "es-gran-canaria", price: 50, dates: "5–12 ene", stops: 0 },
-  { id: "es-sevilla", price: 51, dates: "22–28 ene", stops: 0 },
-  { id: "es-tenerife", price: 52, dates: "8–13 ene", stops: 0 },
-  { id: "es-ibiza", price: 72, dates: "5–10 ene", stops: 0 },
-  { id: "es-lanzarote", price: 86, dates: "12–17 ene", stops: 1 },
-  { id: "es-barcelona", price: 92, dates: "10–12 ene", stops: 0 },
-  { id: "es-malaga", price: null },
-  { id: "es-alicante", price: null },
-  { id: "es-fuerteventura", price: null },
-  { id: "es-la-palma", price: null },
+  { id: "es-palma-de-mallorca", price: 36, dates: "9–11 ene", stops: 0, climate: "mild" },
+  { id: "es-gran-canaria", price: 50, dates: "5–12 ene", stops: 0, climate: "mild" },
+  { id: "es-sevilla", price: 51, dates: "22–28 ene", stops: 0, climate: "mild" },
+  { id: "es-tenerife", price: 52, dates: "8–13 ene", stops: 0, climate: "mild" },
+  { id: "es-ibiza", price: 72, dates: "5–10 ene", stops: 0, climate: "mild" },
+  { id: "es-lanzarote", price: 86, dates: "12–17 ene", stops: 1, climate: "mild" },
+  { id: "es-barcelona", price: 92, dates: "10–12 ene", stops: 0, climate: "mild" },
+  { id: "es-malaga", price: null, climate: "mild" },
+  { id: "es-alicante", price: null, climate: "mild" },
+  { id: "es-fuerteventura", price: null, climate: "mild" },
+  { id: "es-la-palma", price: null, climate: "mild" },
+  { id: "es-almeria", price: null, climate: "mild" },
 ];
 
 const INTERNATIONAL: Offer[] = [
-  { id: "it-milan", price: 40, dates: "15–18 ene", stops: 0 },
-  { id: "gb-london", price: 45, dates: "25–30 ene", stops: 0 },
-  { id: "it-bologna", price: 46, dates: "21–24 ene", stops: 0 },
-  { id: "pt-lisboa", price: 46, dates: "22–24 ene", stops: 0 },
-  { id: "it-rome", price: 48, dates: "16–18 ene", stops: 0 },
-  { id: "it-naples", price: 71, dates: "15–18 ene", stops: 0 },
-  { id: "be-brussels", price: 75, dates: "15–18 ene", stops: 0 },
-  { id: "ch-geneva", price: 75, dates: "29 ene–1 feb", stops: 0 },
-  { id: "fr-paris", price: 81, dates: "14–17 ene", stops: 0 },
-  { id: "pl-warsaw", price: 83, dates: "22–24 ene", stops: 0 },
-  { id: "pt-madeira", price: 119, dates: "18–23 ene", stops: 1 },
-  { id: "de-berlin", price: 119, dates: "19–26 ene", stops: 0 },
+  { id: "it-milan", price: 40, dates: "15–18 ene", stops: 0, climate: "cold", plan: "escapada de ciudad" },
+  { id: "gb-london", price: 45, dates: "25–30 ene", stops: 0, climate: "cold", plan: "escapada de ciudad" },
+  { id: "pt-lisboa", price: 46, dates: "22–24 ene", stops: 0, climate: "mild" },
+  { id: "it-bologna", price: 46, dates: "21–24 ene", stops: 0, climate: "cold", plan: "escapada de ciudad" },
+  { id: "it-rome", price: 48, dates: "16–18 ene", stops: 0, climate: "mild" },
+  { id: "it-naples", price: 71, dates: "15–18 ene", stops: 0, climate: "mild" },
+  { id: "pt-porto", price: 72, dates: "6–9 ene", stops: 0, climate: "mild" },
+  { id: "ch-geneva", price: 75, dates: "29 ene–1 feb", stops: 0, climate: "cold", plan: "puerta a la nieve de los Alpes" },
+  { id: "be-brussels", price: 75, dates: "15–18 ene", stops: 0, climate: "cold", plan: "escapada de ciudad" },
+  { id: "fr-paris", price: 81, dates: "14–17 ene", stops: 0, climate: "cold", plan: "escapada de ciudad" },
+  { id: "hu-budapest", price: 82, dates: "19–21 ene", stops: 0, climate: "cold", plan: "balnearios termales" },
+  { id: "pt-madeira", price: 119, dates: "18–23 ene", stops: 1, climate: "mild" },
 ];
 
 const AIRPORTS = [
@@ -75,6 +76,9 @@ function OfferCards({ offers, zone }: { offers: Offer[]; zone: "spain" | "intern
             <div className="flex flex-1 flex-col p-4">
               <h3 className="text-xl font-black leading-tight text-stone-900">{display.name}</h3>
               <p className="mt-1 text-sm text-stone-600">{country}</p>
+              <p className={`mt-2 self-start rounded-full border px-2.5 py-1 text-xs font-semibold ${offer.climate === "mild" ? "border-emerald-600/30 bg-emerald-50 text-emerald-800" : "border-stone-400/50 bg-stone-100 text-stone-700"}`}>
+                {offer.climate === "mild" ? "Clima suave en enero" : `Frío en enero · ${offer.plan}`}
+              </p>
               {offer.price !== null ? (
                 <div className="mt-3 rounded-xl bg-blue-50 px-3 py-2">
                   <p className="text-xs font-semibold uppercase tracking-wide text-blue-800">Ida y vuelta desde</p>
@@ -121,7 +125,7 @@ export default function MonthlyOffersExample() {
 
       <div className="mx-auto max-w-7xl px-4 pb-16 pt-8 sm:px-6 sm:pt-12">
         <div className="rounded-xl border border-amber-500/40 bg-amber-50 px-4 py-3 text-sm leading-5 text-amber-900">
-          <strong>Página de ejemplo, no es la web real.</strong> Los precios son reales (consultados el 13-11-2026, ida y vuelta, 1 persona, salida desde Madrid). Para enero hay pocos precios guardados, por eso cuatro destinos de España salen sin precio. Los botones de esta página llevan a la web real.
+          <strong>Página de ejemplo, no es la web real.</strong> Los precios son reales (consultados el 13-11-2026, ida y vuelta, 1 persona, salida desde Madrid). Para enero hay pocos precios guardados, por eso cinco destinos de España salen sin precio. Los botones de esta página llevan a la web real.
         </div>
 
         <Link href="/" className="mt-4 inline-flex min-h-[44px] items-center text-sm font-semibold text-blue-700 hover:underline">
@@ -148,13 +152,13 @@ export default function MonthlyOffersExample() {
 
         <section className="mt-10">
           <h2 className="text-2xl font-black text-stone-900">En España</h2>
-          <p className="mt-1 text-sm text-stone-600">Los 8 primeros tienen precio reciente; los otros 4 salen sin precio porque aún no hay búsquedas guardadas para enero.</p>
+          <p className="mt-1 text-sm text-stone-600">Todos con clima suave en enero. Los 7 primeros tienen precio reciente; los otros 5 salen sin precio porque aún no hay búsquedas guardadas para enero.</p>
           <OfferCards offers={SPAIN} zone="spain" />
         </section>
 
         <section className="mt-12">
           <h2 className="text-2xl font-black text-stone-900">Internacional</h2>
-          <p className="mt-1 text-sm text-stone-600">Los 12 con el precio más bajo entre los destinos que tienen ficha y precio reciente.</p>
+          <p className="mt-1 text-sm text-stone-600">Primero entran los destinos de clima suave que tienen precio reciente y, para completar, los más baratos de frío con un plan de invierno o de escapada de ciudad. Cada tarjeta indica el clima.</p>
           <OfferCards offers={INTERNATIONAL} zone="international" />
         </section>
       </div>
