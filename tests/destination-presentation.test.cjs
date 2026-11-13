@@ -31,7 +31,9 @@ function text(n){if(n==null||n===false)return'';if(Array.isArray(n))return n.map
 function renderLoader(locale='es',extra={}) {
   const language={useLanguage:()=>({language:locale,t:(k,v)=>dictionaries.translate(locale,k,v),text:v=>dictionaries.translateText(locale,v)})};
   const blank={default:()=>null};
-  return loader({react,'next/link':{default:'a'},'next/script':{default:'script'},'next/image':{default:'img'},
+  // «Viajes por mes» ahora envuelve la lista de destinos recomendados en MonthlyOffers; se simula como un contenedor
+  // para seguir comprobando que esa lista (el respaldo sin precios) conserva cada tarjeta y su orden.
+  return loader({react,'./MonthlyOffers':{__esModule:true,default:'monthly-offers'},'next/link':{default:'a'},'next/script':{default:'script'},'next/image':{default:'img'},
     './voice-panel.module.css':{default:{}},'./components/LanguageProvider':language,'./LanguageProvider':language,
     '@/app/components/LanguageProvider':language,'./components/AuthDialog':blank,'./components/ItineraryPlanner':blank,
     './components/FlightLocationAutocomplete':blank,'./components/HeaderAuth':blank,'./components/LanguageSelector':blank,
