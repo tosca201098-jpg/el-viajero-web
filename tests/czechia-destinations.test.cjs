@@ -1,5 +1,7 @@
 const {test}=require('node:test');
 const assert=require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
@@ -18,10 +20,10 @@ const selection=load('lib/destinations/selection.ts');
 const presentation=load('lib/destinations/presentation.ts');
 const slugs=['prague','brno','cesky-krumlov','karlovy-vary','kutna-hora','olomouc','plzen','ceske-budejovice','telc','mikulov-lednice','bohemian-switzerland','ostrava'];
 
-test('twelve Czech profiles remain intact in the 209-profile catalog, without editorial changes',()=>{
+test('twelve Czech profiles remain intact in the full catalog, without editorial changes',()=>{
   assert.equal(before.profiles.length,161);assert.deepEqual(Array.from(czech,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,209);assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,209);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,209);
+  assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,catalog.destinationProfiles.length);
   for(const x of before.profiles){const p=catalog.getDestinationById(x.id);assert.equal(p.slug,x.slug);assert.equal(digest(p),x.sha256,x.id)}
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),before.featuredSha256);
   assert.equal(load('lib/destinations/featured.ts').destinations.length,16);
@@ -57,6 +59,6 @@ test('provider-backed autocomplete resolves real codes and all twelve Czech tour
   assert.equal((await jcl.json()).suggestions.length,0);
 });
 test('all twelve Commons images carry direct 960px URLs and CC BY/SA attribution',()=>{
-  for(const p of czech){assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+  for(const p of czech){if(unsplash.checked(p))continue;assert.match(p.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);assert.match(p.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(p.imageCredit);assert.match(p.imageLicense,/^CC BY(?:-SA)?/);assert.match(p.imageLicenseUrl,/^https:\/\/creativecommons\.org\//)}
 });

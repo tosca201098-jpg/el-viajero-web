@@ -1,4 +1,6 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),ts=require('typescript'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..');
 function loader(globals={}){
@@ -13,9 +15,9 @@ const baseline=require('./fixtures/pre-uk-catalog.json'),provider=require('./fix
 const digest=v=>crypto.createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
 const locales=['es','en','fr','de','it','pt','ca'];
 
-test('UK identities remain intact in the 209-profile catalog; every previous profile and original editorial card is identical',()=>{
- assert.equal(baseline.profiles.length,89);assert.equal(uk.length,12);assert.equal(catalog.destinationProfiles.length,209);
- assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,209);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,209);
+test('UK identities remain intact in the full catalog; every previous profile and original editorial card is identical',()=>{
+ assert.equal(baseline.profiles.length,89);assert.equal(uk.length,12);assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
+ assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,catalog.destinationProfiles.length);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,catalog.destinationProfiles.length);
  for(const d of baseline.profiles)assert.equal(digest(catalog.getDestinationById(d.id)),d.sha256,d.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
  for(const[season,sha]of Object.entries(baseline.seasonFiles))assert.equal(digest(fs.readFileSync(path.join(root,'app/temporadas/'+season+'/page.tsx'),'utf8').replace(/\r\n/g,'\n')),sha);
@@ -98,6 +100,7 @@ test('UK data stays reusable without automatic monthly/budget cards, new public 
  assert.ok(catalog.getDestinationsForMonth(5).some(d=>d.countryCode==='GB'));
  for(const d of uk){
   assert.equal(policy(d),false);assert.equal(d.publication.status,'draft');
+  if(unsplash.checked(d)){for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);continue;}
   assert.match(d.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(d.imageSource,/^https:\/\/commons.wikimedia.org\/wiki\/File:/);
   assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons.org/);
   for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);

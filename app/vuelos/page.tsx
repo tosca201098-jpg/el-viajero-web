@@ -30,13 +30,10 @@ export default async function VuelosPage({ searchParams }: {
         <p className="mt-2 max-w-2xl text-sm leading-6 text-neutral-600 sm:text-base">
           Consulta opciones de vuelo en el metabuscador de Travelpayouts. Los precios y la disponibilidad pueden cambiar al abrir la oferta.
         </p>
-        {destination && <article className="mt-5 overflow-hidden rounded-2xl border border-blue-600/20 bg-white/80 shadow-sm">
-          <DestinationProfileSummary destination={destination} detailed />
-          <div className="px-4 pb-4"><HotelDestinationLink destination={destination} context={itineraryContext} /></div>
-          <div className="min-w-0 bg-slate-900 px-3 pb-3 pt-1 sm:px-5 sm:pb-5">
-            <ItineraryPlanner destination={destination} context={itineraryContext} />
-          </div>
-        </article>}
+        {destination && <DestinationProfileSummary destination={destination} detailed>
+          <ItineraryPlanner destination={destination} context={itineraryContext} surface="light" />
+          <HotelDestinationLink destination={destination} context={itineraryContext} variant="window" />
+        </DestinationProfileSummary>}
         {hasSearch ? <>
           {/* The provider mounts its search component, but the visitor uses only the home form. */}
           <div id="tpwl-search" hidden aria-hidden="true" />

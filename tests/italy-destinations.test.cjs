@@ -1,5 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
 const root = path.resolve(__dirname, '..');
 function loader(mocks = {}, globals = {}) {
@@ -36,9 +38,9 @@ const samples=require('./fixtures/italy-places.json');
 const airports=require('./fixtures/italy-airports.json').airports;
 
 test('Italy adds twelve unique canonical profiles without changing any of the previous 77 or the original cards',()=>{
-  assert.equal(catalog.destinationProfiles.length,209);assert.equal(italy.length,12);
-  assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,209);
-  assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,209);
+  assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));assert.equal(italy.length,12);
+  assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,catalog.destinationProfiles.length);
   for(const previous of baseline.profiles)assert.equal(digest(catalog.getDestinationById(previous.id)),previous.sha256,previous.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
   for(const [season,sha]of Object.entries(baseline.seasonFiles))assert.equal(digest(fs.readFileSync(path.join(root,`app/temporadas/${season}/page.tsx`),'utf8').replace(/\r\n/g,'\n')),sha,season);
@@ -68,7 +70,8 @@ test('physical airports, city codes and access airports stay distinct and match 
   assert.equal(milan.accessAirports[0].iataCode,'BGY');assert.equal(venice.accessAirports[0].iataCode,'TSF');
   assert.equal(venice.airports[0].iataCode,'VCE');assert.equal(venice.metropolitanCodes.length,0);
   for(const d of italy)for(const a of [...d.airports,...(d.accessAirports??[])])assert.ok(airports.some(p=>p.iataCode===a.iataCode&&p.iataType==='airport'),a.iataCode);
-  for(const code of ['GOA','TRS','PEG','AOI','RMI','PSR','BRI','BDS','SUF','REG','CIY','TPS','LMP','PNL','OLB','AHO'])assert.equal(catalog.findDestinationProfile({iataCode:code}),undefined,code+' is not an invented tourist profile');
+  // The 24 airports that had no profile when this test was written now have separate profiles (see tests/italy-regional-destinations.test.cjs); none is added to the original twelve.
+  for(const code of ['GOA','TRS','PEG','AOI','RMI','PSR','BRI','BDS','SUF','REG','CIY','TPS','LMP','PNL','OLB','AHO'])assert.ok(!italy.some(d=>d.iataCodes.includes(code)),code+' stays outside the original twelve');
 });
 
 function endpoint(){
@@ -91,14 +94,15 @@ test('Rome, Milan and Venice rank exact cities first and retain their distinct a
     for(const code of codes)assert.ok(results.some(p=>p.type==='airport'&&p.code===code),name+':'+code);
   }
 });
-test('shared and access airport selections open only the relevant tourist identity; other Italian airports remain flights-only',()=>{
+test('shared and access airport selections open only the relevant tourist identity; airports outside any profile remain flights-only',()=>{
   const selection=load('lib/destinations/selection.ts').destinationFromPlaceSelection;
   for(const [code,id]of [['FCO','rome'],['CIA','rome'],['MXP','milan'],['LIN','milan'],['BGY','milan'],['VCE','venice'],['TSF','venice'],['VRN','verona-garda'],['PSA','pisa-tuscany'],['CTA','catania-etna'],['CAG','cagliari-south-sardinia']]){
     const a=load('lib/travelpayouts/italy-airports.ts').italyPassengerAirports.find(a=>a.code===code);
     const choice={type:'airport',code,name:a.name,country:'Italia',cityName:a.city_name,cityCode:a.city_code};
     assert.equal(selection(choice),catalog.getDestinationById('it-'+id));assert.equal(selection({...choice,country:'Estados Unidos'}),undefined);
   }
-  assert.equal(selection({type:'city',name:'Bari',code:'BRI',country:'Italia',cityName:null,cityCode:null}),undefined);
+  assert.equal(selection({type:'city',name:'Bari',code:'BRI',country:'Italia',cityName:null,cityCode:null}),catalog.getDestinationById('it-bari-puglia'));
+  assert.equal(selection({type:'city',name:'Bari',code:'BRI',country:'España',cityName:null,cityCode:null}),undefined);
 });
 test('Italian seasonality remains reusable data without automatic cards, publication, invented prices or availability',()=>{
   const policy=load('lib/destinations/presentation.ts').canShowDestinationAutomatically;
@@ -107,8 +111,8 @@ test('Italian seasonality remains reusable data without automatic cards, publica
   for(const d of italy){
     assert.equal(policy(d),false);assert.equal(d.publication.status,'draft');
     for(const field of ['bestMonths','lowSeasonMonths','highSeasonMonths'])assert.ok(d[field].length&&d[field].every(m=>m>=1&&m<=12));
-    assert.match(d.image,/^https:\/\/thumb\.wikimedia\.org\//);assert.match(d.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
-    assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons\.org/);
+    if(!unsplash.checked(d)){assert.match(d.image,/^https:\/\/thumb\.wikimedia\.org\//);assert.match(d.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
+    assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons\.org/);}
     for(const field of ['price','hotelPrice','flightPrice','available','hotelId'])assert.equal(d[field],undefined);
   }
 });

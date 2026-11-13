@@ -1,5 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -59,10 +61,10 @@ function endpoint() {
 test('Switzerland adds 12 unique canonical profiles while all 137 previous identities and editorial cards remain byte-for-byte equivalent', () => {
   assert.equal(baseline.profiles.length, 137);
   assert.equal(swiss.length, 12);
-  assert.equal(catalog.destinationProfiles.length, 209);
-  assert.equal(new Set(catalog.destinationProfiles.map(item => item.id)).size, 209);
-  assert.equal(new Set(catalog.destinationProfiles.map(item => item.slug)).size, 209);
-  assert.deepEqual(Array.from(catalog.destinationProfiles.slice(0, 137), item => item.id), baseline.profiles.map(item => item.id));
+  assert.equal(catalog.destinationProfiles.length, expectedCatalogTotal(catalog));
+  assert.equal(new Set(catalog.destinationProfiles.map(item => item.id)).size, catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(item => item.slug)).size, catalog.destinationProfiles.length);
+  assert.deepEqual(Array.from(catalog.destinationProfiles.filter(profile => baseline.profiles.some(old => old.id === profile.id)), item => item.id), baseline.profiles.map(item => item.id));
   for (const item of baseline.profiles) assert.equal(digest(catalog.getDestinationById(item.id)), item.sha256, item.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations), baseline.featuredSha256);
   for (const [season, hash] of Object.entries(baseline.seasonFiles)) {
@@ -158,6 +160,7 @@ test('licensed 960px photographs are attributed and Swiss profiles remain opt-in
   for (const profile of swiss) {
     assert.equal(policy(profile), false);
     assert.equal(profile.publication.status, 'draft');
+    if (unsplash.checked(profile)) continue;
     assert.match(profile.image, /^https:\/\/thumb\.wikimedia\.org\//);
     assert.match(profile.imageSource, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(profile.imageCredit);

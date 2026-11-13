@@ -9,6 +9,23 @@ import { czechiaAirports, czechiaAirportsForTerm, czechiaCityAliases, czechiaTou
 import { polandAirports, polandAirportsForTerm, polandCityAliases, polandTouristPlacesForTerm } from '@/lib/travelpayouts/poland-airports';
 import { hungaryAirports, hungaryAirportsForTerm, hungaryCityAliases, hungaryTouristPlacesForTerm } from '@/lib/travelpayouts/hungary-airports';
 import { slovakiaAirports, slovakiaAirportsForTerm, slovakiaCityAliases, slovakiaTouristPlacesForTerm } from '@/lib/travelpayouts/slovakia-airports';
+import { albaniaAirports, albaniaAirportsForTerm, albaniaCityAliases, albaniaTouristPlacesForTerm } from '@/lib/travelpayouts/albania-airports';
+import { turkeyAirports, turkeyAirportsForTerm, turkeyCityAliases, turkeyTouristPlacesForTerm } from '@/lib/travelpayouts/turkey-airports';
+import { irelandBalticsAirports, irelandBalticsAirportsForTerm, irelandBalticsCityAliases, irelandBalticsTouristPlacesForTerm } from '@/lib/travelpayouts/ireland-baltics-airports';
+import { scandinaviaAirports, scandinaviaAirportsForTerm, scandinaviaCityAliases, scandinaviaTouristPlacesForTerm } from '@/lib/travelpayouts/scandinavia-airports';
+import { nordicsAirports, nordicsAirportsForTerm, nordicsCityAliases, nordicsTouristPlacesForTerm } from '@/lib/travelpayouts/nordics-airports';
+import { easternEuropeAirports, easternEuropeAirportsForTerm, easternEuropeCityAliases, easternEuropeTouristPlacesForTerm } from '@/lib/travelpayouts/eastern-europe-airports';
+import { southeastEuropeAirports, southeastEuropeAirportsForTerm, southeastEuropeCityAliases, southeastEuropeTouristPlacesForTerm } from '@/lib/travelpayouts/southeast-europe-airports';
+import { greeceAirports, greeceAirportsForTerm, greeceCityAliases, greeceTouristPlacesForTerm } from '@/lib/travelpayouts/greece-airports';
+import { sloveniaAirports, sloveniaAirportsForTerm, sloveniaCityAliases, sloveniaTouristPlacesForTerm } from '@/lib/travelpayouts/slovenia-airports';
+import { franceAirports, franceAirportsForTerm, franceCityAliases, franceTouristPlacesForTerm } from '@/lib/travelpayouts/france-airports';
+import { croatiaAirports, croatiaAirportsForTerm, croatiaCityAliases, croatiaTouristPlacesForTerm } from '@/lib/travelpayouts/croatia-airports';
+
+const IRELAND_BALTICS_COUNTRIES = ['IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX'];
+const SCANDINAVIA_COUNTRIES = ['SE', 'NO'];
+const NORDICS_COUNTRIES = ['DK', 'IS', 'FI'];
+const EASTERN_EUROPE_COUNTRIES = ['RO', 'BG', 'MD'];
+const SOUTHEAST_EUROPE_COUNTRIES = ['RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY'];
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -196,6 +213,116 @@ export async function GET(request: Request) {
         index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
       if (place.type !== 'city') return place;
       return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(slovakiaCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...albaniaAirportsForTerm(term), ...albaniaTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'AL') return place;
+      const placeCode = code(place.code, 3);
+      const airport = albaniaAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(albaniaCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...turkeyAirportsForTerm(term), ...turkeyTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'TR') return place;
+      const placeCode = code(place.code, 3);
+      const airport = turkeyAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(turkeyCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...southeastEuropeAirportsForTerm(term), ...southeastEuropeTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || !SOUTHEAST_EUROPE_COUNTRIES.includes(String(place.country_code))) return place;
+      const placeCode = code(place.code, 3);
+      const airport = southeastEuropeAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(southeastEuropeCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...easternEuropeAirportsForTerm(term), ...easternEuropeTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || !EASTERN_EUROPE_COUNTRIES.includes(String(place.country_code))) return place;
+      const placeCode = code(place.code, 3);
+      const airport = easternEuropeAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(easternEuropeCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...nordicsAirportsForTerm(term), ...nordicsTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || !NORDICS_COUNTRIES.includes(String(place.country_code))) return place;
+      const placeCode = code(place.code, 3);
+      const airport = nordicsAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(nordicsCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...scandinaviaAirportsForTerm(term), ...scandinaviaTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || !SCANDINAVIA_COUNTRIES.includes(String(place.country_code))) return place;
+      const placeCode = code(place.code, 3);
+      const airport = scandinaviaAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(scandinaviaCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...irelandBalticsAirportsForTerm(term), ...irelandBalticsTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || !IRELAND_BALTICS_COUNTRIES.includes(String(place.country_code))) return place;
+      const placeCode = code(place.code, 3);
+      const airport = irelandBalticsAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(irelandBalticsCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...greeceAirportsForTerm(term), ...greeceTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'GR') return place;
+      const placeCode = code(place.code, 3);
+      const airport = greeceAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(greeceCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...sloveniaAirportsForTerm(term), ...sloveniaTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'SI') return place;
+      const placeCode = code(place.code, 3);
+      const airport = sloveniaAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(sloveniaCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...franceAirportsForTerm(term), ...franceTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'FR') return place;
+      const placeCode = code(place.code, 3);
+      const airport = franceAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(franceCityAliases[placeCode] ?? [])] };
+    });
+    places = [...places, ...croatiaAirportsForTerm(term), ...croatiaTouristPlacesForTerm(term)].map(place => {
+      if (!isPlace(place) || place.country_code !== 'HR') return place;
+      const placeCode = code(place.code, 3);
+      const airport = croatiaAirports.find(candidate => candidate.code === placeCode);
+      if (place.type === 'airport' && airport) return { ...place, name: airport.name,
+        city_name: airport.city_name, city_code: airport.city_code,
+        index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...airport.index_strings] };
+      if (place.type !== 'city') return place;
+      return { ...place, index_strings: [...(Array.isArray(place.index_strings) ? place.index_strings : []), ...(croatiaCityAliases[placeCode] ?? [])] };
     });
     const displayNames = new Intl.DisplayNames(["es"], { type: "region" });
     const normalizedTerm = normalize(term);

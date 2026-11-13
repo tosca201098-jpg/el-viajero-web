@@ -1,3 +1,4 @@
+import { franceAirportCoverage } from './france-airport-coverage';
 import type { Locale } from '@/lib/i18n/translations';
 import type { DestinationProfile, DestinationText } from './types';
 
@@ -25,11 +26,11 @@ const images = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
   },
   "bordeaux": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8e/Panorama_Place_de_la_Bourse_Bordeaux.jpg/960px-Panorama_Place_de_la_Bourse_Bordeaux.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Panorama_Place_de_la_Bourse_Bordeaux.jpg",
-    "imageCredit": "AirScott",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "image": "https://images.unsplash.com/photo-1493564738392-d148cfbd6eda?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/ulhxvMjzI_4",
+    "imageCredit": "Juan Di Nella",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "strasbourg": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/24/Stra%C3%9Fburg_%28Frankreich%29%2C_Petite_France_--_2011_--_1759.jpg/960px-Stra%C3%9Fburg_%28Frankreich%29%2C_Petite_France_--_2011_--_1759.jpg",
@@ -46,11 +47,11 @@ const images = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by/3.0"
   },
   "annecy": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/Annecy_Palais_de_lIsle_01.JPG/960px-Annecy_Palais_de_lIsle_01.JPG",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Annecy_Palais_de_lIsle_01.JPG",
-    "imageCredit": "Zairon",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "image": "https://images.unsplash.com/photo-1758296265868-a2221c85992e?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/_cOWxmAWg2g",
+    "imageCredit": "Sue Winston",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "chamonix": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/31/Panorama_of_Mont_Blanc_du_Tacul%2C_Mont_Maudit_and_Mont_Blanc_from_Aiguille_du_Midi%2C_Chamonix%2C_Haute-Savoie.jpg/960px-Panorama_of_Mont_Blanc_du_Tacul%2C_Mont_Maudit_and_Mont_Blanc_from_Aiguille_du_Midi%2C_Chamonix%2C_Haute-Savoie.jpg",
@@ -67,11 +68,11 @@ const images = {
     "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
   },
   "nantes": {
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/Panorama_tour_du_chateau_des_ducs.jpg/960px-Panorama_tour_du_chateau_des_ducs.jpg",
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Panorama_tour_du_chateau_des_ducs.jpg",
-    "imageCredit": "Elie Métayer",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "image": "https://images.unsplash.com/photo-1676283898167-addc4238bee8?auto=format&fit=crop&w=1600&q=80",
+    "imageSource": "https://unsplash.com/photos/LxJ5FHD495Y",
+    "imageCredit": "Pascal Bernardon",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   "lille": {
     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Grand-Place_Lille_panorama.jpg/960px-Grand-Place_Lille_panorama.jpg",
@@ -280,4 +281,5 @@ export const franceDestinations: DestinationProfile[] = [
     pt: ['Lille','Arquitetura de influência flamenga, praças e museus no norte de França.', ['Grand-Place','Vieille Bourse','Vieux-Lille','Palais des Beaux-Arts']],
     ca: ['Lilla','Arquitectura d’influència flamenca, places i museus al nord de França.', ['Grand-Place','Vieille Bourse','Vieux-Lille','Palais des Beaux-Arts']],
   }),
+  ...franceAirportCoverage,
 ];

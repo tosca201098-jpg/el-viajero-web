@@ -1,0 +1,62 @@
+{
+  "hannover": {
+    "file": "J35 194 Maschsee, neues Rathaus.jpg",
+    "author": "Falk2",
+    "license": "CC BY-SA 4.0"
+  },
+  "bremen": {
+    "file": "Bremen, Bremer Stadtmusikanten -- 2021 -- 6369.jpg",
+    "author": "Dietmar Rabich",
+    "license": "CC BY-SA 4.0"
+  },
+  "rostock-baltic": {
+    "file": "Warnemünde, Leuchtturm vom Strand aus gesehen.jpg",
+    "author": "Ravie",
+    "license": "CC BY-SA 4.0"
+  },
+  "dortmund-ruhr": {
+    "file": "Dortmund Germany Zeche-Zollern-01.jpg",
+    "author": "CEphoto, Uwe Aranas",
+    "license": "CC BY-SA 3.0"
+  },
+  "muenster-osnabrueck": {
+    "file": "Münster, Prinzipalmarkt -- 2019 -- 3558.jpg",
+    "author": "Dietmar Rabich",
+    "license": "CC BY-SA 4.0"
+  },
+  "paderborn": {
+    "file": "Paderborner Dom, Ansicht von Norden.jpg",
+    "author": "Jörg Braukmann",
+    "license": "CC BY-SA 4.0"
+  },
+  "friedrichshafen-bodensee": {
+    "file": "Burg Meersburg (Bodensee).jpg",
+    "author": "Olga Ernst",
+    "license": "CC BY-SA 4.0"
+  },
+  "erfurt-thuringia": {
+    "file": "Erfurt - Krämerbrücke 2 - 8.jpg",
+    "author": "H. Zell",
+    "license": "CC BY-SA 3.0"
+  },
+  "saarbruecken-saarland": {
+    "file": "Saarschleife-04-2013-gje.jpg",
+    "author": "Gerd Eichmann",
+    "license": "CC BY 4.0"
+  },
+  "sylt": {
+    "file": "Quermarkenfeuer Rotes Kliff.jpg",
+    "author": "Jörg Braukmann",
+    "license": "CC BY-SA 4.0"
+  },
+  "usedom": {
+    "file": "Seebrücke Ahlbeck.jpg",
+    "author": "Jo Vert",
+    "license": "CC BY-SA 4.0"
+  },
+  "kassel": {
+    "file": "Kassel, Bergpark Wilhelmshöhe, Blick zum Herkules und zum Jussow-Tempel.jpg",
+    "author": "Dguendel",
+    "license": "CC BY 4.0"
+  }
+}

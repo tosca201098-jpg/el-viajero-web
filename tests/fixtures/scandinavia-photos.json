@@ -1,0 +1,82 @@
+{
+  "stockholm": {
+    "file": "Gamla stan February 2013 01.jpg",
+    "author": "Arild Vågen",
+    "license": "CC BY-SA 3.0"
+  },
+  "gothenburg": {
+    "file": "Goteborg Feskekorka.jpg",
+    "author": "Andrzej Otrębski",
+    "license": "CC BY-SA 3.0"
+  },
+  "malmo": {
+    "file": "Turning Torso 2016.jpg",
+    "author": "Hernán Piñera",
+    "license": "CC BY-SA 2.0"
+  },
+  "kiruna": {
+    "file": "Icehotel-se-01.JPG",
+    "author": "Stephan Herz",
+    "license": "CC BY 2.5"
+  },
+  "lulea": {
+    "file": "Gammelstad-town-12.JPG",
+    "author": "Stephan Herz",
+    "license": "CC BY 2.5"
+  },
+  "ostersund": {
+    "file": "Yy från Frösön mot Östersund.jpg",
+    "author": "Dieter Wirz",
+    "license": "CC BY-SA 3.0"
+  },
+  "visby": {
+    "file": "Visby, Gotland, Sweden (6633333065).jpg",
+    "author": "Berit from Redhill/Surrey, UK",
+    "license": "CC BY 2.0"
+  },
+  "oslo": {
+    "file": "New Opera in Oslo.jpg",
+    "author": "Pudelek (Marcin Szala)",
+    "license": "CC BY-SA 4.0"
+  },
+  "bergen": {
+    "file": "Bryggen panorama.JPG",
+    "author": "Petr Šmerkl",
+    "license": "CC BY-SA 3.0"
+  },
+  "trondheim": {
+    "file": "Nidaros-cathedral-west-front.jpg",
+    "author": "Erik A. Drabløs",
+    "license": "CC BY-SA 3.0"
+  },
+  "stavanger": {
+    "file": "Preikestolen Pulpit Rock Lysefjord Norway.jpg",
+    "author": "Svein-Magne Tunli",
+    "license": "CC BY-SA 3.0"
+  },
+  "tromso": {
+    "file": "NOR-2016-Tromsø-Arctic Cathedral (Ishavskatedralen) 01 front.jpg",
+    "author": "Godot13",
+    "license": "CC BY-SA 4.0"
+  },
+  "bodo": {
+    "file": "Apparent whirlpools of Saltstraumen seen from the air.jpg",
+    "author": "Frankemann",
+    "license": "CC BY-SA 4.0"
+  },
+  "alesund": {
+    "file": "05 Ålesund (5599899589).jpg",
+    "author": "michael clarke stuff",
+    "license": "CC BY-SA 2.0"
+  },
+  "kirkenes": {
+    "file": "Kirkenes Foussgängerzon Feb 2005.jpg",
+    "author": "Clemensfranz",
+    "license": "CC BY-SA 3.0"
+  },
+  "svolvaer": {
+    "file": "Mount Småtindan and lake Stor-Kongsvatnet seen from Tjeldbergtind - Svolvær, Lofoten, Norway 2019-08-12.jpg",
+    "author": "Mænsard vokser",
+    "license": "CC BY-SA 4.0"
+  }
+}

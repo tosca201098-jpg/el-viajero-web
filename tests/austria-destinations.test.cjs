@@ -1,5 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -55,13 +57,13 @@ function endpoint() {
   } };
 }
 
-test('Austria remains intact in the 209-profile catalog without changing any earlier profile or editorial page', () => {
+test('Austria remains intact in the full catalog without changing any earlier profile or editorial page', () => {
   assert.equal(baseline.profiles.length, 149);
   assert.deepEqual(Array.from(austrian, p => p.slug), expected);
-  assert.equal(catalog.destinationProfiles.length, 209);
-  assert.equal(new Set(catalog.destinationProfiles.map(p => p.id)).size, 209);
-  assert.equal(new Set(catalog.destinationProfiles.map(p => p.slug)).size, 209);
-  assert.deepEqual(Array.from(catalog.destinationProfiles.slice(0, 149), p => p.id), baseline.profiles.map(p => p.id));
+  assert.equal(catalog.destinationProfiles.length, expectedCatalogTotal(catalog));
+  assert.equal(new Set(catalog.destinationProfiles.map(p => p.id)).size, catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(p => p.slug)).size, catalog.destinationProfiles.length);
+  assert.deepEqual(Array.from(catalog.destinationProfiles.filter(profile => baseline.profiles.some(old => old.id === profile.id)), p => p.id), baseline.profiles.map(p => p.id));
   for (const item of baseline.profiles) assert.equal(digest(catalog.getDestinationById(item.id)), item.sha256, item.id);
   assert.equal(digest(load('lib/destinations/featured.ts').destinations), baseline.featuredSha256);
   assert.equal(load('lib/destinations/featured.ts').destinations.length, 16);
@@ -140,6 +142,7 @@ test('all Austrian images have licensed Wikimedia attribution and remain editori
   for (const profile of austrian) {
     assert.equal(policy(profile), false);
     assert.equal(profile.publication.status, 'draft');
+    if (unsplash.checked(profile)) continue;
     assert.match(profile.image, /^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);
     assert.match(profile.imageSource, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(profile.imageCredit);

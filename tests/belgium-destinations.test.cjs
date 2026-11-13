@@ -1,4 +1,6 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),ts=require('typescript'),crypto=require('node:crypto');
 const root=path.resolve(__dirname,'..');
 function loader(globals={}){
@@ -12,9 +14,9 @@ const baseline=require('./fixtures/pre-belgium-catalog.json'),provider=require('
 const digest=v=>crypto.createHash('sha256').update(typeof v==='string'?v:JSON.stringify(v)).digest('hex');
 const locales=['es','en','fr','de','it','pt','ca'];
 
-test('Belgium remains intact in the 209-profile catalog; all previous 125 and original editorial cards remain identical',()=>{
- assert.equal(baseline.profiles.length,125);assert.equal(belgium.length,12);assert.equal(catalog.destinationProfiles.length,209);
- assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,209);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,209);
+test('Belgium remains intact in the full catalog; all previous 125 and original editorial cards remain identical',()=>{
+ assert.equal(baseline.profiles.length,125);assert.equal(belgium.length,12);assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
+ assert.equal(new Set(catalog.destinationProfiles.map(d=>d.id)).size,catalog.destinationProfiles.length);assert.equal(new Set(catalog.destinationProfiles.map(d=>d.slug)).size,catalog.destinationProfiles.length);
  for(const d of baseline.profiles)assert.equal(digest(catalog.getDestinationById(d.id)),d.sha256,d.id);
  assert.equal(digest(load('lib/destinations/featured.ts').destinations),baseline.featuredSha256);
  for(const[season,sha]of Object.entries(baseline.seasonFiles))assert.equal(digest(fs.readFileSync(path.join(root,'app/temporadas/'+season+'/page.tsx'),'utf8').replace(/\r\n/g,'\n')),sha);
@@ -60,7 +62,7 @@ test('confirmed Belgian tourist cities resolve by name without confusing Bruges 
  const bruges=(await endpoint().search('Brujas')).find(p=>p.type==='city'&&p.code==='OST');assert.equal(select(bruges).id,'be-bruges');
  const ost=(await endpoint().search('OST'))[0];assert.equal(select(ost).id,'be-ostend-belgian-coast');
  const crl=(await endpoint().search('CRL'))[0];assert.equal(select(crl).id,'be-brussels');
- const bergen=(await endpoint().search('Bergen'))[0];assert.equal(bergen.country,'Noruega');assert.equal(bergen.code,'BGO');assert.equal(select(bergen),undefined);
+ const bergen=(await endpoint().search('Bergen'))[0];assert.equal(bergen.country,'Noruega');assert.equal(bergen.code,'BGO');assert.equal(select(bergen).id,'no-bergen');
  assert.equal(select({type:'city',name:'Bergen',country:'Bélgica',code:null,cityName:null,cityCode:null}).id,'be-mons');
 });
 test('all local names and aliases resolve the intended canonical profile; eight ground destinations and Liege never claim their own commercial airport',()=>{
@@ -73,6 +75,6 @@ test('all local names and aliases resolve the intended canonical profile; eight 
 test('new Belgian profiles have commercial-use image licenses and remain opt-in, without automatic cards, new sitemap routes or invented prices',()=>{
  const policy=load('lib/destinations/presentation.ts').canShowDestinationAutomatically;
  assert.ok(catalog.getDestinationsForMonth(5).some(d=>d.countryCode==='BE'));
- for(const d of belgium){assert.equal(policy(d),false);assert.equal(d.publication.status,'draft');assert.match(d.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(d.imageSource,/^https:\/\/commons.wikimedia.org\/wiki\/File:/);assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons.org/);for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);}
+ for(const d of belgium){assert.equal(policy(d),false);assert.equal(d.publication.status,'draft');if(unsplash.checked(d)){for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);continue;}assert.match(d.image,/^https:\/\/thumb.wikimedia.org\//);assert.match(d.imageSource,/^https:\/\/commons.wikimedia.org\/wiki\/File:/);assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC BY/);assert.match(d.imageLicenseUrl,/creativecommons.org/);for(const field of ['price','flightPrice','available','hotelId'])assert.equal(d[field],undefined);}
  assert.equal(catalog.getPublishedDestinationPages().length,0);
 });

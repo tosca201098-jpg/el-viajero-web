@@ -1,0 +1,184 @@
+{
+  "checkedAt": "2026-11-06",
+  "source": "https://api.travelpayouts.com/data/en/airports.json",
+  "airports": [
+    {
+      "code": "GOA",
+      "name": "Genoa Cristoforo Colombo Airport",
+      "country_code": "IT",
+      "city_code": "GOA",
+      "flightable": true
+    },
+    {
+      "code": "TRS",
+      "name": "Trieste - Friuli Venezia Giulia Airport",
+      "country_code": "IT",
+      "city_code": "TRS",
+      "flightable": true
+    },
+    {
+      "code": "PEG",
+      "name": "Sant Egidio Airport",
+      "country_code": "IT",
+      "city_code": "PEG",
+      "flightable": true
+    },
+    {
+      "code": "AOI",
+      "name": "Ancona Falconara Airport",
+      "country_code": "IT",
+      "city_code": "AOI",
+      "flightable": true
+    },
+    {
+      "code": "RMI",
+      "name": "Miramare Airport",
+      "country_code": "IT",
+      "city_code": "RMI",
+      "flightable": true
+    },
+    {
+      "code": "PSR",
+      "name": "Abruzzo Airport",
+      "country_code": "IT",
+      "city_code": "PSR",
+      "flightable": true
+    },
+    {
+      "code": "BRI",
+      "name": "Palese Airport",
+      "country_code": "IT",
+      "city_code": "BRI",
+      "flightable": true
+    },
+    {
+      "code": "BDS",
+      "name": "Brindisi - Salento Airport",
+      "country_code": "IT",
+      "city_code": "BDS",
+      "flightable": true
+    },
+    {
+      "code": "SUF",
+      "name": "Lamezia Terme International Airport",
+      "country_code": "IT",
+      "city_code": "SUF",
+      "flightable": true
+    },
+    {
+      "code": "REG",
+      "name": "Tito Menniti Airport",
+      "country_code": "IT",
+      "city_code": "REG",
+      "flightable": true
+    },
+    {
+      "code": "CIY",
+      "name": "Comiso Airport",
+      "country_code": "IT",
+      "city_code": "CIY",
+      "flightable": true
+    },
+    {
+      "code": "TPS",
+      "name": "Trapani-Birgi Airport",
+      "country_code": "IT",
+      "city_code": "TPS",
+      "flightable": true
+    },
+    {
+      "code": "LMP",
+      "name": "Lampedusa Airport",
+      "country_code": "IT",
+      "city_code": "LMP",
+      "flightable": true
+    },
+    {
+      "code": "PNL",
+      "name": "Pantelleria Airport",
+      "country_code": "IT",
+      "city_code": "PNL",
+      "flightable": true
+    },
+    {
+      "code": "OLB",
+      "name": "Olbia Costa Smeralda Airport",
+      "country_code": "IT",
+      "city_code": "OLB",
+      "flightable": true
+    },
+    {
+      "code": "AHO",
+      "name": "Alghero-Fertilia Airport",
+      "country_code": "IT",
+      "city_code": "AHO",
+      "flightable": true
+    },
+    {
+      "code": "BZO",
+      "name": "Bolzano",
+      "country_code": "IT",
+      "city_code": "BZO",
+      "flightable": true
+    },
+    {
+      "code": "CRV",
+      "name": "Crotone",
+      "country_code": "IT",
+      "city_code": "CRV",
+      "flightable": true
+    },
+    {
+      "code": "FOG",
+      "name": "Gino Lisa",
+      "country_code": "IT",
+      "city_code": "FOG",
+      "flightable": true
+    },
+    {
+      "code": "EBA",
+      "name": "Marina Di Campo Airport",
+      "country_code": "IT",
+      "city_code": "EBA",
+      "flightable": true
+    },
+    {
+      "code": "QSR",
+      "name": "Pontecagnano",
+      "country_code": "IT",
+      "city_code": "QSR",
+      "flightable": true
+    },
+    {
+      "code": "PMF",
+      "name": "Parma Airport",
+      "country_code": "IT",
+      "city_code": "PMF",
+      "flightable": true
+    },
+    {
+      "code": "FRL",
+      "name": "Luigi Ridolfi",
+      "country_code": "IT",
+      "city_code": "FRL",
+      "flightable": true
+    },
+    {
+      "code": "CUF",
+      "name": "Levaldigi Airport",
+      "country_code": "IT",
+      "city_code": "CUF",
+      "flightable": true
+    }
+  ],
+  "pendingVerification": [
+    {
+      "code": "VBS",
+      "name": "Montichiari Airport",
+      "country_code": "IT",
+      "city_code": "VRN",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    }
+  ]
+}

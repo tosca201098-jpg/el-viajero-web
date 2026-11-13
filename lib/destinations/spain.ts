@@ -46,7 +46,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "MAD"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Madrid_-_Sky_Bar_360%C2%BA_%28Hotel_Riu_Plaza_Espa%C3%B1a%29%2C_vistas_19.jpg/960px-Madrid_-_Sky_Bar_360%C2%BA_%28Hotel_Riu_Plaza_Espa%C3%B1a%29%2C_vistas_19.jpg",
+    "image": "https://images.unsplash.com/photo-1539037116277-4db20889f2d4?auto=format&fit=crop&w=1600&q=80",
     "description": "Museos de primer nivel, parques y barrios para descubrir la capital a cualquier hora.",
     "recommendations": [
       "Museo del Prado",
@@ -65,10 +65,10 @@ export const spainDestinations: DestinationProfile[] = [
     "auxiliaryCodes": [
       "LECU"
     ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Madrid_-_Sky_Bar_360%C2%BA_(Hotel_Riu_Plaza_Espa%C3%B1a),_vistas_19.jpg",
-    "imageCredit": "Zarateman",
-    "imageLicense": "CC0",
-    "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    "imageSource": "https://unsplash.com/photos/metropolis-building-and-gran-via-madrid-WBGjg0DsO_g",
+    "imageCredit": "Florian Wehde",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "es-alicante",
@@ -338,7 +338,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "FUE"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a4/Azul%2C_Dunas_de_Corralejo%2C_Fuerteventura%2C_Espa%C3%B1a%2C_2015.JPG/960px-Azul%2C_Dunas_de_Corralejo%2C_Fuerteventura%2C_Espa%C3%B1a%2C_2015.JPG",
+    "image": "https://images.unsplash.com/photo-1545289415-50dff9405935?auto=format&fit=crop&w=1600&q=80",
     "description": "Dunas extensas, playas de aguas turquesas y pueblos de tradición canaria.",
     "recommendations": [
       "Dunas de Corralejo",
@@ -353,10 +353,10 @@ export const spainDestinations: DestinationProfile[] = [
     "aliases": [
       "Puerto del Rosario"
     ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Azul,_Dunas_de_Corralejo,_Fuerteventura,_Espa%C3%B1a,_2015.JPG",
-    "imageCredit": "Benjamín Núñez González",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageSource": "https://unsplash.com/photos/j7heFwsIq7U",
+    "imageCredit": "Michal Mrozek",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "es-girona",
@@ -459,7 +459,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "RMU"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Catedral_de_Murcia_-_Campanario.jpg/960px-Catedral_de_Murcia_-_Campanario.jpg",
+    "image": "https://images.unsplash.com/photo-1747493829448-fd5a80db19f9?auto=format&fit=crop&w=1600&q=80",
     "description": "Ciudades con historia, espacios naturales y playas en el sureste mediterráneo.",
     "recommendations": [
       "Catedral de Murcia",
@@ -474,10 +474,10 @@ export const spainDestinations: DestinationProfile[] = [
     "aliases": [
       "Murcia"
     ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Catedral_de_Murcia_-_Campanario.jpg",
-    "imageCredit": "Galopax",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageSource": "https://unsplash.com/photos/kDQaaiyCjNo",
+    "imageCredit": "joanna hall",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "es-jerez-de-la-frontera",
@@ -607,7 +607,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "LEN"
     ],
-    "image": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Catedral_G%C3%B3tica_de_Le%C3%B3n_edited.jpg",
+    "image": "https://images.unsplash.com/photo-1590654123126-80df3a0a3bf4?auto=format&fit=crop&w=1600&q=80",
     "description": "Gótico, arte medieval y tapeo en el centro histórico de la ciudad.",
     "recommendations": [
       "Catedral de León",
@@ -619,10 +619,10 @@ export const spainDestinations: DestinationProfile[] = [
     "bestMonths": [5,6,7,8,9],
     "lowSeasonMonths": [1,2,11,12],
     "highSeasonMonths": [7,8],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Catedral_G%C3%B3tica_de_Le%C3%B3n_edited.jpg",
-    "imageCredit": "David Jiménez Llanes",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "imageSource": "https://unsplash.com/photos/7fQErFlm3XA",
+    "imageCredit": "Sergio Otoya",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "es-logrono",
@@ -1048,7 +1048,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "VLL"
     ],
-    "image": "https://upload.wikimedia.org/wikipedia/commons/3/37/Ciudad_de_Valladolid%2C_desde_el_aire_edited.jpg",
+    "image": "https://images.unsplash.com/photo-1595415961896-7809eea97c9e?auto=format&fit=crop&w=1600&q=80",
     "description": "Plazas monumentales, museos y tradición castellana en el valle del Duero.",
     "recommendations": [
       "Plaza Mayor",
@@ -1060,10 +1060,10 @@ export const spainDestinations: DestinationProfile[] = [
     "bestMonths": [4,5,6,9,10],
     "lowSeasonMonths": [1,2,7,8,12],
     "highSeasonMonths": [4,5,9,10],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Ciudad_de_Valladolid,_desde_el_aire_edited.jpg",
-    "imageCredit": "User:Queninosta",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "http://creativecommons.org/licenses/by-sa/3.0/"
+    "imageSource": "https://unsplash.com/photos/kxAkBC6c1Gk",
+    "imageCredit": "Clemente Corona",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "es-vigo",
@@ -1104,7 +1104,7 @@ export const spainDestinations: DestinationProfile[] = [
     "iataCodes": [
       "VIT"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Vitoria_-_Plaza_de_la_Virgen_Blanca%2C_Escultura_vegetal_Vitoria_Gasteiz_%21.jpg/960px-Vitoria_-_Plaza_de_la_Virgen_Blanca%2C_Escultura_vegetal_Vitoria_Gasteiz_%21.jpg",
+    "image": "https://images.unsplash.com/photo-1636490136730-12b5e006bcee?auto=format&fit=crop&w=1600&q=80",
     "description": "Centro medieval, plazas animadas y una extensa red de parques.",
     "recommendations": [
       "Catedral de Santa María",
@@ -1119,10 +1119,10 @@ export const spainDestinations: DestinationProfile[] = [
     "aliases": [
       "Vitoria"
     ],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Vitoria_-_Plaza_de_la_Virgen_Blanca,_Escultura_vegetal_Vitoria_Gasteiz_!.jpg",
-    "imageCredit": "Zarateman",
-    "imageLicense": "CC0",
-    "imageLicenseUrl": "http://creativecommons.org/publicdomain/zero/1.0/deed.en"
+    "imageSource": "https://unsplash.com/photos/WYxy3lzAH_4",
+    "imageCredit": "David Vives",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "es-zaragoza",

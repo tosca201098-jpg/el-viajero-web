@@ -24,6 +24,17 @@ function endpoint(payload, options = {}) {
       if(id === '@/lib/travelpayouts/poland-airports') return {polandAirportsForTerm:()=>[],polandTouristPlacesForTerm:()=>[],polandAirports:[],polandCityAliases:{}};
       if(id === '@/lib/travelpayouts/hungary-airports') return {hungaryAirportsForTerm:()=>[],hungaryTouristPlacesForTerm:()=>[],hungaryAirports:[],hungaryCityAliases:{}};
       if(id === '@/lib/travelpayouts/slovakia-airports') return {slovakiaAirportsForTerm:()=>[],slovakiaTouristPlacesForTerm:()=>[],slovakiaAirports:[],slovakiaCityAliases:{}};
+      if(id === '@/lib/travelpayouts/slovenia-airports') return {sloveniaAirportsForTerm:()=>[],sloveniaTouristPlacesForTerm:()=>[],sloveniaAirports:[],sloveniaCityAliases:{}};
+      if(id === '@/lib/travelpayouts/france-airports') return {franceAirportsForTerm:()=>[],franceTouristPlacesForTerm:()=>[],franceAirports:[],franceCityAliases:{}};
+      if(id === '@/lib/travelpayouts/greece-airports') return {greeceAirportsForTerm:()=>[],greeceTouristPlacesForTerm:()=>[],greeceAirports:[],greeceCityAliases:{}};
+      if(id === '@/lib/travelpayouts/croatia-airports') return {croatiaAirportsForTerm:()=>[],croatiaTouristPlacesForTerm:()=>[],croatiaAirports:[],croatiaCityAliases:{}};
+      if(id === '@/lib/travelpayouts/albania-airports') return {albaniaAirportsForTerm:()=>[],albaniaTouristPlacesForTerm:()=>[],albaniaAirports:[],albaniaCityAliases:{}};
+      if(id === '@/lib/travelpayouts/turkey-airports') return {turkeyAirportsForTerm:()=>[],turkeyTouristPlacesForTerm:()=>[],turkeyAirports:[],turkeyCityAliases:{}};
+      if(id === '@/lib/travelpayouts/southeast-europe-airports') return {southeastEuropeAirportsForTerm:()=>[],southeastEuropeTouristPlacesForTerm:()=>[],southeastEuropeAirports:[],southeastEuropeCityAliases:{}};
+      if(id === '@/lib/travelpayouts/eastern-europe-airports') return {easternEuropeAirportsForTerm:()=>[],easternEuropeTouristPlacesForTerm:()=>[],easternEuropeAirports:[],easternEuropeCityAliases:{}};
+      if(id === '@/lib/travelpayouts/nordics-airports') return {nordicsAirportsForTerm:()=>[],nordicsTouristPlacesForTerm:()=>[],nordicsAirports:[],nordicsCityAliases:{}};
+      if(id === '@/lib/travelpayouts/scandinavia-airports') return {scandinaviaAirportsForTerm:()=>[],scandinaviaTouristPlacesForTerm:()=>[],scandinaviaAirports:[],scandinaviaCityAliases:{}};
+      if(id === '@/lib/travelpayouts/ireland-baltics-airports') return {irelandBalticsAirportsForTerm:()=>[],irelandBalticsTouristPlacesForTerm:()=>[],irelandBalticsAirports:[],irelandBalticsCityAliases:{}};
       if(id === '@/lib/travelpayouts/czechia-airports') return {czechiaAirportsForTerm:()=>[],czechiaTouristPlacesForTerm:()=>[],czechiaAirports:[],czechiaCityAliases:{}};
       if(id === '@/lib/travelpayouts/netherlands-airports') return {isNetherlandsCountryTerm:()=>false,netherlandsAirportsForTerm:()=>[],netherlandsCityAliases:{},netherlandsPassengerAirports:[],netherlandsUnavailablePassengerCodes:[]};
       if(id === '@/lib/travelpayouts/germany-airports') return {germanyAirportsForTerm:()=>[],germanyCityAliases:{},germanyPassengerAirports:[],germanyUnavailablePassengerCodes:[]};

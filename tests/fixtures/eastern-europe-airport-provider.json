@@ -1,0 +1,139 @@
+{
+  "source": "api.travelpayouts.com/data/en/airports.json, consulted 2026-11-06 (a flightable flag is not proof of current service)",
+  "airports": [
+    {
+      "code": "SOF",
+      "country_code": "BG",
+      "name": "Sofia Airport",
+      "flightable": true
+    },
+    {
+      "code": "CLJ",
+      "country_code": "RO",
+      "name": "Avram Iancu Cluj International Airport",
+      "flightable": true
+    },
+    {
+      "code": "TGM",
+      "country_code": "RO",
+      "name": "Transilvania",
+      "flightable": true
+    },
+    {
+      "code": "OTP",
+      "country_code": "RO",
+      "name": "Bucharest Henri Coanda International Airport",
+      "flightable": true
+    },
+    {
+      "code": "GHV",
+      "country_code": "RO",
+      "name": "Brasov-Ghimbav International Airport",
+      "flightable": true
+    },
+    {
+      "code": "VAR",
+      "country_code": "BG",
+      "name": "Varna Airport",
+      "flightable": true
+    },
+    {
+      "code": "PDV",
+      "country_code": "BG",
+      "name": "Plovdiv Airport",
+      "flightable": true
+    },
+    {
+      "code": "IAS",
+      "country_code": "RO",
+      "name": "Iasi Airport",
+      "flightable": true
+    },
+    {
+      "code": "SBZ",
+      "country_code": "RO",
+      "name": "Sibiu Airport",
+      "flightable": true
+    },
+    {
+      "code": "CRA",
+      "country_code": "RO",
+      "name": "Craiova Airport",
+      "flightable": true
+    },
+    {
+      "code": "BOJ",
+      "country_code": "BG",
+      "name": "Bourgas Airport",
+      "flightable": true
+    },
+    {
+      "code": "RMO",
+      "country_code": "MD",
+      "name": "Chisinau International Airport",
+      "flightable": true
+    },
+    {
+      "code": "SCV",
+      "country_code": "RO",
+      "name": "Suceava Airport",
+      "flightable": true
+    },
+    {
+      "code": "OMR",
+      "country_code": "RO",
+      "name": "Oradea Airport",
+      "flightable": true
+    },
+    {
+      "code": "TSR",
+      "country_code": "RO",
+      "name": "Timisoara Traian Vuia International Airport",
+      "flightable": true
+    }
+  ],
+  "pendingVerification": [
+    {
+      "code": "BBU",
+      "country_code": "RO",
+      "name": "Baneasa",
+      "flightable": true
+    },
+    {
+      "code": "SUJ",
+      "country_code": "RO",
+      "name": "Satu Mare International Airport",
+      "flightable": true
+    },
+    {
+      "code": "BZY",
+      "country_code": "MD",
+      "name": "Beltsy Airport",
+      "flightable": true
+    },
+    {
+      "code": "CND",
+      "country_code": "RO",
+      "name": "Kogalniceanu Airport",
+      "flightable": true
+    },
+    {
+      "code": "BAY",
+      "country_code": "RO",
+      "name": "Baia Mare",
+      "flightable": true
+    },
+    {
+      "code": "BCM",
+      "country_code": "RO",
+      "name": "Bacau Airport",
+      "flightable": true
+    },
+    {
+      "code": "ARW",
+      "country_code": "RO",
+      "name": "Arad",
+      "flightable": true
+    }
+  ]
+}

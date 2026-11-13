@@ -144,7 +144,7 @@ export const portugalDestinations: DestinationProfile[] = [
       "Porto Santo Island",
       "Isla de Porto Santo"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d8/Porto_santo_strand_5-2007.jpg/960px-Porto_santo_strand_5-2007.jpg",
+    "image": "https://images.unsplash.com/photo-1639058198237-1f98a2e19dca?auto=format&fit=crop&w=1600&q=80",
     "description": "Larga playa dorada y paisajes tranquilos al noreste de Madeira.",
     "recommendations": [
       "Praia do Porto Santo",
@@ -156,10 +156,10 @@ export const portugalDestinations: DestinationProfile[] = [
     "bestMonths": [5,6,9,10],
     "lowSeasonMonths": [1,2,11,12],
     "highSeasonMonths": [7,8],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Porto_santo_strand_5-2007.jpg",
-    "imageCredit": "Hedwig Storch",
-    "imageLicense": "CC BY-SA 3.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+    "imageSource": "https://unsplash.com/photos/mbKgSUWuuVQ",
+    "imageCredit": "Daniele Franchi",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "pt-beja",
@@ -340,7 +340,7 @@ export const portugalDestinations: DestinationProfile[] = [
       "Terceira / Lajes",
       "Isla Terceira"
     ],
-    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/Ayuntamiento%2C_Angra_do_Hero%C3%ADsmo%2C_isla_de_Terceira%2C_Azores%2C_Portugal%2C_2020-07-25%2C_DD_12.jpg/960px-Ayuntamiento%2C_Angra_do_Hero%C3%ADsmo%2C_isla_de_Terceira%2C_Azores%2C_Portugal%2C_2020-07-25%2C_DD_12.jpg",
+    "image": "https://images.unsplash.com/photo-1728033863715-a83f56be3624?auto=format&fit=crop&w=1600&q=80",
     "description": "Historia atlántica, paisajes verdes y cuevas volcánicas.",
     "recommendations": [
       "Angra do Heroísmo",
@@ -352,10 +352,10 @@ export const portugalDestinations: DestinationProfile[] = [
     "bestMonths": [5,6,7,8,9],
     "lowSeasonMonths": [1,2,11,12],
     "highSeasonMonths": [7,8],
-    "imageSource": "https://commons.wikimedia.org/wiki/File:Ayuntamiento,_Angra_do_Hero%C3%ADsmo,_isla_de_Terceira,_Azores,_Portugal,_2020-07-25,_DD_12.jpg",
-    "imageCredit": "Diego Delso",
-    "imageLicense": "CC BY-SA 4.0",
-    "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    "imageSource": "https://unsplash.com/photos/7egBST1kAQ8",
+    "imageCredit": "Antonio Araujo",
+    "imageLicense": "Unsplash License",
+    "imageLicenseUrl": "https://unsplash.com/license"
   },
   {
     "id": "pt-pico",

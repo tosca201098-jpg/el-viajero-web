@@ -1,5 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -40,10 +42,10 @@ const slugs = ['budapest','debrecen','szeged','pecs','eger','gyor','sopron','tih
 test('Hungary adds twelve draft profiles to 185 unchanged profiles; editorial pages stay intact', () => {
   assert.equal(before.profiles.length,185);
   assert.deepEqual(Array.from(hungarian,p=>p.slug),slugs);
-  assert.equal(catalog.destinationProfiles.length,209);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,209);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,209);
-  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,14);
+  assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.id)).size,catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.slug)).size,catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(p=>p.countryCode)).size,expectedCountryCount(catalog));
   for (const previous of before.profiles) {
     const profile = catalog.getDestinationById(previous.id);
     assert.equal(profile.slug,previous.slug);
@@ -100,6 +102,7 @@ test('Hungarian autocomplete supports airport and tourist selections without fab
 });
 test('twelve direct Commons images carry correct author and reusable CC license', () => {
   for (const profile of hungarian) {
+    if (unsplash.checked(profile)) continue;
     assert.match(profile.image,/^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);
     assert.match(profile.imageSource,/^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(profile.imageCredit);

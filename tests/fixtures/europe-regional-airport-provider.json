@@ -1,0 +1,180 @@
+{
+  "checkedAt": "2026-11-06",
+  "source": "https://api.travelpayouts.com/data/en/airports.json",
+  "airports": [
+    {
+      "code": "RZE",
+      "name": "Rzeszow International Airport",
+      "country_code": "PL",
+      "city_code": "RZE",
+      "flightable": true
+    },
+    {
+      "code": "CFN",
+      "name": "Donegal Airport",
+      "country_code": "IE",
+      "city_code": "CFN",
+      "flightable": true
+    },
+    {
+      "code": "ALF",
+      "name": "Alta Airport",
+      "country_code": "NO",
+      "city_code": "ALF",
+      "flightable": true
+    },
+    {
+      "code": "KRS",
+      "name": "Kristiansand Airport",
+      "country_code": "NO",
+      "city_code": "KRS",
+      "flightable": true
+    },
+    {
+      "code": "HAU",
+      "name": "Haugesund Airport",
+      "country_code": "NO",
+      "city_code": "HAU",
+      "flightable": true
+    },
+    {
+      "code": "MOL",
+      "name": "Molde Airport, Aro",
+      "country_code": "NO",
+      "city_code": "MOL",
+      "flightable": true
+    },
+    {
+      "code": "KSU",
+      "name": "Kristiansund Airport, Kvernberget",
+      "country_code": "NO",
+      "city_code": "KSU",
+      "flightable": true
+    },
+    {
+      "code": "EVE",
+      "name": "Harstad/Narvik Airport, Evenes",
+      "country_code": "NO",
+      "city_code": "EVE",
+      "flightable": true
+    },
+    {
+      "code": "LKN",
+      "name": "Leknes Airport",
+      "country_code": "NO",
+      "city_code": "LKN",
+      "flightable": true
+    },
+    {
+      "code": "UME",
+      "name": "Umea Airport",
+      "country_code": "SE",
+      "city_code": "UME",
+      "flightable": true
+    }
+  ],
+  "serviceEvidence": {
+    "RZE": "https://www.airportroutes.com/airports/EPRZ/",
+    "ALF": "https://en.wikipedia.org/wiki/Alta_Airport",
+    "KRS": "https://www.airportroutes.com/airports/encn/",
+    "HAU": "https://www.airportroutes.com/airports/enhd/",
+    "MOL": "https://www.airportroutes.com/airports/enml/",
+    "KSU": "https://www.airportroutes.com/airports/enkb/",
+    "EVE": "https://www.airportroutes.com/airports/ENEV",
+    "LKN": "https://www.airportroutes.com/airports/ENLK",
+    "UME": "https://www.airportroutes.com/airports/esnu/",
+    "CFN": "https://en.wikipedia.org/wiki/Donegal_Airport"
+  },
+  "pendingVerification": [
+    {
+      "code": "KSD",
+      "name": "Karlstad Airport",
+      "country_code": "SE",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "SDL",
+      "name": "Sundsvall-Timra Airport",
+      "country_code": "SE",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "ORB",
+      "name": "Orebro-Bofors Airport",
+      "country_code": "SE",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "JKG",
+      "name": "Axamo Airport",
+      "country_code": "SE",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "EBJ",
+      "name": "Esbjerg Airport",
+      "country_code": "DK",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "KRP",
+      "name": "Karup Airport",
+      "country_code": "DK",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "SGD",
+      "name": "Sonderborg Airport",
+      "country_code": "DK",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "RDO",
+      "name": "Radom Airport",
+      "country_code": "PL",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "IEG",
+      "name": "Zielona Gora-Babimost Airport",
+      "country_code": "PL",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "BBU",
+      "name": "Baneasa",
+      "country_code": "RO",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "CND",
+      "name": "Kogalniceanu Airport",
+      "country_code": "RO",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "BAY",
+      "name": "Baia Mare",
+      "country_code": "RO",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "ARW",
+      "name": "Arad",
+      "country_code": "RO",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "BCM",
+      "name": "Bacau Airport",
+      "country_code": "RO",
+      "reason": "Servicio regular de pasajeros por verificar"
+    },
+    {
+      "code": "SUJ",
+      "name": "Satu Mare International Airport",
+      "country_code": "RO",
+      "reason": "Servicio regular de pasajeros por verificar"
+    }
+  ]
+}

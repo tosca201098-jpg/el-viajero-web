@@ -1,5 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
 const root = path.resolve(__dirname, '..');
 function loader(mocks = {}, globals = {}) {
@@ -35,12 +37,12 @@ const codes = ['es','en','fr','de','it','pt','ca'];
 const plain = value => JSON.parse(JSON.stringify(value));
 const byId = id => library.getDestinationById('fr-'+id);
 
-test('France adds exactly twelve canonical identities after the 65 unchanged legacy destinations', () => {
-  assert.equal(france.length,12); assert.equal(library.destinationProfiles.length,209);
-  assert.deepEqual(Array.from(france,d=>d.id), ['paris','nice','lyon','marseille','bordeaux','strasbourg','toulouse','annecy','chamonix','mont-saint-michel','nantes','lille'].map(s=>'fr-'+s));
+test('France keeps its original twelve identities and adds thirty-six airport cities', () => {
+  assert.equal(france.length,48); assert.equal(library.destinationProfiles.length,expectedCatalogTotal(library));
+  assert.deepEqual(Array.from(france,d=>d.id), ['paris','nice','lyon','marseille','bordeaux','strasbourg','toulouse','annecy','chamonix','mont-saint-michel','nantes','lille','montpellier','ajaccio','bastia','biarritz','figari','brest','lourdes','rennes','perpignan','calvi','caen','carcassonne','la-rochelle','beziers','limoges','clermont-ferrand','grenoble','nimes','bergerac','toulon','pau','tours','chambery','rodez','metz','brive-la-gaillarde','dole','poitiers','chalons-en-champagne','deauville','castres','aurillac','saint-etienne','lorient','le-puy-en-velay','ouessant'].map(s=>'fr-'+s));
   assert.equal(library.getDestinationsByCountry(' fr '),france);
-  assert.equal(new Set(library.destinationProfiles.map(d=>d.id)).size,209);
-  assert.equal(new Set(library.destinationProfiles.map(d=>d.slug)).size,209);
+  assert.equal(new Set(library.destinationProfiles.map(d=>d.id)).size,library.destinationProfiles.length);
+  assert.equal(new Set(library.destinationProfiles.map(d=>d.slug)).size,library.destinationProfiles.length);
   for(const d of france) {
     assert.equal(d.countryCode,'FR'); assert.equal(d.country,'Francia');
     assert.equal(library.getDestinationById(d.id),d); assert.equal(library.getDestinationBySlug(d.slug),d);
@@ -64,7 +66,7 @@ test('physical airports, the Paris metropolitan code and shared ground-transfer 
   assert.equal(byId('annecy').accessAirports[0].countryCode,'CH');
   assert.equal(library.findDestinationProfile({iataCode:'GVA'})?.id,'ch-geneva');
   assert.equal(library.findDestinationProfile({iataCode:'LYS'}),byId('lyon'));
-  assert.equal(library.findDestinationProfile({iataCode:'RNS'}),undefined);
+  assert.equal(library.findDestinationProfile({iataCode:'RNS'}),byId('rennes'));
   assert.deepEqual(Array.from(library.getDestinationById('es-tenerife').airports,a=>a.iataCode),['TFN','TFS']);
 });
 
@@ -161,7 +163,7 @@ test('country-aware city resolution preserves ES/PT and selects verified French 
 test('French photographs carry source and license metadata; no invented price or hotel identifiers are stored', () => {
   for(const d of france) {
     assert.ok(d.image.startsWith('https://'));
-    if(d.id!=='fr-paris') {assert.ok(d.imageSource.startsWith('https://commons.wikimedia.org/wiki/File:'));assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC/);assert.ok(d.imageLicenseUrl);}
+    if(d.id!=='fr-paris'&&!unsplash.checked(d)) {assert.ok(d.imageSource.startsWith('https://commons.wikimedia.org/wiki/File:'));assert.ok(d.imageCredit);assert.match(d.imageLicense,/^CC/);assert.ok(d.imageLicenseUrl);}
     for(const key of ['price','hotelPrice','flightPrice','available','hotelId']) assert.equal(d[key],undefined);
   }
 });

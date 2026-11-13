@@ -1,5 +1,6 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -23,7 +24,8 @@ function load(file, dependencies = {}, globals = {}) {
 }
 const spain = load('lib/destinations/spain.ts');
 const portugal = load('lib/destinations/portugal.ts');
-const france = load('lib/destinations/france.ts');
+const franceAirportCoverage = load('lib/destinations/france-airport-coverage.ts', { './france-airport-images': load('lib/destinations/france-airport-images.ts') });
+const france = load('lib/destinations/france.ts', { './france-airport-coverage': franceAirportCoverage });
 const italy = load('lib/destinations/italy.ts', { './italy-images': load('lib/destinations/italy-images.ts') });
 const uk = load('lib/destinations/uk.ts', { './uk-images': load('lib/destinations/uk-images.ts') });
 const germany = load('lib/destinations/germany.ts', { './germany-images': load('lib/destinations/germany-images.ts') });
@@ -35,7 +37,24 @@ const czechia = load('lib/destinations/czechia.ts', { './czechia-images': load('
 const poland = load('lib/destinations/poland.ts', { './poland-images': load('lib/destinations/poland-images.ts') });
 const hungary = load('lib/destinations/hungary.ts', { './hungary-images': load('lib/destinations/hungary-images.ts') });
 const slovakia = load('lib/destinations/slovakia.ts', { './slovakia-images': load('lib/destinations/slovakia-images.ts') });
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia });
+const greeceRegionalImages = load('lib/destinations/greece-regional-images.ts');
+const greeceRegionalA = load('lib/destinations/greece-regional-a.ts', { './greece-regional-images': greeceRegionalImages });
+const greece = load('lib/destinations/greece.ts', { './greece-airport-coverage': load('lib/destinations/greece-airport-coverage.ts'), './greece-regional-a': greeceRegionalA, './greece-images': load('lib/destinations/greece-images.ts') });
+const croatia = load('lib/destinations/croatia.ts', { './croatia-airport-coverage': load('lib/destinations/croatia-airport-coverage.ts'), './croatia-images': load('lib/destinations/croatia-images.ts') });
+const albania = load('lib/destinations/albania.ts');
+const turkey = load('lib/destinations/turkey.ts');
+const southeastEurope = load('lib/destinations/southeast-europe.ts');
+const easternEurope = load('lib/destinations/eastern-europe.ts');
+const nordics = load('lib/destinations/nordics.ts');
+const scandinavia = load('lib/destinations/scandinavia.ts');
+const irelandBaltics = load('lib/destinations/ireland-baltics.ts');
+const ukRegional = load('lib/destinations/uk-regional.ts');
+const italyRegional = load('lib/destinations/italy-regional.ts');
+const germanyRegional = load('lib/destinations/germany-regional.ts');
+const europeRegional = load('lib/destinations/europe-regional.ts');
+const nordicRegional = load('lib/destinations/nordic-regional.ts');
+const scandinaviaRegional = load('lib/destinations/scandinavia-regional.ts');
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './croatia': croatia, './greece': greece, './slovenia': load('lib/destinations/slovenia.ts'), './greece-airport-towns': load('lib/destinations/greece-airport-towns.ts'), './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics, './scandinavia': scandinavia, './ireland-baltics': irelandBaltics, './uk-regional': ukRegional, './italy-regional': italyRegional, './germany-regional': germanyRegional, './europe-regional': europeRegional, './nordic-regional': nordicRegional, './scandinavia-regional': scandinaviaRegional });
 const localization = load('lib/destinations/localization.ts');
 const manifest = require('./fixtures/destination-legacy-digests.json');
 const legacyProfiles = library.destinationProfiles.filter(profile => ['ES', 'PT'].includes(profile.countryCode));
@@ -51,8 +70,8 @@ test('all 65 legacy destinations keep stable, unique IDs and slugs', () => {
   assert.equal(legacyProfiles.length, 65);
   assert.equal(spain.spainDestinations.length, 43);
   assert.equal(portugal.portugalDestinations.length, 22);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, 209);
-  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, 209);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.id)).size, library.destinationProfiles.length);
+  assert.equal(new Set(library.destinationProfiles.map(d => d.slug)).size, library.destinationProfiles.length);
   assert.deepEqual(Array.from(legacyProfiles, d => ({ id: d.id, slug: d.slug })),
     manifest.map(({ id, slug }) => ({ id, slug })));
   for (const destination of legacyProfiles) {
@@ -127,10 +146,10 @@ test('monthly rendering uses the country helper for a future country without add
       '@/lib/destinations/localization': localization,
       '@/lib/destinations/presentation': load('lib/destinations/presentation.ts', { './index': library }),
     }, { React: { createElement } }).default;
-    const fixture = { ...library.destinationProfiles[0], countryCode: 'IE', country: 'Irlanda' };
+    const fixture = { ...library.destinationProfiles[0], countryCode: 'JP', country: 'Japón' };
     const tree = component({ month: 4, recommendations: [{ destination: fixture, reason: 'best' }] });
     const text = textNodes(tree);
-    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('IE')), language);
+    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('JP')), language);
     assert.ok(!text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('PT')), language);
   }
 });

@@ -1,0 +1,211 @@
+{
+  "checkedAt": "2026-11-06",
+  "source": "https://api.travelpayouts.com/data/en/airports.json",
+  "airports": [
+    {
+      "code": "EMA",
+      "name": "East Midlands Airport",
+      "country_code": "GB",
+      "city_code": "NQT",
+      "flightable": true
+    },
+    {
+      "code": "NCL",
+      "name": "Newcastle International Airport",
+      "country_code": "GB",
+      "city_code": "NCL",
+      "flightable": true
+    },
+    {
+      "code": "MME",
+      "name": "Durham Tees Valley Airport",
+      "country_code": "GB",
+      "city_code": "MME",
+      "flightable": true
+    },
+    {
+      "code": "SOU",
+      "name": "Southampton Airport",
+      "country_code": "GB",
+      "city_code": "SOU",
+      "flightable": true
+    },
+    {
+      "code": "BOH",
+      "name": "Bournemouth Airport",
+      "country_code": "GB",
+      "city_code": "BOH",
+      "flightable": true
+    },
+    {
+      "code": "EXT",
+      "name": "Exeter International Airport",
+      "country_code": "GB",
+      "city_code": "EXT",
+      "flightable": true
+    },
+    {
+      "code": "NQY",
+      "name": "Newquay Cornwall Airport",
+      "country_code": "GB",
+      "city_code": "NQY",
+      "flightable": true
+    },
+    {
+      "code": "NWI",
+      "name": "Norwich International Airport",
+      "country_code": "GB",
+      "city_code": "NWI",
+      "flightable": true
+    },
+    {
+      "code": "ABZ",
+      "name": "Aberdeen International Airport",
+      "country_code": "GB",
+      "city_code": "ABZ",
+      "flightable": true
+    },
+    {
+      "code": "DND",
+      "name": "Dundee Airport",
+      "country_code": "GB",
+      "city_code": "DND",
+      "flightable": true
+    },
+    {
+      "code": "SYY",
+      "name": "Stornoway Airport",
+      "country_code": "GB",
+      "city_code": "SYY",
+      "flightable": true
+    },
+    {
+      "code": "KOI",
+      "name": "Kirkwall Airport",
+      "country_code": "GB",
+      "city_code": "KOI",
+      "flightable": true
+    },
+    {
+      "code": "LSI",
+      "name": "Sumburgh Airport",
+      "country_code": "GB",
+      "city_code": "SDZ",
+      "flightable": true
+    },
+    {
+      "code": "ILY",
+      "name": "Glenegedale Airport",
+      "country_code": "GB",
+      "city_code": "ILY",
+      "flightable": true
+    },
+    {
+      "code": "BRR",
+      "name": "North Bay Airport",
+      "country_code": "GB",
+      "city_code": "BRR",
+      "flightable": true
+    },
+    {
+      "code": "BEB",
+      "name": "Benbecula Airport",
+      "country_code": "GB",
+      "city_code": "BEB",
+      "flightable": true
+    },
+    {
+      "code": "LDY",
+      "name": "City of Derry Airport",
+      "country_code": "GB",
+      "city_code": "LDY",
+      "flightable": true
+    },
+    {
+      "code": "HUY",
+      "name": "Humberside Airport",
+      "country_code": "GB",
+      "city_code": "HUY",
+      "flightable": true
+    },
+    {
+      "code": "CAL",
+      "name": "Machrihanish Airport",
+      "country_code": "GB",
+      "city_code": "CAL",
+      "flightable": true
+    },
+    {
+      "code": "TRE",
+      "name": "Tiree Airport",
+      "country_code": "GB",
+      "city_code": "TRE",
+      "flightable": true
+    }
+  ],
+  "pendingVerification": [
+    {
+      "code": "WIC",
+      "name": "Wick Airport",
+      "country_code": "GB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    },
+    {
+      "code": "NRL",
+      "name": "North Ronaldsay Airport",
+      "country_code": "GB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    },
+    {
+      "code": "EOI",
+      "name": "Eday Airport",
+      "country_code": "GB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    },
+    {
+      "code": "SOY",
+      "name": "Stronsay Airport",
+      "country_code": "GB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    },
+    {
+      "code": "WRY",
+      "name": "Westray Airport",
+      "country_code": "GB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    },
+    {
+      "code": "PPW",
+      "name": "Papa Westray Airport",
+      "country_code": "GB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    },
+    {
+      "code": "ACI",
+      "name": "Alderney Airport",
+      "country_code": "GB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    },
+    {
+      "code": "CBG",
+      "name": "Cambridge Airport",
+      "country_code": "GB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    },
+    {
+      "code": "BLK",
+      "name": "Blackpool Airport",
+      "country_code": "GB",
+      "flightable": true,
+      "reason": "Present in the provider inventory; scheduled passenger service not independently verified in this batch"
+    }
+  ]
+}

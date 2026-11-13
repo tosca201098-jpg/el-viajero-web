@@ -1,5 +1,7 @@
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
+const {expectedCatalogTotal,expectedCountryCount}=require('./helpers/catalog-totals.cjs');
+const unsplash = require('./helpers/unsplash-priority1.cjs');
 const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
@@ -39,10 +41,10 @@ const slugs = ['warsaw','krakow','gdansk-tricity','wroclaw','poznan','torun','lu
 test('Poland adds twelve profiles to 173 unchanged profiles, leaving the original editorial pages intact', () => {
   assert.equal(before.profiles.length, 173);
   assert.deepEqual(Array.from(polish, profile => profile.slug), slugs);
-  assert.equal(catalog.destinationProfiles.length, 209);
-  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.id)).size, 209);
-  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.slug)).size, 209);
-  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.countryCode)).size, 14);
+  assert.equal(catalog.destinationProfiles.length, expectedCatalogTotal(catalog));
+  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.id)).size, catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.slug)).size, catalog.destinationProfiles.length);
+  assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.countryCode)).size, expectedCountryCount(catalog));
   for (const previous of before.profiles) {
     const profile = catalog.getDestinationById(previous.id);
     assert.equal(profile.slug, previous.slug);
@@ -52,7 +54,7 @@ test('Poland adds twelve profiles to 173 unchanged profiles, leaving the origina
   assert.equal(load('lib/destinations/featured.ts').destinations.length, 16);
   for (const [season, hash] of Object.entries(before.seasons)) assert.equal(digest(fs.readFileSync(path.join(root,'app/temporadas',season,'page.tsx'),'utf8').replace(/\r\n/g,'\n')), hash);
   for (const [file, hash] of Object.entries(before.monthPages)) assert.equal(digest(fs.readFileSync(path.join(root,'app/viajes-baratos/[mes]',file),'utf8').replace(/\r\n/g,'\n')), hash);
-  assert.equal(catalog.getDestinationsByCountry('PL').length, 12);
+  assert.equal(catalog.getDestinationsByCountry('PL').length, 13);
   for (const profile of polish) {
     assert.equal(profile.publication.status, 'draft');
     assert.equal(presentation.canShowDestinationAutomatically(profile), false);
@@ -98,6 +100,7 @@ test('autocomplete identifies Polish airports and tourist destinations without f
 
 test('all twelve Commons images include direct 960px URLs and attribution', () => {
   for (const profile of polish) {
+    if (unsplash.checked(profile)) continue;
     assert.match(profile.image, /^https:\/\/thumb\.wikimedia\.org\/.*\/960px-/);
     assert.match(profile.imageSource, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/);
     assert.ok(profile.imageCredit);

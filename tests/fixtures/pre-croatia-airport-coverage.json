@@ -1,0 +1,890 @@
+{
+  "base": "643b704fbed0990a6b70aac158c8e09eee90b00d",
+  "profiles": [
+    {
+      "id": "es-a-coruna",
+      "sha256": "be811bb4a5f59e65da17ebb1d07880fd2ef6c8b7626b8fba48c6e485b0087f7b"
+    },
+    {
+      "id": "es-madrid",
+      "sha256": "3ff7ea3367daeae0d75cc3b202a7d2b799162f66a18cb3cb72905da03ddd8a3c"
+    },
+    {
+      "id": "es-alicante",
+      "sha256": "d89185f94b481010230141d82dc17594f155e55b5bb096043863514f18ef3b77"
+    },
+    {
+      "id": "es-almeria",
+      "sha256": "31a31b3de0f72ec4d4369f3e4ca5014b3ab228caefcbf86465b0295ad25bab05"
+    },
+    {
+      "id": "es-asturias",
+      "sha256": "4dc804fdf39b46611047e8a6b721a61f29fc79059276710ea62042cf4b352328"
+    },
+    {
+      "id": "es-badajoz",
+      "sha256": "aa73827ef083321fc36c73ec68346330096ffd05bbe4811aea153de50cd088cc"
+    },
+    {
+      "id": "es-bilbao",
+      "sha256": "9820a82217458a7e26b33f818a17358805f08fe0d17842ff68edbd5d0c53fbbd"
+    },
+    {
+      "id": "es-lanzarote",
+      "sha256": "e384fe5ac60ec3f5afa4d72dad30d16336a1430032eb7f755d5a77258c84ad0d"
+    },
+    {
+      "id": "es-cordoba",
+      "sha256": "ea5c2fcff6dc6610bfb5b84755688eeac82ae45d0ca5ce64f970ac6b59708392"
+    },
+    {
+      "id": "es-el-hierro",
+      "sha256": "ad6a862fdd92934f454478d49926dc1316922a43488466635b15454829b41e3f"
+    },
+    {
+      "id": "es-granada",
+      "sha256": "07c45d5162e8a471e6ce3316e54ee60110996c5b64c5295914d475ea0b1329f0"
+    },
+    {
+      "id": "es-fuerteventura",
+      "sha256": "08353ef34feb6321cf87d947dca5ac1ac885539b07531c1467d14100a6ee7387"
+    },
+    {
+      "id": "es-girona",
+      "sha256": "da20bc2db57beefcda00143627ece0bea7a54d34d9b8e0c56a674bb8e7ad45ed"
+    },
+    {
+      "id": "es-gran-canaria",
+      "sha256": "410eec24b2f2bc1bd84a4b6b6bd4cd92662460b8daeaed9a5d31a73ecb694895"
+    },
+    {
+      "id": "es-ibiza",
+      "sha256": "05c7bbaf9887a68cf7411abacc88a6b10e6e0881553aa9bc8eefa29197a1f8f2"
+    },
+    {
+      "id": "es-region-de-murcia",
+      "sha256": "0410e6d5d99a26a309eba799281a217f30a8fd6e8b0299331631ca739f31d21a"
+    },
+    {
+      "id": "es-jerez-de-la-frontera",
+      "sha256": "e7e659b7b23e9c6c2e21dca1d8e0aca5e245c29637002b6e8fe158a5157d2650"
+    },
+    {
+      "id": "es-barcelona",
+      "sha256": "067fb6964fa5453c0ecc0401f5a7a1c8cf041944f258f744955ea5354bb45e6e"
+    },
+    {
+      "id": "es-la-gomera",
+      "sha256": "21d8be855327af45d1a3d338b8b95296c6c43e764db9680c9e1c662189e5726b"
+    },
+    {
+      "id": "es-la-palma",
+      "sha256": "3a56b8e0f5ef0dea9ac6003d9400a8388c5513a9d46cbfb1062e2304dda1cca0"
+    },
+    {
+      "id": "es-leon",
+      "sha256": "37b37265c103671107f980458adfef57c50813cc5921eb35fe3d79fe37a13149"
+    },
+    {
+      "id": "es-logrono",
+      "sha256": "ad5a80b9adcaad28259ac92fe119d922d0288adaf3245435eaa559ad33a595c2"
+    },
+    {
+      "id": "es-melilla",
+      "sha256": "fb77bfc507b56d9b488d1089c2b3cfb9714f741ea3a461b96f846b64f6d76443"
+    },
+    {
+      "id": "es-menorca",
+      "sha256": "82fc35a0d85949d3093be792ec2f45e27c9b86a1f110824180eced6e9524320e"
+    },
+    {
+      "id": "es-malaga",
+      "sha256": "8c9baf5bbdabfe4b10b40c93e5e4f453cbdf319539af8224edce4ac5de4567ed"
+    },
+    {
+      "id": "es-palma-de-mallorca",
+      "sha256": "6b39d7d510c6b33230de5001205c3df96ee4ae543b062b5a388fefcc25d7c7f5"
+    },
+    {
+      "id": "es-pamplona",
+      "sha256": "814740db22634762e8bd2260fa96446159cbdc9c423c131a4820b74a87716b30"
+    },
+    {
+      "id": "es-reus-costa-daurada",
+      "sha256": "0a8a9a3be96f9e2b34eda74f928329170d84a7089913458338b6d3bf9b96a6c4"
+    },
+    {
+      "id": "es-salamanca",
+      "sha256": "64e87f57d64fdb821afdeefd492c3c0b6711422761c83efe012851ea69036dfd"
+    },
+    {
+      "id": "es-san-sebastian",
+      "sha256": "14d0dec34f50dea143c4c03f766155397a6f61d4db9861b120b9cee20cd36edc"
+    },
+    {
+      "id": "es-santiago-de-compostela",
+      "sha256": "5c0e9b91cd53579cdc0cf56a86926286db74c56c109a87a5a5827029146012bd"
+    },
+    {
+      "id": "es-santander",
+      "sha256": "d82369d52213d76d44cec0b553e83402a0fe49b2faedfff77e048dfe09842fdc"
+    },
+    {
+      "id": "es-sevilla",
+      "sha256": "04e98961cb00dc863d1f2c34794a35b4f04b3a2ced9d443fe6d44177f7c1fb95"
+    },
+    {
+      "id": "es-tenerife",
+      "sha256": "fdf362d728c62629ecb168fdf8c6b3017bf64d3846c9276e25417ec337b15c5e"
+    },
+    {
+      "id": "es-valencia",
+      "sha256": "968dbbbdfe0a65f8277cc37e325991f382fafce8249c4e8b5734a4d0d9aa0ef0"
+    },
+    {
+      "id": "es-valladolid",
+      "sha256": "baeee9f159dbafd6ea0a3f77ab550f6b228318682a2e74ffebbc48d36ca3c3dd"
+    },
+    {
+      "id": "es-vigo",
+      "sha256": "374e0be66afd6f27d13837837abebb50f495f79646e75d585823df205a429825"
+    },
+    {
+      "id": "es-vitoria-gasteiz",
+      "sha256": "8b456791a855b4472604a524ee96dc9ed11e464a78cd777f1abd228e8d22dc48"
+    },
+    {
+      "id": "es-zaragoza",
+      "sha256": "188fee1e17bc61d80b39cfdfb5437b2506be47243a5fc6745768393452b3faf6"
+    },
+    {
+      "id": "es-albacete",
+      "sha256": "329a3427f8315d0ae846ea1a2cb37a4b652bd1872a0d50b0081dbfef19ee9c23"
+    },
+    {
+      "id": "es-burgos",
+      "sha256": "3b15131dd0c7eba380f4bff1bbe430eb9ebede7fb1794fb813c068e31ca8b88f"
+    },
+    {
+      "id": "es-huesca",
+      "sha256": "4ff1a563b254fbabaa1e205f6ef0567eacbca4e0ced85502dc057781c31ceda0"
+    },
+    {
+      "id": "es-sabadell",
+      "sha256": "74b22dbc7acefd85bb02a9aeacd630404c3a781d13b38638bac4190d9a8d591c"
+    },
+    {
+      "id": "pt-lisboa",
+      "sha256": "d62bc04d2b2b2414bf5ffd3c939a36dd098a1e5d9e858dccf0b3a741a852c3f5"
+    },
+    {
+      "id": "pt-porto",
+      "sha256": "0dac23e0f4903be3a272bc19f12c0da1054563ee1f551c00fabe196e98632287"
+    },
+    {
+      "id": "pt-faro",
+      "sha256": "2b8048849d9d8531555547939347ee9e3110c44fd2f925be23640b66dfe0ea8a"
+    },
+    {
+      "id": "pt-madeira",
+      "sha256": "836800ee4e0f12f6fae79724c62808c8504e4256918ab33539c60c879af73f40"
+    },
+    {
+      "id": "pt-porto-santo",
+      "sha256": "a7b9b2ba2221a4d5128c7062e90ad248949e6802704b94c9daa7a99e7e6511c4"
+    },
+    {
+      "id": "pt-beja",
+      "sha256": "ff7dbe61bba93304fc64508890bb9b6d6a0084fed066da84733cd4d780317359"
+    },
+    {
+      "id": "pt-ponta-delgada",
+      "sha256": "ed7781fcbdd97c88f4034fc9e27d40543878ee0b3e3724c34a20a4c023b0ba64"
+    },
+    {
+      "id": "pt-santa-maria",
+      "sha256": "8b6bbcda9d25bedf4c98ec510f25673f1b61373a7b8dc4574c2974d3cbcb0856"
+    },
+    {
+      "id": "pt-horta",
+      "sha256": "f716eac504528d3ea7331bb7476f3ae23904dca30c66ca147434e32a5512e6f5"
+    },
+    {
+      "id": "pt-flores",
+      "sha256": "972e0b4ea2b9c57f3bf845923a0a23af329cbadf0d80359ea354d1b38ffe3b5c"
+    },
+    {
+      "id": "pt-terceira",
+      "sha256": "71397c59d99720d260133a1b4a913807e31241be5b8a840ae05f5c8a11067612"
+    },
+    {
+      "id": "pt-pico",
+      "sha256": "c9980d079a344bb48fc5dfc311409dd392626ed9cd9880a62070e92dc023fca4"
+    },
+    {
+      "id": "pt-sao-jorge",
+      "sha256": "a959013b43ecf552faa0b62c91af2281370d3761b6c8c0b329b5b303d89ae5e7"
+    },
+    {
+      "id": "pt-graciosa",
+      "sha256": "75335325e435f8ec8a864ebaa662dc5413949bdcb52151ed8c057ea2e3b94365"
+    },
+    {
+      "id": "pt-corvo",
+      "sha256": "f76deef649349e1a42f11269b6a460e8d15eb4e6abfe8b3d71374f18ccf75f4d"
+    },
+    {
+      "id": "pt-cascais",
+      "sha256": "467dddee64222a3b201ea7d530b7867e7988f423f9b4b573b1d2b032210228c5"
+    },
+    {
+      "id": "pt-braganca",
+      "sha256": "1b701195853af17a7c0632513d642192e0a9d57f8254cd04cfa44a1c2c13be61"
+    },
+    {
+      "id": "pt-vila-real",
+      "sha256": "f490e3e71f0d047888889732d182f453e62dce8826fa74c8e1030b45bc004a51"
+    },
+    {
+      "id": "pt-viseu",
+      "sha256": "9fe3ac9608743e5c621aad9c6c27553903e4d2a6fb9806347ac4da465e55a89b"
+    },
+    {
+      "id": "pt-portimao",
+      "sha256": "227219f2895395a000eab9d2bb36b6dfd58e075a30aeabade62d0d62151118fd"
+    },
+    {
+      "id": "pt-braga",
+      "sha256": "274a05a19fe634f5ba5a1e61d90eac76b9798cd3591f8fe63cc18fdb6774230d"
+    },
+    {
+      "id": "pt-chaves",
+      "sha256": "1542c2e1c1c96bb86e2724f3716806240b4c458419a96471f487f1977819d8f3"
+    },
+    {
+      "id": "fr-paris",
+      "sha256": "7adc37d7e43cefd516198f35628eaf3d7f6598ce25a954287d9bdba8daba1952"
+    },
+    {
+      "id": "fr-nice",
+      "sha256": "8ee745006008fe5bbfd80b85bed493a5044ec1b1d64ad409d7769e2d3d790e50"
+    },
+    {
+      "id": "fr-lyon",
+      "sha256": "5abe2cdeee08329855c10fa5cfce42cdb788172c61907fc41c693f1264da2b6a"
+    },
+    {
+      "id": "fr-marseille",
+      "sha256": "c88773130ffd2647d2f0e50775ed43726e0530f3e294f4adb06f0e64f2654ef6"
+    },
+    {
+      "id": "fr-bordeaux",
+      "sha256": "544bad59db3bc59ce3ef1532c616493ef1ed3f9f1581f26fd03e7957d79e35ff"
+    },
+    {
+      "id": "fr-strasbourg",
+      "sha256": "a417e77468deb3f2b2b224f0d7433e9c4ae080c5bf9d23505e48b37cce2c6258"
+    },
+    {
+      "id": "fr-toulouse",
+      "sha256": "438ae4bcf79d09a7f3bcf3628464a6ac14a9f2eb5dd8922aab500a03a7cbe19b"
+    },
+    {
+      "id": "fr-annecy",
+      "sha256": "c07ec82282ebd9e9d2236557fe859b464ab7a2a052bd8c17eb8eb1f3fa317838"
+    },
+    {
+      "id": "fr-chamonix",
+      "sha256": "f784ccadcf05febba8c89918cebfb28d9cf0e4562460f0fd9ad46029e3ef4ec4"
+    },
+    {
+      "id": "fr-mont-saint-michel",
+      "sha256": "de45bfd10946015b151f1d31038ee7477832600f8243c3b2f57ad71656324e8f"
+    },
+    {
+      "id": "fr-nantes",
+      "sha256": "5a083cd140e05e0e31a0a3bc513ec8e65321b3dc76372481a002ae5970a62895"
+    },
+    {
+      "id": "fr-lille",
+      "sha256": "e78e5998c6b3a8db6805c14bfc575006a9979ba72e234ed7f6d2793b3a1ca1f8"
+    },
+    {
+      "id": "it-rome",
+      "sha256": "c10b290d7741a53ffd52c79db8ba638eb2b9584c1ae0d458d805f2ee6235c83e"
+    },
+    {
+      "id": "it-milan",
+      "sha256": "6c11e9b97371db5a33f757a9cbd857a6fab104f4e263945aea2dafde5c264c55"
+    },
+    {
+      "id": "it-venice",
+      "sha256": "5849d08a2f76e046448af2083dfe39501efc425da5f0aec373e803c6e2e9f209"
+    },
+    {
+      "id": "it-florence",
+      "sha256": "09ba95e4f3979d81901ea61e8550e01e1ef363fcf437feaad21e39cc53cc15a7"
+    },
+    {
+      "id": "it-naples",
+      "sha256": "a7e46b28c7e97530efab87d780b29590579d701930f0844decdca0ac4877d490"
+    },
+    {
+      "id": "it-bologna",
+      "sha256": "e758bd988f6dd03c05a798d3046b5434919f75ba75be4fece50369c149f4ddf1"
+    },
+    {
+      "id": "it-turin",
+      "sha256": "bb582665e0cf4ffc86dedad02d0c4faf82b16bba9f06175f8ca45b2174e68e4e"
+    },
+    {
+      "id": "it-verona-garda",
+      "sha256": "29279c3331b462e57d69b47470c51ad2058a05ec518129c9c3b65228df64335a"
+    },
+    {
+      "id": "it-pisa-tuscany",
+      "sha256": "ef116730fe135238dbb002dca110bf02a6339dfa4093009a39375aa8667047f9"
+    },
+    {
+      "id": "it-palermo",
+      "sha256": "07f9835da94c320082f42065418ccb8fa0b89c3e8ef3e66c42255ed970d98d10"
+    },
+    {
+      "id": "it-catania-etna",
+      "sha256": "355a5bf94b6f7bfcbd4c27d0a2e36af84e29f0cc234910b7e0b6a450ca250985"
+    },
+    {
+      "id": "it-cagliari-south-sardinia",
+      "sha256": "800d2cd88433f3a509aea28b7a7dc00975a1e3d37eabb1a1726f90fb91da7cfd"
+    },
+    {
+      "id": "gb-london",
+      "sha256": "f5c6577394145c0e53de1f9a7893abebb78d7e090adbb052e8d93455c6c7c062"
+    },
+    {
+      "id": "gb-edinburgh",
+      "sha256": "4062cb56734134cfc12da62efd928c8517be804f5cabb9c0fe71d537237e8962"
+    },
+    {
+      "id": "gb-manchester",
+      "sha256": "9942f029a796d87ebdb85c293da38c88510f390a227b451a588f0eebbe43a108"
+    },
+    {
+      "id": "gb-liverpool",
+      "sha256": "3b29d935f464b690037ab0437210b3f271f90a3c9d768563c55167e51ed3748d"
+    },
+    {
+      "id": "gb-birmingham",
+      "sha256": "ec004d9c9d525357e10e91eb53e72de8e64de340cf47efc0187dbaf447065226"
+    },
+    {
+      "id": "gb-bristol-bath",
+      "sha256": "150f8c2fd219d0daf563411200885e306d49282ca2d6b8e589952eef46e85673"
+    },
+    {
+      "id": "gb-york",
+      "sha256": "8cec9299e9179213612688487837a946e6d2cc54749f6f4b5ab4d77ea9e74ae8"
+    },
+    {
+      "id": "gb-oxford-cotswolds",
+      "sha256": "88bc322c1539284acf52baf383bfc76f0ed72e9154cd1e460ac203802fe17707"
+    },
+    {
+      "id": "gb-glasgow",
+      "sha256": "3cb25b4d72e7733543c705f9c31d0cf45fb6212a983a1469c9bd47186099a856"
+    },
+    {
+      "id": "gb-inverness-highlands",
+      "sha256": "e10a3075dd4839df948f7426839205ad286ec7561236a448b1f930e5982968d0"
+    },
+    {
+      "id": "gb-cardiff-south-wales",
+      "sha256": "91ecbd91e55b377139c11e8b699e9401b11c6da8275a3d827b459bc654cded55"
+    },
+    {
+      "id": "gb-belfast-causeway-coast",
+      "sha256": "4b9c5ecd48fe4b6c2e2358c2e70f646c91797c74310fc2bda0b76a7245fbe5fc"
+    },
+    {
+      "id": "de-berlin",
+      "sha256": "b491310927dbdbd98be57646957a6f4746c13beaf7e297a4de369bc6b369899a"
+    },
+    {
+      "id": "de-munich",
+      "sha256": "f428c215d80ca4768d963aff511e6bbe5136738c3e163cd9342c93566d9022a8"
+    },
+    {
+      "id": "de-hamburg",
+      "sha256": "541968598bda39f6e958c5a2e1d44b0d83152b001f90482208a713fe638ef370"
+    },
+    {
+      "id": "de-frankfurt",
+      "sha256": "2d6537114bfc1ca315a71c01a2cde2c25c505bf130280952fa900855a97b7457"
+    },
+    {
+      "id": "de-cologne-bonn",
+      "sha256": "631fc727ee4bac020bbe7ca95deb6cd457e6e06922b0694c677891ce6d0375a6"
+    },
+    {
+      "id": "de-dusseldorf",
+      "sha256": "feca7737987c625e4f2693e396cd8eb30abc7546473c9d69401aaa12d351ceb1"
+    },
+    {
+      "id": "de-stuttgart",
+      "sha256": "ab175a797246512f3d244b3909dd5577946f571a223e514944f5d0255dc1d864"
+    },
+    {
+      "id": "de-nuremberg",
+      "sha256": "157a60705e2ec4952d4533fe8044268ad618a78bee5e3fed2f2e319a88fbf70e"
+    },
+    {
+      "id": "de-dresden",
+      "sha256": "fb4d581cb1a019a16df169b783035c213850c23f1d92ee9e6d28cbad8633c28f"
+    },
+    {
+      "id": "de-leipzig",
+      "sha256": "0b963a2ee1910b0d95773c3a00b8a06d0b1f2f99a8c362fa8bc1f8c9feefa99e"
+    },
+    {
+      "id": "de-heidelberg-neckar",
+      "sha256": "92934f9801df9ede2160bffedcdab3c0c5ed00646041d0bb5b78f294a5f15d4e"
+    },
+    {
+      "id": "de-freiburg-black-forest",
+      "sha256": "4d949f0c71225492413509c441a32397c9074ae5b2e422bf6b0de9feab88ad03"
+    },
+    {
+      "id": "nl-amsterdam",
+      "sha256": "88a875949a0dd5c10f705e19834e74ca4a1446362433c2179a1e7fbcd3bd33fd"
+    },
+    {
+      "id": "nl-rotterdam-kinderdijk",
+      "sha256": "362956f430ccd4b7d177cb9b043f6d62dc0356455884282e319cde22fb6203cd"
+    },
+    {
+      "id": "nl-the-hague-scheveningen",
+      "sha256": "e7079c7a7ec0cc51c16dce047fb068c900b7ff29a0cae3af036e9c65e2d8aa47"
+    },
+    {
+      "id": "nl-utrecht",
+      "sha256": "33d17dc4db1580115c53177ba30e34f12b7d0278100cd799c1611b0562635996"
+    },
+    {
+      "id": "nl-delft",
+      "sha256": "d4183a7be3fe77a67342db68b5dc0adb6c204643c2317b64ea51fb4d5bcab999"
+    },
+    {
+      "id": "nl-haarlem-zaanse-schans",
+      "sha256": "16cfbdb0c53e05947790d46f2d2bef4dcf5a91ca91982cbc2ce07861a813619d"
+    },
+    {
+      "id": "nl-leiden-keukenhof",
+      "sha256": "0549debede98294102992e48cb87be43b5cc2a875d91343cbd661aa83adac3f0"
+    },
+    {
+      "id": "nl-maastricht",
+      "sha256": "79f97d14dcf7b69db4cfd30ee935c037b46e25db5d9240ab5c2c91e0c2497032"
+    },
+    {
+      "id": "nl-eindhoven",
+      "sha256": "8ea2bb491e09b6add1b4569e6b818e1e203d264fa91dc03ddd1eff7fb788722e"
+    },
+    {
+      "id": "nl-groningen",
+      "sha256": "b2234349e80069ff35991dc596d2f82a8998e6cabe6cbd78f90e5afd06f7ef28"
+    },
+    {
+      "id": "nl-giethoorn",
+      "sha256": "c354f1a75d776485c8827f402f9ed3df9bb69b5dbf3fc96a4135a803599686c2"
+    },
+    {
+      "id": "nl-texel-wadden-sea",
+      "sha256": "914c094b48876f70f061b0e00534381007a6fe73db278e222637cbad2513b85e"
+    },
+    {
+      "id": "be-brussels",
+      "sha256": "673dc33f4dd53be27b30e0aeaade17af2d6502d98b8ce6a1f0709ce196adb62e"
+    },
+    {
+      "id": "be-bruges",
+      "sha256": "7855ef57bb75de2c85cd2810b9edea7cdc3bd855f31f9761d54adf9d8845a34d"
+    },
+    {
+      "id": "be-ghent",
+      "sha256": "1df7e3d25d9456984427927323b4d840758e82dcf585bc9f497c0fb7032530ee"
+    },
+    {
+      "id": "be-antwerp",
+      "sha256": "9c0530bbafcbebbb02033a4bafd7d443f725c6cddfc784117b9e56f8dd2be95f"
+    },
+    {
+      "id": "be-leuven",
+      "sha256": "501b69dbbbd7bfa6d12dc8b8e52f64adedbc908b8a7900c36ef7d63699c2728d"
+    },
+    {
+      "id": "be-ypres",
+      "sha256": "c07af1d955df6e9c4d0a73b304c92b5956db54ae6a19604ce23a85e29bb75f1d"
+    },
+    {
+      "id": "be-ostend-belgian-coast",
+      "sha256": "49bddc223a63609c0491365df02bcae6d795b81b83afb2922644a3dfa94b0c56"
+    },
+    {
+      "id": "be-dinant-meuse-valley",
+      "sha256": "6dda97932452f04e3bb51d703a27f45dde4257647d0734e507843dfa0d01663f"
+    },
+    {
+      "id": "be-namur",
+      "sha256": "76783294799f1c358e5ca0495c13da7cc7d59bb00c61978bb7d60e10f29d082f"
+    },
+    {
+      "id": "be-liege",
+      "sha256": "10e87d73515e3c2780009f49077c509f2079936773f69238a2e1c07b9e31104f"
+    },
+    {
+      "id": "be-mons",
+      "sha256": "980dd98fb99203e9acbfb2a92d3b40659efcf6ad926e5f2093b97c838e5283aa"
+    },
+    {
+      "id": "be-belgian-ardennes-durbuy-la-roche",
+      "sha256": "52f214d946234d5ffe3f6671d74ba92129fda85ab7eb794b84ebe0eacb1fb555"
+    },
+    {
+      "id": "ch-zurich",
+      "sha256": "1173e988ceb16a37d3e06003b0bda2117ccbd5a5215b5655f9443415f5173e92"
+    },
+    {
+      "id": "ch-geneva",
+      "sha256": "9db47249360e7c02448e9bde99c50e83fb59baae0c4a23cfd757e9ccace29780"
+    },
+    {
+      "id": "ch-lucerne",
+      "sha256": "769c0c311cd6ffdc96e864642e57718b33c16cb17fdb5d16ed24c52c9628e4bc"
+    },
+    {
+      "id": "ch-bern",
+      "sha256": "039d37bf7202a56e7791be72e97da5e1ef4e2a0be09d119b19c7315d4d67fe02"
+    },
+    {
+      "id": "ch-basel",
+      "sha256": "122304900e64c42c383f030ded1aadc0cdd9f8a7ecbbd237825cf562c5253b92"
+    },
+    {
+      "id": "ch-lausanne-lavaux",
+      "sha256": "71e23736f26035166a8a4212be0779387ef411f0d00971ac0b80def8384b7d99"
+    },
+    {
+      "id": "ch-montreux-chillon",
+      "sha256": "a2b4236b082228b6c221bb5811fbccc08ae33b7d6e9278926f0dafaf0a52b380"
+    },
+    {
+      "id": "ch-interlaken-jungfrau",
+      "sha256": "fbbc5c25814e9d8e7ce6445b5dfb87c6304e017c7f75816ca8c51a43156c1861"
+    },
+    {
+      "id": "ch-zermatt-matterhorn",
+      "sha256": "d2b5c237efc824d774fd55f7d8215a07225fa8b8ff9865e2a077c9bd626e2502"
+    },
+    {
+      "id": "ch-st-moritz-engadin",
+      "sha256": "89c3968b32773eb27f89d95e4c645f6bb894cac27d35a6ff7eabaa6283982bb3"
+    },
+    {
+      "id": "ch-lugano",
+      "sha256": "03e16074ee505d9b1737e627cc7fdfd828adf57be48fb6919ff7d752529cf474"
+    },
+    {
+      "id": "ch-schaffhausen-rhine-falls",
+      "sha256": "791dbaac1d3653cca89a9de6bc40239e9c8dfd297fa6c38a74718d516838c89a"
+    },
+    {
+      "id": "at-vienna",
+      "sha256": "36792aea7cd2ededc0170c684531f8a500627b926f0fe52d0e7662c5a1fb0634"
+    },
+    {
+      "id": "at-salzburg",
+      "sha256": "2682ee6f7f141a19a6fe2ae935029f7d58ac2a2a924cc102176f44429956dbd1"
+    },
+    {
+      "id": "at-innsbruck",
+      "sha256": "6cda07914b3b601bc4f3046d0632daf6bfd2e542ea8900c02a322eb20b186af6"
+    },
+    {
+      "id": "at-graz",
+      "sha256": "013ec5adb96f42fba6df53cbbf024ec30256cd25b366e0ff97dad2733d4db4aa"
+    },
+    {
+      "id": "at-linz",
+      "sha256": "82d2f2f85a6be16de9dec92821db1f0289d187c2099f73bc4478853d13fbb82f"
+    },
+    {
+      "id": "at-klagenfurt",
+      "sha256": "03a66d9a7ed093f0ec2baba3dcff979047dbb595ebef0a6d9d12c864e10cafdb"
+    },
+    {
+      "id": "at-hallstatt",
+      "sha256": "a16112a69d7f175378e61dca0e6093d48eea7fedfae2465bf9820082e16c6c66"
+    },
+    {
+      "id": "at-wachau-valley",
+      "sha256": "074bae49dddab8c8eb99be6c3dbbd6ee093c7efe5fdf18d50938f208f8ad59d0"
+    },
+    {
+      "id": "at-zell-am-see",
+      "sha256": "8cb1be0b0bd028ad228981ba180dddd8f2ee59bdf252b77eceb7528c06163c11"
+    },
+    {
+      "id": "at-kitzbuehel",
+      "sha256": "f78fe4111398f4a049f44ab3d1250e9f50bf1d29dc1cb1c275e092e31312e148"
+    },
+    {
+      "id": "at-bregenz",
+      "sha256": "db0c1c38f468321ba35432acf5b5f77169ac45b3af38c11ae4698e94f7879bba"
+    },
+    {
+      "id": "at-bad-gastein",
+      "sha256": "26ade89fe34d54bbd55825765f51c069755a457c1bb241548104ba01bf835803"
+    },
+    {
+      "id": "cz-prague",
+      "sha256": "8166f52936be1d52cf83e1418c06739bf403deb0b00f72570913116d401f2808"
+    },
+    {
+      "id": "cz-brno",
+      "sha256": "c67f516778eeda5a7a783cce052c7cc7365c428ce51e63f43dc34def865d45be"
+    },
+    {
+      "id": "cz-cesky-krumlov",
+      "sha256": "2093f78bfaf604c1c889660e154e548cb9c76e9f399767fab8cc81fa175b1072"
+    },
+    {
+      "id": "cz-karlovy-vary",
+      "sha256": "a74c94c15a3018ded4c7d5d73afb23b85ab682a34e287959968498037b67146a"
+    },
+    {
+      "id": "cz-kutna-hora",
+      "sha256": "9468da51fc03fc64e87294f448bcd35d68c8b399bce527dc24d0abc77a76a12d"
+    },
+    {
+      "id": "cz-olomouc",
+      "sha256": "430fb421fa1a5e3e2d02d8810b793f61815dca7be167d10449b9534c738f7338"
+    },
+    {
+      "id": "cz-plzen",
+      "sha256": "e67d46d786e67f61175dafa79ba62178821443de50c4db462addfd62b1767f26"
+    },
+    {
+      "id": "cz-ceske-budejovice",
+      "sha256": "7d3168ef1b8cce5d845aecc6ba29e7e8a136252b7246203651baf66236d6bf10"
+    },
+    {
+      "id": "cz-telc",
+      "sha256": "adbc5a136658b5f2228a5b53542235e6d0bc0ad4c1e45688c278514832802881"
+    },
+    {
+      "id": "cz-mikulov-lednice",
+      "sha256": "245ebc0cf6ed395c8b197bbc1ed1ef3de6ab30b34a6689ad7123fe74fb3965ee"
+    },
+    {
+      "id": "cz-bohemian-switzerland",
+      "sha256": "f6780c10cd71a62ca0645c7696fb0f0982d368da9eb0ec46c9d84d6c964886fd"
+    },
+    {
+      "id": "cz-ostrava",
+      "sha256": "9a86c9109435aa75448b0e798c336e1fb24e9d0206c8f5d29d98b765f81d279b"
+    },
+    {
+      "id": "pl-warsaw",
+      "sha256": "a0271673d38c9253456007ae13905bdbf524a5b2c061d34451270efc41f66db2"
+    },
+    {
+      "id": "pl-krakow",
+      "sha256": "139f019034ab9b0015845de5901f050e9c4b46c0f23373b7add9140cac284cc5"
+    },
+    {
+      "id": "pl-gdansk-tricity",
+      "sha256": "49819ac5b23640f414ac513f24afa7a74d140ec6ec598f407a472e4a90191a8c"
+    },
+    {
+      "id": "pl-wroclaw",
+      "sha256": "f6c2001e23c24b1f78d2f37b7e72e21bb83bf3dfda12ec7d1b454fff36980601"
+    },
+    {
+      "id": "pl-poznan",
+      "sha256": "91f952b79e2867860e885f9d96e884522f8a387b3b6b7896338d74464e748c2e"
+    },
+    {
+      "id": "pl-torun",
+      "sha256": "1fefaf32539318bcb30133879c2cc28cd6a53c3c8f235bfb16654472f75f35f0"
+    },
+    {
+      "id": "pl-lublin",
+      "sha256": "42776fc36bb75bc4bedd7da8b17781da2728029e93d872a6142006530596948b"
+    },
+    {
+      "id": "pl-lodz",
+      "sha256": "51c39047f9b445d076ca13d5df9b635b4c1dc861d0d8df94ef105b12ef94562d"
+    },
+    {
+      "id": "pl-zakopane-tatras",
+      "sha256": "8ce6d56ff4b32b7a7321e56bb629e953d830f90bbeed5c9f6b3afd03edc6b8ce"
+    },
+    {
+      "id": "pl-masurian-lakes",
+      "sha256": "47d72df3e1e1c5e1f0ff0f78b0188b8277b57a977bd80060fbca088771898d39"
+    },
+    {
+      "id": "pl-szczecin",
+      "sha256": "8bb95e34800f8186a01e8403dfa56e540b4d48dfd8ede08b35a45aa1b5fb9489"
+    },
+    {
+      "id": "pl-bialowieza",
+      "sha256": "0b41524bc266e33da369dad4a27c5b77ee0f464a9172a8c95995aa04dc7e3eed"
+    },
+    {
+      "id": "hu-budapest",
+      "sha256": "8d3d4a674d7e37fc3cba59b3287fff1497b35e86680282bece38243ba89e8fcb"
+    },
+    {
+      "id": "hu-debrecen",
+      "sha256": "dce85cb7f794ad97d0b2d5874e3cc356f4da142841f3f4ea345d8c323aab8a2b"
+    },
+    {
+      "id": "hu-szeged",
+      "sha256": "7149c6e9e62cbd94398ae758b9336cc4eefcfcb1c61f35cbcc53f30793b5bc70"
+    },
+    {
+      "id": "hu-pecs",
+      "sha256": "4072c5c218925293ba5be18f4f224ccfee80bcee53573a6726e169279f223ea3"
+    },
+    {
+      "id": "hu-eger",
+      "sha256": "03673d7ae9694ba7c80bdd2ea43c248a3a37ae181526c06263746bd34d242282"
+    },
+    {
+      "id": "hu-gyor",
+      "sha256": "ec47a152449e195c13516e93025b962bc764e55cda46866c3903b82313070a24"
+    },
+    {
+      "id": "hu-sopron",
+      "sha256": "2b131f74812ed39d7b847e467efe68a4806fb27ce7c99bab6e03f6b9d634de0a"
+    },
+    {
+      "id": "hu-tihany",
+      "sha256": "518355a72a577216c4eb3fd7287157b5ce58cf58938b79cea4ab89e10c10e5f4"
+    },
+    {
+      "id": "hu-heviz",
+      "sha256": "7881479835845180f0fa0d7e3b590d68a9a6ced27ded8683f58c8871bef9b06b"
+    },
+    {
+      "id": "hu-tokaj",
+      "sha256": "5d34cd2e5786002fac28ec76502b81b55e273279c16536c606b66929ec76e649"
+    },
+    {
+      "id": "hu-szentendre",
+      "sha256": "0409dc8f3471f0ef6be276a983e7e422e5e21dc912b905a44bcef15b674ceb96"
+    },
+    {
+      "id": "hu-hortobagy",
+      "sha256": "54e2186baed986d7897faf29e3eac550818f0239f00153d970c51f1652c27fe8"
+    },
+    {
+      "id": "sk-bratislava",
+      "sha256": "993c2834bb506dbbebd30c5ce9c0af4d9800b797fd9a305a6697f59a945210e6"
+    },
+    {
+      "id": "sk-kosice",
+      "sha256": "0ed3b38c5a9e04b5042f1070fefda744d09c625961c61a707dc41085850545a5"
+    },
+    {
+      "id": "sk-poprad",
+      "sha256": "c377daee6ba0f8db59e93de5802c8b190450732116092b4bfafb882b5532587e"
+    },
+    {
+      "id": "sk-high-tatras",
+      "sha256": "913160cdaceb8c2045193f576d033119d34456fd4b8a4f6bd3a1ed4ec03e803b"
+    },
+    {
+      "id": "sk-levoca",
+      "sha256": "e2d1b36fd8eeb68db1384090f1387cf92729adb250104544b94c489c0ae0cc1c"
+    },
+    {
+      "id": "sk-spis-castle",
+      "sha256": "677062ebd0640a6fdf8c2d74b6af190d1e4e198450e94a91bcc06ab772cd3794"
+    },
+    {
+      "id": "sk-banska-stiavnica",
+      "sha256": "acd16b46aa273494141aeb80b8d542f30d075017c9c8ec139ba6bbf69bfbda84"
+    },
+    {
+      "id": "sk-banska-bystrica",
+      "sha256": "da4d411f3274480692a42835fb29ad202e6b24da5a7021cad7a79fe64b123d6b"
+    },
+    {
+      "id": "sk-nitra",
+      "sha256": "3d3305ee09ead7d91cb8b2acc6e6ad0ef02d3bf33e912bb63b25146a916b38f2"
+    },
+    {
+      "id": "sk-trencin",
+      "sha256": "d51487fbda0e29214587efa1a37cce84bafbb44790c4fec8ab09e63a5aced4b1"
+    },
+    {
+      "id": "sk-zilina",
+      "sha256": "1463ffa50bd037c50953d0b5bfe24412fcbd0ed849a0d3698bfc2da75dec08a5"
+    },
+    {
+      "id": "sk-slovak-paradise",
+      "sha256": "e5dc80b906c0ea99145570d0180fd4410f0c8a17d4f97e63bd220b7f708a68f2"
+    },
+    {
+      "id": "hr-zagreb",
+      "sha256": "2093689ad048275beb2a364662100cbe59ee92e0552f718949c699e857712783"
+    },
+    {
+      "id": "hr-dubrovnik",
+      "sha256": "28811102305f80e96c19970597a5639d6fb3264c51d82f76a111443cc205b4e0"
+    },
+    {
+      "id": "hr-split",
+      "sha256": "9eaadd0b69615227a84ab74d83f3ba2dd62124b9c70ffee868a4f872fc863142"
+    },
+    {
+      "id": "hr-zadar",
+      "sha256": "ebdc732c749afe2e7eea2be765acfcc7ff97f222767e6582837f974c81546a8f"
+    },
+    {
+      "id": "hr-pula",
+      "sha256": "6fb5118090e6c844bc41a4c181b60ea001d7c6140aba76cdf382fc4a1e7fc2c4"
+    },
+    {
+      "id": "hr-rijeka",
+      "sha256": "47dd126bdeb5cf800725483bb24ac53de5babf3485edf8adf760f3b2e8a6bf21"
+    },
+    {
+      "id": "hr-rovinj",
+      "sha256": "1bb55ca622b72ac905c28b085d9c215d09320a04ad0e228449e0187a0dabdc56"
+    },
+    {
+      "id": "hr-hvar",
+      "sha256": "ed655655be11cbcf45b2715a12490aa2f1407f253768bfe4bca85f97929208f2"
+    },
+    {
+      "id": "hr-korcula",
+      "sha256": "65a647c5290d9affa5fc2cf39525d2cac4836aceacc8383a114d9e1e82e227f7"
+    },
+    {
+      "id": "hr-sibenik",
+      "sha256": "e353817ff95b28d4878650202b0546d6c0d32f65e84b0b5500f1f5c11fe8886d"
+    },
+    {
+      "id": "hr-plitvice-lakes",
+      "sha256": "b10bde5242532ab75d23941b577de1da99a3692080501a3a953f399872f67d84"
+    },
+    {
+      "id": "hr-krka-national-park",
+      "sha256": "36349dbe5241cf69998a68d3ae530baa6cd1075f34a5dd42c413e62955fb5ab2"
+    }
+  ],
+  "featuredSha256": "121ad9dbc2409e5b72fc2faab5f346887a08331cda5520fe093e2873a634ad20"
+}
