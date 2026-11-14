@@ -4,7 +4,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/app/components/LanguageProvider";
 import {
-  DEFAULT_ORIGIN_CODE, MONTHLY_ORIGINS, ORIGIN_STORAGE_KEY, findMonthlyOrigin, formatTripRange,
+  CARDS_PER_BLOCK, DEFAULT_ORIGIN_CODE, MONTHLY_ORIGINS, ORIGIN_STORAGE_KEY, findMonthlyOrigin, formatTripRange,
   type MonthlyCard, type MonthlyOffersResponse,
 } from "@/lib/travelpayouts/monthly-shared";
 
@@ -45,15 +45,14 @@ function OfferCards({ cards, zone }: { cards: MonthlyCard[]; zone: "spain" | "in
       {cards.map((card) => {
         const text = card.texts[language] ?? card.texts.es;
         const profileUrl = `/?ficha=${encodeURIComponent(card.name)}`;
-        const flightsUrl = `/?primaveraServicio=vuelo&destino=${encodeURIComponent(card.name)}`;
         const stops = card.transfers === null ? "" : card.transfers === 0 ? t("monthly.direct")
           : card.transfers === 1 ? t("monthly.oneStop") : t("monthly.stops", { count: card.transfers });
         const details = [
-          card.departureAt && card.returnAt ? formatTripRange(card.departureAt, card.returnAt, language) : "",
-          card.nights ? t("monthly.nights", { count: card.nights }) : "",
+          formatTripRange(card.departureAt, card.returnAt, language),
+          t("monthly.nights", { count: card.nights }),
           stops,
         ].filter(Boolean).join(" · ");
-        const priceBlock = card.price !== null && (
+        const priceBlock = (
           <>
             <p className="text-xs font-semibold uppercase tracking-wide text-blue-800">{t("monthly.roundTripFrom")}</p>
             <p className="text-2xl font-black leading-tight text-stone-900">{currency.format(Math.ceil(card.price))}</p>
@@ -71,30 +70,20 @@ function OfferCards({ cards, zone }: { cards: MonthlyCard[]; zone: "spain" | "in
             <div className="flex flex-1 flex-col p-4">
               <h3 className="text-xl font-black leading-tight text-stone-900">{text.name}</h3>
               <p className="mt-1 text-sm text-stone-600">{text.country}</p>
-              {card.price !== null ? (
-                card.offerUrl ? (
-                  <a href={card.offerUrl} target="_blank" rel="noopener noreferrer sponsored" className="mt-3 flex items-end justify-between gap-2 rounded-xl bg-blue-50 px-3 py-2 hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
-                    <span className="min-w-0">{priceBlock}</span>
-                    <span className="shrink-0 pb-0.5 text-xs font-bold text-blue-700">{t("search.viewOffer")} →</span>
-                  </a>
-                ) : (
-                  <div className="mt-3 rounded-xl bg-blue-50 px-3 py-2">{priceBlock}</div>
-                )
+              {card.offerUrl ? (
+                <a href={card.offerUrl} target="_blank" rel="noopener noreferrer sponsored" className="mt-3 flex items-end justify-between gap-2 rounded-xl bg-blue-50 px-3 py-2 hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
+                  <span className="min-w-0">{priceBlock}</span>
+                  <span className="shrink-0 pb-0.5 text-xs font-bold text-blue-700">{t("search.viewOffer")} →</span>
+                </a>
               ) : (
-                <div className="mt-3 rounded-xl border border-dashed border-stone-300 px-3 py-2">
-                  <p className="text-sm font-semibold text-stone-600">{t("monthly.noPrice")}</p>
-                  <p className="text-xs text-stone-500">{t("monthly.noPriceHint")}</p>
-                </div>
+                <div className="mt-3 rounded-xl bg-blue-50 px-3 py-2">{priceBlock}</div>
               )}
-              {card.price !== null && <p className="mt-1 text-xs text-stone-500">{t("monthly.priceSeen")}</p>}
+              <p className="mt-1 text-xs text-stone-500">{t("monthly.priceSeen")}</p>
               <p className="mt-2 text-sm text-stone-700">{t("destinations.recommendedStay")}: {text.stay}</p>
               {card.credit && <a href={card.credit.source} target="_blank" rel="noopener noreferrer" className="mt-2 text-xs text-stone-600 underline">{card.credit.credit} · {card.credit.license}</a>}
               <div className="mt-auto grid gap-2 pt-4">
                 <Link href={profileUrl} className="flex min-h-[44px] items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-bold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
                   {t("monthly.viewDestination")}
-                </Link>
-                <Link href={flightsUrl} className="flex min-h-[44px] items-center justify-center rounded-xl border border-blue-600/50 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
-                  ✈️ {t("search.findFlights")}
                 </Link>
               </div>
             </div>
@@ -146,11 +135,12 @@ export default function MonthlyOffers({ month, monthName, children }: Props) {
   };
 
   const data = state.status === "ready" ? state.data : null;
-  const cards = data ? [...data.spain, ...data.international] : [];
-  const priced = cards.filter((card) => card.price !== null).length;
+  // Todas las tarjetas llevan un precio real: un destino sin precio no se muestra, y un bloque puede quedar más corto de 12.
+  const priced = data ? data.spain.length + data.international.length : 0;
+  const incomplete = data !== null && (data.spain.length < CARDS_PER_BLOCK || data.international.length < CARDS_PER_BLOCK);
   const note = state.status === "error" ? t("monthly.pricesUnavailable", { month: monthName })
     : data && priced === 0 ? t("monthly.noRecentPrices", { month: monthName })
-    : data && priced < cards.length ? t("monthly.fewPrices", { month: monthName })
+    : incomplete ? t("monthly.fewPrices", { month: monthName })
     : "";
 
   return (
@@ -180,12 +170,14 @@ export default function MonthlyOffers({ month, monthName, children }: Props) {
           <div className="mt-8">
             <h2 className="text-2xl font-black text-stone-900">{t("monthly.spainTitle")}</h2>
             <p className="mt-1 text-sm text-stone-600">{t("monthly.spainHint", { month: monthName })}</p>
-            <OfferCards cards={data.spain} zone="spain" />
+            {data.spain.length > 0 ? <OfferCards cards={data.spain} zone="spain" />
+              : <p className="mt-4 rounded-xl border border-dashed border-stone-300 px-4 py-3 text-sm text-stone-600">{t("monthly.noSpainPrices", { month: monthName })}</p>}
           </div>
           <div className="mt-12">
             <h2 className="text-2xl font-black text-stone-900">{t("monthly.internationalTitle")}</h2>
             <p className="mt-1 text-sm text-stone-600">{t("monthly.internationalHint", { month: monthName })}</p>
-            <OfferCards cards={data.international} zone="international" />
+            {data.international.length > 0 ? <OfferCards cards={data.international} zone="international" />
+              : <p className="mt-4 rounded-xl border border-dashed border-stone-300 px-4 py-3 text-sm text-stone-600">{t("monthly.noInternationalPrices", { month: monthName })}</p>}
           </div>
         </>
       )}

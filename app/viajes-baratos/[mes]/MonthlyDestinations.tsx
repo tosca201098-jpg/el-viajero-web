@@ -23,7 +23,6 @@ export default function MonthlyDestinations({ month, recommendations }: Props) {
         const display = getDestinationText(destination, language);
         const stay = display.recommendedStay.replace("días", t("monthly.days"));
         const profileUrl = `/?ficha=${encodeURIComponent(destination.name)}`;
-        const flightsUrl = `/?primaveraServicio=vuelo&destino=${encodeURIComponent(destination.name)}`;
         return (
           <article key={destination.id} className="flex min-w-0 flex-col overflow-hidden rounded-2xl border border-blue-600/20 bg-white/80 shadow-sm">
             <img src={destination.image} alt={`${display.name}, ${country}`} loading="lazy" className="h-40 w-full object-cover sm:h-44" />
@@ -39,9 +38,6 @@ export default function MonthlyDestinations({ month, recommendations }: Props) {
                 <Link href={profileUrl} className="flex min-h-[44px] items-center justify-center rounded-xl bg-blue-600 px-3 py-2 text-sm font-bold text-white hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
                   {t("monthly.viewDestination")}
                 </Link>
-                {(destination.countryCode !== "FR" || destination.iataCodes.length > 0) && <Link href={flightsUrl} className="flex min-h-[44px] items-center justify-center rounded-xl border border-blue-600/50 px-3 py-2 text-sm font-semibold text-blue-700 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
-                  ✈️ {t("search.findFlights")}
-                </Link>}
               </div>
             </div>
           </article>
