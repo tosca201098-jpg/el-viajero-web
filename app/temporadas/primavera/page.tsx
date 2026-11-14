@@ -346,7 +346,6 @@ const detallesPrimavera: Record<string, { lugares: [string, string, string, stri
 };
 
 export default function PrimaveraPage() {
-  const carouselRef = useRef<HTMLDivElement | null>(null);
   const activeCardRef = useRef<HTMLElement | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const [destinoSeleccionado, setDestinoSeleccionado] = useState<(typeof destinosPrimavera)[number] | null>(null);
@@ -399,30 +398,10 @@ export default function PrimaveraPage() {
     Lugares increíbles para visitar esta primavera
   </h1>
   <div className="relative mt-5 sm:mt-8 lg:mt-5">
-  <button
-    type="button"
-    aria-label="Ver más destinos de primavera"
-    aria-controls="primavera-carousel"
-    onClick={() => {
-      const carousel = carouselRef.current;
-      const card = carousel?.querySelector("article");
-      if (!carousel || !card) return;
-      carousel.scrollBy({
-        left: card.getBoundingClientRect().width + 8,
-        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-      });
-    }}
-    className="absolute right-0 top-1/2 z-10 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-cyan-800/20 bg-white/70 text-xl text-cyan-800 shadow-sm transition hover:bg-white sm:hidden"
-  >
-    <span aria-hidden="true">→</span>
-  </button>
   <div
-    ref={carouselRef}
-    id="primavera-carousel"
     role="region"
     aria-label="Destinos recomendados para primavera"
-    tabIndex={0}
-    className="grid max-w-full gap-3 max-sm:auto-cols-[44%] max-sm:grid-flow-col max-sm:gap-2 max-sm:overflow-x-auto max-sm:overscroll-x-contain max-sm:snap-x max-sm:snap-mandatory max-sm:pb-3 sm:grid-cols-2 lg:mx-auto lg:max-w-5xl lg:grid-cols-4"
+    className="grid max-w-full grid-cols-2 gap-3 max-sm:gap-2 lg:mx-auto lg:max-w-5xl lg:grid-cols-4"
   >
   {destinosPrimavera
     .filter((destino) => destinosPrimaveraSeleccionados.has(destino.nombre))
@@ -445,7 +424,7 @@ export default function PrimaveraPage() {
             setDestinoSeleccionado(destino);
           }
         }}
-        className="group min-w-0 cursor-pointer overflow-hidden rounded-[28px] border border-slate-200 bg-white text-slate-900 shadow-md transition duration-300 hover:-translate-y-2 hover:border-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 max-sm:snap-start max-sm:hover:translate-y-0"
+        className="group min-w-0 cursor-pointer overflow-hidden rounded-[28px] border border-slate-200 bg-white text-slate-900 shadow-md transition duration-300 hover:-translate-y-2 hover:border-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 max-sm:hover:translate-y-0"
       >
         <div className="relative h-72 overflow-hidden max-sm:h-[104px] lg:h-56">
           <img

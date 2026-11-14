@@ -12,9 +12,9 @@ const SEASONS = ['primavera', 'verano', 'otono', 'invierno'];
 // Con ellos se demuestra que el cambio de color NO toca nada más: al devolver estas clases a su valor
 // anterior, cada tarjeta y cada ventana vuelve a ser idéntica, carácter por carácter, a la de antes.
 const LIGHT_SEASON_CLASSES = [
-  // tarjeta de la lista
-  ["group min-w-0 cursor-pointer overflow-hidden rounded-[28px] border border-slate-200 bg-white text-slate-900 shadow-md transition duration-300 hover:-translate-y-2 hover:border-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 max-sm:snap-start max-sm:hover:translate-y-0",
-   "group min-w-0 cursor-pointer overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 max-sm:snap-start max-sm:hover:translate-y-0"],
+  // tarjeta de la lista (sin «max-sm:snap-start»: desde la PR de las 2 columnas ya no hay carrusel en móvil)
+  ["group min-w-0 cursor-pointer overflow-hidden rounded-[28px] border border-slate-200 bg-white text-slate-900 shadow-md transition duration-300 hover:-translate-y-2 hover:border-sky-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 max-sm:hover:translate-y-0",
+   "group min-w-0 cursor-pointer overflow-hidden rounded-[28px] border border-white/10 bg-white/[0.05] shadow-xl transition duration-300 hover:-translate-y-2 hover:border-cyan-300/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-cyan-500 max-sm:hover:translate-y-0"],
   // país en la tarjeta
   ["text-sm font-semibold text-cyan-200 max-sm:text-xs max-sm:leading-4",
    "text-sm font-semibold text-cyan-300 max-sm:text-xs max-sm:leading-4"],
