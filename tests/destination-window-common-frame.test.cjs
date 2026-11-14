@@ -7,6 +7,8 @@
 //    esas clases se devuelven a su valor anterior; ver tests/destination-window-light-cards.test.cjs.
 // 2. "Vuelo + hotel" NO se ofrece en la ficha: la función está aplazada y no debe presentarse como operativa.
 // 3. La bandera nunca se pone "por defecto".
+// PR #74: las huellas se recalcularon solo porque «Dónde viajar según la temporada» pasó de cuatro botones a
+// <SeasonCards />; sustituyendo ese bloque en la página de main, las 3.521 páginas quedan idénticas carácter por carácter.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');

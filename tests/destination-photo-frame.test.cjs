@@ -6,6 +6,9 @@ const helpers = require('./helpers/ficha-snapshots.cjs');
 const { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, loadFraming, snapshots } = helpers;
 
 const root = path.resolve(__dirname, '..');
+// PR #74: las huellas de este archivo se recalcularon porque «Dónde viajar según la temporada» pasó de cuatro botones
+// a <SeasonCards />. Se comprobó que, sustituyendo ese bloque en la página de main, las 3.521 páginas (portada y ventana
+// de cada ficha, en los siete idiomas) quedan idénticas carácter por carácter; no cambia nada más. Ver tests/season-cards.test.cjs.
 const baseline = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'ficha-baseline-before-photo-frame.json'), 'utf8'));
 const FRAME_CLASS = 'relative h-52 max-sm:h-[140px] sm:h-72';
 const text = n => n == null || n === false ? '' : Array.isArray(n) ? n.map(text).join(' ') : typeof n === 'object' ? text(n.children) : String(n);
