@@ -1,0 +1,44 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/monthly-prices?origin=MAD",
+      "schedule": "0 1 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-prices?origin=BCN",
+      "schedule": "0 2 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-prices?origin=VLC",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-prices?origin=SVQ",
+      "schedule": "0 4 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-prices?origin=AGP",
+      "schedule": "0 5 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-prices?origin=BIO",
+      "schedule": "0 6 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-prices?origin=PMI",
+      "schedule": "0 7 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-prices?origin=ALC",
+      "schedule": "0 8 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-prices?origin=TCI",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/cron/monthly-prices?origin=LPA",
+      "schedule": "0 10 * * *"
+    }
+  ]
+}

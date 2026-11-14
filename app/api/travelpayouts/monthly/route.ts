@@ -1,7 +1,9 @@
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-import { getMonthlyBlocks, isValidMonth } from '@/lib/travelpayouts/monthly';
+import { getSupabaseAdminClient } from '@/lib/supabase/admin';
+import { getMonthlyBlocks, isValidMonth, targetYear } from '@/lib/travelpayouts/monthly';
+import { readStoredOffers } from '@/lib/travelpayouts/monthly-store';
 import { DEFAULT_ORIGIN_CODE, findMonthlyOrigin, type MonthlyOffersResponse } from '@/lib/travelpayouts/monthly-shared';
 
 // Las respuestas buenas se guardan en la caché de Vercel unas horas: todas las personas que miran el mismo
@@ -23,7 +25,13 @@ export async function GET(request: Request) {
   if (!isValidMonth(month) || !origin) return errorResponse('invalid_search', 400);
 
   try {
-    const { year, counts, spain, international } = await getMonthlyBlocks({ token, origin, month });
+    // Precios reales guardados por la tarea diaria (últimos días). Si Supabase no está configurado o falla,
+    // la lista de precios vacía no cambia nada: la página funciona solo con los precios de hoy.
+    const now = new Date();
+    const stored = await readStoredOffers(getSupabaseAdminClient(), {
+      origin: origin.code, year: targetYear(month, now), month, now,
+    });
+    const { year, counts, spain, international } = await getMonthlyBlocks({ token, origin, month, now, stored });
     const body: MonthlyOffersResponse & { counts?: typeof counts } = {
       success: true, month, year, origin, generatedAt: new Date().toISOString(), spain, international,
     };

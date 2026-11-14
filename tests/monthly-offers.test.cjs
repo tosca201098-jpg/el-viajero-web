@@ -280,7 +280,9 @@ test('un fallo del proveedor se propaga: no se muestran precios a medias', async
 });
 
 function loadRoute(env, fetchImpl) {
-  const route = loader(root, {}, { process: { env }, fetch: fetchImpl, Response, AbortSignal })('app/api/travelpayouts/monthly/route.ts');
+  // Estas pruebas no usan Supabase: sin su configuración la ruta funciona solo con los precios de hoy.
+  const noSupabase = { '@supabase/supabase-js': { createClient: () => { throw new Error('Supabase no debe abrirse en esta prueba'); } } };
+  const route = loader(root, noSupabase, { process: { env }, fetch: fetchImpl, Response, AbortSignal })('app/api/travelpayouts/monthly/route.ts');
   return route;
 }
 const get = (route, query) => route.GET({ url: `https://destinauta.com/api/travelpayouts/monthly${query}` });
