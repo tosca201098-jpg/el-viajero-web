@@ -13,6 +13,7 @@ import { franceAirports, franceAirportTown } from '@/lib/travelpayouts/france-ai
 import { greeceAirports, greeceAirportTown } from '@/lib/travelpayouts/greece-airports';
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
 import HeaderAuth from "./components/HeaderAuth";
+import SeasonCards from "./components/SeasonCards";
 import LanguageSelector from "./components/LanguageSelector";
 import { croatiaAirports, croatiaAirportTown } from '@/lib/travelpayouts/croatia-airports';
 import DestinationProfileSummary from "./components/DestinationProfileSummary";
@@ -1365,35 +1366,7 @@ function abrirPaquete(destino = "") {
     </p>
   </div>
 
-  <div className="grid grid-cols-2 gap-2 lg:grid-cols-4">
-
-    <button
-  onClick={() => (window.location.href = "/temporadas/primavera")}
-  className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-blue-600/60 bg-white/[0.07] px-2.5 py-2.5 text-[15px] leading-5 font-bold backdrop-blur-xl sm:px-3 lg:transition-colors lg:hover:border-blue-600"
->
-      <span aria-hidden="true" className="text-xl leading-none">🌸</span> {t("season.spring")}
-    </button>
-
-    <button
-  onClick={() => (window.location.href = "/temporadas/verano")}
-  className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-blue-600/60 bg-white/[0.07] px-2.5 py-2.5 text-[15px] leading-5 font-bold backdrop-blur-xl sm:px-3 lg:transition-colors lg:hover:border-blue-600"
->
-      <span aria-hidden="true" className="text-xl leading-none">☀️</span> {t("season.summer")}
-    </button>
-    <button
-  onClick={() => (window.location.href = "/temporadas/otono")}
-  className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-blue-600/60 bg-white/[0.07] px-2.5 py-2.5 text-[15px] leading-5 font-bold backdrop-blur-xl sm:px-3 lg:transition-colors lg:hover:border-blue-600"
->
-  <span aria-hidden="true" className="text-xl leading-none">🍂</span> {t("season.autumn")}
-</button>
-
-<button
-  onClick={() => (window.location.href = "/temporadas/invierno")}
-  className="flex min-h-[44px] items-center justify-center gap-1.5 rounded-2xl border border-blue-600/60 bg-white/[0.07] px-2.5 py-2.5 text-[15px] leading-5 font-bold backdrop-blur-xl sm:px-3 lg:transition-colors lg:hover:border-blue-600"
->
-  <span aria-hidden="true" className="text-xl leading-none">❄️</span> {t("season.winter")}
-</button>
-  </div>
+  <SeasonCards />
 </section>
       <section className="relative z-10 mx-auto max-w-7xl px-6 pb-10 pt-4 sm:pb-12">
         <div className="mb-4">
