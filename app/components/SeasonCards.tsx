@@ -24,7 +24,7 @@ export default function SeasonCards() {
         <a
           key={season.slug}
           href={`/temporadas/${season.slug}`}
-          className="group relative flex min-h-[220px] min-w-0 flex-col justify-end overflow-hidden rounded-3xl bg-stone-800 p-4 text-white shadow-md transition duration-300 hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:min-h-[300px] sm:p-5"
+          className="group relative flex min-h-[220px] min-w-0 flex-col justify-end overflow-hidden rounded-3xl bg-stone-800 p-4 text-white shadow-md transition duration-300 [container-type:inline-size] hover:-translate-y-0.5 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:min-h-[300px] sm:p-5"
         >
           <img
             src={season.image}
@@ -37,7 +37,9 @@ export default function SeasonCards() {
           <span aria-hidden="true" className="absolute left-3 top-3 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-xl shadow sm:left-4 sm:top-4">
             {season.emoji}
           </span>
-          <span className="relative text-2xl font-black leading-tight drop-shadow sm:text-3xl">{t(season.name)}</span>
+          {/* En móvil el nombre se adapta al ancho de la tarjeta (18 % de su ancho, como máximo 24 px) para que ni «Primavera»
+              ni «Printemps» se corten en pantallas de 320 a 375 px; break-words evita que se corte aunque la pantalla sea aún más estrecha. */}
+          <span className="relative break-words text-[length:min(1.5rem,18cqw)] font-black leading-tight drop-shadow sm:text-3xl">{t(season.name)}</span>
           <span className="relative mt-1 text-sm leading-5 text-white/90 max-sm:hidden">{t(season.tagline)}</span>
           <span className="relative mt-3 inline-flex items-center gap-1 text-sm font-bold">
             {t("season.explore")} <span aria-hidden="true" className="transition group-hover:translate-x-1">→</span>

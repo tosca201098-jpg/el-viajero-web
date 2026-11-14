@@ -73,3 +73,30 @@ test('the home page uses the season cards and no longer has the four emoji butto
   assert.ok(source.includes('<SeasonCards />'));
   for (const season of SEASONS) assert.ok(!source.includes(`window.location.href = "/temporadas/${season}"`), season);
 });
+
+// Móvil: el nombre de la temporada se adapta al ancho de la tarjeta para no cortarse (medido en destinauta.com el
+// 14-11-2026: con 24 px fijos, «Primavera» y «Printemps» se cortaban a 360 y 375 px; ver la nota «Ajustes pendientes para móvil» del proyecto, punto M1).
+test('on mobile the season name scales with the width of its card and is never clipped', () => {
+  const { tree } = render('es');
+  const links = flatten(tree).filter(n => n.type === 'a');
+  assert.equal(links.length, 4);
+  for (const link of links) {
+    assert.ok(link.props.className.includes('[container-type:inline-size]'), `${link.props.href}: the card is the size container`);
+    const title = flatten(link).find(n => n.type === 'span' && String(n.props.className).includes('font-black'));
+    assert.ok(title, link.props.href);
+    for (const cls of ['text-[length:min(1.5rem,18cqw)]', 'break-words', 'sm:text-3xl']) assert.ok(title.props.className.split(' ').includes(cls), `${link.props.href}: ${cls}`);
+    assert.ok(!title.props.className.split(' ').includes('text-2xl'), 'no fixed 24 px size on mobile');
+  }
+});
+
+test('the 18% rule was calibrated for names of up to nine letters in the seven languages', () => {
+  // Con 24 px, el nombre más ancho (nueve letras: «Primavera», «Printemps») mide ~5,2 veces el tamaño de la letra,
+  // así que a 18 % del ancho de la tarjeta ocupa ~94 % de ella. Un nombre más largo obligaría a revisar el 18 %.
+  const dictionaries = loader(root)('lib/i18n/translations.ts');
+  for (const locale of LOCALES) {
+    for (const key of KEYS) {
+      const name = dictionaries.translate(locale, key);
+      assert.ok(name.length <= 9, `${locale} ${key}: «${name}» tiene ${name.length} letras`);
+    }
+  }
+});
