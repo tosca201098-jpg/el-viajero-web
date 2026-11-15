@@ -1,0 +1,32 @@
+{
+  "verified": "2026-11-15",
+  "note": "Fotos elegidas por el propietario para Ibiza (PR #8) y Milán (PR #13), reconstruidas sobre main. Ibiza: Wikimedia Commons, copia local en /public/images. Milán: Unsplash.",
+  "photos": [
+    {
+      "id": "es-ibiza",
+      "file": "public/images/ibiza-dalt-vila-roxfuchs.jpg",
+      "width": 1280,
+      "height": 720,
+      "bytes": 246841,
+      "framing": "center 25%",
+      "image": "/images/ibiza-dalt-vila-roxfuchs.jpg",
+      "imageSource": "https://commons.wikimedia.org/wiki/File:Dalt_Vila_20160421_111948.jpg",
+      "imageCredit": "RoxFuchs",
+      "imageLicense": "CC BY-SA 4.0",
+      "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+    },
+    {
+      "id": "it-milan",
+      "unsplashId": "pAbn-kRJfxw",
+      "cdn": "photo-1567760848351-64554cd104ca",
+      "author": "Fernando Meloni",
+      "placeOnUnsplash": "Milano, Milão, Itália",
+      "framing": "center 55%",
+      "image": "https://images.unsplash.com/photo-1567760848351-64554cd104ca?auto=format&fit=crop&w=1600&q=80",
+      "imageSource": "https://unsplash.com/photos/pAbn-kRJfxw",
+      "imageCredit": "Fernando Meloni",
+      "imageLicense": "Unsplash License",
+      "imageLicenseUrl": "https://unsplash.com/license"
+    }
+  ]
+}
