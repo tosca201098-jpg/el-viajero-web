@@ -7,7 +7,7 @@ const pages = [
   ...Object.entries({ primavera: 'esta primavera', verano: 'este verano', otono: 'este otoño', invierno: 'este invierno' }).map(([season, phrase]) => ({
     path: `/temporadas/${season}`, type: 'text/html', markers: ['<h1', `Lugares increíbles para visitar ${phrase}`, 'Ver detalles'],
   })),
-  ...months.map(month => ({ path: `/viajes-baratos/${month}`, type: 'text/html', markers: ['<h1', `Viajes recomendados para ${month}`, 'Ver destino', 'id="monthly-origin"'] })),
+  ...months.map(month => ({ path: `/viajes-baratos/${month}`, type: 'text/html', markers: ['<h1', `Viajes recomendados para ${month}`, 'Ver destino', 'id="monthly-origin"'], maxChars: 4000000 })), // 15-11-2026: pesan hasta 3 MB sin comprimir (unos 0,5 MB al descargarlas)
   { path: '/destinos/roma', type: 'text/html', markers: ['<h1', 'Roma', 'Estancia recomendada'] },
   { path: '/auth/reset-password', type: 'text/html', markers: ['Destinauta', 'contraseña'] },
   { path: '/sitemap.xml', type: 'xml', markers: ['<urlset', 'https://destinauta.com/viajes-baratos/'] },
@@ -52,7 +52,7 @@ async function probe(page, { baseUrl = 'https://destinauta.com', fetcher = fetch
       const contentType = response.headers.get('content-type') ?? '';
       if (!contentType.includes(page.type)) { reason = 'content-type'; await response.body?.cancel(); break; }
       const text = await response.text();
-      if (text.length > 2000000 || !page.markers.every(marker => text.toLowerCase().includes(marker.toLowerCase()))) {
+      if (text.length > (page.maxChars ?? 2000000) || !page.markers.every(marker => text.toLowerCase().includes(marker.toLowerCase()))) {
         reason = 'content'; break;
       }
       return { path: page.path, ok: true, status, attempts: attempt, ms: Date.now() - started };
