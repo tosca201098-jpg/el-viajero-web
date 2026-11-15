@@ -243,11 +243,11 @@ test('HeaderAuth: on mobile the four account buttons of the bar move into the li
   const source = read('app/components/HeaderAuth.tsx');
   assert.ok(source.includes('import MobileHeaderMenu from "./MobileHeaderMenu";'));
   assert.equal(source.split('<MobileHeaderMenu\n').length - 1, 1);
-  for (const wiring of ['ready={ready}', 'signedIn={!!session}', 'signingOut={signingOut}', 'error={error}', 'onSignUp={() => onOpenAuth("signup")}', 'onSignIn={() => onOpenAuth("signin")}', 'onAccount={() => setAccountOpen(true)}', 'onSignOut={signOut}']) {
+  for (const wiring of ['ready={ready}', 'signedIn={!!session}', 'signingOut={signingOut}', 'error={error}', 'onSignUp={() => onOpenAuth("signup")}', 'onSignIn={() => onOpenAuth("signin")}', 'onAccount={openAccount}', 'onSignOut={signOut}']) {
     assert.ok(source.includes(`        ${wiring}\n`), wiring);
   }
-  // «Mis viajes» e «Itinerarios» abren la ventana de la cuenta en su sección (la misma que sus pestañas).
-  assert.ok(source.includes('        onAccountSection={(section) => {\n          setAccountSection(section);\n          setAccountOpen(true);\n        }}\n'));
+  // «Mis viajes» e «Itinerarios» abren cada uno su propia ventana, con solo su lista (no la de «Mi cuenta»).
+  assert.ok(source.includes('        onAccountSection={openAccountSection}\n'));
   assert.ok(source.includes('onClick={() => setAccountSection("trips")}') && source.includes('onClick={() => setAccountSection("itineraries")}'), 'the window tabs are untouched');
   // Los dos botones azules (Mi cuenta y Crear cuenta) y los dos de texto (Cerrar sesión e Iniciar sesión) se esconden en el móvil…
   assert.equal(source.split('className={`${primaryButton} max-sm:hidden`}').length - 1, 2);
