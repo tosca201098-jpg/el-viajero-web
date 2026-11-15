@@ -4,10 +4,10 @@ const path = require('node:path');
 const months = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
 const pages = [
   { path: '/', type: 'text/html', markers: ['id="buscador-vuelos"', 'id="buscador-hoteles"', 'id="destinations-carousel"'] },
-  ...['primavera','verano','otono','invierno'].map(season => ({
-    path: `/temporadas/${season}`, type: 'text/html', markers: [`id="${season}-carousel"`, '<h1'],
+  ...Object.entries({ primavera: 'esta primavera', verano: 'este verano', otono: 'este otoño', invierno: 'este invierno' }).map(([season, phrase]) => ({
+    path: `/temporadas/${season}`, type: 'text/html', markers: ['<h1', `Lugares increíbles para visitar ${phrase}`, 'Ver detalles'],
   })),
-  ...months.map(month => ({ path: `/viajes-baratos/${month}`, type: 'text/html', markers: ['Viajes recomendados', 'Ver destino', 'Buscar vuelos'] })),
+  ...months.map(month => ({ path: `/viajes-baratos/${month}`, type: 'text/html', markers: ['<h1', `Viajes recomendados para ${month}`, 'Ver destino', 'id="monthly-origin"'] })),
   { path: '/destinos/roma', type: 'text/html', markers: ['<h1', 'Roma', 'Estancia recomendada'] },
   { path: '/auth/reset-password', type: 'text/html', markers: ['Destinauta', 'contraseña'] },
   { path: '/sitemap.xml', type: 'xml', markers: ['<urlset', 'https://destinauta.com/viajes-baratos/'] },

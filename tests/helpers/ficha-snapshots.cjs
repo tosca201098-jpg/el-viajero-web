@@ -6,7 +6,10 @@ const crypto = require('node:crypto');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
 
 const LOCALES = ['es', 'en', 'fr', 'de', 'it', 'pt', 'ca'];
-const compilerOptions = { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.React };
+// esModuleInterop se fija a propósito: TypeScript 5.2.2 (el de la web y el de GitHub) lo desactiva por defecto y
+// TypeScript 6 lo activa, y eso cambiaba el resultado de las huellas (los componentes de relleno salían como funciones
+// o como objetos {default: función}). Fijándolo, las huellas son iguales con cualquier versión de TypeScript.
+const compilerOptions = { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.React, esModuleInterop: true };
 
 function loader(root, mocks = {}, globals = {}) {
   const cache = new Map();
