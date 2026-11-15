@@ -6,10 +6,10 @@ import { useLanguage } from "./LanguageProvider";
 import { FlagIcon } from "./LanguageSelector";
 
 // Botón de la persona dibujada de la cabecera de la portada. Solo se ve en el móvil (menos de 640 px): ahí la cabecera lleva el
-// logotipo y este botón, que abre la lista con las opciones de la cuenta («Crear cuenta» e «Iniciar sesión»; o «Mi cuenta» y
-// «Cerrar sesión» si ya se ha entrado) y el cambio de idioma, para que la barra no vaya tan comprimida. Desde 640 px la
-// cabecera sigue como antes.
-export default function MobileHeaderMenu({ ready, signedIn, signingOut, error, onSignUp, onSignIn, onAccount, onSignOut }: {
+// logotipo y este botón, que abre la lista con las opciones de la cuenta («Crear cuenta» e «Iniciar sesión»; o «Mi cuenta»,
+// «Mis viajes», «Itinerarios» y «Cerrar sesión» si ya se ha entrado) y el cambio de idioma, para que la barra no vaya tan
+// comprimida. Desde 640 px la cabecera sigue como antes.
+export default function MobileHeaderMenu({ ready, signedIn, signingOut, error, onSignUp, onSignIn, onAccount, onAccountSection, onSignOut }: {
   ready: boolean;
   signedIn: boolean;
   signingOut: boolean;
@@ -17,6 +17,7 @@ export default function MobileHeaderMenu({ ready, signedIn, signingOut, error, o
   onSignUp: () => void;
   onSignIn: () => void;
   onAccount: () => void;
+  onAccountSection: (section: "trips" | "itineraries") => void;
   onSignOut: () => void;
 }) {
   const { language, setLanguage, t, text } = useLanguage();
@@ -59,6 +60,7 @@ export default function MobileHeaderMenu({ ready, signedIn, signingOut, error, o
   const itemClass = "flex min-h-[44px] w-full items-center justify-center rounded-xl px-3 text-sm font-semibold transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600";
   const solid = `${itemClass} bg-blue-600 text-white hover:bg-blue-700 focus-visible:ring-offset-2`;
   const outline = `${itemClass} border border-blue-200 bg-white/70 text-blue-700 hover:bg-white`;
+  const plain = `${itemClass} border border-stone-200 bg-white/70 text-stone-800 hover:bg-white`;
 
   return (
     <div
@@ -99,6 +101,12 @@ export default function MobileHeaderMenu({ ready, signedIn, signingOut, error, o
                 <>
                   <button type="button" onClick={() => choose(onAccount)} className={solid}>
                     {t("account.title")}
+                  </button>
+                  <button type="button" onClick={() => choose(() => onAccountSection("trips"))} className={plain}>
+                    {t("trips.title")}
+                  </button>
+                  <button type="button" onClick={() => choose(() => onAccountSection("itineraries"))} className={plain}>
+                    {t("savedItineraries.title")}
                   </button>
                   <button type="button" onClick={onSignOut} disabled={signingOut} className={`${outline} disabled:opacity-60`}>
                     {signingOut ? t("auth.signingOut") : t("auth.signout")}

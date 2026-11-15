@@ -1,5 +1,5 @@
 // Cabecera de la portada en el móvil: botón con una persona dibujada que abre una lista con «Crear cuenta» e «Iniciar sesión»
-// (o «Mi cuenta» y «Cerrar sesión» si ya se ha entrado) y el cambio de idioma. Desde 640 px (tableta y escritorio) la cabecera
+// (o «Mi cuenta», «Mis viajes», «Itinerarios» y «Cerrar sesión» si ya se ha entrado) y el cambio de idioma. Desde 640 px (tableta y escritorio) la cabecera
 // no cambia: el botón no se ve y los botones y el selector de idioma siguen donde estaban.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -28,7 +28,7 @@ function createMenu(locale, props) {
     useEffect: () => {},
     useId: () => ':r0:',
   };
-  const calls = { setLanguage: [], signUp: 0, signIn: 0, account: 0, signOut: 0 };
+  const calls = { setLanguage: [], signUp: 0, signIn: 0, account: 0, signOut: 0, sections: [] };
   const language = { value: locale };
   const languageModule = {
     useLanguage: () => ({
@@ -43,7 +43,7 @@ function createMenu(locale, props) {
   const Menu = load('app/components/MobileHeaderMenu.tsx').default;
   const merged = {
     ready: true, signedIn: false, signingOut: false, error: '',
-    onSignUp: () => { calls.signUp++; }, onSignIn: () => { calls.signIn++; }, onAccount: () => { calls.account++; }, onSignOut: () => { calls.signOut++; },
+    onSignUp: () => { calls.signUp++; }, onSignIn: () => { calls.signIn++; }, onAccount: () => { calls.account++; }, onAccountSection: section => { calls.sections.push(section); }, onSignOut: () => { calls.signOut++; },
     ...props,
   };
   const render = () => { counter.index = 0; return Menu(merged); };
@@ -57,6 +57,7 @@ const languageButtons = tree => buttons(tree).filter(n => n.props.lang);
 const actions = tree => buttons(tree).filter(n => !n.props.lang);
 const primary = tree => actions(tree)[0];
 const secondary = tree => actions(tree)[1];
+const last = tree => actions(tree).at(-1);
 
 test('the button text exists in the seven languages', () => {
   const expected = { es: 'Cuenta e idioma', en: 'Account and language', fr: 'Compte et langue', de: 'Konto und Sprache', it: 'Account e lingua', pt: 'Conta e idioma', ca: 'Compte i idioma' };
@@ -109,13 +110,13 @@ test('choosing a language changes it and closes the list; every language can be 
   }
 });
 
-const countCalls = menu => ({ signUp: menu.calls.signUp, signIn: menu.calls.signIn, account: menu.calls.account, signOut: menu.calls.signOut, languages: menu.calls.setLanguage.length });
+const countCalls = menu => ({ signUp: menu.calls.signUp, signIn: menu.calls.signIn, account: menu.calls.account, signOut: menu.calls.signOut, languages: menu.calls.setLanguage.length, sections: menu.calls.sections.length });
 
 test('«Crear cuenta» opens the sign-up window and closes the list; nothing else is called', () => {
   const menu = createMenu('es');
   trigger(menu.render()).props.onClick();
   primary(menu.render()).props.onClick();
-  assert.deepEqual(countCalls(menu), { signUp: 1, signIn: 0, account: 0, signOut: 0, languages: 0 });
+  assert.deepEqual(countCalls(menu), { signUp: 1, signIn: 0, account: 0, signOut: 0, languages: 0, sections: 0 });
   assert.equal(panel(menu.render()), undefined);
 });
 
@@ -126,23 +127,48 @@ test('«Iniciar sesión» is inside the list, opens the sign-in window and close
     const tree = menu.render();
     assert.equal(text(secondary(tree)), translations.translate(locale, 'auth.signin'), locale);
     secondary(tree).props.onClick();
-    assert.deepEqual(countCalls(menu), { signUp: 0, signIn: 1, account: 0, signOut: 0, languages: 0 }, locale);
+    assert.deepEqual(countCalls(menu), { signUp: 0, signIn: 1, account: 0, signOut: 0, languages: 0, sections: 0 }, locale);
     assert.equal(panel(menu.render()), undefined, 'closes');
   }
 });
 
-test('signed in: «Mi cuenta» opens the account window and «Cerrar sesión» signs out, both from the list', () => {
+test('signed in: «Mi cuenta», «Mis viajes», «Itinerarios» and «Cerrar sesión», in that order, from the list', () => {
   for (const locale of LOCALES) {
     const menu = createMenu(locale, { signedIn: true });
     trigger(menu.render()).props.onClick();
     const tree = menu.render();
-    assert.deepEqual(actions(tree).map(b => text(b)), [translations.translate(locale, 'account.title'), translations.translate(locale, 'auth.signout')], locale);
+    assert.deepEqual(actions(tree).map(b => text(b)), ['account.title', 'trips.title', 'savedItineraries.title', 'auth.signout'].map(key => translations.translate(locale, key)), locale);
     assert.ok(!text(panel(tree)).includes(translations.translate(locale, 'auth.signin')), 'no «Iniciar sesión» when signed in');
     assert.ok(!text(panel(tree)).includes(translations.translate(locale, 'auth.signup')), 'no «Crear cuenta» when signed in');
     for (const button of actions(tree)) assert.ok(String(button.props.className).includes('min-h-[44px]'), text(button));
     primary(tree).props.onClick();
-    assert.deepEqual(countCalls(menu), { signUp: 0, signIn: 0, account: 1, signOut: 0, languages: 0 }, locale);
+    assert.deepEqual(countCalls(menu), { signUp: 0, signIn: 0, account: 1, signOut: 0, languages: 0, sections: 0 }, locale);
     assert.equal(panel(menu.render()), undefined);
+  }
+});
+
+test('signed in: «Mis viajes» and «Itinerarios» open the account window on their own section and close the list', () => {
+  for (const [index, section] of [[1, 'trips'], [2, 'itineraries']]) {
+    for (const locale of LOCALES) {
+      const menu = createMenu(locale, { signedIn: true });
+      trigger(menu.render()).props.onClick();
+      const button = actions(menu.render())[index];
+      assert.equal(text(button), translations.translate(locale, section === 'trips' ? 'trips.title' : 'savedItineraries.title'), `${locale} ${section}`);
+      button.props.onClick();
+      assert.deepEqual(menu.calls.sections, [section], `${locale} ${section}`);
+      assert.deepEqual(countCalls(menu), { signUp: 0, signIn: 0, account: 0, signOut: 0, languages: 0, sections: 1 }, `${locale} ${section}`);
+      assert.equal(panel(menu.render()), undefined, 'closes');
+    }
+  }
+});
+
+test('signed out: «Mis viajes» and «Itinerarios» are not offered', () => {
+  for (const locale of LOCALES) {
+    const menu = createMenu(locale);
+    trigger(menu.render()).props.onClick();
+    const content = text(panel(menu.render()));
+    assert.ok(!content.includes(translations.translate(locale, 'trips.title')), locale);
+    assert.ok(!content.includes(translations.translate(locale, 'savedItineraries.title')), locale);
   }
 });
 
@@ -150,15 +176,15 @@ test('«Cerrar sesión» signs out without closing the list; it shows «Cerrando
   for (const locale of LOCALES) {
     const menu = createMenu(locale, { signedIn: true });
     trigger(menu.render()).props.onClick();
-    secondary(menu.render()).props.onClick();
-    assert.deepEqual(countCalls(menu), { signUp: 0, signIn: 0, account: 0, signOut: 1, languages: 0 }, locale);
+    last(menu.render()).props.onClick();
+    assert.deepEqual(countCalls(menu), { signUp: 0, signIn: 0, account: 0, signOut: 1, languages: 0, sections: 0 }, locale);
     assert.ok(panel(menu.render()), 'stays open until the session changes');
-    assert.equal(secondary(menu.render()).props.disabled, false);
+    assert.equal(last(menu.render()).props.disabled, false);
     // Mientras se cierra la sesión: texto de «cerrando» y botón desactivado.
     const working = createMenu(locale, { signedIn: true, signingOut: true });
     trigger(working.render()).props.onClick();
-    assert.equal(text(secondary(working.render())), translations.translate(locale, 'auth.signingOut'), locale);
-    assert.equal(secondary(working.render()).props.disabled, true);
+    assert.equal(text(last(working.render())), translations.translate(locale, 'auth.signingOut'), locale);
+    assert.equal(last(working.render()).props.disabled, true);
     // Si falla: el aviso se ve dentro de la lista.
     const failed = createMenu(locale, { signedIn: true, error: 'No se ha podido cerrar sesión. Inténtalo de nuevo.' });
     trigger(failed.render()).props.onClick();
@@ -220,6 +246,9 @@ test('HeaderAuth: on mobile the four account buttons of the bar move into the li
   for (const wiring of ['ready={ready}', 'signedIn={!!session}', 'signingOut={signingOut}', 'error={error}', 'onSignUp={() => onOpenAuth("signup")}', 'onSignIn={() => onOpenAuth("signin")}', 'onAccount={() => setAccountOpen(true)}', 'onSignOut={signOut}']) {
     assert.ok(source.includes(`        ${wiring}\n`), wiring);
   }
+  // «Mis viajes» e «Itinerarios» abren la ventana de la cuenta en su sección (la misma que sus pestañas).
+  assert.ok(source.includes('        onAccountSection={(section) => {\n          setAccountSection(section);\n          setAccountOpen(true);\n        }}\n'));
+  assert.ok(source.includes('onClick={() => setAccountSection("trips")}') && source.includes('onClick={() => setAccountSection("itineraries")}'), 'the window tabs are untouched');
   // Los dos botones azules (Mi cuenta y Crear cuenta) y los dos de texto (Cerrar sesión e Iniciar sesión) se esconden en el móvil…
   assert.equal(source.split('className={`${primaryButton} max-sm:hidden`}').length - 1, 2);
   assert.equal(source.split('className={primaryButton}').length - 1, 0, 'no blue header button is left visible on mobile');
