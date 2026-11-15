@@ -1012,13 +1012,13 @@ function abrirPaquete(destino = "") {
               window.scrollTo({ top: 0, behavior: "smooth" })
             }
             aria-label="DESTINAUTA"
-            className="shrink-0 whitespace-nowrap text-xl font-black tracking-tight text-black max-sm:text-sm"
+            className="shrink-0 whitespace-nowrap text-xl font-black tracking-tight text-black max-sm:min-h-[44px] max-sm:text-sm"
           >
            DEST<span className="text-blue-500">I<span className="text-black">N</span>A</span>UTA
           </button>
           <div className="flex min-w-0 items-center gap-1 sm:gap-3 max-sm:gap-0.5">
             <HeaderAuth onOpenAuth={setAuthMode} />
-            <div className="relative z-10 shrink-0 rounded-full bg-white/80 ring-1 ring-blue-600/50 shadow-sm">
+            <div className="relative z-10 shrink-0 rounded-full bg-white/80 ring-1 ring-blue-600/50 shadow-sm max-sm:hidden">
               <LanguageSelector />
             </div>
           </div>
