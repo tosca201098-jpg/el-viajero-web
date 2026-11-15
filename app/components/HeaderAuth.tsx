@@ -56,6 +56,12 @@ export default function HeaderAuth({ onOpenAuth }: {
     };
   }, [accountOpen]);
 
+  // Abre la ventana de la cuenta directamente en «Mis viajes» o en «Itinerarios» (las mismas pestañas de la ventana).
+  function openAccountSection(section: "trips" | "itineraries") {
+    setAccountSection(section);
+    setAccountOpen(true);
+  }
+
   async function signOut() {
     if (signingOutRef.current) return;
     signingOutRef.current = true;
@@ -85,6 +91,14 @@ export default function HeaderAuth({ onOpenAuth }: {
         <>
           <button type="button" onClick={() => setAccountOpen(true)} className={`${primaryButton} max-sm:hidden`}>
             {t("account.title")}
+          </button>
+          {/* Desde 768 px (tableta en vertical y ordenador) caben en la barra, entre «Mi cuenta» y «Cerrar sesión», en los 7 idiomas
+              (el catalán, el más ancho, necesita 760 px). Por debajo de 768 px no se muestran en la barra. */}
+          <button type="button" onClick={() => openAccountSection("trips")} className={`${secondaryButton} max-md:hidden`}>
+            {t("trips.title")}
+          </button>
+          <button type="button" onClick={() => openAccountSection("itineraries")} className={`${secondaryButton} max-md:hidden`}>
+            {t("savedItineraries.title")}
           </button>
           <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} disabled:opacity-60 max-sm:hidden`}>
             {signingOut ? t("auth.signingOut") : t("auth.signout")}
