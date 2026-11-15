@@ -116,7 +116,8 @@ export class VoiceSession {
               if (args) result = await this.options.onSearch(args, context) ?? { status: 'success' };
             } else if (name === 'crear_itinerario' && p && typeof p.destino === 'string' && p.destino.trim() &&
               p.destino.length <= 100 && Number.isInteger(p.dias) && Number(p.dias) >= 1 && Number(p.dias) <= 7) {
-              result = await this.options.onItinerary?.({ destino: p.destino.trim(), dias: Number(p.dias) }, context)
+              result = await this.options.onItinerary?.({ destino: p.destino.trim(), dias: Number(p.dias),
+                ...(typeof p.itinerario === 'string' ? { itinerario: p.itinerario } : {}) }, context)
                 ?? { status: 'error', error: 'unavailable' };
             } else if (name === 'consultar_catalogo') {
               result = queryVoiceCatalog(p?.consulta, locale);

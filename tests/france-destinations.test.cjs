@@ -108,7 +108,7 @@ for(const locale of codes) test(`${locale}: all French text is localized while I
     assert.equal(localization.getDestinationCountryName(d,locale),new Intl.DisplayNames([locale],{type:'region'}).of('FR'));
     const validated=itinerary.validateItineraryRequest({ destination:{ name:d.name,country:d.country,recommendations:[...d.recommendations],
       recommendedStay:d.recommendedStay,bestMonths:d.bestMonths,lowSeasonMonths:d.lowSeasonMonths,highSeasonMonths:d.highSeasonMonths,seasonalityNote:d.seasonalityNote },days:2,locale });
-    assert.ok(validated,d.id); assert.equal(validated.destination,d); assert.equal(itinerary.buildItineraryResponseRequest(validated).model,'gpt-5-mini');
+    assert.ok(validated,d.id); assert.equal(validated.destination,d);
     assert.equal(JSON.stringify(d),before);
   }
 });

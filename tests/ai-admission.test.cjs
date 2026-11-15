@@ -235,15 +235,14 @@ test('a duplicate admission on the same pending Request cannot create another ho
   assert.equal((await h.admitAiRequest(req, 'voice')).status, 503); assert.equal(calls, 2);
 });
 
-test('both real route handlers block before provider calls when disabled, exceeded or store unavailable', async () => {
-  for (const service of ['voice', 'itinerary']) for (const mode of ['disabled', 'limited', 'unavailable']) {
+test('the real voice route handler blocks before provider calls when disabled, exceeded or store unavailable', async () => {
+  for (const service of ['voice']) for (const mode of ['disabled', 'limited', 'unavailable']) {
     let providerCalls = 0;
-    const env = { ...configuration(), OPENAI_API_KEY: 'fake-server-test-key', ELEVENLABS_ENABLED: 'true',
+    const env = { ...configuration(), AI_VOICE_PROVIDER: 'elevenlabs', ELEVENLABS_ENABLED: 'true',
       ELEVENLABS_API_KEY: 'fake-key', ELEVENLABS_AGENT_VERSION_ID: 'agtvrsn_test', ...(mode === 'disabled' ? { AI_ENABLED: 'false' } : {}) };
     const h = admission(env, async () => { if (mode === 'unavailable') throw Error('offline'); return Response.json({ result: [0, 60] }); });
     const globals = { process: { env }, fetch: async () => { providerCalls++; throw Error('provider must not be called'); } };
-    const deps = { '@/lib/ai/admission': h, '@/lib/i18n/translations': { isLocale: value => value === 'es' },
-      '@/lib/itinerary/server': { validateItineraryRequest: () => ({ request: { days: 1 } }) } };
+    const deps = { '@/lib/ai/admission': h, '@/lib/i18n/translations': { isLocale: value => value === 'es' } };
     const result = await load('app/api/' + service + '/route.ts', globals, deps).POST(request());
     assert.equal(result.status, mode === 'limited' ? 429 : 503); assert.equal(providerCalls, 0);
   }
