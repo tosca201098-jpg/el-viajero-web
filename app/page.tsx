@@ -1012,7 +1012,7 @@ function abrirPaquete(destino = "") {
               window.scrollTo({ top: 0, behavior: "smooth" })
             }
             aria-label="DESTINAUTA"
-            className="shrink-0 whitespace-nowrap text-xl font-black tracking-tight text-black max-sm:text-sm"
+            className="shrink-0 whitespace-nowrap text-xl font-black tracking-tight text-black max-sm:min-h-[44px] max-sm:text-sm"
           >
            DEST<span className="text-blue-500">I<span className="text-black">N</span>A</span>UTA
           </button>
