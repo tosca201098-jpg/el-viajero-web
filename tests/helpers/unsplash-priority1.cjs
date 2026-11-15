@@ -1,9 +1,11 @@
-// Fotos de Unsplash elegidas por el propietario (prioridad 1: 29 fichas; prioridad 2: 28 fichas): esas fichas del catálogo ya
+// Fotos de Unsplash elegidas por el propietario (prioridad 1: 29 fichas; prioridad 2: 28 fichas; Milán): esas fichas del catálogo ya
 // no usan una foto de Wikimedia Commons. Las pruebas antiguas que exigían "foto de Commons" llaman a `checked(perfil)`: si la
 // ficha es una de ellas, se comprueba su foto de Unsplash (dirección, página de origen, autor y licencia) en lugar de la de
 // Commons y devuelve true para que la prueba salte la parte de Commons; en las demás fichas devuelve false y todo sigue igual.
 const assert = require('node:assert/strict');
-const photos = [require('../fixtures/unsplash-priority1.json'), require('../fixtures/unsplash-priority2.json')];
+// Milán (PR de fotos de Ibiza y Milán, 15-11-2026) también usa ya una foto de Unsplash; Ibiza sigue en Wikimedia Commons (copia local).
+const ibizaMilan = require('../fixtures/ibiza-milan-photos.json');
+const photos = [require('../fixtures/unsplash-priority1.json'), require('../fixtures/unsplash-priority2.json'), { catalog: ibizaMilan.photos.filter(photo => photo.unsplashId) }];
 
 const byId = new Map(photos.flatMap(group => group.catalog).map(photo => [photo.id, photo]));
 

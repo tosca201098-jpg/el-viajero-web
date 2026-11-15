@@ -1,0 +1,75 @@
+{
+  "note": "Estado de es-ibiza e it-milan en main (ecf11a5) antes de cambiar su foto: foto anterior, huella del resto de campos (sin las cinco claves de foto) y orden de los campos.",
+  "profiles": {
+    "es-ibiza": {
+      "photo": {
+        "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Eivissa_-_Dalt_Vila_from_Airplane.jpg/960px-Eivissa_-_Dalt_Vila_from_Airplane.jpg",
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Eivissa_-_Dalt_Vila_from_Airplane.jpg",
+        "imageCredit": "UnFUG-Fabi",
+        "imageLicense": "CC BY-SA 4.0",
+        "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/4.0"
+      },
+      "restSha256": "9d5d609dc13690cf74d5fb3ba489b0d3a9feef931017bbdc51f8f1b6fec0b58d",
+      "fields": [
+        "id",
+        "slug",
+        "countryCode",
+        "airports",
+        "metropolitanCodes",
+        "name",
+        "country",
+        "iataCodes",
+        "image",
+        "description",
+        "recommendations",
+        "recommendedStay",
+        "bestMonths",
+        "lowSeasonMonths",
+        "highSeasonMonths",
+        "aliases",
+        "imageSource",
+        "imageCredit",
+        "imageLicense",
+        "imageLicenseUrl"
+      ],
+      "imagePosition": null
+    },
+    "it-milan": {
+      "photo": {
+        "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fe/Milano_-_il_Duomo_lato_Galleria_Vittorio_Emanuele_II_-_panoramio.jpg/960px-Milano_-_il_Duomo_lato_Galleria_Vittorio_Emanuele_II_-_panoramio.jpg",
+        "imageSource": "https://commons.wikimedia.org/wiki/File:Milano_-_il_Duomo_lato_Galleria_Vittorio_Emanuele_II_-_panoramio.jpg",
+        "imageCredit": "Andrea Albini",
+        "imageLicense": "CC BY-SA 3.0",
+        "imageLicenseUrl": "https://creativecommons.org/licenses/by-sa/3.0"
+      },
+      "restSha256": "c8b544fc57038ca0d50a466c08a2c3a075a3836656a62f45247fbc4e171d59c8",
+      "fields": [
+        "id",
+        "slug",
+        "countryCode",
+        "country",
+        "image",
+        "imageSource",
+        "imageCredit",
+        "imageLicense",
+        "imageLicenseUrl",
+        "name",
+        "description",
+        "recommendations",
+        "recommendedStay",
+        "seasonalityNote",
+        "translations",
+        "airports",
+        "metropolitanCodes",
+        "iataCodes",
+        "accessAirports",
+        "aliases",
+        "bestMonths",
+        "lowSeasonMonths",
+        "highSeasonMonths",
+        "publication"
+      ],
+      "imagePosition": null
+    }
+  }
+}
