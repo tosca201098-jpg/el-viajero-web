@@ -5,7 +5,7 @@ Objetivo: que las tarjetas de cada mes enseñen siempre los mejores precios **ac
 ## Qué pasa cuando alguien abre un mes (por ejemplo, noviembre)
 1. La API `/api/travelpayouts/monthly` pregunta a Travelpayouts por los precios de ese mes y aeropuerto. Esta respuesta se guarda 2 horas en la caché de Vercel; pasado ese tiempo se vuelve a preguntar. Por eso, si hoy Madrid está barato y mañana caro, mañana la tarjeta enseña el precio nuevo.
 2. Travelpayouts solo recuerda los precios que otras personas buscaron en las **últimas 48 horas**. Si un destino no apareció, antes se quedaba sin tarjeta.
-3. Ahora, para esos destinos, la API usa el **último precio guardado de los últimos 3 días** (con la misma etiqueta «Precio visto hace unos días. Puede cambiar.»). **El precio de hoy siempre manda**: un precio guardado nunca sustituye a uno de hoy.
+3. Ahora, para esos destinos, la API usa el **último precio guardado de los últimos 7 días** (con la misma etiqueta «Precio visto hace unos días. Puede cambiar.»). **El precio de hoy siempre manda**: un precio guardado nunca sustituye a uno de hoy.
 
 ## La tarea diaria
 - Vercel ejecuta una vez al día, y para cada aeropuerto de salida, `/api/cron/monthly-prices?origin=XXX` (10 tareas en `vercel.json`, una por aeropuerto, entre la 01:00 y las 10:00 UTC; en el plan Hobby la hora exacta varía hasta 59 minutos).

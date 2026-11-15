@@ -15,10 +15,11 @@ import { isRecord, offerUrl } from '@/lib/travelpayouts/places';
 export const PRICES_TABLE = 'monthly_prices';
 /**
  * Un precio guardado solo se enseña si se vio hace como máximo estos días, y solo para los destinos que hoy no
- * devuelve el proveedor. El proveedor recuerda las últimas 48 h: con 3 días se cubre un día sin tarea y se
- * mantienen precios «actuales».
+ * devuelve el proveedor. El proveedor recuerda las últimas 48 h: con 7 días se cubren varios días sin que nadie
+ * busque esa ruta y salen más tarjetas, a cambio de enseñar precios de hasta una semana (la tarjeta avisa de
+ * que el precio puede cambiar). Antes eran 3 días; se subió a 7 por decisión del propietario (15-11-2026).
  */
-export const MAX_AGE_DAYS = 3;
+export const MAX_AGE_DAYS = 7;
 /** Las filas más viejas que esto se borran en la tarea diaria. */
 export const PURGE_AFTER_DAYS = 30;
 

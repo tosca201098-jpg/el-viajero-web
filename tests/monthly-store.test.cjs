@@ -79,8 +79,8 @@ const offer = (id, price, extra = {}) => ({
 });
 const read = (client, extra = {}) => store.readStoredOffers(client, { origin: 'MAD', year: YEAR, month: 1, now: NOW, ...extra });
 
-test('constantes: un precio guardado vale 3 días y se borra a los 30', () => {
-  assert.equal(store.MAX_AGE_DAYS, 3);
+test('constantes: un precio guardado vale 7 días y se borra a los 30', () => {
+  assert.equal(store.MAX_AGE_DAYS, 7);
   assert.equal(store.PURGE_AFTER_DAYS, 30);
   assert.equal(store.PRICES_TABLE, 'monthly_prices');
 });
@@ -89,20 +89,21 @@ test('lectura: solo precios recientes, del aeropuerto y mes pedidos, con la fech
   const { client, state } = fakeSupabase([
     row('pt-lisboa', 46),
     row('es-palma-de-mallorca', 36, { departure_at: `${YEAR}-01-01`, return_at: `${YEAR}-01-06`, nights: 5 }),
-    row('fr-paris', 70, { seen_at: '2026-11-09T08:00:00.000Z' }), // visto hace más de 3 días
+    row('fr-paris', 70, { seen_at: '2026-11-05T08:00:00.000Z' }), // visto hace más de 7 días
     row('de-berlin', 61, { seen_at: '2026-11-11T08:00:00.000Z' }), // visto hace 2 días: vale
+    row('pt-porto', 55, { seen_at: '2026-11-07T08:00:00.000Z' }), // visto hace 6 días: vale (con 3 días ya no valdría)
     row('it-rome', 48, { origin: 'BCN' }), // otro aeropuerto
     row('it-milan', 35, { month: 2 }), // otro mes
   ]);
   const offers = await read(client);
-  assert.deepEqual(Array.from(offers.keys()).sort(), ['de-berlin', 'es-palma-de-mallorca', 'pt-lisboa']);
+  assert.deepEqual(Array.from(offers.keys()).sort(), ['de-berlin', 'es-palma-de-mallorca', 'pt-lisboa', 'pt-porto']);
   assert.equal(offers.get('pt-lisboa').price, 46);
   assert.equal(offers.get('pt-lisboa').nights, 2);
   assert.equal(offers.get('es-palma-de-mallorca').nights, 5);
   assert.match(offers.get('pt-lisboa').offerUrl, /^https:\/\/www\.aviasales\.com\/search\//);
   const [query] = state.selects;
   assert.deepEqual(query.filters.map(([operator, column]) => `${operator}:${column}`), ['eq:origin', 'eq:year', 'eq:month', 'gte:seen_at']);
-  assert.equal(query.filters.find(([, column]) => column === 'seen_at')[2], '2026-11-10T10:00:00.000Z');
+  assert.equal(query.filters.find(([, column]) => column === 'seen_at')[2], '2026-11-06T10:00:00.000Z', '7 días antes de «ahora»');
 });
 
 test('lectura: filas no válidas se descartan y nunca se enseñan', async () => {
@@ -131,7 +132,7 @@ test('lectura: filas no válidas se descartan y nunca se enseñan', async () => 
 test('lectura: un viaje cuya salida ya pasó no se enseña, aunque el precio sea reciente', async () => {
   const { client } = fakeSupabase([row('pt-lisboa', 46, { departure_at: `${YEAR}-01-05`, return_at: `${YEAR}-01-07` })]);
   assert.equal((await read(client, { now: new Date(`${YEAR}-01-06T10:00:00Z`) })).size, 0);
-  assert.equal((await read(client, { now: new Date(`${YEAR}-01-05T10:00:00Z`) })).size, 0, 'seen_at queda fuera de los 3 días');
+  assert.equal((await read(client, { now: new Date(`${YEAR}-01-05T10:00:00Z`) })).size, 0, 'seen_at queda fuera de los 7 días');
   const recent = fakeSupabase([row('pt-lisboa', 46, { departure_at: `${YEAR}-01-05`, return_at: `${YEAR}-01-07`, seen_at: `${YEAR}-01-04T08:00:00.000Z` })]);
   assert.equal((await read(recent.client, { now: new Date(`${YEAR}-01-05T10:00:00Z`) })).size, 1, 'el día de la salida aún vale');
   assert.equal((await read(recent.client, { now: new Date(`${YEAR}-01-06T10:00:00Z`) })).size, 0);
