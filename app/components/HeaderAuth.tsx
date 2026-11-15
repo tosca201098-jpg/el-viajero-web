@@ -109,6 +109,10 @@ export default function HeaderAuth({ onOpenAuth }: {
         onSignUp={() => onOpenAuth("signup")}
         onSignIn={() => onOpenAuth("signin")}
         onAccount={() => setAccountOpen(true)}
+        onAccountSection={(section) => {
+          setAccountSection(section);
+          setAccountOpen(true);
+        }}
         onSignOut={signOut}
       />
       {accountOpen && session && (
