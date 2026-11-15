@@ -80,28 +80,37 @@ export default function HeaderAuth({ onOpenAuth }: {
   return (
     <div className="flex min-w-0 flex-col items-end gap-1 sm:flex-row sm:items-center sm:gap-3 max-sm:flex-row max-sm:items-center max-sm:gap-0.5">
       {!ready ? (
-        <span role="status" aria-label={t("auth.checking")} className="h-16 w-28 sm:h-9 sm:w-56 max-sm:h-11 max-sm:w-24" />
+        <span role="status" aria-label={t("auth.checking")} className="h-16 w-28 sm:h-9 sm:w-56 max-sm:hidden" />
       ) : session ? (
         <>
           <button type="button" onClick={() => setAccountOpen(true)} className={`${primaryButton} max-sm:hidden`}>
             {t("account.title")}
           </button>
-          <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} disabled:opacity-60 max-sm:min-h-[44px] max-sm:py-2`}>
+          <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} disabled:opacity-60 max-sm:hidden`}>
             {signingOut ? t("auth.signingOut") : t("auth.signout")}
           </button>
-          {error && !accountOpen && <p role="alert" className="max-w-48 text-right text-xs text-red-700">{text(error)}</p>}
+          {error && !accountOpen && <p role="alert" className="max-w-48 text-right text-xs text-red-700 max-sm:hidden">{text(error)}</p>}
         </>
       ) : (
         <>
           <button type="button" onClick={() => onOpenAuth("signup")} className={`${primaryButton} max-sm:hidden`}>
             {t("auth.signup")}
           </button>
-          <button type="button" onClick={() => onOpenAuth("signin")} className={`${secondaryButton} max-sm:min-h-[44px] max-sm:py-2`}>
+          <button type="button" onClick={() => onOpenAuth("signin")} className={`${secondaryButton} max-sm:hidden`}>
             {t("auth.signin")}
           </button>
         </>
       )}
-      <MobileHeaderMenu ready={ready} signedIn={!!session} onSignUp={() => onOpenAuth("signup")} onAccount={() => setAccountOpen(true)} />
+      <MobileHeaderMenu
+        ready={ready}
+        signedIn={!!session}
+        signingOut={signingOut}
+        error={error}
+        onSignUp={() => onOpenAuth("signup")}
+        onSignIn={() => onOpenAuth("signin")}
+        onAccount={() => setAccountOpen(true)}
+        onSignOut={signOut}
+      />
       {accountOpen && session && (
         <dialog
           ref={accountRef}
