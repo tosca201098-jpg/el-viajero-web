@@ -1018,7 +1018,7 @@ function abrirPaquete(destino = "") {
           </button>
           <div className="flex min-w-0 items-center gap-1 sm:gap-3 max-sm:gap-0.5">
             <HeaderAuth onOpenAuth={setAuthMode} />
-            <div className="relative z-10 shrink-0 rounded-full bg-white/80 ring-1 ring-blue-600/50 shadow-sm">
+            <div className="relative z-10 shrink-0 rounded-full bg-white/80 ring-1 ring-blue-600/50 shadow-sm max-sm:hidden">
               <LanguageSelector />
             </div>
           </div>

@@ -4,7 +4,7 @@ import { useEffect, useId, useRef, useState, type KeyboardEvent } from "react";
 import { locales, type Locale } from "@/lib/i18n/translations";
 import { useLanguage } from "./LanguageProvider";
 
-function FlagIcon({ locale }: { locale: Locale }) {
+export function FlagIcon({ locale }: { locale: Locale }) {
   return <svg aria-hidden="true" viewBox="0 0 24 16" className="h-4 w-6 shrink-0 overflow-hidden rounded-[2px]">
     {locale === "es" && <><path fill="#AA151B" d="M0 0h24v16H0z" /><path fill="#F1BF00" d="M0 4h24v8H0z" /><path fill="#AA151B" d="M8 6h2v4H8z" /></>}
     {locale === "en" && <><path fill="#012169" d="M0 0h24v16H0z" /><path stroke="#fff" strokeWidth="3" d="m0 0 24 16M24 0 0 16" /><path stroke="#C8102E" strokeWidth="1.3" d="m0 0 24 16M24 0 0 16" /><path stroke="#fff" strokeWidth="5" d="M12 0v16M0 8h24" /><path stroke="#C8102E" strokeWidth="2.5" d="M12 0v16M0 8h24" /></>}
