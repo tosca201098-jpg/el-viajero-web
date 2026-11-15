@@ -248,7 +248,7 @@ test('HeaderAuth: on mobile the four account buttons of the bar move into the li
   }
   // «Mis viajes» e «Itinerarios» abren cada uno su propia ventana, con solo su lista (no la de «Mi cuenta»).
   assert.ok(source.includes('        onAccountSection={openAccountSection}\n'));
-  assert.ok(source.includes('onClick={() => setAccountSection("trips")}') && source.includes('onClick={() => setAccountSection("itineraries")}'), 'the window tabs are untouched');
+  assert.ok(!source.includes('role="tab') && !source.includes('accountSection'), '«Mi cuenta» no longer has the tabs: its two lists have their own windows');
   // Los dos botones azules (Mi cuenta y Crear cuenta) y los dos de texto (Cerrar sesión e Iniciar sesión) se esconden en el móvil…
   assert.equal(source.split('className={`${primaryButton} max-sm:hidden`}').length - 1, 2);
   assert.equal(source.split('className={primaryButton}').length - 1, 0, 'no blue header button is left visible on mobile');

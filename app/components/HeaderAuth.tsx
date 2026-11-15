@@ -21,7 +21,6 @@ export default function HeaderAuth({ onOpenAuth }: {
   const [signingOut, setSigningOut] = useState(false);
   const [error, setError] = useState("");
   const [accountOpen, setAccountOpen] = useState(false);
-  const [accountSection, setAccountSection] = useState<"trips" | "itineraries">("trips");
   // Si no es null, la ventana enseña solo esa lista (la que se abre desde «Mis viajes» o «Itinerarios»); si es null es la ventana de «Mi cuenta».
   const [onlySection, setOnlySection] = useState<"trips" | "itineraries" | null>(null);
   const signingOutRef = useRef(false);
@@ -58,7 +57,7 @@ export default function HeaderAuth({ onOpenAuth }: {
     };
   }, [accountOpen]);
 
-  // «Mi cuenta»: la ventana completa (correo, pestañas y cerrar sesión).
+  // «Mi cuenta»: la ventana de la cuenta (correo y cerrar sesión).
   function openAccount() {
     setOnlySection(null);
     setAccountOpen(true);
@@ -139,7 +138,7 @@ export default function HeaderAuth({ onOpenAuth }: {
           ref={accountRef}
           aria-labelledby="account-dialog-title"
           onCancel={(event) => { event.preventDefault(); setAccountOpen(false); }}
-          className={`fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-[28px] border border-stone-200 bg-[#F7F2E8] p-4 text-left text-stone-800 shadow-2xl backdrop:bg-black/50 sm:p-8 ${(onlySection ?? accountSection) === "itineraries" ? "max-w-3xl" : "max-w-md"}`}
+          className={`fixed inset-0 m-auto max-h-[90dvh] w-[calc(100%-2rem)] overflow-y-auto rounded-[28px] border border-stone-200 bg-[#F7F2E8] p-4 text-left text-stone-800 shadow-2xl backdrop:bg-black/50 sm:p-8 ${onlySection === "itineraries" ? "max-w-3xl" : "max-w-md"}`}
         >
           {onlySection ? (
             <>
@@ -161,22 +160,6 @@ export default function HeaderAuth({ onOpenAuth }: {
                 <p className="text-sm font-semibold">{t("auth.email")}</p>
                 <p className="mt-1 break-all text-sm text-stone-700">{session.user.email}</p>
               </div>
-              <div role="tablist" aria-label={t("account.sections")} className="mt-5 grid grid-cols-2 gap-2">
-                <button type="button" role="tab" id="account-trips-tab" aria-controls="account-content" aria-selected={accountSection === "trips"}
-                  onClick={() => setAccountSection("trips")}
-                  className={`min-h-[44px] rounded-xl px-2 text-sm font-semibold focus-visible:ring-2 focus-visible:ring-blue-600 ${accountSection === "trips" ? "bg-blue-600 text-white" : "border border-blue-200 text-blue-700"}`}>
-                  {t("trips.title")}
-                </button>
-                <button type="button" role="tab" id="account-itineraries-tab" aria-controls="account-content" aria-selected={accountSection === "itineraries"}
-                  onClick={() => setAccountSection("itineraries")}
-                  className={`min-h-[44px] rounded-xl px-2 text-sm font-semibold focus-visible:ring-2 focus-visible:ring-blue-600 ${accountSection === "itineraries" ? "bg-blue-600 text-white" : "border border-blue-200 text-blue-700"}`}>
-                  {t("savedItineraries.title")}
-                </button>
-              </div>
-              <section id="account-content" role="tabpanel" aria-labelledby={accountSection === "trips" ? "account-trips-tab" : "account-itineraries-tab"}
-                className="mt-3 min-w-0 rounded-2xl border border-blue-100 bg-blue-50/70 p-3 sm:p-4">
-                {accountSection === "trips" ? <SavedTrips key={session.user.id} /> : <SavedItineraries key={session.user.id} />}
-              </section>
               <div className="mt-6 border-t border-stone-200 pt-4">
                 {error && <p role="alert" className="mb-3 text-sm text-red-700">{text(error)}</p>}
                 <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} w-full border border-stone-300 disabled:opacity-60`}>

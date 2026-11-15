@@ -1,7 +1,7 @@
 // Cabecera de la portada con la sesión iniciada: «Mis viajes» e «Itinerarios» salen en la barra entre «Mi cuenta» y «Cerrar sesión»
 // desde 768 px (en los 7 idiomas caben desde 760 px) y, en el móvil, en la lista de la persona. Cada uno abre su propia ventana,
-// solo con su lista (viajes guardados o itinerarios guardados); «Mi cuenta» abre la ventana completa de la cuenta (correo, pestañas
-// y cerrar sesión). Sin sesión, la barra no cambia.
+// solo con su lista (viajes guardados o itinerarios guardados); «Mi cuenta» abre su ventana con el correo y «Cerrar sesión» (ya no
+// lleva las pestañas de viajes e itinerarios, que tienen su propio acceso). Sin sesión, la barra no cambia.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
@@ -18,7 +18,7 @@ const SavedItineraries = function SavedItineraries() {};
 const MobileHeaderMenu = function MobileHeaderMenu() {};
 
 // HeaderAuth con el React ligero de pruebas. Los huecos de useState van por orden: sesión (0), lista (1), cerrando (2), error (3),
-// ventana abierta (4), pestaña de «Mi cuenta» (5) y lista única de «Mis viajes» / «Itinerarios» (6).
+// ventana abierta (4) y lista única de «Mis viajes» / «Itinerarios» (5; null = ventana de «Mi cuenta»).
 function createHeader(locale, { signedIn = false, ready = true } = {}) {
   const state = [], counter = { index: 0 };
   const react = {
@@ -78,11 +78,9 @@ test('«Mis viajes» opens a window with only the saved trips and «Itinerarios�
     for (const [index, section, Component, Other, title] of [[1, 'trips', SavedTrips, SavedItineraries, 'trips.title'], [2, 'itineraries', SavedItineraries, SavedTrips, 'savedItineraries.title']]) {
       const { render, state } = createHeader(locale, { signedIn: true });
       assert.equal(dialog(render()), undefined, 'closed at the start');
-      // Aunque «Mi cuenta» se hubiera usado antes en la otra pestaña, el botón lleva a su propia ventana.
-      state[5] = section === 'trips' ? 'itineraries' : 'trips';
       barButtons(render())[index].props.onClick();
       assert.equal(state[4], true, `${locale} ${section}: window open`);
-      assert.equal(state[6], section, `${locale} ${section}: its own window`);
+      assert.equal(state[5], section, `${locale} ${section}: its own window`);
       const tree = render();
       const win = dialog(tree);
       assert.ok(win, 'the window is drawn');
@@ -122,55 +120,57 @@ test('the window of «Itinerarios» is wide and the one of «Mis viajes» narrow
   }
 });
 
-test('«Mi cuenta» still opens the full window: e-mail, both tabs, the list of the selected tab and «Cerrar sesión»', () => {
+test('«Mi cuenta» opens its window with the e-mail and «Cerrar sesión» only: no tabs and no lists', () => {
   for (const locale of LOCALES) {
     const { render, state } = createHeader(locale, { signedIn: true });
     barButtons(render())[0].props.onClick();
-    assert.deepEqual([state[4], state[5], state[6]], [true, 'trips', null]);
+    assert.deepEqual([state[4], state[5]], [true, null]);
     const win = dialog(render());
-    assert.equal(text(nodes(win, n => n.type === 'h2')[0]), translations.translate(locale, 'account.title'));
-    assert.ok(text(win).includes('viajero@example.com'));
-    const tabs = nodes(win, n => n.props?.role === 'tab');
-    assert.deepEqual(tabs.map(tab => [tab.props.id, tab.props['aria-selected']]), [['account-trips-tab', true], ['account-itineraries-tab', false]]);
-    assert.equal(nodes(win, n => n.type === SavedTrips).length, 1);
-    assert.equal(nodes(win, n => n.type === SavedItineraries).length, 0);
-    assert.ok(text(win).includes(translations.translate(locale, 'auth.signout')));
-    // Las pestañas de dentro de «Mi cuenta» siguen cambiando de lista.
-    tabs[1].props.onClick();
-    assert.equal(state[5], 'itineraries');
-    const next = dialog(render());
-    assert.equal(nodes(next, n => n.type === SavedItineraries).length, 1);
-    assert.equal(nodes(next, n => n.type === SavedTrips).length, 0);
+    const heading = nodes(win, n => n.type === 'h2');
+    assert.equal(heading.length, 1);
+    assert.equal(text(heading[0]), translations.translate(locale, 'account.title'));
+    assert.equal(win.props['aria-labelledby'], heading[0].props.id);
+    assert.ok(text(win).includes(translations.translate(locale, 'auth.email')) && text(win).includes('viajero@example.com'), 'shows the e-mail');
+    assert.equal(nodes(win, n => n.props?.role === 'tab' || n.props?.role === 'tablist' || n.props?.role === 'tabpanel').length, 0, 'no tabs');
+    assert.equal(nodes(win, n => n.type === SavedTrips || n.type === SavedItineraries).length, 0, 'no lists inside «Mi cuenta»');
+    // Dos botones: cerrar (×) y cerrar sesión.
+    const buttons = buttonsIn(win);
+    assert.deepEqual(buttons.map(b => b.props['aria-label'] ?? text(b)), [translations.translate(locale, 'common.close'), translations.translate(locale, 'auth.signout')]);
+    assert.equal(typeof buttons[1].props.onClick, 'function');
+    assert.ok(classes(dialog(render())).includes('max-w-md'));
   }
 });
 
-test('after a list window, «Mi cuenta» goes back to the full window', () => {
+test('after a list window, «Mi cuenta» goes back to its own window', () => {
   const { render, state } = createHeader('es', { signedIn: true });
   barButtons(render())[2].props.onClick();
-  assert.equal(state[6], 'itineraries');
+  assert.equal(state[5], 'itineraries');
   buttonsIn(dialog(render()))[0].props.onClick();
   barButtons(render())[0].props.onClick();
-  assert.deepEqual([state[4], state[6]], [true, null]);
-  assert.equal(nodes(dialog(render()), n => n.props?.role === 'tablist').length, 1);
+  assert.deepEqual([state[4], state[5]], [true, null]);
+  const win = dialog(render());
+  assert.equal(text(nodes(win, n => n.type === 'h2')[0]), translations.translate('es', 'account.title'));
+  assert.equal(nodes(win, n => n.type === SavedItineraries).length, 0);
 });
 
-test('on mobile, the person list opens the same three windows: «Mi cuenta» full, «Mis viajes» and «Itinerarios» each with its list', () => {
+test('on mobile, the person list opens the same three windows: «Mi cuenta» with the e-mail, «Mis viajes» and «Itinerarios» each with its list', () => {
   const { render, state } = createHeader('es', { signedIn: true });
   const menu = () => nodes(render(), n => n.type === MobileHeaderMenu)[0];
   assert.equal(menu().props.signedIn, true);
   menu().props.onAccountSection('trips');
-  assert.deepEqual([state[4], state[6]], [true, 'trips']);
+  assert.deepEqual([state[4], state[5]], [true, 'trips']);
   assert.equal(nodes(dialog(render()), n => n.type === SavedTrips).length, 1);
   assert.equal(nodes(dialog(render()), n => n.props?.role === 'tablist').length, 0);
   state[4] = false;
   menu().props.onAccountSection('itineraries');
-  assert.deepEqual([state[4], state[6]], [true, 'itineraries']);
+  assert.deepEqual([state[4], state[5]], [true, 'itineraries']);
   assert.equal(nodes(dialog(render()), n => n.type === SavedItineraries).length, 1);
   assert.equal(nodes(dialog(render()), n => n.type === SavedTrips).length, 0);
   state[4] = false;
   menu().props.onAccount();
-  assert.deepEqual([state[4], state[6]], [true, null]);
-  assert.equal(nodes(dialog(render()), n => n.props?.role === 'tablist').length, 1);
+  assert.deepEqual([state[4], state[5]], [true, null]);
+  assert.equal(text(nodes(dialog(render()), n => n.type === 'h2')[0]), translations.translate('es', 'account.title'));
+  assert.equal(nodes(dialog(render()), n => n.type === SavedTrips || n.type === SavedItineraries).length, 0);
 });
 
 test('signed out and while checking the session: the bar has no «Mis viajes» or «Itinerarios»', () => {
@@ -182,20 +182,20 @@ test('signed out and while checking the session: the bar has no «Mis viajes» o
   }
 });
 
-test('the bar keeps «Cerrar sesión» signing out, and the window keeps its tabs', () => {
+test('the bar keeps «Cerrar sesión» signing out, and «Mi cuenta» keeps its sign-out button', () => {
   const source = read('app/components/HeaderAuth.tsx');
   assert.ok(source.includes('<button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} disabled:opacity-60 max-sm:hidden`}>'));
-  assert.ok(source.includes('onClick={() => setAccountSection("trips")}') && source.includes('onClick={() => setAccountSection("itineraries")}'));
+  assert.ok(!source.includes('role="tab') && !source.includes('accountSection'), '«Mi cuenta» has no tabs any more');
   assert.ok(source.includes('function openAccountSection(section: "trips" | "itineraries") {\n    setOnlySection(section);\n    setAccountOpen(true);\n  }'));
   assert.ok(source.includes('function openAccount() {\n    setOnlySection(null);\n    setAccountOpen(true);\n  }'));
   assert.ok(source.includes('<button type="button" onClick={openAccount} className={`${primaryButton} max-sm:hidden`}>'));
   assert.ok(source.includes('        onAccount={openAccount}\n        onAccountSection={openAccountSection}\n'));
   // El nuevo estado va después de los que ya había: los huecos de useState no se mueven.
   const hooks = Array.from(source.matchAll(/const \[(\w+), \w+\] = useState/g), m => m[1]);
-  assert.deepEqual(hooks, ['session', 'ready', 'signingOut', 'error', 'accountOpen', 'accountSection', 'onlySection']);
+  assert.deepEqual(hooks, ['session', 'ready', 'signingOut', 'error', 'accountOpen', 'onlySection']);
 });
 
-test('the text of the two buttons is the one of the window tabs, already translated into the seven languages', () => {
+test('the text of the two buttons is the one of their windows, already translated into the seven languages', () => {
   const expected = {
     trips: ['Mis viajes', 'My trips', 'Mes voyages', 'Meine Reisen', 'I miei viaggi', 'As minhas viagens', 'Els meus viatges'],
     itineraries: ['Itinerarios', 'Itineraries', 'Itinéraires', 'Reisepläne', 'Itinerari', 'Roteiros', 'Itineraris'],
@@ -205,7 +205,7 @@ test('the text of the two buttons is the one of the window tabs, already transla
     assert.equal(translations.translate(locale, 'savedItineraries.title'), expected.itineraries[i], locale);
   });
   const source = read('app/components/HeaderAuth.tsx');
-  // Barra + pestaña de «Mi cuenta» + título de su propia ventana.
-  assert.equal(source.split('t("trips.title")').length - 1, 3, 'bar + «Mi cuenta» tab + its own window title');
-  assert.equal(source.split('t("savedItineraries.title")').length - 1, 3, 'bar + «Mi cuenta» tab + its own window title');
+  // Barra + título de su propia ventana.
+  assert.equal(source.split('t("trips.title")').length - 1, 2, 'bar + its own window title');
+  assert.equal(source.split('t("savedItineraries.title")').length - 1, 2, 'bar + its own window title');
 });
