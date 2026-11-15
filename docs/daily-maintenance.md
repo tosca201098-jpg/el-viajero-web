@@ -116,3 +116,5 @@ utiliza el token efímero de Actions.
 - [Schedule, rama predeterminada y limitaciones](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule).
 - [Permisos mínimos y acciones fijadas a commits](https://docs.github.com/en/actions/reference/security/secure-use).
 - [Comportamiento y códigos de salida de npm audit](https://docs.npmjs.com/cli/v11/commands/npm-audit/).
+
+<!-- Rama temporal de comprobación: se borrará. -->
