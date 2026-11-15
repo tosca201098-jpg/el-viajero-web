@@ -13,6 +13,9 @@
 // pide registrarse a los visitantes (aria-label, aria-describedby, disabled, dos clases y dos líneas nuevas bajo el botón) y el
 // cuadro de acceso recibe onChangeMode. Devolviendo ese bloque al de main (y quitando esa propiedad), las 3.521 páginas
 // (portada y ventana de cada ficha, en los siete idiomas) quedan idénticas carácter por carácter a las huellas anteriores.
+// Aviso de límites de Sofía: las huellas se recalcularon solo por la línea nueva bajo los beneficios del panel de voz («Hasta 15 minutos al día
+// por persona: 3 conversaciones de 5 minutos como máximo.»). Quitando solo esa línea, las 3.521 páginas (portada y ventana de cada ficha,
+// en los siete idiomas) quedan idénticas carácter por carácter a las huellas anteriores.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');

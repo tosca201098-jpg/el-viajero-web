@@ -11,6 +11,8 @@ const root = path.resolve(__dirname, '..');
 // de cada ficha, en los siete idiomas) quedan idénticas carácter por carácter; no cambia nada más. Ver tests/season-cards.test.cjs.
 // PR de Sofía (#38): recalculadas de nuevo solo por el botón del micrófono (espera a la sesión y pide registrarse); devolviendo
 // ese bloque al de main, todas las páginas quedan idénticas carácter por carácter. Ver tests/destination-window-common-frame.test.cjs.
+// Aviso de límites de Sofía: recalculadas de nuevo solo por la línea nueva bajo los beneficios del panel de voz (15 minutos al día,
+// 3 conversaciones de 5 minutos); quitando solo esa línea, todas las páginas quedan idénticas carácter por carácter. Ver tests/voice-limits-notice.test.cjs.
 const baseline = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'ficha-baseline-before-photo-frame.json'), 'utf8'));
 const FRAME_CLASS = 'relative h-52 max-sm:h-[140px] sm:h-72';
 const text = n => n == null || n === false ? '' : Array.isArray(n) ? n.map(text).join(' ') : typeof n === 'object' ? text(n.children) : String(n);

@@ -40,6 +40,7 @@ import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-fligh
 import { hotelDefaults, hotelFlightDefaults, hotelsHref, validHotelSearch } from "@/lib/stay22/hotels";
 import { itineraryContextForFlightSearch } from "@/lib/travelpayouts/flight-profile";
 import { listenAskSofia } from "@/lib/voice/ask-sofia";
+import { VOICE_CONVERSATION_MINUTES, VOICE_DAILY_CONVERSATIONS, VOICE_DAILY_MINUTES } from "@/lib/voice/limits";
 import { createVoiceItineraryRequest, parseVoiceItinerary, type VoiceItineraryRequest, type VoiceItineraryArguments, type VoiceItineraryContext, type VoiceItineraryResult } from "@/lib/voice/itinerary";
 
 type FlightOffer = {
@@ -1258,6 +1259,9 @@ function abrirPaquete(destino = "") {
                 <span>✓ {t("voice.time")}</span>
                 <span>✓ {t("voice.recommendations")}</span>
               </div>
+              <p className={`${voicePanel.limits} mt-2 max-w-sm text-xs font-medium max-sm:mt-1`}>
+                {t("voice.limits", { total: VOICE_DAILY_MINUTES, count: VOICE_DAILY_CONVERSATIONS, minutes: VOICE_CONVERSATION_MINUTES })}
+              </p>
             </div>
           </div>
           {discoverMode && discoverState.status === "success" && (

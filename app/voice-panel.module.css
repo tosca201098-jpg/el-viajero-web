@@ -62,6 +62,13 @@
   color: #fff;
 }
 
+.limits {
+  border-radius: 12px;
+  padding: 5px 12px;
+  background: rgb(3 15 35 / 90%);
+  color: #fff;
+}
+
 @media (max-width: 639px) {
   .panel {
     min-height: 320px;
