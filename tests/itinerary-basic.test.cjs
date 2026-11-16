@@ -6,14 +6,15 @@ const root = path.resolve(__dirname, '..');
 const ts = require(path.join(root, 'node_modules/typescript'));
 const compilerOptions = { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020, jsx: ts.JsxEmit.React };
 const source = file => fs.readFileSync(path.join(root, file), 'utf8');
-function loader() {
+function loader(globals = {}, deps = {}) {
   const cache = new Map();
   function load(file) {
     if (cache.has(file)) return cache.get(file);
     const exports = {}; cache.set(file, exports);
     vm.runInNewContext(ts.transpileModule(source(file), { compilerOptions }).outputText, {
-      exports, Request, Response, URL, URLSearchParams, Date, Error, JSON, Intl,
+      exports, Request, Response, URL, URLSearchParams, Date, Error, JSON, Intl, ...globals,
       require: id => {
+        if (id in deps) return deps[id];
         const base = id.startsWith('@/') ? id.slice(2) : path.join(path.dirname(file), id);
         const resolved = [base + '.ts', base + '.tsx', path.join(base, 'index.ts')].find(p => fs.existsSync(path.join(root, p)));
         if (!resolved) throw Error('Unexpected dependency: ' + id);
@@ -30,7 +31,10 @@ const schema = shared('lib/itinerary/schema.ts');
 const catalog = shared('lib/destinations/index.ts');
 const featured = shared('lib/destinations/featured.ts');
 const translations = shared('lib/i18n/translations.ts');
-const route = shared('app/api/itinerary/route.ts');
+// Guests never reach the AI: the route is loaded with an admission that fails the test if it is ever used, no key and no network.
+const guestRoute = loader({ process: { env: {} }, fetch: async () => { throw Error('No network expected'); } },
+  { '@/lib/ai/admission': { admitAiRequest: async () => { throw Error('No admission expected'); } } })('app/api/itinerary/route.ts');
+const route = guestRoute;
 const plain = value => JSON.parse(JSON.stringify(value));
 const locales = translations.locales.map(l => l.code);
 const profile = name => catalog.findDestinationProfile({ name });
@@ -110,10 +114,14 @@ test('invalid, tampered, malformed or oversized requests are rejected with 400',
   }
 });
 
-test('the free itinerary never calls a provider, reads a key or touches the network', () => {
-  for (const file of ['app/api/itinerary/route.ts', 'lib/itinerary/basic.ts', 'app/components/BasicGuideContent.tsx']) {
+test('the free guide code never calls a provider, reads a key or touches the network', () => {
+  for (const file of ['lib/itinerary/basic.ts', 'app/components/BasicGuideContent.tsx']) {
     const text = source(file);
     assert.ok(!/\bfetch\s*\(/.test(text), file); assert.ok(!/process\.env/.test(text), file);
     assert.ok(!/https?:\/\//.test(text.replace(/\/\/.*$/gm, '')), file);
   }
+  // The route itself never calls the network; it only reads the switches and the key that decide whether the AI is tried.
+  const routeText = source('app/api/itinerary/route.ts');
+  assert.ok(!/\bfetch\s*\(/.test(routeText));
+  assert.deepEqual([...new Set([...routeText.matchAll(/process\.env\.(\w+)/g)].map(match => match[1]))].sort(), ['AI_ENABLED', 'AI_ITINERARY_ENABLED', 'ANTHROPIC_API_KEY']);
 });

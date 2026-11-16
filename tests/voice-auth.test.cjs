@@ -248,11 +248,16 @@ test('independent users have separate attempt and day keys; invalid minute limit
     }
 });
 
-test('written itinerary admission remains public with only its previous three buckets', async () => {
-  const h = harness({ authThrow: true }); assert.equal(await h.admit(request(null), 'itinerary'), null);
-  assert.equal(h.clients.length, 0); assert.equal(h.tokens.length, 0); assert.equal(h.calls.length, 1);
-  const command = JSON.parse(h.calls[0].init.body); assert.equal(command[2], 3);
-  assert.deepEqual(command.slice(6), [3, 60, 10, 86400, 50, 86400]);
+test('the AI itinerary needs a verified account and adds one per-person day bucket to the three IP and site buckets', async () => {
+  const guest = harness({ authThrow: true });
+  assert.equal((await guest.admit(request(null), 'itinerary')).status, 401);
+  assert.equal(guest.calls.length, 0, 'a guest never reaches the store');
+  const h = harness(); assert.equal(await h.admit(request(), 'itinerary'), null);
+  assert.equal(h.calls.length, 1, 'one reservation, no second ledger');
+  const command = JSON.parse(h.calls[0].init.body); assert.equal(command[2], 4);
+  assert.match(command[6], /:itinerary:user:[a-f0-9]{64}:day:\d{4}-\d{2}-\d{2}$/);
+  assert.deepEqual(command.slice(7), [3, 60, 10, 86400, 200, 86400, 10, 90000]);
+  assert.ok(!JSON.stringify(command).includes(uid), 'the account id is never stored in clear');
 });
 
 test('neither the voice route nor the ElevenLabs handler can bypass missing or rejected login', async () => {

@@ -82,6 +82,7 @@ export function itineraryDocument(itinerary: Itinerary, t: Translate, info?: Doc
   }
   blocks.push({ kind: "heading", text: t("itinerary.tips") });
   for (const tip of itinerary.tips) blocks.push({ kind: "bullet", text: tip });
+  blocks.push({ kind: "note", text: t("itinerary.aiLabel") });
   blocks.push({ kind: "notes", title: t("itinerary.pdfNotes"), lines: NOTE_LINES });
   return { title: itinerary.title, banner: banner(itinerary.title, info), blocks, footer: FOOTER };
 }

@@ -163,8 +163,8 @@ completo viaja dentro de una sola respuesta de Sofía:
 | `AI_REDIS_REST_URL`, `AI_REDIS_REST_TOKEN` | de Upstash Redis | Cuotas compartidas. |
 | `AI_RATE_LIMIT_SECRET` | texto aleatorio de 32 o más caracteres | Protege los contadores. |
 
-`AI_ITINERARY_ENABLED` y `AI_ITINERARY_*` ya no se usan (los itinerarios dependen de la voz); `OPENAI_API_KEY` debe quedar
-vacía o eliminada. Las cuotas por usuario y por IP no cambian: 1 conversación por minuto y 3 por día natural de Madrid por
+`OPENAI_API_KEY` debe quedar vacía o eliminada. `AI_ITINERARY_ENABLED` y `AI_ITINERARY_*` solo afectan al itinerario escrito
+por IA para visitantes registrados (ver `docs/itinerario-ia-haiku.md`); no cambian la voz. Las cuotas por usuario y por IP no cambian: 1 conversación por minuto y 3 por día natural de Madrid por
 usuario; 2 por minuto y 5 por día por IP; 20 intentos globales al día.
 
 ## Qué no se puede comprobar desde el código

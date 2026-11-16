@@ -1,6 +1,7 @@
 import { verifyVoiceUser } from '@/lib/supabase/voice-auth';
 import { previewDiagnostic, type PreviewDiagnosticCode } from './preview-diagnostic';
 import { madridVoiceDay, VOICE_DAY_LEDGER_LUA } from './voice-daily-policy';
+import { AI_ITINERARIES_GLOBAL_PER_DAY, AI_ITINERARIES_PER_DAY } from '@/lib/itinerary/limits';
 import { createHmac, randomBytes } from 'node:crypto';
 import { isIP } from 'node:net';
 
@@ -95,7 +96,8 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
     if (service === 'voice') previewDiagnostic('ADMISSION_FLAGS');
     return denial(503, 'ai_unavailable');
   }
-  const voiceUser = service === 'voice' ? await verifyVoiceUser(request) : null;
+  // Voice and AI itineraries are only for registered visitors; the guest path never reaches this function.
+  const voiceUser = await verifyVoiceUser(request);
   if (voiceUser instanceof Response) return voiceUser;
   if (service === 'voice' && request.signal.aborted) return denial(503, 'ai_unavailable');
   let stage: PreviewDiagnosticCode = 'ADMISSION_REDIS_CONFIG';
@@ -120,18 +122,21 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
     const scope = process.env.VERCEL_ENV === 'production' ? 'production' : 'preview';
     const prefix = `destinauta:ai:v1:${scope}:${service}`;
     const kind = service.toUpperCase();
-    const defaults = service === 'voice' ? [2, 5, 20] : [3, 10, 50];
+    const defaults = service === 'voice' ? [2, 5, 20] : [3, 10, AI_ITINERARIES_GLOBAL_PER_DAY];
     stage = 'ADMISSION_LIMITS';
     const limits = ['MINUTE', 'DAY', 'GLOBAL_DAY'].map((name, i) =>
-      limit(process.env[`AI_${kind}_${name}_LIMIT`], defaults[i], service === 'voice' ? defaults[i] : undefined));
+      limit(process.env[`AI_${kind}_${name}_LIMIT`], defaults[i], defaults[i]));
     const keys = [`${prefix}:ip:${hash}:minute`, `${prefix}:ip:${hash}:day`, `${prefix}:global:day`];
     const quotas = [limits[0], 60, limits[1], 86400, limits[2], 86400];
-    let userHash: string | undefined;
+    if (!voiceUser) throw new Error('missing_verified_user');
+    const userHash = createHmac('sha256', secret).update('user:' + voiceUser.userId).digest('hex');
     if (service === 'voice') {
-      if (!voiceUser) throw new Error('missing_verified_user');
-      userHash = createHmac('sha256', secret).update('user:' + voiceUser.userId).digest('hex');
       keys.push(`${prefix}:user:${userHash}:minute`);
       quotas.push(limit(process.env.AI_VOICE_USER_MINUTE_LIMIT, 1, 1), 60);
+    } else {
+      // AI itineraries: a per-person allowance for the natural Madrid day (the key changes at midnight, Madrid time).
+      keys.push(`${prefix}:user:${userHash}:day:${madridVoiceDay(Date.now()).date}`);
+      quotas.push(limit(process.env.AI_ITINERARY_USER_DAY_LIMIT, AI_ITINERARIES_PER_DAY, AI_ITINERARIES_PER_DAY), 90000);
     }
     stage = 'ADMISSION_REDIS_NETWORK';
     if (service === 'voice' && request.signal.aborted) return denial(503, 'ai_unavailable');
