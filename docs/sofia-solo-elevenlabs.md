@@ -188,7 +188,7 @@ Reglas que cumple el código y que Sofía no puede saltarse:
 se aplica a los vuelos y con `servicio: ambos` es para vuelo y hotel juntos, y que devuelve un resumen con precios reales; en
 `mostrar_destino`, que abre la ficha y devuelve el nombre del destino abierto.
 
-**4. Saludo («Primer mensaje» del agente).** El navegador **no** envía el saludo (ElevenLabs lo rechaza): se usa el que tenga guardado el agente. Para ir directos desde el principio, ponlo corto y con la pregunta que separa los dos casos, por ejemplo: «Hola, soy Sofía, la asistente de inteligencia artificial de DESTINAUTA. ¿Ya sabes a dónde quieres ir o te ayudo a elegir destino?». Conviene que diga desde el principio que es una IA (ver el enlace «Requisitos de divulgación» que ElevenLabs muestra bajo el campo del saludo). Si el agente tiene el saludo traducido a otros idiomas, tradúcelo igual. Si la persona dice que no sabe, Sofía pasa directamente al punto 2 del mensaje del sistema.
+**4. Saludo («Primer mensaje» del agente).** El navegador **no** envía el saludo (ElevenLabs lo rechaza): se usa el que tenga guardado el agente. Para ir directos desde el principio, ponlo corto y con la pregunta que separa los dos casos, por ejemplo: «Hola, soy Sofía, la IA de DESTINAUTA. ¿Ya sabes a dónde ir o te ayudo a elegir?». Conviene que diga desde el principio que es una IA (ver el enlace «Requisitos de divulgación» que ElevenLabs muestra bajo el campo del saludo). Si el agente tiene el saludo traducido a otros idiomas, tradúcelo igual. Si la persona dice que no sabe, Sofía pasa directamente al punto 2 del mensaje del sistema.
 
 **5. Mensaje del sistema ampliado** (sustituye al anterior; mantiene lo de los itinerarios):
 
