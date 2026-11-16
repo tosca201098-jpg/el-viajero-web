@@ -99,3 +99,31 @@ test('Lua contract is a bounded private day ledger with server time and no aggre
   assert.deepEqual([...new Set(commands)].sort(), ['EXPIREAT', 'HGETALL', 'HLEN', 'HSET', 'TIME', 'TYPE']);
   // These are source/contract guards, not a claim that a Lua engine was executed.
 });
+
+// ---- Natural Madrid weeks (Monday 00:00 to Monday 00:00), used by the weekly voice minutes ----------------------------
+const { madridVoiceWeek } = exportsObject;
+const week = instant => madridVoiceWeek(Date.parse(instant));
+
+test('a week runs Monday 00:00 to the next Monday 00:00 in Madrid, whatever day inside it', () => {
+  for (const instant of ['2026-11-16T00:00:00Z', '2026-11-18T12:00:00Z', '2026-11-22T22:59:59Z']) {
+    const result = week(instant);
+    assert.equal(iso(result.startsAt), '2026-11-15T23:00:00.000Z'); assert.equal(iso(result.endsAt), '2026-11-22T23:00:00.000Z');
+  }
+  // Sunday 23:00 UTC is already Monday 00:00 in Madrid: a new week.
+  assert.equal(iso(week('2026-11-22T23:00:00Z').startsAt), '2026-11-22T23:00:00.000Z');
+});
+
+test('weeks that change the clock are 167 or 169 hours long, never a rolling 7 x 24', () => {
+  const spring = week('2027-03-25T12:00:00Z'); // clocks go forward on Sunday 28 March 2027
+  assert.equal(iso(spring.startsAt), '2027-03-21T23:00:00.000Z'); assert.equal(iso(spring.endsAt), '2027-03-28T22:00:00.000Z');
+  assert.equal((spring.endsAt - spring.startsAt) / 3600, 167);
+  const autumn = week('2026-10-22T12:00:00Z'); // clocks go back on Sunday 25 October 2026
+  assert.equal(iso(autumn.startsAt), '2026-10-18T22:00:00.000Z'); assert.equal(iso(autumn.endsAt), '2026-10-25T23:00:00.000Z');
+  assert.equal((autumn.endsAt - autumn.startsAt) / 3600, 169);
+});
+
+test('week boundaries cross month and year ends and reject impossible instants', () => {
+  assert.equal(iso(week('2026-12-31T12:00:00Z').startsAt), '2026-12-27T23:00:00.000Z');
+  assert.equal(iso(week('2026-12-31T12:00:00Z').endsAt), '2027-01-03T23:00:00.000Z');
+  for (const bad of [NaN, Infinity, -1, '2026-11-16']) assert.throws(() => madridVoiceWeek(bad), RangeError);
+});

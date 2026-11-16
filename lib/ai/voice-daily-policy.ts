@@ -1,4 +1,8 @@
-/** Local candidate only: not yet connected to admission, routes, agents or a live Redis. */
+/**
+ * Natural-Madrid calendar helpers. `madridVoiceDay` still keys the AI itinerary allowance, and `madridVoiceWeek` bounds
+ * the weekly voice minutes. The three-slot day ledger below is RETIRED from the voice path (weekly minutes replaced it);
+ * it is kept, with its tests, as a reviewed reference only.
+ */
 export const VOICE_DAILY_LIMIT = 3;
 export const VOICE_MAX_DURATION_SECONDS = 360;
 
@@ -38,6 +42,22 @@ function madridMidnight(year: number, month: number, day: number) {
     candidate = corrected;
   }
   throw new RangeError('invalid_madrid_day');
+}
+
+/** Epoch-second boundaries for a natural Madrid week: Monday 00:00 to the next Monday 00:00, Madrid time (DST-safe). */
+export function madridVoiceWeek(nowMs: number): { startsAt: number; endsAt: number } {
+  madridVoiceDay(nowMs); // validates the instant
+  const current = civilParts(nowMs);
+  const weekday = new Date(civilUtc(current.year, current.month, current.day)).getUTCDay(); // 0 = Sunday
+  const sinceMonday = (weekday + 6) % 7;
+  const monday = new Date(civilUtc(current.year, current.month, current.day - sinceMonday));
+  const nextMonday = new Date(civilUtc(current.year, current.month, current.day - sinceMonday + 7));
+  const startsAt = madridMidnight(monday.getUTCFullYear(), monday.getUTCMonth() + 1, monday.getUTCDate());
+  const endsAt = madridMidnight(nextMonday.getUTCFullYear(), nextMonday.getUTCMonth() + 1, nextMonday.getUTCDate());
+  const seconds = nowMs / 1000;
+  if (!Number.isSafeInteger(startsAt) || !Number.isSafeInteger(endsAt) || seconds < startsAt || seconds >= endsAt ||
+      endsAt - startsAt < 167 * 3600 || endsAt - startsAt > 169 * 3600) throw new RangeError('invalid_madrid_week');
+  return { startsAt, endsAt };
 }
 
 /** Epoch-second boundaries for a natural Madrid day; never a rolling 24-hour window. */

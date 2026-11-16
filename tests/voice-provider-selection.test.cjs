@@ -6,8 +6,10 @@ const scope={VERCEL:'1',VERCEL_ENV:'production',VERCEL_GIT_COMMIT_REF:'main',VER
 const source=fs.readFileSync(path.join(__dirname,'voice-route.test.cjs'),'utf8');
 const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();
 const request=(body={locale:'es'})=>new Request('https://destinauta.com/api/voice',{method:'POST',headers:{'x-vercel-forwarded-for':'192.0.2.123'},body:typeof body==='string'?body:JSON.stringify(body)});
+const USER_REF='u_'+'a'.repeat(32);
+class BudgetError extends Error{constructor(code){super('voice_budget');this.code=code}}
 function harness(change={},options={}){
- const requests=[],logs=[],finalizations=[];let admissions=0;
+ const requests=[],logs=[],budgets=[];let admissions=0;
  const env={...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-elevenlabs-private',ELEVENLABS_AGENT_VERSION_ID:version,...change};
  const fetcher=async(url,init)=>{
   const address=String(url);requests.push({url:address,init});
@@ -16,8 +18,10 @@ function harness(change={},options={}){
   return Response.json({token:'temporary-elevenlabs',private:'must-not-leak'});
  };
  const api=loader({process:{env},console:{warn:(...args)=>logs.push(args)},fetch:fetcher},
-  {'@/lib/ai/admission':{admitAiRequest:async(req,service)=>{admissions++;assert.equal(service,'voice');return options.denied??null;},finalizeVoiceAdmission:async(req,commit)=>{finalizations.push(commit);return options.finalize?options.finalize(commit):true;}}})('app/api/voice/route.ts');
- return{...api,env,requests,logs,finalizations,get admissions(){return admissions;}};
+  {'@/lib/ai/admission':{admitAiRequest:async(req,service)=>{admissions++;assert.equal(service,'voice');return options.denied??null;},voiceUserReference:()=>USER_REF},
+   '@/lib/voice/weekly-minutes':{BudgetError,checkWeeklyBudget:async input=>{budgets.push(input);if(options.budgetError)throw options.budgetError;
+    return options.budget??{ok:true,sessionSeconds:600,weekSeconds:600,limitSeconds:600,resetsAt:1795000000};}}})('app/api/voice/route.ts');
+ return{...api,env,requests,logs,budgets,get admissions(){return admissions;}};
 }
 
 test('OpenAI no longer exists: production without an explicit ElevenLabs selection is unavailable and contacts nobody',async()=>{
@@ -32,7 +36,7 @@ test('OpenAI no longer exists: production without an explicit ElevenLabs selecti
 
 test('only an explicitly selected and approved production target uses reviewed Sofia and immutable version',async()=>{
  const h=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'});
- const res=await h.POST(request());assert.equal(res.status,200);assert.deepEqual(await res.json(),{token:'temporary-elevenlabs'});
+ const res=await h.POST(request());assert.equal(res.status,200);assert.equal((await res.json()).token,'temporary-elevenlabs');
  assert.equal(h.admissions,1);assert.equal(h.requests.length,2);
  const [check,token]=h.requests.map(r=>new URL(r.url));
  assert.equal(check.pathname,'/v1/convai/agents/'+agent);assert.equal(token.searchParams.get('agent_id'),agent);
@@ -95,59 +99,67 @@ test('invalid requests fail before admission and server secrets never reach the 
  }
 });
 
-test('ElevenLabs uses bounded attempts and the Madrid day ledger without monthly quota keys',async()=>{
- for(const provider of ['elevenlabs']){
-  const calls=[],commands=[];const env={...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',AI_VOICE_PROVIDER:provider,ELEVENLABS_PRODUCTION_APPROVED:'true',
-   ELEVENLABS_API_KEY:'fake-elevenlabs',ELEVENLABS_ENABLED:'true',ELEVENLABS_AGENT_VERSION_ID:version,
-   AI_REDIS_REST_URL:'https://unit-test.upstash.io',AI_REDIS_REST_TOKEN:'fake-redis',AI_RATE_LIMIT_SECRET:'fake-hmac-value-for-unit-tests-only'};
-  const api=loader({process:{env},fetch:async(url,init)=>{
-   const address=String(url);calls.push(address);
-   if(address.includes('upstash.io')){
-    const command=JSON.parse(init.body);commands.push(command);assert.equal(command[0],'EVAL');
-    assert(!JSON.stringify(command.slice(3)).includes('31days'));
-    if(command[2]===4){assert.deepEqual(command.slice(7),[2,60,5,86400,20,86400,1,60]);}
-    else{assert.equal(command[2],1);assert.match(command[3],/^destinauta:ai:v2:production:voice:user:[a-f0-9]{64}:day:\d{4}-\d{2}-\d{2}$/);assert(['reserve','commit'].includes(command[4]));}
-    return Response.json({result:[1,0]});
-   }
-   if(address.includes('/convai/agents/'))return Response.json({...valid(300),agent_id:agent,version_id:version});
-   return Response.json({token:'temporary-elevenlabs'});
-  }},{'@/lib/supabase/voice-auth':{verifyVoiceUser:async()=>({userId:'11111111-2222-4333-8444-555555555555'})}})('app/api/voice/route.ts');
-  assert.equal((await api.POST(request())).status,200);
-  assert.equal(calls.filter(url=>url.includes('upstash.io')).length,3);assert(calls[0].includes('upstash.io'));
-  assert.deepEqual(commands.map(command=>command[2]===4?'attempts':command[4]),['attempts','reserve','commit']);
- }
+test('ElevenLabs uses flood-protection attempts and the real weekly minutes, with no daily ledger and no monthly quota keys',async()=>{
+ const calls=[],commands=[],lists=[];const env={...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true',
+  ELEVENLABS_API_KEY:'fake-elevenlabs',ELEVENLABS_ENABLED:'true',ELEVENLABS_AGENT_VERSION_ID:version,
+  AI_REDIS_REST_URL:'https://unit-test.upstash.io',AI_REDIS_REST_TOKEN:'fake-redis',AI_RATE_LIMIT_SECRET:'fake-hmac-value-for-unit-tests-only'};
+ const api=loader({process:{env},fetch:async(url,init)=>{
+  const address=String(url);calls.push(address);
+  if(address.includes('upstash.io')){
+   const command=JSON.parse(init.body);commands.push(command);assert.equal(command[0],'EVAL');
+   assert(!JSON.stringify(command.slice(3)).includes('31days'));
+   assert.equal(command[2],3);assert.deepEqual(command.slice(6),[6,60,60,86400,3,60]);
+   assert.match(command[5],/^destinauta:ai:v1:production:voice:user:[a-f0-9]{64}:minute$/);
+   return Response.json({result:[1,0]});
+  }
+  if(address.includes('/convai/conversations')){lists.push(new URL(address));return Response.json({conversations:[{conversation_id:'c',start_time_unix_secs:Math.floor(Date.now()/1000)-60,call_duration_secs:60,status:'done'}],has_more:false});}
+  if(address.includes('/convai/agents/'))return Response.json({...valid(300),agent_id:agent,version_id:version});
+  return Response.json({token:'temporary-elevenlabs'});
+ }},{'@/lib/supabase/voice-auth':{verifyVoiceUser:async()=>({userId:'11111111-2222-4333-8444-555555555555'})}})('app/api/voice/route.ts');
+ const res=await api.POST(request());assert.equal(res.status,200);
+ const body=await res.json();assert.equal(body.token,'temporary-elevenlabs');assert.match(body.userRef,/^u_[a-f0-9]{32}$/);
+ assert.equal(body.weekSeconds,540);assert.equal(body.sessionSeconds,540);assert.equal(body.limitSeconds,600);
+ assert.equal(commands.length,1,'one Redis call: no Madrid-day ledger');
+ assert.equal(lists.length,2);assert(lists.every(u=>u.searchParams.get('agent_id')===agent));
+ assert.deepEqual(lists.map(u=>u.searchParams.get('user_id')).sort(),[body.userRef,null].sort());
+ // Order: flood protection, then the weekly minutes, then the pinned agent check and finally the token.
+ assert(calls[0].includes('upstash.io'));assert(calls[1].includes('/convai/conversations')&&calls[2].includes('/convai/conversations'));
+ assert(calls[3].includes('/convai/agents/')&&calls[4].includes('/conversation/token'));
+ assert.equal(JSON.stringify(body).includes('fake-elevenlabs'),false);
 });
 
-test('ElevenLabs releases pre-token failures but never refund an ambiguous commit',async()=>{
- for(const provider of ['elevenlabs']){
-  const scope={AI_VOICE_PROVIDER:provider,ELEVENLABS_PRODUCTION_APPROVED:'true'};
-  const failed=harness(scope,{fetcher:async()=>new Response('private-error',{status:503})});
-  assert.equal((await failed.POST(request())).status,503);assert.deepEqual(failed.finalizations,[false]);
-  const ambiguous=harness(scope,{finalize:async()=>false});
-  const response=await ambiguous.POST(request());assert.equal(response.status,503);
-  assert.deepEqual(await response.json(),{error:'ai_unavailable'});assert.deepEqual(ambiguous.finalizations,[true]);
-  assert.equal(ambiguous.requests.length,2);
- }
+test('a weekly budget that cannot be read never reaches the token endpoint, and ambiguous failures never grant one',async()=>{
+ const scope={AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'};
+ const failed=harness(scope,{fetcher:async()=>new Response('private-error',{status:503})});
+ assert.equal((await failed.POST(request())).status,503);
+ const unreadable=harness(scope,{budgetError:new BudgetError('VOICE_BUDGET_HTTP')});
+ const response=await unreadable.POST(request());assert.equal(response.status,503);
+ assert.deepEqual(await response.json(),{error:'ai_unavailable'});assert.equal(unreadable.requests.length,0);
+ const spent=harness(scope,{budget:{ok:false,reason:'user',resetsAt:Math.floor(Date.now()/1000)+86400}});
+ const limited=await spent.POST(request());assert.equal(limited.status,429);assert.equal((await limited.json()).error,'ai_weekly_limit');assert.equal(spent.requests.length,0);
 });
 
-test('production accepts the reviewed 300-second agent and the new 360-second one, and nothing else',async()=>{
+test('production accepts the reviewed 300-second agent, the 360-second one and the 15-minute one, and nothing else',async()=>{
  const withDuration=seconds=>{const config={...valid(300),agent_id:agent,version_id:version};config.conversation_config.conversation.max_duration_seconds=seconds;return config;};
- for(const [seconds,status] of [[300,200],[360,200],[330,503],[299,503],[361,503],[600,503],[-1,503],[0,503]]){
+ for(const [seconds,status] of [[300,200],[360,200],[900,200],[330,503],[299,503],[361,503],[600,503],[899,503],[901,503],[-1,503],[0,503]]){
   const h=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config:withDuration(seconds)});
   const res=await h.POST(request());
   assert.equal(res.status,status,String(seconds));
-  if(status===200)assert.deepEqual(await res.json(),{token:'temporary-elevenlabs'});
+  if(status===200)assert.equal((await res.json()).token,'temporary-elevenlabs');
   else assert.deepEqual(await res.json(),{error:'ai_unavailable'});
  }
- // The 360-second agent still has to keep every other production safeguard (daily limit up to 15, no burst, one at a time…).
- const loose=withDuration(360);loose.platform_settings.call_limits.daily_limit=100000;
- const refused=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config:loose});
- assert.equal((await refused.POST(request())).status,503);
+ // The 360-second and 15-minute agents still have to keep every other production safeguard (daily limit up to 15, no burst, one at a time…).
+ for(const seconds of [360,900]){
+  const loose=withDuration(seconds);loose.platform_settings.call_limits.daily_limit=100000;
+  const refused=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config:loose});
+  assert.equal((await refused.POST(request())).status,503,String(seconds));
+ }
 });
 
-test('the diagnostic snapshot applies the same 300 or 360 rule for production and only 360 for Preview',()=>{
+test('the diagnostic snapshot applies the same rule as the route: 900 or 360 everywhere and 300 only in production',()=>{
  const source=fs.readFileSync(path.join(__dirname,'..','lib/voice/provider-config.ts'),'utf8');
- assert.match(source,/max_duration_seconds === 360 \|\| \(!preview && c\.conversation\?\.max_duration_seconds === 300\)/);
+ const rule=/max_duration_seconds === 900 \|\| c\.conversation\?\.max_duration_seconds === 360 \|\|\s+\(!preview && c\.conversation\?\.max_duration_seconds === 300\)/;
+ assert.match(source,rule);
  const route=fs.readFileSync(path.join(__dirname,'..','lib/voice/elevenlabs-route.ts'),'utf8');
- assert.match(route,/max_duration_seconds === 360 \|\| \(!preview && c\.conversation\?\.max_duration_seconds === 300\)/);
+ assert.match(route,rule);
 });

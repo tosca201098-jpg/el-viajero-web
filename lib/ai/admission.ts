@@ -1,11 +1,11 @@
 import { verifyVoiceUser } from '@/lib/supabase/voice-auth';
 import { previewDiagnostic, type PreviewDiagnosticCode } from './preview-diagnostic';
-import { madridVoiceDay, VOICE_DAY_LEDGER_LUA } from './voice-daily-policy';
+import { madridVoiceDay } from './voice-daily-policy';
 import { AI_ITINERARIES_GLOBAL_PER_DAY, AI_ITINERARIES_PER_DAY } from '@/lib/itinerary/limits';
-import { createHmac, randomBytes } from 'node:crypto';
+import { createHmac } from 'node:crypto';
 import { isIP } from 'node:net';
 
-export type AiService = 'voice' | 'itinerary';
+export type AiService = 'voice' | 'itinerary' | 'voice_budget';
 
 // Non-refundable attempt limits. Denials never extend or increment another bucket.
 export const RESERVE_QUOTA = `
@@ -24,11 +24,13 @@ end
 return {1, 0}
 `;
 
-type VoiceReservation = {
-  url: URL; token: string; key: string; nonce: string; startsAt: number; endsAt: number;
-};
-// Server-only capability: neither the reservation id nor its key is returned to the client.
-const reservations = new WeakMap<Request, VoiceReservation>();
+// Server-only: the anonymous account reference of an admitted voice request. It is never derived from client input.
+const voiceUsers = new WeakMap<Request, string>();
+/** Anonymous, stable per-account reference (HMAC of the verified user id). It is what ElevenLabs stores as `user_id`. */
+export function voiceUserReference(request: Request): string | undefined { return voiceUsers.get(request); }
+function userReference(secret: string, userId: string) {
+  return 'u_' + createHmac('sha256', secret).update('elevenlabs-user:' + userId).digest('hex').slice(0, 32);
+}
 
 function denial(status: number, error: string, retry = 60) {
   return Response.json({ error }, { status, headers: {
@@ -53,53 +55,28 @@ function networkIdentity(ip: string): string {
   return groups.slice(0, 4).map(x => x.padStart(4, '0')).join(':') + '::/64';
 }
 
-async function ledger(context: VoiceReservation, operation: 'reserve' | 'commit' | 'cancel'): Promise<[number, number]> {
-  const response = await fetch(context.url, {
-    method: 'POST', headers: { Authorization: `Bearer ${context.token}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify(['EVAL', VOICE_DAY_LEDGER_LUA, 1, context.key, operation,
-      context.nonce, context.startsAt, context.endsAt, 30]),
-    cache: 'no-store', redirect: 'error', signal: AbortSignal.timeout(2500),
-  });
-  if (!response.ok) throw new Error('quota_store_failed');
-  const data: unknown = await response.json();
-  if (!data || typeof data !== 'object' || 'error' in data || !('result' in data) ||
-      !Array.isArray(data.result) || data.result.length !== 2) throw new Error('invalid_quota_result');
-  const [code, retry] = data.result;
-  if (!Number.isInteger(code) || ![-1, 0, 1, 2].includes(code) ||
-      !Number.isInteger(retry) || retry < 0 || retry > 90000 ||
-      (code !== 0 && retry !== 0)) throw new Error('invalid_quota_result');
-  return [code, retry];
-}
-
-/** Finalize once before exposing a provider credential; failed/ambiguous commits are never refunded. */
-export async function finalizeVoiceAdmission(request: Request, commit: boolean): Promise<boolean> {
-  const context = reservations.get(request);
-  reservations.delete(request);
-  if (!context) return !commit;
-  // Cancellation can release a known pending hold even after the browser disconnected.
-  if (commit && request.signal.aborted) return false;
-  try {
-    const [code, retry] = await ledger(context, commit ? 'commit' : 'cancel');
-    return retry === 0 && (commit ? code === 1 : code === 1 || code === 0);
-  } catch { return false; }
-}
-
-/** Voice: non-refundable attempt limits followed by a provisional natural-Madrid-day slot. */
+/**
+ * Voice and AI itineraries: non-refundable attempt limits (they only protect against floods and double clicks).
+ * What a person may actually USE is decided elsewhere: weekly voice minutes (lib/voice/weekly-minutes.ts) and the
+ * Madrid-day itinerary allowance below. `voice_budget` is the cheap read behind the minutes bar in "Mi cuenta".
+ */
 export async function admitAiRequest(request: Request, service: AiService): Promise<Response | null> {
-  if (service === 'voice' && (request.signal.aborted || reservations.has(request))) return denial(503, 'ai_unavailable');
+  const voiceLike = service !== 'itinerary';
+  if (voiceLike && (request.signal.aborted || voiceUsers.has(request))) return denial(503, 'ai_unavailable');
   const origin = request.headers.get('origin');
   if (request.headers.get('sec-fetch-site') === 'cross-site' || (origin && origin !== new URL(request.url).origin)) {
-    if (service === 'voice') previewDiagnostic('ADMISSION_ORIGIN');
+    if (voiceLike) previewDiagnostic('ADMISSION_ORIGIN');
     return denial(403, 'ai_unavailable');
   }
-  if (process.env.AI_ENABLED !== 'true' || process.env[`AI_${service.toUpperCase()}_ENABLED`] !== 'true') {
-    if (service === 'voice') previewDiagnostic('ADMISSION_FLAGS');
+  const flag = service === 'itinerary' ? 'ITINERARY' : 'VOICE';
+  if (process.env.AI_ENABLED !== 'true' || process.env[`AI_${flag}_ENABLED`] !== 'true') {
+    if (voiceLike) previewDiagnostic('ADMISSION_FLAGS');
     return denial(503, 'ai_unavailable');
   }
   // Voice and AI itineraries are only for registered visitors; the guest path never reaches this function.
   const voiceUser = await verifyVoiceUser(request);
   if (voiceUser instanceof Response) return voiceUser;
-  if (service === 'voice' && request.signal.aborted) return denial(503, 'ai_unavailable');
+  if (voiceLike && request.signal.aborted) return denial(503, 'ai_unavailable');
   let stage: PreviewDiagnosticCode = 'ADMISSION_REDIS_CONFIG';
   let signal: AbortSignal | undefined;
   try {
@@ -120,26 +97,32 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
     } else throw new Error('unsupported_host');
     const hash = createHmac('sha256', secret).update(identity).digest('hex');
     const scope = process.env.VERCEL_ENV === 'production' ? 'production' : 'preview';
-    const prefix = `destinauta:ai:v1:${scope}:${service}`;
-    const kind = service.toUpperCase();
-    const defaults = service === 'voice' ? [2, 5, 20] : [3, 10, AI_ITINERARIES_GLOBAL_PER_DAY];
-    stage = 'ADMISSION_LIMITS';
-    const limits = ['MINUTE', 'DAY', 'GLOBAL_DAY'].map((name, i) =>
-      limit(process.env[`AI_${kind}_${name}_LIMIT`], defaults[i], defaults[i]));
-    const keys = [`${prefix}:ip:${hash}:minute`, `${prefix}:ip:${hash}:day`, `${prefix}:global:day`];
-    const quotas = [limits[0], 60, limits[1], 86400, limits[2], 86400];
+    const prefix = `destinauta:ai:v1:${scope}:${service === 'voice_budget' ? 'voice:budget' : service}`;
     if (!voiceUser) throw new Error('missing_verified_user');
     const userHash = createHmac('sha256', secret).update('user:' + voiceUser.userId).digest('hex');
+    stage = 'ADMISSION_LIMITS';
+    let keys: string[];
+    let quotas: number[];
     if (service === 'voice') {
-      keys.push(`${prefix}:user:${userHash}:minute`);
-      quotas.push(limit(process.env.AI_VOICE_USER_MINUTE_LIMIT, 1, 1), 60);
+      // Only flood protection. No daily or per-person count of conversations: the weekly minutes are the allowance.
+      keys = [`${prefix}:ip:${hash}:minute`, `${prefix}:ip:${hash}:day`, `${prefix}:user:${userHash}:minute`];
+      quotas = [limit(process.env.AI_VOICE_IP_MINUTE_ATTEMPTS, 6, 6), 60, limit(process.env.AI_VOICE_IP_DAY_ATTEMPTS, 60, 60), 86400,
+        limit(process.env.AI_VOICE_USER_MINUTE_ATTEMPTS, 3, 3), 60];
+    } else if (service === 'voice_budget') {
+      keys = [`${prefix}:ip:${hash}:minute`, `${prefix}:user:${userHash}:minute`];
+      quotas = [30, 60, 6, 60];
     } else {
-      // AI itineraries: a per-person allowance for the natural Madrid day (the key changes at midnight, Madrid time).
-      keys.push(`${prefix}:user:${userHash}:day:${madridVoiceDay(Date.now()).date}`);
-      quotas.push(limit(process.env.AI_ITINERARY_USER_DAY_LIMIT, AI_ITINERARIES_PER_DAY, AI_ITINERARIES_PER_DAY), 90000);
+      const defaults = [3, 10, AI_ITINERARIES_GLOBAL_PER_DAY];
+      const limits = ['MINUTE', 'DAY', 'GLOBAL_DAY'].map((name, i) =>
+        limit(process.env[`AI_ITINERARY_${name}_LIMIT`], defaults[i], defaults[i]));
+      keys = [`${prefix}:ip:${hash}:minute`, `${prefix}:ip:${hash}:day`, `${prefix}:global:day`,
+        // AI itineraries: a per-person allowance for the natural Madrid day (the key changes at midnight, Madrid time).
+        `${prefix}:user:${userHash}:day:${madridVoiceDay(Date.now()).date}`];
+      quotas = [limits[0], 60, limits[1], 86400, limits[2], 86400,
+        limit(process.env.AI_ITINERARY_USER_DAY_LIMIT, AI_ITINERARIES_PER_DAY, AI_ITINERARIES_PER_DAY), 90000];
     }
     stage = 'ADMISSION_REDIS_NETWORK';
-    if (service === 'voice' && request.signal.aborted) return denial(503, 'ai_unavailable');
+    if (voiceLike && request.signal.aborted) return denial(503, 'ai_unavailable');
     signal = AbortSignal.timeout(2500);
     const response = await fetch(url, {
       method: 'POST', headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -154,34 +137,16 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
         !Array.isArray(data.result) || data.result.length !== 2) throw new Error('invalid_quota_result');
     const [allowed, retry] = data.result;
     if (allowed === 0 && Number.isInteger(retry) && retry >= 1 && retry <= 86400) {
-      if (service === 'voice') previewDiagnostic('ADMISSION_QUOTA');
+      if (voiceLike) previewDiagnostic('ADMISSION_QUOTA');
       return denial(429, 'ai_rate_limited', retry);
     }
     if (allowed !== 1 || retry !== 0) throw new Error('invalid_quota_result');
-    if (service !== 'voice') return null;
+    if (!voiceLike) return null;
     if (request.signal.aborted) return denial(503, 'ai_unavailable');
-
-    const day = madridVoiceDay(Date.now());
-    const context: VoiceReservation = { url, token,
-      key: `destinauta:ai:v2:${scope}:voice:user:${userHash}:day:${day.date}`,
-      nonce: randomBytes(16).toString('hex'), startsAt: day.startsAt, endsAt: day.endsAt };
-    stage = 'ADMISSION_REDIS_NETWORK';
-    if (request.signal.aborted) return denial(503, 'ai_unavailable');
-    const [reserved, wait] = await ledger(context, 'reserve');
-    stage = 'ADMISSION_REDIS_MALFORMED';
-    if (reserved === 0) {
-      previewDiagnostic('ADMISSION_QUOTA');
-      return denial(429, 'ai_rate_limited', Math.max(1, wait));
-    }
-    if (reserved !== 1 || wait !== 0) throw new Error('invalid_quota_result');
-    reservations.set(request, context);
-    if (request.signal.aborted) {
-      await finalizeVoiceAdmission(request, false);
-      return denial(503, 'ai_unavailable');
-    }
+    voiceUsers.set(request, userReference(secret, voiceUser.userId));
     return null;
   } catch {
-    if (service === 'voice') previewDiagnostic(signal?.aborted ? 'ADMISSION_REDIS_TIMEOUT' : stage);
+    if (voiceLike) previewDiagnostic(signal?.aborted ? 'ADMISSION_REDIS_TIMEOUT' : stage);
     return denial(503, 'ai_unavailable');
   }
 }

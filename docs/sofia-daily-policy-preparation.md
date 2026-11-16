@@ -1,5 +1,7 @@
 # Sofía: preparación de 3 conversaciones por día de Madrid y 360 segundos
 
+> **Sustituido el 16 de noviembre de 2026** por los minutos semanales (`docs/sofia-minutos-semanales.md`). Se conserva como histórico.
+
 Preparación aislada del 1 de noviembre de 2026. El propietario ha autorizado subir exclusivamente este lote de pruebas y ejecutarlo en Redis efímero de CI, sin nueva Preview. El candidato no está integrado en la voz ni conectado a Upstash. No autoriza voz, tokens de proveedores, fusión, Production o pagos. Las cifras de 3 y 360 son la política definitiva del propietario; los bloqueos mensuales no forman parte de la nueva cuota propuesta.
 
 ## Estado comprobado

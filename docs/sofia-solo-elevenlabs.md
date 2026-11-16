@@ -117,7 +117,7 @@ Solo ajustes del propio agente; **no hace falta cambiar la herramienta ni subir 
    espera de respuesta de la herramienta en unos 60 segundos** como mínimo: Haiku puede tardar entre 10 y 40 segundos y ese
    tiempo cuenta dentro de la conversación.
 3. Mantener lo que el código exige del agente: voz `eZxqQzb5CuYo3Kl6EXfZ`, español, autenticación activada, **duración máxima
-   300 o 360 segundos** (Production acepta ambas; el agente de pruebas de la Preview solo 360), silencio 90 s, detección de voz de
+   900 segundos** (conversaciones de hasta 15 minutos; el código sigue aceptando 360 s y, solo en Production, 300 s, las versiones anteriores), silencio 90 s, detección de voz de
    fondo, máximo 1.024 tokens por respuesta, una conversación a la vez, límite diario 1–15 en Production, sin ráfagas ni cola, y
    sin permitir cambiar prompt, modelo, voz ni duración desde el navegador (solo idioma y primer mensaje).
 4. Publicar la versión y anotar su **ID** (`agtvrsn_…`, y el `agent_…` si es un agente nuevo). El código fija la versión revisada
@@ -265,8 +265,8 @@ herramientas, sobre todo `descubrir_destinos` y `buscar_viaje` con presupuesto.
 - Sofía no puede enseñar precios de hotel porque la web no los tiene: el buscador de hoteles es un widget externo.
 - Pedir «hotel» abre la página de hoteles y **cierra la conversación** (la página cambia). Un panel de hoteles dentro de la propia
   página, sin salir, sería otro cambio aparte.
-- Con la duración máxima de 360 s caben unas 4–6 gestiones por conversación; las conversaciones largas de asesoramiento
-  consumen minutos de ElevenLabs.
+- Con 6 minutos caben unas 4–6 gestiones por conversación; las conversaciones largas de asesoramiento consumen minutos de
+  ElevenLabs. Con el sistema de minutos semanales una conversación puede durar hasta 15 minutos, pero cada cuenta solo tiene 10 por semana.
 
 ## Variables de Production necesarias
 
@@ -281,10 +281,17 @@ herramientas, sobre todo `descubrir_destinos` y `buscar_viaje` con presupuesto.
 | `ELEVENLABS_AGENT_VERSION_ID` | `agtvrsn_0601m7jz66wvf83ambtr3s819vfv` (la fijada en el código) | Debe coincidir exactamente con `SOFIA_PRODUCTION_VERSION_ID`. |
 | `AI_REDIS_REST_URL`, `AI_REDIS_REST_TOKEN` | de Upstash Redis | Cuotas compartidas. |
 | `AI_RATE_LIMIT_SECRET` | texto aleatorio de 32 o más caracteres | Protege los contadores. |
+| `AI_VOICE_USER_WEEK_MINUTES` | `10` (opcional) | Minutos de voz por semana y cuenta (tope 60). Ver `docs/sofia-minutos-semanales.md`. |
+| `AI_VOICE_GLOBAL_WEEK_MINUTES` | por defecto `15`; lo decide el propietario | Minutos de voz por semana para toda la web (tope 1000). |
 
 `OPENAI_API_KEY` debe quedar vacía o eliminada. `AI_ITINERARY_ENABLED` y `AI_ITINERARY_*` solo afectan al itinerario escrito
-por IA para visitantes registrados (ver `docs/itinerario-ia-haiku.md`); no cambian la voz. Las cuotas por usuario y por IP no cambian: 1 conversación por minuto y 3 por día natural de Madrid por
-usuario; 2 por minuto y 5 por día por IP; 20 intentos globales al día.
+por IA para visitantes registrados (ver `docs/itinerario-ia-haiku.md`); no cambian la voz.
+
+**Límites de la voz: minutos por semana, no conversaciones por día.** Cada cuenta registrada tiene 10 minutos por semana natural de
+Madrid (lunes a lunes) y la web un tope semanal compartido; las conversaciones duran hasta 15 minutos y «Mi cuenta» enseña una barra con lo
+que queda. Solo se mantienen frenos contra ráfagas (6 intentos por minuto y 60 por día por IP, 3 por minuto y cuenta). Las variables
+`AI_VOICE_MINUTE_LIMIT`, `AI_VOICE_DAY_LIMIT`, `AI_VOICE_GLOBAL_DAY_LIMIT` y `AI_VOICE_USER_MINUTE_LIMIT` ya no se leen y pueden borrarse.
+Detalle, mensajes y pasos en ElevenLabs: `docs/sofia-minutos-semanales.md`.
 
 ## Qué no se puede comprobar desde el código
 

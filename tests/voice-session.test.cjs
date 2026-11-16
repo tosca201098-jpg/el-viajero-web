@@ -88,3 +88,56 @@ test('startup error disconnection prevents activation and closes late connection
   pending.resolve(connection); await start; await tick();
   assert.equal(connection.ended, 1); assert(!h.phases.includes('active'));
 });
+
+// ---- Weekly voice minutes: what the browser does with the server's answer ----------------------------------------------------
+const {loader}=require('./sofia-harness.cjs');
+const ref='u_'+'0123456789abcdef'.repeat(2);
+const grant=(extra={})=>({ok:true,json:async()=>({token:'fake-session-token',userRef:ref,sessionSeconds:600,weekSeconds:600,limitSeconds:600,resetsAt:1795000000,...extra})});
+
+test('429 tells apart the weekly minutes of the account, of the whole site and too many attempts in a row',async()=>{
+ for(const [body,error] of [[{error:'ai_weekly_limit',resetsAt:1795000000},'weeklyLimit'],[{error:'ai_site_weekly_limit',resetsAt:1795000000},'siteWeeklyLimit'],
+  [{error:'ai_rate_limited'},'limited'],[{error:'something-else'},'limited'],[null,'limited'],['junk','limited'],[{error:{nested:true}},'limited']]){
+  let opened=0;
+  const h=harness({fetcher:async()=>({ok:false,status:429,json:async()=>{if(body===null)throw Error('no body');return body}}),startConversation:async()=>{opened++}});
+  await h.session.start();assert.equal(opened,0,JSON.stringify(body));assert.deepEqual(h.errors,[error],JSON.stringify(body));assert.equal(h.session.status,'idle');
+  await h.session.start();assert.deepEqual(h.errors,[error,error],'the visitor can try again');
+ }
+ for(const [status,error] of [[503,'unavailable'],[500,'connection'],[401,'connection']]){
+  const h=harness({fetcher:async()=>({ok:false,status,json:async()=>({error:'ai_weekly_limit'})})});
+  await h.session.start();assert.deepEqual(h.errors,[error],String(status));
+ }
+});
+
+test('the SDK receives the anonymous account reference so ElevenLabs can add up the minutes, and only in the exact format',async()=>{
+ const h=harness({fetcher:async()=>grant()});
+ try{await h.session.start();assert.equal(h.sdk.userId,ref);assert.equal(h.sdk.conversationToken,'fake-session-token');}finally{h.session.stop();await tick();}
+ for(const userRef of [undefined,null,'',123,'u_short','U_'+'0'.repeat(32),'u_'+'g'.repeat(32),ref+'x','11111111-2222-4333-8444-555555555555',{ref}]){
+  const g=harness({fetcher:async()=>grant({userRef})});
+  try{await g.session.start();assert.equal(Object.hasOwn(g.sdk,'userId'),false,String(userRef));assert.equal(g.session.status,'active');}finally{g.session.stop();await tick();}
+ }
+});
+
+test('the conversation lasts what the server granted: what is left of the week, never over 15 minutes, 6 minutes if the server says nothing',async()=>{
+ const timers=[];
+ const api=loader({setTimeout:(fn,ms)=>{timers.push(ms);return timers.length},clearTimeout(){}})('lib/voice/session.ts');
+ const run=async(answer)=>{
+  timers.length=0;let sdk;
+  const connection={endSession:async()=>{},setMicMuted(){},setVolume(){}};
+  const session=new api.VoiceSession({preflight:async()=>{},onPhase(){},onError(){},onSearch:async()=>({status:'success'}),fetcher:async()=>answer,
+   now:()=>new Date('2026-11-16T12:00:00Z'),startConversation:async options=>{sdk=options;return connection}});
+  await session.start();session.stop();
+  // The wrapper and the provider session each arm the same cut-off; the start-up guard (20 s) is not one of them.
+  return [...new Set(timers.filter(ms=>ms!==20000))];
+ };
+ assert.deepEqual(await run(grant({sessionSeconds:180})),[180000],'3 minutes left: 3 minutes');
+ assert.deepEqual(await run(grant({sessionSeconds:30})),[30000]);
+ assert.deepEqual(await run(grant({sessionSeconds:900})),[900000]);
+ assert.deepEqual(await run(grant({sessionSeconds:5000})),[900000],'never more than the 15-minute maximum');
+ for(const sessionSeconds of [undefined,0,-5,1.5,'600',null,NaN])assert.deepEqual(await run(grant({sessionSeconds})),[360000],String(sessionSeconds));
+});
+
+test('the cut-off ends the real conversation: microphone muted and the provider session closed',async()=>{
+ const h=harness({sessionTimeoutMs:5,fetcher:async()=>grant({sessionSeconds:600})});
+ await h.session.start();assert.equal(h.session.status,'active');
+ await new Promise(r=>setTimeout(r,25));assert.equal(h.session.status,'idle');assert.equal(h.connection.ended,1);assert.ok(h.mutes.includes(true));
+});

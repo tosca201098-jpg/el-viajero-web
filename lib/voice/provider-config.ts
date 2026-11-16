@@ -29,7 +29,8 @@ export function safeSofiaConfiguration(config: AgentConfig, preview = false) {
   const tools = c?.agent?.prompt?.tools ?? [];
   return settings?.auth?.enable_auth === true &&
     c?.tts?.voice_id === 'eZxqQzb5CuYo3Kl6EXfZ' && c.agent?.language === 'es' &&
-    (c.conversation?.max_duration_seconds === 360 || (!preview && c.conversation?.max_duration_seconds === 300)) &&
+    (c.conversation?.max_duration_seconds === 900 || c.conversation?.max_duration_seconds === 360 ||
+      (!preview && c.conversation?.max_duration_seconds === 300)) &&
     c.turn?.silence_end_call_timeout === 90 &&
     c.vad?.background_voice_detection === true &&
     Number(c.agent?.prompt?.max_tokens) > 0 && Number(c.agent?.prompt?.max_tokens) <= 1024 &&

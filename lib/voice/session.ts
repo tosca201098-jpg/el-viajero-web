@@ -23,6 +23,8 @@ export class VoiceSession {
   private starting: Promise<void> | null = null;
   private ending: Promise<void> = Promise.resolve();
   private timer: ReturnType<typeof setTimeout> | null = null;
+  /** How long this conversation may last: what the server granted (what is left of the week, at most 15 minutes). */
+  private allowedMs = 360_000;
   constructor(private options: VoiceSessionOptions) {}
   get status() { return this.phase; }
   get turnStatus() { return this.turn; }
@@ -35,7 +37,7 @@ export class VoiceSession {
     if (phase !== 'connecting') this.clearTimer();
     this.phase = phase;
     if (phase === 'active') {
-      this.timer = setTimeout(() => this.stop(), Math.min(this.options.sessionTimeoutMs ?? 360000, 360000));
+      this.timer = setTimeout(() => this.stop(), Math.min(this.options.sessionTimeoutMs ?? this.allowedMs, this.allowedMs));
     }
     if (!this.disposed) this.options.onPhase(phase);
   }
@@ -123,7 +125,17 @@ export class VoiceSession {
         if (!this.current(id)) return;
         if (!response.ok) {
           if (response.status === 401) { this.requireAuthentication(id); return; }
-          this.fail(id, response.status === 429 ? 'limited' : response.status === 503 ? 'unavailable' : 'connection');
+          let reason: VoiceError = response.status === 429 ? 'limited' : response.status === 503 ? 'unavailable' : 'connection';
+          if (response.status === 429) {
+            // The server says why: this account's weekly minutes, the whole site's weekly minutes, or too many attempts in a row.
+            let body: unknown = null;
+            try { body = await response.json(); } catch { /* No readable reason: it stays a generic limit. */ }
+            const code = body && typeof body === 'object' && 'error' in body ? body.error : null;
+            if (code === 'ai_weekly_limit') reason = 'weeklyLimit';
+            else if (code === 'ai_site_weekly_limit') reason = 'siteWeeklyLimit';
+            if (!this.current(id)) return;
+          }
+          this.fail(id, reason);
           return;
         }
         const data: unknown = await response.json();
@@ -134,7 +146,13 @@ export class VoiceSession {
           ? (data as { token: unknown }).token : undefined;
         if (typeof credential !== 'string' || !credential.trim()) throw Error('invalid_session');
         // The adapter receives this response in memory, not a second HTTP request.
-        const prefetched = { token: credential };
+        // Besides the token, only the anonymous account reference and the seconds this conversation may last are passed on.
+        const record = data as { userRef?: unknown; sessionSeconds?: unknown };
+        const granted = (data as { sessionSeconds?: unknown }).sessionSeconds;
+        this.allowedMs = typeof granted === 'number' && Number.isInteger(granted) && granted > 0 ? Math.min(granted * 1000, 900_000) : 360_000;
+        const prefetched = { token: credential,
+          ...(typeof record.userRef === 'string' ? { userRef: record.userRef } : {}),
+          ...(typeof record.sessionSeconds === 'number' ? { sessionSeconds: record.sessionSeconds } : {}) };
         let consumed = false;
         const fetcher: typeof fetch = (input, init) => {
           if (input === '/api/voice') {

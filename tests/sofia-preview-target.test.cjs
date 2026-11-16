@@ -8,13 +8,16 @@ const legacyVersion='agtvrsn_3801m618j78bey69jjc08tdm4ppc';
 const scope={VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-elevenlabs',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web'};
 const source=fs.readFileSync(path.join(__dirname,'voice-route.test.cjs'),'utf8');
 const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();
+class BudgetError extends Error{constructor(code){super('voice_budget');this.code=code}}
+const weeklyMock={BudgetError,checkWeeklyBudget:async()=>({ok:true,sessionSeconds:600,weekSeconds:600,limitSeconds:600,resetsAt:1795000000})};
 function harness(change={},options={}){
  const requests=[],logs=[];
  const config=options.config??{...valid(),agent_id:agent,version_id:version};
  const api=loader({process:{env:{...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:version,...change}},console:{warn:(...args)=>logs.push(args)},fetch:async(url,init)=>{
   requests.push({url:String(url),init});
   return Response.json(requests.length===1?config:{token:'temporary-token',private:'must-not-leak'});
- }},{'@/lib/ai/admission':{admitAiRequest:async()=>options.denied??null,finalizeVoiceAdmission:async()=>true}})('app/api/voice/route.ts');
+ }},{'@/lib/ai/admission':{admitAiRequest:async()=>options.denied??null,voiceUserReference:()=>'u_'+'a'.repeat(32)},
+  '@/lib/voice/weekly-minutes':weeklyMock})('app/api/voice/route.ts');
  return {...api,requests,logs};
 }
 const request=locale=>new Request('https://el-viajero-web-git-codex-sofia-elevenlabs-el-viajero.vercel.app/api/voice',{method:'POST',body:JSON.stringify({locale})});
@@ -22,7 +25,7 @@ const request=locale=>new Request('https://el-viajero-web-git-codex-sofia-eleven
 test('only the exact Preview scope uses the reviewed new agent and immutable version in both requests',async()=>{
  for(const locale of ['es','en','fr','de','it','pt','ca']){
   const h=harness(),response=await h.POST(request(locale));
-  assert.equal(response.status,200);assert.deepEqual(await response.json(),{token:'temporary-token'});
+  assert.equal(response.status,200);assert.equal((await response.json()).token,'temporary-token');
   assert.equal(response.headers.get('cache-control'),'no-store');assert.equal(h.requests.length,2);
   const [check,token]=h.requests.map(r=>new URL(r.url));
   assert.equal(check.pathname,'/v1/convai/agents/'+agent);
@@ -57,7 +60,7 @@ test('Preview with absent, malformed or unreviewed version fails closed before E
 test('Preview migrates only the previous reviewed environment pin to the fixed 360-second version',async()=>{
  const h=harness({ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_2501m679we79ekz985446fbyygkb'});
  const response=await h.POST(request('es'));
- assert.equal(response.status,200);assert.deepEqual(await response.json(),{token:'temporary-token'});
+ assert.equal(response.status,200);assert.equal((await response.json()).token,'temporary-token');
  assert.equal(h.requests.length,2);
  for(const call of h.requests)assert.equal(new URL(call.url).searchParams.get('version_id'),version);
  assert.equal(new URL(h.requests[0].url).pathname,'/v1/convai/agents/'+agent);
@@ -67,7 +70,7 @@ test('Preview migrates only the previous reviewed environment pin to the fixed 3
 test('Preview also accepts the previous Preview pin in the environment and still emits only the fixed new version',async()=>{
  const h=harness({ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_1101m6cddd37ewmtkrth2xr64n0m'});
  const response=await h.POST(request('es'));
- assert.equal(response.status,200);assert.deepEqual(await response.json(),{token:'temporary-token'});
+ assert.equal(response.status,200);assert.equal((await response.json()).token,'temporary-token');
  assert.equal(h.requests.length,2);
  for(const call of h.requests)assert.equal(new URL(call.url).searchParams.get('version_id'),version);
 });

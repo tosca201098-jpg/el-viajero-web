@@ -7,6 +7,7 @@ import type { Session } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import SavedTrips from "./SavedTrips";
 import SavedItineraries from "./SavedItineraries";
+import VoiceMinutesBar from "./VoiceMinutesBar";
 import MobileHeaderMenu from "./MobileHeaderMenu";
 
 const primaryButton = "whitespace-nowrap max-sm:whitespace-normal max-sm:leading-[14px] max-sm:max-w-[92px] rounded-xl bg-blue-600 px-3 py-2 text-xs font-semibold text-white transition hover:bg-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 sm:px-4 sm:text-sm max-sm:min-h-[44px] max-sm:px-1.5";
@@ -160,6 +161,7 @@ export default function HeaderAuth({ onOpenAuth }: {
                 <p className="text-sm font-semibold">{t("auth.email")}</p>
                 <p className="mt-1 break-all text-sm text-stone-700">{session.user.email}</p>
               </div>
+              <VoiceMinutesBar key={session.user.id} />
               <div className="mt-6 border-t border-stone-200 pt-4">
                 {error && <p role="alert" className="mb-3 text-sm text-red-700">{text(error)}</p>}
                 <button type="button" onClick={signOut} disabled={signingOut} className={`${secondaryButton} w-full border border-stone-300 disabled:opacity-60`}>
