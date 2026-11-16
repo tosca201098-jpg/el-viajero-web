@@ -2,7 +2,7 @@ import { previewDiagnostic, type PreviewDiagnosticCode } from '@/lib/ai/preview-
 import { isLocale } from '@/lib/i18n/translations';
 import { admitAiRequest, finalizeVoiceAdmission } from '@/lib/ai/admission';
 import {
-  sofiaPreviewTarget, sofiaProductionTarget, SOFIA_PREVIOUS_PRODUCTION_VERSION_ID, SOFIA_PRODUCTION_VERSION_ID,
+  sofiaPreviewTarget, sofiaProductionTarget, SOFIA_PREVIOUS_PREVIEW_VERSION_ID, SOFIA_PREVIOUS_PRODUCTION_VERSION_ID,
 } from '@/lib/voice/preview-target';
 
 const AGENT_ID = 'agent_9701m5zn3h9bf57ata0q3qzn1ag6';
@@ -81,7 +81,7 @@ export async function POST(request: Request) {
     if (!version || !configuredVersion || !/^agtvrsn_[a-z0-9]+$/.test(version)) return unavailable('VOICE_VERSION');
     if (previewTarget && configuredVersion !== previewTarget.versionId &&
         configuredVersion !== SOFIA_PREVIOUS_PRODUCTION_VERSION_ID &&
-        configuredVersion !== SOFIA_PRODUCTION_VERSION_ID) return unavailable('VOICE_VERSION');
+        configuredVersion !== SOFIA_PREVIOUS_PREVIEW_VERSION_ID) return unavailable('VOICE_VERSION');
     // Check local activation and the immutable pin before consuming admission quota.
     if (target && version !== target.versionId) return unavailable('VOICE_VERSION');
     const denied = await admitAiRequest(request, 'voice');

@@ -240,6 +240,12 @@ SI ALGO FALLA
 | Contenido | mensaje del sistema ampliado (fecha de hoy, solo viajes y DESTINAUTA), herramienta `descubrir_destinos`, protecciones «Focus» y «Prompt Injection», llamadas a herramientas en paralelo desactivadas, orden de reserva `claude-sonnet-5` |
 | No cambia | modelo principal (DeepSeek Flash 4.1), voz, idioma, duración y límites: son ajustes del agente en Main |
 
+**Prueba con la web real (autorizada por el propietario el 16-11-2026, solo Preview):** las variables de Vercel para Preview están guardadas
+únicamente para la rama `codex/sofia-elevenlabs` (PR #38). Esa rama se ha avanzado «en línea recta» (sin reescribir ni borrar historial)
+hasta este código, y su Preview usa la misma versión nueva (`SOFIA_PREVIEW_VERSION_ID`). El punto antiguo de la rama
+(`99c29d4`) queda guardado en la etiqueta `backup-codex-sofia-elevenlabs-99c29d4`. Las conversaciones de Preview cuentan para el plan de
+ElevenLabs (Starter, 75 min/mes) y para los límites de la web (3 al día por cuenta).
+
 `lib/voice/preview-target.ts` fija esta versión como `SOFIA_PRODUCTION_VERSION_ID`; la anterior (`agtvrsn_2501m679we79ekz985446fbyygkb`,
 300 s y cuatro herramientas) queda como `SOFIA_PREVIOUS_PRODUCTION_VERSION_ID`, que ya no puede usar Production. **Esta PR no conecta
 nada por sí sola**: Production solo la usa con `AI_VOICE_PROVIDER=elevenlabs`, `ELEVENLABS_PRODUCTION_APPROVED=true` y
