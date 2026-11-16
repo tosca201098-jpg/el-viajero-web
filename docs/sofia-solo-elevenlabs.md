@@ -230,9 +230,28 @@ SI ALGO FALLA
 - cancelled: no digas nada más sobre esa petición.
 ```
 
-**6. Publicar la versión y mandarme su ID** (`agtvrsn_…`; y el `agent_…` si es un agente nuevo). El código fija la versión revisada
-(ver arriba): hará falta una PR aparte que fije esos IDs, y **no se conecta ningún agente nuevo sin esa PR ni sin permiso**.
-Con un LLM distinto (el agente de pruebas usa DeepSeek) hay que probar con conversaciones reales que llama bien a las
+**6. Versión publicada y fijada en el código (16-11-2026).** El propietario publicó el borrador como rama nueva del agente
+`agent_2201m677yj19e6499g2649n774f6`:
+
+| Dato | Valor |
+| --- | --- |
+| Rama de ElevenLabs | `sofia-agente-viajes` (`agtbrch_5301m7jz64mfey19xq5q55b645e3`) |
+| Versión inmutable | `agtvrsn_0601m7jz66wvf83ambtr3s819vfv` |
+| Contenido | mensaje del sistema ampliado (fecha de hoy, solo viajes y DESTINAUTA), herramienta `descubrir_destinos`, protecciones «Focus» y «Prompt Injection», llamadas a herramientas en paralelo desactivadas, orden de reserva `claude-sonnet-5` |
+| No cambia | modelo principal (DeepSeek Flash 4.1), voz, idioma, duración y límites: son ajustes del agente en Main |
+
+`lib/voice/preview-target.ts` fija esta versión como `SOFIA_PRODUCTION_VERSION_ID`; la anterior (`agtvrsn_2501m679we79ekz985446fbyygkb`,
+300 s y cuatro herramientas) queda como `SOFIA_PREVIOUS_PRODUCTION_VERSION_ID`, que ya no puede usar Production. **Esta PR no conecta
+nada por sí sola**: Production solo la usa con `AI_VOICE_PROVIDER=elevenlabs`, `ELEVENLABS_PRODUCTION_APPROVED=true` y
+`ELEVENLABS_AGENT_VERSION_ID` igual a esa versión (lo escribe el propietario en Vercel), y tras la autorización expresa.
+
+Antes de esa autorización, en este orden:
+1. **Límite diario del agente**: Production exige de 1 a 15 llamadas/día en el agente (hoy está en 100000, válido solo para pruebas). Es un ajuste
+   del agente en Main; cambiarlo cambia el límite de todas las versiones.
+2. **Idiomas**: comprobar en ElevenLabs que los siete idiomas están configurados en el agente (hoy solo consta español).
+3. **Prueba con la página**: las herramientas de cliente solo funcionan desde la web (Vista previa de ElevenLabs las da siempre como «Fallido»).
+   Hace falta una Preview de Vercel autorizada por el propietario que use esta versión, o probarla en Production con el lanzamiento aprobado.
+4. Con un LLM distinto (el agente de pruebas usa DeepSeek) hay que probar con conversaciones reales que llama bien a las
 herramientas, sobre todo `descubrir_destinos` y `buscar_viaje` con presupuesto.
 
 ### Límites actuales (por si el propietario quiere ampliarlos después)
@@ -253,7 +272,7 @@ herramientas, sobre todo `descubrir_destinos` y `buscar_viaje` con presupuesto.
 | `ELEVENLABS_ENABLED` | `true` | Autoriza llamar a ElevenLabs. |
 | `ELEVENLABS_PRODUCTION_APPROVED` | `true` | Aprobación explícita del propietario para Production. |
 | `ELEVENLABS_API_KEY` | (clave privada, solo en Production) | La escribe el propietario directamente en Vercel. |
-| `ELEVENLABS_AGENT_VERSION_ID` | ID de la versión fijada en el código | Debe coincidir con la constante revisada. |
+| `ELEVENLABS_AGENT_VERSION_ID` | `agtvrsn_0601m7jz66wvf83ambtr3s819vfv` (la fijada en el código) | Debe coincidir exactamente con `SOFIA_PRODUCTION_VERSION_ID`. |
 | `AI_REDIS_REST_URL`, `AI_REDIS_REST_TOKEN` | de Upstash Redis | Cuotas compartidas. |
 | `AI_RATE_LIMIT_SECRET` | texto aleatorio de 32 o más caracteres | Protege los contadores. |
 

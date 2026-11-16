@@ -64,6 +64,14 @@ test('Preview migrates only the previous reviewed environment pin to the fixed 3
  assert.equal(new URL(h.requests[1].url).searchParams.get('agent_id'),agent);
 });
 
+test('Preview also accepts the new production pin in the environment and still emits only its own fixed version',async()=>{
+ const h=harness({ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_0601m7jz66wvf83ambtr3s819vfv'});
+ const response=await h.POST(request('es'));
+ assert.equal(response.status,200);assert.deepEqual(await response.json(),{token:'temporary-token'});
+ assert.equal(h.requests.length,2);
+ for(const call of h.requests)assert.equal(new URL(call.url).searchParams.get('version_id'),version);
+});
+
 test('a mismatched or absent returned agent/version cannot reach the token endpoint',async()=>{
  for(const identity of [{agent_id:legacy},{version_id:'agtvrsn_other'},{agent_id:undefined},{version_id:undefined}]){
   const h=harness({}, {config:{...valid(),agent_id:agent,version_id:version,...identity}});

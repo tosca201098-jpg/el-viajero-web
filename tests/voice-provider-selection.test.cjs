@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path');
 const {loader}=require('./sofia-harness.cjs');
-const agent='agent_2201m677yj19e6499g2649n774f6',version='agtvrsn_2501m679we79ekz985446fbyygkb';
+const agent='agent_2201m677yj19e6499g2649n774f6',version='agtvrsn_0601m7jz66wvf83ambtr3s819vfv',previousVersion='agtvrsn_2501m679we79ekz985446fbyygkb';
 const scope={VERCEL:'1',VERCEL_ENV:'production',VERCEL_GIT_COMMIT_REF:'main',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web'};
 const source=fs.readFileSync(path.join(__dirname,'voice-route.test.cjs'),'utf8');
 const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();
@@ -49,7 +49,7 @@ test('unknown providers, missing production metadata, flags and unapproved activ
   const h=harness(change),res=await h.POST(request());assert.equal(res.status,503);
   assert.deepEqual(await res.json(),{error:'ai_unavailable'});assert.equal(h.admissions,0);assert.equal(h.requests.length,0);
  }
- for(const change of [{ELEVENLABS_API_KEY:''},{ELEVENLABS_ENABLED:'false'},{ELEVENLABS_AGENT_VERSION_ID:''},{ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_other'},{ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_3801m618j78bey69jjc08tdm4ppc'}]){
+ for(const change of [{ELEVENLABS_API_KEY:''},{ELEVENLABS_ENABLED:'false'},{ELEVENLABS_AGENT_VERSION_ID:''},{ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_other'},{ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_3801m618j78bey69jjc08tdm4ppc'},{ELEVENLABS_AGENT_VERSION_ID:previousVersion}]){
   const h=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true',...change});
   assert.equal((await h.POST(request())).status,503);assert.equal(h.admissions,0);assert.equal(h.requests.length,0);
  }

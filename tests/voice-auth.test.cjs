@@ -15,7 +15,7 @@ const environment = () => ({
   AI_REDIS_REST_URL: 'https://unit-test.upstash.io', AI_REDIS_REST_TOKEN: 'fake-private-redis',
   AI_RATE_LIMIT_SECRET: 'fake-private-hmac-for-unit-tests-only',
   ELEVENLABS_ENABLED: 'true', ELEVENLABS_PRODUCTION_APPROVED: 'true', ELEVENLABS_API_KEY: 'fake-private-elevenlabs',
-  ELEVENLABS_AGENT_VERSION_ID: 'agtvrsn_2501m679we79ekz985446fbyygkb',
+  ELEVENLABS_AGENT_VERSION_ID: 'agtvrsn_0601m7jz66wvf83ambtr3s819vfv',
 });
 function request(token = jwt, ip = '192.0.2.1', body = { locale: 'es' }, extra = {}) {
   return new Request('https://destinauta.com/api/voice', { method: 'POST',
