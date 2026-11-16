@@ -43,3 +43,16 @@ export type ItineraryRequest = {
   budget?: { amount: number; type: "total" | "por_persona" };
   variation?: number;
 };
+
+/**
+ * Free itinerary: only what the destination page already knows, ordered by day. It has no time slots, areas,
+ * opening hours, prices or bookings because the catalogue does not hold them and nothing is invented.
+ */
+export type BasicGuideDay = { dayNumber: number; items: string[] };
+export type BasicGuide = {
+  name: string;
+  summary: string;
+  /** How many recommendations the destination page has, so the guide can say why it is shorter than the trip. */
+  recommendationCount: number;
+  days: BasicGuideDay[];
+};

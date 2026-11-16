@@ -29,7 +29,7 @@ cuatro funciones, y no había ninguna otra dependencia ni librería de OpenAI.
 | 1. Conversación de voz (micrófono de la portada) | OpenAI Realtime, modelo `gpt-realtime-2.1`, voz «marin» | Sofía (ElevenLabs), voz `eZxqQzb5CuYo3Kl6EXfZ`, ya integrada en el código (`elevenlabs-session.ts` / `elevenlabs-route.ts`) |
 | 2. Búsqueda de viaje hablada: origen, destino, fechas, viajeros, vuelo/hotel/ambos y presupuesto (`buscar_viaje`) | Herramienta del asistente OpenAI | Misma herramienta `buscar_viaje` de Sofía, con el mismo validador de argumentos (`parseVoiceSearchArguments`) y las mismas acciones de la portada |
 | 3. Itinerario hablado (`crear_itinerario`: destino + 1–7 días) | OpenAI avisaba a la página y esta pedía el texto a `gpt-5-mini` | Sofía escribe el itinerario y lo entrega en la propia llamada a la herramienta (ver más abajo) |
-| 4. Itinerario escrito (botón «Crear itinerario con IA» de las fichas y de `/vuelos`, `POST /api/itinerary`, `gpt-5-mini`) | Servidor → API de OpenAI | El botón pasa a «Pedir el itinerario a Sofía» y activa el mismo micrófono; no queda ninguna API de itinerarios |
+| 4. Itinerario escrito (botón «Crear itinerario con IA» de las fichas y de `/vuelos`, `POST /api/itinerary`, `gpt-5-mini`) | Servidor → API de OpenAI | El botón «Crear itinerario» sigue funcionando para todo el mundo, sin voz: devuelve la **guía básica gratuita** (sin IA, solo datos de la ficha). Ver «Itinerario escrito (botón)» más abajo |
 
 Sofía además conserva sus propias herramientas: `consultar_catalogo` (perfiles reales del catálogo) y `mostrar_destino`
 (abre la ficha existente).
@@ -60,13 +60,34 @@ El botón de la portada llama a `iniciarVoz` (`app/page.tsx`) → `VoiceSession`
    temporal → el navegador abre la conversación de voz con **Sofía de ElevenLabs** (`@elevenlabs/client`).
 3. Si algo falla, no hay segundo proveedor ni reintento automático.
 
-## Itinerarios: los entrega Sofía
+## Itinerario escrito (botón «Crear itinerario»)
 
-El planificador ya no genera nada por sí mismo ni llama a ninguna API. Hace dos cosas:
+Decisión del propietario (16-11-2026): el botón de las fichas y de `/vuelos` **sigue funcionando para quien no usa la voz**, y el
+itinerario solo se crea cuando la persona pulsa «Crear itinerario» (al abrir la ficha no se genera ni se pide nada).
 
-- En la portada (ventana de ficha): botón «🎙️ Pedir el itinerario a Sofía». Abre el mismo flujo del micrófono (con el
-  mismo requisito de cuenta) y muestra qué decir: «Crea un itinerario de N días en DESTINO».
-- En `/vuelos` (donde no hay micrófono): enlace a la portada.
+- **Para todo el mundo (gratis, sin IA):** `POST /api/itinerary` valida la petición contra el catálogo y devuelve una **guía básica**
+  armada solo con la ficha del destino: su descripción y sus 4 recomendaciones repartidas por días en el idioma elegido (con el
+  mismo respaldo al español que las fichas). No lleva horarios, precios, zonas ni reservas, y no se rellena ningún día con datos
+  inventados: con 7 días pedidos y 4 recomendaciones, la guía ocupa 4 días y lo dice. No llama a ningún proveedor ni lee ninguna
+  clave (código en `lib/itinerary/basic.ts`; pruebas en `tests/itinerary-basic.test.cjs`).
+- **Descarga en PDF (todo el mundo, con o sin cuenta):** cuando hay un itinerario o una guía en pantalla aparece el botón
+  «⬇️ Descargar en PDF». El PDF se crea **en el propio móvil, tablet u ordenador** (no se envía nada a ningún servidor ni se
+  guarda nada): `lib/pdf/text-pdf.ts` escribe un PDF sencillo A4 con letra estándar, `lib/itinerary/document.ts` lo compone en el
+  idioma elegido y `lib/itinerary/download.ts` lo descarga como `destinauta-<destino>.pdf`. Quien tiene cuenta y un itinerario con
+  IA o de Sofía conserva además «Guardar en mi cuenta». Limitaciones conocidas: las letras que la tipografía estándar no incluye
+  se sustituyen por la letra básica (por ejemplo «ł» → «l») y los emojis no se imprimen; algunos navegadores integrados de
+  aplicaciones (redes sociales, etc.) bloquean las descargas, y en ese caso conviene abrir la web en el navegador normal.
+- **Siguiente paso previsto (no incluido en esta PR):** para quienes tengan cuenta, itinerario con Claude Haiku 5.5, con límite
+  por persona y día, un tope global y respaldo a la guía básica si falla o no hay clave.
+- **Por voz:** el botón «🎙️ Pedir el itinerario a Sofía» no se muestra todavía; volverá como opción añadida cuando exista la
+  versión nueva del agente (ver más abajo). La entrega por voz (`crear_itinerario` con `itinerario`) sigue en el código.
+
+## Itinerarios por voz: los entrega Sofía
+
+Además del botón, Sofía puede escribir un itinerario durante la conversación. El planificador:
+
+- En la portada (ventana de ficha): muestra el itinerario que Sofía entrega por voz, con el mismo contenido y la misma opción de guardarlo.
+- En `/vuelos` (donde no hay micrófono): el botón «Crear itinerario» funciona igual que en la ficha.
 
 Cuando Sofía crea un itinerario llama a la herramienta de cliente `crear_itinerario` con **tres** parámetros:
 `destino`, `dias` y `itinerario` (texto JSON). La página valida el destino contra el catálogo, valida el JSON con el esquema

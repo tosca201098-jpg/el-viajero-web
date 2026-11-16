@@ -1,4 +1,4 @@
-import type { Itinerary, ItineraryActivity, ItineraryDay } from "./types";
+import type { BasicGuide, Itinerary, ItineraryActivity, ItineraryDay } from "./types";
 
 const activitySchema = {
   type: "object",
@@ -73,4 +73,18 @@ export function isItinerary(value: unknown, expectedDays: number): value is Itin
     value.days.every((day, index) => validDay(day, index + 1)) &&
     Array.isArray(value.tips) && value.tips.length >= 2 && value.tips.length <= 5 &&
     value.tips.every((tip) => boundedText(tip, 260));
+}
+
+/** The free guide may cover fewer days than requested (never more), because it only orders real recommendations. */
+export function isBasicGuide(value: unknown, requestedDays: number): value is BasicGuide {
+  return Number.isInteger(requestedDays) && requestedDays >= 1 && requestedDays <= 7 &&
+    record(value) && Object.keys(value).length === 4 &&
+    boundedText(value.name, 160) && boundedText(value.summary, 600) &&
+    Number.isInteger(value.recommendationCount) && (value.recommendationCount as number) >= 1 &&
+    (value.recommendationCount as number) <= 20 &&
+    Array.isArray(value.days) && value.days.length >= 1 && value.days.length <= requestedDays &&
+    value.days.length <= (value.recommendationCount as number) &&
+    value.days.every((day, index) => record(day) && Object.keys(day).length === 2 &&
+      day.dayNumber === index + 1 && Array.isArray(day.items) && day.items.length >= 1 &&
+      day.items.length <= 20 && day.items.every((item) => boundedText(item, 200)));
 }
