@@ -92,10 +92,10 @@ test('startup error disconnection prevents activation and closes late connection
 // ---- Weekly voice minutes: what the browser does with the server's answer ----------------------------------------------------
 const {loader}=require('./sofia-harness.cjs');
 const ref='u_'+'0123456789abcdef'.repeat(2);
-const grant=(extra={})=>({ok:true,json:async()=>({token:'fake-session-token',userRef:ref,sessionSeconds:600,weekSeconds:600,limitSeconds:600,resetsAt:1795000000,...extra})});
+const grant=(extra={})=>({ok:true,json:async()=>({token:'fake-session-token',userRef:ref,sessionSeconds:600,remainingSeconds:600,limitSeconds:600,period:'month',resetsAt:1795000000,...extra})});
 
 test('429 tells apart the weekly minutes of the account, of the whole site and too many attempts in a row',async()=>{
- for(const [body,error] of [[{error:'ai_weekly_limit',resetsAt:1795000000},'weeklyLimit'],[{error:'ai_site_weekly_limit',resetsAt:1795000000},'siteWeeklyLimit'],
+ for(const [body,error] of [[{error:'ai_minutes_limit',resetsAt:1795000000},'minutesLimit'],[{error:'ai_site_weekly_limit',resetsAt:1795000000},'siteWeeklyLimit'],
   [{error:'ai_rate_limited'},'limited'],[{error:'something-else'},'limited'],[null,'limited'],['junk','limited'],[{error:{nested:true}},'limited']]){
   let opened=0;
   const h=harness({fetcher:async()=>({ok:false,status:429,json:async()=>{if(body===null)throw Error('no body');return body}}),startConversation:async()=>{opened++}});
@@ -103,7 +103,7 @@ test('429 tells apart the weekly minutes of the account, of the whole site and t
   await h.session.start();assert.deepEqual(h.errors,[error,error],'the visitor can try again');
  }
  for(const [status,error] of [[503,'unavailable'],[500,'connection'],[401,'connection']]){
-  const h=harness({fetcher:async()=>({ok:false,status,json:async()=>({error:'ai_weekly_limit'})})});
+  const h=harness({fetcher:async()=>({ok:false,status,json:async()=>({error:'ai_minutes_limit'})})});
   await h.session.start();assert.deepEqual(h.errors,[error],String(status));
  }
 });

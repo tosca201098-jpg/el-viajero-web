@@ -20,12 +20,12 @@ function route({ env = {}, deny = null, answer, userRef = REF } = {}) {
   return { ...api, calls, services, logs };
 }
 
-test('the account gets its own weekly seconds and nothing else: no token, no reference, no whole-site total', async () => {
+test('the account gets its own period seconds and nothing else: no token, no reference, no whole-site total', async () => {
   const h = route(), response = await h.GET(get());
   assert.equal(response.status, 200); assert.equal(response.headers.get('cache-control'), 'no-store');
   const body = await response.json();
-  assert.deepEqual(Object.keys(body).sort(), ['limitSeconds', 'remainingSeconds', 'resetsAt', 'usedSeconds']);
-  assert.equal(body.limitSeconds, 600); assert.equal(body.usedSeconds, 250); assert.equal(body.remainingSeconds, 350); assert.ok(body.resetsAt > Date.now() / 1000);
+  assert.deepEqual(Object.keys(body).sort(), ['limitSeconds', 'period', 'remainingSeconds', 'resetsAt', 'usedSeconds']);
+  assert.equal(body.period, 'month'); assert.equal(body.limitSeconds, 1200); assert.equal(body.usedSeconds, 250); assert.equal(body.remainingSeconds, 950); assert.ok(body.resetsAt > Date.now() / 1000);
   assert.deepEqual(h.services, ['voice_budget']);
   assert.equal(h.calls.length, 1, 'one provider read, never the site-wide list');
   assert.equal(h.calls[0].url.searchParams.get('user_id'), REF); assert.equal(h.calls[0].url.searchParams.get('agent_id'), agent);
@@ -33,9 +33,11 @@ test('the account gets its own weekly seconds and nothing else: no token, no ref
   assert.equal(JSON.stringify(body).includes(REF), false);
 });
 
-test('the setting that changes the minutes per account is followed by the bar', async () => {
-  const body = await (await route({ env: { AI_VOICE_USER_WEEK_MINUTES: '20' } }).GET(get())).json();
-  assert.equal(body.limitSeconds, 1200); assert.equal(body.remainingSeconds, 950);
+test('the settings that change the minutes and the period are followed by the bar', async () => {
+  const body = await (await route({ env: { AI_VOICE_USER_MINUTES: '10', AI_VOICE_PERIOD: 'week' } }).GET(get())).json();
+  assert.equal(body.period, 'week'); assert.equal(body.limitSeconds, 600); assert.equal(body.remainingSeconds, 350);
+  const fortnight = await (await route({ env: { AI_VOICE_PERIOD: 'fortnight' } }).GET(get())).json();
+  assert.equal(fortnight.period, 'fortnight'); assert.equal(fortnight.limitSeconds, 1200);
 });
 
 test('without a reviewed voice target, a key or the flags, nothing is asked: no admission and no provider call', async () => {
@@ -71,7 +73,9 @@ test('provider failures give a generic 503 with a constant diagnostic code and n
     assert.deepEqual(JSON.parse(text), { error: 'ai_unavailable' }); assert.equal(text.includes('private'), false);
     assert.deepEqual(h.logs, [['SOFIA_DIAGNOSTIC', code]]);
   }
-  const bad = route({ env: { AI_VOICE_USER_WEEK_MINUTES: '999' } });
-  assert.equal((await bad.GET(get())).status, 503); assert.equal(bad.calls.length, 0);
-  assert.deepEqual(bad.logs, [['SOFIA_DIAGNOSTIC', 'VOICE_BUDGET_CONFIG']]);
+  for (const env of [{ AI_VOICE_USER_MINUTES: '999' }, { AI_VOICE_PERIOD: 'day' }]) {
+    const bad = route({ env });
+    assert.equal((await bad.GET(get())).status, 503); assert.equal(bad.calls.length, 0);
+    assert.deepEqual(bad.logs, [['SOFIA_DIAGNOSTIC', 'VOICE_BUDGET_CONFIG']]);
+  }
 });

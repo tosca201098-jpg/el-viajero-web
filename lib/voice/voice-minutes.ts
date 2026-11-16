@@ -1,9 +1,10 @@
-import { madridVoiceWeek } from '@/lib/ai/voice-daily-policy';
+import { madridVoicePeriod, madridVoiceWeek, type VoicePeriod } from '@/lib/ai/voice-daily-policy';
 import type { PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
 
 /**
- * Weekly voice minutes. Each registered account has a budget of minutes per natural Madrid week (Monday 00:00 to the
- * next Monday 00:00), and the whole site has a shared weekly budget. The minutes are NOT estimated here: they are the
+ * Voice minutes. Each registered account has a free-form balance of minutes for a natural Madrid period (by default
+ * the calendar month: talk 9 minutes in one conversation and the rest stays for later in the same month), and the whole
+ * site has a shared WEEKLY budget that protects the ElevenLabs plan. The minutes are NOT estimated here: they are the
  * real conversation durations that ElevenLabs reports for this agent, summed for the account (by the anonymous
  * `user_id` the browser passes when it starts the conversation) and for the whole agent.
  *
@@ -12,8 +13,9 @@ import type { PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
 export const VOICE_CONVERSATION_MAX_SECONDS = 900;
 /** Less than this is not a useful conversation, so it counts as "no minutes left". */
 export const VOICE_MIN_USEFUL_SECONDS = 30;
-const DEFAULT_USER_MINUTES = 10;
-const USER_MINUTES_CEILING = 60;
+const DEFAULT_USER_MINUTES = 20;
+const USER_MINUTES_CEILING = 300;
+const DEFAULT_PERIOD: VoicePeriod = 'month';
 const DEFAULT_SITE_MINUTES = 15;
 const SITE_MINUTES_CEILING = 1000;
 const PAGE_SIZE = 100;
@@ -24,12 +26,14 @@ export class BudgetError extends Error {
   constructor(readonly code: PreviewDiagnosticCode) { super('voice_budget'); }
 }
 
-export type WeeklyLimits = { userSeconds: number; siteSeconds: number };
-export type WeeklyUsage = { seconds: number; overflow: boolean };
-export type WeeklyBudget =
-  | { ok: true; sessionSeconds: number; weekSeconds: number; limitSeconds: number; resetsAt: number }
+export type VoiceLimits = { period: VoicePeriod; userSeconds: number; siteSeconds: number };
+export type VoiceUsage = { seconds: number; overflow: boolean };
+export type VoiceBudget =
+  | { ok: true; sessionSeconds: number; remainingSeconds: number; limitSeconds: number; period: VoicePeriod; resetsAt: number }
   | { ok: false; reason: 'user' | 'site'; resetsAt: number };
-export type UserWeek = { limitSeconds: number; usedSeconds: number; remainingSeconds: number; resetsAt: number };
+export type UserPeriod = {
+  period: VoicePeriod; limitSeconds: number; usedSeconds: number; remainingSeconds: number; resetsAt: number;
+};
 
 function minutes(value: string | undefined, fallback: number, ceiling: number) {
   if (value === undefined) return fallback;
@@ -37,23 +41,33 @@ function minutes(value: string | undefined, fallback: number, ceiling: number) {
   return Number(value);
 }
 
-/** Defaults: 10 minutes per account and 15 for the whole site. Settings can change both within a fixed ceiling. */
-export function weeklyLimits(env: Record<string, string | undefined>): WeeklyLimits {
+function periodSetting(value: string | undefined): VoicePeriod {
+  if (value === undefined) return DEFAULT_PERIOD;
+  if (value === 'week' || value === 'fortnight' || value === 'month') return value;
+  throw new BudgetError('VOICE_BUDGET_CONFIG');
+}
+
+/**
+ * Defaults: 20 minutes per account for the calendar month, and 15 minutes per WEEK for the whole site. Settings can
+ * change the period (week, fortnight or month) and both amounts within a fixed ceiling.
+ */
+export function voiceLimits(env: Record<string, string | undefined>): VoiceLimits {
   return {
-    userSeconds: minutes(env.AI_VOICE_USER_WEEK_MINUTES, DEFAULT_USER_MINUTES, USER_MINUTES_CEILING) * 60,
+    period: periodSetting(env.AI_VOICE_PERIOD),
+    userSeconds: minutes(env.AI_VOICE_USER_MINUTES, DEFAULT_USER_MINUTES, USER_MINUTES_CEILING) * 60,
     siteSeconds: minutes(env.AI_VOICE_GLOBAL_WEEK_MINUTES, DEFAULT_SITE_MINUTES, SITE_MINUTES_CEILING) * 60,
   };
 }
 
-async function sumWeek(input: {
-  apiKey: string; agentId: string; userRef?: string; weekStart: number; nowSeconds: number; signal: AbortSignal;
-}): Promise<WeeklyUsage> {
+async function sumConversations(input: {
+  apiKey: string; agentId: string; userRef?: string; since: number; nowSeconds: number; signal: AbortSignal;
+}): Promise<VoiceUsage> {
   let seconds = 0;
   let cursor = '';
   for (let page = 0; page < MAX_PAGES; page++) {
     const url = new URL('https://api.elevenlabs.io/v1/convai/conversations');
     url.searchParams.set('agent_id', input.agentId);
-    url.searchParams.set('call_start_after_unix', String(input.weekStart));
+    url.searchParams.set('call_start_after_unix', String(input.since));
     url.searchParams.set('page_size', String(PAGE_SIZE));
     if (input.userRef) url.searchParams.set('user_id', input.userRef);
     if (cursor) url.searchParams.set('cursor', cursor);
@@ -90,7 +104,7 @@ async function sumWeek(input: {
     if (typeof next !== 'string' || !next || next.length > 2048) throw new BudgetError('VOICE_BUDGET_MALFORMED');
     cursor = next;
   }
-  // Hundreds of conversations in one week is abnormal: treat the budget as spent rather than guess.
+  // Hundreds of conversations in one period is abnormal: treat the budget as spent rather than guess.
   return { seconds, overflow: true };
 }
 
@@ -98,27 +112,35 @@ type Input = {
   env: Record<string, string | undefined>; apiKey: string; agentId: string; userRef: string; now: number;
 };
 
-/** The account's own week, for the status bar in "Mi cuenta". Never touches the site-wide total. */
-export async function userWeek(input: Input): Promise<UserWeek> {
-  const limits = weeklyLimits(input.env);
-  const week = madridVoiceWeek(input.now);
-  const user = await sumWeek({ apiKey: input.apiKey, agentId: input.agentId, userRef: input.userRef,
-    weekStart: week.startsAt, nowSeconds: Math.floor(input.now / 1000), signal: AbortSignal.timeout(8000) });
+/** The account's own period, for the status bar in "Mi cuenta". Never touches the site-wide total. */
+export async function userPeriod(input: Input): Promise<UserPeriod> {
+  const limits = voiceLimits(input.env);
+  const period = madridVoicePeriod(input.now, limits.period);
+  const user = await sumConversations({ apiKey: input.apiKey, agentId: input.agentId, userRef: input.userRef,
+    since: period.startsAt, nowSeconds: Math.floor(input.now / 1000), signal: AbortSignal.timeout(8000) });
   const usedSeconds = user.overflow ? limits.userSeconds : Math.min(user.seconds, limits.userSeconds);
-  return { limitSeconds: limits.userSeconds, usedSeconds, remainingSeconds: limits.userSeconds - usedSeconds, resetsAt: week.endsAt };
+  return { period: limits.period, limitSeconds: limits.userSeconds, usedSeconds,
+    remainingSeconds: limits.userSeconds - usedSeconds, resetsAt: period.endsAt };
 }
 
-/** Decide whether this account may start a conversation now, and for how many seconds at most. */
-export async function checkWeeklyBudget(input: Input): Promise<WeeklyBudget> {
-  const limits = weeklyLimits(input.env);
+/**
+ * Decide whether this account may start a conversation now, and for how many seconds at most. The account is counted
+ * over its own period (month by default); the whole site is always counted over the Madrid WEEK.
+ */
+export async function checkVoiceBudget(input: Input): Promise<VoiceBudget> {
+  const limits = voiceLimits(input.env);
+  const period = madridVoicePeriod(input.now, limits.period);
   const week = madridVoiceWeek(input.now);
   const signal = AbortSignal.timeout(8000);
-  const base = { apiKey: input.apiKey, agentId: input.agentId, weekStart: week.startsAt, nowSeconds: Math.floor(input.now / 1000), signal };
-  const [user, site] = await Promise.all([sumWeek({ ...base, userRef: input.userRef }), sumWeek(base)]);
+  const base = { apiKey: input.apiKey, agentId: input.agentId, nowSeconds: Math.floor(input.now / 1000), signal };
+  const [user, site] = await Promise.all([
+    sumConversations({ ...base, userRef: input.userRef, since: period.startsAt }),
+    sumConversations({ ...base, since: week.startsAt }),
+  ]);
   const userLeft = user.overflow ? 0 : limits.userSeconds - user.seconds;
   const siteLeft = site.overflow ? 0 : limits.siteSeconds - site.seconds;
-  if (userLeft < VOICE_MIN_USEFUL_SECONDS) return { ok: false, reason: 'user', resetsAt: week.endsAt };
+  if (userLeft < VOICE_MIN_USEFUL_SECONDS) return { ok: false, reason: 'user', resetsAt: period.endsAt };
   if (siteLeft < VOICE_MIN_USEFUL_SECONDS) return { ok: false, reason: 'site', resetsAt: week.endsAt };
   return { ok: true, sessionSeconds: Math.min(userLeft, siteLeft, VOICE_CONVERSATION_MAX_SECONDS),
-    weekSeconds: userLeft, limitSeconds: limits.userSeconds, resetsAt: week.endsAt };
+    remainingSeconds: userLeft, limitSeconds: limits.userSeconds, period: limits.period, resetsAt: period.endsAt };
 }

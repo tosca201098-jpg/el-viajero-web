@@ -1,7 +1,7 @@
 import { previewDiagnostic, type PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
 import { isLocale } from '@/lib/i18n/translations';
 import { admitAiRequest, voiceUserReference } from '@/lib/ai/admission';
-import { BudgetError, checkWeeklyBudget } from '@/lib/voice/weekly-minutes';
+import { BudgetError, checkVoiceBudget } from '@/lib/voice/voice-minutes';
 import {
   sofiaPreviewTarget, sofiaProductionTarget, SOFIA_PREVIOUS_PREVIEW_VERSION_ID, SOFIA_PREVIOUS_PRODUCTION_VERSION_ID,
 } from '@/lib/voice/preview-target';
@@ -35,7 +35,7 @@ function safeSofiaConfiguration(config: AgentConfig, preview = false) {
   return config.platform_settings?.auth?.enable_auth === true &&
     config.platform_settings?.queueing_config?.enabled === false &&
     c?.tts?.voice_id === VOICE_ID && c.agent?.language === 'es' &&
-    // 900 s = the 15-minute conversations of the weekly-minutes design; 360 s (and 300 s in Production) are the earlier pins.
+    // 900 s = the 15-minute conversations of the voice-minutes design; 360 s (and 300 s in Production) are the earlier pins.
     (c.conversation?.max_duration_seconds === 900 || c.conversation?.max_duration_seconds === 360 ||
       (!preview && c.conversation?.max_duration_seconds === 300)) &&
     c.turn?.silence_end_call_timeout === 90 &&
@@ -52,10 +52,10 @@ function safeSofiaConfiguration(config: AgentConfig, preview = false) {
     config.platform_settings.call_limits.bursting_enabled === false &&
     requiredTools.every(name => tools.some(t => t.name === name && t.type === 'client' && t.expects_response === true));
 }
-const weeklyDenied = (error: 'ai_weekly_limit' | 'ai_site_weekly_limit', resetsAt: number) => {
-  previewDiagnostic(error === 'ai_weekly_limit' ? 'VOICE_BUDGET_USER' : 'VOICE_BUDGET_SITE');
+const budgetDenied = (error: 'ai_minutes_limit' | 'ai_site_weekly_limit', resetsAt: number) => {
+  previewDiagnostic(error === 'ai_minutes_limit' ? 'VOICE_BUDGET_USER' : 'VOICE_BUDGET_SITE');
   return Response.json({ error, resetsAt }, { status: 429, headers: { 'Cache-Control': 'no-store',
-    'Retry-After': String(Math.min(691200, Math.max(1, resetsAt - Math.floor(Date.now() / 1000)))) } });
+    'Retry-After': String(Math.min(2764800, Math.max(1, resetsAt - Math.floor(Date.now() / 1000)))) } });
 };
 const unavailable = (code: PreviewDiagnosticCode) => {
   previewDiagnostic(code);
@@ -93,14 +93,14 @@ export async function POST(request: Request) {
     if (target && version !== target.versionId) return unavailable('VOICE_VERSION');
     const denied = await admitAiRequest(request, 'voice');
     if (denied) return denied;
-    // Weekly minutes: the real conversation time of this account (and of the whole site) this Madrid week.
+    // Voice minutes: the real conversation time of this account (this Madrid period) and of the whole site (this Madrid week).
     const userRef = voiceUserReference(request);
     if (!userRef) return unavailable('VOICE_REQUEST');
     let budget;
     try {
-      budget = await checkWeeklyBudget({ env: process.env, apiKey: key, agentId, userRef, now: Date.now() });
+      budget = await checkVoiceBudget({ env: process.env, apiKey: key, agentId, userRef, now: Date.now() });
     } catch (error) { return unavailable(error instanceof BudgetError ? error.code : 'VOICE_BUDGET_MALFORMED'); }
-    if (!budget.ok) return weeklyDenied(budget.reason === 'user' ? 'ai_weekly_limit' : 'ai_site_weekly_limit', budget.resetsAt);
+    if (!budget.ok) return budgetDenied(budget.reason === 'user' ? 'ai_minutes_limit' : 'ai_site_weekly_limit', budget.resetsAt);
     const headers = { 'xi-api-key': key };
     signal = AbortSignal.timeout(10000);
     // Verify the immutable version we will request; never run an unreviewed moving HEAD.
@@ -113,7 +113,7 @@ export async function POST(request: Request) {
     const config = await check.json();
     if (!config || typeof config !== 'object' || Array.isArray(config)) return unavailable('VOICE_CHECK_MALFORMED');
     if (target && (config.agent_id !== agentId || config.version_id !== version)) return unavailable('VOICE_CHECK_CONFIG');
-    // The allowance is decided above (weekly minutes); the provider's own daily setting is only a last backstop.
+    // The allowance is decided above (voice minutes); the provider's own daily setting is only a last backstop.
     if (!safeSofiaConfiguration(config, !!sofiaPreviewTarget(process.env))) return unavailable('VOICE_CHECK_CONFIG');
     const tokenUrl = new URL('https://api.elevenlabs.io/v1/convai/conversation/token');
     tokenUrl.searchParams.set('agent_id', agentId); tokenUrl.searchParams.set('version_id', version);
@@ -128,7 +128,7 @@ export async function POST(request: Request) {
     // The temporary session token goes to the browser with the anonymous account reference (it is what ElevenLabs
     // stores as `user_id`, so the minutes can be added up) and the seconds this conversation may last. Never
     // configuration, API keys or provider errors.
-    return Response.json({ token: data.token, userRef, sessionSeconds: budget.sessionSeconds, weekSeconds: budget.weekSeconds,
-      limitSeconds: budget.limitSeconds, resetsAt: budget.resetsAt }, { headers: { 'Cache-Control': 'no-store' } });
+    return Response.json({ token: data.token, userRef, sessionSeconds: budget.sessionSeconds, remainingSeconds: budget.remainingSeconds,
+      limitSeconds: budget.limitSeconds, period: budget.period, resetsAt: budget.resetsAt }, { headers: { 'Cache-Control': 'no-store' } });
   } catch { return unavailable(signal?.aborted ? (tokenStage ? 'VOICE_TOKEN_TIMEOUT' : 'VOICE_CHECK_TIMEOUT') : stage); }
 }

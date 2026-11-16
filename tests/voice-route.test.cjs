@@ -10,16 +10,16 @@ function route(config=valid(),env={},deny=null,options={}){
  if(options.fetcher)return options.fetcher(url,init,requests.length);
  return Response.json(requests.length===1?config:{token:'temporary-token',private:'must-not-leak'});
  }},{'@/lib/ai/admission':{admitAiRequest:async()=>{events.push('reserve');return deny;},voiceUserReference:()=>'userRef' in options?options.userRef:USER_REF},
- '@/lib/voice/weekly-minutes':{BudgetError,checkWeeklyBudget:async input=>{events.push('budget');budgets.push(input);
+ '@/lib/voice/voice-minutes':{BudgetError,checkVoiceBudget:async input=>{events.push('budget');budgets.push(input);
   if(options.budgetError)throw options.budgetError;
-  return options.budget??{ok:true,sessionSeconds:600,weekSeconds:600,limitSeconds:600,resetsAt:RESETS};}}})('app/api/voice/route.ts');
+  return options.budget??{ok:true,sessionSeconds:600,remainingSeconds:600,limitSeconds:600,period:'month',resetsAt:RESETS};}}})('app/api/voice/route.ts');
  return{...api,requests,budgets,events};
 }
 const req=(body)=>new Request('https://preview.test/api/voice',{method:'POST',body:typeof body==='string'?body:JSON.stringify(body)});
 test('all seven locales get only a temporary token from the pinned private Sofía version',async()=>{
  for(const locale of ['es','en','fr','de','it','pt','ca']){
  const r=route(),response=await r.POST(req({locale}));assert.equal(response.status,200);
- assert.deepEqual(await response.json(),{token:'temporary-token',userRef:USER_REF,sessionSeconds:600,weekSeconds:600,limitSeconds:600,resetsAt:RESETS});assert.equal(response.headers.get('cache-control'),'no-store');
+ assert.deepEqual(await response.json(),{token:'temporary-token',userRef:USER_REF,sessionSeconds:600,remainingSeconds:600,limitSeconds:600,period:'month',resetsAt:RESETS});assert.equal(response.headers.get('cache-control'),'no-store');
  assert.equal(r.requests.length,2);assert.ok(r.requests.every(r=>r.url.includes('version_id=agtvrsn_0601m7jz66wvf83ambtr3s819vfv')));
  assert.ok(r.requests.every(r=>r.url.startsWith('https://api.elevenlabs.io/')));assert.equal(r.requests[1].options.headers['xi-api-key'],'fake-key');
  assert.deepEqual(r.events,['reserve','budget','configuration','provider-token']);
@@ -79,7 +79,7 @@ test('the weekly budget is asked with the verified account reference, the pinned
 });
 
 test('a spent account or a spent site gets a 429 with the reason and the renewal instant, and the provider is never called again',async()=>{
- for(const [reason,error] of [['user','ai_weekly_limit'],['site','ai_site_weekly_limit']]){
+ for(const [reason,error] of [['user','ai_minutes_limit'],['site','ai_site_weekly_limit']]){
   const r=route(valid(),{},null,{budget:{ok:false,reason,resetsAt:Math.floor(Date.now()/1000)+3600}});
   const response=await r.POST(req({locale:'es'}));assert.equal(response.status,429);
   const body=await response.json();assert.deepEqual(Object.keys(body).sort(),['error','resetsAt']);assert.equal(body.error,error);
@@ -87,7 +87,9 @@ test('a spent account or a spent site gets a 429 with the reason and the renewal
   assert.equal(r.requests.length,0);assert.deepEqual(r.events,['reserve','budget']);
  }
  const far=route(valid(),{},null,{budget:{ok:false,reason:'user',resetsAt:Math.floor(Date.now()/1000)+10**8}});
- assert.equal((await (await far.POST(req({}))).headers.get('retry-after')),'691200');
+ assert.equal((await (await far.POST(req({}))).headers.get('retry-after')),'2764800');
+ const month=route(valid(),{},null,{budget:{ok:false,reason:'user',resetsAt:Math.floor(Date.now()/1000)+20*86400}});
+ const monthWait=Number(await (await month.POST(req({}))).headers.get('retry-after'));assert.ok(monthWait>=20*86400-1&&monthWait<=20*86400,'a monthly renewal is not cut short');
  const past=route(valid(),{},null,{budget:{ok:false,reason:'user',resetsAt:1}});
  assert.equal(await (await past.POST(req({}))).headers.get('retry-after'),'1');
 });
@@ -102,8 +104,8 @@ test('a budget that cannot be read fails closed with a generic 503: no token, no
 });
 
 test('the conversation length comes from the budget: what is left of the week, never more than the agent maximum',async()=>{
- const r=route(valid(),{},null,{budget:{ok:true,sessionSeconds:180,weekSeconds:180,limitSeconds:600,resetsAt:RESETS}});
- const body=await (await r.POST(req({locale:'es'}))).json();assert.equal(body.sessionSeconds,180);assert.equal(body.weekSeconds,180);assert.equal(body.limitSeconds,600);
+ const r=route(valid(),{},null,{budget:{ok:true,sessionSeconds:180,remainingSeconds:180,limitSeconds:600,period:'month',resetsAt:RESETS}});
+ const body=await (await r.POST(req({locale:'es'}))).json();assert.equal(body.sessionSeconds,180);assert.equal(body.remainingSeconds,180);assert.equal(body.limitSeconds,600);
  assert.equal(JSON.stringify(body).includes('must-not-leak'),false);
 });
 

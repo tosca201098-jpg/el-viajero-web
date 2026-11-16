@@ -1,6 +1,6 @@
 # Sofía: micrófono para usuarios registrados con sesión
 
-> **Voz de Sofía:** los límites por usuario descritos aquí quedaron sustituidos el 16 de noviembre de 2026 por los minutos semanales (`docs/sofia-minutos-semanales.md`).
+> **Voz de Sofía:** los límites por usuario descritos aquí quedaron sustituidos el 16 de noviembre de 2026 por los minutos de voz por cuenta (`docs/sofia-minutos-voz.md`).
 
 Preparación de la PR #38. No autoriza activar Sofía, fusionar, publicar en Production, iniciar conversaciones o contratar servicios.
 

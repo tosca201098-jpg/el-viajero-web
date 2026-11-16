@@ -57,7 +57,7 @@ function networkIdentity(ip: string): string {
 
 /**
  * Voice and AI itineraries: non-refundable attempt limits (they only protect against floods and double clicks).
- * What a person may actually USE is decided elsewhere: weekly voice minutes (lib/voice/weekly-minutes.ts) and the
+ * What a person may actually USE is decided elsewhere: voice minutes (lib/voice/voice-minutes.ts) and the
  * Madrid-day itinerary allowance below. `voice_budget` is the cheap read behind the minutes bar in "Mi cuenta".
  */
 export async function admitAiRequest(request: Request, service: AiService): Promise<Response | null> {
@@ -104,7 +104,7 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
     let keys: string[];
     let quotas: number[];
     if (service === 'voice') {
-      // Only flood protection. No daily or per-person count of conversations: the weekly minutes are the allowance.
+      // Only flood protection. No daily or per-person count of conversations: the voice minutes are the allowance.
       keys = [`${prefix}:ip:${hash}:minute`, `${prefix}:ip:${hash}:day`, `${prefix}:user:${userHash}:minute`];
       quotas = [limit(process.env.AI_VOICE_IP_MINUTE_ATTEMPTS, 6, 6), 60, limit(process.env.AI_VOICE_IP_DAY_ATTEMPTS, 60, 60), 86400,
         limit(process.env.AI_VOICE_USER_MINUTE_ATTEMPTS, 3, 3), 60];

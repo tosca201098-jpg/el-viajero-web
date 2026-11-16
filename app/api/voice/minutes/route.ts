@@ -1,7 +1,7 @@
 import { previewDiagnostic, type PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
 import { admitAiRequest, voiceUserReference } from '@/lib/ai/admission';
 import { sofiaPreviewTarget, sofiaProductionTarget } from '@/lib/voice/preview-target';
-import { BudgetError, userWeek } from '@/lib/voice/weekly-minutes';
+import { BudgetError, userPeriod } from '@/lib/voice/voice-minutes';
 
 const unavailable = (code: PreviewDiagnosticCode) => {
   previewDiagnostic(code);
@@ -9,7 +9,7 @@ const unavailable = (code: PreviewDiagnosticCode) => {
 };
 
 /**
- * The status bar in "Mi cuenta": how many of this account's weekly voice minutes are left. Read only: it never starts a
+ * The status bar in "Mi cuenta": how many of this account's voice minutes are left in the current period. Read only: it never starts a
  * conversation, never returns a token and only reports the account's own seconds.
  */
 export async function GET(request: Request) {
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     if (denied) return denied;
     const userRef = voiceUserReference(request);
     if (!userRef) return unavailable('VOICE_REQUEST');
-    const week = await userWeek({ env: process.env, apiKey: key, agentId: target.agentId, userRef, now: Date.now() });
-    return Response.json(week, { headers: { 'Cache-Control': 'no-store' } });
+    const minutes = await userPeriod({ env: process.env, apiKey: key, agentId: target.agentId, userRef, now: Date.now() });
+    return Response.json(minutes, { headers: { 'Cache-Control': 'no-store' } });
   } catch (error) { return unavailable(error instanceof BudgetError ? error.code : 'VOICE_BUDGET_MALFORMED'); }
 }

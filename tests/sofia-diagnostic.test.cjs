@@ -55,7 +55,7 @@ test('diagnostic security validation matches the existing voice route without ch
   const c=config();mutate(c);let calls=0;
   const api=loader({process:{env:{VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-elevenlabs',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web',AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:version}},
    fetch:async()=>Response.json(++calls===1?c:{token:'fake-token'})},
-   {'@/lib/ai/admission':{admitAiRequest:async()=>null,voiceUserReference:()=>'u_'+'a'.repeat(32)},'@/lib/voice/weekly-minutes':{BudgetError:class extends Error{},checkWeeklyBudget:async()=>({ok:true,sessionSeconds:600,weekSeconds:600,limitSeconds:600,resetsAt:1795000000})}})('app/api/voice/route.ts');
+   {'@/lib/ai/admission':{admitAiRequest:async()=>null,voiceUserReference:()=>'u_'+'a'.repeat(32)},'@/lib/voice/voice-minutes':{BudgetError:class extends Error{},checkVoiceBudget:async()=>({ok:true,sessionSeconds:600,remainingSeconds:600,limitSeconds:600,period:'month',resetsAt:1795000000})}})('app/api/voice/route.ts');
   const res=await api.POST(new Request('https://preview.test/api/voice',{method:'POST',body:'{}'}));
   assert.equal(guard(c,true),res.status===200);assert.equal(calls,guard(c,true)?2:1);
  }

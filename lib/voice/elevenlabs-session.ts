@@ -6,7 +6,7 @@ import type { VoiceDiscoverSummary, VoiceTripSummary } from './trip-summary';
 
 export type VoicePhase = 'idle' | 'connecting' | 'active';
 export type VoiceTurn = 'listening' | 'processing' | 'searching' | 'speaking' | 'cancelled';
-export type VoiceError = 'permission' | 'microphone' | 'connection' | 'timeout' | 'limited' | 'weeklyLimit' | 'siteWeeklyLimit' | 'unavailable';
+export type VoiceError = 'permission' | 'microphone' | 'connection' | 'timeout' | 'limited' | 'minutesLimit' | 'siteWeeklyLimit' | 'unavailable';
 /** A conversation never lasts more than this, whatever the server says (the agent's own maximum is 15 minutes). */
 const MAX_SESSION_MS = 900_000;
 /** Used only if the server does not say how long this conversation may last (earlier server versions). */
@@ -141,11 +141,11 @@ export class VoiceSession {
         if (!response.ok) {
           let reason: VoiceError = response.status === 429 ? 'limited' : response.status === 503 ? 'unavailable' : 'connection';
           if (response.status === 429) {
-            // The server says why: this account's weekly minutes, the whole site's weekly minutes, or too many attempts in a row.
+            // The server says why: this account's minutes, the whole site's weekly minutes, or too many attempts in a row.
             let body: unknown = null;
             try { body = await response.json(); } catch { /* No readable reason: it stays a generic limit. */ }
             const code = body && typeof body === 'object' && 'error' in body ? body.error : null;
-            if (code === 'ai_weekly_limit') reason = 'weeklyLimit';
+            if (code === 'ai_minutes_limit') reason = 'minutesLimit';
             else if (code === 'ai_site_weekly_limit') reason = 'siteWeeklyLimit';
             if (!this.current(id)) return;
           }

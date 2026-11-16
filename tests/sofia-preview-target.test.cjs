@@ -9,7 +9,7 @@ const scope={VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-
 const source=fs.readFileSync(path.join(__dirname,'voice-route.test.cjs'),'utf8');
 const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();
 class BudgetError extends Error{constructor(code){super('voice_budget');this.code=code}}
-const weeklyMock={BudgetError,checkWeeklyBudget:async()=>({ok:true,sessionSeconds:600,weekSeconds:600,limitSeconds:600,resetsAt:1795000000})};
+const budgetMock={BudgetError,checkVoiceBudget:async()=>({ok:true,sessionSeconds:600,remainingSeconds:600,limitSeconds:600,period:'month',resetsAt:1795000000})};
 function harness(change={},options={}){
  const requests=[],logs=[];
  const config=options.config??{...valid(),agent_id:agent,version_id:version};
@@ -17,7 +17,7 @@ function harness(change={},options={}){
   requests.push({url:String(url),init});
   return Response.json(requests.length===1?config:{token:'temporary-token',private:'must-not-leak'});
  }},{'@/lib/ai/admission':{admitAiRequest:async()=>options.denied??null,voiceUserReference:()=>'u_'+'a'.repeat(32)},
-  '@/lib/voice/weekly-minutes':weeklyMock})('app/api/voice/route.ts');
+  '@/lib/voice/voice-minutes':budgetMock})('app/api/voice/route.ts');
  return {...api,requests,logs};
 }
 const request=locale=>new Request('https://el-viajero-web-git-codex-sofia-elevenlabs-el-viajero.vercel.app/api/voice',{method:'POST',body:JSON.stringify({locale})});

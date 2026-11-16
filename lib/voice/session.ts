@@ -23,7 +23,7 @@ export class VoiceSession {
   private starting: Promise<void> | null = null;
   private ending: Promise<void> = Promise.resolve();
   private timer: ReturnType<typeof setTimeout> | null = null;
-  /** How long this conversation may last: what the server granted (what is left of the week, at most 15 minutes). */
+  /** How long this conversation may last: what the server granted (what is left of the account's minutes, at most 15 minutes). */
   private allowedMs = 360_000;
   constructor(private options: VoiceSessionOptions) {}
   get status() { return this.phase; }
@@ -127,11 +127,11 @@ export class VoiceSession {
           if (response.status === 401) { this.requireAuthentication(id); return; }
           let reason: VoiceError = response.status === 429 ? 'limited' : response.status === 503 ? 'unavailable' : 'connection';
           if (response.status === 429) {
-            // The server says why: this account's weekly minutes, the whole site's weekly minutes, or too many attempts in a row.
+            // The server says why: this account's minutes, the whole site's weekly minutes, or too many attempts in a row.
             let body: unknown = null;
             try { body = await response.json(); } catch { /* No readable reason: it stays a generic limit. */ }
             const code = body && typeof body === 'object' && 'error' in body ? body.error : null;
-            if (code === 'ai_weekly_limit') reason = 'weeklyLimit';
+            if (code === 'ai_minutes_limit') reason = 'minutesLimit';
             else if (code === 'ai_site_weekly_limit') reason = 'siteWeeklyLimit';
             if (!this.current(id)) return;
           }

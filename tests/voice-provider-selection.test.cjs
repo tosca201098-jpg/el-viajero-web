@@ -19,8 +19,8 @@ function harness(change={},options={}){
  };
  const api=loader({process:{env},console:{warn:(...args)=>logs.push(args)},fetch:fetcher},
   {'@/lib/ai/admission':{admitAiRequest:async(req,service)=>{admissions++;assert.equal(service,'voice');return options.denied??null;},voiceUserReference:()=>USER_REF},
-   '@/lib/voice/weekly-minutes':{BudgetError,checkWeeklyBudget:async input=>{budgets.push(input);if(options.budgetError)throw options.budgetError;
-    return options.budget??{ok:true,sessionSeconds:600,weekSeconds:600,limitSeconds:600,resetsAt:1795000000};}}})('app/api/voice/route.ts');
+   '@/lib/voice/voice-minutes':{BudgetError,checkVoiceBudget:async input=>{budgets.push(input);if(options.budgetError)throw options.budgetError;
+    return options.budget??{ok:true,sessionSeconds:600,remainingSeconds:600,limitSeconds:600,period:'month',resetsAt:1795000000};}}})('app/api/voice/route.ts');
  return{...api,env,requests,logs,budgets,get admissions(){return admissions;}};
 }
 
@@ -99,7 +99,7 @@ test('invalid requests fail before admission and server secrets never reach the 
  }
 });
 
-test('ElevenLabs uses flood-protection attempts and the real weekly minutes, with no daily ledger and no monthly quota keys',async()=>{
+test('ElevenLabs uses flood-protection attempts and the real voice minutes, with no daily ledger and no monthly quota keys',async()=>{
  const calls=[],commands=[],lists=[];const env={...scope,AI_ENABLED:'true',AI_VOICE_ENABLED:'true',AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true',
   ELEVENLABS_API_KEY:'fake-elevenlabs',ELEVENLABS_ENABLED:'true',ELEVENLABS_AGENT_VERSION_ID:version,
   AI_REDIS_REST_URL:'https://unit-test.upstash.io',AI_REDIS_REST_TOKEN:'fake-redis',AI_RATE_LIMIT_SECRET:'fake-hmac-value-for-unit-tests-only'};
@@ -118,10 +118,15 @@ test('ElevenLabs uses flood-protection attempts and the real weekly minutes, wit
  }},{'@/lib/supabase/voice-auth':{verifyVoiceUser:async()=>({userId:'11111111-2222-4333-8444-555555555555'})}})('app/api/voice/route.ts');
  const res=await api.POST(request());assert.equal(res.status,200);
  const body=await res.json();assert.equal(body.token,'temporary-elevenlabs');assert.match(body.userRef,/^u_[a-f0-9]{32}$/);
- assert.equal(body.weekSeconds,540);assert.equal(body.sessionSeconds,540);assert.equal(body.limitSeconds,600);
+ assert.equal(body.remainingSeconds,1140);assert.equal(body.sessionSeconds,840,'the site still has 14 of its 15 weekly minutes');assert.equal(body.limitSeconds,1200);assert.equal(body.period,'month');
  assert.equal(commands.length,1,'one Redis call: no Madrid-day ledger');
  assert.equal(lists.length,2);assert(lists.every(u=>u.searchParams.get('agent_id')===agent));
  assert.deepEqual(lists.map(u=>u.searchParams.get('user_id')).sort(),[body.userRef,null].sort());
+ // The account is counted from the 1st of the Madrid month; the whole site only from this Madrid week.
+ const madrid=seconds=>Object.fromEntries(new Intl.DateTimeFormat('en-GB',{timeZone:'Europe/Madrid',day:'numeric',hour:'numeric',minute:'numeric',hourCycle:'h23'}).formatToParts(seconds*1000).filter(p=>p.type!=='literal').map(p=>[p.type,Number(p.value)]));
+ const since=u=>Number(u.searchParams.get('call_start_after_unix'));
+ const accountList=lists.find(u=>u.searchParams.has('user_id')),siteList=lists.find(u=>!u.searchParams.has('user_id'));
+ assert.deepEqual(madrid(since(accountList)),{day:1,hour:0,minute:0});assert.equal(madrid(since(siteList)).hour,0);assert.ok(since(accountList)<=since(siteList));
  // Order: flood protection, then the weekly minutes, then the pinned agent check and finally the token.
  assert(calls[0].includes('upstash.io'));assert(calls[1].includes('/convai/conversations')&&calls[2].includes('/convai/conversations'));
  assert(calls[3].includes('/convai/agents/')&&calls[4].includes('/conversation/token'));
@@ -136,7 +141,7 @@ test('a weekly budget that cannot be read never reaches the token endpoint, and 
  const response=await unreadable.POST(request());assert.equal(response.status,503);
  assert.deepEqual(await response.json(),{error:'ai_unavailable'});assert.equal(unreadable.requests.length,0);
  const spent=harness(scope,{budget:{ok:false,reason:'user',resetsAt:Math.floor(Date.now()/1000)+86400}});
- const limited=await spent.POST(request());assert.equal(limited.status,429);assert.equal((await limited.json()).error,'ai_weekly_limit');assert.equal(spent.requests.length,0);
+ const limited=await spent.POST(request());assert.equal(limited.status,429);assert.equal((await limited.json()).error,'ai_minutes_limit');assert.equal(spent.requests.length,0);
 });
 
 test('production accepts the reviewed 300-second agent, the 360-second one and the 15-minute one, and nothing else',async()=>{

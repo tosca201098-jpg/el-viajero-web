@@ -266,7 +266,7 @@ herramientas, sobre todo `descubrir_destinos` y `buscar_viaje` con presupuesto.
 - Pedir «hotel» abre la página de hoteles y **cierra la conversación** (la página cambia). Un panel de hoteles dentro de la propia
   página, sin salir, sería otro cambio aparte.
 - Con 6 minutos caben unas 4–6 gestiones por conversación; las conversaciones largas de asesoramiento consumen minutos de
-  ElevenLabs. Con el sistema de minutos semanales una conversación puede durar hasta 15 minutos, pero cada cuenta solo tiene 10 por semana.
+  ElevenLabs. Con el sistema de minutos por cuenta una conversación puede durar hasta 15 minutos, pero cada cuenta solo tiene 20 por mes (ajustable).
 
 ## Variables de Production necesarias
 
@@ -281,17 +281,18 @@ herramientas, sobre todo `descubrir_destinos` y `buscar_viaje` con presupuesto.
 | `ELEVENLABS_AGENT_VERSION_ID` | `agtvrsn_0601m7jz66wvf83ambtr3s819vfv` (la fijada en el código) | Debe coincidir exactamente con `SOFIA_PRODUCTION_VERSION_ID`. |
 | `AI_REDIS_REST_URL`, `AI_REDIS_REST_TOKEN` | de Upstash Redis | Cuotas compartidas. |
 | `AI_RATE_LIMIT_SECRET` | texto aleatorio de 32 o más caracteres | Protege los contadores. |
-| `AI_VOICE_USER_WEEK_MINUTES` | `10` (opcional) | Minutos de voz por semana y cuenta (tope 60). Ver `docs/sofia-minutos-semanales.md`. |
+| `AI_VOICE_PERIOD` | `month` (opcional) | Periodo de los minutos por cuenta: `week`, `fortnight` o `month`. Ver `docs/sofia-minutos-voz.md`. |
+| `AI_VOICE_USER_MINUTES` | `20` (opcional) | Minutos de voz por cuenta y periodo (tope 300). |
 | `AI_VOICE_GLOBAL_WEEK_MINUTES` | por defecto `15`; lo decide el propietario | Minutos de voz por semana para toda la web (tope 1000). |
 
 `OPENAI_API_KEY` debe quedar vacía o eliminada. `AI_ITINERARY_ENABLED` y `AI_ITINERARY_*` solo afectan al itinerario escrito
 por IA para visitantes registrados (ver `docs/itinerario-ia-haiku.md`); no cambian la voz.
 
-**Límites de la voz: minutos por semana, no conversaciones por día.** Cada cuenta registrada tiene 10 minutos por semana natural de
-Madrid (lunes a lunes) y la web un tope semanal compartido; las conversaciones duran hasta 15 minutos y «Mi cuenta» enseña una barra con lo
-que queda. Solo se mantienen frenos contra ráfagas (6 intentos por minuto y 60 por día por IP, 3 por minuto y cuenta). Las variables
+**Límites de la voz: minutos por cuenta, no conversaciones por día.** Cada cuenta registrada tiene 20 minutos por mes natural de
+Madrid (de uso libre; ajustable con `AI_VOICE_PERIOD` y `AI_VOICE_USER_MINUTES`) y la web un tope semanal compartido; las conversaciones duran
+hasta 15 minutos y «Mi cuenta» enseña una barra con lo que queda. Solo se mantienen frenos contra ráfagas (6 intentos por minuto y 60 por día por IP, 3 por minuto y cuenta). Las variables
 `AI_VOICE_MINUTE_LIMIT`, `AI_VOICE_DAY_LIMIT`, `AI_VOICE_GLOBAL_DAY_LIMIT` y `AI_VOICE_USER_MINUTE_LIMIT` ya no se leen y pueden borrarse.
-Detalle, mensajes y pasos en ElevenLabs: `docs/sofia-minutos-semanales.md`.
+Detalle, mensajes y pasos en ElevenLabs: `docs/sofia-minutos-voz.md`.
 
 ## Qué no se puede comprobar desde el código
 

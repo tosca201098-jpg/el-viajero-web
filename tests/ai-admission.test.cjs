@@ -309,7 +309,7 @@ test('over the itinerary allowance the visitor gets 429 with only a retry delay;
 });
 
 
-test('itineraries are unchanged by the weekly-minutes work: four attempt keys with the Madrid-day person allowance', async () => {
+test('itineraries are unchanged by the voice-minutes work: four attempt keys with the Madrid-day person allowance', async () => {
   const commands = [];
   assert.equal(await limiter(configuration(), recorder(commands), userA)(itineraryRequest(), 'itinerary'), null);
   assert.equal(commands.length, 1); assert.deepEqual(commands[0].slice(7), [3, 60, 10, 86400, 200, 86400, 10, 90000]);
