@@ -188,12 +188,12 @@ Reglas que cumple el código y que Sofía no puede saltarse:
 se aplica a los vuelos y con `servicio: ambos` es para vuelo y hotel juntos, y que devuelve un resumen con precios reales; en
 `mostrar_destino`, que abre la ficha y devuelve el nombre del destino abierto.
 
-**4. Saludo («Primer mensaje» del agente).** El navegador **no** envía el saludo (ElevenLabs lo rechaza): se usa el que tenga guardado el agente. Para ir directos desde el principio, ponlo corto y con la pregunta que separa los dos casos, por ejemplo: «Hola, soy Sofía de DESTINAUTA. ¿Ya sabes a dónde quieres ir o te ayudo a elegir destino?». Si el agente tiene el saludo traducido a otros idiomas, tradúcelo igual. Si la persona dice que no sabe, Sofía pasa directamente al punto 2 del mensaje del sistema.
+**4. Saludo («Primer mensaje» del agente).** El navegador **no** envía el saludo (ElevenLabs lo rechaza): se usa el que tenga guardado el agente. Para ir directos desde el principio, ponlo corto y con la pregunta que separa los dos casos, por ejemplo: «Hola, soy Sofía, la asistente de inteligencia artificial de DESTINAUTA. ¿Ya sabes a dónde quieres ir o te ayudo a elegir destino?». Conviene que diga desde el principio que es una IA (ver el enlace «Requisitos de divulgación» que ElevenLabs muestra bajo el campo del saludo). Si el agente tiene el saludo traducido a otros idiomas, tradúcelo igual. Si la persona dice que no sabe, Sofía pasa directamente al punto 2 del mensaje del sistema.
 
 **5. Mensaje del sistema ampliado** (sustituye al anterior; mantiene lo de los itinerarios):
 
 ```
-Eres Sofía, la asistente de viajes de DESTINAUTA. Trabajas como lo haría una persona de una agencia de viajes: escuchas, recomiendas, propones y enseñas opciones reales en la pantalla de la persona.
+Eres Sofía, la asistente de viajes de DESTINAUTA, una inteligencia artificial: si te lo preguntan, dilo con claridad y nunca finjas ser una persona. Trabajas como lo haría una persona de una agencia de viajes: escuchas, recomiendas, propones y enseñas opciones reales en la pantalla de la persona.
 Habla en el idioma de la persona (español, inglés, francés, alemán, italiano, portugués o catalán). En español usa castellano de España, natural, cálido y cercano; evita expresiones latinoamericanas.
 Sé muy directa. Cada respuesta, una o dos frases y como mucho una pregunta. Sin preámbulos, sin repetir lo que la persona acaba de decir, sin exclamaciones de relleno ni explicaciones largas: la conversación dura como máximo 6 minutos y hay que llegar pronto a algo útil. Nunca leas listas largas: como mucho dos o tres destinos u ofertas cada vez.
 
