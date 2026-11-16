@@ -3,11 +3,11 @@ import type { Destination } from '@/lib/destinations/featured';
 import { isItinerary } from '@/lib/itinerary/schema';
 import type { Itinerary } from '@/lib/itinerary/types';
 
-/** `itinerario` is the itinerary Sofía wrote, as a JSON string (see docs/sofia-solo-elevenlabs.md). */
+/** `itinerario` (optional) is an itinerary Sofía wrote, as a JSON string. Without it, the page asks the server (Claude Haiku). */
 export type VoiceItineraryArguments = { destino: string; dias: number; itinerario?: string };
 export type VoiceItineraryResult =
   | { status: 'success'; destination: string; days: number; locale: Locale }
-  | { status: 'error'; error: 'invalid_arguments' | 'unknown_destination' | 'generation_failed' | 'busy' | 'unavailable' }
+  | { status: 'error'; error: 'invalid_arguments' | 'unknown_destination' | 'generation_failed' | 'busy' | 'unavailable' | 'limited' }
   | { status: 'cancelled' };
 export type VoiceItineraryContext = { callId: string; locale: Locale; signal: AbortSignal };
 
@@ -22,8 +22,11 @@ export function parseVoiceItinerary(raw: unknown, days: number): Itinerary | nul
   } catch { return null; }
 }
 
-/** A cancellable UI request carrying the itinerary Sofía wrote; the planner only displays it. */
-export function createVoiceItineraryRequest(destination: Destination, days: number, itinerary: Itinerary, context: VoiceItineraryContext) {
+/**
+ * A cancellable UI request. With `itinerary` (written by Sofía) the planner only displays it; with `null` the planner
+ * asks `/api/itinerary` for it (Claude Haiku, registered visitors) and reports the real outcome to Sofía.
+ */
+export function createVoiceItineraryRequest(destination: Destination, days: number, itinerary: Itinerary | null, context: VoiceItineraryContext) {
   const controller = new AbortController();
   let settled = false;
   let resolve!: (result: VoiceItineraryResult) => void;

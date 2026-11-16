@@ -37,3 +37,7 @@ Para **apagarlo** basta poner `AI_ITINERARY_ENABLED=false` (o quitar la clave): 
 ## Coste orientativo (precios oficiales de Haiku 5.5: 0,10 $ entrada y 0,50 $ salida por millón de tokens)
 
 Un itinerario cuesta entre ≈0,0015 $ (3 días) y ≈0,005 $ (máximo de un itinerario largo). Con el tope de 200 al día, el máximo teórico es ≈1 $ al día. El gasto real se consulta en la consola de Anthropic.
+
+## Por voz (Sofía)
+
+Cuando Sofía recibe la petición de un itinerario, solo da destino y días; la página llama a este mismo servicio con la sesión de la persona y avisa a Sofía cuando el itinerario ya está en pantalla. Cuenta en el mismo cupo (10 por persona y día). Si no hay cupo o la IA no está disponible, Sofía lo sabe (`limited` / `unavailable`) y se muestra la guía gratuita. Detalles en `docs/sofia-solo-elevenlabs.md`.
