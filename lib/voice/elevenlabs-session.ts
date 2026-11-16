@@ -49,6 +49,20 @@ export function parseVoiceSearchArguments(value: unknown): VoiceSearchArguments 
       ...(d.presupuesto === undefined ? {} : { presupuesto: d.presupuesto, tipo_presupuesto: d.tipo_presupuesto }) };
   } catch { return null; }
 }
+/**
+ * A departure before yesterday (Madrid) is past anywhere in the world, so it is never searched: Sofía is told today's
+ * date and corrects herself. The one-day margin keeps travellers in other time zones from being rejected.
+ */
+export function pastDepartureError(departure: string, now: Date) {
+  if (!Number.isFinite(now.getTime())) return null;
+  const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now);
+  const part = (type: string) => parts.find(item => item.type === type)?.value ?? '';
+  const today = `${part('year')}-${part('month')}-${part('day')}`;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(today)) return null;
+  const earliest = new Date(Date.parse(`${today}T00:00:00Z`) - 86_400_000).toISOString().slice(0, 10);
+  return departure < earliest ? { status: 'error', error: 'invalid_arguments', reason: 'date_in_past', today,
+    note: `The departure date ${departure} has already passed. Today is ${today}. Use the next future date, confirm it with the traveller and search again.` } : null;
+}
 type Connection = Pick<VoiceConversation, 'endSession' | 'setMicMuted' | 'setVolume'>;
 type VoiceSessionOptions = {
   onPhase: (phase: VoicePhase) => void; onError: (error: VoiceError) => void; onTurn?: (turn: VoiceTurn) => void;
@@ -56,7 +70,7 @@ type VoiceSessionOptions = {
   onItinerary?: (args: VoiceItineraryArguments, context: VoiceItineraryContext) => Promise<VoiceItineraryResult>;
   onShowDestination?: (name: string, context: VoiceItineraryContext) => VoiceSearchResult;
   onDiscover?: (args: VoiceDiscoverArguments, context: VoiceItineraryContext) => Promise<VoiceDiscoverResult>;
-  getLocale?: () => Locale; fetcher?: typeof fetch;
+  getLocale?: () => Locale; fetcher?: typeof fetch; now?: () => Date;
   startConversation?: (options: PartialOptions) => Promise<Connection>;
   startupTimeoutMs?: number; sessionTimeoutMs?: number;
 };
@@ -136,7 +150,9 @@ export class VoiceSession {
             const p = parameters as Record<string, unknown> | null;
             if (name === 'buscar_viaje') {
               const args = parseVoiceSearchArguments(parameters);
-              if (args) result = await this.options.onSearch(args, context) ?? { status: 'success' };
+              const past = args && pastDepartureError(args.fecha_ida, this.options.now?.() ?? new Date());
+              if (past) result = past;
+              else if (args) result = await this.options.onSearch(args, context) ?? { status: 'success' };
             } else if (name === 'crear_itinerario' && p && typeof p.destino === 'string' && p.destino.trim() &&
               p.destino.length <= 100 && Number.isInteger(p.dias) && Number(p.dias) >= 1 && Number(p.dias) <= 7) {
               result = await this.options.onItinerary?.({ destino: p.destino.trim(), dias: Number(p.dias),
@@ -146,7 +162,9 @@ export class VoiceSession {
               result = queryVoiceCatalog(p?.consulta, locale, { month: p?.mes, topic: p?.tema });
             } else if (name === 'descubrir_destinos') {
               const args = parseVoiceDiscoverArguments(parameters);
-              if (args) result = await this.options.onDiscover?.(args, context) ?? { status: 'error', error: 'unavailable' };
+              const past = args && pastDepartureError(args.fecha_ida, this.options.now?.() ?? new Date());
+              if (past) result = past;
+              else if (args) result = await this.options.onDiscover?.(args, context) ?? { status: 'error', error: 'unavailable' };
             } else if (name === 'mostrar_destino' && p && typeof p.destino === 'string' && p.destino.length <= 100 && p.destino.trim()) {
               result = this.options.onShowDestination?.(p.destino.trim(), context) ?? { status: 'error', error: 'unavailable' };
             }

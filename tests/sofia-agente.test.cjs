@@ -244,6 +244,44 @@ test('a flight search hands Sofía the real summary; a plain success keeps worki
   opened.session.stop();
 });
 
+test('past dates: Sofía is told today\'s date and nothing is searched; today and tomorrow still work', async () => {
+  let searched = 0, discovered = 0;
+  const h = harness({ onSearch: async () => { searched++; return { status: 'success' }; },
+    onDiscover: async () => { discovered++; return { status: 'success', summary: {} }; } });
+  await h.session.start();
+  const past = await h.call('buscar_viaje', { ...trip, fecha_ida: '2026-03-10', fecha_vuelta: '2026-03-15' });
+  assert.deepEqual([past.status, past.error, past.reason, past.today], ['error', 'invalid_arguments', 'date_in_past', '2026-11-16']);
+  assert.match(past.note, /2026-03-10/);
+  assert.match(past.note, /Today is 2026-11-16/);
+  const pastDiscover = await h.call('descubrir_destinos', { ...discover, fecha_ida: '2026-03-10', fecha_vuelta: '2026-03-15' });
+  assert.deepEqual([pastDiscover.error, pastDiscover.reason, pastDiscover.today], ['invalid_arguments', 'date_in_past', '2026-11-16']);
+  assert.equal(searched + discovered, 0, 'a past departure never reaches the search');
+  // Yesterday in Madrid can still be "today" for a traveller elsewhere, so only older days are refused.
+  for (const day of ['2026-11-15', '2026-11-16', '2026-11-17', '2027-03-10']) {
+    assert.equal((await h.call('buscar_viaje', { ...trip, fecha_ida: day, fecha_vuelta: '2027-03-15' })).status, 'success', day);
+    assert.equal((await h.call('descubrir_destinos', { ...discover, fecha_ida: day, fecha_vuelta: '2027-03-15' })).status, 'success', day);
+  }
+  assert.equal((await h.call('buscar_viaje', { ...trip, fecha_ida: '2026-11-14', fecha_vuelta: '2027-03-15' })).reason, 'date_in_past');
+  assert.equal(searched, 4);
+  assert.equal(discovered, 4);
+  h.session.stop();
+});
+
+test('past dates: "today" is the Madrid calendar day, and an unusable clock never blocks a search', async () => {
+  // 23:30 UTC on the 15th is already the 16th in Madrid.
+  const lateNight = harness({ now: () => new Date('2026-11-15T23:30:00Z') });
+  await lateNight.session.start();
+  const refused = await lateNight.call('buscar_viaje', { ...trip, fecha_ida: '2026-11-14', fecha_vuelta: '2027-03-15' });
+  assert.equal(refused.today, '2026-11-16');
+  assert.equal((await lateNight.call('buscar_viaje', { ...trip, fecha_ida: '2026-11-15', fecha_vuelta: '2027-03-15' })).status, 'success');
+  lateNight.session.stop();
+
+  const broken = harness({ now: () => new Date('invalid') });
+  await broken.session.start();
+  assert.equal((await broken.call('buscar_viaje', { ...trip, fecha_ida: '2026-03-10', fecha_vuelta: '2026-03-15' })).status, 'success');
+  broken.session.stop();
+});
+
 /* ------------------------------------------------------------- la página */
 
 const source = fs.readFileSync('app/page.tsx', 'utf8');
