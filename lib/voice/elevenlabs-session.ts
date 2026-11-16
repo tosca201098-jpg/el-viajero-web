@@ -203,12 +203,11 @@ export class VoiceSession {
         });
         // The anonymous account reference lets ElevenLabs add up this account's minutes. Only the exact format is accepted.
         const userId = typeof data.userRef === 'string' && /^u_[a-f0-9]{32}$/.test(data.userRef) ? data.userRef : undefined;
-        const identity = (userId ? { userId } : {}) as Partial<PartialOptions>;
         const allowedMs = Number.isInteger(data.sessionSeconds) && data.sessionSeconds > 0
           ? Math.min(data.sessionSeconds * 1000, MAX_SESSION_MS) : DEFAULT_SESSION_MS;
         const connection = await startConversation({
           conversationToken: data.token, connectionType: 'webrtc', textOnly: false,
-          ...identity,
+          ...(userId ? { userId } : {}),
           webRtc: { singlePeerConnection: false },
           overrides: { agent: { language: locale } },
           clientTools: Object.fromEntries(['buscar_viaje', 'crear_itinerario', 'consultar_catalogo', 'mostrar_destino', 'descubrir_destinos']
