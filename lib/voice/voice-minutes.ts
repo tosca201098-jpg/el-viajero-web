@@ -3,7 +3,7 @@ import type { PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
 
 /**
  * Voice minutes. Each registered account has a free-form balance of minutes for a natural Madrid period (by default
- * the calendar month: talk 9 minutes in one conversation and the rest stays for later in the same month), and the whole
+ * 6 minutes for the calendar month: talk 2 minutes in one conversation and the other 4 stay for later in the same month), and the whole
  * site has a shared WEEKLY budget that protects the ElevenLabs plan. The minutes are NOT estimated here: they are the
  * real conversation durations that ElevenLabs reports for this agent, summed for the account (by the anonymous
  * `user_id` the browser passes when it starts the conversation) and for the whole agent.
@@ -13,7 +13,7 @@ import type { PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
 export const VOICE_CONVERSATION_MAX_SECONDS = 900;
 /** Less than this is not a useful conversation, so it counts as "no minutes left". */
 export const VOICE_MIN_USEFUL_SECONDS = 30;
-const DEFAULT_USER_MINUTES = 20;
+const DEFAULT_USER_MINUTES = 6;
 const USER_MINUTES_CEILING = 300;
 const DEFAULT_PERIOD: VoicePeriod = 'month';
 const DEFAULT_SITE_MINUTES = 15;
@@ -48,7 +48,7 @@ function periodSetting(value: string | undefined): VoicePeriod {
 }
 
 /**
- * Defaults: 20 minutes per account for the calendar month, and 15 minutes per WEEK for the whole site. Settings can
+ * Defaults: 6 minutes per account for the calendar month, and 15 minutes per WEEK for the whole site. Settings can
  * change the period (week, fortnight or month) and both amounts within a fixed ceiling.
  */
 export function voiceLimits(env: Record<string, string | undefined>): VoiceLimits {

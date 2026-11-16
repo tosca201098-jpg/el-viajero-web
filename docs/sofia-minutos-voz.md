@@ -1,9 +1,10 @@
 # Sofía: minutos de voz por cuenta y periodo
 
 Sustituye a la regla anterior («3 conversaciones por día natural de Madrid y 360 segundos»). Decisión del propietario
-(16 de noviembre de 2026): **20 minutos por mes natural y cuenta registrada**, de uso libre (si una persona gasta 9 minutos en su primera
-conversación, los 11 restantes se quedan guardados para el resto del mes), conversaciones de **hasta 15 minutos**, y una barra en
-«Mi cuenta» que enseña cuánto queda. El propietario irá ajustando las cifras con los días y las semanas según el consumo real y su plan de
+(17 de noviembre de 2026): **6 minutos por mes natural y cuenta registrada**, de uso libre (si una persona gasta 2 minutos en su primera
+conversación, los 4 restantes se quedan guardados en su cuenta para el resto del mes; no hay una «conversación única»), y una barra en
+«Mi cuenta» que enseña cuánto queda. Con 6 minutos cada conversación dura como mucho 6 minutos, que es justo lo que corta el agente
+ya fijado (360 s). Antes se estudiaron 10 minutos por semana y 20 por mes; el código admite otras cifras (ver variables). El propietario irá ajustando las cifras con los días y las semanas según el consumo real y su plan de
 ElevenLabs; por eso el periodo y los minutos se cambian desde Vercel, sin tocar código.
 
 ## Cómo funciona
@@ -43,7 +44,7 @@ Los mensajes están en los siete idiomas y no nombran el periodo (así valen par
 siguen disponibles siempre.
 
 **Barra de «Mi cuenta»** (`app/components/VoiceMinutesBar.tsx`, datos de `GET /api/voice/minutes`): barra que se vacía según se gasta
-(azul; ámbar con un cuarto o menos; roja sin minutos), «Te quedan 11 min de 20 min» y «Se renuevan el martes 1 de diciembre, 00:00».
+(azul; ámbar con un cuarto o menos; roja sin minutos), «Te quedan 4 min de 6 min» y «Se renuevan el martes 1 de diciembre, 00:00».
 Es de solo lectura: no abre conversaciones, no devuelve tokens y solo da los segundos de la propia cuenta.
 
 ## Frenos que se mantienen (solo contra ráfagas)
@@ -68,20 +69,23 @@ Los itinerarios con IA no cambian.
 | Variable | Valor por defecto | Valores admitidos | Para qué |
 | --- | --- | --- | --- |
 | `AI_VOICE_PERIOD` | `month` | `week`, `fortnight`, `month` | Periodo en el que cada cuenta dispone de sus minutos. |
-| `AI_VOICE_USER_MINUTES` | 20 | 1 a 300 | Minutos por cuenta y periodo. |
+| `AI_VOICE_USER_MINUTES` | 6 | 1 a 300 | Minutos por cuenta y periodo. |
 | `AI_VOICE_GLOBAL_WEEK_MINUTES` | 15 | 1 a 1000 | Minutos **por semana** para toda la web. **Lo decide el propietario** según su plan de ElevenLabs (el plan Starter incluye 75 minutos de agente al mes, unos 17 por semana; el siguiente, 275 al mes, unos 63 por semana; cada minuto de más tiene un coste que activa el propietario). |
 
 Un valor mal escrito (no numérico, 0, negativo, decimal, por encima del tope o un periodo desconocido) deja la voz en pausa (503, código
 `VOICE_BUDGET_CONFIG`) en lugar de elegir otro. `AI_VOICE_USER_WEEK_MINUTES` (nombre de la primera versión, nunca publicada) ya no se lee.
 
-**Ejemplo de cuentas** (a título orientativo; el consumo real lo marca ElevenLabs): con 20 minutos por cuenta y mes, un plan de 75 minutos
-al mes se agota con 3 o 4 cuentas que gasten todo su saldo. Por eso el tope semanal de la web manda: cuando se agota, nadie puede abrir una
-conversación hasta el lunes aunque le queden minutos a su cuenta.
+**Ejemplo de cuentas** (a título orientativo; el consumo real lo marca ElevenLabs): con 6 minutos por cuenta y mes y el tope de la web en
+15 minutos por semana, caben unas 2 cuentas por semana (unas 10 al mes) si cada una gasta todo su saldo; un plan de 75 minutos al mes daría
+como máximo para unas 12 cuentas, y el de 275 minutos para unas 45. Si la gente habla menos, caben más. Cuando el tope semanal de la web se
+agota, nadie puede abrir una conversación hasta el lunes aunque le queden minutos a su cuenta.
 
 ## Lo que hay que hacer en ElevenLabs (lo hace el propietario)
 
-1. En el agente (rama `sofia-agente-viajes`): **duración máxima de la conversación = 900 segundos** y publicar → saldrá un `agtvrsn_…` nuevo que
-   habrá que fijar en `lib/voice/preview-target.ts` (otra PR). Hasta entonces el código sigue aceptando la versión de 360 s.
+1. **Con 6 minutos por cuenta no hace falta tocar la duración del agente**: la versión ya fijada (360 s = 6 minutos) encaja. Solo si algún día se
+   suben los minutos por cuenta y se quieren conversaciones más largas habría que poner **900 segundos** en el agente (rama
+   `sofia-agente-viajes`), publicar y fijar el `agtvrsn_…` nuevo en `lib/voice/preview-target.ts` (otra PR). El código ya acepta 900, 360 y (solo en
+   Production) 300 segundos.
 2. La clave de API del servidor necesita poder **leer conversaciones** (`GET /v1/convai/conversations`). Si no puede, la voz queda en pausa con el
    diagnóstico `VOICE_BUDGET_CREDENTIALS`.
 3. Comprobar tras la primera conversación de prueba que en ElevenLabs → Conversaciones aparece el **usuario `u_…`** y que la barra de
@@ -90,7 +94,7 @@ conversación hasta el lunes aunque le queden minutos a su cuenta.
 
 ## Límites conocidos
 
-- El corte a los minutos concedidos lo hace el navegador. Una persona técnica podría seguir hablando hasta los 15 minutos del agente;
+- El corte a los minutos concedidos lo hace el navegador (y el agente corta a su duración máxima, 360 s en la versión fijada). Una persona técnica podría seguir hablando hasta ese máximo del agente;
   después la cuenta quedaría sin minutos y el tope semanal de toda la web sigue vigente. La atribución por cuenta también depende del navegador.
 - Es una sola conversación a la vez en toda la web (el agente exige concurrencia 1): si alguien habla, el siguiente espera.
 - Más de 500 conversaciones en un periodo (cuenta o web) se consideran «sin minutos».

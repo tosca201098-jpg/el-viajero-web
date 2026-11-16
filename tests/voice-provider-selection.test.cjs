@@ -118,7 +118,7 @@ test('ElevenLabs uses flood-protection attempts and the real voice minutes, with
  }},{'@/lib/supabase/voice-auth':{verifyVoiceUser:async()=>({userId:'11111111-2222-4333-8444-555555555555'})}})('app/api/voice/route.ts');
  const res=await api.POST(request());assert.equal(res.status,200);
  const body=await res.json();assert.equal(body.token,'temporary-elevenlabs');assert.match(body.userRef,/^u_[a-f0-9]{32}$/);
- assert.equal(body.remainingSeconds,1140);assert.equal(body.sessionSeconds,840,'the site still has 14 of its 15 weekly minutes');assert.equal(body.limitSeconds,1200);assert.equal(body.period,'month');
+ assert.equal(body.remainingSeconds,300);assert.equal(body.sessionSeconds,300,'the account has 5 of its 6 minutes left and the site has 14 of its 15');assert.equal(body.limitSeconds,360);assert.equal(body.period,'month');
  assert.equal(commands.length,1,'one Redis call: no Madrid-day ledger');
  assert.equal(lists.length,2);assert(lists.every(u=>u.searchParams.get('agent_id')===agent));
  assert.deepEqual(lists.map(u=>u.searchParams.get('user_id')).sort(),[body.userRef,null].sort());

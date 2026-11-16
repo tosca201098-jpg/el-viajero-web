@@ -155,9 +155,9 @@ test('with a weekly period, on Monday 00:00 in Madrid the account gets all its m
   assert.equal(sunday, WEEK_START); assert.equal(monday, WEEK_END);
 });
 
-test('defaults: 20 minutes per account for the calendar month and 15 minutes per week for the whole site', () => {
+test('defaults: 6 minutes per account for the calendar month and 15 minutes per week for the whole site', () => {
   const w = voiceMinutes(store([], []));
-  assert.deepEqual({ ...w.voiceLimits({}) }, { period: 'month', userSeconds: 1200, siteSeconds: 900 });
+  assert.deepEqual({ ...w.voiceLimits({}) }, { period: 'month', userSeconds: 360, siteSeconds: 900 });
 });
 
 test('by default the account is counted over the Madrid month and the site over the Madrid week', async () => {
@@ -167,26 +167,27 @@ test('by default the account is counted over the Madrid month and the site over 
   assert.deepEqual(since, { account: String(MONTH_START), site: String(WEEK_START) });
 });
 
-test('the 20 minutes are one free balance: talk 9 minutes once and 11 are left for the rest of the month', async () => {
-  const fresh = await voiceMinutes(store([], [])).checkVoiceBudget(raw({ AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
+test('a 20-minute allowance is one free balance: talk 9 minutes once and 11 are left for the rest of the month', async () => {
+  const raw20 = (env = {}) => raw({ AI_VOICE_USER_MINUTES: '20', ...env });
+  const fresh = await voiceMinutes(store([], [])).checkVoiceBudget(raw20({ AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
   assert.deepEqual({ ...fresh }, { ok: true, sessionSeconds: 900, remainingSeconds: 1200, limitSeconds: 1200, period: 'month', resetsAt: MONTH_END });
-  const later = await voiceMinutes(store([done(540)], [done(540)])).checkVoiceBudget(raw({ AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
+  const later = await voiceMinutes(store([done(540)], [done(540)])).checkVoiceBudget(raw20({ AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
   assert.deepEqual({ ...later }, { ok: true, sessionSeconds: 660, remainingSeconds: 660, limitSeconds: 1200, period: 'month', resetsAt: MONTH_END });
   // Many short conversations add up exactly like one long one.
-  const many = await voiceMinutes(store([done(100), done(200), done(240)], [])).checkVoiceBudget(raw({ AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
+  const many = await voiceMinutes(store([done(100), done(200), done(240)], [])).checkVoiceBudget(raw20({ AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
   assert.equal(many.remainingSeconds, 660);
 });
 
 test('an account with no minutes left is denied until the 1st at Madrid midnight, while a full site is denied until Monday', async () => {
-  const spent = await voiceMinutes(store([done(900), done(300)], [])).checkVoiceBudget(raw({ AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
+  const spent = await voiceMinutes(store([done(200), done(160)], [])).checkVoiceBudget(raw({ AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
   assert.deepEqual({ ...spent }, { ok: false, reason: 'user', resetsAt: MONTH_END });
   const full = await voiceMinutes(store([], [done(900)])).checkVoiceBudget(raw());
   assert.deepEqual({ ...full }, { ok: false, reason: 'site', resetsAt: WEEK_END });
 });
 
 test('the account bar shows the month: minutes used earlier in the month still count, and nothing from the site total', async () => {
-  const w = voiceMinutes(store([done(540)], [done(540), done(900)]));
-  assert.deepEqual({ ...await w.userPeriod(raw()) }, { period: 'month', limitSeconds: 1200, usedSeconds: 540, remainingSeconds: 660, resetsAt: MONTH_END });
+  const w = voiceMinutes(store([done(120)], [done(120), done(900)]));
+  assert.deepEqual({ ...await w.userPeriod(raw()) }, { period: 'month', limitSeconds: 360, usedSeconds: 120, remainingSeconds: 240, resetsAt: MONTH_END });
   assert.equal(w.requests.length, 1); assert.equal(w.requests[0].url.searchParams.get('call_start_after_unix'), String(MONTH_START));
 });
 
@@ -230,4 +231,26 @@ test('the month changes at Madrid midnight, also across daylight-saving changes'
   // December into January crosses the year, and February 2028 is a leap month.
   assert.deepEqual(await bounds(Date.parse('2026-12-20T12:00:00Z')), [z('2026-11-30T23:00:00Z'), z('2026-12-31T23:00:00Z')]);
   assert.deepEqual(await bounds(Date.parse('2028-02-10T12:00:00Z')), [z('2028-01-31T23:00:00Z'), z('2028-02-29T23:00:00Z')]);
+});
+
+test('by default an account has 6 minutes a month: one 6-minute conversation, or several shorter ones that add up', async () => {
+  const fresh = await voiceMinutes(store([], [])).checkVoiceBudget(raw());
+  assert.deepEqual({ ...fresh }, { ok: true, sessionSeconds: 360, remainingSeconds: 360, limitSeconds: 360, period: 'month', resetsAt: MONTH_END });
+  // Talk 2 minutes and the other 4 are still there for later in the same month.
+  const later = await voiceMinutes(store([done(120)], [done(120)])).checkVoiceBudget(raw());
+  assert.deepEqual({ ...later }, { ok: true, sessionSeconds: 240, remainingSeconds: 240, limitSeconds: 360, period: 'month', resetsAt: MONTH_END });
+  const split = await voiceMinutes(store([done(100), done(80), done(60)], [])).checkVoiceBudget(raw());
+  assert.equal(split.remainingSeconds, 120);
+  // 6 minutes used (or fewer than 30 seconds left) means no minutes until the 1st; the whole site is not asked to decide that.
+  for (const spent of [[done(360)], [done(200), done(131)]]) {
+    assert.deepEqual({ ...await voiceMinutes(store(spent, [])).checkVoiceBudget(raw()) }, { ok: false, reason: 'user', resetsAt: MONTH_END });
+  }
+  // The pinned agent stops at 360 seconds, which is exactly a fresh account's whole allowance.
+  assert.equal(fresh.sessionSeconds, 360);
+});
+
+test('a 6-minute account with the site nearly out of minutes gets only what the site has left', async () => {
+  const w = voiceMinutes(store([], [done(900 - 150)]));
+  const result = await w.checkVoiceBudget(raw());
+  assert.equal(result.ok, true); assert.equal(result.sessionSeconds, 150); assert.equal(result.remainingSeconds, 360);
 });

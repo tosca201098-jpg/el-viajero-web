@@ -25,7 +25,7 @@ test('the account gets its own period seconds and nothing else: no token, no ref
   assert.equal(response.status, 200); assert.equal(response.headers.get('cache-control'), 'no-store');
   const body = await response.json();
   assert.deepEqual(Object.keys(body).sort(), ['limitSeconds', 'period', 'remainingSeconds', 'resetsAt', 'usedSeconds']);
-  assert.equal(body.period, 'month'); assert.equal(body.limitSeconds, 1200); assert.equal(body.usedSeconds, 250); assert.equal(body.remainingSeconds, 950); assert.ok(body.resetsAt > Date.now() / 1000);
+  assert.equal(body.period, 'month'); assert.equal(body.limitSeconds, 360); assert.equal(body.usedSeconds, 250); assert.equal(body.remainingSeconds, 110); assert.ok(body.resetsAt > Date.now() / 1000);
   assert.deepEqual(h.services, ['voice_budget']);
   assert.equal(h.calls.length, 1, 'one provider read, never the site-wide list');
   assert.equal(h.calls[0].url.searchParams.get('user_id'), REF); assert.equal(h.calls[0].url.searchParams.get('agent_id'), agent);
@@ -37,7 +37,7 @@ test('the settings that change the minutes and the period are followed by the ba
   const body = await (await route({ env: { AI_VOICE_USER_MINUTES: '10', AI_VOICE_PERIOD: 'week' } }).GET(get())).json();
   assert.equal(body.period, 'week'); assert.equal(body.limitSeconds, 600); assert.equal(body.remainingSeconds, 350);
   const fortnight = await (await route({ env: { AI_VOICE_PERIOD: 'fortnight' } }).GET(get())).json();
-  assert.equal(fortnight.period, 'fortnight'); assert.equal(fortnight.limitSeconds, 1200);
+  assert.equal(fortnight.period, 'fortnight'); assert.equal(fortnight.limitSeconds, 360);
 });
 
 test('without a reviewed voice target, a key or the flags, nothing is asked: no admission and no provider call', async () => {
