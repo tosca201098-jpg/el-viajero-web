@@ -33,7 +33,8 @@ import { destinationWindowStyle as windowStyle } from "@/app/components/destinat
 import { formatMonthList, formatMonthRanges } from "@/lib/destinations/seasonality";
 import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
-import { VoiceSession, type VoiceError, type VoicePhase, type VoiceTurn, type VoiceSearchResult, type VoiceSearchArguments } from "@/lib/voice/session";
+import { VoiceSession, type VoiceError, type VoicePhase, type VoiceTurn, type VoiceSearchResult, type VoiceSearchArguments, type VoiceDiscoverArguments, type VoiceDiscoverResult } from "@/lib/voice/session";
+import { buildVoiceTripSummary, buildVoiceDiscoverSummary } from "@/lib/voice/trip-summary";
 import { observeVoiceAuth, type VoiceAuthController, type VoiceAuthState } from "@/lib/voice/auth-client";
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
@@ -61,8 +62,11 @@ type FlightQuery = {
   returnDate: string;
   travelers: number;
   budget?: SearchBudget;
+  /** Flight + hotel budget from Sofía: never filters flights, only lets her say what is left for the hotel. */
+  combinedBudget?: SearchBudget;
   flexDays?: 1 | 3 | 7;
 };
+type FlightRunResult = VoiceSearchResult | { status: "success"; offers: FlightOffer[] };
 
 type FlightSearchState =
   | { status: "idle" }
@@ -165,6 +169,8 @@ const [voiceError, setVoiceError] = useState<VoiceError | null>(null);
 const [voiceTurn, setVoiceTurn] = useState<VoiceTurn>('cancelled');
 const voiceSessionRef = useRef<VoiceSession | null>(null);
 const voiceSearchRef = useRef<(datos: VoiceSearchArguments, context: VoiceItineraryContext) => VoiceSearchResult | Promise<VoiceSearchResult>>(() => ({ status: 'error', error: 'unavailable' }));
+const voiceDiscoverRef = useRef<(args: VoiceDiscoverArguments, context: VoiceItineraryContext) => Promise<VoiceDiscoverResult>>(
+  async () => ({ status: 'error', error: 'unavailable' }));
 const voiceLocaleRef = useRef(language);
 voiceLocaleRef.current = language;
 const voiceItineraryRef = useRef<VoiceItineraryRequest | null>(null);
@@ -183,6 +189,7 @@ useEffect(() => {
     onTurn: setVoiceTurn,
     onSearch: (datos, context) => voiceSearchRef.current(datos, context),
     onItinerary: (args, context) => voiceItineraryHandlerRef.current(args, context),
+    onDiscover: (args, context) => voiceDiscoverRef.current(args, context),
     getLocale: () => voiceLocaleRef.current,
     getAccessToken: () => voiceAuthRef.current?.getAccessToken() ?? Promise.resolve(null),
     onAuthRequired: () => { setVoiceError(null); setAuthMode('signin'); },
@@ -192,7 +199,8 @@ useEffect(() => {
       if (!destination) return { status: 'error', error: 'unknown_destination' };
       setModal(null);
       setDestinoSeleccionado(destination);
-      return { status: 'success' };
+      return { status: 'success', shown: { name: destinationDisplay(destination, voiceLocaleRef.current).name,
+        country: destinationCountry(destination, voiceLocaleRef.current) } };
     },
   });
   voiceSessionRef.current = session;
@@ -272,6 +280,7 @@ voiceSearchRef.current = (datos, context) => {
     origin: origenCanonico, destination: destino.name,
     departureDate: datos.fecha_ida, returnDate: datos.fecha_vuelta, travelers: datos.viajeros,
     ...(servicio === "vuelo" && budget ? { budget } : {}),
+    ...(servicio === "ambos" && budget ? { combinedBudget: budget } : {}),
   };
   return new Promise<VoiceSearchResult>(resolve => {
     const cancel = () => resolve({ status: 'cancelled' });
@@ -376,6 +385,9 @@ voiceSearchRef.current = (datos, context) => {
   } | null>(null);
   const [pendingVoiceFlightSearch, setPendingVoiceFlightSearch] = useState<{
     query: FlightQuery; context: VoiceItineraryContext; started: boolean; complete: (result: VoiceSearchResult) => void;
+  } | null>(null);
+  const [pendingVoiceDiscover, setPendingVoiceDiscover] = useState<{
+    args: VoiceDiscoverArguments; context: VoiceItineraryContext; started: boolean; complete: (result: VoiceDiscoverResult) => void;
   } | null>(null);
   const [nonFlightVoiceBudget, setNonFlightVoiceBudget] = useState<{
     destination: string; service: "hotel" | "ambos"; budget: SearchBudget;
@@ -752,7 +764,7 @@ function abrirPaquete(destino = "") {
     setFlightResultsOpen(true);
   }
 
-  async function runFlightSearch(query: FlightQuery, signal?: AbortSignal): Promise<VoiceSearchResult> {
+  async function runFlightSearch(query: FlightQuery, signal?: AbortSignal): Promise<FlightRunResult> {
     if (signal?.aborted) return { status: 'cancelled' };
     if (!query.origin || !query.destination || !query.departureDate || !query.returnDate ||
       !Number.isInteger(query.travelers) || query.travelers < 1 || query.travelers > 9) {
@@ -814,7 +826,7 @@ function abrirPaquete(destino = "") {
         setModal(null);
         setFlightResultsOpen(true);
       }
-      return { status: 'success' };
+      return { status: 'success', offers: data.results };
     } catch {
       if (signal?.aborted || requestId !== flightRequestIdRef.current) return { status: 'cancelled' };
       if (requestId === flightRequestIdRef.current) {
@@ -829,10 +841,91 @@ function abrirPaquete(destino = "") {
   useEffect(() => {
     if (!pendingVoiceFlightSearch || pendingVoiceFlightSearch.started) return;
     pendingVoiceFlightSearch.started = true;
+    const { query, complete } = pendingVoiceFlightSearch;
     void runFlightSearch(pendingVoiceFlightSearch.query, pendingVoiceFlightSearch.context.signal)
-      .then(pendingVoiceFlightSearch.complete);
+      .then((result) => complete("offers" in result
+        ? { status: "success", summary: buildVoiceTripSummary({
+            origin: query.origin, destination: query.destination, departureDate: query.departureDate,
+            returnDate: query.returnDate, travellers: query.travelers, offers: result.offers,
+            ...(query.budget ? { flightBudget: query.budget } : {}),
+            ...(query.combinedBudget ? { combinedBudget: query.combinedBudget } : {}),
+          }) }
+        : result));
     setPendingVoiceFlightSearch(null);
   }, [pendingVoiceFlightSearch]);
+
+  // Sofía fills the same "descubrir destinos por presupuesto" form a visitor would use. The search starts
+  // from an effect, after the form inputs settle, so the reset effect above never wipes its results.
+  voiceDiscoverRef.current = (args, context) => {
+    if (context.signal.aborted) return Promise.resolve({ status: 'cancelled' });
+    const origin = findDestinationProfile({ iataCode: args.origen, name: args.origen })?.name ?? args.origen;
+    setOrigen(origin);
+    setFechaIda(args.fecha_ida);
+    setFechaVuelta(args.fecha_vuelta);
+    setPasajeros(args.viajeros);
+    setDiscoverBudget(String(args.presupuesto));
+    setDiscoverBudgetType(args.tipo_presupuesto);
+    setDiscoverMode(true);
+    setFlightResultsOpen(false);
+    setModal(null);
+    setDestinoSeleccionado(null);
+    (document.getElementById("buscador-vuelos") as HTMLInputElement | null)?.click();
+    return new Promise<VoiceDiscoverResult>(resolve => {
+      const cancel = () => resolve({ status: 'cancelled' });
+      context.signal.addEventListener('abort', cancel, { once: true });
+      setPendingVoiceDiscover({ args: { ...args, origen: origin }, context, started: false, complete: result => {
+        context.signal.removeEventListener('abort', cancel);
+        resolve(result);
+      } });
+    });
+  };
+
+  async function runVoiceDiscover(args: VoiceDiscoverArguments, signal: AbortSignal): Promise<VoiceDiscoverResult> {
+    if (signal.aborted) return { status: 'cancelled' };
+    const requestId = ++discoverRequestIdRef.current;
+    const cancel = () => {
+      if (requestId === discoverRequestIdRef.current) {
+        discoverRequestIdRef.current++;
+        setDiscoverState({ status: 'idle' });
+      }
+    };
+    signal.addEventListener('abort', cancel, { once: true });
+    setDiscoverState({ status: 'loading' });
+    const params = new URLSearchParams({ origin: args.origen, departureDate: args.fecha_ida, returnDate: args.fecha_vuelta,
+      travelers: String(args.viajeros), budget: String(args.presupuesto), budgetType: args.tipo_presupuesto });
+    try {
+      const response = await fetch(`/api/travelpayouts/discover?${params}`, { cache: 'no-store', signal });
+      const data = await response.json();
+      if (signal.aborted || requestId !== discoverRequestIdRef.current) return { status: 'cancelled' };
+      if (!response.ok || data.success !== true || !Array.isArray(data.results) || !data.origin) {
+        setDiscoverState({ status: 'error', key: flightSearchErrorKey(data.error, 'discover') });
+        return { status: 'error', error: data.error === 'unknown_origin' ? 'unknown_origin'
+          : data.error === 'invalid_search' ? 'invalid_arguments' : 'search_failed' };
+      }
+      setDiscoverState({ status: 'success', origin: data.origin, results: data.results });
+      window.setTimeout(() => document.getElementById('discover-submit')?.scrollIntoView?.({ block: 'start', behavior: 'smooth' }), 150);
+      // Sofía only mentions what the cards on screen show.
+      const shown = (data.results as DiscoverResult[]).filter(result => canShowDestinationAutomatically(result.destination));
+      return { status: 'success', summary: buildVoiceDiscoverSummary({
+        origin: data.origin.name ?? args.origen, departureDate: args.fecha_ida, returnDate: args.fecha_vuelta,
+        travellers: args.viajeros, budget: { amount: args.presupuesto, type: args.tipo_presupuesto }, results: shown,
+      }) };
+    } catch {
+      if (signal.aborted || requestId !== discoverRequestIdRef.current) return { status: 'cancelled' };
+      setDiscoverState({ status: 'error', key: 'search.flightSearchTemporaryError' });
+      return { status: 'error', error: 'search_failed' };
+    } finally {
+      signal.removeEventListener('abort', cancel);
+    }
+  }
+
+  useEffect(() => {
+    if (!pendingVoiceDiscover || pendingVoiceDiscover.started) return;
+    pendingVoiceDiscover.started = true;
+    const { args, context, complete } = pendingVoiceDiscover;
+    void runVoiceDiscover(args, context.signal).then(complete);
+    setPendingVoiceDiscover(null);
+  }, [pendingVoiceDiscover]);
 
   function renderFlightSearchFeedback(inModal = false) {
     if (flightSearch.status === "idle") return null;

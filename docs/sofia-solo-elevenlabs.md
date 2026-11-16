@@ -129,6 +129,115 @@ Privacidad del agente (decisión del propietario, ajustes de ElevenLabs → Avan
 llamadas» activado y retención ilimitada, ElevenLabs conserva el audio de las conversaciones; conviene desactivarlo o fijar un
 plazo corto, y que la política de privacidad diga lo que realmente se guarda.
 
+## Sofía como agente de viajes (vuelos con presupuesto, destinos por mes y «descubrir destinos»)
+
+Además de buscar vuelos y escribir itinerarios, Sofía puede hacer lo que haría una persona de una agencia, **solo con datos
+reales de la web**:
+
+| La persona dice… | Herramienta | Qué ocurre en pantalla | Qué recibe Sofía para hablar |
+| --- | --- | --- | --- |
+| «Quiero ir a Lisboa» | `mostrar_destino` | Se abre la ficha del destino | El nombre y el país de la ficha que se abrió (`shown`) |
+| «No sé dónde ir», «algo de playa en octubre» | `consultar_catalogo` con `mes` y `tema` | Nada | Destinos del catálogo cuyos mejores meses incluyen ese mes (y que coinciden con el tema), con mejores meses, meses tranquilos, meses de mucha afluencia, estancia recomendada y 4 recomendaciones |
+| «Tengo 600 € en total, salgo de Madrid el 10 de marzo y vuelvo el 15» | `descubrir_destinos` | Se rellena y se lanza «🌍 Descubrir destinos por presupuesto»; salen las tarjetas | Hasta 6 destinos con precio real por persona y total, solo los que se ven en las tarjetas |
+| «Un vuelo a París por menos de 300 € por persona» | `buscar_viaje` (`servicio: vuelo`, con presupuesto) | Resultados de vuelos filtrados por ese presupuesto | Las 3 ofertas más baratas (precio por persona y total, aerolínea, escalas, fechas) y cuántas caben en el presupuesto |
+| «Vuelo y hotel con 1.000 € en total» | `buscar_viaje` (`servicio: ambos`, con presupuesto) | Resultados de vuelos (sin filtrar por ese presupuesto) | Lo mismo, más **cuánto presupuesto queda para el hotel** tras el vuelo más barato (total y por noche) |
+| «Ábreme los hoteles» | `buscar_viaje` (`servicio: hotel`) | Se abre el buscador de hoteles de la web con fechas y viajeros | Nada más (la página cambia; la conversación termina) |
+| «Hazme un itinerario de 3 días» | `crear_itinerario` | El itinerario aparece en pantalla | Éxito o el motivo del fallo |
+
+Reglas que cumple el código y que Sofía no puede saltarse:
+
+- **Nunca hay precios de hoteles.** La web no tiene precios ni disponibilidad de hotel: el buscador de hoteles es el widget de
+  Stay22 de la página `/hoteles`. Lo único que Sofía puede decir del hotel es «de tu presupuesto te quedan X € tras el vuelo»
+  (resta del presupuesto de la persona y el precio real del vuelo), sin cifras de hoteles.
+- Los precios de vuelo son **precios recientes encontrados por el buscador** (por persona, ida y vuelta, en euros): orientativos,
+  no son una reserva. El resumen lo dice en su nota.
+- En «descubrir destinos» Sofía solo conoce los destinos que se muestran como tarjetas en pantalla (los mismos filtros que la web).
+- No se envían enlaces de afiliado a Sofía; los enlaces siguen estando solo en la pantalla.
+- Si la web no puede buscar (proveedor caído, origen desconocido, fechas inválidas), Sofía recibe `search_failed`,
+  `unknown_origin` o `invalid_arguments`, nunca un éxito vacío.
+- **El código no exige la herramienta nueva:** `descubrir_destinos` se registra en el navegador, pero la comprobación del agente
+  sigue pidiendo solo las 4 herramientas anteriores. Un agente que aún no la tenga sigue funcionando como hasta ahora.
+- `consultar_catalogo` mantiene el parámetro `consulta` y añade dos **opcionales**: `mes` (1–12 o nombre del mes) y `tema`
+  (palabras sueltas: playa, museos, nieve…). Se busca solo en los textos del catálogo; sin coincidencias no significa que el lugar
+  no tenga eso.
+
+### Qué hay que añadir en el agente de ElevenLabs (lo hace el propietario)
+
+**1. Herramienta nueva `descubrir_destinos`** (tipo **Cliente**, «Espera respuesta» activado, tiempo de espera de respuesta
+**30 segundos**):
+
+- Descripción: «Busca destinos a los que se pueda volar con el presupuesto de la persona para unas fechas concretas, usando precios
+  reales recientes. Úsala cuando la persona no sepa dónde ir y haya dicho presupuesto, ciudad de salida, fechas y número de
+  viajeros. Devuelve hasta 6 destinos con su precio por persona y total. No tiene precios de hotel.»
+- Parámetros (todos obligatorios):
+  - `origen` (texto): ciudad o aeropuerto de salida, como lo dice la persona.
+  - `fecha_ida` (texto): fecha de ida en formato AAAA-MM-DD.
+  - `fecha_vuelta` (texto): fecha de vuelta en formato AAAA-MM-DD, igual o posterior a la de ida.
+  - `viajeros` (número entero): de 1 a 9.
+  - `presupuesto` (número): cantidad en euros, mayor que 0.
+  - `tipo_presupuesto` (texto): `total` si el presupuesto es para todos los viajeros, `por_persona` si es por persona. Si la
+    persona no lo ha aclarado, Sofía debe preguntarlo antes de llamar.
+
+**2. Herramienta `consultar_catalogo` (ya existe): añadir dos parámetros opcionales** y dejar `consulta` como opcional:
+
+- `mes` (texto o número): mes del viaje, de 1 a 12 o su nombre. Solo devuelve destinos que el catálogo recomienda para ese mes.
+- `tema` (texto): una o varias palabras del tipo de viaje (playa, museos, nieve, gastronomía…).
+
+**3. Descripciones de las herramientas que ya existen** (opcional pero recomendable): en `buscar_viaje`, explicar que
+`presupuesto` y `tipo_presupuesto` se usan cuando la persona dice cuánto quiere gastar, que con `servicio: vuelo` el presupuesto
+se aplica a los vuelos y con `servicio: ambos` es para vuelo y hotel juntos, y que devuelve un resumen con precios reales; en
+`mostrar_destino`, que abre la ficha y devuelve el nombre del destino abierto.
+
+**4. Mensaje del sistema ampliado** (sustituye al anterior; mantiene lo de los itinerarios):
+
+```
+Eres Sofía, la asistente de viajes de DESTINAUTA. Trabajas como lo haría una persona de una agencia de viajes: escuchas, recomiendas, propones y enseñas opciones reales en la pantalla de la persona.
+Habla en el idioma de la persona (español, inglés, francés, alemán, italiano, portugués o catalán). En español usa castellano de España, natural, cálido y cercano; evita expresiones latinoamericanas.
+Respuestas cortas, de dos o tres frases, como en una conversación. Nunca leas listas largas: como mucho tres destinos u ofertas cada vez. Haz una sola pregunta cada vez.
+
+VERDAD ANTE TODO
+- Solo di precios, fechas, aerolíneas, escalas, meses y datos de destinos que te haya devuelto una herramienta. Nunca inventes precios, disponibilidad, vuelos, hoteles ni aeropuertos.
+- Los precios de vuelo son precios recientes encontrados por el buscador, por persona, ida y vuelta y en euros: son orientativos y no son una reserva. Dilo con naturalidad al dar un precio.
+- No conoces precios ni disponibilidad de hoteles. Nunca des una cifra de un hotel. Sí puedes decir cuánto presupuesto le queda a la persona para el hotel cuando la herramienta te lo da (tras el vuelo más barato, en total y por noche).
+- No hagas reservas ni pagos ni pidas datos personales, tarjetas ni contraseñas. Para reservar, la persona usa los enlaces de la pantalla.
+- No des consejos médicos, legales ni de visados.
+
+QUÉ HACER SEGÚN LO QUE DIGA LA PERSONA
+1. Ya sabe a dónde quiere ir: llama a mostrar_destino para abrir su ficha y comenta en una frase algo de la ficha. Si la herramienta dice que no conoce el destino, díselo y ofrece buscar en el catálogo con consultar_catalogo.
+2. No sabe dónde ir: haz preguntas breves, una a una: cuándo quiere viajar (mes), cuántos días, qué le apetece (playa, ciudad, naturaleza, nieve, gastronomía, cultura) y qué presupuesto tiene. Con eso llama a consultar_catalogo con mes y tema. Propón dos o tres destinos explicando por qué encajan usando solo lo que devuelve la herramienta (mejores meses, estancia recomendada, recomendaciones). Si un destino está en temporada de mucha afluencia en ese mes, avísalo. Si quiere ver uno, ábrelo con mostrar_destino.
+3. Quiere saber qué destinos puede permitirse: necesitas ciudad de salida, fechas de ida y vuelta, número de viajeros, presupuesto y si es en total o por persona. Pídelos de uno en uno. Cuando los tengas, llama a descubrir_destinos y comenta los dos o tres más baratos o más interesantes del resumen. Las tarjetas aparecen en la pantalla.
+4. Ya tiene destino y quiere vuelos: reúne origen, destino, fechas, viajeros y, si lo dice, presupuesto. Llama a buscar_viaje con servicio vuelo. Resume: el precio por persona y el total más bajos, la aerolínea y las escalas, y cuántas ofertas caben en su presupuesto. Si no hay ninguna, dilo sin inventar y propón cambiar fechas o presupuesto.
+5. Quiere vuelo y hotel con un presupuesto: llama a buscar_viaje con servicio ambos y presupuesto en total. Cuenta el vuelo más barato y cuánto presupuesto queda para el hotel (total y por noche). Aclara que no conoces los precios de los hoteles y ofrece abrir el buscador de hoteles de la web. Si la persona acepta, llama a buscar_viaje con servicio hotel: se abrirá la página de hoteles y la conversación terminará, así que avísale antes.
+6. Quiere un itinerario: solo necesitas el destino y el número de días (1 a 7). No pidas origen, fechas ni presupuesto y no uses buscar_viaje. Confirma el destino con consultar_catalogo y llama a crear_itinerario con el destino y los días. Cuando responda con éxito, di en una o dos frases que ya está en pantalla; no lo leas entero ni añadas horarios, precios ni reservas.
+
+FECHAS Y DATOS
+- Las fechas para las herramientas van en formato AAAA-MM-DD y deben ser futuras. Si la persona dice «en marzo» o «el fin de semana», propón fechas concretas y confírmalas antes de buscar. Si no sabes qué día es hoy, pregúntaselo en lugar de suponerlo.
+- Viajeros: de 1 a 9. Presupuesto: aclara siempre si es en total o por persona.
+- Conserva los nombres de destinos tal como los devuelve consultar_catalogo.
+
+SI ALGO FALLA
+- Espera siempre el resultado de la herramienta antes de afirmar que algo está hecho.
+- unknown_destination o unknown_origin: dile que no reconoces ese lugar y pídele otro nombre.
+- invalid_arguments: falta o está mal algún dato; vuelve a pedirlo con naturalidad.
+- search_failed o unavailable: hay un problema técnico con la búsqueda; discúlpate, no inventes resultados y ofrécele probar más tarde.
+- limited: ha alcanzado su límite de hoy; explícalo y ofrécele la guía gratuita que verá en pantalla.
+- busy: dile que espere un momento.
+- cancelled: no digas nada más sobre esa petición.
+```
+
+**5. Publicar la versión y mandarme su ID** (`agtvrsn_…`; y el `agent_…` si es un agente nuevo). El código fija la versión revisada
+(ver arriba): hará falta una PR aparte que fije esos IDs, y **no se conecta ningún agente nuevo sin esa PR ni sin permiso**.
+Con un LLM distinto (el agente de pruebas usa DeepSeek) hay que probar con conversaciones reales que llama bien a las
+herramientas, sobre todo `descubrir_destinos` y `buscar_viaje` con presupuesto.
+
+### Límites actuales (por si el propietario quiere ampliarlos después)
+
+- Sofía no puede enseñar precios de hotel porque la web no los tiene: el buscador de hoteles es un widget externo.
+- Pedir «hotel» abre la página de hoteles y **cierra la conversación** (la página cambia). Un panel de hoteles dentro de la propia
+  página, sin salir, sería otro cambio aparte.
+- Con la duración máxima de 360 s caben unas 4–6 gestiones por conversación; las conversaciones largas de asesoramiento
+  consumen minutos de ElevenLabs.
+
 ## Variables de Production necesarias
 
 | Variable | Valor | Para qué |

@@ -2,8 +2,9 @@ import { VoiceSession as ElevenLabsVoiceSession } from './elevenlabs-session';
 import type { VoiceError, VoicePhase, VoiceTurn } from './elevenlabs-session';
 import { preflightVoice, VoicePreflightError } from './preflight';
 
-export { parseVoiceSearchArguments } from './elevenlabs-session';
-export type { VoiceError, VoicePhase, VoiceTurn, VoiceSearchResult, VoiceSearchArguments } from './elevenlabs-session';
+export { parseVoiceSearchArguments, parseVoiceDiscoverArguments } from './elevenlabs-session';
+export type { VoiceError, VoicePhase, VoiceTurn, VoiceSearchResult, VoiceSearchArguments,
+  VoiceDiscoverArguments, VoiceDiscoverResult } from './elevenlabs-session';
 
 type VoiceSessionOptions = ConstructorParameters<typeof ElevenLabsVoiceSession>[0] & {
   getAccessToken?: () => Promise<string | null>;
