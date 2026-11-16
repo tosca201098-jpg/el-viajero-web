@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "./LanguageProvider";
 import type { Destination } from "@/lib/destinations/featured";
 import { calendarTripDays, suggestedItineraryDays } from "@/lib/itinerary/dates";
-import { basicGuideDocument, documentFileName, itineraryDocument } from "@/lib/itinerary/document";
+import { basicGuideDocument, documentFileName, documentInfo, itineraryDocument } from "@/lib/itinerary/document";
 import { downloadPdf } from "@/lib/itinerary/download";
 import { buildPdf } from "@/lib/pdf/text-pdf";
 import { isBasicGuide, isItinerary } from "@/lib/itinerary/schema";
@@ -190,11 +190,14 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
 
   // The same document the visitor sees (free guide, AI itinerary or the one Sofía delivered), saved as a PDF on their device.
   function download() {
-    const pdfDocument = itinerary ? itineraryDocument(itinerary, t)
-      : basicGuide ? basicGuideDocument(basicGuide, requestedDays, t) : null;
-    if (!pdfDocument) return;
+    if (!itinerary && !basicGuide) return;
     let saved = false;
-    try { saved = downloadPdf(buildPdf(pdfDocument), documentFileName(destination.name)); } catch { saved = false; }
+    try {
+      // Data from the destination page plus the visitor's own dates and travelers; never prices or availability.
+      const info = documentInfo(destination, language, context, t);
+      const pdfDocument = itinerary ? itineraryDocument(itinerary, t, info) : basicGuideDocument(basicGuide!, requestedDays, t, info);
+      saved = downloadPdf(buildPdf(pdfDocument), documentFileName(destination.name));
+    } catch { saved = false; }
     setDownloadError(!saved);
   }
 

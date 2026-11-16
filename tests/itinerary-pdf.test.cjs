@@ -116,23 +116,25 @@ test('the AI or voice itinerary document has every day, period, activity and tip
       afternoon: [activity('Museo ' + dayNumber, '')], evening: [activity('Cena ' + dayNumber, 'Soho')] })) };
   const t = (key, vars) => translations.translate('es', key, vars);
   const all = read(pdf.buildPdf(documents.itineraryDocument(itinerary, t))).pages.flat().map(line => line.text).join(' ');
-  for (const expected of ['Dos días en Londres', 'Un resumen.', 'Big Ben 1 (Westminster)', 'Museo 2', 'Cena 2 (Soho)', 'Lleva paraguas', 'Compra la tarjeta de transporte', 'Mañana', 'Tarde', 'Noche', 'Consejos para tu viaje'])
+  for (const expected of ['Dos días en Londres', 'Un resumen.', 'Big Ben 1 (Westminster)', 'Museo 2', 'Cena 2 (Soho)', 'Lleva paraguas', 'Compra la tarjeta de transporte', 'MAÑANA', 'TARDE', 'NOCHE', 'Consejos para tu viaje', 'DÍA 1', 'DÍA 2', 'Día 1 de ejemplo', 'Mis notas'])
     assert.ok(all.includes(winAnsi(expected)), expected);
   assert.ok(!all.includes('Museo 2 ()'), 'no empty area in brackets');
 });
 
 test('every language builds both documents without unresolved variables', () => {
   const oslo = catalog.findDestinationProfile({ name: 'Oslo' });
+  const infoFor = (locale, t) => documents.documentInfo(oslo, locale, { travelers: 2, departureDate: '2026-11-20', returnDate: '2026-11-24' }, t);
   const itinerary = { title: 'T', summary: 'S', tips: ['a', 'b'], days: [{ dayNumber: 1, title: 'D', morning: [{ name: 'n', area: 'a', description: 'd' }], afternoon: [{ name: 'n', area: 'a', description: 'd' }], evening: [{ name: 'n', area: 'a', description: 'd' }] }] };
   for (const locale of locales) {
     const t = (key, vars) => translations.translate(locale, key, vars);
-    for (const doc of [documents.basicGuideDocument(basic.buildBasicGuide(oslo, 5, locale), 5, t), documents.itineraryDocument(itinerary, t)]) {
-      const all = plain(doc).blocks.map(b => `${b.lead ?? ''} ${b.text}`).join(' ');
+    for (const doc of [documents.basicGuideDocument(basic.buildBasicGuide(oslo, 5, locale), 5, t, infoFor(locale, t)), documents.itineraryDocument(itinerary, t, infoFor(locale, t))]) {
+      const all = [plain(doc).banner, ...plain(doc).blocks].map(b => [b.lead, b.text, b.label, b.title, b.kicker, b.subtitle, ...(b.rows ?? []).map(r => `${r.label ?? ''} ${r.value}`)].filter(Boolean).join(' ')).join(' ');
       assert.ok(!/[{}]/.test(all), locale + ': ' + all.slice(0, 80));
       assert.ok(read(pdf.buildPdf(doc)).pages.length >= 1);
     }
     assert.ok(translations.translate(locale, 'itinerary.download').includes('PDF'));
     assert.ok(translations.translate(locale, 'itinerary.downloadError').length > 20);
+    assert.ok(translations.translate(locale, 'itinerary.pdfNotes').length > 3);
   }
 });
 
@@ -165,5 +167,87 @@ test('no download code sends data anywhere', () => {
   for (const file of ['lib/pdf/text-pdf.ts', 'lib/itinerary/document.ts', 'lib/itinerary/download.ts']) {
     const code = source(file).replace(/\/\/.*$/gm, '');
     assert.ok(!/\bfetch\s*\(|XMLHttpRequest|sendBeacon|WebSocket|process\.env|https?:\/\//.test(code), file);
+  }
+});
+
+const decoration = bytes => {
+  const raw = text(bytes);
+  const streams = [...raw.matchAll(/stream\n([\s\S]*?)\nendstream/g)].map(match => match[1]);
+  return { raw, streams };
+};
+const osloInfo = (locale, context = { travelers: 2, departureDate: '2026-11-20', returnDate: '2026-11-24' }) => {
+  const oslo = catalog.findDestinationProfile({ name: 'Oslo' });
+  return documents.documentInfo(oslo, locale, context, (key, vars) => translations.translate(locale, key, vars));
+};
+
+test('the PDF info is the destination page data plus the visitor\'s own dates and travelers, nothing estimated', () => {
+  const oslo = catalog.findDestinationProfile({ name: 'Oslo' });
+  const info = plain(osloInfo('es'));
+  assert.equal(info.country, 'Noruega');
+  assert.equal(info.trip, '20 de noviembre de 2026 – 24 de noviembre de 2026 · Viajeros: 2');
+  const row = label => info.facts.find(fact => fact.label === label)?.value;
+  assert.equal(row('Estancia recomendada'), oslo.recommendedStay);
+  assert.equal(row('Mejor época para viajar'), 'Mayo – septiembre');
+  assert.equal(row('Temporada más tranquila'), 'Enero, febrero y noviembre');
+  assert.ok(info.facts.some(fact => !fact.label && fact.value === oslo.seasonalityNote), 'the page\'s own seasonality note');
+  assert.ok(info.facts.some(fact => fact.small && fact.value === 'Orientación turística; no garantiza precios.'));
+  assert.ok(!/[€$£]|\d+ ?(EUR|USD)/.test(JSON.stringify(info)), 'no prices anywhere');
+  // Without a search there are no dates or travelers; the page data stays.
+  assert.equal(osloInfo('es', {}).trip, '');
+  assert.equal(osloInfo('es', { travelers: 1, departureDate: 'no-es-fecha', returnDate: '2026-11-24' }).trip, 'Viajeros: 1');
+  // A destination without best months only shows what it has.
+  const featured = { name: 'Nueva York', country: 'Estados Unidos', image: '', description: 'x', recommendations: ['a'] };
+  const bare = plain(documents.documentInfo(featured, 'es', {}, (key, vars) => translations.translate('es', key, vars)));
+  assert.deepEqual(bare.facts, []); assert.equal(bare.country, 'Estados Unidos'); assert.equal(bare.trip, '');
+});
+
+test('the PDF info follows the language of the page in all seven languages', () => {
+  const countries = new Set();
+  for (const locale of locales) {
+    const info = plain(osloInfo(locale));
+    assert.ok(info.country && info.trip && info.facts.length >= 4, locale);
+    assert.ok(!/[{}]/.test([info.country, info.trip, ...info.facts.map(fact => `${fact.label ?? ''} ${fact.value}`)].join(' ')), locale);
+    countries.add(info.country);
+  }
+  assert.ok(countries.size >= 5, 'country names are translated: ' + [...countries].join(', '));
+});
+
+test('the first page has the colour band, logo and title; later pages have the slim strip; notes have ruled lines', () => {
+  const t = (key, vars) => translations.translate('es', key, vars);
+  const oslo = catalog.findDestinationProfile({ name: 'Oslo' });
+  const info = osloInfo('es');
+  const bytes = pdf.buildPdf(documents.basicGuideDocument(basic.buildBasicGuide(oslo, 3, 'es'), 3, t, info));
+  const { pages } = read(bytes), { streams } = decoration(bytes);
+  const first = pages[0];
+  const band = first.filter(line => line.size === 26);
+  assert.deepEqual(band.map(line => line.text), [winAnsi('Guía básica de Oslo')]);
+  assert.ok(first.some(line => line.text === 'DESTINAUTA' && line.bold), 'wordmark');
+  assert.ok(first.some(line => line.text === 'NORUEGA'), 'country in the band');
+  assert.ok(first.some(line => line.text.includes(winAnsi('20 de noviembre de 2026'))), 'trip line in the band');
+  assert.ok(first.some(line => line.text === winAnsi('DÍA 1')) && first.some(line => line.text === winAnsi('DÍA 3')), 'day labels');
+  assert.ok(streams[0].includes('0.05 0.16 0.36 rg 0 ') && streams[0].includes(' f*'), 'navy band and the logo shapes');
+  assert.ok((streams.join('\n').match(/\[1 3\] 0 d/g) ?? []).length >= 5, 'at least five ruled note lines');
+  // A long itinerary continues on pages that carry only the slim strip (no band, no second logo).
+  const long = { title: 'Largo', summary: 'Resumen', tips: ['t'], days: Array.from({ length: 7 }, (_, index) => ({ dayNumber: index + 1, title: 'Día', morning: [{ name: 'a', area: '', description: 'd '.repeat(60) }],
+    afternoon: [{ name: 'b', area: '', description: 'd '.repeat(60) }], evening: [{ name: 'c', area: '', description: 'd '.repeat(60) }] })) };
+  const second = decoration(pdf.buildPdf(documents.itineraryDocument(long, t, info)));
+  assert.ok(second.streams.length >= 2);
+  assert.ok(second.streams[1].includes('0 832 595 10 re f') === false && second.streams[1].includes('0 834 595 8 re f'), 'slim strip on page 2');
+  assert.ok(!second.streams[1].includes('DESTINAUTA'), 'no cover band after the first page');
+  // Everything stays inside the margins and above the footer.
+  for (const page of read(pdf.buildPdf(documents.itineraryDocument(long, t, info))).pages)
+    for (const line of page.filter(l => l.y !== 36)) { assert.ok(line.x >= 56 - 0.01, line.text); assert.ok(line.y >= 72 - 0.01, line.text); }
+});
+
+test('a notes area never starts without room for five lines and never runs below the footer', () => {
+  const blocks = [{ kind: 'notes', title: 'Mis notas', lines: 8 }];
+  for (let filler = 0; filler < 40; filler++) {
+    const doc = { title: 'x', footer: 'f', blocks: [...Array.from({ length: filler }, (_, i) => ({ kind: 'paragraph', text: 'Línea ' + i })), ...blocks] };
+    const bytes = pdf.buildPdf(doc);
+    const { streams } = decoration(bytes);
+    streams.forEach(stream => {
+      const ys = [...stream.matchAll(/ ([\d.]+) m [\d.]+ ([\d.]+) l S \[\] 0 d/g)].map(match => Number(match[2]));
+      if (ys.length) { assert.ok(ys.length >= 5, 'filler ' + filler + ': ' + ys.length); assert.ok(Math.min(...ys) >= 72 - 0.01, 'filler ' + filler); }
+    });
   }
 });

@@ -72,8 +72,11 @@ itinerario solo se crea cuando la persona pulsa «Crear itinerario» (al abrir l
   clave (código en `lib/itinerary/basic.ts`; pruebas en `tests/itinerary-basic.test.cjs`).
 - **Descarga en PDF (todo el mundo, con o sin cuenta):** cuando hay un itinerario o una guía en pantalla aparece el botón
   «⬇️ Descargar en PDF». El PDF se crea **en el propio móvil, tablet u ordenador** (no se envía nada a ningún servidor ni se
-  guarda nada): `lib/pdf/text-pdf.ts` escribe un PDF sencillo A4 con letra estándar, `lib/itinerary/document.ts` lo compone en el
-  idioma elegido y `lib/itinerary/download.ts` lo descarga como `destinauta-<destino>.pdf`. Quien tiene cuenta y un itinerario con
+  guarda nada): `lib/pdf/text-pdf.ts` escribe un PDF A4 con letra estándar y decoración vectorial (cabecera azul marino con el logo y el
+  país, etiquetas «DÍA n», cuadro de datos y líneas para «Mis notas», sin imágenes), `lib/itinerary/document.ts` lo compone en el
+  idioma elegido y `lib/itinerary/download.ts` lo descarga como `destinauta-<destino>.pdf`. El cuadro de datos usa **solo datos que ya
+  están en la ficha** (estancia recomendada, mejor época, temporada más tranquila y la nota de temporada, con los mismos textos que la
+  ficha) y las fechas y viajeros de la búsqueda de la propia persona; nunca precios, horarios ni disponibilidad. Quien tiene cuenta y un itinerario con
   IA o de Sofía conserva además «Guardar en mi cuenta». Limitaciones conocidas: las letras que la tipografía estándar no incluye
   se sustituyen por la letra básica (por ejemplo «ł» → «l») y los emojis no se imprimen; algunos navegadores integrados de
   aplicaciones (redes sociales, etc.) bloquean las descargas, y en ese caso conviene abrir la web en el navegador normal.
