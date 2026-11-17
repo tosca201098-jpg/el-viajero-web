@@ -8,6 +8,7 @@ export const maxDuration = 60;
 
 import { getSupabaseAdminClient } from '@/lib/supabase/admin';
 import { collectMonthlyOffers, ProviderError } from '@/lib/travelpayouts/monthly';
+import { isHistoryDay, purgeHistory, saveHistory } from '@/lib/travelpayouts/monthly-history';
 import { purgeOldRows, saveOffers } from '@/lib/travelpayouts/monthly-store';
 import { findMonthlyOrigin } from '@/lib/travelpayouts/monthly-shared';
 
@@ -30,7 +31,11 @@ function sameSecret(received: string, expected: string) {
   return difference === 0;
 }
 
-type MonthResult = { month: number; year?: number; matched?: number; saved?: number; error?: string };
+type MonthResult = {
+  month: number; year?: number; matched?: number; saved?: number; error?: string;
+  /** Solo el día del historial: filas guardadas y si hubo un error (nunca hace fallar la tarea). */
+  historySaved?: number; historyError?: boolean;
+};
 
 export async function GET(request: Request) {
   const secret = process.env.CRON_SECRET?.trim();
@@ -50,12 +55,17 @@ export async function GET(request: Request) {
   const now = new Date();
   // Primero el mes en curso y después los once siguientes.
   const months = Array.from({ length: 12 }, (_, index) => ((now.getUTCMonth() + index) % 12) + 1);
+  // Una vez por semana se apunta también el precio de hoy en el historial (no cambia nada de lo anterior).
+  const historyDay = isHistoryDay(now);
 
   async function refreshMonth(month: number): Promise<MonthResult> {
     try {
       const { year, offers } = await collectMonthlyOffers({ token: token as string, origin: origin!, month, now });
       const saved = await saveOffers(client!, { origin: origin!.code, year, month, offers, now });
-      return { month, year, matched: offers.size, saved };
+      if (!historyDay) return { month, year, matched: offers.size, saved };
+      // El historial nunca lanza: si la tabla no existe todavía o Supabase falla, solo se ve en `history`.
+      const history = await saveHistory(client!, { origin: origin!.code, year, month, offers, now });
+      return { month, year, matched: offers.size, saved, historySaved: history.saved, historyError: history.error };
     } catch (error) {
       return { month, error: error instanceof ProviderError ? 'provider_unavailable' : 'storage_error' };
     }
@@ -73,6 +83,13 @@ export async function GET(request: Request) {
 
   const purged = await purgeOldRows(client, now);
   const failed = results.filter((result) => result.error).length;
+  // Resumen del historial (no cuenta para `success` ni para el código de respuesta).
+  const history = {
+    day: historyDay,
+    saved: results.reduce((total, result) => total + (result.historySaved ?? 0), 0),
+    failedMonths: results.filter((result) => result.historyError).length,
+    purged: historyDay ? await purgeHistory(client, now) : null,
+  };
   return json({
     success: failed === 0 && skipped.length === 0,
     origin: origin.code,
@@ -80,6 +97,7 @@ export async function GET(request: Request) {
     failedMonths: failed,
     skippedMonths: skipped,
     purged,
+    history,
     durationMs: Date.now() - startedAt,
     months: results,
   }, failed > 0 ? 502 : 200);
