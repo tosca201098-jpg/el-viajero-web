@@ -26,6 +26,8 @@ export type FlightEmailInput = {
   banner?: string | null;
   /** Texto del pie que explica por qué se recibe el correo. */
   reason: string;
+  /** Enlace firmado de baja de esa persona (lib/email/unsubscribe.ts). Sin él (correo de prueba) el enlace lleva a la portada. */
+  unsubscribeUrl?: string;
 };
 
 export type RenderedEmail = { subject: string; html: string; text: string };
@@ -173,7 +175,8 @@ export function renderFlightEmail(input: FlightEmailInput): RenderedEmail {
   const intro = flightEmailText(locale, "intro", { months });
   const more = moreLink(input);
   const owner = ownerIdentification();
-  const link = (href: string, label: string, strong = false) =>
+  const unsubscribeHref = input.unsubscribeUrl ?? `${siteUrl}/`;
+  const link =(href: string, label: string, strong = false) =>
     `<a href="${escapeHtml(safeUrl(href))}" style="display:inline-block;color:#1d4ed8;font-size:13px;line-height:20px;padding:10px 18px 10px 0;${strong ? "font-weight:600;" : ""}">${escapeHtml(label)}</a>`;
 
   const html = `<!doctype html>
@@ -219,7 +222,7 @@ ${cards.map(cardHtml).join("\n")}
 <tr><td style="padding:0 32px;"><div style="background:#f5f5f4;border-radius:12px;padding:16px 18px;font-size:13px;line-height:20px;color:#44403c;"><strong style="color:#1c1917;">${escapeHtml(flightEmailText(locale, "disclaimerTitle"))}</strong> ${escapeHtml(flightEmailText(locale, "disclaimerBody"))}</div></td></tr>
 <tr><td style="padding:24px 32px 28px 32px;">
 <p style="margin:0 0 10px 0;font-size:12px;line-height:19px;color:#57534e;">${escapeHtml(input.reason)}</p>
-<p style="margin:0 0 6px 0;">${link(`${siteUrl}/`, flightEmailText(locale, "unsubscribe"), true)}${link(`${siteUrl}/`, flightEmailText(locale, "prefs"))}${link(`${siteUrl}/privacidad`, flightEmailText(locale, "privacy"))}${link(`${siteUrl}/aviso-legal`, flightEmailText(locale, "legal"))}</p>
+<p style="margin:0 0 6px 0;">${link(unsubscribeHref, flightEmailText(locale, "unsubscribe"), true)}${link(`${siteUrl}/`, flightEmailText(locale, "prefs"))}${link(`${siteUrl}/privacidad`, flightEmailText(locale, "privacy"))}${link(`${siteUrl}/aviso-legal`, flightEmailText(locale, "legal"))}</p>
 <p style="margin:0;font-size:12px;line-height:19px;color:#57534e;">Destinauta · ${owner.complete ? escapeHtml(owner.text) : `<span style="background:#fef08a;color:#1c1917;font-weight:600;padding:0 4px;border-radius:4px;">${escapeHtml(owner.text)}</span>`}</p>
 </td></tr>
 </table>
@@ -250,7 +253,7 @@ ${cards.map(cardHtml).join("\n")}
     `${flightEmailText(locale, "disclaimerTitle")} ${flightEmailText(locale, "disclaimerBody")}`,
     "",
     input.reason,
-    `${flightEmailText(locale, "unsubscribe")}: ${siteUrl}/`,
+    `${flightEmailText(locale, "unsubscribe")}: ${unsubscribeHref}`,
     `${flightEmailText(locale, "prefs")}: ${siteUrl}/`,
     `${flightEmailText(locale, "privacy")}: ${siteUrl}/privacidad`,
     `${flightEmailText(locale, "legal")}: ${siteUrl}/aviso-legal`,

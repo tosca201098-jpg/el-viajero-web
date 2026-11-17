@@ -394,7 +394,7 @@ test('vercel.json: una tarea diaria por cada aeropuerto del selector, sin repeti
     // Plan Hobby de Vercel: como máximo una ejecución al día (minuto y hora fijos, el resto asteriscos).
     assert.match(cron.schedule, /^\d{1,2} \d{1,2} \* \* \*$/, cron.schedule);
   }
-  assert.deepEqual(config.crons.filter((cron) => !priceCrons.includes(cron)).map((cron) => cron.path.split('?')[0]), ['/api/email/test', '/api/email/plan']);
+  assert.deepEqual(config.crons.filter((cron) => !priceCrons.includes(cron)).map((cron) => cron.path.split('?')[0]), ['/api/email/test', '/api/email/plan', '/api/email/send']);
   assert.deepEqual(Object.keys(config), ['crons']);
 });
 
@@ -415,8 +415,8 @@ test('la clave secreta nunca se usa en el navegador ni en variables públicas', 
   const files = [...walk('app'), ...walk('lib')].filter((file) => /\.(ts|tsx)$/.test(file));
   const users = files.filter((file) => /SUPABASE_SECRET_KEY|SUPABASE_SERVICE_ROLE_KEY|CRON_SECRET/.test(fs.readFileSync(path.join(root, file), 'utf8')))
     .map((file) => file.replaceAll('\\', '/')).sort();
-  // Las rutas del correo de prueba y del ensayo de envío (solo servidor) usan CRON_SECRET para protegerse, igual que la tarea de precios.
-  assert.deepEqual(users, ['app/api/cron/monthly-prices/route.ts', 'app/api/email/plan/route.ts', 'app/api/email/test/route.ts', 'lib/supabase/admin.ts']);
+  // Las rutas del correo de prueba, del ensayo y del envío (solo servidor) usan CRON_SECRET para protegerse, igual que la tarea de precios.
+  assert.deepEqual(users, ['app/api/cron/monthly-prices/route.ts', 'app/api/email/plan/route.ts', 'app/api/email/send/route.ts', 'app/api/email/test/route.ts', 'lib/supabase/admin.ts']);
   for (const file of files) {
     const text = fs.readFileSync(path.join(root, file), 'utf8');
     assert.doesNotMatch(text, /NEXT_PUBLIC_[A-Z_]*(SECRET|SERVICE_ROLE)/, file);

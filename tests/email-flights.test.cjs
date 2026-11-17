@@ -608,7 +608,10 @@ test('código: las claves salen de variables de Vercel; no hay direcciones de co
   assert.match(route, /process\.env\.RESEND_API_KEY/);
   assert.match(route, /process\.env\.EMAIL_TEST_RECIPIENT/);
   const combined = files.map(read).join('\n');
-  assert.deepEqual(Array.from(new Set(combined.match(/[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}/g) ?? [])), ['vuelos@avisos.destinauta.com']);
+  // Solo las dos direcciones de Destinauta: el remitente y (desde el envío real) la dirección de respuesta, elegida por el propietario
+  // el 17-11-2026, que únicamente puede estar en config.ts. Ningún correo de una persona.
+  assert.deepEqual(Array.from(new Set(combined.match(/[A-Za-z0-9._+-]+@[A-Za-z0-9.-]+\.[a-z]{2,}/g) ?? [])).sort(), ['Destinauta@hotmail.com', 'vuelos@avisos.destinauta.com']);
+  assert.deepEqual(files.filter((file) => read(file).includes('Destinauta@hotmail.com')), ['lib/email/config.ts']);
   assert.doesNotMatch(combined, /re_[A-Za-z0-9]{8,}|sb_secret|eyJ[A-Za-z0-9]/);
   assert.doesNotMatch(combined, /NEXT_PUBLIC_(RESEND|EMAIL|SUPABASE_SECRET|SUPABASE_SERVICE)/);
   assert.doesNotMatch(combined, /email_preferences|auth\.admin|listUsers|getUser\(/, 'no lee ni usuarios ni sus preferencias');
