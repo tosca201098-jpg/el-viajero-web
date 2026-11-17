@@ -17,6 +17,11 @@ function fakeSupabase(initialRows = []) {
   const keyOf = (row) => [row.origin, row.destination_id, row.year, row.month].join('|');
   const client = {
     from(table) {
+      // El historial semanal (tests/monthly-history.test.cjs) tiene su propia tabla: aquí solo se acepta y se ignora,
+      // para que estas pruebas den lo mismo cualquier día de la semana.
+      if (table === 'monthly_price_history') {
+        return { upsert: () => Promise.resolve({ error: null }), delete: () => ({ lt: () => Promise.resolve({ error: null }) }) };
+      }
       assert.equal(table, 'monthly_prices');
       return {
         select(columns) {
