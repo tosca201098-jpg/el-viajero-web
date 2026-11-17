@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { siteUrl } from '@/lib/seo';
 import LanguageProvider from './components/LanguageProvider';
+import SiteFooter from './components/SiteFooter';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -53,7 +54,7 @@ export default function RootLayout({
     </head>
     <body className={inter.className}>
   
-  <LanguageProvider>{children}</LanguageProvider>
+  <LanguageProvider>{children}<SiteFooter /></LanguageProvider>
   <Script
   src="https://unpkg.com/@tavus/embed@latest"
   strategy="afterInteractive"

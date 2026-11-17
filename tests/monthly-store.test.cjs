@@ -17,6 +17,11 @@ function fakeSupabase(initialRows = []) {
   const keyOf = (row) => [row.origin, row.destination_id, row.year, row.month].join('|');
   const client = {
     from(table) {
+      // El historial semanal (tests/monthly-history.test.cjs) tiene su propia tabla: aquí solo se acepta y se ignora,
+      // para que estas pruebas den lo mismo cualquier día de la semana.
+      if (table === 'monthly_price_history') {
+        return { upsert: () => Promise.resolve({ error: null }), delete: () => ({ lt: () => Promise.resolve({ error: null }) }) };
+      }
       assert.equal(table, 'monthly_prices');
       return {
         select(columns) {
@@ -377,15 +382,19 @@ test('cron: respeta el límite de tiempo y deja los meses sin hacer para el día
 
 test('vercel.json: una tarea diaria por cada aeropuerto del selector, sin repetir y protegidas por la ruta', () => {
   const config = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8'));
-  assert.equal(config.crons.length, shared.MONTHLY_ORIGINS.length);
-  const codes = config.crons.map((cron) => new URL(cron.path, 'https://destinauta.com').searchParams.get('origin'));
+  // Las tareas de precios son solo las de /api/cron/monthly-prices (la única otra entrada es el correo de prueba,
+  // que comprueba tests/email-flights.test.cjs).
+  const priceCrons = config.crons.filter((cron) => cron.path.startsWith('/api/cron/monthly-prices'));
+  assert.equal(priceCrons.length, shared.MONTHLY_ORIGINS.length);
+  const codes = priceCrons.map((cron) => new URL(cron.path, 'https://destinauta.com').searchParams.get('origin'));
   assert.deepEqual(codes, Array.from(shared.MONTHLY_ORIGINS, (origin) => origin.code));
-  assert.equal(new Set(config.crons.map((cron) => cron.path)).size, config.crons.length);
-  for (const cron of config.crons) {
+  assert.equal(new Set(priceCrons.map((cron) => cron.path)).size, priceCrons.length);
+  for (const cron of priceCrons) {
     assert.match(cron.path, /^\/api\/cron\/monthly-prices\?origin=[A-Z]{3}$/);
     // Plan Hobby de Vercel: como máximo una ejecución al día (minuto y hora fijos, el resto asteriscos).
     assert.match(cron.schedule, /^\d{1,2} \d{1,2} \* \* \*$/, cron.schedule);
   }
+  assert.deepEqual(config.crons.filter((cron) => !priceCrons.includes(cron)).map((cron) => cron.path.split('?')[0]), ['/api/email/test']);
   assert.deepEqual(Object.keys(config), ['crons']);
 });
 
@@ -406,7 +415,8 @@ test('la clave secreta nunca se usa en el navegador ni en variables públicas', 
   const files = [...walk('app'), ...walk('lib')].filter((file) => /\.(ts|tsx)$/.test(file));
   const users = files.filter((file) => /SUPABASE_SECRET_KEY|SUPABASE_SERVICE_ROLE_KEY|CRON_SECRET/.test(fs.readFileSync(path.join(root, file), 'utf8')))
     .map((file) => file.replaceAll('\\', '/')).sort();
-  assert.deepEqual(users, ['app/api/cron/monthly-prices/route.ts', 'lib/supabase/admin.ts']);
+  // La ruta del correo de prueba (solo servidor) usa CRON_SECRET para protegerse, igual que la tarea de precios.
+  assert.deepEqual(users, ['app/api/cron/monthly-prices/route.ts', 'app/api/email/test/route.ts', 'lib/supabase/admin.ts']);
   for (const file of files) {
     const text = fs.readFileSync(path.join(root, file), 'utf8');
     assert.doesNotMatch(text, /NEXT_PUBLIC_[A-Z_]*(SECRET|SERVICE_ROLE)/, file);
