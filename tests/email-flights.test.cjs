@@ -61,7 +61,7 @@ function fakeDb(rows = []) {
 }
 
 function loadAll(env = {}, db = fakeDb(), globals = {}, mocks = {}) {
-  return loader(root, { '@supabase/supabase-js': { createClient: () => db.client }, ...mocks }, { process: { env }, AbortSignal, ...globals });
+  return loader(root, { '@supabase/supabase-js': { createClient: () => db.client }, ...mocks }, { process: { env }, AbortSignal, console: { info() {} }, ...globals });
 }
 
 const base = loadAll();
@@ -431,15 +431,16 @@ const GOOD_ROWS = () => [row(IDS[0], 3, 58.4), row(IDS[1], 6, 74, { transfers: 1
 async function runRoute({ env = ENV, rows = GOOD_ROWS(), query = '', auth, resendResponse } = {}) {
   const db = fakeDb(rows);
   const sent = [];
+  const logs = [];
   const fetchImpl = async (url, init) => {
     sent.push({ url, init });
     return resendResponse ?? { ok: true, status: 200, json: async () => ({ id: 'correo-1' }) };
   };
-  const load = loadAll(env, db, { fetch: fetchImpl, Response, AbortSignal, Date: fixedDate(NOW_ISO) });
+  const load = loadAll(env, db, { fetch: fetchImpl, Response, AbortSignal, Date: fixedDate(NOW_ISO), console: { info: (line) => logs.push(line) } });
   const route = load('app/api/email/test/route.ts');
   const response = await route.GET(auth === undefined ? request(query) : request(query, auth));
   const raw = await response.text();
-  return { response, raw, body: JSON.parse(raw), sent, db };
+  return { response, raw, body: JSON.parse(raw), sent, db, logs };
 }
 
 test('ruta: sin CRON_SECRET en el servidor responde 503; con una clave equivocada o sin clave, 401, y no se envía ni se lee nada', async () => {
@@ -519,6 +520,20 @@ test('ruta: con datos reales envía UN solo correo al destinatario de la variabl
   assert.deepEqual(new Set(result.db.state.tables), new Set(['monthly_prices']));
 });
 
+test('ruta: deja UNA línea en el registro de Vercel con el resultado (enviado, sin datos suficientes o error de Resend), sin correos ni claves', async () => {
+  const sent = await runRoute({ query: '?months=3,6&budget=up200' });
+  assert.deepEqual(sent.logs, ['[email:test] {"ok":true,"sent":true,"picks":3}']);
+  const notEnough = await runRoute({ rows: [], query: '?months=3,6' });
+  assert.deepEqual(notEnough.logs, ['[email:test] {"ok":false,"sent":false,"reason":"not_enough_data","found":0,"needed":3}']);
+  const rejected = await runRoute({ query: '?months=3,6&budget=up200', resendResponse: { ok: false, status: 403, json: async () => ({}) } });
+  assert.deepEqual(rejected.logs, ['[email:test] {"ok":false,"sent":false,"reason":"email_provider_error","status":403}']);
+  const unauthorized = await runRoute({ auth: 'Bearer otra' });
+  assert.deepEqual(unauthorized.logs, [], 'sin clave no se registra nada');
+  for (const line of [...sent.logs, ...notEnough.logs, ...rejected.logs]) {
+    assert.ok(!line.includes(RECIPIENT) && !line.includes('re_clave_de_prueba') && !line.includes('clave-de-prueba') && !line.includes('@'));
+  }
+});
+
 test('ruta: el destinatario no se puede cambiar desde la dirección (to, cc, bcc, recipient, email…)', async () => {
   const query = '?to=otra@example.com&cc=otra@example.com&bcc=otra@example.com&recipient=otra@example.com&email=otra@example.com&months=3,6&budget=up200';
   const result = await runRoute({ query });
@@ -572,7 +587,7 @@ test('ruta: si Resend rechaza el envío responde 502 sin la clave ni el destinat
 // ───────────────────────── configuración y código ─────────────────────────
 
 test('tarea en vercel.json: una sola entrada del correo de prueba con la dirección válida y un calendario que no llega a ejecutarse solo', () => {
-  const crons = JSON.parse(read('vercel.json')).crons.filter((cron) => cron.path.startsWith('/api/email/'));
+  const crons = JSON.parse(read('vercel.json')).crons.filter((cron) => cron.path.startsWith('/api/email/test'));
   assert.equal(crons.length, 1);
   const url = new URL(crons[0].path, SITE);
   assert.equal(url.pathname, '/api/email/test');
@@ -587,7 +602,7 @@ test('tarea en vercel.json: una sola entrada del correo de prueba con la direcci
 });
 
 test('código: las claves salen de variables de Vercel; no hay direcciones de correo ni claves escritas, ni lectura de usuarios', () => {
-  const files = ['app/api/email/test/route.ts', 'lib/email/config.ts', 'lib/email/guard.ts', 'lib/email/picks.ts', 'lib/email/render.ts', 'lib/email/resend.ts', 'lib/email/texts.ts'];
+  const files = ['app/api/email/test/route.ts', 'lib/email/config.ts', 'lib/email/guard.ts', 'lib/email/log.ts', 'lib/email/picks.ts', 'lib/email/render.ts', 'lib/email/resend.ts', 'lib/email/texts.ts'];
   const route = read(files[0]);
   assert.match(route, /process\.env\.CRON_SECRET/);
   assert.match(route, /process\.env\.RESEND_API_KEY/);

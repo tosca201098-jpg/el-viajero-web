@@ -11,6 +11,7 @@ export const maxDuration = 30;
 import { EMAIL_FROM, TEST_BANNER, TEST_REASON } from '@/lib/email/config';
 import { BUDGET_LIMITS, MAX_PICKS, MIN_PICKS, choosePicks, readFlightPicks } from '@/lib/email/picks';
 import { isSingleEmailAddress, sameSecret } from '@/lib/email/guard';
+import { logEmailRun } from '@/lib/email/log';
 import { renderFlightEmail } from '@/lib/email/render';
 import { sendEmail } from '@/lib/email/resend';
 import { FLIGHT_BUDGETS, type FlightBudget } from '@/lib/email-preferences/options';
@@ -69,6 +70,7 @@ export async function GET(request: Request) {
   const picks = choosePicks(found, { limit: MAX_PICKS, maxPrice });
   if (picks.length < MIN_PICKS) {
     // Sin suficientes precios reales no se envía nada: el correo nunca se rellena con datos inventados.
+    logEmailRun('test', { ok: false, sent: false, reason: 'not_enough_data', found: picks.length, needed: MIN_PICKS });
     return json({ success: false, sent: false, error: 'not_enough_data', found: picks.length, needed: MIN_PICKS });
   }
 
@@ -88,6 +90,10 @@ export async function GET(request: Request) {
     tags: [{ name: 'category', value: 'flights_test' }],
   });
   // La respuesta nunca incluye la clave ni la dirección del destinatario.
-  if (!result.ok) return json({ success: false, sent: false, error: 'email_provider_error', status: result.status }, 502);
+  if (!result.ok) {
+    logEmailRun('test', { ok: false, sent: false, reason: 'email_provider_error', status: result.status });
+    return json({ success: false, sent: false, error: 'email_provider_error', status: result.status }, 502);
+  }
+  logEmailRun('test', { ok: true, sent: true, picks: picks.length });
   return json({ success: true, sent: true, id: result.id, subject: email.subject, picks: summary });
 }
