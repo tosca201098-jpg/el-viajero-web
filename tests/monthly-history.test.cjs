@@ -262,7 +262,9 @@ test('cron en lunes: un mes que falla en el proveedor o al guardar el precio no 
 
 test('cron: los archivos de la tarea no cambian de forma (vercel.json igual; sin claves nuevas en el navegador)', () => {
   const config = JSON.parse(fs.readFileSync(path.join(root, 'vercel.json'), 'utf8'));
-  assert.equal(config.crons.length, 10, 'siguen siendo 10 tareas, una por aeropuerto');
+  // Solo cuentan las tareas de precios (otras PR pueden añadir tareas de otro tipo, como el correo de prueba).
+  const priceCrons = config.crons.filter((cron) => cron.path.startsWith('/api/cron/monthly-prices'));
+  assert.equal(priceCrons.length, 10, 'siguen siendo 10 tareas de precios, una por aeropuerto');
   const route = fs.readFileSync(path.join(root, 'app/api/cron/monthly-prices/route.ts'), 'utf8');
   assert.match(route, /process\.env\.CRON_SECRET/);
   assert.doesNotMatch(route, /NEXT_PUBLIC_SUPABASE_(SECRET|SERVICE)/);
