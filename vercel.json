@@ -39,6 +39,10 @@
     {
       "path": "/api/cron/monthly-prices?origin=LPA",
       "schedule": "0 10 * * *"
+    },
+    {
+      "path": "/api/email/test?origin=MAD&months=3,6&budget=up200&locale=es",
+      "schedule": "0 0 29 2 *"
     }
   ]
 }
