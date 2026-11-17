@@ -1,3 +1,5 @@
+import { validConcurrencyLimit } from '@/lib/voice/limits';
+
 export const SOFIA_AGENT_ID = 'agent_9701m5zn3h9bf57ata0q3qzn1ag6';
 export const SOFIA_PREVIEW_VERSION_ID = 'agtvrsn_3801m618j78bey69jjc08tdm4ppc';
 
@@ -38,7 +40,7 @@ export function safeSofiaConfiguration(config: AgentConfig, preview = false) {
     overrides.agent.prompt?.prompt !== true && overrides.agent.prompt?.llm !== true &&
     overrides.tts?.voice_id !== true && overrides.conversation?.max_duration_seconds !== true &&
     overrides.agent.prompt?.tool_ids !== true &&
-    settings.call_limits?.agent_concurrency_limit === 1 &&
+    validConcurrencyLimit(settings.call_limits?.agent_concurrency_limit) &&
     typeof settings.call_limits?.daily_limit === 'number' &&
     Number.isInteger(settings.call_limits.daily_limit) &&
     settings.call_limits.daily_limit >= 1 && settings.call_limits.daily_limit <= (preview ? 100000 : 15) &&

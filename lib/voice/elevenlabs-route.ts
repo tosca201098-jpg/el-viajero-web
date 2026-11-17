@@ -2,6 +2,7 @@ import { previewDiagnostic, type PreviewDiagnosticCode } from '@/lib/ai/preview-
 import { isLocale } from '@/lib/i18n/translations';
 import { admitAiRequest, voiceUserReference } from '@/lib/ai/admission';
 import { BudgetError, checkVoiceBudget } from '@/lib/voice/voice-minutes';
+import { validConcurrencyLimit } from '@/lib/voice/limits';
 import {
   sofiaPreviewTarget, sofiaProductionTarget, SOFIA_PREVIOUS_PREVIEW_VERSION_ID, SOFIA_PREVIOUS_PRODUCTION_VERSION_ID,
 } from '@/lib/voice/preview-target';
@@ -45,7 +46,7 @@ function safeSofiaConfiguration(config: AgentConfig, preview = false) {
     overrides.agent.prompt?.prompt !== true && overrides.agent.prompt?.llm !== true &&
     overrides.tts?.voice_id !== true && overrides.conversation?.max_duration_seconds !== true &&
     overrides.agent.prompt?.tool_ids !== true &&
-    config.platform_settings.call_limits?.agent_concurrency_limit === 1 &&
+    validConcurrencyLimit(config.platform_settings.call_limits?.agent_concurrency_limit) &&
     typeof config.platform_settings.call_limits?.daily_limit === 'number' &&
     Number.isInteger(config.platform_settings.call_limits.daily_limit) &&
     config.platform_settings.call_limits.daily_limit >= 1 && config.platform_settings.call_limits.daily_limit <= (preview ? 100000 : 15) &&
@@ -93,14 +94,8 @@ export async function POST(request: Request) {
     if (target && version !== target.versionId) return unavailable('VOICE_VERSION');
     const denied = await admitAiRequest(request, 'voice');
     if (denied) return denied;
-    // Voice minutes: the real conversation time of this account (this Madrid period) and of the whole site (this Madrid week).
     const userRef = voiceUserReference(request);
     if (!userRef) return unavailable('VOICE_REQUEST');
-    let budget;
-    try {
-      budget = await checkVoiceBudget({ env: process.env, apiKey: key, agentId, userRef, now: Date.now() });
-    } catch (error) { return unavailable(error instanceof BudgetError ? error.code : 'VOICE_BUDGET_MALFORMED'); }
-    if (!budget.ok) return budgetDenied(budget.reason === 'user' ? 'ai_minutes_limit' : 'ai_site_weekly_limit', budget.resetsAt);
     const headers = { 'xi-api-key': key };
     signal = AbortSignal.timeout(10000);
     // Verify the immutable version we will request; never run an unreviewed moving HEAD.
@@ -113,8 +108,19 @@ export async function POST(request: Request) {
     const config = await check.json();
     if (!config || typeof config !== 'object' || Array.isArray(config)) return unavailable('VOICE_CHECK_MALFORMED');
     if (target && (config.agent_id !== agentId || config.version_id !== version)) return unavailable('VOICE_CHECK_CONFIG');
-    // The allowance is decided above (voice minutes); the provider's own daily setting is only a last backstop.
+    // The allowance is decided below (voice minutes); the provider's own daily setting is only a last backstop.
     if (!safeSofiaConfiguration(config, !!sofiaPreviewTarget(process.env))) return unavailable('VOICE_CHECK_CONFIG');
+    // Voice minutes: the real conversation time of this account (this Madrid period) and of the whole site (this Madrid
+    // week). Several conversations may run at once, so each one still running reserves the agent's whole verified
+    // maximum length (already checked above to be 300, 360 or 900 seconds): nobody is granted minutes that another
+    // running conversation may still use.
+    let budget;
+    try {
+      budget = await checkVoiceBudget({ env: process.env, apiKey: key, agentId, userRef, now: Date.now(),
+        liveReserveSeconds: config.conversation_config.conversation.max_duration_seconds });
+    } catch (error) { return unavailable(error instanceof BudgetError ? error.code : 'VOICE_BUDGET_MALFORMED'); }
+    if (!budget.ok) return budgetDenied(budget.reason === 'user' ? 'ai_minutes_limit' : 'ai_site_weekly_limit', budget.resetsAt);
+    signal = AbortSignal.timeout(10000); // the reading above may have taken a while: the token request gets its own time
     const tokenUrl = new URL('https://api.elevenlabs.io/v1/convai/conversation/token');
     tokenUrl.searchParams.set('agent_id', agentId); tokenUrl.searchParams.set('version_id', version);
     tokenStage = true;

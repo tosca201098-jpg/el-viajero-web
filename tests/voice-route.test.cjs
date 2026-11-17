@@ -22,7 +22,7 @@ test('all seven locales get only a temporary token from the pinned private Sofí
  assert.deepEqual(await response.json(),{token:'temporary-token',userRef:USER_REF,sessionSeconds:600,remainingSeconds:600,limitSeconds:600,period:'month',resetsAt:RESETS});assert.equal(response.headers.get('cache-control'),'no-store');
  assert.equal(r.requests.length,2);assert.ok(r.requests.every(r=>r.url.includes('version_id=agtvrsn_0601m7jz66wvf83ambtr3s819vfv')));
  assert.ok(r.requests.every(r=>r.url.startsWith('https://api.elevenlabs.io/')));assert.equal(r.requests[1].options.headers['xi-api-key'],'fake-key');
- assert.deepEqual(r.events,['reserve','budget','configuration','provider-token']);
+ assert.deepEqual(r.events,['reserve','configuration','budget','provider-token']);
  }});
 test('invalid input is rejected before any provider call',async()=>{
  for(const body of ['{','x'.repeat(513),{locale:'xx'},[]]){const r=route(),res=await r.POST(req(body));assert.equal(res.status,400);assert.equal(r.requests.length,0)}
@@ -70,21 +70,23 @@ test('known provider and security failures return a generic error and never a to
  for(const h of cases){const response=await h.POST(req({locale:'es'}));assert.equal(response.status,503);assert.deepEqual(await response.json(),{error:'ai_unavailable'});}
 });
 
-test('the weekly budget is asked with the verified account reference, the pinned agent and the current instant, before any provider call',async()=>{
+test('the minutes are asked after the agent is verified, with its account reference, the pinned agent, the instant and the agent maximum as reserve',async()=>{
  const r=route(),before=Date.now();await r.POST(req({locale:'es'}));
  assert.equal(r.budgets.length,1);const [input]=r.budgets;
  assert.equal(input.apiKey,'fake-key');assert.equal(input.agentId,'agent_2201m677yj19e6499g2649n774f6');assert.equal(input.userRef,USER_REF);
  assert.ok(input.now>=before&&input.now<=Date.now());assert.equal(input.env.AI_ENABLED,'true');
- assert.equal(r.events.indexOf('budget')<r.events.indexOf('configuration'),true);
+ assert.equal(input.liveReserveSeconds,360,'running conversations reserve the verified maximum length of the agent');
+ assert.deepEqual(r.events,['reserve','configuration','budget','provider-token'],'flood protection, agent check, minutes, token');
+ const long=route(valid(900));await long.POST(req({locale:'es'}));assert.equal(long.budgets[0].liveReserveSeconds,900);
 });
 
-test('a spent account or a spent site gets a 429 with the reason and the renewal instant, and the provider is never called again',async()=>{
+test('a spent account or a spent site gets a 429 with the reason and the renewal instant, and no token is requested',async()=>{
  for(const [reason,error] of [['user','ai_minutes_limit'],['site','ai_site_weekly_limit']]){
   const r=route(valid(),{},null,{budget:{ok:false,reason,resetsAt:Math.floor(Date.now()/1000)+3600}});
   const response=await r.POST(req({locale:'es'}));assert.equal(response.status,429);
   const body=await response.json();assert.deepEqual(Object.keys(body).sort(),['error','resetsAt']);assert.equal(body.error,error);
   assert.equal(response.headers.get('cache-control'),'no-store');assert.ok(Number(response.headers.get('retry-after'))>=3599&&Number(response.headers.get('retry-after'))<=3600);
-  assert.equal(r.requests.length,0);assert.deepEqual(r.events,['reserve','budget']);
+  assert.equal(r.requests.length,1,'only the agent check');assert.deepEqual(r.events,['reserve','configuration','budget']);
  }
  const far=route(valid(),{},null,{budget:{ok:false,reason:'user',resetsAt:Math.floor(Date.now()/1000)+10**8}});
  assert.equal((await (await far.POST(req({}))).headers.get('retry-after')),'2764800');
@@ -97,7 +99,7 @@ test('a spent account or a spent site gets a 429 with the reason and the renewal
 test('a budget that cannot be read fails closed with a generic 503: no token, no provider detail',async()=>{
  for(const error of [new BudgetError('VOICE_BUDGET_HTTP'),new BudgetError('VOICE_BUDGET_CONFIG'),Error('private-store-detail')]){
   const r=route(valid(),{},null,{budgetError:error}),response=await r.POST(req({locale:'es'}));
-  assert.equal(response.status,503);assert.deepEqual(await response.json(),{error:'ai_unavailable'});assert.equal(r.requests.length,0);
+  assert.equal(response.status,503);assert.deepEqual(await response.json(),{error:'ai_unavailable'});assert.equal(r.requests.length,1,'the token is never requested');
  }
  const noUser=route(valid(),{},null,{userRef:undefined});assert.equal((await noUser.POST(req({}))).status,503);
  assert.equal(noUser.budgets.length,0);assert.equal(noUser.requests.length,0);

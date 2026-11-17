@@ -17,7 +17,7 @@ ElevenLabs; por eso el periodo y los minutos se cambian desde Vercel, sin tocar 
   Siempre en hora de Madrid y con los cambios de hora de marzo y octubre bien resueltos (no se usan ventanas «móviles» de 24 horas × N).
   Al cambiar de periodo, la cuenta vuelve a tener todos sus minutos. Los minutos no gastados **no se acumulan** para el periodo siguiente.
 - **Minutos reales, no estimados**: antes de dar un token, la web pregunta a ElevenLabs por las conversaciones del periodo
-  (`GET /v1/convai/conversations`) y suma `call_duration_secs`. Una conversación en curso cuenta lo que lleva (máximo 15 minutos).
+  (`GET /v1/convai/conversations`) y suma `call_duration_secs`. Una conversación en curso cuenta lo que lleva (máximo 15 minutos) en la barra de «Mi cuenta»; para conceder minutos nuevos reserva su duración máxima (ver «Varias conversaciones a la vez»).
   Varias conversaciones cortas suman igual que una larga.
 - **Por cuenta**: el navegador pasa a ElevenLabs un identificador anónimo (`u_` + 32 caracteres hexadecimales, HMAC del usuario
   verificado con `AI_RATE_LIMIT_SECRET`). No contiene el correo ni el identificador de Supabase y no se puede deducir de él. ElevenLabs
@@ -46,6 +46,29 @@ siguen disponibles siempre.
 **Barra de «Mi cuenta»** (`app/components/VoiceMinutesBar.tsx`, datos de `GET /api/voice/minutes`): barra que se vacía según se gasta
 (azul; ámbar con un cuarto o menos; roja sin minutos), «Te quedan 4 min de 6 min» y «Se renuevan el martes 1 de diciembre, 00:00».
 Es de solo lectura: no abre conversaciones, no devuelve tokens y solo da los segundos de la propia cuenta.
+
+## Varias conversaciones a la vez (hasta 6)
+
+El plan de ElevenLabs del propietario permite hasta 6 llamadas simultáneas. La web acepta un agente configurado con **de 1 a 6**
+conversaciones a la vez (nunca más, ni con ráfagas ni con cola de espera: ambas deben seguir desactivadas). El límite real lo aplica
+ElevenLabs; la web solo comprueba que el ajuste del agente está dentro de ese rango antes de dar permiso para hablar.
+
+**Cómo se cuidan los minutos cuando hay varias a la vez.** Antes de dar el permiso, la web ya no se fía solo de lo que se ha hablado: cada
+conversación **en curso** (estado `initiated` o `in-progress`) **reserva la duración máxima del agente** (360 s en la versión fijada; la web la
+lee del agente y solo acepta 300, 360 o 900 s). Así dos personas que piden hablar casi a la vez no reciben los mismos minutos:
+
+- Con el tope de la web en 15 minutos por semana y conversaciones de 6 minutos, la primera recibe 6 minutos, la segunda otros 6, la tercera
+  solo los 3 que quedan y la cuarta ve «sin minutos». En total, nunca más de 15.
+- La misma cuenta abierta en dos sitios a la vez tampoco puede gastar sus minutos dos veces: mientras una conversación está en curso, la
+  otra ve la cuenta como «sin minutos».
+- Cuando una conversación termina, deja de reservar y pasa a contar lo que duró de verdad (si habló 2 de 6 minutos, se liberan 4).
+- Una fila que lleva «en curso» más tiempo del máximo del agente más 2 minutos de margen se considera atascada y deja de reservar.
+- La barra de «Mi cuenta» **no** cuenta reservas, solo el tiempo realmente usado.
+
+**Límite que queda (muy pequeño).** Si varias personas piden permiso en el mismo par de segundos, antes de que ElevenLabs liste sus
+conversaciones, todas podrían recibir el mismo saldo. Está acotado por tres cosas: el agente solo admite 6 conversaciones a la vez, el
+límite diario del agente en Production es de 15 conversaciones, y cada conversación dura como mucho lo que corta el agente (6 minutos). El
+tope semanal de la web sigue protegiendo lo demás, y se recomienda no subirlo más de lo que el plan soporte.
 
 ## Frenos que se mantienen (solo contra ráfagas)
 
@@ -91,12 +114,13 @@ agota, nadie puede abrir una conversación hasta el lunes aunque le queden minut
 3. Comprobar tras la primera conversación de prueba que en ElevenLabs → Conversaciones aparece el **usuario `u_…`** y que la barra de
    «Mi cuenta» baja. Si no aparece, el consumo por cuenta no se estaría atribuyendo (el tope de la web seguiría protegiendo).
 4. Dejar **desactivados** los minutos extra y la recarga automática de ElevenLabs hasta decidir otra cosa.
+5. **Para usar varias conversaciones a la vez**: en los ajustes del agente subir el límite de conversaciones simultáneas (de 1 hasta 6, empezar por 2 o 3), dejar **sin ráfagas** y **sin cola de espera**, y comprobar en la primera prueba con dos personas que ambas conectan. Mientras el agente siga en 1, todo funciona como antes.
 
 ## Límites conocidos
 
 - El corte a los minutos concedidos lo hace el navegador (y el agente corta a su duración máxima, 360 s en la versión fijada). Una persona técnica podría seguir hablando hasta ese máximo del agente;
   después la cuenta quedaría sin minutos y el tope semanal de toda la web sigue vigente. La atribución por cuenta también depende del navegador.
-- Es una sola conversación a la vez en toda la web (el agente exige concurrencia 1): si alguien habla, el siguiente espera.
+- Si todas las conversaciones simultáneas del agente están ocupadas (hasta 6; ver «Varias conversaciones a la vez»), la siguiente persona no puede conectar hasta que se libere una.
 - Más de 500 conversaciones en un periodo (cuenta o web) se consideran «sin minutos».
 - El consumo se lee de ElevenLabs en cada intento, así que cada intento hace dos lecturas más (cuenta y web); la barra hace una.
 - Los minutos no gastados no pasan al periodo siguiente.

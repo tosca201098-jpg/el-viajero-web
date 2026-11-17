@@ -43,7 +43,7 @@ test('diagnostic security validation matches the existing voice route without ch
  const guard=loader()('lib/voice/provider-config.ts').safeSofiaConfiguration;
  const mutations=[()=>{},c=>c.platform_settings.auth.enable_auth=false,
   c=>c.platform_settings.queueing_config.enabled=true,c=>delete c.platform_settings.queueing_config,
-  c=>c.platform_settings.call_limits.daily_limit=100001,c=>c.platform_settings.call_limits.agent_concurrency_limit=2,
+  c=>c.platform_settings.call_limits.daily_limit=100001,c=>c.platform_settings.call_limits.agent_concurrency_limit=2,c=>c.platform_settings.call_limits.agent_concurrency_limit=6,c=>c.platform_settings.call_limits.agent_concurrency_limit=7,c=>c.platform_settings.call_limits.agent_concurrency_limit=0,c=>c.platform_settings.call_limits.agent_concurrency_limit=1.5,
   c=>c.platform_settings.call_limits.daily_limit=0,c=>c.platform_settings.call_limits.daily_limit=1.5,
   c=>c.platform_settings.call_limits.daily_limit='100000',
   c=>c.platform_settings.call_limits.bursting_enabled=true,c=>c.conversation_config.tts.voice_id='other',

@@ -35,6 +35,10 @@ test('timeouts are attributed by active stage without logging thrown objects',as
 
 test('voice-minutes failures and denials log only constant codes and never leak provider data',async()=>{
  const now=Math.floor(Date.now()/1000);
+ const source=require('fs').readFileSync(require('path').join(__dirname,'voice-route.test.cjs'),'utf8');
+ const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();
+ // The agent is verified first (its maximum length is what running conversations reserve); only the minutes lists fail or deny.
+ const agentOk=(url,answer)=>url.pathname.includes('/convai/agents/')?Response.json({...valid(300),agent_id:url.pathname.split('/').pop(),version_id:url.searchParams.get('version_id')}):answer(url);
  const spent=seconds=>Response.json({conversations:[{conversation_id:'c',start_time_unix_secs:now-60,call_duration_secs:seconds,status:'done'}],has_more:false});
  const cases=[
   ['VOICE_BUDGET_CREDENTIALS',503,()=>new Response('private-provider',{status:401})],
@@ -47,11 +51,11 @@ test('voice-minutes failures and denials log only constant codes and never leak 
  for(const [code,status,answer] of cases){
   const logs=[];let calls=0;
   const load=loader({process:{env:{...env,ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'key-canary',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_canary'}},console:{warn:(...x)=>logs.push(x)},
-   fetch:async url=>{calls++;return answer(new URL(String(url)));}},
+   fetch:async url=>{calls++;return agentOk(new URL(String(url)),answer);}},
    {'@/lib/supabase/voice-auth':verifiedVoiceAuth,'@/lib/ai/admission':{admitAiRequest:async()=>null,voiceUserReference:()=>'u_'+'a'.repeat(32)}});
   const res=await load('app/api/voice/route.ts').POST(request());
   assert.equal(res.status,status,code);const text=await res.text();
   for(const secret of ['private','canary','key-canary'])assert.equal(text.includes(secret),false,code);
-  assert.deepEqual(logs,[['SOFIA_DIAGNOSTIC',code]]);assert.equal(calls<=2,true);
+  assert.deepEqual(logs,[['SOFIA_DIAGNOSTIC',code]]);assert.equal(calls<=3,true);
  }
 });

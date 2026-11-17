@@ -61,6 +61,9 @@ export function voiceLimits(env: Record<string, string | undefined>): VoiceLimit
 
 async function sumConversations(input: {
   apiKey: string; agentId: string; userRef?: string; since: number; nowSeconds: number; signal: AbortSignal;
+  /** Longest a conversation can last (the agent's maximum). When set, a conversation still running is counted as if it
+   *  would use all of it, so conversations that overlap can never be granted the same minutes twice. */
+  reserveSeconds?: number;
 }): Promise<VoiceUsage> {
   let seconds = 0;
   let cursor = '';
@@ -93,9 +96,11 @@ async function sumConversations(input: {
       if (input.userRef && typeof row.user_id === 'string' && row.user_id !== input.userRef) continue;
       let used = duration;
       const age = input.nowSeconds - start;
-      // A conversation still running counts the time it has lasted so far (it can never exceed the agent maximum).
-      if (row.status === 'in-progress' && age <= VOICE_CONVERSATION_MAX_SECONDS + LIVE_GRACE_SECONDS) {
-        used = Math.max(duration, Math.min(Math.max(0, age), VOICE_CONVERSATION_MAX_SECONDS));
+      // A conversation still running counts the time it has lasted so far (it can never exceed the agent maximum); with a
+      // reserve it counts the whole maximum, because its person may keep talking until then.
+      const ceiling = input.reserveSeconds ?? VOICE_CONVERSATION_MAX_SECONDS;
+      if ((row.status === 'in-progress' || row.status === 'initiated') && age <= ceiling + LIVE_GRACE_SECONDS) {
+        used = Math.max(duration, input.reserveSeconds ?? 0, Math.min(Math.max(0, age), ceiling));
       }
       seconds += used;
     }
@@ -110,6 +115,8 @@ async function sumConversations(input: {
 
 type Input = {
   env: Record<string, string | undefined>; apiKey: string; agentId: string; userRef: string; now: number;
+  /** The agent's verified maximum conversation length in seconds; see `sumConversations`. */
+  liveReserveSeconds?: number;
 };
 
 /** The account's own period, for the status bar in "Mi cuenta". Never touches the site-wide total. */
@@ -132,7 +139,8 @@ export async function checkVoiceBudget(input: Input): Promise<VoiceBudget> {
   const period = madridVoicePeriod(input.now, limits.period);
   const week = madridVoiceWeek(input.now);
   const signal = AbortSignal.timeout(8000);
-  const base = { apiKey: input.apiKey, agentId: input.agentId, nowSeconds: Math.floor(input.now / 1000), signal };
+  const base = { apiKey: input.apiKey, agentId: input.agentId, nowSeconds: Math.floor(input.now / 1000), signal,
+    ...(input.liveReserveSeconds === undefined ? {} : { reserveSeconds: input.liveReserveSeconds }) };
   const [user, site] = await Promise.all([
     sumConversations({ ...base, userRef: input.userRef, since: period.startsAt }),
     sumConversations({ ...base, since: week.startsAt }),
@@ -141,6 +149,6 @@ export async function checkVoiceBudget(input: Input): Promise<VoiceBudget> {
   const siteLeft = site.overflow ? 0 : limits.siteSeconds - site.seconds;
   if (userLeft < VOICE_MIN_USEFUL_SECONDS) return { ok: false, reason: 'user', resetsAt: period.endsAt };
   if (siteLeft < VOICE_MIN_USEFUL_SECONDS) return { ok: false, reason: 'site', resetsAt: week.endsAt };
-  return { ok: true, sessionSeconds: Math.min(userLeft, siteLeft, VOICE_CONVERSATION_MAX_SECONDS),
+  return { ok: true, sessionSeconds: Math.min(userLeft, siteLeft, input.liveReserveSeconds ?? VOICE_CONVERSATION_MAX_SECONDS),
     remainingSeconds: userLeft, limitSeconds: limits.userSeconds, period: limits.period, resetsAt: period.endsAt };
 }
