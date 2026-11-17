@@ -17,6 +17,7 @@ const SavedTrips = function SavedTrips() {};
 const SavedItineraries = function SavedItineraries() {};
 const MobileHeaderMenu = function MobileHeaderMenu() {};
 const VoiceMinutesBar = function VoiceMinutesBar() {};
+const EmailPreferences = function EmailPreferences() {};
 
 // HeaderAuth con el React ligero de pruebas. Los huecos de useState van por orden: sesión (0), lista (1), cerrando (2), error (3),
 // ventana abierta (4) y lista única de «Mis viajes» / «Itinerarios» (5; null = ventana de «Mi cuenta»).
@@ -41,6 +42,7 @@ function createHeader(locale, { signedIn = false, ready = true } = {}) {
     // Con __esModule el «import X from» recibe la función tal cual (si no, TypeScript la envuelve).
     './SavedTrips': { __esModule: true, default: SavedTrips }, './SavedItineraries': { __esModule: true, default: SavedItineraries },
     './MobileHeaderMenu': { __esModule: true, default: MobileHeaderMenu }, './VoiceMinutesBar': { __esModule: true, default: VoiceMinutesBar },
+    './EmailPreferences': { __esModule: true, default: EmailPreferences },
   }, { React: react });
   const Header = load('app/components/HeaderAuth.tsx').default;
   const render = () => { counter.index = 0; return Header({ onOpenAuth: () => {} }); };
@@ -121,7 +123,7 @@ test('the window of «Itinerarios» is wide and the one of «Mis viajes» narrow
   }
 });
 
-test('«Mi cuenta» opens its window with the e-mail and «Cerrar sesión» only: no tabs and no lists', () => {
+test('«Mi cuenta» opens its window with the e-mail, the e-mail questionnaire and «Cerrar sesión»: no tabs and no lists', () => {
   for (const locale of LOCALES) {
     const { render, state } = createHeader(locale, { signedIn: true });
     barButtons(render())[0].props.onClick();
@@ -134,6 +136,13 @@ test('«Mi cuenta» opens its window with the e-mail and «Cerrar sesión» only
     assert.ok(text(win).includes(translations.translate(locale, 'auth.email')) && text(win).includes('viajero@example.com'), 'shows the e-mail');
     assert.equal(nodes(win, n => n.props?.role === 'tab' || n.props?.role === 'tablist' || n.props?.role === 'tabpanel').length, 0, 'no tabs');
     assert.equal(nodes(win, n => n.type === SavedTrips || n.type === SavedItineraries).length, 0, 'no lists inside «Mi cuenta»');
+    // El cuestionario de correo (desplegable propio, sin botones directos en la ventana) va una sola vez, entre el correo y «Cerrar sesión».
+    const questionnaire = nodes(win, n => n.type === EmailPreferences);
+    assert.equal(questionnaire.length, 1, 'cuestionario de correo');
+    assert.equal(questionnaire[0].props.key, 'user-1', 'se reinicia si cambia la cuenta');
+    const order = flatten(win);
+    assert.ok(order.indexOf(questionnaire[0]) > order.findIndex(n => n && n.type === 'p' && text(n) === 'viajero@example.com'), 'después del correo');
+    assert.ok(order.indexOf(questionnaire[0]) < order.findIndex(n => n && n.type === 'button' && text(n) === translations.translate(locale, 'auth.signout')), 'antes de «Cerrar sesión»');
     // Dos botones: cerrar (×) y cerrar sesión.
     const buttons = buttonsIn(win);
     assert.deepEqual(buttons.map(b => b.props['aria-label'] ?? text(b)), [translations.translate(locale, 'common.close'), translations.translate(locale, 'auth.signout')]);
