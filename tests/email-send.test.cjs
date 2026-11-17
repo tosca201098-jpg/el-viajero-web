@@ -117,7 +117,7 @@ test('textos: el pie «por qué recibes esto» existe en los siete idiomas, con 
 // ───────────────────────── envío (con funciones simuladas) ─────────────────────────
 
 const CONFIG = {
-  apiKey: 're_clave', from: 'Destinauta <vuelos@avisos.destinauta.com>', siteUrl: SITE, unsubscribeSecret: SECRET,
+  apiKey: 're_clave', from: 'Destinauta <vuelos@avisos.destinauta.com>', siteUrl: SITE, unsubscribeSecret: SECRET, replyTo: 'Destinauta@hotmail.com',
   limit: 10, paceMs: 600, timeBudgetMs: 40000, planNow: NOW,
 };
 
@@ -145,6 +145,7 @@ test('envío: cada correo va a UNA dirección, con su enlace de baja firmado, su
   assert.equal(typeof sent.to, 'string');
   assert.equal(sent.apiKey, 're_clave');
   assert.equal(sent.from, 'Destinauta <vuelos@avisos.destinauta.com>');
+  assert.equal(sent.replyTo, 'Destinauta@hotmail.com', 'las respuestas llegan al buzón de contacto');
   const url = unsubscribe.unsubscribeUrl(SITE, U1, SECRET, 'fr');
   same(sent.headers, unsubscribe.unsubscribeHeaders(url));
   assert.match(sent.headers['List-Unsubscribe'], /^<https:\/\/destinauta\.com\/api\/email\/unsubscribe\?u=/);
@@ -246,6 +247,29 @@ test('envío: deja una pausa entre correos (no tras el último) y, si no se pued
   assert.equal(summary.unrecorded, 3, 'se avisa, pero no se repite el envío');
   assert.equal(config.SEND_PACE_MS, 600);
   assert.ok(config.SEND_TIME_BUDGET_MS <= 45000, 'cabe en los 60 s de la función de Vercel con un envío lento al final');
+});
+
+test('respuestas: la dirección de respuesta es UNA dirección válida y solo se manda si lo es', async () => {
+  const guard = baseLoad('lib/email/guard.ts');
+  assert.equal(config.EMAIL_REPLY_TO, 'Destinauta@hotmail.com');
+  assert.equal(guard.isSingleEmailAddress(config.EMAIL_REPLY_TO), true);
+  for (const replyTo of ['', 'a@example.test, b@example.test', 'Destinauta <d@example.test>', 'sin-arroba']) {
+    const { deps, log } = makeDeps();
+    await sender.sendPlanned([ready(U1)], { ...CONFIG, replyTo }, deps);
+    assert.equal(log.sends.length, 1, 'el correo sale igualmente');
+    assert.equal(Object.hasOwn(log.sends[0], 'replyTo'), false, `sin Reply-To si «${replyTo}» no es una dirección sencilla`);
+  }
+});
+
+test('Resend: reply_to solo va en la petición si se pide, como una sola dirección', async () => {
+  const resend = baseLoad('lib/email/resend.ts');
+  const bodies = [];
+  const fakeFetch = async (url, init) => { bodies.push(JSON.parse(init.body)); return { ok: true, status: 200, json: async () => ({ id: 're_1' }) }; };
+  const base = { apiKey: 'k', from: 'a@example.test', to: 'b@example.test', subject: 's', html: '<p>x</p>', text: 'x' };
+  await resend.sendEmail(base, fakeFetch);
+  await resend.sendEmail({ ...base, replyTo: 'Destinauta@hotmail.com' }, fakeFetch);
+  assert.equal(Object.hasOwn(bodies[0], 'reply_to'), false);
+  assert.equal(bodies[1].reply_to, 'Destinauta@hotmail.com');
 });
 
 // ───────────────────────── acceso a Supabase (con un cliente simulado) ─────────────────────────
@@ -515,6 +539,7 @@ test('ruta: envío completo — manda al que tiene la cuenta confirmada, salta a
   assert.equal(call.init.headers.Authorization, 'Bearer re_clave_de_prueba');
   same(call.body.to, ['ana@example.test']);
   assert.equal(call.body.from, 'Destinauta <vuelos@avisos.destinauta.com>');
+  assert.equal(call.body.reply_to, 'Destinauta@hotmail.com', 'cabecera de respuesta al buzón de contacto');
   assert.match(call.body.headers['List-Unsubscribe'], new RegExp(`^<https://destinauta\\.com/api/email/unsubscribe\\?u=${U1}&t=[A-Za-z0-9_-]{43}&l=fr>$`));
   assert.equal(call.body.headers['List-Unsubscribe-Post'], 'List-Unsubscribe=One-Click');
   assert.ok(call.body.html.includes('Vous recevez cet e-mail') && !/correo de prueba/i.test(call.body.html));

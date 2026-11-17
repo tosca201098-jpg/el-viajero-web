@@ -8,7 +8,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
-import { DAILY_SEND_LIMIT, EMAIL_FROM, SEND_PACE_MS, SEND_TIME_BUDGET_MS } from '@/lib/email/config';
+import { DAILY_SEND_LIMIT, EMAIL_FROM, EMAIL_REPLY_TO, SEND_PACE_MS, SEND_TIME_BUDGET_MS } from '@/lib/email/config';
 import { gateStatus, parseSendLimit, sendGate } from '@/lib/email/gate';
 import { sameSecret } from '@/lib/email/guard';
 import { logEmailRun } from '@/lib/email/log';
@@ -90,6 +90,7 @@ export async function GET(request: Request) {
     from: EMAIL_FROM,
     siteUrl,
     unsubscribeSecret: gate.unsubscribeSecret,
+    replyTo: EMAIL_REPLY_TO,
     limit: Math.min(limit, remaining),
     paceMs: SEND_PACE_MS,
     timeBudgetMs: Math.max(0, SEND_TIME_BUDGET_MS - (Date.now() - startedAt)),

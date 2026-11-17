@@ -36,6 +36,8 @@ export type SendConfig = {
   from: string;
   siteUrl: string;
   unsubscribeSecret: string;
+  /** Dirección de respuesta (Reply-To). Si no es una dirección sencilla, el correo sale sin ella. */
+  replyTo: string;
   /** Máximo de correos que se intentan enviar en esta tanda. */
   limit: number;
   paceMs: number;
@@ -102,6 +104,7 @@ export async function sendPlanned(planned: readonly Planned[], config: SendConfi
     summary.attempted += 1;
     const result = await deps.send({
       apiKey: config.apiKey, from: config.from, to: account.email, subject: email.subject, html: email.html, text: email.text,
+      ...(isSingleEmailAddress(config.replyTo) ? { replyTo: config.replyTo } : {}),
       headers: unsubscribeHeaders(url), tags: [{ name: "category", value: "flights" }],
     });
 

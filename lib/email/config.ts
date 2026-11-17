@@ -5,6 +5,13 @@
 export const EMAIL_FROM = "Destinauta <vuelos@avisos.destinauta.com>";
 
 /**
+ * Dirección de respuesta de los correos reales (cabecera Reply-To): si alguien responde al correo, el mensaje llega al buzón de
+ * contacto de Destinauta y no a vuelos@avisos…, que no recibe nada. Elegida por el propietario el 17-11-2026. No es un secreto:
+ * va visible en cada correo que se envía.
+ */
+export const EMAIL_REPLY_TO = "Destinauta@hotmail.com";
+
+/**
  * Máximo de correos reales por día. El plan gratuito de Resend admite 100 al día y 3.000 al mes (precios de resend.com/pricing a
  * 17-11-2026, a confirmar antes de contratar): se dejan 10 de margen para las pruebas. Si hay más personas a quienes les toca, las
  * que no caben pasan al día siguiente (empezando por las que más tiempo llevan sin recibir nada).

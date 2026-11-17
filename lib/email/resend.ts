@@ -9,6 +9,8 @@ export type SendEmailOptions = {
   subject: string;
   html: string;
   text: string;
+  /** Una sola dirección de respuesta (cabecera Reply-To). Sin ella, las respuestas van al remitente. */
+  replyTo?: string;
   headers?: Record<string, string>;
   tags?: { name: string; value: string }[];
 };
@@ -32,6 +34,7 @@ export async function sendEmail(options: SendEmailOptions, fetchImpl: FetchLike 
         subject: options.subject,
         html: options.html,
         text: options.text,
+        ...(options.replyTo ? { reply_to: options.replyTo } : {}),
         ...(options.headers ? { headers: options.headers } : {}),
         ...(options.tags ? { tags: options.tags } : {}),
       }),

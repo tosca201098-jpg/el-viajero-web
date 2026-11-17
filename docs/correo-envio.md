@@ -22,6 +22,7 @@ En este orden, cada vez que se lanza la tarea `/api/email/send`:
 - **Si la tarea se corta justo después de enviar**, la fila queda `claimed` y **cuenta como enviada**: es preferible no repetir a enviar dos veces.
 - **Solo envía a cuentas con el correo confirmado.** El correo se lee de la cuenta en el momento de enviar y **no se guarda** en ninguna tabla ni en el registro.
 - **Cada correo va a una sola dirección**, con su propio enlace de baja firmado y las cabeceras de baja con un clic (`List-Unsubscribe` y `List-Unsubscribe-Post`).
+- **Respuestas:** el correo lleva la cabecera de respuesta (Reply-To) con el buzón de contacto de Destinauta (`EMAIL_REPLY_TO` en `lib/email/config.ts`, elegido por el propietario el 17-11-2026), porque `vuelos@avisos…` solo envía y no recibe. Ese buzón recibirá respuestas, dudas y peticiones de derechos de datos: hay que revisarlo.
 - **Ritmo:** una pausa de 0,6 s entre correos (Resend admite 2 por segundo). La tanda se corta a los 40 s (la función de Vercel tiene 60 s); lo que no da tiempo sigue «tocando» y sale en la siguiente.
 - **Un 429 de Resend** (demasiado rápido) corta la tanda: esa persona queda `failed` (se reintenta otro día) y las demás ni se reservan.
 - **Un rechazo normal** con una persona no detiene a las demás.
@@ -46,7 +47,6 @@ Está con el calendario del 29 de febrero (Vercel no admite el 30 de febrero), a
 - Una cuenta con permiso pero sin el correo confirmado ocupa un hueco del tope de ese día y se reintenta cada día. Con pocas cuentas no importa.
 - Si alguien se da de baja mientras corre una tanda (menos de un minuto), podría recibir ese correo; la baja funciona desde el siguiente.
 - «Cambiar mis preferencias» lleva todavía a la portada: falta un enlace directo a «Mi cuenta».
-- Las respuestas al correo van a una dirección que no recibe mensajes (`vuelos@avisos…`). Pendiente: usar el correo de contacto como dirección de respuesta.
 
 ## Qué NO hace
 
