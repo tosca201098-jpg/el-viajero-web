@@ -37,7 +37,7 @@ Si falta alguna, la ruta responde `503 not_configured` y no envía nada.
 2. Busca la fila `/api/email/test?origin=MAD&months=3,6&budget=up200&locale=es` y pulsa **Run**.
 3. Respuestas posibles: `sent: true` (mira tu bandeja y el spam), `not_enough_data` (no hay 3 destinos con precio reciente; no se envía nada) o `not_configured` (falta una variable).
 
-La fila tiene un calendario que **nunca se ejecuta solo** (30 de febrero): solo sale cuando pulsas **Run**.
+La fila tiene un calendario que **no se ejecuta solo en la práctica**: es el 29 de febrero, que solo existe en años bisiestos (el próximo, **29-02-2028**). Primero probé el 30 de febrero, pero Vercel lo rechaza porque «nunca se ejecutaría». Solo sale cuando pulsas **Run**. Esta fila es solo para la fase de prueba: hay que quitarla de `vercel.json` cuando acabe esa fase (en todo caso, antes del 29-02-2028, o ese día se mandaría un correo de prueba a tu dirección si las variables siguen puestas).
 
 Para probar otros datos hay que cambiar la dirección de esa fila en `vercel.json`:
 

@@ -568,8 +568,9 @@ test('tarea en vercel.json: una sola entrada del correo de prueba con la direcci
   assert.equal(url.searchParams.get('budget'), 'up200');
   assert.equal(url.searchParams.get('locale'), 'es');
   assert.deepEqual(Array.from(url.searchParams.keys()).sort(), ['budget', 'locale', 'months', 'origin'], 'sin destinatario ni claves en la dirección');
-  // 30 de febrero: no existe, así que Vercel nunca la lanza sola; solo se usa con «Run» en Cron Jobs.
-  assert.equal(crons[0].schedule, '0 0 30 2 *');
+  // Vercel rechaza «30 de febrero» (0 0 30 2 *) porque «nunca se ejecutaría». El 29 de febrero solo existe en años bisiestos
+  // (el próximo, 2028), así que en la práctica solo se lanza con «Run» en Cron Jobs.
+  assert.equal(crons[0].schedule, '0 0 29 2 *');
 });
 
 test('código: las claves salen de variables de Vercel; no hay direcciones de correo ni claves escritas, ni lectura de usuarios', () => {

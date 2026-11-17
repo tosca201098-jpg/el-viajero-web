@@ -42,7 +42,7 @@
     },
     {
       "path": "/api/email/test?origin=MAD&months=3,6&budget=up200&locale=es",
-      "schedule": "0 0 30 2 *"
+      "schedule": "0 0 29 2 *"
     }
   ]
 }
