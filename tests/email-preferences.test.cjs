@@ -398,9 +398,9 @@ test('once the owner data is filled and the draft flag is off, the gaps and the 
   assert.ok(!renderToStaticMarkup(React.createElement(live.default)).includes('Todavía no enviamos ningún correo'));
 });
 
-test('the legal drafts stay out of the sitemap and robots, and nothing else in the site changes', () => {
+test('the legal drafts stay out of the sitemap and robots, and the home page and its cards do not change', () => {
   assert.doesNotMatch(read('app/sitemap.ts'), /privacidad|aviso-legal/);
   assert.doesNotMatch(read('app/robots.ts'), /privacidad|aviso-legal/);
-  assert.doesNotMatch(read('app/layout.tsx'), /privacidad|aviso-legal/, 'sin pie de página nuevo hasta que el propietario lo autorice');
-  assert.doesNotMatch(read('app/page.tsx'), /privacidad|aviso-legal/, 'la portada y sus 16 tarjetas no cambian');
+  // El pie de página con los dos enlaces se añade desde el layout con SiteFooter (tests/legal-footer.test.cjs); la portada no se toca.
+  assert.doesNotMatch(read('app/page.tsx'), /privacidad|aviso-legal|SiteFooter/, 'la portada y sus 16 tarjetas no cambian');
 });
