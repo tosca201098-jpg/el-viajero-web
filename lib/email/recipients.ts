@@ -36,17 +36,21 @@ export async function readConsentingRecipients(client: Client): Promise<{ ok: bo
   return { ok: true, recipients };
 }
 
-/** Último envío hecho y cuántos lleva cada cuenta (solo los envíos con estado «sent»). */
+/**
+ * Último envío y cuántos lleva cada cuenta. Cuentan los envíos «sent» y también los «claimed» (reservados pero sin confirmar:
+ * si la tarea se cortó justo después de enviar, no se sabe si salió, y es mejor no repetir que enviar dos veces). Los «failed» no cuentan.
+ */
 export async function readSendHistory(client: Client, userIds: readonly string[]): Promise<{ ok: boolean; history: Map<string, SendHistory> }> {
   const history = new Map<string, SendHistory>();
   try {
     for (let start = 0; start < userIds.length; start += CHUNK) {
       const chunk = userIds.slice(start, start + CHUNK);
-      const { data, error } = await client.from(SENDS_TABLE).select("user_id,sent_at").eq("status", "sent").in("user_id", chunk);
+      const { data, error } = await client.from(SENDS_TABLE).select("user_id,sent_at,claimed_at")
+        .in("status", ["sent", "claimed"]).in("user_id", chunk);
       if (error || !Array.isArray(data)) return { ok: false, history: new Map() };
       for (const row of data) {
         if (!isRecord(row) || typeof row.user_id !== "string") continue;
-        const sentAt = new Date(String(row.sent_at ?? ""));
+        const sentAt = new Date(String(row.sent_at ?? row.claimed_at ?? ""));
         const previous = history.get(row.user_id) ?? { lastSentAt: null, count: 0 };
         const lastSentAt = Number.isNaN(sentAt.getTime()) ? previous.lastSentAt
           : previous.lastSentAt && previous.lastSentAt > sentAt ? previous.lastSentAt : sentAt;

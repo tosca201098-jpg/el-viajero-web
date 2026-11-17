@@ -45,7 +45,10 @@ function fakeDb({ preferences = [], sends = [], monthly = [], failPreferences = 
           const builder = {
             eq(column, value) { query.filters.push(['eq', column, value]); return builder; },
             gte(column, value) { query.filters.push(['gte', column, value]); return builder; },
-            in(column, values) { query.inIds = values; state.ins.push(values.length); return builder; },
+            in(column, values) {
+              if (column === 'user_id') { query.inIds = values; state.ins.push(values.length); } else query.filters.push(['in', column, values]);
+              return builder;
+            },
             order(column) { query.order = column; return builder; },
             range(from, to) { query.range = [from, to]; return builder; },
             then(resolve, reject) {
@@ -53,7 +56,7 @@ function fakeDb({ preferences = [], sends = [], monthly = [], failPreferences = 
                 return Promise.resolve({ data: null, error: { message: 'boom' } }).then(resolve, reject);
               }
               let data = tables[table].filter((row) => query.filters.every(([operator, column, value]) =>
-                operator === 'eq' ? row[column] === value : row[column] >= value));
+                operator === 'eq' ? row[column] === value : operator === 'in' ? value.includes(row[column]) : row[column] >= value));
               if (query.inIds) data = data.filter((row) => query.inIds.includes(row.user_id));
               if (query.range) data = data.slice(query.range[0], query.range[1] + 1);
               return Promise.resolve({ data, error: null }).then(resolve, reject);
@@ -301,10 +304,12 @@ test('lectura de destinatarios: más de una página; y si falla Supabase o no ex
   same(plain(await recipientsLib.readConsentingRecipients(throwing)), { ok: false, recipients: [] });
 });
 
-test('lectura del historial: solo envíos hechos, último y cuántos lleva cada cuenta, en bloques de 100; si falla, ok = false', async () => {
+test('lectura del historial: cuentan enviados y reservados (no los fallidos), último y cuántos lleva cada cuenta, en bloques de 100; si falla, ok = false', async () => {
   const sends = [
     { user_id: U1, status: 'sent', sent_at: '2026-11-01T08:00:00.000Z' }, { user_id: U1, status: 'sent', sent_at: '2026-11-08T08:00:00.000Z' },
-    { user_id: U1, status: 'failed', sent_at: null }, { user_id: U2, status: 'sent', sent_at: '2026-11-10T08:00:00.000Z' },
+    { user_id: U1, status: 'failed', sent_at: null, claimed_at: '2026-11-12T08:00:00.000Z' },
+    { user_id: U2, status: 'sent', sent_at: '2026-11-10T08:00:00.000Z' },
+    { user_id: U3, status: 'claimed', sent_at: null, claimed_at: '2026-11-14T08:00:00.000Z' },
   ];
   const db = fakeDb({ sends });
   const result = await recipientsLib.readSendHistory(db.client, [U1, U2, U3]);
@@ -312,8 +317,9 @@ test('lectura del historial: solo envíos hechos, último y cuántos lleva cada 
   assert.equal(result.history.get(U1).count, 2);
   assert.equal(result.history.get(U1).lastSentAt.toISOString(), '2026-11-08T08:00:00.000Z');
   assert.equal(result.history.get(U2).count, 1);
-  assert.equal(result.history.has(U3), false);
-  same(plain(db.state.ranges[0].filters), [['eq', 'status', 'sent']]);
+  assert.equal(result.history.get(U3).count, 1, 'un envío reservado pero sin confirmar cuenta: es mejor no repetir que enviar dos veces');
+  assert.equal(result.history.get(U3).lastSentAt.toISOString(), '2026-11-14T08:00:00.000Z');
+  same(plain(db.state.ranges[0].filters), [['in', 'status', ['sent', 'claimed']]]);
   const wide = Array.from({ length: 250 }, (_, index) => `00000000-0000-4000-8000-${String(index).padStart(12, '0')}`);
   const chunked = fakeDb();
   await recipientsLib.readSendHistory(chunked.client, wide);
