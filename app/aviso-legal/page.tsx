@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import LegalPage, { Owner, Review } from "../components/LegalPage";
 import { LEGAL_IS_DRAFT, OWNER_DATA } from "@/lib/legal/owner";
 
@@ -70,7 +71,7 @@ export default function AvisoLegalPage() {
       <section>
         <h2>7. Protección de datos</h2>
         <p>
-          El tratamiento de datos personales se explica en la <a href="/privacidad">política de privacidad</a>.
+          El tratamiento de datos personales se explica en la <Link href="/privacidad">política de privacidad</Link>.
         </p>
       </section>
 

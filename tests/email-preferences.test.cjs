@@ -13,7 +13,10 @@ const root = path.resolve(__dirname, '..');
 const read = file => fs.readFileSync(path.join(root, file), 'utf8').replace(/\r\n/g, '\n');
 
 // Cargador mínimo de módulos TypeScript/TSX en el mismo contexto (para que assert compare bien arrays y objetos).
-function makeLoader(overrides = {}) {
+// next/link no está en las herramientas de prueba: se sustituye por un <a href> con los mismos atributos.
+const LinkMock = { __esModule: true, default: ({ href, children, ...rest }) => React.createElement('a', { href, ...rest }, children) };
+function makeLoader(extra = {}) {
+  const overrides = { 'next/link': LinkMock, ...extra };
   const cache = new Map();
   function resolve(from, id) {
     const base = id.startsWith('@/') ? path.join(root, id.slice(2)) : path.resolve(path.dirname(from), id);

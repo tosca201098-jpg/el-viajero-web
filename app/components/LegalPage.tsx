@@ -3,6 +3,7 @@
 // por un profesional con «[REVISAR: …]» (estos últimos solo mientras LEGAL_IS_DRAFT sea true).
 
 import type { ReactNode } from "react";
+import Link from "next/link";
 import { LEGAL_IS_DRAFT, LEGAL_UPDATED } from "@/lib/legal/owner";
 
 /** Texto que falta por completar: resaltado y visible, para que no pase desapercibido. */
@@ -23,7 +24,7 @@ export function Owner({ value, label }: { value: string; label: string }) {
 export default function LegalPage({ title, current, children }: { title: string; current: "privacidad" | "aviso-legal"; children: ReactNode }) {
   return (
     <main className="mx-auto w-full max-w-3xl px-4 py-8 text-stone-800 sm:px-6 sm:py-12">
-      <a href="/" className="text-sm font-semibold text-blue-700 underline hover:text-blue-800">← Destinauta</a>
+      <Link href="/" className="text-sm font-semibold text-blue-700 underline hover:text-blue-800">← Destinauta</Link>
       <h1 className="mt-4 text-3xl font-black sm:text-4xl">{title}</h1>
       {LEGAL_IS_DRAFT && (
         <p role="note" className="mt-4 rounded-xl border border-amber-300 bg-amber-50 p-4 text-sm leading-6 text-amber-900">
@@ -37,8 +38,8 @@ export default function LegalPage({ title, current, children }: { title: string;
         {children}
       </div>
       <nav aria-label="Páginas legales" className="mt-10 flex flex-wrap gap-4 border-t border-stone-300 pt-4 text-sm">
-        <a href="/privacidad" aria-current={current === "privacidad" ? "page" : undefined} className="font-semibold text-blue-700 underline hover:text-blue-800">Política de privacidad</a>
-        <a href="/aviso-legal" aria-current={current === "aviso-legal" ? "page" : undefined} className="font-semibold text-blue-700 underline hover:text-blue-800">Aviso legal</a>
+        <Link href="/privacidad" aria-current={current === "privacidad" ? "page" : undefined} className="font-semibold text-blue-700 underline hover:text-blue-800">Política de privacidad</Link>
+        <Link href="/aviso-legal" aria-current={current === "aviso-legal" ? "page" : undefined} className="font-semibold text-blue-700 underline hover:text-blue-800">Aviso legal</Link>
       </nav>
     </main>
   );

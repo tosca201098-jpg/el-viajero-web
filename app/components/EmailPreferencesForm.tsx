@@ -2,6 +2,7 @@
 
 // Pantalla del cuestionario de correo (sin estado propio: lo gestiona EmailPreferences.tsx). Todas las preguntas son opcionales.
 
+import Link from "next/link";
 import { MONTHLY_ORIGINS } from "@/lib/travelpayouts/monthly-shared";
 import type { Locale } from "@/lib/i18n/translations";
 import { emailText, type EmailTextKey } from "@/lib/email-preferences/texts";
@@ -129,7 +130,7 @@ export default function EmailPreferencesForm({
         </label>
         <div id="email-pref-consent-help" className="mt-2 space-y-1 text-xs leading-5 text-stone-600">
           {!complete && <p>{emailText(language, "consent.needs")}</p>}
-          <p><a href="/privacidad" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 underline hover:text-blue-800">{emailText(language, "consent.privacy")}</a></p>
+          <p><Link href="/privacidad" target="_blank" rel="noopener noreferrer" className="font-semibold text-blue-700 underline hover:text-blue-800">{emailText(language, "consent.privacy")}</Link></p>
           {givenDate && <p>{emailText(language, "consent.recorded", { date: givenDate })}</p>}
           {withdrawnDate && <p>{emailText(language, "consent.withdrawn", { date: withdrawnDate })}</p>}
         </div>
