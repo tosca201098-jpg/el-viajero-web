@@ -186,7 +186,7 @@ export function renderFlightEmail(input: FlightEmailInput): RenderedEmail {
 <style>
 @media only screen and (max-width:520px){
 .wrap{padding:0 !important;}
-.stack{display:block !important;width:100% !important;}
+.stack{display:block !important;width:100% !important;box-sizing:border-box !important;}
 .photo img{width:100% !important;height:150px !important;}
 }
 </style>

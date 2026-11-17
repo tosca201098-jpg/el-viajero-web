@@ -181,6 +181,19 @@ test('estructura del diseño aprobado: cabecera, criterios, tres tarjetas, botó
   assert.ok(html.includes('background:#fef08a'));
 });
 
+test('móvil: al apilar la tarjeta, la celda del texto cuenta su margen interior dentro del 100 % y la línea de detalles no se corta', () => {
+  // Fallo visto en el correo de prueba del 17-11: con «width:100%» y 20 px de margen a cada lado, la celda se pasaba 40 px del ancho
+  // de la tarjeta (que recorta lo que sobresale) y se perdían las últimas palabras de «país · fechas · noches · escalas».
+  const { html } = render.renderFlightEmail(input());
+  const media = html.slice(html.indexOf('@media'), html.indexOf('</style>'));
+  const rule = media.match(/\.stack\{([^}]*)\}/);
+  assert.ok(rule, 'existe la regla .stack en la versión móvil');
+  assert.match(rule[1], /width:100% !important/);
+  assert.match(rule[1], /box-sizing:border-box !important/, 'sin esto el margen interior se suma al 100 % y la tarjeta recorta el texto');
+  assert.match(html, /<td class="stack" valign="top" style="padding:18px 20px;/, 'la celda del texto es la que lleva el margen interior');
+  assert.doesNotMatch(html, /white-space:\s*nowrap/, 'ninguna línea del correo se fuerza a una sola línea');
+});
+
 test('aviso de afiliado: justo debajo de las tarjetas, en 12 px, antes del botón de más vuelos y fuera del recuadro gris', () => {
   const { html } = render.renderFlightEmail(input());
   const affiliate = html.indexOf('Algunos enlaces son de afiliado');
