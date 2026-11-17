@@ -11,6 +11,14 @@ export const EMAIL_FROM = "Destinauta <vuelos@avisos.destinauta.com>";
  */
 export const DAILY_SEND_LIMIT = 90;
 
+/**
+ * Límites de una tanda de envío. Resend admite 2 peticiones por segundo por defecto: se deja un margen entre correo y correo.
+ * La tarea corta a los 40 s (la función de Vercel tiene 60 s y un envío puede tardar hasta 10 s): lo que no dé tiempo sigue siendo «le toca»
+ * y se envía en la siguiente tanda.
+ */
+export const SEND_PACE_MS = 600;
+export const SEND_TIME_BUDGET_MS = 40000;
+
 /** Franja de aviso y pie del correo de prueba (solo para el propietario, en español). */
 export const TEST_BANNER = "Correo de prueba · enviado solo al propietario de Destinauta · el enlace de baja todavía no funciona";
 export const TEST_REASON = "Este es un correo de prueba para revisar el diseño. No se ha enviado a nadie más y los enlaces de baja y de preferencias todavía no están activos.";
