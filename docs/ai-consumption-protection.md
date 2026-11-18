@@ -1,5 +1,7 @@
 # Fase 1 — Protección del consumo de IA
 
+> **Voz de Sofía:** desde el 16 de noviembre de 2026 los límites de la voz son minutos por cuenta y periodo (`docs/sofia-minutos-voz.md`); las variables `AI_VOICE_MINUTE_LIMIT`, `AI_VOICE_DAY_LIMIT`, `AI_VOICE_GLOBAL_DAY_LIMIT` y `AI_VOICE_USER_MINUTE_LIMIT` ya no se leen. Los itinerarios con IA no cambian.
+
 > **Nota (15-11-2026):** DESTINAUTA ya no usa OpenAI. Sofía funciona solo con ElevenLabs y sus itinerarios los entrega ella por voz. Las referencias a OpenAI, a `OPENAI_API_KEY`, a `/api/itinerary` o a un proveedor de repuesto que aparecen más abajo son históricas. Vigente: [`sofia-solo-elevenlabs.md`](./sofia-solo-elevenlabs.md).
 
 

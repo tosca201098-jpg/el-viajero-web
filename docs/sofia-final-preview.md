@@ -1,5 +1,7 @@
 # Sofía — política definitiva preparada para Preview
 
+> **Sustituido el 16 de noviembre de 2026** en lo relativo a los límites de uso de la voz por `docs/sofia-minutos-voz.md` (6 minutos por mes y cuenta). Se conserva como histórico.
+
 Este informe sustituye la política anterior de los informes de preparación: solo usuarios registrados con sesión validada en el servidor, **tres conversaciones por día natural de Europe/Madrid**, **360 segundos por conversación** y ningún bloqueo mensual de conversaciones.
 
 ## Integración mínima

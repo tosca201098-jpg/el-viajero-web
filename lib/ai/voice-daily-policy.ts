@@ -1,4 +1,8 @@
-/** Local candidate only: not yet connected to admission, routes, agents or a live Redis. */
+/**
+ * Natural-Madrid calendar helpers. `madridVoiceDay` still keys the AI itinerary allowance, and `madridVoicePeriod`
+ * (week, fortnight or month) bounds the voice minutes. The three-slot day ledger below is RETIRED from the voice path
+ * (voice minutes replaced it); it is kept, with its tests, as a reviewed reference only.
+ */
 export const VOICE_DAILY_LIMIT = 3;
 export const VOICE_MAX_DURATION_SECONDS = 360;
 
@@ -38,6 +42,69 @@ function madridMidnight(year: number, month: number, day: number) {
     candidate = corrected;
   }
   throw new RangeError('invalid_madrid_day');
+}
+
+/** Epoch-second boundaries for a natural Madrid week: Monday 00:00 to the next Monday 00:00, Madrid time (DST-safe). */
+export function madridVoiceWeek(nowMs: number): { startsAt: number; endsAt: number } {
+  madridVoiceDay(nowMs); // validates the instant
+  const current = civilParts(nowMs);
+  const weekday = new Date(civilUtc(current.year, current.month, current.day)).getUTCDay(); // 0 = Sunday
+  const sinceMonday = (weekday + 6) % 7;
+  const monday = new Date(civilUtc(current.year, current.month, current.day - sinceMonday));
+  const nextMonday = new Date(civilUtc(current.year, current.month, current.day - sinceMonday + 7));
+  const startsAt = madridMidnight(monday.getUTCFullYear(), monday.getUTCMonth() + 1, monday.getUTCDate());
+  const endsAt = madridMidnight(nextMonday.getUTCFullYear(), nextMonday.getUTCMonth() + 1, nextMonday.getUTCDate());
+  const seconds = nowMs / 1000;
+  if (!Number.isSafeInteger(startsAt) || !Number.isSafeInteger(endsAt) || seconds < startsAt || seconds >= endsAt ||
+      endsAt - startsAt < 167 * 3600 || endsAt - startsAt > 169 * 3600) throw new RangeError('invalid_madrid_week');
+  return { startsAt, endsAt };
+}
+
+export type VoicePeriod = 'week' | 'fortnight' | 'month';
+
+/** First Monday of the fortnight cycle (Madrid civil date). Fortnights are 14-day blocks counted from this Monday. */
+const FORTNIGHT_REFERENCE = { year: 2026, month: 11, day: 16 };
+
+function midnightOfCivil(utcMidnightMs: number) {
+  const date = new Date(utcMidnightMs);
+  return madridMidnight(date.getUTCFullYear(), date.getUTCMonth() + 1, date.getUTCDate());
+}
+
+/**
+ * Epoch-second boundaries of the period that holds `nowMs`, always on Madrid midnights (DST-safe):
+ * week = Monday to Monday, fortnight = 14-day blocks from a fixed Monday, month = the natural calendar month.
+ */
+export function madridVoicePeriod(nowMs: number, period: VoicePeriod): { startsAt: number; endsAt: number } {
+  if (period === 'week') return madridVoiceWeek(nowMs);
+  madridVoiceDay(nowMs); // validates the instant
+  const current = civilParts(nowMs);
+  let startsAt: number;
+  let endsAt: number;
+  let minHours: number;
+  let maxHours: number;
+  if (period === 'month') {
+    startsAt = midnightOfCivil(civilUtc(current.year, current.month, 1));
+    endsAt = midnightOfCivil(civilUtc(current.year, current.month + 1, 1));
+    minHours = 28 * 24 - 1;
+    maxHours = 31 * 24 + 1;
+  } else if (period === 'fortnight') {
+    const dayMs = 86_400_000;
+    const reference = civilUtc(FORTNIGHT_REFERENCE.year, FORTNIGHT_REFERENCE.month, FORTNIGHT_REFERENCE.day);
+    const days = Math.round((civilUtc(current.year, current.month, current.day) - reference) / dayMs);
+    const blockStart = Math.floor(days / 14) * 14;
+    startsAt = midnightOfCivil(reference + blockStart * dayMs);
+    endsAt = midnightOfCivil(reference + (blockStart + 14) * dayMs);
+    minHours = 14 * 24 - 1;
+    maxHours = 14 * 24 + 1;
+  } else {
+    throw new RangeError('invalid_voice_period');
+  }
+  const seconds = nowMs / 1000;
+  if (!Number.isSafeInteger(startsAt) || !Number.isSafeInteger(endsAt) || seconds < startsAt || seconds >= endsAt ||
+      endsAt - startsAt < minHours * 3600 || endsAt - startsAt > maxHours * 3600) {
+    throw new RangeError('invalid_madrid_period');
+  }
+  return { startsAt, endsAt };
 }
 
 /** Epoch-second boundaries for a natural Madrid day; never a rolling 24-hour window. */

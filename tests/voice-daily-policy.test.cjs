@@ -99,3 +99,77 @@ test('Lua contract is a bounded private day ledger with server time and no aggre
   assert.deepEqual([...new Set(commands)].sort(), ['EXPIREAT', 'HGETALL', 'HLEN', 'HSET', 'TIME', 'TYPE']);
   // These are source/contract guards, not a claim that a Lua engine was executed.
 });
+
+// ---- Natural Madrid weeks (Monday 00:00 to Monday 00:00), used by the weekly voice minutes ----------------------------
+const { madridVoiceWeek } = exportsObject;
+const week = instant => madridVoiceWeek(Date.parse(instant));
+
+test('a week runs Monday 00:00 to the next Monday 00:00 in Madrid, whatever day inside it', () => {
+  for (const instant of ['2026-11-16T00:00:00Z', '2026-11-18T12:00:00Z', '2026-11-22T22:59:59Z']) {
+    const result = week(instant);
+    assert.equal(iso(result.startsAt), '2026-11-15T23:00:00.000Z'); assert.equal(iso(result.endsAt), '2026-11-22T23:00:00.000Z');
+  }
+  // Sunday 23:00 UTC is already Monday 00:00 in Madrid: a new week.
+  assert.equal(iso(week('2026-11-22T23:00:00Z').startsAt), '2026-11-22T23:00:00.000Z');
+});
+
+test('weeks that change the clock are 167 or 169 hours long, never a rolling 7 x 24', () => {
+  const spring = week('2027-03-25T12:00:00Z'); // clocks go forward on Sunday 28 March 2027
+  assert.equal(iso(spring.startsAt), '2027-03-21T23:00:00.000Z'); assert.equal(iso(spring.endsAt), '2027-03-28T22:00:00.000Z');
+  assert.equal((spring.endsAt - spring.startsAt) / 3600, 167);
+  const autumn = week('2026-10-22T12:00:00Z'); // clocks go back on Sunday 25 October 2026
+  assert.equal(iso(autumn.startsAt), '2026-10-18T22:00:00.000Z'); assert.equal(iso(autumn.endsAt), '2026-10-25T23:00:00.000Z');
+  assert.equal((autumn.endsAt - autumn.startsAt) / 3600, 169);
+});
+
+test('week boundaries cross month and year ends and reject impossible instants', () => {
+  assert.equal(iso(week('2026-12-31T12:00:00Z').startsAt), '2026-12-27T23:00:00.000Z');
+  assert.equal(iso(week('2026-12-31T12:00:00Z').endsAt), '2027-01-03T23:00:00.000Z');
+  for (const bad of [NaN, Infinity, -1, '2026-11-16']) assert.throws(() => madridVoiceWeek(bad), RangeError);
+});
+
+const { madridVoicePeriod } = exportsObject;
+const period = (instant, kind) => madridVoicePeriod(Date.parse(instant), kind);
+const bounds = result => [iso(result.startsAt), iso(result.endsAt)];
+
+test('a month is the natural Madrid calendar month, from the 1st at 00:00 to the next 1st at 00:00', () => {
+  for (const instant of ['2026-10-31T23:00:00Z', '2026-11-16T12:00:00Z', '2026-11-30T22:59:59Z']) {
+    assert.deepEqual(bounds(period(instant, 'month')), ['2026-10-31T23:00:00.000Z', '2026-11-30T23:00:00.000Z'], instant);
+  }
+  // 23:00 UTC on the 30th is already 1 December, 00:00 in Madrid: a new month.
+  assert.deepEqual(bounds(period('2026-11-30T23:00:00Z', 'month')), ['2026-11-30T23:00:00.000Z', '2026-12-31T23:00:00.000Z']);
+});
+
+test('months follow the clock changes and the calendar: March is 743 hours, October 745, February leaps, December crosses the year', () => {
+  const march = period('2027-03-15T12:00:00Z', 'month'); // summer time starts on Sunday 28 March 2027
+  assert.deepEqual(bounds(march), ['2027-02-28T23:00:00.000Z', '2027-03-31T22:00:00.000Z']); assert.equal((march.endsAt - march.startsAt) / 3600, 743);
+  const october = period('2027-10-15T12:00:00Z', 'month'); // summer time ends on Sunday 31 October 2027
+  assert.deepEqual(bounds(october), ['2027-09-30T22:00:00.000Z', '2027-10-31T23:00:00.000Z']); assert.equal((october.endsAt - october.startsAt) / 3600, 745);
+  const leap = period('2028-02-10T12:00:00Z', 'month');
+  assert.deepEqual(bounds(leap), ['2028-01-31T23:00:00.000Z', '2028-02-29T23:00:00.000Z']); assert.equal((leap.endsAt - leap.startsAt) / 3600, 29 * 24);
+  const plain = period('2027-02-10T12:00:00Z', 'month'); assert.equal((plain.endsAt - plain.startsAt) / 3600, 28 * 24);
+  assert.deepEqual(bounds(period('2026-12-31T12:00:00Z', 'month')), ['2026-11-30T23:00:00.000Z', '2026-12-31T23:00:00.000Z']);
+  assert.deepEqual(bounds(period('2027-01-01T00:30:00Z', 'month')), ['2026-12-31T23:00:00.000Z', '2027-01-31T23:00:00.000Z']);
+});
+
+test('a fortnight is a 14-day block counted from Monday 16 November 2026, before and after that date', () => {
+  assert.deepEqual(bounds(period('2026-11-16T12:00:00Z', 'fortnight')), ['2026-11-15T23:00:00.000Z', '2026-11-29T23:00:00.000Z']);
+  assert.deepEqual(bounds(period('2026-11-29T22:59:00Z', 'fortnight')), ['2026-11-15T23:00:00.000Z', '2026-11-29T23:00:00.000Z']);
+  assert.deepEqual(bounds(period('2026-11-29T23:00:00Z', 'fortnight')), ['2026-11-29T23:00:00.000Z', '2026-12-13T23:00:00.000Z']);
+  // Before the reference Monday the blocks keep the same rhythm.
+  assert.deepEqual(bounds(period('2026-11-10T12:00:00Z', 'fortnight')), ['2026-11-01T23:00:00.000Z', '2026-11-15T23:00:00.000Z']);
+  // Across a clock change the block is 335 or 337 hours, never 336 by rolling time.
+  const spring = period('2027-03-24T12:00:00Z', 'fortnight');
+  assert.ok([335, 336, 337].includes((spring.endsAt - spring.startsAt) / 3600));
+  for (const instant of ['2026-11-16T12:00:00Z', '2027-03-24T12:00:00Z', '2027-10-20T12:00:00Z', '2030-06-01T12:00:00Z']) {
+    const block = period(instant, 'fortnight'); const now = Date.parse(instant) / 1000;
+    assert.ok(block.startsAt <= now && now < block.endsAt, instant);
+    assert.equal(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Madrid', weekday: 'long', hour: '2-digit', hourCycle: 'h23' }).format(block.startsAt * 1000), 'Monday, 00', instant);
+  }
+});
+
+test('the week period is the existing Madrid week, and an unknown period or instant is rejected', () => {
+  assert.deepEqual(period('2026-11-18T12:00:00Z', 'week'), week('2026-11-18T12:00:00Z'));
+  for (const bad of ['day', '', 'Month', undefined, null]) assert.throws(() => madridVoicePeriod(Date.parse('2026-11-16T12:00:00Z'), bad), RangeError);
+  for (const bad of [NaN, Infinity, -1, '2026-11-16']) assert.throws(() => madridVoicePeriod(bad, 'month'), RangeError);
+});

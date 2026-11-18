@@ -18,7 +18,7 @@ test('provider check and token failures keep public response generic and log con
  const source=require('fs').readFileSync(require('path').join(__dirname,'voice-route.test.cjs'),'utf8');
  const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();
  const cases=[['VOICE_CREDENTIALS',{ELEVENLABS_API_KEY:''},[]],['VOICE_VERSION',{ELEVENLABS_AGENT_VERSION_ID:''},[]],['VOICE_CHECK_CREDENTIALS',{},[Response.json({secret:'canary'},{status:401})]],['VOICE_CHECK_HTTP',{},[new Response('canary',{status:503})]],['VOICE_CHECK_MALFORMED',{},[new Response('canary')]],['VOICE_CHECK_CONFIG',{},[Response.json({})]],['VOICE_TOKEN_CREDENTIALS',{},[Response.json(valid(300)),new Response('canary',{status:403})]],['VOICE_TOKEN_HTTP',{},[Response.json(valid(300)),new Response('canary',{status:500})]],['VOICE_TOKEN_MALFORMED',{},[Response.json(valid(300)),Response.json({private:'canary'})]],['VOICE_TOKEN_NETWORK',{},[Response.json(valid(300))]],['VOICE_CHECK_NETWORK',{},[]]];
- for(const [code,change,responses] of cases){const logs=[];let calls=0;const load=loader({process:{env:{...env,ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'key-canary',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_canary',...change}},console:{warn:(...x)=>logs.push(x)},fetch:async()=>{calls++;if(!responses.length)throw Error('key-canary private-session private-provider');return responses.shift()}},{'@/lib/supabase/voice-auth':verifiedVoiceAuth,'@/lib/ai/admission':{admitAiRequest:async()=>null,finalizeVoiceAdmission:async()=>true}});const res=await load('app/api/voice/route.ts').POST(request());assert.equal(res.status,503);assert.deepEqual(await res.json(),{error:'ai_unavailable'});assert.deepEqual(logs,[['SOFIA_DIAGNOSTIC',code]]);assert(calls<=2)}
+ for(const [code,change,responses] of cases){const logs=[];let calls=0;const load=loader({process:{env:{...env,ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'key-canary',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_canary',...change}},console:{warn:(...x)=>logs.push(x)},fetch:async()=>{calls++;if(!responses.length)throw Error('key-canary private-session private-provider');return responses.shift()}},{'@/lib/supabase/voice-auth':verifiedVoiceAuth,'@/lib/ai/admission':{admitAiRequest:async()=>null,voiceUserReference:()=>'u_'+'a'.repeat(32)},'@/lib/voice/voice-minutes':{BudgetError:class extends Error{},checkVoiceBudget:async()=>({ok:true,sessionSeconds:600,remainingSeconds:600,limitSeconds:600,period:'month',resetsAt:1795000000})}});const res=await load('app/api/voice/route.ts').POST(request());assert.equal(res.status,503);assert.deepEqual(await res.json(),{error:'ai_unavailable'});assert.deepEqual(logs,[['SOFIA_DIAGNOSTIC',code]]);assert(calls<=2)}
 });
 
 test('timeouts are attributed by active stage without logging thrown objects',async()=>{
@@ -27,8 +27,31 @@ test('timeouts are attributed by active stage without logging thrown objects',as
   const logs=[];let calls=0;
   const source=require('fs').readFileSync(require('path').join(__dirname,'voice-route.test.cjs'),'utf8');
   const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();
-  const load=loader({AbortSignal,process:{env:{...env,ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'canary',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_canary'}},console:{warn:(...x)=>logs.push(x)},fetch:async()=>{if(mode==='token'&&++calls===1)return Response.json(valid(300));throw {secret:'canary',stack:'private-stack'};}},{'@/lib/supabase/voice-auth':verifiedVoiceAuth,'@/lib/ai/admission':{admitAiRequest:async()=>null,finalizeVoiceAdmission:async()=>true}});
+  const load=loader({AbortSignal,process:{env:{...env,ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'canary',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_canary'}},console:{warn:(...x)=>logs.push(x)},fetch:async()=>{if(mode==='token'&&++calls===1)return Response.json(valid(300));throw {secret:'canary',stack:'private-stack'};}},{'@/lib/supabase/voice-auth':verifiedVoiceAuth,'@/lib/ai/admission':{admitAiRequest:async()=>null,voiceUserReference:()=>'u_'+'a'.repeat(32)},'@/lib/voice/voice-minutes':{BudgetError:class extends Error{},checkVoiceBudget:async()=>({ok:true,sessionSeconds:600,remainingSeconds:600,limitSeconds:600,period:'month',resetsAt:1795000000})}});
   const res=mode==='redis'?await load('lib/ai/admission.ts').admitAiRequest(request(),'voice'):await load('app/api/voice/route.ts').POST(request());
   assert.equal(res.status,503);assert.deepEqual(logs,[['SOFIA_DIAGNOSTIC',mode==='redis'?'ADMISSION_REDIS_TIMEOUT':mode==='check'?'VOICE_CHECK_TIMEOUT':'VOICE_TOKEN_TIMEOUT']]);
+ }
+});
+
+test('voice-minutes failures and denials log only constant codes and never leak provider data',async()=>{
+ const now=Math.floor(Date.now()/1000);
+ const spent=seconds=>Response.json({conversations:[{conversation_id:'c',start_time_unix_secs:now-60,call_duration_secs:seconds,status:'done'}],has_more:false});
+ const cases=[
+  ['VOICE_BUDGET_CREDENTIALS',503,()=>new Response('private-provider',{status:401})],
+  ['VOICE_BUDGET_HTTP',503,()=>new Response('private-provider',{status:500})],
+  ['VOICE_BUDGET_MALFORMED',503,()=>Response.json({private:'canary'})],
+  ['VOICE_BUDGET_NETWORK',503,()=>{throw Error('private-network canary')}],
+  ['VOICE_BUDGET_USER',429,url=>spent(url.searchParams.has('user_id')?1200:600)],
+  ['VOICE_BUDGET_SITE',429,url=>spent(url.searchParams.has('user_id')?0:900)],
+ ];
+ for(const [code,status,answer] of cases){
+  const logs=[];let calls=0;
+  const load=loader({process:{env:{...env,ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'key-canary',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_canary'}},console:{warn:(...x)=>logs.push(x)},
+   fetch:async url=>{calls++;return answer(new URL(String(url)));}},
+   {'@/lib/supabase/voice-auth':verifiedVoiceAuth,'@/lib/ai/admission':{admitAiRequest:async()=>null,voiceUserReference:()=>'u_'+'a'.repeat(32)}});
+  const res=await load('app/api/voice/route.ts').POST(request());
+  assert.equal(res.status,status,code);const text=await res.text();
+  for(const secret of ['private','canary','key-canary'])assert.equal(text.includes(secret),false,code);
+  assert.deepEqual(logs,[['SOFIA_DIAGNOSTIC',code]]);assert.equal(calls<=2,true);
  }
 });

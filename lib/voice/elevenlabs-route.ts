@@ -1,6 +1,7 @@
 import { previewDiagnostic, type PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
 import { isLocale } from '@/lib/i18n/translations';
-import { admitAiRequest, finalizeVoiceAdmission } from '@/lib/ai/admission';
+import { admitAiRequest, voiceUserReference } from '@/lib/ai/admission';
+import { BudgetError, checkVoiceBudget } from '@/lib/voice/voice-minutes';
 import {
   sofiaPreviewTarget, sofiaProductionTarget, SOFIA_PREVIOUS_PREVIEW_VERSION_ID, SOFIA_PREVIOUS_PRODUCTION_VERSION_ID,
 } from '@/lib/voice/preview-target';
@@ -34,7 +35,9 @@ function safeSofiaConfiguration(config: AgentConfig, preview = false) {
   return config.platform_settings?.auth?.enable_auth === true &&
     config.platform_settings?.queueing_config?.enabled === false &&
     c?.tts?.voice_id === VOICE_ID && c.agent?.language === 'es' &&
-    (c.conversation?.max_duration_seconds === 360 || (!preview && c.conversation?.max_duration_seconds === 300)) &&
+    // 900 s = the 15-minute conversations of the voice-minutes design; 360 s (and 300 s in Production) are the earlier pins.
+    (c.conversation?.max_duration_seconds === 900 || c.conversation?.max_duration_seconds === 360 ||
+      (!preview && c.conversation?.max_duration_seconds === 300)) &&
     c.turn?.silence_end_call_timeout === 90 &&
     c.vad?.background_voice_detection === true &&
     Number(c.agent?.prompt?.max_tokens) > 0 && Number(c.agent?.prompt?.max_tokens) <= 1024 &&
@@ -49,6 +52,11 @@ function safeSofiaConfiguration(config: AgentConfig, preview = false) {
     config.platform_settings.call_limits.bursting_enabled === false &&
     requiredTools.every(name => tools.some(t => t.name === name && t.type === 'client' && t.expects_response === true));
 }
+const budgetDenied = (error: 'ai_minutes_limit' | 'ai_site_weekly_limit', resetsAt: number) => {
+  previewDiagnostic(error === 'ai_minutes_limit' ? 'VOICE_BUDGET_USER' : 'VOICE_BUDGET_SITE');
+  return Response.json({ error, resetsAt }, { status: 429, headers: { 'Cache-Control': 'no-store',
+    'Retry-After': String(Math.min(2764800, Math.max(1, resetsAt - Math.floor(Date.now() / 1000)))) } });
+};
 const unavailable = (code: PreviewDiagnosticCode) => {
   previewDiagnostic(code);
   return Response.json({ error: 'ai_unavailable' }, { status: 503, headers: { 'Cache-Control': 'no-store' } });
@@ -57,7 +65,6 @@ export async function POST(request: Request) {
   let stage: PreviewDiagnosticCode = 'VOICE_REQUEST';
   let signal: AbortSignal | undefined;
   let tokenStage = false;
-  let commitStarted = false;
   try {
     if (Number(request.headers.get('content-length')) > 512) return Response.json({ error: 'invalid_request' }, { status: 400 });
     const raw = await request.text();
@@ -86,6 +93,14 @@ export async function POST(request: Request) {
     if (target && version !== target.versionId) return unavailable('VOICE_VERSION');
     const denied = await admitAiRequest(request, 'voice');
     if (denied) return denied;
+    // Voice minutes: the real conversation time of this account (this Madrid period) and of the whole site (this Madrid week).
+    const userRef = voiceUserReference(request);
+    if (!userRef) return unavailable('VOICE_REQUEST');
+    let budget;
+    try {
+      budget = await checkVoiceBudget({ env: process.env, apiKey: key, agentId, userRef, now: Date.now() });
+    } catch (error) { return unavailable(error instanceof BudgetError ? error.code : 'VOICE_BUDGET_MALFORMED'); }
+    if (!budget.ok) return budgetDenied(budget.reason === 'user' ? 'ai_minutes_limit' : 'ai_site_weekly_limit', budget.resetsAt);
     const headers = { 'xi-api-key': key };
     signal = AbortSignal.timeout(10000);
     // Verify the immutable version we will request; never run an unreviewed moving HEAD.
@@ -98,8 +113,7 @@ export async function POST(request: Request) {
     const config = await check.json();
     if (!config || typeof config !== 'object' || Array.isArray(config)) return unavailable('VOICE_CHECK_MALFORMED');
     if (target && (config.agent_id !== agentId || config.version_id !== version)) return unavailable('VOICE_CHECK_CONFIG');
-    // Preview uses the reviewed 360-second version. The strict Redis global ceiling
-    // remains <=20; the provider's shared global daily setting is not a per-user quota.
+    // The allowance is decided above (voice minutes); the provider's own daily setting is only a last backstop.
     if (!safeSofiaConfiguration(config, !!sofiaPreviewTarget(process.env))) return unavailable('VOICE_CHECK_CONFIG');
     const tokenUrl = new URL('https://api.elevenlabs.io/v1/convai/conversation/token');
     tokenUrl.searchParams.set('agent_id', agentId); tokenUrl.searchParams.set('version_id', version);
@@ -111,14 +125,10 @@ export async function POST(request: Request) {
     const data = await response.json();
     if (!data || typeof data.token !== 'string' || !data.token.trim()) return unavailable('VOICE_TOKEN_MALFORMED');
     if (request.signal.aborted) return unavailable('VOICE_REQUEST');
-    commitStarted = true;
-    if (!await finalizeVoiceAdmission(request, true)) return unavailable('VOICE_REQUEST');
-    // Only the temporary session token goes to the browser; never configuration, API keys or provider errors.
-    return Response.json({ token: data.token }, { headers: { 'Cache-Control': 'no-store' } });
+    // The temporary session token goes to the browser with the anonymous account reference (it is what ElevenLabs
+    // stores as `user_id`, so the minutes can be added up) and the seconds this conversation may last. Never
+    // configuration, API keys or provider errors.
+    return Response.json({ token: data.token, userRef, sessionSeconds: budget.sessionSeconds, remainingSeconds: budget.remainingSeconds,
+      limitSeconds: budget.limitSeconds, period: budget.period, resetsAt: budget.resetsAt }, { headers: { 'Cache-Control': 'no-store' } });
   } catch { return unavailable(signal?.aborted ? (tokenStage ? 'VOICE_TOKEN_TIMEOUT' : 'VOICE_CHECK_TIMEOUT') : stage); }
-  finally {
-    // Only the server may release a hold before exposing a credential. Never refund
-    // after an ambiguous commit, client abort or claimed WebRTC error with a token.
-    if (!commitStarted) await finalizeVoiceAdmission(request, false);
-  }
 }

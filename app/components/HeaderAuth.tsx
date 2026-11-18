@@ -7,6 +7,7 @@ import type { Session } from "@supabase/supabase-js";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import SavedTrips from "./SavedTrips";
 import SavedItineraries from "./SavedItineraries";
+import VoiceMinutesBar from "./VoiceMinutesBar";
 import MobileHeaderMenu from "./MobileHeaderMenu";
 import EmailPreferences from "./EmailPreferences";
 
@@ -161,6 +162,7 @@ export default function HeaderAuth({ onOpenAuth }: {
                 <p className="text-sm font-semibold">{t("auth.email")}</p>
                 <p className="mt-1 break-all text-sm text-stone-700">{session.user.email}</p>
               </div>
+              <VoiceMinutesBar key={session.user.id} />
               <EmailPreferences key={session.user.id} />
               <div className="mt-6 border-t border-stone-200 pt-4">
                 {error && <p role="alert" className="mb-3 text-sm text-red-700">{text(error)}</p>}

@@ -16,6 +16,7 @@ const LOCALES = Array.from(translations.locales, l => l.code);
 const SavedTrips = function SavedTrips() {};
 const SavedItineraries = function SavedItineraries() {};
 const MobileHeaderMenu = function MobileHeaderMenu() {};
+const VoiceMinutesBar = function VoiceMinutesBar() {};
 const EmailPreferences = function EmailPreferences() {};
 
 // HeaderAuth con el React ligero de pruebas. Los huecos de useState van por orden: sesión (0), lista (1), cerrando (2), error (3),
@@ -40,7 +41,7 @@ function createHeader(locale, { signedIn = false, ready = true } = {}) {
     react, './LanguageProvider': language, '@/lib/supabase/client': { getSupabaseClient: () => { throw new Error('no Supabase in tests'); } },
     // Con __esModule el «import X from» recibe la función tal cual (si no, TypeScript la envuelve).
     './SavedTrips': { __esModule: true, default: SavedTrips }, './SavedItineraries': { __esModule: true, default: SavedItineraries },
-    './MobileHeaderMenu': { __esModule: true, default: MobileHeaderMenu },
+    './MobileHeaderMenu': { __esModule: true, default: MobileHeaderMenu }, './VoiceMinutesBar': { __esModule: true, default: VoiceMinutesBar },
     './EmailPreferences': { __esModule: true, default: EmailPreferences },
   }, { React: react });
   const Header = load('app/components/HeaderAuth.tsx').default;
@@ -217,4 +218,22 @@ test('the text of the two buttons is the one of their windows, already translate
   // Barra + título de su propia ventana.
   assert.equal(source.split('t("trips.title")').length - 1, 2, 'bar + its own window title');
   assert.equal(source.split('t("savedItineraries.title")').length - 1, 2, 'bar + its own window title');
+});
+
+test('«Mi cuenta» shows the weekly voice minutes bar right after the email, and the trips and itineraries windows do not', () => {
+  const { render, state } = createHeader('es', { signedIn: true });
+  state[4] = true; state[5] = null; // «Mi cuenta» window open
+  const account = render();
+  const items = flatten(account);
+  const bar = items.find(n => n && n.type === VoiceMinutesBar);
+  assert.ok(bar, 'the bar is in the account window');
+  assert.equal(bar.props.key ?? 'user-1', 'user-1');
+  const order = items.map(n => n && n.type === VoiceMinutesBar ? 'bar' : n && typeof n === 'object' && typeof n.props?.className === 'string' && n.props.className.includes('break-all') ? 'email' : null).filter(Boolean);
+  assert.deepEqual(order, ['email', 'bar']);
+  for (const section of ['trips', 'itineraries']) {
+    state[5] = section;
+    assert.equal(flatten(render()).some(n => n && n.type === VoiceMinutesBar), false, section);
+  }
+  const signedOut = createHeader('es', { signedIn: false });
+  assert.equal(flatten(signedOut.render()).some(n => n && n.type === VoiceMinutesBar), false);
 });

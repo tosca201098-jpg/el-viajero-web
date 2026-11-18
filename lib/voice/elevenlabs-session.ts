@@ -6,7 +6,11 @@ import type { VoiceDiscoverSummary, VoiceTripSummary } from './trip-summary';
 
 export type VoicePhase = 'idle' | 'connecting' | 'active';
 export type VoiceTurn = 'listening' | 'processing' | 'searching' | 'speaking' | 'cancelled';
-export type VoiceError = 'permission' | 'microphone' | 'connection' | 'timeout' | 'limited' | 'unavailable';
+export type VoiceError = 'permission' | 'microphone' | 'connection' | 'timeout' | 'limited' | 'minutesLimit' | 'siteWeeklyLimit' | 'unavailable';
+/** A conversation never lasts more than this, whatever the server says (the agent's own maximum is 15 minutes). */
+const MAX_SESSION_MS = 900_000;
+/** Used only if the server does not say how long this conversation may last (earlier server versions). */
+const DEFAULT_SESSION_MS = 360_000;
 /** `summary` carries the real prices Sofía may say aloud (hotel prices never); `shown` names the card that opened. */
 export type VoiceSearchResult = { status: 'success' | 'cancelled'; summary?: VoiceTripSummary; shown?: { name: string; country: string } }
   | { status: 'error'; error: string };
@@ -134,7 +138,20 @@ export class VoiceSession {
           method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ locale }), signal,
         });
         if (!this.current(id)) return;
-        if (!response.ok) { this.fail(id, response.status === 429 ? 'limited' : response.status === 503 ? 'unavailable' : 'connection'); return; }
+        if (!response.ok) {
+          let reason: VoiceError = response.status === 429 ? 'limited' : response.status === 503 ? 'unavailable' : 'connection';
+          if (response.status === 429) {
+            // The server says why: this account's minutes, the whole site's weekly minutes, or too many attempts in a row.
+            let body: unknown = null;
+            try { body = await response.json(); } catch { /* No readable reason: it stays a generic limit. */ }
+            const code = body && typeof body === 'object' && 'error' in body ? body.error : null;
+            if (code === 'ai_minutes_limit') reason = 'minutesLimit';
+            else if (code === 'ai_site_weekly_limit') reason = 'siteWeeklyLimit';
+            if (!this.current(id)) return;
+          }
+          this.fail(id, reason);
+          return;
+        }
         const data = await response.json();
         if (!this.current(id)) return;
         if (typeof data.token !== 'string' || !data.token.trim()) throw Error('invalid_token');
@@ -184,8 +201,13 @@ export class VoiceSession {
           const { VoiceConversation } = await import('@elevenlabs/client');
           return VoiceConversation.startSession(options);
         });
+        // The anonymous account reference lets ElevenLabs add up this account's minutes. Only the exact format is accepted.
+        const userId = typeof data.userRef === 'string' && /^u_[a-f0-9]{32}$/.test(data.userRef) ? data.userRef : undefined;
+        const allowedMs = Number.isInteger(data.sessionSeconds) && data.sessionSeconds > 0
+          ? Math.min(data.sessionSeconds * 1000, MAX_SESSION_MS) : DEFAULT_SESSION_MS;
         const connection = await startConversation({
           conversationToken: data.token, connectionType: 'webrtc', textOnly: false,
+          ...(userId ? { userId } : {}),
           webRtc: { singlePeerConnection: false },
           overrides: { agent: { language: locale } },
           clientTools: Object.fromEntries(['buscar_viaje', 'crear_itinerario', 'consultar_catalogo', 'mostrar_destino', 'descubrir_destinos']
@@ -206,7 +228,7 @@ export class VoiceSession {
         if (!this.current(id)) { this.close(connection); return; }
         this.connection = connection;
         if (this.timer) clearTimeout(this.timer);
-        this.timer = setTimeout(() => this.stop(), Math.min(this.options.sessionTimeoutMs ?? 360000, 360000));
+        this.timer = setTimeout(() => this.stop(), Math.min(this.options.sessionTimeoutMs ?? allowedMs, allowedMs));
         this.setPhase('active'); this.setTurn(this.turn === 'cancelled' ? 'listening' : this.turn);
       } catch (error) {
         const name = error && typeof error === 'object' && 'name' in error ? error.name : '';
