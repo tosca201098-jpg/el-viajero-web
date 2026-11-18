@@ -13,6 +13,7 @@ import { franceAirports, franceAirportTown } from '@/lib/travelpayouts/france-ai
 import { greeceAirports, greeceAirportTown } from '@/lib/travelpayouts/greece-airports';
 import FlightLocationAutocomplete from "./components/FlightLocationAutocomplete";
 import HeaderAuth from "./components/HeaderAuth";
+import SaveFlightHeart from "./components/SaveFlightHeart";
 import SeasonCards from "./components/SeasonCards";
 import LanguageSelector from "./components/LanguageSelector";
 import { croatiaAirports, croatiaAirportTown } from '@/lib/travelpayouts/croatia-airports';
@@ -21,6 +22,7 @@ import { getDestinationText, getDestinationCountryName } from '@/lib/destination
 import type { Locale } from '@/lib/i18n/translations';
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { saveTrip, type NewSavedTrip, type TripService } from "@/lib/supabase/saved-trips";
+import { savedFlightFromOffer, savedFlightFromSearch, typedOriginStorageKey, rememberTypedOrigin } from "@/lib/supabase/saved-flights";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { findDestinationProfile, getDestinationById, normalizeDestinationName } from "@/lib/destinations";
 import { canShowDestinationAutomatically } from '@/lib/destinations/presentation';
@@ -154,7 +156,10 @@ const fondos = [
   "https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=1600&q=85",
 ];
 function leaveFeaturedFlightSearch() {
-  try { sessionStorage.removeItem("destinauta.featured-flight-context"); } catch { /* Ignore unavailable storage. */ }
+  try {
+    sessionStorage.removeItem("destinauta.featured-flight-context");
+    sessionStorage.removeItem(typedOriginStorageKey);
+  } catch { /* Ignore unavailable storage. */ }
   window.location.assign("/");
 }
 
@@ -675,6 +680,7 @@ function abrirPaquete(destino = "") {
         setFlightSearch({ status: "error", key: flightSearchErrorKey(data.error) });
         return;
       }
+      rememberTypedOrigin(data.url, query.origin);
       window.location.assign(data.url);
     } catch {
       setFlightSearch({ status: "error", key: "search.flightSearchTemporaryError" });
@@ -1032,6 +1038,10 @@ function abrirPaquete(destino = "") {
                 {flight.airline && <span>{t("search.flightAirline")}: {flight.airline}</span>}
                 {flight.transfers !== null && <span>{t("search.flightStops")}: {flight.transfers}</span>}
               </div>
+              {(() => {
+                const offerTrip = savedFlightFromOffer(flight, flightSearch.query);
+                return offerTrip && <SaveFlightHeart key={JSON.stringify(offerTrip)} trip={offerTrip} className="mt-3" />;
+              })()}
               {flight.offerUrl && (
                 <a href={flight.offerUrl} target="_blank" rel="noopener noreferrer sponsored" className={inDestinationCard
                   ? windowStyle.flightOfferLink
@@ -1628,6 +1638,11 @@ function abrirPaquete(destino = "") {
               {featuredFlightSearch?.destination === destinoSeleccionado && <section className={windowStyle.flightSection} aria-label={t("search.recentFlights")}>
                 <h3 className={windowStyle.flightHeading}>✈️ {t("search.recentFlights")}</h3>
                 <p className={windowStyle.flightWidgetNote}>{t("search.recentPricesNote")}</p>
+                {(() => {
+                  const featuredTrip = savedFlightFromSearch(featuredFlightSearch.search, destinoSeleccionado.name,
+                    featuredFlightSearch.context);
+                  return featuredTrip && <SaveFlightHeart key={JSON.stringify(featuredTrip)} trip={featuredTrip} search={featuredFlightSearch.search} className="mt-3" />;
+                })()}
                 <div id="tpwl-search" hidden aria-hidden="true" />
                 <div id="tpwl-tickets" className="mt-4 min-w-0 text-slate-900" />
                 <p className={windowStyle.flightFootnote}>{t("search.widgetNoFlightsHint")}</p>
