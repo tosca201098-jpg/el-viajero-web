@@ -8,6 +8,17 @@ test('logging is restricted to exact preview branch and rejects arbitrary runtim
  for(const change of [{VERCEL_ENV:'production'},{VERCEL_ENV:'development'},{VERCEL_GIT_COMMIT_REF:'main'},{VERCEL_GIT_COMMIT_REF:undefined}]){const h=harness(change);h.load('lib/ai/preview-diagnostic.ts').previewDiagnostic('VOICE_FLAGS');assert.deepEqual(h.logs,[])}
  const h=harness(),log=h.load('lib/ai/preview-diagnostic.ts').previewDiagnostic;log('secret-canary');log({token:'secret-canary'});assert.deepEqual(h.logs,[]);log('VOICE_FLAGS');assert.deepEqual(h.logs,[['SOFIA_DIAGNOSTIC','VOICE_FLAGS']]);
 });
+test('production logs only constant codes, and only for the real main deployment of this repository',()=>{
+ const production={VERCEL:'1',VERCEL_ENV:'production',VERCEL_GIT_COMMIT_REF:'main',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web'};
+ // The exact production scope logs the constant code and nothing else.
+ const h=harness(production),log=h.load('lib/ai/preview-diagnostic.ts').previewDiagnostic;
+ log('VOICE_VERSION');log('secret-canary');log({token:'secret-canary'});
+ assert.deepEqual(h.logs,[['SOFIA_DIAGNOSTIC','VOICE_VERSION']]);
+ // Any other production-like scope stays silent.
+ for(const change of [{VERCEL:undefined},{VERCEL_GIT_COMMIT_REF:'otra-rama'},{VERCEL_GIT_REPO_OWNER:'otro-propietario'},{VERCEL_GIT_REPO_SLUG:'otro-repositorio'},{VERCEL_GIT_COMMIT_REF:undefined},{VERCEL_ENV:'development'}]){
+  const quiet=harness({...production,...change});quiet.load('lib/ai/preview-diagnostic.ts').previewDiagnostic('VOICE_FLAGS');assert.deepEqual(quiet.logs,[],JSON.stringify(change));
+ }
+});
 test('admission failures are discriminated without leaking private request or backend data',async()=>{
  const cases=[[{AI_ENABLED:'false'},null,'ADMISSION_FLAGS'],[{AI_REDIS_REST_TOKEN:''},null,'ADMISSION_REDIS_CONFIG'],[{},async()=>Response.json({private:'redis-canary'},{status:403}),'ADMISSION_REDIS_HTTP'],[{},async()=>Response.json({error:'redis-canary'}),'ADMISSION_REDIS_MALFORMED'],[{},async()=>new Response('secret-canary'),'ADMISSION_REDIS_MALFORMED'],[{},undefined,'ADMISSION_REDIS_NETWORK']];
  for(const [change,fetcher,code] of cases){const h=harness(change,fetcher);const res=await h.load('lib/ai/admission.ts').admitAiRequest(request(),'voice');assert.equal(res.status,503);assert.deepEqual(await res.json(),{error:'ai_unavailable'});assert.deepEqual(h.logs,[['SOFIA_DIAGNOSTIC',code]])}
