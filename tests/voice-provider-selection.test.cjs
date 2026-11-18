@@ -63,7 +63,9 @@ test('production Sofia identity and security mismatches never issue tokens',asyn
  const mutations=[c=>c.agent_id='agent_other',c=>c.version_id='agtvrsn_other',c=>delete c.agent_id,c=>delete c.version_id,
   c=>c.platform_settings.queueing_config.enabled=true,c=>delete c.platform_settings.queueing_config,
   c=>c.platform_settings.auth.enable_auth=false,c=>c.platform_settings.call_limits.bursting_enabled=true,
-  c=>c.platform_settings.call_limits.agent_concurrency_limit=2,c=>c.platform_settings.call_limits.daily_limit=16];
+  c=>c.platform_settings.call_limits.agent_concurrency_limit=7,c=>c.platform_settings.call_limits.agent_concurrency_limit=0,
+  c=>c.platform_settings.call_limits.agent_concurrency_limit=1.5,c=>c.platform_settings.call_limits.agent_concurrency_limit='2',
+  c=>delete c.platform_settings.call_limits.agent_concurrency_limit,c=>c.platform_settings.call_limits.daily_limit=16];
  for(const mutate of mutations){
   const config={...valid(300),agent_id:agent,version_id:version};mutate(config);
   const h=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config});
@@ -127,9 +129,9 @@ test('ElevenLabs uses flood-protection attempts and the real voice minutes, with
  const since=u=>Number(u.searchParams.get('call_start_after_unix'));
  const accountList=lists.find(u=>u.searchParams.has('user_id')),siteList=lists.find(u=>!u.searchParams.has('user_id'));
  assert.deepEqual(madrid(since(accountList)),{day:1,hour:0,minute:0});assert.equal(madrid(since(siteList)).hour,0);assert.ok(since(accountList)<=since(siteList));
- // Order: flood protection, then the weekly minutes, then the pinned agent check and finally the token.
- assert(calls[0].includes('upstash.io'));assert(calls[1].includes('/convai/conversations')&&calls[2].includes('/convai/conversations'));
- assert(calls[3].includes('/convai/agents/')&&calls[4].includes('/conversation/token'));
+ // Order: flood protection, then the pinned agent check, then the voice minutes, and finally the token.
+ assert(calls[0].includes('upstash.io'));assert(calls[1].includes('/convai/agents/'));
+ assert(calls[2].includes('/convai/conversations')&&calls[3].includes('/convai/conversations'));assert(calls[4].includes('/conversation/token'));
  assert.equal(JSON.stringify(body).includes('fake-elevenlabs'),false);
 });
 
@@ -139,9 +141,11 @@ test('a weekly budget that cannot be read never reaches the token endpoint, and 
  assert.equal((await failed.POST(request())).status,503);
  const unreadable=harness(scope,{budgetError:new BudgetError('VOICE_BUDGET_HTTP')});
  const response=await unreadable.POST(request());assert.equal(response.status,503);
- assert.deepEqual(await response.json(),{error:'ai_unavailable'});assert.equal(unreadable.requests.length,0);
+ assert.deepEqual(await response.json(),{error:'ai_unavailable'});
+ assert.equal(unreadable.requests.length,1,'only the agent check');assert.ok(unreadable.requests.every(r=>!r.url.includes('/conversation/token')));
  const spent=harness(scope,{budget:{ok:false,reason:'user',resetsAt:Math.floor(Date.now()/1000)+86400}});
- const limited=await spent.POST(request());assert.equal(limited.status,429);assert.equal((await limited.json()).error,'ai_minutes_limit');assert.equal(spent.requests.length,0);
+ const limited=await spent.POST(request());assert.equal(limited.status,429);assert.equal((await limited.json()).error,'ai_minutes_limit');
+ assert.equal(spent.requests.length,1,'only the agent check');assert.ok(spent.requests.every(r=>!r.url.includes('/conversation/token')));
 });
 
 test('production accepts the reviewed 300-second agent, the 360-second one and the 15-minute one, and nothing else',async()=>{
@@ -167,4 +171,29 @@ test('the diagnostic snapshot applies the same rule as the route: 900 or 360 eve
  assert.match(source,rule);
  const route=fs.readFileSync(path.join(__dirname,'..','lib/voice/elevenlabs-route.ts'),'utf8');
  assert.match(route,rule);
+});
+
+test('the agent may hold from 1 to 6 conversations at once in Production and in Preview, and never more, bursting or a queue',async()=>{
+ const withLimit=(limit,duration=360)=>{const config={...valid(duration),agent_id:agent,version_id:version};config.platform_settings.call_limits.agent_concurrency_limit=limit;return config;};
+ for(const limit of [1,2,3,4,5,6]){
+  const production=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config:withLimit(limit,300)});
+  assert.equal((await production.POST(request())).status,200,'production '+limit);
+  assert.equal(production.budgets.length,1);
+ }
+ for(const limit of [0,7,100,-1,1.5,'2',null,NaN]){
+  const production=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config:withLimit(limit,300)});
+  assert.equal((await production.POST(request())).status,503,String(limit));assert.equal(production.budgets.length,0,'no minutes are read for an unsafe agent');
+ }
+ const bursting=withLimit(6,300);bursting.platform_settings.call_limits.bursting_enabled=true;
+ assert.equal((await harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config:bursting}).POST(request())).status,503);
+ const queued=withLimit(6,300);queued.platform_settings.queueing_config.enabled=true;
+ assert.equal((await harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config:queued}).POST(request())).status,503);
+});
+
+test('running conversations reserve the verified maximum length of the agent: 300, 360 or 900 seconds',async()=>{
+ for(const seconds of [300,360,900]){
+  const config={...valid(300),agent_id:agent,version_id:version};config.conversation_config.conversation.max_duration_seconds=seconds;
+  const h=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config});
+  assert.equal((await h.POST(request())).status,200);assert.equal(h.budgets[0].liveReserveSeconds,seconds);
+ }
 });

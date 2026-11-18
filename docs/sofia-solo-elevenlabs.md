@@ -118,7 +118,7 @@ Solo ajustes del propio agente; **no hace falta cambiar la herramienta ni subir 
    tiempo cuenta dentro de la conversación.
 3. Mantener lo que el código exige del agente: voz `eZxqQzb5CuYo3Kl6EXfZ`, español, autenticación activada, **duración máxima
    900 o 360 segundos** (el código acepta ambas y, solo en Production, 300 s; con 6 minutos por cuenta basta la de 360 s, la ya fijada), silencio 90 s, detección de voz de
-   fondo, máximo 1.024 tokens por respuesta, una conversación a la vez, límite diario 1–15 en Production, sin ráfagas ni cola, y
+   fondo, máximo 1.024 tokens por respuesta, de 1 a 6 conversaciones a la vez (el límite real lo aplica ElevenLabs; ver `docs/sofia-minutos-voz.md`), límite diario 1–15 en Production, sin ráfagas ni cola, y
    sin permitir cambiar prompt, modelo, voz ni duración desde el navegador (solo idioma y primer mensaje).
 4. Publicar la versión y anotar su **ID** (`agtvrsn_…`, y el `agent_…` si es un agente nuevo). El código fija la versión revisada
    en `lib/voice/preview-target.ts` y la variable `ELEVENLABS_AGENT_VERSION_ID` de Vercel Production debe coincidir: hay que abrir

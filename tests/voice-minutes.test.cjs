@@ -254,3 +254,74 @@ test('a 6-minute account with the site nearly out of minutes gets only what the 
   const result = await w.checkVoiceBudget(raw());
   assert.equal(result.ok, true); assert.equal(result.sessionSeconds, 150); assert.equal(result.remainingSeconds, 360);
 });
+
+// ---- several conversations at once: each one still running reserves the agent's whole maximum length ----
+const running = (secondsAgo, extra = {}) => ({ conversation_id: 'c', start_time_unix_secs: NOW_S - secondsAgo, call_duration_secs: 0, status: 'in-progress', ...extra });
+const withReserve = (env = {}, reserve = 360) => ({ ...raw(env), liveReserveSeconds: reserve });
+
+test('a running conversation reserves the agent maximum, not just the time it has lasted so far', async () => {
+  const site = [running(10)];
+  const reserved = await voiceMinutes(store([], site)).checkVoiceBudget(withReserve({ AI_VOICE_USER_MINUTES: '20', AI_VOICE_GLOBAL_WEEK_MINUTES: '10' }));
+  assert.equal(reserved.ok, true); assert.equal(reserved.sessionSeconds, 240, '600 s of the site minus the 360 s reserved by the running conversation');
+  const elapsedOnly = await voiceMinutes(store([], site)).checkVoiceBudget(raw({ AI_VOICE_USER_MINUTES: '20', AI_VOICE_GLOBAL_WEEK_MINUTES: '10' }));
+  assert.equal(elapsedOnly.sessionSeconds, 590, 'without a reserve only the elapsed 10 s counts (the account bar reads like this)');
+});
+
+test('people who ask one after another while others are talking never get more minutes than the site has', async () => {
+  // Cap 15 min, agent maximum 6 min: the first two get 6 min each, the third only the 3 min that are left, the fourth is refused.
+  const liveRows = [];
+  const w = voiceMinutes(url => page(url.searchParams.has('user_id') ? [] : liveRows));
+  const granted = [];
+  for (let person = 1; person <= 5; person++) {
+    const answer = await w.checkVoiceBudget(withReserve());
+    if (!answer.ok) { granted.push(answer.reason); continue; }
+    granted.push(answer.sessionSeconds); liveRows.push(running(person));
+  }
+  assert.deepEqual(granted, [360, 360, 180, 'site', 'site']);
+  assert.equal(granted.filter(Number.isInteger).reduce((a, b) => a + b, 0), 900, 'exactly the weekly allowance of the site, never more');
+});
+
+test('six conversations at once fit when the site has the minutes for them, and the seventh would not', async () => {
+  const liveRows = [];
+  const w = voiceMinutes(url => page(url.searchParams.has('user_id') ? [] : liveRows));
+  const env = { AI_VOICE_GLOBAL_WEEK_MINUTES: '60' }; // 3600 s: six conversations of 360 s use 2160 s
+  for (let person = 1; person <= 6; person++) {
+    const answer = await w.checkVoiceBudget(withReserve(env));
+    assert.equal(answer.ok, true, 'person ' + person); assert.equal(answer.sessionSeconds, 360);
+    liveRows.push(running(person));
+  }
+  assert.equal((await w.checkVoiceBudget(withReserve({ AI_VOICE_GLOBAL_WEEK_MINUTES: '30' }))).ok, false, 'a 30-minute site with six running is full');
+});
+
+test('the same account in two places at once cannot spend its minutes twice', async () => {
+  const own = [running(5)];
+  const refused = await voiceMinutes(store(own, own)).checkVoiceBudget(withReserve({ AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
+  assert.deepEqual({ ...refused }, { ok: false, reason: 'user', resetsAt: MONTH_END });
+  const bar = await voiceMinutes(store(own, own)).userPeriod({ ...withReserve(), liveReserveSeconds: 360 });
+  assert.equal(bar.usedSeconds, 5, 'the bar only shows time actually used, never a reservation');
+});
+
+test('only running conversations reserve: finished ones count what they lasted', async () => {
+  const rows = [done(100), { ...done(0), status: 'processing', call_duration_secs: 80 }, { ...done(0), status: 'failed', call_duration_secs: 0 }];
+  const result = await voiceMinutes(store(rows, rows)).checkVoiceBudget(withReserve({ AI_VOICE_USER_MINUTES: '20', AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
+  assert.equal(result.remainingSeconds, 1200 - 180);
+  const started = [running(3, { status: 'initiated' })];
+  const initiated = await voiceMinutes(store(started, started)).checkVoiceBudget(withReserve({ AI_VOICE_USER_MINUTES: '20', AI_VOICE_GLOBAL_WEEK_MINUTES: '100' }));
+  assert.equal(initiated.remainingSeconds, 1200 - 360, 'a conversation that has just been started already reserves its time');
+});
+
+test('a row stuck as "running" long after any conversation could last stops reserving', async () => {
+  const stuck = [running(360 + 121)]; // older than the maximum plus two minutes of grace
+  const result = await voiceMinutes(store(stuck, stuck)).checkVoiceBudget(withReserve());
+  assert.equal(result.ok, true); assert.equal(result.remainingSeconds, 360);
+  const justInside = [running(360 + 120)];
+  const reserved = await voiceMinutes(store(justInside, justInside)).checkVoiceBudget(withReserve());
+  assert.equal(reserved.ok, false, 'still inside the grace period: it keeps its reservation');
+});
+
+test('a conversation is granted at most the agent maximum, even when the account has more minutes', async () => {
+  const env = { AI_VOICE_USER_MINUTES: '20', AI_VOICE_GLOBAL_WEEK_MINUTES: '100' };
+  assert.equal((await voiceMinutes(store([], [])).checkVoiceBudget(withReserve(env, 360))).sessionSeconds, 360);
+  assert.equal((await voiceMinutes(store([], [])).checkVoiceBudget(withReserve(env, 900))).sessionSeconds, 900);
+  assert.equal((await voiceMinutes(store([], [])).checkVoiceBudget(raw(env))).sessionSeconds, 900, 'without a reserve the old 15-minute ceiling applies');
+});

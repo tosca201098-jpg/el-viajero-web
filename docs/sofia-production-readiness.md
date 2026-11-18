@@ -52,7 +52,7 @@ La clave OpenAI **no debe retirarse**: la IA escrita y los itinerarios siguen us
 - Idioma base español, voz Sofía y sus instrucciones conservadas en esa versión; saludo guardado en el agente, sin `first_message` desde el navegador.
 - Herramientas cliente: `consultar_catalogo`, `mostrar_destino`, `buscar_viaje`, `crear_itinerario`, todas con respuesta esperada.
 - Máximo 300 segundos, silencio 90 segundos, detección de voz de fondo y máximo 1.024 tokens por respuesta.
-- Autenticación activada; concurrencia 1; límite del agente **15 llamadas/día**, ráfagas desactivadas y cola explícitamente desactivada.
+- Autenticación activada; concurrencia de 1 a 6 conversaciones a la vez (desde el 17-11-2026; antes solo 1); límite del agente **15 llamadas/día**, ráfagas desactivadas y cola explícitamente desactivada.
 
 El límite de 15 es el leído en **Sofía nueva**, no el de 3 llamadas/día acordado anteriormente para el agente antiguo. No se han modificado agentes. Las cuotas Redis de la web son adicionales y pueden ser mucho más restrictivas.
 
