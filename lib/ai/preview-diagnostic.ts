@@ -35,8 +35,17 @@ const codes = [
   'VOICE_REQUEST',
 ] as const;
 export type PreviewDiagnosticCode = typeof codes[number];
+
+// Where the code may reach the server logs: the reviewed Preview branch, and the real production deployment of
+// this repository's `main` (so a "voice unavailable" answer in production has a reason in the Vercel logs).
+// The code is only a constant from the list above: never a message, a key, an address or a person's data, and it
+// never reaches the browser.
+function diagnosticScope(env: Record<string, string | undefined>) {
+  if (env.VERCEL_ENV === 'preview' && env.VERCEL_GIT_COMMIT_REF === 'codex/sofia-elevenlabs') return true;
+  return env.VERCEL === '1' && env.VERCEL_ENV === 'production' && env.VERCEL_GIT_COMMIT_REF === 'main' &&
+    env.VERCEL_GIT_REPO_OWNER === 'tosca201098-jpg' && env.VERCEL_GIT_REPO_SLUG === 'el-viajero-web';
+}
+
 export function previewDiagnostic(code: PreviewDiagnosticCode) {
-  if (process.env.VERCEL_ENV === 'preview' &&
-      process.env.VERCEL_GIT_COMMIT_REF === 'codex/sofia-elevenlabs' &&
-      codes.includes(code)) console.warn('SOFIA_DIAGNOSTIC', code);
+  if (diagnosticScope(process.env) && codes.includes(code)) console.warn('SOFIA_DIAGNOSTIC', code);
 }

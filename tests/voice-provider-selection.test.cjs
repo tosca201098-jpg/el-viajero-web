@@ -86,7 +86,10 @@ test('a denied admission never contacts ElevenLabs and provider failure never st
    }});
    const res=await h.POST(request());assert.equal(res.status,503);assert.deepEqual(await res.json(),{error:'ai_unavailable'});
    assert.equal(h.admissions,1);assert.equal(h.requests.length,1);
-   assert(h.requests.every(r=>new URL(r.url).hostname==='api.elevenlabs.io'));assert.deepEqual(h.logs,[]);
+   assert(h.requests.every(r=>new URL(r.url).hostname==='api.elevenlabs.io'));
+   // Production leaves only a constant code in the server logs (never the provider's message, key or details).
+   assert.deepEqual(h.logs,[['SOFIA_DIAGNOSTIC',mode==='http'?'VOICE_CHECK_HTTP':mode==='network'?'VOICE_CHECK_NETWORK':'VOICE_CHECK_CONFIG']]);
+   assert.equal(JSON.stringify(h.logs).includes('private-key'),false);
   }
  }
 });
