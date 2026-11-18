@@ -1,5 +1,8 @@
 # Sofía de ElevenLabs — integración de voz
 
+> **Nota (15-11-2026):** DESTINAUTA ya no usa OpenAI. Sofía funciona solo con ElevenLabs y sus itinerarios los entrega ella por voz. Las referencias a OpenAI, a `OPENAI_API_KEY`, a `/api/itinerary` o a un proveedor de repuesto que aparecen más abajo son históricas. Vigente: [`sofia-solo-elevenlabs.md`](./sofia-solo-elevenlabs.md).
+
+
 Actualizado: 31 de octubre de 2026. Rama `codex/sofia-elevenlabs`, PR #38 en borrador. **Sin publicación ni autorización de Production.**
 
 ## Resultado comprobado

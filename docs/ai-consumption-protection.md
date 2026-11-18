@@ -1,5 +1,8 @@
 # Fase 1 — Protección del consumo de IA
 
+> **Nota (15-11-2026):** DESTINAUTA ya no usa OpenAI. Sofía funciona solo con ElevenLabs y sus itinerarios los entrega ella por voz. Las referencias a OpenAI, a `OPENAI_API_KEY`, a `/api/itinerary` o a un proveedor de repuesto que aparecen más abajo son históricas. Vigente: [`sofia-solo-elevenlabs.md`](./sofia-solo-elevenlabs.md).
+
+
 Fecha: 27/10/2026. Propuesta en rama independiente de main y de Croacia. No desplegar en producción sin completar esta lista y autorización del propietario.
 
 ## Diagnóstico comprobado

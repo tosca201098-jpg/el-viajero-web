@@ -1,5 +1,8 @@
 # Generación de itinerarios mediante voz
 
+> **Nota (15-11-2026):** DESTINAUTA ya no usa OpenAI. Sofía funciona solo con ElevenLabs y sus itinerarios los entrega ella por voz. Las referencias a OpenAI, a `OPENAI_API_KEY`, a `/api/itinerary` o a un proveedor de repuesto que aparecen más abajo son históricas. Vigente: [`sofia-solo-elevenlabs.md`](./sofia-solo-elevenlabs.md).
+
+
 > El control de turnos, sustitución de peticiones y cancelación descrito abajo
 > queda actualizado por [Protección de turnos de voz](voice-protected-turns.md).
 > Una petición nueva ya no sustituye a una tarea activa: el micrófono permanece

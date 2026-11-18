@@ -11,9 +11,9 @@ const user = () => ({ id: uid, is_anonymous: false, aud: 'authenticated', role: 
 const environment = () => ({
   NEXT_PUBLIC_SUPABASE_URL: 'https://test-project.supabase.co', NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY: 'fake-public-publishable-key',
   AI_ENABLED: 'true', AI_VOICE_ENABLED: 'true', AI_ITINERARY_ENABLED: 'true', VERCEL: '1', VERCEL_ENV: 'production',
-  VERCEL_GIT_COMMIT_REF: 'main', VERCEL_GIT_REPO_OWNER: 'tosca201098-jpg', VERCEL_GIT_REPO_SLUG: 'el-viajero-web',
+  VERCEL_GIT_COMMIT_REF: 'main', VERCEL_GIT_REPO_OWNER: 'tosca201098-jpg', VERCEL_GIT_REPO_SLUG: 'el-viajero-web', AI_VOICE_PROVIDER: 'elevenlabs',
   AI_REDIS_REST_URL: 'https://unit-test.upstash.io', AI_REDIS_REST_TOKEN: 'fake-private-redis',
-  AI_RATE_LIMIT_SECRET: 'fake-private-hmac-for-unit-tests-only', OPENAI_API_KEY: 'fake-private-openai',
+  AI_RATE_LIMIT_SECRET: 'fake-private-hmac-for-unit-tests-only',
   ELEVENLABS_ENABLED: 'true', ELEVENLABS_PRODUCTION_APPROVED: 'true', ELEVENLABS_API_KEY: 'fake-private-elevenlabs',
   ELEVENLABS_AGENT_VERSION_ID: 'agtvrsn_2501m679we79ekz985446fbyygkb',
 });
@@ -255,8 +255,8 @@ test('written itinerary admission remains public with only its previous three bu
   assert.deepEqual(command.slice(6), [3, 60, 10, 86400, 50, 86400]);
 });
 
-test('neither preserved OpenAI nor ElevenLabs handlers can bypass missing or rejected login', async () => {
-  for (const provider of ['openai', 'elevenlabs']) for (const file of ['app/api/voice/route.ts', 'lib/voice/' + provider + '-route.ts']) {
+test('neither the voice route nor the ElevenLabs handler can bypass missing or rejected login', async () => {
+  for (const provider of ['elevenlabs']) for (const file of ['app/api/voice/route.ts', 'lib/voice/' + provider + '-route.ts']) {
     for (const token of [null, jwt]) {
       const h = harness({ env: { AI_VOICE_PROVIDER: provider }, authResult: { data: { user: null }, error: { status: 401 } } });
       const result = await h.load(file).POST(request(token));

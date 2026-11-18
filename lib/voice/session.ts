@@ -1,27 +1,24 @@
 import { VoiceSession as ElevenLabsVoiceSession } from './elevenlabs-session';
-import { VoiceSession as OpenAIVoiceSession } from './openai-session';
 import type { VoiceError, VoicePhase, VoiceTurn } from './elevenlabs-session';
 import { preflightVoice, VoicePreflightError } from './preflight';
 
 export { parseVoiceSearchArguments } from './elevenlabs-session';
 export type { VoiceError, VoicePhase, VoiceTurn, VoiceSearchResult, VoiceSearchArguments } from './elevenlabs-session';
 
-type VoiceSessionOptions = ConstructorParameters<typeof ElevenLabsVoiceSession>[0] &
-  ConstructorParameters<typeof OpenAIVoiceSession>[0] & {
-    getAccessToken?: () => Promise<string | null>;
-    onAuthRequired?: () => void;
-    preflight?: (signal: AbortSignal) => Promise<void>;
-  };
-type ProviderSession = ElevenLabsVoiceSession | OpenAIVoiceSession;
+type VoiceSessionOptions = ConstructorParameters<typeof ElevenLabsVoiceSession>[0] & {
+  getAccessToken?: () => Promise<string | null>;
+  onAuthRequired?: () => void;
+  preflight?: (signal: AbortSignal) => Promise<void>;
+};
 
-/** The server response selects one provider. One admission POST; never an automatic fallback. */
+/** Sofía speaks only through ElevenLabs. One admission POST; never an automatic fallback. */
 export class VoiceSession {
   private phase: VoicePhase = 'idle';
   private turn: VoiceTurn = 'cancelled';
   private generation = 0;
   private disposed = false;
   private controller: AbortController | null = null;
-  private delegate: ProviderSession | null = null;
+  private delegate: ElevenLabsVoiceSession | null = null;
   private starting: Promise<void> | null = null;
   private ending: Promise<void> = Promise.resolve();
   private timer: ReturnType<typeof setTimeout> | null = null;
@@ -45,10 +42,8 @@ export class VoiceSession {
     this.turn = turn;
     if (!this.disposed) this.options.onTurn?.(turn);
   }
-  private trackCleanup(delegate: ProviderSession) {
-    if (delegate instanceof ElevenLabsVoiceSession) {
-      this.ending = Promise.all([this.ending, delegate.waitForCleanup()]).then(() => undefined);
-    }
+  private trackCleanup(delegate: ElevenLabsVoiceSession) {
+    this.ending = Promise.all([this.ending, delegate.waitForCleanup()]).then(() => undefined);
   }
   private retire(delegate = this.delegate) {
     if (!delegate) return;
@@ -133,13 +128,12 @@ export class VoiceSession {
         const data: unknown = await response.json();
         if (!this.current(id)) return;
         if (!data || typeof data !== 'object' || Array.isArray(data)) throw Error('invalid_session');
-        const hasToken = Object.prototype.hasOwnProperty.call(data, 'token');
-        const hasValue = Object.prototype.hasOwnProperty.call(data, 'value');
-        if (hasToken === hasValue) throw Error('invalid_session');
-        const credential = hasToken ? (data as { token: unknown }).token : (data as { value: unknown }).value;
+        // Only an ElevenLabs conversation token is accepted; any other credential shape is refused.
+        const credential = Object.prototype.hasOwnProperty.call(data, 'token') && !Object.prototype.hasOwnProperty.call(data, 'value')
+          ? (data as { token: unknown }).token : undefined;
         if (typeof credential !== 'string' || !credential.trim()) throw Error('invalid_session');
-        // The selected adapter receives this response in memory, not a second HTTP request.
-        const prefetched = hasToken ? { token: credential } : { value: credential };
+        // The adapter receives this response in memory, not a second HTTP request.
+        const prefetched = { token: credential };
         let consumed = false;
         const fetcher: typeof fetch = (input, init) => {
           if (input === '/api/voice') {
@@ -149,7 +143,7 @@ export class VoiceSession {
           }
           return actualFetch(input, init);
         };
-        // Do not pass account credentials or authentication callbacks to either adapter.
+        // Do not pass account credentials or authentication callbacks to the adapter.
         const { getAccessToken: _getAccessToken, onAuthRequired: _onAuthRequired,
           preflight: _preflight, ...providerOptions } = this.options;
         const callbacks = {
@@ -161,7 +155,7 @@ export class VoiceSession {
           onTurn: (turn: VoiceTurn) => { if (this.current(id)) this.setTurn(turn); },
           onError: (error: VoiceError) => this.fail(id, error),
         };
-        const delegate = hasToken ? new ElevenLabsVoiceSession(callbacks) : new OpenAIVoiceSession(callbacks);
+        const delegate = new ElevenLabsVoiceSession(callbacks);
         this.delegate = delegate;
         await delegate.start();
         if (!this.current(id)) this.retire(delegate);

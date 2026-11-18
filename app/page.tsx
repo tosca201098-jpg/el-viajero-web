@@ -39,7 +39,8 @@ import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
 import { hotelDefaults, hotelFlightDefaults, hotelsHref, validHotelSearch } from "@/lib/stay22/hotels";
 import { itineraryContextForFlightSearch } from "@/lib/travelpayouts/flight-profile";
-import { createVoiceItineraryRequest, type VoiceItineraryRequest, type VoiceItineraryArguments, type VoiceItineraryContext, type VoiceItineraryResult } from "@/lib/voice/itinerary";
+import { listenAskSofia } from "@/lib/voice/ask-sofia";
+import { createVoiceItineraryRequest, parseVoiceItinerary, type VoiceItineraryRequest, type VoiceItineraryArguments, type VoiceItineraryContext, type VoiceItineraryResult } from "@/lib/voice/itinerary";
 
 type FlightOffer = {
   origin: string;
@@ -226,6 +227,10 @@ const iniciarVoz = () => {
   if (!voiceAuth.userId) { setAuthMode('signin'); return; }
   void voiceSessionRef.current?.start();
 };
+// The itinerary planner asks Sofía through the same microphone flow (login, quotas and consent included).
+const iniciarVozRef = useRef(iniciarVoz);
+iniciarVozRef.current = iniciarVoz;
+useEffect(() => listenAskSofia(() => iniciarVozRef.current()), []);
 
 voiceSearchRef.current = (datos, context) => {
   if (context.signal.aborted) return { status: 'cancelled' };
@@ -295,7 +300,17 @@ voiceSearchRef.current = (datos, context) => {
       setVoiceItineraryUnknown(true);
       return Promise.resolve({ status: 'error', error: 'unknown_destination' });
     }
-    const request = createVoiceItineraryRequest(destination, args.dias, context);
+    // Sofía writes the itinerary; the page only validates and shows it. No other provider is contacted.
+    if (typeof args.itinerario !== 'string') {
+      setVoiceItineraryRequest(null);
+      return Promise.resolve({ status: 'error', error: 'unavailable' });
+    }
+    const itinerary = parseVoiceItinerary(args.itinerario, args.dias);
+    if (!itinerary) {
+      setVoiceItineraryRequest(null);
+      return Promise.resolve({ status: 'error', error: 'generation_failed' });
+    }
+    const request = createVoiceItineraryRequest(destination, args.dias, itinerary, context);
     voiceItineraryRef.current = request;
     setVoiceItineraryRequest(request);
     setModal(null);

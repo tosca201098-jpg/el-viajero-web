@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "./LanguageProvider";
 import type { Destination } from "@/lib/destinations/featured";
 import { calendarTripDays, suggestedItineraryDays } from "@/lib/itinerary/dates";
-import { isItinerary } from "@/lib/itinerary/schema";
-import type { Itinerary, ItineraryRequest } from "@/lib/itinerary/types";
+import type { Itinerary } from "@/lib/itinerary/types";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { saveItinerary } from "@/lib/supabase/saved-itineraries";
 import ItineraryContent, { type ItinerarySurface } from "./ItineraryContent";
 import type { VoiceItineraryRequest } from '@/lib/voice/itinerary';
+import { askSofia } from '@/lib/voice/ask-sofia';
 
 export type ItineraryContext = {
   travelers?: number;
@@ -66,25 +66,18 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
   const hasDates = calendarDays !== null && calendarDays <= 90;
   const [selectedDays, setSelectedDays] = useState(() =>
     hasDates ? Math.min(7, calendarDays) : suggestedItineraryDays(destination.recommendedStay));
+  // The itinerary is written by Sofía (ElevenLabs) and delivered through a voice request. No API is called here.
   const [itinerary, setItinerary] = useState<Itinerary | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
-  const [admissionError, setAdmissionError] = useState<'limited' | 'unavailable' | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "signin" | "saved" | "error">("idle");
-  const busyRef = useRef(false);
   const savingRef = useRef(false);
-  const controllerRef = useRef<AbortController | null>(null);
-  const variationRef = useRef(0);
-  const mountedRef = useRef(true);
   const voiceEffectRef = useRef({ version: 0 });
   const activeVoiceRef = useRef<VoiceItineraryRequest | null>(null);
   const completedVoiceRef = useRef<VoiceItineraryRequest | null>(null);
   const plannerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    mountedRef.current = true;
-    return () => { mountedRef.current = false; controllerRef.current?.abort(); activeVoiceRef.current?.cancel(); };
+    return () => { activeVoiceRef.current?.cancel(); };
   }, []);
 
   useEffect(() => {
@@ -102,99 +95,29 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
   useEffect(() => {
     const lifecycle = voiceEffectRef.current;
     const version = ++lifecycle.version;
-    // Defer until effect replay settles, so Strict Mode cannot start two paid requests.
+    // Defer until effect replay settles, so Strict Mode cannot deliver the same request twice.
     queueMicrotask(() => {
       if (!voiceRequest || voiceRequest.settled || voiceRequest.signal.aborted || lifecycle.version !== version) return;
       activeVoiceRef.current?.cancel();
       activeVoiceRef.current = voiceRequest;
       setSelectedDays(voiceRequest.days);
-      if (!busyRef.current) { setItinerary(null); setSaveStatus('idle'); completedVoiceRef.current = null; }
-      void generate(voiceRequest);
+      setSaveStatus('idle');
+      completedVoiceRef.current = voiceRequest;
+      setItinerary(voiceRequest.itinerary);
     });
     return () => {
       const cancelledVersion = ++lifecycle.version;
       queueMicrotask(() => { if (lifecycle.version === cancelledVersion) voiceRequest?.cancel(); });
     };
-    // Each voice request is immutable. Manual generation still uses the current render.
+    // Each voice request is immutable.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [voiceRequest]);
 
   const dayLabel = (count: number) => count === 1 ? t("itinerary.oneDay") : t("itinerary.days", { count });
-
-  async function generate(request?: VoiceItineraryRequest) {
-    if (request?.signal.aborted) return;
-    if (busyRef.current) { request?.complete({ status: 'error', error: 'busy' }); return; }
-    busyRef.current = true;
-    setLoading(true);
-    setError(false);
-    setAdmissionError(null);
-    const controller = new AbortController();
-    controllerRef.current = controller;
-    const current = () => mountedRef.current && controllerRef.current === controller && !controller.signal.aborted;
-    const cancel = () => {
-      controller.abort();
-      if (controllerRef.current === controller) {
-        controllerRef.current = null;
-        busyRef.current = false;
-        if (mountedRef.current) setLoading(false);
-      }
-    };
-    request?.signal.addEventListener('abort', cancel, { once: true });
-    const days = request?.days ?? (hasDates ? Math.min(7, calendarDays) : selectedDays);
-    const variation = itinerary ? (variationRef.current % 20) + 1 : 0;
-    const payload: ItineraryRequest = {
-      destination: {
-        name: destination.name,
-        country: destination.country,
-        recommendations: [...destination.recommendations],
-        recommendedStay: destination.recommendedStay ?? null,
-        bestMonths: destination.bestMonths ?? [],
-        lowSeasonMonths: destination.lowSeasonMonths ?? [],
-        highSeasonMonths: destination.highSeasonMonths ?? [],
-        seasonalityNote: destination.seasonalityNote ?? null,
-      },
-      days,
-      variation,
-      locale: request?.locale ?? language,
-      ...(!request && context.travelers ? { travelers: context.travelers } : {}),
-      ...(!request && hasDates ? { departureDate: context.departureDate, returnDate: context.returnDate } : {}),
-      ...(!request && context.budget ? { budget: context.budget } : {}),
-    };
-    try {
-      const response = await fetch("/api/itinerary", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-        signal: controller.signal,
-      });
-      const data: unknown = await response.json();
-      if (!current()) return;
-      if (response.status === 429 || response.status === 503) {
-        setAdmissionError(response.status === 429 ? 'limited' : 'unavailable');
-        setError(true);
-        request?.complete({ status: 'error', error: 'unavailable' });
-        return;
-      }
-      if (!response.ok || typeof data !== "object" || data === null ||
-        !("itinerary" in data) || !isItinerary(data.itinerary, days)) throw new Error("Invalid itinerary");
-      completedVoiceRef.current = request ?? null;
-      setItinerary(data.itinerary);
-      setSaveStatus("idle");
-      variationRef.current = variation;
-    } catch {
-      if (current()) { setError(true); request?.complete({ status: 'error', error: 'generation_failed' }); }
-    } finally {
-      request?.signal.removeEventListener('abort', cancel);
-      if (controllerRef.current === controller) {
-        busyRef.current = false;
-        controllerRef.current = null;
-        if (mountedRef.current) setLoading(false);
-      }
-    }
-  }
+  const requestedDays = hasDates ? Math.min(7, calendarDays) : selectedDays;
 
   async function saveGenerated() {
-    if (!itinerary || savingRef.current || loading || saveStatus === "saved") return;
+    if (!itinerary || savingRef.current || saveStatus === "saved") return;
     savingRef.current = true;
     setSaving(true);
     setSaveStatus("idle");
@@ -233,7 +156,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
           <div className="grid grid-cols-7 gap-1.5">
             {([1, 2, 3, 4, 5, 6, 7] as const).map((day) => (
               <button key={day} type="button" aria-label={dayLabel(day)}
-                aria-pressed={selectedDays === day} onClick={() => { setSelectedDays(day); setItinerary(null); setError(false); setSaveStatus("idle"); variationRef.current = 0; }} disabled={loading || saving}
+                aria-pressed={selectedDays === day} onClick={() => { setSelectedDays(day); setItinerary(null); setSaveStatus("idle"); }} disabled={saving}
                 className={`min-h-[44px] min-w-0 rounded-lg border text-sm font-semibold ${selectedDays === day
                   ? look.dayOn : look.dayOff}`}>
                 {day}
@@ -243,18 +166,19 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
         </fieldset>
       )}
 
-      <button type="button" onClick={() => void generate()} disabled={loading || saving}
+      <button type="button" onClick={() => { if (!askSofia()) window.location.assign("/"); }} disabled={saving}
         className="flex min-h-[44px] w-full items-center justify-center rounded-xl bg-cyan-300 px-4 py-2 text-sm font-bold text-slate-950 transition hover:bg-cyan-200 disabled:cursor-wait disabled:opacity-60 sm:w-auto">
-        {loading ? t("itinerary.creating") : itinerary ? t("itinerary.regenerate") : t("itinerary.create")}
+        {itinerary ? t("itinerary.askAnother") : t("itinerary.askSofia")}
       </button>
-      {loading && <p role="status" className={look.status}>{t("itinerary.creating")}</p>}
-      {error && <p role="alert" className={look.error}>{t(admissionError ? `voice.error.${admissionError}` : "itinerary.error")}</p>}
+      <p role="status" className={look.status}>
+        {t("itinerary.askHint", { days: dayLabel(requestedDays), destination: destination.name })}
+      </p>
 
       {itinerary && (
         <div className={look.result}>
           <ItineraryContent itinerary={itinerary} surface={surface} />
           <button type="button" onClick={() => void saveGenerated()}
-            disabled={saving || loading || saveStatus === "saved"}
+            disabled={saving || saveStatus === "saved"}
             className={look.save}>
             {saving ? t("itinerary.saving") : saveStatus === "saved" ? t("itinerary.saved") : t("itinerary.save")}
           </button>
