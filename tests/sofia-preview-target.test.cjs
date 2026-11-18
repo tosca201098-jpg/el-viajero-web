@@ -79,7 +79,7 @@ test('a mismatched or absent returned agent/version cannot reach the token endpo
  for(const identity of [{agent_id:legacy},{version_id:'agtvrsn_other'},{agent_id:undefined},{version_id:undefined}]){
   const h=harness({}, {config:{...valid(),agent_id:agent,version_id:version,...identity}});
   const response=await h.POST(request('es'));assert.equal(response.status,503);
-  assert.equal(h.requests.length,1);assert.deepEqual(h.logs,[['SOFIA_DIAGNOSTIC','VOICE_CHECK_CONFIG']]);
+  assert.equal(h.requests.length,1);assert.deepEqual(h.logs,[['SOFIA_DIAGNOSTIC','VOICE_CHECK_CONFIG'],['SOFIA_DIAGNOSTIC_DETAIL','agent_or_version_id']]);
  }
 });
 
