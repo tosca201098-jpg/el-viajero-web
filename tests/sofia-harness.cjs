@@ -26,6 +26,7 @@ function harness(extra={}) {
   preflight:async()=>{},
   onSearch:async args=>{searches.push(args);return{status:'success'}},
   fetcher:async()=>({ok:true,json:async()=>({token:'fake-session-token'})}),
+  now:()=>new Date('2026-11-16T12:00:00Z'),
   startConversation:async options=>{sdk=options;return connection},...extra});
  return{session,phases,errors,turns,searches,mutes,connection,get sdk(){return sdk},
  call:(name,args,id='call-'+Math.random())=>{

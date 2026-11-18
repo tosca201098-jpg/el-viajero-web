@@ -2,11 +2,33 @@ import type { Locale } from '@/lib/i18n/translations';
 import type { PartialOptions, VoiceConversation } from '@elevenlabs/client';
 import type { VoiceItineraryArguments, VoiceItineraryContext, VoiceItineraryResult } from './itinerary';
 import { queryVoiceCatalog } from './catalog';
+import type { VoiceDiscoverSummary, VoiceTripSummary } from './trip-summary';
 
 export type VoicePhase = 'idle' | 'connecting' | 'active';
 export type VoiceTurn = 'listening' | 'processing' | 'searching' | 'speaking' | 'cancelled';
 export type VoiceError = 'permission' | 'microphone' | 'connection' | 'timeout' | 'limited' | 'unavailable';
-export type VoiceSearchResult = { status: 'success' | 'cancelled' } | { status: 'error'; error: string };
+/** `summary` carries the real prices Sofía may say aloud (hotel prices never); `shown` names the card that opened. */
+export type VoiceSearchResult = { status: 'success' | 'cancelled'; summary?: VoiceTripSummary; shown?: { name: string; country: string } }
+  | { status: 'error'; error: string };
+export type VoiceDiscoverArguments = {
+  origen: string; fecha_ida: string; fecha_vuelta: string; viajeros: number;
+  presupuesto: number; tipo_presupuesto: 'total' | 'por_persona';
+};
+export type VoiceDiscoverResult = { status: 'success'; summary: VoiceDiscoverSummary } | { status: 'cancelled' } | { status: 'error'; error: string };
+export function parseVoiceDiscoverArguments(value: unknown): VoiceDiscoverArguments | null {
+  try {
+    const d = typeof value === 'string' ? JSON.parse(value) : value;
+    const date = (v: unknown) => typeof v === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(v) &&
+      Number.isFinite(Date.parse(v)) && new Date(v).toISOString().slice(0, 10) === v;
+    if (!d || typeof d.origen !== 'string' || !d.origen.trim() || d.origen.length > 100 ||
+      !date(d.fecha_ida) || !date(d.fecha_vuelta) || d.fecha_vuelta < d.fecha_ida ||
+      !Number.isInteger(d.viajeros) || d.viajeros < 1 || d.viajeros > 9 ||
+      typeof d.presupuesto !== 'number' || !Number.isFinite(d.presupuesto) || d.presupuesto <= 0 || d.presupuesto > 10_000_000 ||
+      !['total', 'por_persona'].includes(d.tipo_presupuesto)) return null;
+    return { origen: d.origen.trim(), fecha_ida: d.fecha_ida, fecha_vuelta: d.fecha_vuelta,
+      viajeros: d.viajeros, presupuesto: d.presupuesto, tipo_presupuesto: d.tipo_presupuesto };
+  } catch { return null; }
+}
 export type VoiceSearchArguments = {
   origen: string; destino: string; fecha_ida: string; fecha_vuelta: string; viajeros: number;
   servicio: 'vuelo' | 'hotel' | 'ambos'; presupuesto?: number; tipo_presupuesto?: 'total' | 'por_persona';
@@ -27,13 +49,28 @@ export function parseVoiceSearchArguments(value: unknown): VoiceSearchArguments 
       ...(d.presupuesto === undefined ? {} : { presupuesto: d.presupuesto, tipo_presupuesto: d.tipo_presupuesto }) };
   } catch { return null; }
 }
+/**
+ * A departure before yesterday (Madrid) is past anywhere in the world, so it is never searched: Sofía is told today's
+ * date and corrects herself. The one-day margin keeps travellers in other time zones from being rejected.
+ */
+export function pastDepartureError(departure: string, now: Date) {
+  if (!Number.isFinite(now.getTime())) return null;
+  const parts = new Intl.DateTimeFormat('en-US', { timeZone: 'Europe/Madrid', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now);
+  const part = (type: string) => parts.find(item => item.type === type)?.value ?? '';
+  const today = `${part('year')}-${part('month')}-${part('day')}`;
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(today)) return null;
+  const earliest = new Date(Date.parse(`${today}T00:00:00Z`) - 86_400_000).toISOString().slice(0, 10);
+  return departure < earliest ? { status: 'error', error: 'invalid_arguments', reason: 'date_in_past', today,
+    note: `The departure date ${departure} has already passed. Today is ${today}. Use the next future date, confirm it with the traveller and search again.` } : null;
+}
 type Connection = Pick<VoiceConversation, 'endSession' | 'setMicMuted' | 'setVolume'>;
 type VoiceSessionOptions = {
   onPhase: (phase: VoicePhase) => void; onError: (error: VoiceError) => void; onTurn?: (turn: VoiceTurn) => void;
   onSearch: (args: VoiceSearchArguments, context: VoiceItineraryContext) => void | VoiceSearchResult | Promise<VoiceSearchResult>;
   onItinerary?: (args: VoiceItineraryArguments, context: VoiceItineraryContext) => Promise<VoiceItineraryResult>;
   onShowDestination?: (name: string, context: VoiceItineraryContext) => VoiceSearchResult;
-  getLocale?: () => Locale; fetcher?: typeof fetch;
+  onDiscover?: (args: VoiceDiscoverArguments, context: VoiceItineraryContext) => Promise<VoiceDiscoverResult>;
+  getLocale?: () => Locale; fetcher?: typeof fetch; now?: () => Date;
   startConversation?: (options: PartialOptions) => Promise<Connection>;
   startupTimeoutMs?: number; sessionTimeoutMs?: number;
 };
@@ -113,14 +150,21 @@ export class VoiceSession {
             const p = parameters as Record<string, unknown> | null;
             if (name === 'buscar_viaje') {
               const args = parseVoiceSearchArguments(parameters);
-              if (args) result = await this.options.onSearch(args, context) ?? { status: 'success' };
+              const past = args && pastDepartureError(args.fecha_ida, this.options.now?.() ?? new Date());
+              if (past) result = past;
+              else if (args) result = await this.options.onSearch(args, context) ?? { status: 'success' };
             } else if (name === 'crear_itinerario' && p && typeof p.destino === 'string' && p.destino.trim() &&
               p.destino.length <= 100 && Number.isInteger(p.dias) && Number(p.dias) >= 1 && Number(p.dias) <= 7) {
               result = await this.options.onItinerary?.({ destino: p.destino.trim(), dias: Number(p.dias),
                 ...(typeof p.itinerario === 'string' ? { itinerario: p.itinerario } : {}) }, context)
                 ?? { status: 'error', error: 'unavailable' };
             } else if (name === 'consultar_catalogo') {
-              result = queryVoiceCatalog(p?.consulta, locale);
+              result = queryVoiceCatalog(p?.consulta, locale, { month: p?.mes, topic: p?.tema });
+            } else if (name === 'descubrir_destinos') {
+              const args = parseVoiceDiscoverArguments(parameters);
+              const past = args && pastDepartureError(args.fecha_ida, this.options.now?.() ?? new Date());
+              if (past) result = past;
+              else if (args) result = await this.options.onDiscover?.(args, context) ?? { status: 'error', error: 'unavailable' };
             } else if (name === 'mostrar_destino' && p && typeof p.destino === 'string' && p.destino.length <= 100 && p.destino.trim()) {
               result = this.options.onShowDestination?.(p.destino.trim(), context) ?? { status: 'error', error: 'unavailable' };
             }
@@ -144,7 +188,7 @@ export class VoiceSession {
           conversationToken: data.token, connectionType: 'webrtc', textOnly: false,
           webRtc: { singlePeerConnection: false },
           overrides: { agent: { language: locale } },
-          clientTools: Object.fromEntries(['buscar_viaje', 'crear_itinerario', 'consultar_catalogo', 'mostrar_destino']
+          clientTools: Object.fromEntries(['buscar_viaje', 'crear_itinerario', 'consultar_catalogo', 'mostrar_destino', 'descubrir_destinos']
             .map(name => [name, (params: unknown) => dispatch(name, params)])),
           onIncomingEvent: (event: { type?: string; client_tool_call?: { tool_call_id?: string; parameters?: unknown } }) => {
             const call = event.client_tool_call;
