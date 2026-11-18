@@ -1,7 +1,7 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path');
 const {loader}=require('./sofia-harness.cjs');
-const agent='agent_2201m677yj19e6499g2649n774f6',version='agtvrsn_0601m7jz66wvf83ambtr3s819vfv',previousVersion='agtvrsn_2501m679we79ekz985446fbyygkb';
+const agent='agent_2201m677yj19e6499g2649n774f6',version='agtvrsn_4001m7r0by44etcr1sz2gbvxp993',previousVersion='agtvrsn_0601m7jz66wvf83ambtr3s819vfv';
 const scope={VERCEL:'1',VERCEL_ENV:'production',VERCEL_GIT_COMMIT_REF:'main',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web'};
 const source=fs.readFileSync(path.join(__dirname,'voice-route.test.cjs'),'utf8');
 const valid=new Function(source.slice(source.indexOf('function valid('),source.indexOf('function route('))+';return valid;')();

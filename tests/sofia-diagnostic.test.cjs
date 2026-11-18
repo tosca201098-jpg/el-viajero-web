@@ -2,7 +2,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict'),crypto=re
 const {loader}=require('./sofia-harness.cjs');
 const token='ab'.repeat(32),tokenHash=crypto.createHash('sha256').update(token).digest('hex');
 const host='el-viajero-web-git-codex-sofia-elevenlabs-el-viajero.vercel.app';
-const version='agtvrsn_0601m7jz66wvf83ambtr3s819vfv';
+const version='agtvrsn_4001m7r0by44etcr1sz2gbvxp993';
 const agent='agent_2201m677yj19e6499g2649n774f6';
 function config(){return{agent_id:agent,version_id:version,conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:360}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:100000,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
 function harness(overrides={},options={}){
