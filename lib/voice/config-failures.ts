@@ -15,7 +15,6 @@ export type SofiaConfigCheckName = typeof SOFIA_CONFIG_CHECK_NAMES[number];
 const VOICE_ID = 'eZxqQzb5CuYo3Kl6EXfZ';
 const REQUIRED_TOOLS = ['buscar_viaje', 'crear_itinerario', 'consultar_catalogo', 'mostrar_destino'] as const;
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 export function sofiaConfigurationFailures(config: any, preview = false): SofiaConfigCheckName[] {
   try {
     const failed: SofiaConfigCheckName[] = [];
