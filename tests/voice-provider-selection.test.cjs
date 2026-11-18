@@ -88,7 +88,10 @@ test('a denied admission never contacts ElevenLabs and provider failure never st
    assert.equal(h.admissions,1);assert.equal(h.requests.length,1);
    assert(h.requests.every(r=>new URL(r.url).hostname==='api.elevenlabs.io'));
    // Production leaves only a constant code in the server logs (never the provider's message, key or details).
-   assert.deepEqual(h.logs,[['SOFIA_DIAGNOSTIC',mode==='http'?'VOICE_CHECK_HTTP':mode==='network'?'VOICE_CHECK_NETWORK':'VOICE_CHECK_CONFIG']]);
+   assert.deepEqual(h.logs[0],['SOFIA_DIAGNOSTIC',mode==='http'?'VOICE_CHECK_HTTP':mode==='network'?'VOICE_CHECK_NETWORK':'VOICE_CHECK_CONFIG']);
+   // A refused configuration also names the failed checks (constants from a closed list); nothing else.
+   assert.equal(h.logs.length,mode==='malformed'?2:1);
+   if(mode==='malformed'){assert.equal(h.logs[1][0],'SOFIA_DIAGNOSTIC_DETAIL');assert.match(h.logs[1][1],/^[a-z_]+(,[a-z_]+)*$/);}
    assert.equal(JSON.stringify(h.logs).includes('private-key'),false);
   }
  }

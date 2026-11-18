@@ -1,4 +1,5 @@
-import { previewDiagnostic, type PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
+import { previewDiagnostic, previewDiagnosticDetail, type PreviewDiagnosticCode } from '@/lib/ai/preview-diagnostic';
+import { sofiaConfigurationFailures } from '@/lib/voice/config-failures';
 import { isLocale } from '@/lib/i18n/translations';
 import { admitAiRequest, voiceUserReference } from '@/lib/ai/admission';
 import { BudgetError, checkVoiceBudget } from '@/lib/voice/voice-minutes';
@@ -107,9 +108,16 @@ export async function POST(request: Request) {
     stage = 'VOICE_CHECK_MALFORMED';
     const config = await check.json();
     if (!config || typeof config !== 'object' || Array.isArray(config)) return unavailable('VOICE_CHECK_MALFORMED');
-    if (target && (config.agent_id !== agentId || config.version_id !== version)) return unavailable('VOICE_CHECK_CONFIG');
+    if (target && (config.agent_id !== agentId || config.version_id !== version)) {
+      const refused = unavailable('VOICE_CHECK_CONFIG'); previewDiagnosticDetail(['agent_or_version_id']); return refused;
+    }
     // The allowance is decided below (voice minutes); the provider's own daily setting is only a last backstop.
-    if (!safeSofiaConfiguration(config, !!sofiaPreviewTarget(process.env))) return unavailable('VOICE_CHECK_CONFIG');
+    if (!safeSofiaConfiguration(config, !!sofiaPreviewTarget(process.env))) {
+      // The log names which checks failed (constants only), so a refused agent can be fixed without guessing.
+      const refused = unavailable('VOICE_CHECK_CONFIG');
+      previewDiagnosticDetail(sofiaConfigurationFailures(config, !!sofiaPreviewTarget(process.env)));
+      return refused;
+    }
     // Voice minutes: the real conversation time of this account (this Madrid period) and of the whole site (this Madrid
     // week). Several conversations may run at once, so each one still running reserves the agent's whole verified
     // maximum length (already checked above to be 300, 360 or 900 seconds): nobody is granted minutes that another

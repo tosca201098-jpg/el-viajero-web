@@ -1,3 +1,5 @@
+import { SOFIA_CONFIG_CHECK_NAMES } from '@/lib/voice/config-failures';
+
 // Allow only constant codes. Never pass runtime error details to server logs.
 const codes = [
   'ADMISSION_ORIGIN',
@@ -48,4 +50,11 @@ function diagnosticScope(env: Record<string, string | undefined>) {
 
 export function previewDiagnostic(code: PreviewDiagnosticCode) {
   if (diagnosticScope(process.env) && codes.includes(code)) console.warn('SOFIA_DIAGNOSTIC', code);
+}
+
+// Names of the agent-configuration checks that failed (constants from a closed list, never values). Same scope as above.
+export function previewDiagnosticDetail(names: readonly string[]) {
+  if (!diagnosticScope(process.env)) return;
+  const known = names.filter(name => (SOFIA_CONFIG_CHECK_NAMES as readonly string[]).includes(name));
+  if (known.length) console.warn('SOFIA_DIAGNOSTIC_DETAIL', known.join(','));
 }
