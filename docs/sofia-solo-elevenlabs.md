@@ -28,7 +28,7 @@ cuatro funciones, y no había ninguna otra dependencia ni librería de OpenAI.
 | --- | --- | --- |
 | 1. Conversación de voz (micrófono de la portada) | OpenAI Realtime, modelo `gpt-realtime-2.1`, voz «marin» | Sofía (ElevenLabs), voz `eZxqQzb5CuYo3Kl6EXfZ`, ya integrada en el código (`elevenlabs-session.ts` / `elevenlabs-route.ts`) |
 | 2. Búsqueda de viaje hablada: origen, destino, fechas, viajeros, vuelo/hotel/ambos y presupuesto (`buscar_viaje`) | Herramienta del asistente OpenAI | Misma herramienta `buscar_viaje` de Sofía, con el mismo validador de argumentos (`parseVoiceSearchArguments`) y las mismas acciones de la portada |
-| 3. Itinerario hablado (`crear_itinerario`: destino + 1–7 días) | OpenAI avisaba a la página y esta pedía el texto a `gpt-5-mini` | Sofía escribe el itinerario y lo entrega en la propia llamada a la herramienta (ver más abajo) |
+| 3. Itinerario hablado (`crear_itinerario`: destino + 1–7 días) | OpenAI avisaba a la página y esta pedía el texto a `gpt-5-mini` | Sofía solo da destino y días; la página pide el itinerario al servidor (**Claude Haiku 5.5**, con la sesión de la persona) y avisa a Sofía cuando ya está en pantalla (ver «Itinerarios por voz») |
 | 4. Itinerario escrito (botón «Crear itinerario con IA» de las fichas y de `/vuelos`, `POST /api/itinerary`, `gpt-5-mini`) | Servidor → API de OpenAI | El botón «Crear itinerario» sigue funcionando para todo el mundo, sin voz: devuelve la **guía básica gratuita** (sin IA, solo datos de la ficha). Ver «Itinerario escrito (botón)» más abajo |
 
 Sofía además conserva sus propias herramientas: `consultar_catalogo` (perfiles reales del catálogo) y `mostrar_destino`
@@ -45,7 +45,8 @@ Comportamientos que el asistente de OpenAI tenía en sus instrucciones y que **e
 - Itinerarios: no pedir origen, vuelos, hoteles, fechas ni viajeros (basta destino y duración); preguntar solo el destino o
   los días que falten; no inventar un itinerario hablado ni decir que está generado antes del resultado de la herramienta;
   con `success` confirmar brevemente que está en pantalla sin inventar actividades; con `error` explicar el fallo
-  (`unknown_destination` → aclarar el destino, `invalid_arguments` → destino y 1 a 7 días, `busy` → esperar);
+  (`unknown_destination` → aclarar el destino, `invalid_arguments` → destino y 1 a 7 días, `busy` → esperar,
+  `limited` → hoy ya usó sus itinerarios con IA, `unavailable` → disculparse y sugerir el botón «Crear itinerario»);
   con `cancelled` no confirmar éxito.
 - Las reglas de búsqueda de viajes no se aplican nunca a los itinerarios.
 
@@ -80,74 +81,53 @@ itinerario solo se crea cuando la persona pulsa «Crear itinerario» (al abrir l
   IA o de Sofía conserva además «Guardar en mi cuenta». Limitaciones conocidas: las letras que la tipografía estándar no incluye
   se sustituyen por la letra básica (por ejemplo «ł» → «l») y los emojis no se imprimen; algunos navegadores integrados de
   aplicaciones (redes sociales, etc.) bloquean las descargas, y en ese caso conviene abrir la web en el navegador normal.
-- **Siguiente paso previsto (no incluido en esta PR):** para quienes tengan cuenta, itinerario con Claude Haiku 5.5, con límite
-  por persona y día, un tope global y respaldo a la guía básica si falla o no hay clave.
-- **Por voz:** el botón «🎙️ Pedir el itinerario a Sofía» no se muestra todavía; volverá como opción añadida cuando exista la
-  versión nueva del agente (ver más abajo). La entrega por voz (`crear_itinerario` con `itinerario`) sigue en el código.
+- **Quien tiene cuenta** recibe en ese mismo botón un itinerario escrito por Claude Haiku 5.5 (ver `docs/itinerario-ia-haiku.md`),
+  con límite por persona y día, un tope global y respaldo a la guía básica si falla o no hay clave.
+- **Por voz:** el botón «🎙️ Pedir el itinerario a Sofía» no se muestra todavía; volverá como opción añadida cuando el agente
+  nuevo esté publicado y fijado (ver más abajo).
 
-## Itinerarios por voz: los entrega Sofía
+## Itinerarios por voz: Sofía pide, la página escribe con Haiku
 
-Además del botón, Sofía puede escribir un itinerario durante la conversación. El planificador:
+Sofía ya **no escribe** el itinerario. Cuando la persona lo pide, Sofía llama a la herramienta de cliente `crear_itinerario`
+con **dos** parámetros: `destino` y `dias` (1 a 7). Después:
 
-- En la portada (ventana de ficha): muestra el itinerario que Sofía entrega por voz, con el mismo contenido y la misma opción de guardarlo.
-- En `/vuelos` (donde no hay micrófono): el botón «Crear itinerario» funciona igual que en la ficha.
+1. La página valida el destino contra el catálogo y abre la ficha.
+2. El planificador pide el itinerario a `POST /api/itinerary` con la sesión de la persona (solo destino, días e idioma: nunca
+   fechas, viajeros ni presupuesto de la página). El servidor lo escribe con Claude Haiku 5.5 con los mismos límites que el
+   botón (10 por persona y día natural de Madrid, 200 al día en toda la web; ver `docs/itinerario-ia-haiku.md`).
+3. Solo cuando el itinerario **ya está en pantalla** se responde `success` a Sofía. Si no, Sofía recibe la verdad:
+   `limited` (ya usó sus itinerarios con IA de hoy), `unavailable` (IA apagada, sin sesión válida, fallo, respuesta inválida o más
+   de 70 segundos), `busy`, `unknown_destination`, `invalid_arguments` o `cancelled`. En `limited` y `unavailable` se muestra
+   además la guía gratuita con el aviso correspondiente.
+4. Si la conversación termina o se cancela mientras se escribe, la llamada se aborta y no se anuncia nada.
 
-Cuando Sofía crea un itinerario llama a la herramienta de cliente `crear_itinerario` con **tres** parámetros:
-`destino`, `dias` y `itinerario` (texto JSON). La página valida el destino contra el catálogo, valida el JSON con el esquema
-estricto (`isItinerary`, `lib/itinerary/schema.ts`: exactamente `dias` días, textos acotados, sin claves extra, máximo 16.000
-caracteres) y lo muestra en la ficha. Si falta o no es válido se devuelve `unavailable` / `generation_failed` a Sofía y no se
-muestra nada. El botón «Guardar itinerario» sigue funcionando igual (Supabase, requiere cuenta).
+El itinerario sale con el aviso «escrito con IA», con «Guardar en mi cuenta» y «Descargar PDF», igual que el del botón.
+Un itinerario que Sofía escribiera ella misma (parámetro opcional `itinerario`, JSON) se sigue aceptando y validando igual que
+antes, pero el agente ya no tiene que enviarlo.
 
-### Qué hay que cambiar en el agente de ElevenLabs (lo hace el propietario o Codex; no puede hacerse desde el código)
+### Qué hay que cambiar en el agente de ElevenLabs (lo hace el propietario; no puede hacerse desde el código)
 
-El agente fijado hoy conoce `crear_itinerario({ destino, dias })` pero **no** envía el contenido. Hasta que se actualice,
-pedir un itinerario por voz acaba con «no disponible». Hay que crear una **nueva versión** del agente con:
+Solo ajustes del propio agente; **no hace falta cambiar la herramienta ni subir el límite de tokens**:
 
-1. Herramienta de cliente `crear_itinerario` (sigue siendo `client` y con «espera respuesta»), con parámetros:
-   - `destino` (texto, obligatorio): nombre de un destino del catálogo (`consultar_catalogo`).
-   - `dias` (entero 1–7, obligatorio).
-   - `itinerario` (texto, obligatorio): JSON **exacto** con esta forma, en el idioma de la conversación:
+1. Mensaje del sistema: para un itinerario basta destino y días (no preguntar origen, fechas, viajeros ni presupuesto, ni usar
+   `buscar_viaje`); confirmar el destino con `consultar_catalogo`; llamar a `crear_itinerario` con destino y días; esperar el
+   resultado; con éxito decir en una o dos frases que ya está en pantalla (sin leerlo entero ni añadir horarios, precios o
+   reservas); con error disculparse brevemente sin afirmar éxito. Hablar en el idioma de la persona (siete idiomas).
+2. Herramienta `crear_itinerario`: tipo cliente, «espera respuesta», con parámetros `destino` y `dias`. Poner el **tiempo de
+   espera de respuesta de la herramienta en unos 60 segundos** como mínimo: Haiku puede tardar entre 10 y 40 segundos y ese
+   tiempo cuenta dentro de la conversación.
+3. Mantener lo que el código exige del agente: voz `eZxqQzb5CuYo3Kl6EXfZ`, español, autenticación activada, **duración máxima
+   300 o 360 segundos** (Production acepta ambas; el agente de pruebas de la Preview solo 360), silencio 90 s, detección de voz de
+   fondo, máximo 1.024 tokens por respuesta, una conversación a la vez, límite diario 1–15 en Production, sin ráfagas ni cola, y
+   sin permitir cambiar prompt, modelo, voz ni duración desde el navegador (solo idioma y primer mensaje).
+4. Publicar la versión y anotar su **ID** (`agtvrsn_…`, y el `agent_…` si es un agente nuevo). El código fija la versión revisada
+   en `lib/voice/preview-target.ts` y la variable `ELEVENLABS_AGENT_VERSION_ID` de Vercel Production debe coincidir: hay que abrir
+   una PR que cambie esas constantes y las pruebas que las citan. **No se conecta un agente nuevo sin esa PR ni sin permiso del
+   propietario.**
 
-   ```json
-   {
-     "title": "máx. 160 caracteres",
-     "summary": "máx. 500 caracteres",
-     "days": [
-       {
-         "dayNumber": 1,
-         "title": "máx. 120",
-         "morning":   [ { "name": "máx. 120", "description": "máx. 320", "area": "máx. 100" } ],
-         "afternoon": [ { "name": "...", "description": "...", "area": "..." } ],
-         "evening":   [ { "name": "...", "description": "...", "area": "..." } ]
-       }
-     ],
-     "tips": [ "2 a 5 consejos, máx. 260 caracteres cada uno" ]
-   }
-   ```
-   Cada franja (`morning`, `afternoon`, `evening`) lleva 1 o 2 actividades. `days` tiene exactamente `dias` elementos
-   numerados desde 1. No se permiten claves adicionales.
-2. Instrucciones del agente (añadir, sin quitar las de búsqueda y conversación ya descritas arriba): «Cuando el usuario pida
-   un itinerario, solo necesitas destino y número de días (1 a 7). Comprueba el destino con `consultar_catalogo` y llama a
-   `crear_itinerario` con el JSON completo. No inventes horarios exactos, precios, disponibilidad, reservas ni clima, ni
-   afirmes que algo está abierto. Usa preferentemente los lugares recomendados del catálogo. Si la herramienta responde
-   `success`, di en una o dos frases que el itinerario ya está en pantalla. Si responde `generation_failed`, corrige el JSON y
-   reinténtalo una sola vez. Si responde `unavailable` o `busy`, discúlpate brevemente.»
-3. Mantener todo lo demás que el código exige del agente: voz `eZxqQzb5CuYo3Kl6EXfZ`, español, autenticación activada,
-   duración máxima 300 s en Production, silencio 90 s, una conversación a la vez, límite diario 1–15, sin ráfagas ni cola,
-   y sin permitir cambiar prompt, modelo, voz ni duración desde el navegador.
-4. Después, anotar el **ID de la nueva versión** (`agtvrsn_…`). El código fija la versión revisada en
-   `SOFIA_PRODUCTION_VERSION_ID` (`lib/voice/preview-target.ts`) y la variable `ELEVENLABS_AGENT_VERSION_ID` de Vercel
-   Production debe coincidir con ella: hay que abrir una PR que cambie esa constante y las pruebas que la citan.
-
-### Decisión pendiente: tope de respuesta del agente
-
-El código solo acepta agentes cuyo `max_tokens` esté entre 1 y 1.024 (una medida contra gasto inesperado). Un itinerario
-completo viaja dentro de una sola respuesta de Sofía:
-
-- Con 1.024 tokens caben itinerarios **cortos** (1–3 días con textos breves). Más días se cortarían y se rechazarían.
-- Para 4–7 días habría que subir el tope (por ejemplo a 4.096) y cambiar ese límite en
-  `lib/voice/elevenlabs-route.ts` y en sus pruebas. Afecta al coste de lenguaje del agente solo cuando escribe un itinerario,
-  dentro del límite de 300 s por conversación y de 3 conversaciones diarias por usuario. **No se ha cambiado sin tu permiso.**
+Privacidad del agente (decisión del propietario, ajustes de ElevenLabs → Avanzado → Privacidad): con «Guardar audio de
+llamadas» activado y retención ilimitada, ElevenLabs conserva el audio de las conversaciones; conviene desactivarlo o fijar un
+plazo corto, y que la política de privacidad diga lo que realmente se guarda.
 
 ## Variables de Production necesarias
 

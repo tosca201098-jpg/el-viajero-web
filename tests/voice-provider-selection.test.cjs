@@ -129,3 +129,25 @@ test('ElevenLabs releases pre-token failures but never refund an ambiguous commi
   assert.equal(ambiguous.requests.length,2);
  }
 });
+
+test('production accepts the reviewed 300-second agent and the new 360-second one, and nothing else',async()=>{
+ const withDuration=seconds=>{const config={...valid(300),agent_id:agent,version_id:version};config.conversation_config.conversation.max_duration_seconds=seconds;return config;};
+ for(const [seconds,status] of [[300,200],[360,200],[330,503],[299,503],[361,503],[600,503],[-1,503],[0,503]]){
+  const h=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config:withDuration(seconds)});
+  const res=await h.POST(request());
+  assert.equal(res.status,status,String(seconds));
+  if(status===200)assert.deepEqual(await res.json(),{token:'temporary-elevenlabs'});
+  else assert.deepEqual(await res.json(),{error:'ai_unavailable'});
+ }
+ // The 360-second agent still has to keep every other production safeguard (daily limit up to 15, no burst, one at a time…).
+ const loose=withDuration(360);loose.platform_settings.call_limits.daily_limit=100000;
+ const refused=harness({AI_VOICE_PROVIDER:'elevenlabs',ELEVENLABS_PRODUCTION_APPROVED:'true'},{config:loose});
+ assert.equal((await refused.POST(request())).status,503);
+});
+
+test('the diagnostic snapshot applies the same 300 or 360 rule for production and only 360 for Preview',()=>{
+ const source=fs.readFileSync(path.join(__dirname,'..','lib/voice/provider-config.ts'),'utf8');
+ assert.match(source,/max_duration_seconds === 360 \|\| \(!preview && c\.conversation\?\.max_duration_seconds === 300\)/);
+ const route=fs.readFileSync(path.join(__dirname,'..','lib/voice/elevenlabs-route.ts'),'utf8');
+ assert.match(route,/max_duration_seconds === 360 \|\| \(!preview && c\.conversation\?\.max_duration_seconds === 300\)/);
+});

@@ -25,6 +25,8 @@ export type ItineraryContext = {
 
 // "dark" es el aspecto de siempre (/vuelos). "light" lo usa la ventana de ficha: tarjeta clara con
 // texto oscuro, sin fondos negros. Solo cambian clases de estilo.
+// A request that comes from Sofía waits at most this long (the server gives Anthropic 50 s) before it reports «unavailable».
+const VOICE_AI_WAIT_MS = 70_000;
 const aiNoteKey = {
   offer: "itinerary.aiOffer", limit: "itinerary.aiLimit", unavailable: "itinerary.aiUnavailable",
 } as const;
@@ -126,8 +128,14 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
       setAiNote(null);
       setError(false);
       setDownloadError(false);
-      completedVoiceRef.current = voiceRequest;
-      setItinerary(voiceRequest.itinerary);
+      if (voiceRequest.itinerary) {
+        completedVoiceRef.current = voiceRequest;
+        setItinerary(voiceRequest.itinerary);
+      } else {
+        // Sofía gave only the destination and the days: ask the server (Claude Haiku) and report what really happens.
+        setItinerary(null);
+        void generate(voiceRequest);
+      }
     });
     return () => {
       const cancelledVersion = ++lifecycle.version;
@@ -140,7 +148,9 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
   const dayLabel = (count: number) => count === 1 ? t("itinerary.oneDay") : t("itinerary.days", { count });
   const requestedDays = hasDates ? Math.min(7, calendarDays) : selectedDays;
 
-  async function generate() {
+  async function generate(voice?: VoiceItineraryRequest) {
+    // A request from Sofía takes over a manual generation that may be in flight; the manual one is simply dropped.
+    if (voice) { controllerRef.current?.abort(); busyRef.current = false; }
     if (busyRef.current) return;
     busyRef.current = true;
     setLoading(true);
@@ -149,8 +159,16 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
     setAiNote(null);
     const controller = new AbortController();
     controllerRef.current = controller;
-    const current = () => mountedRef.current && controllerRef.current === controller && !controller.signal.aborted;
-    const days = requestedDays;
+    const stop = () => controller.abort();
+    voice?.signal.addEventListener("abort", stop, { once: true });
+    let timedOut = false;
+    const timer = voice ? setTimeout(() => { timedOut = true; controller.abort(); }, VOICE_AI_WAIT_MS) : null;
+    const mine = () => mountedRef.current && controllerRef.current === controller;
+    const current = () => mine() && !controller.signal.aborted;
+    // Sofía's requests carry only the destination and the days: no dates, travelers or budget from the page.
+    const trip: ItineraryContext = voice ? {} : context;
+    const withDates = voice ? false : hasDates;
+    const days = voice ? voice.days : requestedDays;
     const payload: ItineraryRequest = {
       destination: {
         name: destination.name,
@@ -163,10 +181,10 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
         seasonalityNote: destination.seasonalityNote ?? null,
       },
       days,
-      locale: language,
-      ...(context.travelers ? { travelers: context.travelers } : {}),
-      ...(hasDates ? { departureDate: context.departureDate, returnDate: context.returnDate } : {}),
-      ...(context.budget ? { budget: context.budget } : {}),
+      locale: voice ? voice.locale : language,
+      ...(trip.travelers ? { travelers: trip.travelers } : {}),
+      ...(withDates ? { departureDate: trip.departureDate, returnDate: trip.returnDate } : {}),
+      ...(trip.budget ? { budget: trip.budget } : {}),
     };
     try {
       // A registered visitor sends their own session so the server can write the itinerary with the AI; without it the
@@ -187,18 +205,26 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
       if (!current()) return;
       if (!response.ok || typeof data !== "object" || data === null) throw new Error("Invalid itinerary");
       if ("itinerary" in data && isItinerary(data.itinerary, days)) {
+        // For Sofía, success is reported only once the itinerary is on screen (see the effect on `itinerary`).
+        if (voice) completedVoiceRef.current = voice;
         setItinerary(data.itinerary);
         setBasicGuide(null);
       } else if ("guide" in data && isBasicGuide(data.guide, days)) {
         setBasicGuide(data.guide);
         setItinerary(null);
-        setAiNote("aiNotice" in data && (data.aiNotice === "limit" || data.aiNotice === "unavailable") ? data.aiNotice
+        const limited = "aiNotice" in data && data.aiNotice === "limit";
+        setAiNote(limited ? "limit" : "aiNotice" in data && data.aiNotice === "unavailable" ? "unavailable"
           : "aiOffer" in data && data.aiOffer === true ? "offer" : null);
+        // The free guide is shown, but the AI itinerary Sofía asked for does not exist: tell her the truth.
+        voice?.complete({ status: "error", error: limited ? "limited" : "unavailable" });
       } else throw new Error("Invalid itinerary");
       setSaveStatus("idle");
     } catch {
-      if (current()) setError(true);
+      if (current() || (timedOut && mine())) setError(true);
+      if (voice && (current() || timedOut)) voice.complete({ status: "error", error: "unavailable" });
     } finally {
+      if (timer) clearTimeout(timer);
+      voice?.signal.removeEventListener("abort", stop);
       if (controllerRef.current === controller) {
         busyRef.current = false;
         controllerRef.current = null;

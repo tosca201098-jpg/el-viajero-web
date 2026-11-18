@@ -47,7 +47,7 @@ const spoken = (destino, dias, title) => ({ destino, dias, itinerario: written(d
 
 // A small hook scheduler runs the real planner and content components. React lifecycle
 // scheduling and media are simulated; the planner only reaches the network through the fetch the test passes in.
-function plannerHarness(initialProps, language, fetchImpl = async () => { throw Error('No request expected'); }, downloadOk = true, sessionToken) {
+function plannerHarness(initialProps, language, fetchImpl = async () => { throw Error('No request expected'); }, downloadOk = true, sessionToken, timers) {
   let props = initialProps, tree, dirty = true, si = 0, ri = 0, ei = 0;
   const states = [], refs = [], effects = [], pending = [], scrolls = [], navigations = [], downloads = [];
   const react = {
@@ -67,7 +67,7 @@ function plannerHarness(initialProps, language, fetchImpl = async () => { throw 
     '@/lib/supabase/saved-itineraries': { saveItinerary: () => { throw Error('Writes forbidden'); } },
     '@/lib/itinerary/download': { downloadPdf: (bytes, name) => { downloads.push({ bytes, name }); return downloadOk; } },
   }, { React: react, window: { location: { assign: value => navigations.push(value) } },
-    fetch: (...args) => fetchImpl(...args) });
+    fetch: (...args) => fetchImpl(...args), ...(timers ?? {}) });
   const Component = load('app/components/ItineraryPlanner.tsx').default;
   function render() {
     si = ri = ei = 0; dirty = false; tree = Component(props);
@@ -106,7 +106,7 @@ let handler, voiceProp, plannerTag;
 const attribute = name => plannerTag.attributes.properties.find(a => a.name?.text === name).initializer.expression.getText(page);
 const pageBridgeCode = ts.transpileModule(`this.handle = ${handler}; this.propsForPlanner = () => { const itineraryVoiceRequest = ${voiceProp}; return {destination:${attribute('destination')},context:${attribute('context')},voiceRequest:${attribute('voiceRequest')}}; };`, { compilerOptions }).outputText;
 
-function bridge(language = 'es') {
+function bridge(language = 'es', { fetchImpl, sessionToken, timers } = {}) {
   let ui, request;
   const scope = { language, voiceItineraryRef: { current: null }, createVoiceItineraryRequest: requests.createVoiceItineraryRequest,
     parseVoiceItinerary: requests.parseVoiceItinerary,
@@ -119,7 +119,7 @@ function bridge(language = 'es') {
     setDestinoSeleccionado: value => {
       scope.destinoSeleccionado = value;
       const props = scope.propsForPlanner();
-      if (!ui || ui.destination !== value) { ui?.unmount(); ui = plannerHarness(props, scope.language); ui.destination = value; }
+      if (!ui || ui.destination !== value) { ui?.unmount(); ui = plannerHarness(props, scope.language, fetchImpl, true, sessionToken, timers); ui.destination = value; }
       else ui.update(props);
       ui.render(); ui.flushEffects();
     },
@@ -163,9 +163,8 @@ for (const { code } of translations.locales) test(`${code}: real voice handler �
   } finally { h.session.stop(); b.ui?.unmount(); }
 });
 
-test('a missing, malformed or mismatched itinerary reports an error and never shows or reports success', async () => {
+test('a malformed or mismatched itinerary written by Sofía reports an error and never shows or reports success', async () => {
   const cases = [
-    [{ destino: 'Madrid', dias: 2 }, 'unavailable'],
     [{ destino: 'Madrid', dias: 2, itinerario: '' }, 'generation_failed'],
     [{ destino: 'Madrid', dias: 2, itinerario: 'not json' }, 'generation_failed'],
     [{ destino: 'Madrid', dias: 2, itinerario: JSON.stringify({ title: 'x' }) }, 'generation_failed'],
@@ -495,4 +494,158 @@ test('the text of the AI notices exists in all seven languages and always carrie
     assert.ok(translations.translate(code, key).length > 20, `${code} ${key}`);
   }
   assert.ok(english.includes('free'));
+});
+
+// ---- Sofía gives only the destination and the days: the page asks the server (Claude Haiku) ------------------------------
+const creating = translations.translate('es', 'itinerary.creating');
+const okJson = value => ({ ok: true, json: async () => value });
+const aiAnswer = (init, title = 'Escrito por Haiku') => okJson({ itinerary: sample(JSON.parse(init.body).days, title) });
+const callsOf = () => { const list = []; return { list, record: (url, init) => { list.push({ url, init, body: JSON.parse(init.body) }); } }; };
+
+test('Sofía gives only destination and days: the page asks the server with the person’s session and answers success only once the itinerary is on screen', async () => {
+  const gate = deferred(), seen = callsOf();
+  const b = bridge('es', { sessionToken: 'tok-de-prueba', fetchImpl: async (url, init) => { seen.record(url, init); await gate.promise; return aiAnswer(init); } });
+  const h = await connected(b.handle);
+  try {
+    await h.tool('ai-1', { destino: 'Madrid', dias: 2 }); await turn();
+    await b.ui.drain();
+    assert.equal(b.scope.destinoSeleccionado, madrid);
+    assert.equal(h.outputs().length, 0, 'no success while the server is still writing');
+    assert.match(b.ui.text(), new RegExp(creating));
+    gate.resolve(); await b.ui.drain();
+    assert.equal(seen.list.length, 1); assert.equal(seen.list[0].url, '/api/itinerary');
+    assert.equal(seen.list[0].init.headers.Authorization, 'Bearer tok-de-prueba');
+    assert.equal(seen.list[0].body.days, 2); assert.equal(seen.list[0].body.locale, 'es'); assert.equal(seen.list[0].body.destination.name, 'Madrid');
+    for (const key of ['departureDate', 'returnDate', 'travelers', 'budget']) assert.ok(!(key in seen.list[0].body), key + ' is not sent for a spoken request');
+    assert.match(b.ui.text(), /Escrito por Haiku/); assert.ok(b.ui.text().includes(aiLabel));
+    assert.deepEqual(Array.from(b.ui.scrolls), ['scroll', 'focus']);
+    assert.equal(h.outputs().length, 1); assert.equal(h.outputs()[0].status, 'success'); assert.equal(h.outputs()[0].days, 2); assert.equal(h.outputs()[0].locale, 'es');
+    assert.ok(saveButton(b.ui)); assert.ok(downloadButton(b.ui));
+    assert.equal(h.calls.length, 1, 'only the single voice admission request exists besides the itinerary one');
+  } finally { h.session.stop(); b.ui?.unmount(); }
+});
+
+for (const { code } of translations.locales) test(`${code}: a spoken request without text asks the server in that language`, async () => {
+  const seen = callsOf();
+  const b = bridge(code, { sessionToken: 'tok', fetchImpl: async (url, init) => { seen.record(url, init); return aiAnswer(init); } });
+  const h = await connected(b.handle, () => code);
+  try {
+    await h.tool('ai-' + code, { destino: 'Madrid', dias: 3 }); await turn(); await b.ui.drain();
+    assert.equal(seen.list[0].body.locale, code); assert.equal(seen.list[0].body.days, 3);
+    assert.equal(h.outputs()[0].status, 'success'); assert.equal(h.outputs()[0].locale, code);
+  } finally { h.session.stop(); b.ui?.unmount(); }
+});
+
+test('when the daily AI allowance is used up or the AI is unavailable Sofía is told the truth and the free guide is shown', async () => {
+  const cases = [
+    [{ aiNotice: 'limit' }, 'limited', 'itinerary.aiLimit'],
+    [{ aiNotice: 'unavailable' }, 'unavailable', 'itinerary.aiUnavailable'],
+    [{ aiOffer: true }, 'unavailable', 'itinerary.aiOffer'],
+    [{}, 'unavailable', null],
+  ];
+  for (const [extra, error, key] of cases) {
+    const b = bridge('es', { sessionToken: 'tok', fetchImpl: async (_url, init) => okJson({ guide: guideFor(JSON.parse(init.body)), ...extra }) });
+    const h = await connected(b.handle);
+    try {
+      await h.tool('guide', { destino: 'Madrid', dias: 2 }); await turn(); await b.ui.drain();
+      assert.equal(h.outputs().length, 1); assert.equal(h.outputs()[0].status, 'error'); assert.equal(h.outputs()[0].error, error);
+      assert.match(b.ui.text(), /Guía básica de Madrid/); assert.ok(!b.ui.text().includes(aiLabel));
+      if (key) assert.ok(b.ui.text().includes(aiText(key)));
+      assert.deepEqual(Array.from(b.ui.scrolls), [], 'nothing is announced as an itinerary');
+    } finally { h.session.stop(); b.ui?.unmount(); }
+  }
+});
+
+test('network failures, server errors and invalid answers end in «unavailable» and show the usual error, never a success', async () => {
+  const cases = [async () => { throw Error('network'); }, async () => ({ ok: false, json: async () => ({ error: 'ai_unavailable' }) }),
+    async () => okJson({ itinerary: { title: 'incompleto' } }), async () => okJson({ guide: { name: 'x' } }), async () => okJson(null),
+    async (_url, init) => okJson({ itinerary: sample(JSON.parse(init.body).days + 1) })];
+  for (const fetchImpl of cases) {
+    const b = bridge('es', { sessionToken: 'tok', fetchImpl });
+    const h = await connected(b.handle);
+    try {
+      await h.tool('bad', { destino: 'Madrid', dias: 2 }); await turn(); await b.ui.drain();
+      assert.equal(h.outputs().length, 1); assert.equal(h.outputs()[0].status, 'error'); assert.equal(h.outputs()[0].error, 'unavailable');
+      assert.match(b.ui.text(), /No hemos podido crear el itinerario/); assert.ok(!b.ui.text().includes('Itinerario simulado visible'));
+    } finally { h.session.stop(); b.ui?.unmount(); }
+  }
+});
+
+test('stopping the conversation while the server is writing cancels the request, aborts the call and ignores a late answer', async () => {
+  const gate = deferred(), seen = callsOf();
+  const b = bridge('es', { sessionToken: 'tok', fetchImpl: async (url, init) => { seen.record(url, init); await gate.promise; return aiAnswer(init); } });
+  const h = await connected(b.handle);
+  await h.tool('stop', { destino: 'Madrid', dias: 2 }); await turn(); await b.ui.drain();
+  assert.equal(seen.list.length, 1); assert.equal(seen.list[0].init.signal.aborted, false);
+  h.session.stop(); await b.ui.drain();
+  assert.equal(seen.list[0].init.signal.aborted, true); assert.equal(b.request.signal.aborted, true);
+  gate.resolve(); await b.ui.drain();
+  assert.equal(h.outputs().length, 0, 'no spoken result after the conversation ended');
+  assert.ok(!/Escrito por Haiku/.test(b.ui.text())); assert.deepEqual(Array.from(b.ui.scrolls), []);
+  b.ui.unmount();
+});
+
+test('a second spoken request while the first is still writing is answered «busy» and the first is not disturbed', async () => {
+  const gate = deferred(), seen = callsOf();
+  const b = bridge('es', { sessionToken: 'tok', fetchImpl: async (url, init) => { seen.record(url, init); await gate.promise; return aiAnswer(init); } });
+  const h = await connected(b.handle);
+  try {
+    await h.tool('first', { destino: 'Madrid', dias: 2 }); await turn(); await b.ui.drain();
+    await h.tool('second', { destino: 'Madrid', dias: 2 }); await turn(); await turn();
+    assert.equal(h.outputs().length, 1); assert.equal(h.outputs()[0].callId, 'second'); assert.equal(h.outputs()[0].error, 'busy');
+    gate.resolve(); await b.ui.drain();
+    assert.equal(seen.list.length, 1); assert.equal(h.outputs().at(-1).callId, 'first'); assert.equal(h.outputs().at(-1).status, 'success');
+  } finally { h.session.stop(); b.ui?.unmount(); }
+});
+
+test('if the server takes longer than 70 seconds the call is aborted and Sofía hears «unavailable»', async () => {
+  const timers = []; 
+  const fake = { setTimeout: (fn, ms) => { timers.push({ fn, ms, cleared: false }); return timers.length; }, clearTimeout: id => { if (timers[id - 1]) timers[id - 1].cleared = true; } };
+  const seen = callsOf();
+  const b = bridge('es', { sessionToken: 'tok', timers: fake, fetchImpl: (url, init) => { seen.record(url, init);
+    return new Promise((_resolve, reject) => init.signal.addEventListener('abort', () => reject(Object.assign(Error('aborted'), { name: 'AbortError' })))); } });
+  const h = await connected(b.handle);
+  try {
+    await h.tool('slow', { destino: 'Madrid', dias: 2 }); await turn(); await b.ui.drain();
+    const timer = timers.find(t => t.ms === 70000); assert.ok(timer, 'a 70-second limit exists for spoken requests');
+    assert.equal(h.outputs().length, 0);
+    timer.fn(); await b.ui.drain();
+    assert.equal(seen.list[0].init.signal.aborted, true);
+    assert.equal(h.outputs().length, 1); assert.equal(h.outputs()[0].error, 'unavailable');
+    assert.match(b.ui.text(), /No hemos podido crear el itinerario/);
+  } finally { h.session.stop(); b.ui?.unmount(); }
+});
+
+test('a request from Sofía takes over a manual «Crear itinerario» that is still waiting; the late manual answer is ignored', async () => {
+  const manual = deferred(), calls = [];
+  const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async (url, init) => {
+    calls.push(init);
+    if (calls.length === 1) { await manual.promise; return okJson({ guide: guideFor(JSON.parse(init.body)) }); }
+    return aiAnswer(init, 'Itinerario de la voz');
+  }, true, 'tok');
+  await ui.drain();
+  createButton(ui).props.onClick(); await ui.drain();
+  assert.equal(calls.length, 1);
+  const parent = new AbortController();
+  const request = requests.createVoiceItineraryRequest(madrid, 2, null, { callId: 'take-over', locale: 'es', signal: parent.signal });
+  ui.update({ destination: madrid, context: {}, voiceRequest: request }); await ui.drain();
+  assert.equal(calls.length, 2); assert.equal(calls[0].signal.aborted, true);
+  assert.deepEqual(JSON.parse(JSON.stringify(await Promise.race([request.promise, turn().then(() => 'pending')]))), { status: 'success', destination: 'Madrid', days: 2, locale: 'es' });
+  manual.resolve(); await ui.drain();
+  assert.match(ui.text(), /Itinerario de la voz/); assert.ok(!/Guía básica/.test(ui.text()));
+  ui.unmount();
+});
+
+test('an itinerary written by Sofía herself is still validated and shown without any server call', async () => {
+  const b = bridge('es', { sessionToken: 'tok', fetchImpl: async () => { throw Error('no server call expected'); } });
+  const h = await connected(b.handle);
+  try {
+    await h.tool('own', spoken('Madrid', 2, 'Escrito por Sofía')); await turn(); await b.ui.drain();
+    assert.match(b.ui.text(), /Escrito por Sofía/); assert.equal(h.outputs()[0].status, 'success');
+  } finally { h.session.stop(); b.ui?.unmount(); }
+});
+
+test('the voice result type knows «limited»', () => {
+  const source = fs.readFileSync(path.join(root, 'lib/voice/itinerary.ts'), 'utf8');
+  assert.match(source, /'unavailable' \| 'limited'/);
 });

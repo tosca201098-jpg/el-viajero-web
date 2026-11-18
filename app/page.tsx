@@ -300,15 +300,16 @@ voiceSearchRef.current = (datos, context) => {
       setVoiceItineraryUnknown(true);
       return Promise.resolve({ status: 'error', error: 'unknown_destination' });
     }
-    // Sofía writes the itinerary; the page only validates and shows it. No other provider is contacted.
-    if (typeof args.itinerario !== 'string') {
-      setVoiceItineraryRequest(null);
-      return Promise.resolve({ status: 'error', error: 'unavailable' });
-    }
-    const itinerary = parseVoiceItinerary(args.itinerario, args.dias);
-    if (!itinerary) {
-      setVoiceItineraryRequest(null);
-      return Promise.resolve({ status: 'error', error: 'generation_failed' });
+    // Sofía normally gives only the destination and the days: the planner then asks the server for the itinerary
+    // (Claude Haiku, registered visitors) and reports the real outcome. An itinerary written by Sofía herself is still
+    // validated and shown as before. No other provider is contacted from here.
+    let itinerary: ReturnType<typeof parseVoiceItinerary> = null;
+    if (typeof args.itinerario === 'string') {
+      itinerary = parseVoiceItinerary(args.itinerario, args.dias);
+      if (!itinerary) {
+        setVoiceItineraryRequest(null);
+        return Promise.resolve({ status: 'error', error: 'generation_failed' });
+      }
     }
     const request = createVoiceItineraryRequest(destination, args.dias, itinerary, context);
     voiceItineraryRef.current = request;
