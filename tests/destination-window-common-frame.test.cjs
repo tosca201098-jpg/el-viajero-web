@@ -9,6 +9,10 @@
 // 3. La bandera nunca se pone "por defecto".
 // PR #74: las huellas se recalcularon solo porque «Dónde viajar según la temporada» pasó de cuatro botones a
 // <SeasonCards />; sustituyendo ese bloque en la página de main, las 3.521 páginas quedan idénticas carácter por carácter.
+// PR de Sofía (#38): las huellas se recalcularon solo porque el botón del micrófono de la página ahora espera a conocer la sesión,
+// pide registrarse a los visitantes (aria-label, aria-describedby, disabled, dos clases y dos líneas nuevas bajo el botón) y el
+// cuadro de acceso recibe onChangeMode. Devolviendo ese bloque al de main (y quitando esa propiedad), las 3.521 páginas
+// (portada y ventana de cada ficha, en los siete idiomas) quedan idénticas carácter por carácter a las huellas anteriores.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
 const path = require('node:path');
@@ -82,7 +86,9 @@ test('the window does not call the Vuelo + Hotel function, which stays untouched
 }`);
   assert.equal(page.split('El buscador de Vuelo + Hotel está preparado. Conectaremos las ofertas reales mediante la API.').length - 1, 2, 'the two existing forms keep their message');
   assert.match(page, /const tab = service === "ambos" \? "paquete" : "vuelos";/);
-  assert.equal(page.split('abrirPaquete(').length - 1, 2, 'only the definition and the voice flow, as before');
+  // PR de Sofía (#38): la voz ya no abre el formulario «Vuelo + hotel» (aplazado): «ambos» busca vuelos y «hotel» abre los hoteles.
+  // Solo queda la definición de la función, que sigue intacta.
+  assert.equal(page.split('abrirPaquete(').length - 1, 1, 'only the definition remains: the voice flow no longer opens the postponed package form');
 });
 
 test('the common window style lives under /app, where Tailwind looks for classes', () => {

@@ -8,9 +8,10 @@ import { siteUrl } from "@/lib/seo";
 
 type AuthMode = "signup" | "signin";
 
-export default function AuthDialog({ mode, onClose }: {
+export default function AuthDialog({ mode, onClose, onChangeMode }: {
   mode: AuthMode;
   onClose: () => void;
+  onChangeMode?: (mode: AuthMode) => void;
 }) {
   const { t, text } = useLanguage();
   const dialogRef = useRef<HTMLDialogElement>(null);
@@ -128,6 +129,7 @@ export default function AuthDialog({ mode, onClose }: {
           {error && <p role="alert" className="text-sm leading-5 text-red-700">{text(error)}</p>}
           <button type="submit" disabled={pending} className="w-full rounded-xl bg-blue-600 px-4 py-3 font-semibold text-white hover:bg-blue-700 focus-visible:ring-2 focus-visible:ring-blue-600 disabled:opacity-60">{pending ? t("auth.processing") : forgotPassword ? t("auth.sendReset") : text(title)}</button>
           {!signup && <button type="button" disabled={pending} onClick={() => { setForgotPassword(!forgotPassword); setError(""); setMessage(""); setPassword(""); }} className="w-full rounded-xl py-2 text-sm font-semibold text-blue-700 hover:text-blue-900 focus-visible:ring-2 focus-visible:ring-blue-600">{forgotPassword ? t("auth.backToSignIn") : t("auth.forgotPassword")}</button>}
+          {!forgotPassword && onChangeMode && <button type="button" disabled={pending} onClick={() => onChangeMode(signup ? "signin" : "signup")} className="w-full rounded-xl py-2 text-sm font-semibold text-blue-700 hover:text-blue-900 focus-visible:ring-2 focus-visible:ring-blue-600">{signup ? t("auth.signin") : t("auth.signup")}</button>}
         </form>
       )}
     </dialog>
