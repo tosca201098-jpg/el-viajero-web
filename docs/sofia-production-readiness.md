@@ -48,7 +48,7 @@ La clave OpenAI **no debe retirarse**: la IA escrita y los itinerarios siguen us
 ### Configuración de Sofía comprobada en lectura
 
 - Agente: `agent_2201m677yj19e6499g2649n774f6`.
-- Versión fija: `agtvrsn_2501m679we79ekz985446fbyygkb`; no seguir automáticamente Main o un borrador.
+- Versión fija: `agtvrsn_2501m679we79ekz985446fbyygkb`; no seguir automáticamente Main o un borrador. **Actualizado el 16-11-2026: la versión fijada vigente es `agtvrsn_0601m7jz66wvf83ambtr3s819vfv` (ver `sofia-solo-elevenlabs.md`); la de esta línea es histórica.**
 - Idioma base español, voz Sofía y sus instrucciones conservadas en esa versión; saludo guardado en el agente, sin `first_message` desde el navegador.
 - Herramientas cliente: `consultar_catalogo`, `mostrar_destino`, `buscar_viaje`, `crear_itinerario`, todas con respuesta esperada.
 - Máximo 300 segundos, silencio 90 segundos, detección de voz de fondo y máximo 1.024 tokens por respuesta.
@@ -87,7 +87,7 @@ Renovación autorizada futura: crear reemplazo con los mismos permisos y límite
 | `AI_VOICE_ENABLED` | `false` durante preparación; `true` solo para lanzamiento aprobado |
 | `ELEVENLABS_ENABLED` | `false` durante preparación; `true` solo para lanzamiento aprobado |
 | `ELEVENLABS_PRODUCTION_APPROVED` | `false` hasta autorización explícita; entonces `true` |
-| `ELEVENLABS_AGENT_VERSION_ID` | versión fija `agtvrsn_2501m679we79ekz985446fbyygkb` |
+| `ELEVENLABS_AGENT_VERSION_ID` | versión fija vigente `agtvrsn_0601m7jz66wvf83ambtr3s819vfv` (antes `agtvrsn_2501m679we79ekz985446fbyygkb`) |
 | `ELEVENLABS_API_KEY` | nueva clave de servidor Production; valor nunca documentado |
 | `AI_REDIS_REST_URL`, `AI_REDIS_REST_TOKEN` | credenciales para cuotas Production con permiso EVAL; no copiar a ciegas credenciales de Preview |
 | `AI_RATE_LIMIT_SECRET` | secreto independiente de Production de al menos 32 caracteres |

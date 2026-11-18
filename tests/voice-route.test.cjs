@@ -1,9 +1,9 @@
 const {test}=require('node:test'),assert=require('node:assert/strict');
 const {loader}=require('./sofia-harness.cjs');
-function valid(duration=360){return{agent_id:'agent_2201m677yj19e6499g2649n774f6',version_id:'agtvrsn_1101m6cddd37ewmtkrth2xr64n0m',conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:duration}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:duration===360?100000:15,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
+function valid(duration=360){return{agent_id:'agent_2201m677yj19e6499g2649n774f6',version_id:'agtvrsn_0601m7jz66wvf83ambtr3s819vfv',conversation_config:{agent:{language:'es',prompt:{max_tokens:1024,tools:['buscar_viaje','crear_itinerario','consultar_catalogo','mostrar_destino'].map(name=>({name,type:'client',expects_response:true}))}},tts:{voice_id:'eZxqQzb5CuYo3Kl6EXfZ'},turn:{silence_end_call_timeout:90},vad:{background_voice_detection:true},conversation:{max_duration_seconds:duration}},platform_settings:{auth:{enable_auth:true},queueing_config:{enabled:false},call_limits:{agent_concurrency_limit:1,daily_limit:duration===360?100000:15,bursting_enabled:false},overrides:{conversation_config_override:{agent:{language:true,first_message:true,prompt:{prompt:false,llm:false}},tts:{voice_id:false}}}}}}
 function route(config=valid(),env={},deny=null,options={}){
  const requests=[],finalizations=[],events=[];
- const api=loader({process:{env:{VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-elevenlabs',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web',AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_1101m6cddd37ewmtkrth2xr64n0m',...env}},fetch:async(url,init)=>{
+ const api=loader({process:{env:{VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-elevenlabs',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web',AI_ENABLED:'true',AI_VOICE_ENABLED:'true',ELEVENLABS_ENABLED:'true',ELEVENLABS_API_KEY:'fake-key',ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_0601m7jz66wvf83ambtr3s819vfv',...env}},fetch:async(url,init)=>{
  requests.push({url:String(url),options:init});events.push(requests.length===1?'configuration':'provider-token');
  if(options.fetcher)return options.fetcher(url,init,requests.length);
  return Response.json(requests.length===1?config:{token:'temporary-token',private:'must-not-leak'});
@@ -15,7 +15,7 @@ test('all seven locales get only a temporary token from the pinned private Sofí
  for(const locale of ['es','en','fr','de','it','pt','ca']){
  const r=route(),response=await r.POST(req({locale}));assert.equal(response.status,200);
  assert.deepEqual(await response.json(),{token:'temporary-token'});assert.equal(response.headers.get('cache-control'),'no-store');
- assert.equal(r.requests.length,2);assert.ok(r.requests.every(r=>r.url.includes('version_id=agtvrsn_1101m6cddd37ewmtkrth2xr64n0m')));
+ assert.equal(r.requests.length,2);assert.ok(r.requests.every(r=>r.url.includes('version_id=agtvrsn_0601m7jz66wvf83ambtr3s819vfv')));
  assert.ok(r.requests.every(r=>r.url.startsWith('https://api.elevenlabs.io/')));assert.equal(r.requests[1].options.headers['xi-api-key'],'fake-key');
  assert.deepEqual(r.finalizations,[true]);assert.deepEqual(r.events,['reserve','configuration','provider-token','commit']);
  }});
