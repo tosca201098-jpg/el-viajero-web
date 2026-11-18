@@ -6,6 +6,8 @@ import { flightProfileForSearch, itineraryContextForFlightSearch } from '@/lib/t
 import DestinationProfileSummary from '@/app/components/DestinationProfileSummary';
 import ItineraryPlanner from '@/app/components/ItineraryPlanner';
 import HotelDestinationLink from '@/app/components/HotelDestinationLink';
+import SaveFlightHeart from '@/app/components/SaveFlightHeart';
+import { savedFlightFromSearch } from '@/lib/supabase/saved-flights';
 
 export const metadata: Metadata = {
   title: 'Buscar vuelos | Destinauta',
@@ -20,6 +22,8 @@ export default async function VuelosPage({ searchParams }: {
   const hasSearch = isWhiteLabelFlightSearch(flightSearch);
   const destination = flightProfileForSearch(flightSearch, destinationId);
   const itineraryContext = itineraryContextForFlightSearch(flightSearch, departureDate, returnDate);
+  // ♡ only when the exact days of the search are known (the profile is the destination the visitor chose).
+  const savedTrip = hasSearch && destination ? savedFlightFromSearch(flightSearch, destination.name, itineraryContext) : null;
   return (
     <main className="min-h-screen bg-[#f8f6ef] px-4 py-8 text-[#292624] sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
@@ -38,6 +42,7 @@ export default async function VuelosPage({ searchParams }: {
           {/* The provider mounts its search component, but the visitor uses only the home form. */}
           <div id="tpwl-search" hidden aria-hidden="true" />
           <section aria-label="Resultados de vuelos" className="mt-6 min-w-0">
+            {savedTrip && <SaveFlightHeart key={JSON.stringify(savedTrip)} trip={savedTrip} search={flightSearch} className="mb-4" />}
             <div id="tpwl-tickets" />
           </section>
         </> : <p className="mt-6 rounded-2xl border border-blue-300 bg-white p-6 text-sm">
