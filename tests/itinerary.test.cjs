@@ -164,10 +164,14 @@ test('OpenAI is gone: no source file calls it and the itinerary API only serves 
       assert.ok(!/openai/i.test(text), path.relative(root, file));
     }
   }
-  // The itinerary endpoint exists again, but only for the free guide: it has no provider code at all (checked above)
-  // and never reads a key or calls the network (see tests/itinerary-basic.test.cjs).
+  // The itinerary endpoint exists again: free guide for everyone and Claude Haiku (Anthropic) for registered visitors.
+  // The route itself never calls the network; the only provider code is lib/itinerary/ai.ts and it only talks to Anthropic.
   const itineraryRoute = fs.readFileSync(path.join(root, 'app/api/itinerary/route.ts'), 'utf8');
-  assert.ok(!/\bfetch\s*\(/.test(itineraryRoute) && !/process\.env/.test(itineraryRoute));
+  assert.ok(!/\bfetch\s*\(/.test(itineraryRoute));
+  const providerFiles = [];
+  for (const directory of ['app', 'lib']) for (const file of walk(path.join(root, directory)))
+    if (/\bfetch\s*\(/.test(fs.readFileSync(file, 'utf8')) && /api\.anthropic\.com/.test(fs.readFileSync(file, 'utf8'))) providerFiles.push(path.relative(root, file));
+  assert.deepEqual(providerFiles, ['lib/itinerary/ai.ts']);
   assert.equal(fs.existsSync(path.join(root, 'lib/voice/openai-session.ts')), false);
   assert.equal(fs.existsSync(path.join(root, 'lib/voice/openai-route.ts')), false);
 });

@@ -7,6 +7,7 @@ import { calendarTripDays, suggestedItineraryDays } from "@/lib/itinerary/dates"
 import { basicGuideDocument, documentFileName, documentInfo, itineraryDocument } from "@/lib/itinerary/document";
 import { downloadPdf } from "@/lib/itinerary/download";
 import { buildPdf } from "@/lib/pdf/text-pdf";
+import { AI_ITINERARIES_PER_DAY } from "@/lib/itinerary/limits";
 import { isBasicGuide, isItinerary } from "@/lib/itinerary/schema";
 import type { BasicGuide, Itinerary, ItineraryRequest } from "@/lib/itinerary/types";
 import { getSupabaseClient } from "@/lib/supabase/client";
@@ -24,6 +25,10 @@ export type ItineraryContext = {
 
 // "dark" es el aspecto de siempre (/vuelos). "light" lo usa la ventana de ficha: tarjeta clara con
 // texto oscuro, sin fondos negros. Solo cambian clases de estilo.
+const aiNoteKey = {
+  offer: "itinerary.aiOffer", limit: "itinerary.aiLimit", unavailable: "itinerary.aiUnavailable",
+} as const;
+
 const surfaces = {
   dark: {
     section: "mt-6 min-w-0 rounded-2xl border border-cyan-300/25 bg-cyan-300/[0.06] p-4 sm:p-5",
@@ -77,6 +82,8 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [downloadError, setDownloadError] = useState(false);
+  // What the server says about the AI itinerary next to the free guide: offered to guests, limit reached, or unavailable.
+  const [aiNote, setAiNote] = useState<"offer" | "limit" | "unavailable" | null>(null);
   const [saving, setSaving] = useState(false);
   const [saveStatus, setSaveStatus] = useState<"idle" | "signin" | "saved" | "error">("idle");
   const busyRef = useRef(false);
@@ -116,6 +123,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
       setSelectedDays(voiceRequest.days);
       setSaveStatus('idle');
       setBasicGuide(null);
+      setAiNote(null);
       setError(false);
       setDownloadError(false);
       completedVoiceRef.current = voiceRequest;
@@ -138,6 +146,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
     setLoading(true);
     setError(false);
     setDownloadError(false);
+    setAiNote(null);
     const controller = new AbortController();
     controllerRef.current = controller;
     const current = () => mountedRef.current && controllerRef.current === controller && !controller.signal.aborted;
@@ -160,9 +169,17 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
       ...(context.budget ? { budget: context.budget } : {}),
     };
     try {
+      // A registered visitor sends their own session so the server can write the itinerary with the AI; without it the
+      // server answers with the free guide. Any problem reading the session simply means «not signed in».
+      let token: string | null = null;
+      try {
+        const { data: { session } } = await getSupabaseClient().auth.getSession();
+        token = session?.access_token ?? null;
+      } catch { token = null; }
+      if (!current()) return;
       const response = await fetch("/api/itinerary", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...(token ? { Authorization: `Bearer ${token}` } : {}) },
         body: JSON.stringify(payload),
         signal: controller.signal,
       });
@@ -175,6 +192,8 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
       } else if ("guide" in data && isBasicGuide(data.guide, days)) {
         setBasicGuide(data.guide);
         setItinerary(null);
+        setAiNote("aiNotice" in data && (data.aiNotice === "limit" || data.aiNotice === "unavailable") ? data.aiNotice
+          : "aiOffer" in data && data.aiOffer === true ? "offer" : null);
       } else throw new Error("Invalid itinerary");
       setSaveStatus("idle");
     } catch {
@@ -241,7 +260,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
           <div className="grid grid-cols-7 gap-1.5">
             {([1, 2, 3, 4, 5, 6, 7] as const).map((day) => (
               <button key={day} type="button" aria-label={dayLabel(day)}
-                aria-pressed={selectedDays === day} onClick={() => { setSelectedDays(day); setItinerary(null); setBasicGuide(null); setError(false); setDownloadError(false); setSaveStatus("idle"); }} disabled={loading || saving}
+                aria-pressed={selectedDays === day} onClick={() => { setSelectedDays(day); setItinerary(null); setBasicGuide(null); setAiNote(null); setError(false); setDownloadError(false); setSaveStatus("idle"); }} disabled={loading || saving}
                 className={`min-h-[44px] min-w-0 rounded-lg border text-sm font-semibold ${selectedDays === day
                   ? look.dayOn : look.dayOff}`}>
                 {day}
@@ -261,6 +280,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
       {basicGuide && (
         <div className={look.result}>
           <BasicGuideContent guide={basicGuide} requestedDays={requestedDays} surface={surface} />
+          {aiNote && <p role="note" className={look.status}>{t(aiNoteKey[aiNote], { count: AI_ITINERARIES_PER_DAY })}</p>}
           <button type="button" onClick={download} className={look.save}>{t("itinerary.download")}</button>
           {downloadError && <p role="alert" className={look.saveError}>{t("itinerary.downloadError")}</p>}
         </div>
@@ -269,6 +289,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
       {itinerary && (
         <div className={look.result}>
           <ItineraryContent itinerary={itinerary} surface={surface} />
+          <p className={look.maxDays}>{t("itinerary.aiLabel")}</p>
           <div className="flex flex-wrap gap-x-3">
             <button type="button" onClick={() => void saveGenerated()}
               disabled={saving || loading || saveStatus === "saved"}

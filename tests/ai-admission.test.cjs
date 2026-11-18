@@ -247,3 +247,94 @@ test('the real voice route handler blocks before provider calls when disabled, e
     assert.equal(result.status, mode === 'limited' ? 429 : 503); assert.equal(providerCalls, 0);
   }
 });
+
+// ---- AI itineraries (Claude Haiku) for registered visitors -------------------------------------------------------------------
+const itineraryRequest = (ip = '192.0.2.1', extra = {}) => new Request('https://preview.example/api/itinerary', { method: 'POST',
+  headers: { authorization: 'Bearer fake.header.signature', 'x-vercel-forwarded-for': ip, ...extra }, body: '{}' });
+const userA = { '@/lib/supabase/voice-auth': { verifyVoiceUser: async () => ({ userId: '11111111-2222-4333-8444-555555555555' }) } };
+const userB = { '@/lib/supabase/voice-auth': { verifyVoiceUser: async () => ({ userId: '99999999-2222-4333-8444-555555555555' }) } };
+const recorder = (calls, result = [1, 0]) => async (_, options) => { calls.push(JSON.parse(options.body)); return Response.json({ result }); };
+
+test('an AI itinerary needs a verified account, then makes one reservation: IP minute, IP day, whole site and the person’s own day', async () => {
+  const commands = [];
+  assert.equal(await limiter(configuration(), recorder(commands), userA)(itineraryRequest(), 'itinerary'), null);
+  assert.equal(commands.length, 1, 'one Redis call only: no second ledger for itineraries');
+  const [command] = commands;
+  assert.equal(command[0], 'EVAL'); assert.equal(command[2], 4);
+  assert.deepEqual(command.slice(7), [3, 60, 10, 86400, 200, 86400, 10, 90000]);
+  const keys = command.slice(3, 7);
+  assert.match(keys[0], /^destinauta:ai:v1:preview:itinerary:ip:[a-f0-9]{64}:minute$/);
+  assert.match(keys[1], /^destinauta:ai:v1:preview:itinerary:ip:[a-f0-9]{64}:day$/);
+  assert.equal(keys[2], 'destinauta:ai:v1:preview:itinerary:global:day');
+  assert.match(keys[3], /^destinauta:ai:v1:preview:itinerary:user:[a-f0-9]{64}:day:2026-11-01$/);
+  for (const value of ['192.0.2.1', 'fake-unit-test', '11111111-2222-4333-8444-555555555555']) assert.equal(JSON.stringify(commands).includes(value), false);
+});
+
+test('guests and invalid sessions never reach the store: the account check answers first', async () => {
+  for (const status of [401, 403, 503]) {
+    const commands = [];
+    const guest = { '@/lib/supabase/voice-auth': { verifyVoiceUser: async () => Response.json({ error: 'x' }, { status }) } };
+    const result = await limiter(configuration(), recorder(commands), guest)(itineraryRequest(), 'itinerary');
+    assert.equal(result.status, status); assert.equal(commands.length, 0);
+  }
+  const anonymous = { '@/lib/supabase/voice-auth': { verifyVoiceUser: async () => null } };
+  const result = await limiter(configuration(), recorder([]), anonymous)(itineraryRequest(), 'itinerary');
+  assert.equal(result.status, 503, 'no verified user means no AI, never an unlimited one');
+});
+
+test('the person’s allowance is per Madrid day: it changes at midnight in Madrid and each person has their own', async () => {
+  const keyFor = async (now, deps) => {
+    const commands = [];
+    class Later extends Date { static now() { return now; } }
+    const h = load('lib/ai/admission.ts', { process: { env: configuration() }, fetch: recorder(commands), Date: Later }, deps);
+    assert.equal(await h.admitAiRequest(itineraryRequest(), 'itinerary'), null);
+    return commands[0][6];
+  };
+  const evening = await keyFor(Date.parse('2026-11-01T22:59:00Z'), userA);   // 23:59 in Madrid
+  const midnight = await keyFor(Date.parse('2026-11-01T23:00:00Z'), userA);  // 00:00 next day in Madrid
+  assert.ok(evening.endsWith(':day:2026-11-01')); assert.ok(midnight.endsWith(':day:2026-11-02'));
+  const other = await keyFor(Date.parse('2026-11-01T22:59:00Z'), userB);
+  assert.notEqual(other, evening); assert.ok(other.endsWith(':day:2026-11-01'));
+});
+
+test('itinerary limits may be lowered by settings but never raised above 3 a minute, 10 a day per IP and person, 200 for the site', async () => {
+  for (const change of [{ AI_ITINERARY_MINUTE_LIMIT: '4' }, { AI_ITINERARY_DAY_LIMIT: '11' }, { AI_ITINERARY_GLOBAL_DAY_LIMIT: '201' },
+    { AI_ITINERARY_USER_DAY_LIMIT: '11' }, { AI_ITINERARY_USER_DAY_LIMIT: '0' }, { AI_ITINERARY_USER_DAY_LIMIT: 'abc' }, { AI_ITINERARY_GLOBAL_DAY_LIMIT: '-1' }]) {
+    const commands = [];
+    const result = await limiter({ ...configuration(), ...change }, recorder(commands), userA)(itineraryRequest(), 'itinerary');
+    assert.equal(result.status, 503, JSON.stringify(change)); assert.equal(commands.length, 0);
+  }
+  const commands = [];
+  assert.equal(await limiter({ ...configuration(), AI_ITINERARY_MINUTE_LIMIT: '1', AI_ITINERARY_DAY_LIMIT: '5',
+    AI_ITINERARY_GLOBAL_DAY_LIMIT: '50', AI_ITINERARY_USER_DAY_LIMIT: '3' }, recorder(commands), userA)(itineraryRequest(), 'itinerary'), null);
+  assert.deepEqual(commands[0].slice(7), [1, 60, 5, 86400, 50, 86400, 3, 90000]);
+  // The voice settings do not leak into itineraries and vice versa.
+  const voiceOnly = [];
+  assert.equal(await limiter({ ...configuration(), AI_VOICE_DAY_LIMIT: '1' }, recorder(voiceOnly), userA)(itineraryRequest(), 'itinerary'), null);
+  assert.deepEqual(voiceOnly[0].slice(7), [3, 60, 10, 86400, 200, 86400, 10, 90000]);
+});
+
+test('over the itinerary allowance the visitor gets 429 with only a retry delay; a store failure or the flags off never allow', async () => {
+  const denied = await limiter(configuration(), recorder([], [0, 7200]), userA)(itineraryRequest(), 'itinerary');
+  assert.equal(denied.status, 429); assert.equal(denied.headers.get('retry-after'), '7200');
+  assert.deepEqual(await denied.json(), { error: 'ai_rate_limited' });
+  for (const body of [{ error: 'secret-store-detail' }, { result: null }, { result: [1, 5] }, { result: [2, 0] }]) {
+    const failed = await limiter(configuration(), async () => Response.json(body), userA)(itineraryRequest(), 'itinerary');
+    assert.equal(failed.status, 503); assert.equal((await failed.text()).includes('secret-store-detail'), false);
+  }
+  assert.equal((await limiter(configuration(), async () => { throw Error('timeout'); }, userA)(itineraryRequest(), 'itinerary')).status, 503);
+  for (const change of [{ AI_ENABLED: 'false' }, { AI_ITINERARY_ENABLED: 'false' }, { AI_ITINERARY_ENABLED: undefined }]) {
+    const commands = [];
+    const result = await limiter({ ...configuration(), ...change }, recorder(commands), userA)(itineraryRequest(), 'itinerary');
+    assert.equal(result.status, 503); assert.equal(commands.length, 0);
+  }
+  const crossSite = [];
+  assert.equal((await limiter(configuration(), recorder(crossSite), userA)(itineraryRequest('192.0.2.1', { origin: 'https://evil.example' }), 'itinerary')).status, 403);
+  assert.equal(crossSite.length, 0);
+});
+
+test('the voice allowance is unchanged by the itinerary work: four attempt keys and then the Madrid-day hold', async () => {
+  const commands = [];
+  assert.equal(await limiter(configuration(), recorder(commands), userA)(request(), 'voice'), null);
+  assert.equal(commands.length, 2); assert.deepEqual(commands[0].slice(7), [2, 60, 5, 86400, 20, 86400, 1, 60]);
+});

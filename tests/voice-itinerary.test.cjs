@@ -47,7 +47,7 @@ const spoken = (destino, dias, title) => ({ destino, dias, itinerario: written(d
 
 // A small hook scheduler runs the real planner and content components. React lifecycle
 // scheduling and media are simulated; the planner only reaches the network through the fetch the test passes in.
-function plannerHarness(initialProps, language, fetchImpl = async () => { throw Error('No request expected'); }, downloadOk = true) {
+function plannerHarness(initialProps, language, fetchImpl = async () => { throw Error('No request expected'); }, downloadOk = true, sessionToken) {
   let props = initialProps, tree, dirty = true, si = 0, ri = 0, ei = 0;
   const states = [], refs = [], effects = [], pending = [], scrolls = [], navigations = [], downloads = [];
   const react = {
@@ -59,7 +59,11 @@ function plannerHarness(initialProps, language, fetchImpl = async () => { throw 
   };
   const load = loader({ react,
     './LanguageProvider': { useLanguage: () => ({ language, t: (key, vars) => translations.translate(language, key, vars) }) },
-    '@/lib/supabase/client': { getSupabaseClient: () => { throw Error('Supabase calls forbidden'); } },
+    '@/lib/supabase/client': { getSupabaseClient: () => {
+      // Only the session read is allowed, and only when a test says there is (or is not) a signed-in visitor.
+      if (sessionToken === undefined) throw Error('Supabase calls forbidden');
+      return { auth: { getSession: async () => ({ data: { session: sessionToken ? { access_token: sessionToken } : null } }) } };
+    } },
     '@/lib/supabase/saved-itineraries': { saveItinerary: () => { throw Error('Writes forbidden'); } },
     '@/lib/itinerary/download': { downloadPdf: (bytes, name) => { downloads.push({ bytes, name }); return downloadOk; } },
   }, { React: react, window: { location: { assign: value => navigations.push(value) } },
@@ -397,3 +401,98 @@ for (const [country, label] of [['IT', 'Italian'], ['GB', 'British'], ['DE', 'Ge
       } finally { h.session.stop(); b.ui?.unmount(); }
     }
   });
+
+// ---- Registered visitors: the AI itinerary and the notices that go with the free guide -------------------------------------
+const aiItinerary = days => sample(days, 'Escrito por la IA');
+const guideFor = body => basicGuides.buildBasicGuide(madrid, body.days, body.locale);
+const aiLabel = translations.translate('es', 'itinerary.aiLabel');
+const aiCount = 10;
+const aiText = key => translations.translate('es', key, { count: aiCount });
+
+test('a signed-in visitor sends their own session with the request and gets the itinerary the AI wrote, labelled as AI, saveable and downloadable', async () => {
+  const seen = [];
+  const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async (url, init) => {
+    const body = JSON.parse(init.body); seen.push({ url, headers: init.headers });
+    return { ok: true, json: async () => ({ itinerary: aiItinerary(body.days) }) };
+  }, true, 'token-de-prueba');
+  await ui.drain();
+  createButton(ui).props.onClick(); await ui.drain();
+  assert.equal(seen.length, 1); assert.equal(seen[0].url, '/api/itinerary');
+  assert.equal(seen[0].headers.Authorization, 'Bearer token-de-prueba');
+  assert.match(ui.text(), /Escrito por la IA/); assert.ok(ui.text().includes(aiLabel));
+  assert.ok(!/Guía básica/.test(ui.text()));
+  assert.ok(saveButton(ui)); assert.ok(downloadButton(ui));
+  downloadButton(ui).props.onClick(); await ui.drain();
+  assert.equal(ui.downloads.length, 1);
+  assert.ok(Buffer.from(ui.downloads[0].bytes).toString('latin1').includes(Buffer.from('Escrito por la IA', 'latin1').toString('hex')));
+  ui.unmount();
+});
+
+test('a visitor without a session sends no credentials; if reading the session fails the free guide is still requested', async () => {
+  for (const sessionToken of [null, undefined]) {
+    const seen = [];
+    const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async (_url, init) => {
+      seen.push(init.headers); return { ok: true, json: async () => ({ guide: guideFor(JSON.parse(init.body)), aiOffer: true }) };
+    }, true, sessionToken);
+    await ui.drain();
+    createButton(ui).props.onClick(); await ui.drain();
+    assert.equal(seen.length, 1); assert.ok(!('Authorization' in seen[0]));
+    assert.match(ui.text(), /Guía básica de Madrid/); ui.unmount();
+  }
+});
+
+test('the guide shows the right short notice: offer for guests, daily allowance used up, or AI unavailable, and none otherwise', async () => {
+  const cases = [[{ aiOffer: true }, 'itinerary.aiOffer'], [{ aiNotice: 'limit' }, 'itinerary.aiLimit'],
+    [{ aiNotice: 'unavailable' }, 'itinerary.aiUnavailable'], [{}, null], [{ aiNotice: 'otra-cosa' }, null], [{ aiOffer: 'true' }, null]];
+  for (const [extra, key] of cases) {
+    const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async (_url, init) =>
+      ({ ok: true, json: async () => ({ guide: guideFor(JSON.parse(init.body)), ...extra }) }));
+    await ui.drain();
+    createButton(ui).props.onClick(); await ui.drain();
+    assert.match(ui.text(), /Guía básica de Madrid/); assert.ok(downloadButton(ui));
+    for (const other of ['itinerary.aiOffer', 'itinerary.aiLimit', 'itinerary.aiUnavailable']) {
+      assert.equal(ui.text().includes(aiText(other)), other === key, `${JSON.stringify(extra)} / ${other}`);
+    }
+    assert.ok(!ui.text().includes(aiLabel), 'a basic guide is never labelled as AI');
+    if (key) assert.ok(ui.find(n => n.type === 'p' && n.props.role === 'note'));
+    ui.unmount();
+  }
+});
+
+test('the notice disappears when the duration changes, and is replaced by the new answer when the visitor asks again', async () => {
+  let notice = { aiNotice: 'limit' };
+  const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async (_url, init) =>
+    ({ ok: true, json: async () => ({ guide: guideFor(JSON.parse(init.body)), ...notice }) }));
+  await ui.drain();
+  createButton(ui).props.onClick(); await ui.drain();
+  assert.ok(ui.text().includes(aiText('itinerary.aiLimit')));
+  ui.find(n => n.type === 'button' && n.props['aria-label'] === '2 días').props.onClick(); await ui.drain();
+  assert.ok(!ui.text().includes(aiText('itinerary.aiLimit')));
+  notice = { aiOffer: true };
+  createButton(ui).props.onClick(); await ui.drain();
+  assert.ok(ui.text().includes(aiText('itinerary.aiOffer'))); assert.ok(!ui.text().includes(aiText('itinerary.aiLimit')));
+  ui.unmount();
+});
+
+test('an answer with neither a valid itinerary nor a valid guide for the days asked is an error, never shown', async () => {
+  for (const answer of [{ itinerary: aiItinerary(1) }, { itinerary: { title: 'x' } }, { guide: { name: 'x' } }, {}, []]) {
+    const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async () => ({ ok: true, json: async () => answer }), true, 'token');
+    await ui.drain();
+    createButton(ui).props.onClick(); await ui.drain();
+    assert.match(ui.text(), /No hemos podido crear el itinerario/); assert.ok(!ui.text().includes('Escrito por la IA'));
+    ui.unmount();
+  }
+});
+
+test('the text of the AI notices exists in all seven languages and always carries the number of daily itineraries', () => {
+  const english = translations.translate('en', 'itinerary.aiOffer', { count: 10 });
+  for (const { code } of translations.locales) for (const key of ['itinerary.aiOffer', 'itinerary.aiLimit']) {
+    const value = translations.translate(code, key, { count: 10 });
+    assert.ok(value.includes('10'), `${code} ${key}`); assert.ok(!value.includes('{count}'), `${code} ${key}`);
+    if (code !== 'en') assert.notEqual(value, translations.translate('en', key, { count: 10 }));
+  }
+  for (const { code } of translations.locales) for (const key of ['itinerary.aiUnavailable', 'itinerary.aiLabel']) {
+    assert.ok(translations.translate(code, key).length > 20, `${code} ${key}`);
+  }
+  assert.ok(english.includes('free'));
+});
