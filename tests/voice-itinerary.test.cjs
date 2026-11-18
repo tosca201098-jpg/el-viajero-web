@@ -46,10 +46,10 @@ const written = (days, title) => JSON.stringify(sample(days, title));
 const spoken = (destino, dias, title) => ({ destino, dias, itinerario: written(dias, title) });
 
 // A small hook scheduler runs the real planner and content components. React lifecycle
-// scheduling and media are simulated; the planner can no longer reach any network or provider.
-function plannerHarness(initialProps, language, askSofia = () => false) {
+// scheduling and media are simulated; the planner only reaches the network through the fetch the test passes in.
+function plannerHarness(initialProps, language, fetchImpl = async () => { throw Error('No request expected'); }, downloadOk = true) {
   let props = initialProps, tree, dirty = true, si = 0, ri = 0, ei = 0;
-  const states = [], refs = [], effects = [], pending = [], scrolls = [], navigations = [];
+  const states = [], refs = [], effects = [], pending = [], scrolls = [], navigations = [], downloads = [];
   const react = {
     createElement: (type, props, ...children) => ({ type, props: props || {}, children }),
     useState: initial => { const i = si++; if (!(i in states)) states[i] = typeof initial === 'function' ? initial() : initial;
@@ -61,9 +61,9 @@ function plannerHarness(initialProps, language, askSofia = () => false) {
     './LanguageProvider': { useLanguage: () => ({ language, t: (key, vars) => translations.translate(language, key, vars) }) },
     '@/lib/supabase/client': { getSupabaseClient: () => { throw Error('Supabase calls forbidden'); } },
     '@/lib/supabase/saved-itineraries': { saveItinerary: () => { throw Error('Writes forbidden'); } },
-    '@/lib/voice/ask-sofia': { askSofia },
+    '@/lib/itinerary/download': { downloadPdf: (bytes, name) => { downloads.push({ bytes, name }); return downloadOk; } },
   }, { React: react, window: { location: { assign: value => navigations.push(value) } },
-    fetch: async () => { throw Error('The planner must never call the network'); } });
+    fetch: (...args) => fetchImpl(...args) });
   const Component = load('app/components/ItineraryPlanner.tsx').default;
   function render() {
     si = ri = ei = 0; dirty = false; tree = Component(props);
@@ -79,7 +79,7 @@ function plannerHarness(initialProps, language, askSofia = () => false) {
     if (typeof node.type === 'function') return nodes(node.type({ ...node.props, children: node.children }));
     return [node, ...node.children.flatMap(n => nodes(n))];
   }
-  return { scrolls, navigations, render, flushEffects,
+  return { scrolls, navigations, downloads, render, flushEffects,
     text: () => nodes().filter(n => typeof n === 'string' || typeof n === 'number').join(' '),
     find: predicate => nodes().find(n => n && typeof n === 'object' && predicate(n)),
     update: next => { props = next; dirty = true; },
@@ -240,23 +240,95 @@ test('effect replay shows the itinerary once and settled requests never reappear
   assert.ok(!remount.text().includes('Una sola vez')); remount.unmount();
 });
 
-test('the planner never generates by itself: its button asks Sofía and it never touches the network', async () => {
-  let asked = 0;
-  const ui = plannerHarness({ destination: madrid, context: { departureDate: '2026-11-17', returnDate: '2026-11-19' } }, 'es', () => { asked++; return true; });
-  await ui.drain();
-  const label = translations.translate('es', 'itinerary.askSofia');
-  const button = ui.find(n => n.type === 'button' && String(n.children).includes(label));
-  assert.ok(button); button.props.onClick(); assert.equal(asked, 1);
-  assert.match(ui.text(), /3 días/); assert.match(ui.text(), /Madrid/);
-  assert.ok(!ui.find(n => n.type === 'button' && String(n.children).includes(translations.translate('es', 'itinerary.create'))));
+const basicGuides = shared('lib/itinerary/basic.ts');
+const createLabel = translations.translate('es', 'itinerary.createPlan');
+const createButton = ui => ui.find(n => n.type === 'button' && String(n.children).includes(createLabel));
+
+test('the planner never generates by itself: nothing is requested until the visitor presses «Crear itinerario»', async () => {
+  const calls = [];
+  const ui = plannerHarness({ destination: madrid, context: { departureDate: '2026-11-17', returnDate: '2026-11-19' } }, 'es', async (url, init) => {
+    const body = JSON.parse(init.body); calls.push({ url, body });
+    return { ok: true, json: async () => ({ guide: basicGuides.buildBasicGuide(madrid, body.days, body.locale) }) };
+  });
+  await ui.drain(); await ui.drain();
+  assert.equal(calls.length, 0, 'opening the window or the page requests nothing');
+  assert.ok(!/Guía básica/.test(ui.text()), 'no guide before the button');
+  assert.ok(!ui.find(n => n.type === 'button' && String(n.children).includes('Sofía')), 'the manual button is not a voice button');
+  const button = createButton(ui); assert.ok(button);
+  button.props.onClick(); await ui.drain();
+  assert.equal(calls.length, 1); assert.equal(calls[0].url, '/api/itinerary');
+  assert.equal(calls[0].body.days, 3); assert.equal(calls[0].body.locale, 'es');
+  assert.equal(calls[0].body.destination.name, 'Madrid');
+  assert.match(ui.text(), /Guía básica de Madrid/); assert.match(ui.text(), /Día 1/);
+  assert.match(ui.text(), /No incluye horarios, precios ni reservas/);
   ui.unmount();
 });
 
-test('without a microphone on the page the planner sends the visitor to the home page where Sofía lives', async () => {
-  const ui = plannerHarness({ destination: madrid, context: {}, surface: 'light' }, 'es', () => false);
+test('the free guide is shorter than the trip when the page has fewer recommendations, and says so', async () => {
+  const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async (url, init) => {
+    const body = JSON.parse(init.body);
+    return { ok: true, json: async () => ({ guide: basicGuides.buildBasicGuide(madrid, body.days, body.locale) }) };
+  });
   await ui.drain();
-  ui.find(n => n.type === 'button' && String(n.children).includes(translations.translate('es', 'itinerary.askSofia'))).props.onClick();
-  assert.deepEqual(Array.from(ui.navigations), ['/']);
+  ui.find(n => n.type === 'button' && n.props['aria-label'] === '7 días').props.onClick(); await ui.drain();
+  createButton(ui).props.onClick(); await ui.drain();
+  assert.match(ui.text(), /la guía llega a 4 días/);
+  assert.ok(!/Día 5/.test(ui.text()), 'no empty or invented days');
+  ui.find(n => n.type === 'button' && n.props['aria-label'] === '2 días').props.onClick(); await ui.drain();
+  assert.ok(!/Guía básica/.test(ui.text()), 'changing the duration clears the old guide');
+  ui.unmount();
+});
+
+test('a failed request shows the error message and no guide', async () => {
+  const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async () => ({ ok: false, json: async () => ({ error: 'invalid_request' }) }));
+  await ui.drain();
+  createButton(ui).props.onClick(); await ui.drain();
+  assert.match(ui.text(), /No hemos podido crear el itinerario/); assert.ok(!/Guía básica/.test(ui.text()));
+  ui.unmount();
+});
+
+const downloadLabel = translations.translate('es', 'itinerary.download');
+const downloadButton = ui => ui.find(n => n.type === 'button' && String(n.children).includes(downloadLabel));
+const saveButton = ui => ui.find(n => n.type === 'button' && String(n.children).includes(translations.translate('es', 'itinerary.save')));
+
+test('the free guide can be downloaded as a PDF once it exists, and it has no «save in my account» button', async () => {
+  const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async (_url, init) => {
+    const body = JSON.parse(init.body);
+    return { ok: true, json: async () => ({ guide: basicGuides.buildBasicGuide(madrid, body.days, body.locale) }) };
+  });
+  await ui.drain();
+  assert.ok(!downloadButton(ui), 'nothing to download before pressing «Crear itinerario»');
+  createButton(ui).props.onClick(); await ui.drain();
+  assert.ok(downloadButton(ui)); assert.ok(!saveButton(ui));
+  downloadButton(ui).props.onClick(); await ui.drain();
+  assert.equal(ui.downloads.length, 1); assert.equal(ui.downloads[0].name, 'destinauta-madrid.pdf');
+  assert.equal(Buffer.from(ui.downloads[0].bytes).subarray(0, 5).toString('latin1'), '%PDF-');
+  assert.ok(!ui.text().includes(translations.translate('es', 'itinerary.downloadError')));
+  ui.unmount();
+});
+
+test('the itinerary delivered by Sofía (or the AI) has both «save in my account» and «download PDF»', async () => {
+  const parent = new AbortController();
+  const request = requests.createVoiceItineraryRequest(madrid, 2, sample(2, 'Con descarga'), { callId: 'pdf', locale: 'es', signal: parent.signal });
+  const ui = plannerHarness({ destination: madrid, context: {}, voiceRequest: request }, 'es');
+  ui.render(); ui.flushEffects(); await ui.drain();
+  assert.match(ui.text(), /Con descarga/); assert.ok(saveButton(ui)); assert.ok(downloadButton(ui));
+  downloadButton(ui).props.onClick(); await ui.drain();
+  assert.equal(ui.downloads.length, 1); assert.equal(ui.downloads[0].name, 'destinauta-madrid.pdf');
+  const pdfText = Buffer.from(ui.downloads[0].bytes).toString('latin1');
+  assert.match(pdfText, /\/Type \/Page /); assert.ok(pdfText.includes(Buffer.from('Con descarga', 'latin1').toString('hex')));
+  ui.unmount();
+});
+
+test('if the browser cannot save the file the visitor is told and nothing else changes', async () => {
+  const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async (_url, init) => {
+    const body = JSON.parse(init.body);
+    return { ok: true, json: async () => ({ guide: basicGuides.buildBasicGuide(madrid, body.days, body.locale) }) };
+  }, false);
+  await ui.drain();
+  createButton(ui).props.onClick(); await ui.drain();
+  downloadButton(ui).props.onClick(); await ui.drain();
+  assert.match(ui.text(), /No hemos podido preparar el PDF/); assert.match(ui.text(), /Guía básica de Madrid/);
   ui.unmount();
 });
 
@@ -299,10 +371,18 @@ test('invalid calls do not cancel an itinerary being shown and are answered as b
   } finally { h.session.stop(); b.ui?.unmount(); }
 });
 
-test('the manual duration selector only changes what the planner asks Sofía for', async () => {
-  const ui = plannerHarness({ destination: madrid, context: {}, onAskSofia() {} }, 'es'); await ui.drain();
+test('the manual duration selector only changes what the planner will request: it asks for nothing by itself', async () => {
+  const requested = [];
+  const ui = plannerHarness({ destination: madrid, context: {} }, 'es', async (_url, init) => {
+    const body = JSON.parse(init.body); requested.push(body.days);
+    return { ok: true, json: async () => ({ guide: basicGuides.buildBasicGuide(madrid, body.days, body.locale) }) };
+  });
+  await ui.drain();
   ui.find(n => n.type === 'button' && n.props['aria-label'] === '4 días').props.onClick(); await ui.drain();
-  assert.match(ui.text(), /4 días/); assert.ok(!ui.text().includes('Itinerario simulado visible')); ui.unmount();
+  assert.equal(ui.find(n => n.type === 'button' && n.props['aria-label'] === '4 días').props['aria-pressed'], true);
+  assert.ok(!ui.text().includes('Itinerario simulado visible')); assert.deepEqual(requested, []);
+  createButton(ui).props.onClick(); await ui.drain();
+  assert.deepEqual(requested, [4]); ui.unmount();
 });
 
 for (const [country, label] of [['IT', 'Italian'], ['GB', 'British'], ['DE', 'German'], ['NL', 'Dutch'], ['BE', 'Belgian']])

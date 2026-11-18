@@ -153,7 +153,7 @@ function walk(directory) {
   });
 }
 
-test('OpenAI is gone: no source file calls it and the old itinerary API no longer exists', () => {
+test('OpenAI is gone: no source file calls it and the itinerary API only serves the free guide', () => {
   for (const directory of ['app', 'lib', 'components', 'scripts']) {
     const folder = path.join(root, directory);
     if (!fs.existsSync(folder)) continue;
@@ -164,7 +164,10 @@ test('OpenAI is gone: no source file calls it and the old itinerary API no longe
       assert.ok(!/openai/i.test(text), path.relative(root, file));
     }
   }
-  assert.equal(fs.existsSync(path.join(root, 'app/api/itinerary')), false);
+  // The itinerary endpoint exists again, but only for the free guide: it has no provider code at all (checked above)
+  // and never reads a key or calls the network (see tests/itinerary-basic.test.cjs).
+  const itineraryRoute = fs.readFileSync(path.join(root, 'app/api/itinerary/route.ts'), 'utf8');
+  assert.ok(!/\bfetch\s*\(/.test(itineraryRoute) && !/process\.env/.test(itineraryRoute));
   assert.equal(fs.existsSync(path.join(root, 'lib/voice/openai-session.ts')), false);
   assert.equal(fs.existsSync(path.join(root, 'lib/voice/openai-route.ts')), false);
 });
