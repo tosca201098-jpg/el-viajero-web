@@ -236,7 +236,7 @@ SI ALGO FALLA
 | Dato | Valor |
 | --- | --- |
 | Rama de ElevenLabs | `sofia-agente-viajes` (`agtbrch_5301m7jz64mfey19xq5q55b645e3`) |
-| Versión inmutable | `agtvrsn_0601m7jz66wvf83ambtr3s819vfv` |
+| Versión inmutable | `agtvrsn_4001m7r0by44etcr1sz2gbvxp993` (18-11-2026; la anterior, `agtvrsn_0601m7jz66wvf83ambtr3s819vfv`, no incluía los idiomas adicionales) |
 | Contenido | mensaje del sistema ampliado (fecha de hoy, solo viajes y DESTINAUTA), herramienta `descubrir_destinos`, protecciones «Focus» y «Prompt Injection», llamadas a herramientas en paralelo desactivadas, orden de reserva `claude-sonnet-5` |
 | No cambia | modelo principal (DeepSeek Flash 4.1), voz, idioma, duración y límites: son ajustes del agente en Main |
 
@@ -278,7 +278,7 @@ herramientas, sobre todo `descubrir_destinos` y `buscar_viaje` con presupuesto.
 | `ELEVENLABS_ENABLED` | `true` | Autoriza llamar a ElevenLabs. |
 | `ELEVENLABS_PRODUCTION_APPROVED` | `true` | Aprobación explícita del propietario para Production. |
 | `ELEVENLABS_API_KEY` | (clave privada, solo en Production) | La escribe el propietario directamente en Vercel. |
-| `ELEVENLABS_AGENT_VERSION_ID` | `agtvrsn_0601m7jz66wvf83ambtr3s819vfv` (la fijada en el código) | Debe coincidir exactamente con `SOFIA_PRODUCTION_VERSION_ID`. |
+| `ELEVENLABS_AGENT_VERSION_ID` | `agtvrsn_4001m7r0by44etcr1sz2gbvxp993` (la fijada en el código) | Debe coincidir exactamente con `SOFIA_PRODUCTION_VERSION_ID`. |
 | `AI_REDIS_REST_URL`, `AI_REDIS_REST_TOKEN` | de Upstash Redis | Cuotas compartidas. |
 | `AI_RATE_LIMIT_SECRET` | texto aleatorio de 32 o más caracteres | Protege los contadores. |
 | `AI_VOICE_PERIOD` | `month` (opcional) | Periodo de los minutos por cuenta: `week`, `fortnight` o `month`. Ver `docs/sofia-minutos-voz.md`. |

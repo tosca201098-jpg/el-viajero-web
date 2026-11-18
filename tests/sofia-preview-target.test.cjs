@@ -2,7 +2,7 @@ const {test}=require('node:test'),assert=require('node:assert/strict');
 const fs=require('node:fs'),path=require('node:path');
 const {loader}=require('./sofia-harness.cjs');
 const agent='agent_2201m677yj19e6499g2649n774f6';
-const version='agtvrsn_0601m7jz66wvf83ambtr3s819vfv';
+const version='agtvrsn_4001m7r0by44etcr1sz2gbvxp993';
 const legacy='agent_9701m5zn3h9bf57ata0q3qzn1ag6';
 const legacyVersion='agtvrsn_3801m618j78bey69jjc08tdm4ppc';
 const scope={VERCEL:'1',VERCEL_ENV:'preview',VERCEL_GIT_COMMIT_REF:'codex/sofia-elevenlabs',VERCEL_GIT_REPO_OWNER:'tosca201098-jpg',VERCEL_GIT_REPO_SLUG:'el-viajero-web'};
@@ -58,7 +58,7 @@ test('Preview with absent, malformed or unreviewed version fails closed before E
 });
 
 test('Preview migrates only the previous reviewed environment pin to the fixed 360-second version',async()=>{
- const h=harness({ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_2501m679we79ekz985446fbyygkb'});
+ const h=harness({ELEVENLABS_AGENT_VERSION_ID:'agtvrsn_0601m7jz66wvf83ambtr3s819vfv'});
  const response=await h.POST(request('es'));
  assert.equal(response.status,200);assert.equal((await response.json()).token,'temporary-token');
  assert.equal(h.requests.length,2);
