@@ -43,7 +43,7 @@ function buildIndex(): Index {
     for (const { code } of locales) months.set(normalizeDestinationName(formatMonthName(month, code)), month);
   }
   // A place name that is also a month, season, topic, price or greeting word (the Irish county «Mayo») is read as that word.
-  const reserved = new Set<string>([...months.keys(), ...Object.values(SEASONS).flatMap(season => season.words),
+  const reserved = new Set<string>([...Array.from(months.keys()), ...Object.values(SEASONS).flatMap(season => season.words),
     ...TOPICS.flatMap(topic => topic.words), ...PRICE_WORDS, ...GREETINGS]);
   const usable = (value: string) => {
     const term = normalizeDestinationName(value);
@@ -55,7 +55,7 @@ function buildIndex(): Index {
       const term = usable(value);
       if (term) terms.add(term);
     }
-    return { id: profile.id as string, terms: [...terms] };
+    return { id: profile.id as string, terms: Array.from(terms) };
   });
   const byCode = new Map<string, { code: string; terms: Set<string>; name: Record<Locale, string> }>();
   for (const profile of destinationProfiles) {
@@ -69,7 +69,7 @@ function buildIndex(): Index {
     }
     byCode.set(code, { code, terms, name });
   }
-  return { destinations, countries: [...byCode.values()].map(item => ({ ...item, terms: [...item.terms] })), months };
+  return { destinations, countries: Array.from(byCode.values()).map(item => ({ ...item, terms: Array.from(item.terms) })), months };
 }
 
 type Hit = { kind: 'destination' | 'country'; key: string; start: number; end: number };
@@ -110,7 +110,7 @@ function findMonths(padded: string, now: Date): number[] {
     if (word === 'may' && !['in', 'during', 'for', 'of', 'from', 'to', 'until', 'by', 'and', 'or'].includes(words[position - 1] ?? '')) return;
     found.add(month);
   });
-  return [...found].slice(0, 4);
+  return Array.from(found).slice(0, 4);
 }
 
 function findSeason(padded: string): ChatSeasonKey | undefined {
@@ -151,7 +151,7 @@ function forMonths(locale: Locale, months: number[], topic: string | undefined, 
       else merged.set(place.id, { place: plain(place), hits: 1, order: order++ });
     }
   }
-  const places = [...merged.values()].sort((a, b) => b.hits - a.hits || a.order - b.order).map(item => item.place);
+  const places = Array.from(merged.values()).sort((a, b) => b.hits - a.hits || a.order - b.order).map(item => item.place);
   return { places, total: null as number | null };
 }
 
