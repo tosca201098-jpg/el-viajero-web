@@ -55,7 +55,7 @@ const europeRegional = load('lib/destinations/europe-regional.ts');
 const nordicRegional = load('lib/destinations/nordic-regional.ts');
 const scandinaviaRegional = load('lib/destinations/scandinavia-regional.ts');
 const japan = load('lib/destinations/japan.ts');
-const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './croatia': croatia, './greece': greece, './slovenia': load('lib/destinations/slovenia.ts'), './greece-airport-towns': load('lib/destinations/greece-airport-towns.ts'), './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics, './scandinavia': scandinavia, './ireland-baltics': irelandBaltics, './uk-regional': ukRegional, './italy-regional': italyRegional, './germany-regional': germanyRegional, './europe-regional': europeRegional, './nordic-regional': nordicRegional, './scandinavia-regional': scandinaviaRegional, './japan': japan });
+const library = load('lib/destinations/index.ts', { './spain': spain, './portugal': portugal, './france': france, './italy': italy, './uk': uk, './germany': germany, './netherlands': netherlands, './belgium': belgium, './switzerland': switzerland, './austria': austria, './czechia': czechia, './poland': poland, './hungary': hungary, './slovakia': slovakia, './croatia': croatia, './greece': greece, './slovenia': load('lib/destinations/slovenia.ts'), './greece-airport-towns': load('lib/destinations/greece-airport-towns.ts'), './albania': albania, './turkey': turkey, './southeast-europe': southeastEurope, './eastern-europe': easternEurope, './nordics': nordics, './scandinavia': scandinavia, './ireland-baltics': irelandBaltics, './uk-regional': ukRegional, './italy-regional': italyRegional, './germany-regional': germanyRegional, './europe-regional': europeRegional, './nordic-regional': nordicRegional, './scandinavia-regional': scandinaviaRegional, './japan': japan, './south-korea': load('lib/destinations/south-korea.ts') });
 const localization = load('lib/destinations/localization.ts');
 const manifest = require('./fixtures/destination-legacy-digests.json');
 const legacyProfiles = library.destinationProfiles.filter(profile => ['ES', 'PT'].includes(profile.countryCode));
@@ -149,12 +149,12 @@ test('monthly rendering uses the country helper for a future country without add
       '@/lib/destinations/localization': localization,
       '@/lib/destinations/presentation': load('lib/destinations/presentation.ts', { './index': library }),
     }, { React: { createElement } }).default;
-    // Japan is now a registered draft country; use a genuinely future country to
-    // keep this test focused on localization rather than catalog visibility.
-    const fixture = { ...library.destinationProfiles[0], countryCode: 'KR', country: 'Corea del Sur' };
+    // Japan and South Korea are now registered draft countries; use a genuinely
+    // future country to keep this test focused on localization rather than catalog visibility.
+    const fixture = { ...library.destinationProfiles[0], countryCode: 'NZ', country: 'Nueva Zelanda' };
     const tree = component({ month: 4, recommendations: [{ destination: fixture, reason: 'best' }] });
     const text = textNodes(tree);
-    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('KR')), language);
+    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('NZ')), language);
     assert.ok(!text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('PT')), language);
   }
 });

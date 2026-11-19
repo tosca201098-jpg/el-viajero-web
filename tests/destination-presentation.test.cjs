@@ -43,7 +43,7 @@ function renderLoader(locale='es',extra={}) {
 
 test('automatic catalog recommendations hide added France profiles; all profiles remain available',()=>{
   assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
-  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR','SI','HR','AL','TR','RS','BA','ME','MK','XK','MT','CY','RO','BG','MD','DK','IS','FI','SE','NO','IE','EE','LV','LT','LU','GI','JE','GG','IM','FO','AX','JP'].includes(d.countryCode));
+  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR','SI','HR','AL','TR','RS','BA','ME','MK','XK','MT','CY','RO','BG','MD','DK','IS','FI','SE','NO','IE','EE','LV','LT','LU','GI','JE','GG','IM','FO','AX','JP','KR'].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
   assert.equal(presentation.canShowDestinationAutomatically({country:'Portugal'}),true);
@@ -126,7 +126,7 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const tree=Monthly({month,recommendations});
       const cards=nodes(tree).filter(n=>n.type==='article');
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
-      const expected=recommendations.filter(r=>!['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'GR', 'SI', 'HR', 'AL', 'TR', 'RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY', 'RO', 'BG', 'MD', 'DK', 'IS', 'FI', 'SE', 'NO', 'IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX','JP'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
+      const expected=recommendations.filter(r=>!['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'GR', 'SI', 'HR', 'AL', 'TR', 'RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY', 'RO', 'BG', 'MD', 'DK', 'IS', 'FI', 'SE', 'NO', 'IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX','JP','KR'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
       // Fuera de la ficha ya no hay botón «Buscar vuelos»: está dentro de cada destino. «Ver destino» se mantiene.
       assert.ok(!nodes(tree).some(n=>String(n.props?.href??'').includes('primaveraServicio')),`${locale}:${month}`);
