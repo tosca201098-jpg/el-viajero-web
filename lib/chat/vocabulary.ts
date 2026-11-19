@@ -42,7 +42,100 @@ export const PRICE_WORDS = [
   'prezzo', 'prezzi', 'costano', 'economico', 'volo', 'voli', 'albergo', 'alberghi', 'prenotare', 'disponibilita', 'biglietto', 'biglietti',
   'preco', 'precos', 'custa', 'orcamento', 'voo', 'voos', 'hoteis', 'disponibilidade', 'bilhete', 'bilhetes',
   'preu', 'preus', 'barat', 'pressupost', 'disponibilitat',
+  // money and spending («¿cuánto dinero necesito…?»)
+  'dinero', 'gastar', 'gasto', 'gastos', 'coste', 'costes', 'costo', 'costos', 'caros', 'cara', 'caras',
+  'money', 'spend', 'spending', 'how much', 'expensive', 'cheaper', 'cheapest', 'affordable',
+  'argent', 'combien', 'depenser', 'depenses', 'cout', 'couts', 'chers',
+  'geld', 'wieviel', 'wie viel', 'kosten', 'ausgeben', 'gunstig', 'preiswert', 'teuer',
+  'soldi', 'denaro', 'quanto costa', 'spendere', 'costo', 'spesa', 'costosi', 'economici',
+  'dinheiro', 'quanto custa', 'custo', 'custos', 'caro', 'caros', 'economicos',
+  'diners', 'quant costa', 'despesa', 'cost', 'cars',
 ];
+
+/**
+ * Everyday words that are also the short name of a place («are» is Åre, «list» is the German name of List auf Sylt). In a sentence they are the
+ * word, not the place: «which destinations are good for couples?» must not open Östersund. Every one of these places keeps its other names.
+ */
+export const COMMON_WORDS = ['are', 'list', 'sola', 'caso', 'casos', 'gent'];
+
+/** Words of someone who wants it cheap or has a budget: the chat points to the site's budget search instead of a list. */
+export const BUDGET_WORDS = [
+  'barato', 'baratos', 'barata', 'baratas', 'presupuesto', 'economico', 'economicos', 'economica', 'economicas', 'low cost', 'lowcost',
+  'cheap', 'cheaper', 'cheapest', 'budget', 'affordable', 'inexpensive',
+  'pas cher', 'pas chers', 'bon marche', 'economique', 'economiques',
+  'billig', 'billige', 'billiger', 'gunstig', 'gunstige', 'preiswert',
+  'conveniente', 'convenienti', 'economiche', 'a basso costo', 'risparmiare',
+  'orcamento', 'barat', 'barats', 'barates', 'pressupost', 'economics', 'economici',
+];
+
+/** Hotel words: a cheap hotel is not a flight, so the price answer (flights and hotels) is kept for them. */
+export const HOTEL_WORDS = ['hotel', 'hoteles', 'hotels', 'hotels', 'hotele', 'albergo', 'alberghi', 'hoteis', 'alojamiento', 'hospedaje', 'accommodation', 'hebergement', 'unterkunft', 'alloggio', 'alojamento', 'allotjament'];
+
+/** Questions about documents, visas, vaccines or insurance: never answered here (they change with nationality), only the official sources are named. */
+export const DOCUMENT_WORDS = [
+  'visado', 'visados', 'visa', 'visas', 'pasaporte', 'pasaportes', 'documentos', 'documentacion', 'vacunas', 'vacuna', 'requisitos de entrada', 'seguro de viaje', 'permiso de entrada',
+  'passport', 'passports', 'documents', 'documentation', 'vaccines', 'vaccinations', 'vaccination', 'entry requirements', 'travel insurance',
+  'passeport', 'passeports', 'vaccins', 'assurance voyage', 'formalites',
+  'visum', 'reisepass', 'dokumente', 'impfungen', 'impfung', 'einreisebestimmungen', 'reiseversicherung',
+  'passaporto', 'passaporti', 'documenti', 'vaccini', 'assicurazione di viaggio', 'requisiti di ingresso',
+  'passaporte', 'passaportes', 'documentacao', 'vacinas', 'vacina', 'seguro de viagem', 'requisitos de entrada',
+  'visat', 'visats', 'passaport', 'passaports', 'documentacio', 'vacunes', 'asseguranca de viatge',
+];
+
+/** Things the site's destination pages do not say (couples, families, little-known places): the chat says so instead of guessing. */
+export const FIT_WORDS = [
+  'pareja', 'parejas', 'romantico', 'romantica', 'romanticos', 'romanticas', 'luna de miel', 'familia', 'familias', 'ninos', 'ninas',
+  'poco conocido', 'poco conocidos', 'poco conocida', 'poco conocidas', 'desconocidos', 'escondidos', 'joyas ocultas', 'joyas escondidas',
+  'couple', 'couples', 'romantic', 'honeymoon', 'family', 'families', 'kids', 'children', 'hidden gems', 'hidden gem', 'off the beaten path', 'lesser known', 'little known',
+  'romantique', 'romantiques', 'lune de miel', 'famille', 'familles', 'enfants', 'peu connu', 'peu connus', 'peu connues', 'insolites',
+  'paar', 'paare', 'romantisch', 'romantische', 'flitterwochen', 'familie', 'familien', 'kinder', 'kindern', 'unbekannt', 'unbekannte', 'geheimtipp', 'geheimtipps',
+  'coppia', 'coppie', 'romantici', 'luna di miele', 'famiglia', 'famiglie', 'bambini', 'poco conosciuti', 'poco conosciute', 'poco conosciuto', 'nascosti', 'gemme nascoste',
+  'casal', 'casais', 'lua de mel', 'criancas', 'filhos', 'pouco conhecidos', 'pouco conhecido', 'pouco conhecidas', 'escondidos', 'joias escondidas',
+  'parella', 'parelles', 'romantics', 'lluna de mel', 'families', 'nens', 'nenes', 'infants', 'poc coneguts', 'poc conegut', 'poc conegudes', 'amagats', 'joies amagades',
+];
+
+/** Packing and travel-tips questions: the site has no such content yet. */
+export const TIPS_WORDS = [
+  'maleta', 'maletas', 'equipaje', 'que llevar', 'que debo llevar', 'que deberia llevar', 'que meto', 'que empaco', 'empacar',
+  'luggage', 'suitcase', 'packing', 'what to pack', 'pack for', 'what should i pack', 'what to bring', 'what should i bring',
+  'valise', 'valises', 'bagages', 'quoi emporter', 'que emporter', 'que prendre',
+  'koffer', 'kofferpacken', 'packen', 'gepack', 'was einpacken', 'was mitnehmen',
+  'valigia', 'valigie', 'bagaglio', 'bagagli', 'cosa portare', 'cosa mettere in valigia',
+  'mala de viagem', 'malas de viagem', 'bagagem', 'o que levar', 'o que devo levar', 'o que levo',
+  'maletes', 'equipatge', 'que cal portar', 'que he de portar', 'que portar', 'que posar a la maleta',
+];
+
+/** A short stay («fin de semana», «escapada», «weekend»): destinations whose recommended stay is up to three days. */
+export const WEEKEND_WORDS = [
+  'fin de semana', 'finde', 'escapada', 'escapadas', 'puente', 'puentes',
+  'weekend', 'week end', 'getaway', 'short break', 'city break',
+  'week end', 'escapade', 'escapades',
+  'wochenende', 'kurztrip', 'kurzurlaub', 'wochenendtrip',
+  'fine settimana', 'weekend', 'gita',
+  'fim de semana', 'fim de semana', 'escapadinha',
+  'cap de setmana', 'escapada',
+];
+export const WEEKEND_MAX_DAYS = 3;
+
+/** «5 días», «3 days»…: the word after a number that means days. */
+export const DAY_WORDS = ['dias', 'dia', 'days', 'day', 'jours', 'jour', 'tage', 'tagen', 'tag', 'giorni', 'giorno', 'dies', 'dia'];
+
+/** Names of places outside the catalogue that the localised country names do not cover («EE.UU.»); keys are ISO codes. */
+export const OUTSIDE_COUNTRY_ALIASES: Record<string, string[]> = {
+  US: ['usa', 'eeuu', 'ee uu', 'estados unidos de america', 'united states of america', 'etats unis', 'vereinigte staaten', 'stati uniti', 'u s a'],
+  MM: ['birmania', 'burma'],
+  CI: ['costa de marfil', 'ivory coast', 'cote d ivoire'],
+  HK: ['hong kong'],
+};
+
+/** ISO 3166-1 countries: the only regions the chat names when a country is not in the catalogue (no islands groups, no unions). */
+export const WORLD_COUNTRY_CODES = ('AD AE AF AG AI AL AM AO AQ AR AS AT AU AW AX AZ BA BB BD BE BF BG BH BI BJ BL BM BN BO BQ BR BS BT BV BW BY BZ ' +
+  'CA CC CD CF CG CH CI CK CL CM CN CO CR CU CV CW CX CY CZ DE DJ DK DM DO DZ EC EE EG EH ER ES ET FI FJ FK FM FO FR GA GB GD GE GF GG GH GI GL GM GN ' +
+  'GP GQ GR GS GT GU GW GY HK HM HN HR HT HU ID IE IL IM IN IO IQ IR IS IT JE JM JO JP KE KG KH KI KM KN KP KR KW KY KZ LA LB LC LI LK LR LS LT LU LV LY ' +
+  'MA MC MD ME MF MG MH MK ML MM MN MO MP MQ MR MS MT MU MV MW MX MY MZ NA NC NE NF NG NI NL NO NP NR NU NZ OM PA PE PF PG PH PK PL PM PN PR PS PT PW ' +
+  'PY QA RE RO RS RU RW SA SB SC SD SE SG SH SI SJ SK SL SM SN SO SR SS ST SV SX SY SZ TC TD TF TG TH TJ TK TL TM TN TO TR TT TV TW TZ UA UG UM US UY UZ ' +
+  'VA VC VE VG VI VN VU WF WS XK YE YT ZA ZM ZW').split(' ');
+
 
 export const GREETINGS = [
   'hola', 'buenas', 'buenos dias', 'buenas tardes', 'hello', 'hi', 'hey', 'good morning', 'bonjour', 'salut', 'bonsoir', 'hallo', 'guten tag', 'ciao', 'buongiorno',

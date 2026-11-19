@@ -2020,7 +2020,10 @@ function abrirPaquete(destino = "") {
           setFlightResultsOpen(false);
           setModal(null);
           setDestinoSeleccionado(null);
-          if (options?.discover) setDiscoverMode(true);
+          if (options?.discover) {
+            setDiscoverMode(true);
+            if (options.budget !== undefined) setDiscoverBudget(String(options.budget));
+          }
           const radio = document.getElementById("buscador-vuelos") as HTMLInputElement | null;
           radio?.click();
           radio?.parentElement?.scrollIntoView({ behavior: "smooth", block: "center" });

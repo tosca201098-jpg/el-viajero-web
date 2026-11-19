@@ -5,7 +5,8 @@ import { getDestinationCountryName, getDestinationText } from '@/lib/destination
 import { formatMonthName } from '@/lib/destinations/seasonality';
 import { queryVoiceCatalog } from '@/lib/voice/catalog';
 import {
-  COUNTRY_ALIASES, GREETINGS, PRICE_WORDS, RELATIVE_MONTH, SEASONS, TOPICS, UNDECIDED,
+  BUDGET_WORDS, COMMON_WORDS, COUNTRY_ALIASES, DAY_WORDS, DOCUMENT_WORDS, FIT_WORDS, GREETINGS, HOTEL_WORDS, OUTSIDE_COUNTRY_ALIASES, PRICE_WORDS,
+  RELATIVE_MONTH, SEASONS, TIPS_WORDS, TOPICS, UNDECIDED, WEEKEND_MAX_DAYS, WEEKEND_WORDS, WORLD_COUNTRY_CODES,
   type ChatSeasonKey, type ChatTopicKey,
 } from './vocabulary';
 
@@ -27,13 +28,19 @@ export type ChatReply =
   /** The visitor does not know where to go: the chat asks what they feel like and points to the site's «I don't know where to go» search. */
   | { kind: 'undecided' }
   /** The visitor named one to three destinations. */
-  | { kind: 'destination'; places: { place: ChatPlace; fit?: ChatMonthFit }[]; priceNote: boolean }
+  | { kind: 'destination'; places: { place: ChatPlace; fit?: ChatMonthFit }[]; priceNote: boolean; days?: number }
   /** A country, a period and/or a topic: the destinations of the catalogue that fit, `total` when it is known. */
-  | { kind: 'list'; places: ChatPlace[]; total: number | null; country?: string; period?: ChatPeriod; topic?: ChatTopicKey; priceNote: boolean }
-  | { kind: 'none'; country?: string; period?: ChatPeriod; topic?: ChatTopicKey; priceNote: boolean };
+  | { kind: 'list'; places: ChatPlace[]; total: number | null; country?: string; period?: ChatPeriod; topic?: ChatTopicKey; weekend?: boolean; priceNote: boolean }
+  | { kind: 'none'; country?: string; period?: ChatPeriod; topic?: ChatTopicKey; weekend?: boolean; priceNote: boolean }
+  /** Money or «cheap»: the chat has no prices; it points to the site's budget search and, when the message has an amount, offers it. */
+  | { kind: 'budget'; amount?: number }
+  /** Something the site does not have (documents and visas, packing tips, couples/families/little-known places): said clearly, never guessed. */
+  | { kind: 'nodata'; reason: 'documents' | 'fit' | 'tips' }
+  /** A country that is not in the catalogue (Japan, Thailand, the United States…). */
+  | { kind: 'outside'; country: string; priceNote: boolean };
 
 type Index = {
-  destinations: { id: string; terms: string[] }[];
+  destinations: { id: string; terms: string[]; accented: string[] }[];
   countries: { code: string; terms: string[]; name: Record<Locale, string> }[];
   months: Map<string, number>;
 };
@@ -46,7 +53,7 @@ function buildIndex(): Index {
   }
   // A place name that is also a month, season, topic, price or greeting word (the Irish county «Mayo») is read as that word.
   const reserved = new Set<string>([...Array.from(months.keys()), ...Object.values(SEASONS).flatMap(season => season.words),
-    ...TOPICS.flatMap(topic => topic.words), ...PRICE_WORDS, ...GREETINGS]);
+    ...TOPICS.flatMap(topic => topic.words), ...PRICE_WORDS, ...GREETINGS, ...COMMON_WORDS]);
   const usable = (value: string) => {
     const term = normalizeDestinationName(value);
     return term.length >= 3 && !reserved.has(term) ? term : null;
@@ -57,7 +64,13 @@ function buildIndex(): Index {
       const term = usable(value);
       if (term) terms.add(term);
     }
-    return { id: profile.id as string, terms: Array.from(terms) };
+    // A common word that is also a place («are» / «Åre») still names the place when it is typed with its own accents.
+    const accented = new Set<string>();
+    for (const value of [profile.name, ...(profile.aliases ?? []), ...locales.map(({ code }) => getDestinationText(profile, code).name)]) {
+      const lower = value.toLowerCase().normalize('NFC').trim();
+      if (COMMON_WORDS.indexOf(normalizeDestinationName(value)) >= 0 && lower !== normalizeDestinationName(value)) accented.add(lower);
+    }
+    return { id: profile.id as string, terms: Array.from(terms), accented: Array.from(accented) };
   });
   const byCode = new Map<string, { code: string; terms: Set<string>; name: Record<Locale, string> }>();
   for (const profile of destinationProfiles) {
@@ -77,9 +90,13 @@ function buildIndex(): Index {
 type Hit = { kind: 'destination' | 'country'; key: string; start: number; end: number };
 
 /** Whole-word matches of destination and country names; the longest name wins and names never overlap. */
-function findPlaces(padded: string): Hit[] {
+function findPlaces(padded: string, accentedText: string): Hit[] {
   index ??= buildIndex();
   const candidates: (Hit & { length: number })[] = [];
+  for (const item of index.destinations) {
+    // These names only exist with their accents, so they do not overlap with anything else the person wrote.
+    for (const term of item.accented) if (accentedText.indexOf(` ${term} `) >= 0) candidates.push({ kind: 'destination', key: item.id, start: 0, end: 0, length: term.length });
+  }
   const scan = (kind: Hit['kind'], key: string, terms: string[]) => {
     for (const term of terms) {
       const start = padded.indexOf(` ${term} `);
@@ -123,8 +140,86 @@ function findTopic(padded: string): ChatTopicKey | undefined {
   return TOPICS.find(topic => topic.words.some(word => padded.includes(` ${word} `)))?.key;
 }
 
+/** An amount in euros («500 €», «1.500 euros»), as a whole number, or undefined. */
+function findAmount(raw: string): number | undefined {
+  const match = /(\d{1,3}(?:[.,]\d{3})+|\d+)(?:[.,]\d{1,2})?\s?(?:€|eur\b|euros?\b)/i.exec(raw) ?? /€\s?(\d{1,3}(?:[.,]\d{3})+|\d+)/.exec(raw);
+  if (!match) return undefined;
+  const amount = Number(match[1].replace(/[.,]/g, ''));
+  return Number.isInteger(amount) && amount >= 1 && amount <= 100000 ? amount : undefined;
+}
+
+/** «5 días», «3 days»…: the number of days the visitor wants to spend (1–30), or undefined. */
+function findDays(padded: string): number | undefined {
+  const words = padded.trim().split(' ');
+  for (let position = 1; position < words.length; position++) {
+    if (!/^\d{1,2}$/.test(words[position - 1]) || DAY_WORDS.indexOf(words[position]) < 0) continue;
+    const days = Number(words[position - 1]);
+    if (days >= 1 && days <= 30) return days;
+  }
+  return undefined;
+}
+
+type World = { terms: { term: string; code: string }[]; names: Map<string, Record<string, string>> };
+let world: World | null | undefined;
+/** Countries of the world (ISO list, names from the browser's own tables in the seven languages); built the first time it is needed. */
+function buildWorld(): World | null {
+  const DisplayNames = (Intl as unknown as { DisplayNames?: new (locales: string[], options: { type: string }) => { of(code: string): string | undefined } }).DisplayNames;
+  if (typeof DisplayNames !== 'function') return null;
+  index ??= buildIndex();
+  const inCatalogue = new Set<string>(index.countries.map(item => item.code));
+  const tables = locales.map(({ code }) => ({ code, names: new DisplayNames([code], { type: 'region' }) }));
+  const terms: { term: string; code: string }[] = [];
+  const names = new Map<string, Record<string, string>>();
+  for (const code of WORLD_COUNTRY_CODES) {
+    if (inCatalogue.has(code)) continue;
+    const perLocale: Record<string, string> = {};
+    const values: string[] = [...(OUTSIDE_COUNTRY_ALIASES[code] ?? [])];
+    for (const table of tables) {
+      let name: string | undefined;
+      try { name = table.names.of(code); } catch { name = undefined; }
+      if (!name || name === code) continue;
+      perLocale[table.code] = name.replace(/\s*\(.*\)\s*$/, '');
+      values.push(name, name.replace(/\s*\(.*\)\s*$/, ''));
+      const inside = /\(([^)]+)\)/.exec(name);
+      if (inside) values.push(inside[1]);
+    }
+    names.set(code, perLocale);
+    const seen = new Set<string>();
+    for (const value of values) {
+      const term = normalizeDestinationName(value);
+      if (term.length < 4 || reservedWords().has(term) || seen.has(term)) continue;
+      seen.add(term);
+      terms.push({ term, code });
+    }
+  }
+  return { terms, names };
+}
+
+let reserved: Set<string> | null = null;
+function reservedWords(): Set<string> {
+  if (!reserved) {
+    index ??= buildIndex();
+    reserved = new Set<string>([...Array.from(index.months.keys()), ...Object.values(SEASONS).flatMap(season => season.words),
+      ...TOPICS.flatMap(topic => topic.words), ...PRICE_WORDS, ...GREETINGS, ...COMMON_WORDS]);
+  }
+  return reserved;
+}
+
+/** A country of the world that is not in the catalogue, named in the message (the longest name wins), or undefined. */
+function findOutsideCountry(padded: string, locale: Locale): string | undefined {
+  if (world === undefined) world = buildWorld();
+  if (!world) return undefined;
+  let best: { term: string; code: string } | undefined;
+  for (const item of world.terms) {
+    if (padded.indexOf(' ' + item.term + ' ') >= 0 && (!best || item.term.length > best.term.length)) best = item;
+  }
+  if (!best) return undefined;
+  const names = world.names.get(best.code) ?? {};
+  return names[locale] ?? names.en ?? Object.values(names)[0];
+}
+
 type Shown = ChatPlace & { busyInRequestedMonth?: boolean };
-function catalog(locale: Locale, options: { month?: number; topic?: string; country?: string; id?: string }): { places: Shown[]; total: number } | null {
+function catalog(locale: Locale, options: { month?: number; topic?: string; country?: string; id?: string; maxStayDays?: number }): { places: Shown[]; total: number } | null {
   const result = queryVoiceCatalog('', locale, options);
   if (result.status !== 'success' || !('destinations' in result) || !Array.isArray(result.destinations)) return null;
   return { places: result.destinations as Shown[], total: Number(result.total) };
@@ -137,15 +232,15 @@ function plain(place: Shown): ChatPlace {
 }
 
 /** Destinations for several months (a season or «between May and June»): the ones that fit most of them come first. */
-function forMonths(locale: Locale, months: number[], topic: string | undefined, country: string | undefined) {
+function forMonths(locale: Locale, months: number[], topic: string | undefined, country: string | undefined, maxStayDays: number | undefined) {
   if (months.length <= 1) {
-    const single = catalog(locale, { month: months[0], topic, country });
+    const single = catalog(locale, { month: months[0], topic, country, maxStayDays });
     return single && { places: single.places.map(plain), total: single.total as number | null };
   }
   const merged = new Map<string, { place: ChatPlace; hits: number; order: number }>();
   let order = 0;
   for (const month of months) {
-    const part = catalog(locale, { month, topic, country });
+    const part = catalog(locale, { month, topic, country, maxStayDays });
     if (!part) continue;
     for (const place of part.places) {
       const known = merged.get(place.id);
@@ -167,9 +262,13 @@ export function answerChat(input: string, locale: Locale, now: Date = new Date()
   if (raw.length > MAX_CHAT_INPUT) return { kind: 'tooLong' };
   const padded = ` ${normalizeDestinationName(raw)} `;
   const has = (phrase: string) => padded.includes(` ${phrase} `);
+  const amount = findAmount(raw);
   const priceNote = PRICE_WORDS.some(has) || /[€$£]|\d\s?(eur|euros?)\b/i.test(raw);
+  // Documents, visas and vaccines change with the person's nationality: never answered, not even next to a destination name.
+  if (DOCUMENT_WORDS.some(has)) return { kind: 'nodata', reason: 'documents' };
 
-  const hits = findPlaces(padded);
+  const accentedText = ` ${raw.toLowerCase().normalize('NFC').replace(/[.,;:!?¿¡()"'«»\-–—]+/g, ' ')} `;
+  const hits = findPlaces(padded, accentedText);
   const destinationIds = hits.filter(hit => hit.kind === 'destination').map(hit => hit.key).slice(0, 3);
   const country = hits.find(hit => hit.kind === 'country')?.key;
   const explicitMonths = findMonths(padded, now);
@@ -194,16 +293,30 @@ export function answerChat(input: string, locale: Locale, now: Date = new Date()
       }
       places.push({ place, ...(fit ? { fit } : {}) });
     }
-    if (places.length) return { kind: 'destination', places, priceNote };
+    const days = places.length === 1 ? findDays(padded) : undefined;
+    if (places.length) return { kind: 'destination', places, priceNote, ...(days ? { days } : {}) };
   }
 
-  if (country || months.length || topic) {
-    const found = forMonths(locale, months, topicWords, country);
-    const scope = { ...(countryName ? { country: countryName } : {}), ...(period ? { period } : {}), ...(topic ? { topic } : {}) };
+  // What the destination pages do not say (couples, families, little-known places) and packing tips: said, not guessed.
+  if (FIT_WORDS.some(has)) return { kind: 'nodata', reason: 'fit' };
+  if (TIPS_WORDS.some(has)) return { kind: 'nodata', reason: 'tips' };
+
+  // A country that is not in the catalogue (Japan, Thailand…): the chat says so instead of «I did not understand».
+  if (!country) {
+    const outside = findOutsideCountry(padded, locale);
+    if (outside) return { kind: 'outside', country: outside, priceNote };
+  }
+
+  const weekend = WEEKEND_WORDS.some(has);
+  if (country || months.length || topic || weekend) {
+    const found = forMonths(locale, months, topicWords, country, weekend ? WEEKEND_MAX_DAYS : undefined);
+    const scope = { ...(countryName ? { country: countryName } : {}), ...(period ? { period } : {}), ...(topic ? { topic } : {}), ...(weekend ? { weekend } : {}) };
     if (!found || !found.places.length) return { kind: 'none', ...scope, priceNote };
     return { kind: 'list', places: found.places.slice(0, MAX_LIST), total: found.total === null ? null : Math.max(found.total, found.places.length), ...scope, priceNote };
   }
 
+  // Cheap, a budget or an amount: the site's budget search does it (with real prices); the chat has none. A hotel keeps the hotel answer.
+  if ((BUDGET_WORDS.some(has) || amount !== undefined) && !HOTEL_WORDS.some(has)) return { kind: 'budget', ...(amount !== undefined ? { amount } : {}) };
   if (UNDECIDED.some(has)) return { kind: 'undecided' };
   if (priceNote) return { kind: 'prices' };
   if (GREETINGS.some(has)) return { kind: 'welcome' };

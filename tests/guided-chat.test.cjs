@@ -116,7 +116,8 @@ test('countries, months, seasons and topics are combined from the catalogue only
   const nothing = chat.answerChat('auroras boreales en agosto', 'es', now);
   assert.ok(['list', 'none'].includes(nothing.kind));
   const empty = chat.answerChat('playas en Andorra en enero', 'es', now);
-  assert.ok(['list', 'none'].includes(empty.kind));
+  assert.equal(empty.kind, 'outside', 'a country that is not in the catalogue is said so, not shown as an empty list');
+  assert.equal(empty.country, 'Andorra');
 });
 
 test('«may» is only a month after a preposition; other English sentences are not read as months', () => {
@@ -127,11 +128,12 @@ test('«may» is only a month after a preposition; other English sentences are n
 
 test('prices, flights and hotels are never answered with a number: the chat says it has none and points to the searches', () => {
   const budget = chat.answerChat('tengo 700 euros', 'es', now);
-  assert.equal(budget.kind, 'prices');
+  assert.equal(budget.kind, 'budget'); assert.equal(budget.amount, 700, 'the only number is the one the visitor typed');
+  assert.equal(chat.answerChat('recomiéndame un hotel', 'es', now).kind, 'prices', 'a hotel is not a flight: the price answer keeps both searches');
   for (const text of ['cuánto cuesta un vuelo a Roma', 'hoteles baratos en París', 'cheap flights', 'prix des vols', 'quanto costa un volo']) {
     const reply = chat.answerChat(text, text.startsWith('prix') ? 'fr' : text.startsWith('quanto') ? 'it' : 'es', now);
-    assert.ok(['prices', 'destination', 'list'].includes(reply.kind), text);
-    if (reply.kind !== 'prices') assert.equal(reply.priceNote, true, text);
+    assert.ok(['prices', 'budget', 'destination', 'list'].includes(reply.kind), text);
+    if (!['prices', 'budget'].includes(reply.kind)) assert.equal(reply.priceNote, true, text);
   }
   const withDestination = chat.answerChat('vuelos baratos a Roma', 'es', now);
   assert.equal(withDestination.kind, 'destination'); assert.equal(withDestination.priceNote, true);
@@ -167,9 +169,13 @@ test('the vocabulary is normalised, in seven languages, and does not swallow a d
   const normalise = destinations.normalizeDestinationName;
   const words = [...Object.values(vocabulary.SEASONS).flatMap(item => item.words), ...vocabulary.TOPICS.flatMap(item => item.words),
     ...vocabulary.PRICE_WORDS, ...vocabulary.GREETINGS, ...vocabulary.RELATIVE_MONTH.current, ...vocabulary.RELATIVE_MONTH.next];
-  for (const word of words) assert.equal(normalise(word), word, `${word} must already be normalised`);
+  const questionWords = [...vocabulary.BUDGET_WORDS, ...vocabulary.HOTEL_WORDS, ...vocabulary.DOCUMENT_WORDS, ...vocabulary.FIT_WORDS, ...vocabulary.TIPS_WORDS,
+    ...vocabulary.WEEKEND_WORDS, ...vocabulary.DAY_WORDS, ...vocabulary.COMMON_WORDS, ...Object.values(vocabulary.OUTSIDE_COUNTRY_ALIASES).flat()];
+  for (const word of [...words, ...questionWords]) assert.equal(normalise(word), word, `${word} must already be normalised`);
+  // The ISO codes are the only entries in capitals: they are codes, not words.
+  assert.ok(vocabulary.WORLD_COUNTRY_CODES.every(code => /^[A-Z]{2}$/.test(code)));
   // A destination that would lose every name to the reserved words could never be recognised.
-  const reserved = new Set(words);
+  const reserved = new Set([...words, ...vocabulary.DOCUMENT_WORDS, ...vocabulary.COMMON_WORDS]);
   for (let month = 1; month <= 12; month++) for (const code of codes) reserved.add(normalise(new Intl.DateTimeFormat(code, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2020, month - 1, 1)))));
   const lost = destinations.destinationProfiles.filter(profile => {
     const terms = [profile.name, ...(profile.aliases ?? []), ...codes.map(code => (profile.translations?.[code]?.name ?? profile.name))].map(normalise).filter(term => term.length >= 3);
@@ -191,12 +197,17 @@ test('the catalogue filters added for the chat do not change what Sofía receive
   assert.equal(catalog.queryVoiceCatalog('', 'es', { id: 'it-rome' }).total, 1);
   assert.equal(catalog.queryVoiceCatalog('', 'es', { country: 'PT' }).destinations.every(place => place.country === 'Portugal'), true);
   assert.equal(catalog.queryVoiceCatalog('', 'es', { id: 'no-such-id' }).total, 0);
+  // The short-stay filter is chat-only: not passing it (what Sofía does) gives the same answer as before, and passing it only removes places.
+  assert.equal(JSON.stringify(plain), JSON.stringify(catalog.queryVoiceCatalog('Roma', 'es', { maxStayDays: undefined })));
+  const everything = catalog.queryVoiceCatalog('', 'es', {}).total, short = catalog.queryVoiceCatalog('', 'es', { maxStayDays: 3 }).total;
+  assert.ok(short > 0 && short < everything, `${short} short stays of ${everything}`);
 });
 
 test('all the chat texts exist in the seven languages with the same variables', () => {
   const keys = Object.keys(translations.dictionaries.es).filter(key => key.startsWith('chat.'));
-  assert.ok(keys.length >= 48);
-  for (const key of ['chat.undecided', 'chat.undecidedSearch', 'chat.openDiscover']) assert.ok(keys.includes(key), key);
+  assert.ok(keys.length >= 57);
+  for (const key of ['chat.undecided', 'chat.undecidedSearch', 'chat.openDiscover', 'chat.budget', 'chat.budgetAmount', 'chat.nodata.documents', 'chat.nodata.fit',
+    'chat.nodata.tips', 'chat.outside', 'chat.stay.weekend', 'chat.weekendNote', 'chat.itineraryHint']) assert.ok(keys.includes(key), key);
   for (const key of keys) {
     const variables = text => (text.match(/\{[a-zA-Z]+\}/g) ?? []).sort().join(',');
     for (const code of codes) {
@@ -283,7 +294,7 @@ test('typing a question sends it, shows it and answers; a price question offers 
   ui.button(ui.render(), 'Chat DESTINAUTA').props.onClick();
   const form = () => ui.all(ui.render(), item => item.type === 'form')[0];
   const type = value => ui.all(ui.render(), item => item.type === 'input')[0].props.onChange({ target: { value } });
-  type('tengo 700 euros');
+  type('recomiéndame un hotel');
   let panel = ui.render();
   assert.equal(ui.all(panel, item => item.type === 'button' && item.props.type === 'submit')[0].props.disabled, false);
   let prevented = 0;
@@ -292,7 +303,7 @@ test('typing a question sends it, shows it and answers; a price question offers 
   panel = ui.render();
   assert.equal(ui.all(panel, item => item.type === 'input')[0].props.value, '', 'the box is emptied');
   const content = ui.text(panel);
-  assert.ok(content.includes('tengo 700 euros') && content.includes(ui.translate('chat.prices')));
+  assert.ok(content.includes('recomiéndame un hotel') && content.includes(ui.translate('chat.prices')));
   const hotels = ui.all(panel, item => item.type === 'a')[0];
   assert.equal(hotels.props.href, '/hoteles');
   ui.button(panel, ui.translate('chat.searchFlights')).props.onClick();
@@ -389,8 +400,8 @@ test('being undecided never hides what the person did say: a destination, countr
   assert.equal(chat.answerChat('where to go in summer', 'en', now).kind, 'list');
   // Prices, flights and hotels still get the honest note, and the generic words do not turn into «undecided».
   assert.equal(chat.answerChat('recomiéndame un hotel', 'es', now).kind, 'prices');
-  assert.equal(chat.answerChat('vuelos baratos', 'es', now).kind, 'prices');
-  assert.equal(chat.answerChat('tengo 700 euros', 'es', now).kind, 'prices');
+  assert.equal(chat.answerChat('vuelos baratos', 'es', now).kind, 'budget');
+  assert.equal(chat.answerChat('tengo 700 euros', 'es', now).kind, 'budget');
   assert.equal(chat.answerChat('hola', 'es', now).kind, 'welcome');
   assert.equal(chat.answerChat('quién ganó la liga', 'es', now).kind, 'unknown');
 });
@@ -443,6 +454,191 @@ test('an undecided question offers topics and the «I don\'t know where to go» 
 
 test('the page switches on «No sé dónde ir» only when the chat asks for it, and keeps the rest of the search handler', () => {
   const page = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
-  assert.match(page, /onOpenFlightSearch=\{\(options\) => \{[\s\S]*?if \(options\?\.discover\) setDiscoverMode\(true\);[\s\S]*?radio\?\.click\(\);/);
+  assert.match(page, /onOpenFlightSearch=\{\(options\) => \{[\s\S]*?if \(options\?\.discover\) \{\s*setDiscoverMode\(true\);\s*if \(options\.budget !== undefined\) setDiscoverBudget\(String\(options\.budget\)\);\s*\}[\s\S]*?radio\?\.click\(\);/);
   assert.equal((page.match(/options\?\.discover/g) ?? []).length, 1, 'only the chat handler reads the option');
+});
+
+// ---- More questions (PR 117): the fourteen questions of the owner, in the seven languages, and the honest limits ----
+const sevenLanguages = {
+  documents: [['es', '¿Qué documentos necesito para viajar a Estados Unidos?'], ['en', 'Do I need a visa for Japan?'], ['fr', 'Quels documents faut-il pour les États-Unis ?'],
+    ['de', 'Brauche ich ein Visum für die USA?'], ['it', 'Che documenti servono per gli Stati Uniti?'], ['pt', 'Preciso de passaporte para os Estados Unidos?'], ['ca', 'Necessito visat per als Estats Units?']],
+  tips: [['es', '¿Qué debería llevar en la maleta para un viaje de 10 días?'], ['en', 'What should I pack for a 10 day trip?'], ['fr', 'Que prendre dans ma valise pour 10 jours ?'],
+    ['de', 'Was soll ich in den Koffer packen?'], ['it', 'Cosa metto in valigia per 10 giorni?'], ['pt', 'O que devo levar na mala de viagem?'], ['ca', 'Què he de portar a la maleta?']],
+  fit: [['es', '¿Qué destinos son ideales para viajar en pareja?'], ['en', 'Which destinations are good for couples?'], ['fr', 'Destinations romantiques ?'], ['de', 'Reiseziele für Paare'],
+    ['it', 'Mete per coppie'], ['pt', 'Destinos para casais'], ['ca', 'Destinacions per a parelles'], ['es', '¿Qué destinos poco conocidos merecen la pena?'], ['en', 'hidden gems in Europe']],
+  weekend: [['es', '¿Qué ciudad me recomiendas visitar durante un fin de semana?'], ['en', 'Which city for a weekend?'], ['fr', 'Quelle ville pour un week-end ?'], ['de', 'Welche Stadt für ein Wochenende?'],
+    ['it', 'Quale città per un fine settimana?'], ['pt', 'Que cidade para um fim de semana?'], ['ca', 'Quina ciutat per a un cap de setmana?']],
+  outside: [['es', '¿Cuánto dinero necesito para pasar una semana en Japón?'], ['en', 'How much money for a week in Japan?'], ['fr', 'Quelle est la meilleure période pour la Thaïlande ?'],
+    ['de', 'Beste Reisezeit für Thailand?'], ['it', 'Quando andare in Thailandia?'], ['pt', 'Melhor época para visitar a Tailândia?'], ['ca', 'Quan anar a Tailàndia?'], ['es', '¿Cuál es la mejor época para visitar Tailandia?']],
+  budget: [['es', '¿Cuáles son los países más baratos para viajar por Europa?'], ['en', 'cheapest countries to travel in Europe'], ['fr', 'pays pas chers en Europe'], ['de', 'günstige Länder in Europa'],
+    ['it', 'paesi economici in Europa'], ['pt', 'países baratos na Europa'], ['ca', 'països barats d’Europa'], ['en', 'How can I find cheap flights?'], ['es', '¿Cómo puedo encontrar vuelos baratos?'], ['ca', 'vols barats']],
+  days: [['es', '¿Puedes organizarme un viaje de 5 días a Roma?'], ['en', 'Can you plan 5 days in Rome?'], ['fr', 'Peux-tu organiser 5 jours à Rome ?'], ['de', 'Plane 5 Tage in Rom'],
+    ['it', 'Organizza 5 giorni a Roma'], ['pt', 'Organiza 5 dias em Roma'], ['ca', 'Organitza 5 dies a Roma']],
+};
+
+test('the fourteen questions of the owner get the right kind of answer', () => {
+  const reply = text => chat.answerChat(text, 'es', now);
+  assert.equal(reply('¿Qué destinos me recomiendas para viajar este verano?').kind, 'list');
+  assert.deepEqual(Array.from(reply('¿Qué destinos me recomiendas para viajar este verano?').period.months), ['junio', 'julio', 'agosto']);
+  assert.equal(reply('¿Cuáles son los países más baratos para viajar por Europa?').kind, 'budget');
+  const five = reply('¿Dónde puedo viajar con un presupuesto de 500 €?');
+  assert.equal(five.kind, 'budget'); assert.equal(five.amount, 500);
+  assert.deepEqual({ ...reply('¿Qué destinos poco conocidos merecen la pena?') }, { kind: 'nodata', reason: 'fit' });
+  const weekend = reply('¿Qué ciudad me recomiendas visitar durante un fin de semana?');
+  assert.equal(weekend.kind, 'list'); assert.equal(weekend.weekend, true);
+  assert.deepEqual({ ...reply('¿Qué destinos son ideales para viajar en pareja?') }, { kind: 'nodata', reason: 'fit' });
+  const beaches = reply('¿Dónde puedo viajar si busco playas paradisíacas?');
+  assert.equal(beaches.kind, 'list'); assert.equal(beaches.topic, 'beach');
+  const rome = reply('¿Puedes organizarme un viaje de 5 días a Roma?');
+  assert.equal(rome.kind, 'destination'); assert.equal(rome.days, 5); assert.equal(rome.places[0].place.id, 'it-rome');
+  const japan = reply('¿Cuánto dinero necesito para pasar una semana en Japón?');
+  assert.equal(japan.kind, 'outside'); assert.equal(japan.country, 'Japón');
+  assert.equal(reply('¿Cuál es la mejor época para visitar Tailandia?').kind, 'outside');
+  assert.deepEqual({ ...reply('¿Qué documentos necesito para viajar a Estados Unidos?') }, { kind: 'nodata', reason: 'documents' });
+  assert.equal(reply('¿Cómo puedo encontrar vuelos baratos?').kind, 'budget');
+  assert.deepEqual({ ...reply('¿Qué debería llevar en la maleta para un viaje de 10 días?') }, { kind: 'nodata', reason: 'tips' });
+  const paris = reply('¿Cómo puedo aprovechar al máximo 3 días en París?');
+  assert.equal(paris.kind, 'destination'); assert.equal(paris.days, 3); assert.equal(paris.places[0].place.id, 'fr-paris');
+});
+
+test('the new questions are understood in the seven languages', () => {
+  const expected = { documents: 'documents', tips: 'tips', fit: 'fit' };
+  for (const [kind, reason] of Object.entries(expected)) {
+    for (const [code, text] of sevenLanguages[kind]) {
+      const reply = chat.answerChat(text, code, now);
+      assert.deepEqual({ ...reply }, { kind: 'nodata', reason }, `${code}: ${text}`);
+    }
+  }
+  for (const [code, text] of sevenLanguages.weekend) {
+    const reply = chat.answerChat(text, code, now);
+    assert.equal(reply.kind, 'list', `${code}: ${text}`); assert.equal(reply.weekend, true, `${code}: ${text}`);
+  }
+  const inCatalogue = new Set(destinations.destinationProfiles.map(profile => profile.countryCode.toUpperCase()));
+  for (const [code, text] of sevenLanguages.outside) {
+    const reply = chat.answerChat(text, code, now);
+    assert.equal(reply.kind, 'outside', `${code}: ${text}`);
+    assert.ok(typeof reply.country === 'string' && reply.country.length > 2);
+    assert.ok(!['JP', 'TH', 'US'].some(region => inCatalogue.has(region)), 'Japan, Thailand and the United States are not in the catalogue');
+  }
+  for (const [code, text] of sevenLanguages.budget) {
+    const reply = chat.answerChat(text, code, now);
+    assert.equal(reply.kind, 'budget', `${code}: ${text}`);
+  }
+  for (const [code, text] of sevenLanguages.days) {
+    const reply = chat.answerChat(text, code, now);
+    assert.equal(reply.kind, 'destination', `${code}: ${text}`); assert.equal(reply.days, 5, `${code}: ${text}`);
+    assert.equal(reply.places[0].place.id, 'it-rome');
+  }
+});
+
+test('«fin de semana» keeps only the destinations whose recommended stay is up to three days, and says so', () => {
+  const catalog = shared('lib/voice/catalog.ts');
+  const everything = catalog.queryVoiceCatalog('', 'es', {}).total;
+  const weekend = chat.answerChat('escapada de fin de semana', 'es', now);
+  assert.equal(weekend.kind, 'list'); assert.equal(weekend.weekend, true);
+  assert.equal(weekend.total, catalog.queryVoiceCatalog('', 'es', { maxStayDays: 3 }).total);
+  assert.ok(weekend.total > 0 && weekend.total < everything);
+  assert.ok(weekend.places.length > 0 && weekend.places.length <= 6);
+  for (const place of weekend.places) {
+    assert.ok(place.recommendedStay, `${place.name} has a recommended stay`);
+    assert.ok(Math.max(...place.recommendedStay.match(/\d+/g).map(Number)) <= 3, `${place.name}: ${place.recommendedStay}`);
+  }
+  // It combines with the rest, and the answer repeats the label so the person knows why the list is short.
+  const italy = chat.answerChat('fin de semana en Italia', 'es', now);
+  assert.equal(italy.kind, 'list'); assert.equal(italy.weekend, true); assert.equal(italy.country, 'Italia');
+  assert.ok(italy.places.every(place => place.country === 'Italia'));
+  const october = chat.answerChat('fin de semana en octubre', 'es', now);
+  assert.equal(october.kind, 'list'); assert.deepEqual(Array.from(october.period.months), ['octubre']);
+  // A named destination is not turned into a list by «weekend».
+  assert.equal(chat.answerChat('un fin de semana en Roma', 'es', now).kind, 'destination');
+});
+
+test('what the site does not have is said clearly and never guessed: documents, packing, couples, little-known places', () => {
+  // Documents are never answered, not even next to a destination.
+  assert.deepEqual({ ...chat.answerChat('visado para Roma', 'es', now) }, { kind: 'nodata', reason: 'documents' });
+  assert.deepEqual({ ...chat.answerChat('pasaporte para viajar a Japón en mayo', 'es', now) }, { kind: 'nodata', reason: 'documents' });
+  for (const code of codes) {
+    for (const reason of ['documents', 'fit', 'tips']) {
+      const text = translations.translate(code, `chat.nodata.${reason}`);
+      assert.ok(text.length > 40, `${code} ${reason}`);
+      assert.equal(/\d/.test(text), false, `${code} ${reason}: no figure, price or date is promised`);
+    }
+    // The documents answer points to official sources and promises nothing about any country.
+    assert.ok(!/(€|\$|eur|usd)/i.test(translations.translate(code, 'chat.nodata.documents')));
+  }
+  // A destination that the person names is still answered when the question is about something the site has (a «couples» word with a destination).
+  assert.equal(chat.answerChat('Roma en pareja', 'es', now).kind, 'destination');
+  // «are» is the English word, not the Swedish resort; «Åre» typed with its accent still opens it.
+  assert.equal(chat.answerChat('Which destinations are good for couples?', 'en', now).kind, 'nodata');
+  assert.equal(chat.answerChat('where are the best beaches', 'en', now).kind, 'list');
+  assert.equal(chat.answerChat('quiero ir a Åre', 'es', now).kind, 'destination');
+  assert.equal(chat.answerChat('Åre en invierno', 'es', now).places[0].place.id, 'se-ostersund');
+});
+
+test('a country that is not in the catalogue is named, not invented, and never swallows a destination or a country that is', () => {
+  const inCatalogue = ['España', 'Italia', 'Portugal', 'Francia', 'Alemania', 'Grecia'];
+  for (const name of inCatalogue) assert.notEqual(chat.answerChat(`viajar a ${name}`, 'es', now).kind, 'outside', name);
+  const japan = chat.answerChat('Japón', 'es', now);
+  assert.equal(japan.kind, 'outside'); assert.equal(japan.country, 'Japón');
+  assert.equal(chat.answerChat('Japan', 'en', now).country, 'Japan');
+  assert.equal(chat.answerChat('Giappone', 'it', now).country, 'Giappone');
+  assert.equal(chat.answerChat('Estados Unidos', 'es', now).kind, 'outside');
+  assert.equal(chat.answerChat('EE.UU.', 'es', now).kind, 'outside');
+  // A destination or a catalogue country named in the same message wins.
+  assert.equal(chat.answerChat('Roma o Japón', 'es', now).kind, 'destination');
+  assert.equal(chat.answerChat('Italia o Japón', 'es', now).kind, 'list');
+  // Words that are not countries are not read as countries.
+  for (const text of ['hola', 'quién ganó la liga', 'la mejor tortilla']) assert.notEqual(chat.answerChat(text, 'es', now).kind, 'outside', text);
+});
+
+test('the pages of the chat for the new answers: budget, nothing-to-say, outside country, trip days and weekend', () => {
+  const calls = [];
+  const opened = [];
+  const ui = chatHarness('es', { onOpenDestination: id => opened.push(id), onOpenFlightSearch: options => calls.push(options === undefined ? null : { ...options }) });
+  ui.button(ui.render(), 'Chat DESTINAUTA').props.onClick();
+  const type = value => ui.all(ui.render(), item => item.type === 'input')[0].props.onChange({ target: { value } });
+  // The conversation keeps the earlier answers and their buttons: the newest button is the last one.
+  const latest = (tree, label) => ui.all(tree, item => ['button', 'a'].includes(item.type) && ui.text(item).includes(label)).pop();
+  const ask = value => { type(value); ui.all(ui.render(), item => item.type === 'form')[0].props.onSubmit({ preventDefault() {} }); return ui.render(); };
+  // Budget with an amount: the amount goes to the page's budget box, the person is told to check «per person or in total».
+  let panel = ask('¿Dónde puedo viajar con un presupuesto de 500 €?');
+  let content = ui.text(panel);
+  assert.ok(content.includes(ui.translate('chat.budget')) && content.includes(ui.translate('chat.budgetAmount', { amount: 500 })));
+  latest(panel, ui.translate('chat.openDiscover')).props.onClick();
+  assert.deepEqual(calls, [{ discover: true, budget: 500 }]);
+  assert.equal(ui.all(ui.render(), item => item.props.role === 'dialog').length, 0, 'the chat closes to leave the search visible');
+  // Budget without amount: no number is passed.
+  ui.button(ui.render(), 'Chat DESTINAUTA').props.onClick();
+  panel = ask('¿Cuáles son los países más baratos para viajar por Europa?');
+  content = ui.text(panel);
+  const amountText = ui.translate('chat.budgetAmount', { amount: 500 });
+  assert.equal(content.split(amountText).length - 1, 1, 'the amount sentence belongs to the first answer only; the conversation keeps it, the new answer has none');
+  assert.equal(content.split(ui.translate('chat.budget')).length - 1, 2);
+  latest(panel, ui.translate('chat.openDiscover')).props.onClick();
+  assert.deepEqual(calls.slice(1), [{ discover: true }]);
+  // Nothing to say: the honest text and the sample questions, no invented data.
+  ui.button(ui.render(), 'Chat DESTINAUTA').props.onClick();
+  panel = ask('¿Qué documentos necesito para viajar a Estados Unidos?');
+  assert.ok(ui.text(panel).includes(ui.translate('chat.nodata.documents')));
+  assert.ok(ui.all(panel, item => item.type === 'article').length === 0);
+  panel = ask('¿Qué destinos son ideales para viajar en pareja?');
+  assert.ok(ui.text(panel).includes(ui.translate('chat.nodata.fit')));
+  panel = ask('¿Qué debería llevar en la maleta para un viaje de 10 días?');
+  assert.ok(ui.text(panel).includes(ui.translate('chat.nodata.tips')));
+  // Outside country: its name is shown in the visitor language.
+  panel = ask('¿Cuál es la mejor época para visitar Tailandia?');
+  assert.ok(ui.text(panel).includes(ui.translate('chat.outside', { country: 'Tailandia' })));
+  // Trip days: the card of Rome and the hint to the itinerary of the page.
+  panel = ask('¿Puedes organizarme un viaje de 5 días a Roma?');
+  assert.ok(ui.text(panel).includes(ui.translate('chat.itineraryHint', { days: ui.translate('itinerary.days', { count: 5 }), name: 'Roma' })));
+  latest(panel, ui.translate('chat.openCard', { name: 'Roma' })).props.onClick();
+  assert.deepEqual(opened, ['it-rome']);
+  // Weekend: the list says «fin de semana» and where the short list comes from.
+  ui.button(ui.render(), 'Chat DESTINAUTA').props.onClick();
+  panel = ask('¿Qué ciudad me recomiendas visitar durante un fin de semana?');
+  content = ui.text(panel);
+  assert.ok(content.includes(ui.translate('chat.stay.weekend')) && content.includes(ui.translate('chat.weekendNote')));
+  assert.ok(ui.all(panel, item => item.type === 'article').length > 0);
+  // The page does not receive anything for these answers apart from the clicks above.
+  assert.equal(calls.length, 2);
 });

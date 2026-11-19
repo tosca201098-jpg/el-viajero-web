@@ -17,12 +17,33 @@ Botón flotante «💬 Chat DESTINAUTA» en la portada (abajo a la derecha). Abr
   «Abrir «No sé dónde ir»» lleva al buscador de vuelos de la portada con esa opción ya activada (la que pide fechas y presupuesto y
   propone destinos con los precios del proveedor; el chat no da ninguno). Solo se usa si el mensaje no nombra un destino, país, mes,
   estación o tema: «no sé dónde ir en octubre» se responde con la lista de octubre.
+- **Fin de semana / escapada** («¿qué ciudad visitar un fin de semana?», «escapada», «puente», «weekend», «cap de setmana»…; lista
+  `WEEKEND_WORDS`): la lista del catálogo se reduce a los destinos cuya **estancia recomendada** de la ficha es de hasta 3 días
+  (`WEEKEND_MAX_DAYS`; se lee el número mayor de «2-3 días»). La respuesta repite «fin de semana» y avisa de que sale de la estancia
+  recomendada de cada ficha. Se combina con país y mes («fin de semana en Italia»). El filtro `maxStayDays` es solo del chat: Sofía no lo usa.
+- **Presupuesto y «barato»** («¿dónde puedo viajar con 500 €?», «países más baratos», «vuelos baratos»; listas `BUDGET_WORDS` y cantidad
+  escrita por la persona): el chat dice que no tiene precios y lleva a «No sé dónde ir» (fechas + presupuesto máximo, precios del
+  proveedor). Si la persona escribió una cantidad, se rellena en la casilla de presupuesto de la portada con «por persona» (el chat le
+  pide que compruebe si es por persona o en total). «Hoteles» sigue la respuesta de precios con «Buscar vuelos» y «Hoteles».
+- **Viaje de N días a un destino** («5 días a Roma», «3 días en París»): la ficha de siempre, más una frase que remite al itinerario de la
+  ficha (guía básica gratuita para todos; con IA solo para registrados). El chat no crea el itinerario.
+- **País que no está en el catálogo** (Japón, Tailandia, Estados Unidos…; los nombres de todos los países del mundo en los siete idiomas,
+  más alias como «EE.UU.»): dice que todavía no está en DESTINAUTA y propone países, meses y temas que sí. Un destino o país del
+  catálogo en el mismo mensaje tiene prioridad.
+- **Lo que la web no tiene**, dicho con claridad y sin inventar nada: **documentos, visados, pasaporte, vacunas** (`DOCUMENT_WORDS`; se
+  remite a las fuentes oficiales y no se responde ni junto a un destino), **qué llevar en la maleta** (`TIPS_WORDS`) y **destinos para
+  pareja, familias o poco conocidos** (`FIT_WORDS`: las fichas no tienen ese dato todavía). Para añadirlo, primero hacen falta los datos
+  en las fichas, revisados por el propietario.
 - Los nombres de lugar se reconocen por **palabra completa** («Roma» no es «Romaña»), y un nombre que también es una palabra del
-  vocabulario (el condado irlandés «Mayo») se lee como esa palabra.
+  vocabulario (el condado irlandés «Mayo») se lee como esa palabra. Lo mismo con las palabras corrientes que son además el nombre corto
+  de un lugar (`COMMON_WORDS`: «are» es el verbo inglés, no Åre; «Åre» escrito con su Å sí abre Östersund (Åre)).
+  Estas palabras conservan todos sus otros nombres.
 
 ## Qué NO hace (a propósito)
 - **No da precios, ni disponibilidad de vuelos u hoteles.** Si se mencionan precios, vuelos, hoteles o presupuesto, lo dice con
   claridad y ofrece los buscadores («Buscar vuelos» lleva al buscador de la portada; «Buscar hoteles» a `/hoteles`).
+- No responde con datos que no están en las fichas: clima exacto, seguridad, requisitos de entrada, consejos de equipaje, «ideal para
+  parejas»… (ver arriba, «Lo que la web no tiene»).
 - Si no entiende la pregunta o no es de viajes, no improvisa: explica de qué sí puede hablar y propone ejemplos.
 - No guarda las preguntas ni envía nada fuera del navegador. (Siguiente entrega prevista: registro anónimo solo de preguntas de
   viajes que no supo resolver; nunca visados, política, deportes ni otros temas ajenos.)
@@ -30,8 +51,9 @@ Botón flotante «💬 Chat DESTINAUTA» en la portada (abajo a la derecha). Abr
 ## Dónde está el código
 - `lib/chat/guided.ts`: `answerChat(texto, idioma, ahora)` devuelve datos (no texto): destino, lista, «sin resultados», precios… Usa
   `queryVoiceCatalog` (`lib/voice/catalog.ts`, la misma fuente que Sofía; se le añadieron los filtros opcionales `country` e `id`, que no
-  cambian lo que recibe Sofía).
-- `lib/chat/vocabulary.ts`: palabras reconocidas (estaciones, temas, precios, saludos, «este mes»…) ya normalizadas.
+  cambian lo que recibe Sofía; en esta entrega, también `maxStayDays`, igualmente solo del chat).
+- `lib/chat/vocabulary.ts`: palabras reconocidas (estaciones, temas, precios, presupuesto, documentos, maleta, pareja/familias,
+  fin de semana, países del mundo, saludos, «este mes»…) ya normalizadas.
 - `app/components/GuidedChat.tsx`: botón y panel. Se monta **solo en la portada** (`app/page.tsx`), nunca en `app/layout.tsx`: la página
   `/vuelos-en-vivo` va dentro de un marco de las fichas y no debe tener botón de chat.
 - Textos: `chat.*` en `lib/i18n/translations.ts` (7 idiomas). Pruebas: `tests/guided-chat.test.cjs`.
