@@ -9,6 +9,6 @@ export default function LiveFlightsFrame({ code, title, className = "" }: { code
   if (!src) return null;
   return (
     <iframe key={code} src={src} title={title} data-live-flights
-      className={`block h-[70vh] min-h-[420px] w-full min-w-0 rounded-xl border-0 bg-white ${className}`} />
+      className={`block h-[80vh] min-h-[520px] w-full min-w-0 rounded-xl border-0 bg-white ${className}`} />
   );
 }
