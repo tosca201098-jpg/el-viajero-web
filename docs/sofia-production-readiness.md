@@ -1,7 +1,68 @@
 # Sofía: preparación para producción
 
-> **Nota (15-11-2026):** DESTINAUTA ya no usa OpenAI. Sofía funciona solo con ElevenLabs y sus itinerarios los entrega ella por voz. Las referencias a OpenAI, a `OPENAI_API_KEY`, a `/api/itinerary` o a un proveedor de repuesto que aparecen más abajo son históricas. Vigente: [`sofia-solo-elevenlabs.md`](./sofia-solo-elevenlabs.md).
+## Estado vigente (19-11-2026)
 
+Sofía está **en producción** (destinauta.com, rama `main`) y funciona **solo con ElevenLabs**. Esta sección es lo vigente; **todo lo que hay
+debajo de «Histórico» es del 31-10-2026, se conserva como registro y en varios puntos ya no es cierto** (OpenAI, `OPENAI_API_KEY`,
+reversión a OpenAI, «todavía no se puede publicar», PR #37/#38 pendientes…). No seguir sus pasos.
+
+Documentos vigentes: [`sofia-solo-elevenlabs.md`](./sofia-solo-elevenlabs.md) (proveedor, herramientas, itinerarios por voz),
+[`sofia-minutos-voz.md`](./sofia-minutos-voz.md) (minutos y topes), [`sofia-diagnostic.md`](./sofia-diagnostic.md) (diagnóstico),
+[`white-label-flight-search.md`](./white-label-flight-search.md) (vuelos) e [`itinerario-ia-haiku.md`](./itinerario-ia-haiku.md) (itinerario escrito).
+
+| Tema | Vigente |
+|---|---|
+| Proveedor | Solo ElevenLabs. OpenAI se retiró del código (15-11) y `OPENAI_API_KEY` se borró de Vercel Production (19-11). **No existe reversión a OpenAI.** |
+| Versión del agente | Fija: `SOFIA_PRODUCTION_VERSION_ID` en `lib/voice/preview-target.ts` = `agtvrsn_4001m7r0by44etcr1sz2gbvxp993` (siete idiomas con saludo, 18-11-2026). La anterior (`agtvrsn_0601…`) ya no se acepta en Production. |
+| Quién puede hablar | Solo cuentas registradas. Un visitante ve «Regístrate o inicia sesión» y no se consume nada. |
+| Minutos | Por cuenta y periodo (por defecto **6 minutos por mes natural de Madrid**, `AI_VOICE_USER_MINUTES`) y un tope semanal para toda la web (`AI_VOICE_GLOBAL_WEEK_MINUTES`). Detalle en `sofia-minutos-voz.md`; las cifras se ajustan desde Vercel, sin tocar código. |
+| Herramientas de Sofía | `buscar_viaje`, `crear_itinerario`, `consultar_catalogo`, `mostrar_destino`, `descubrir_destinos` (`lib/voice/elevenlabs-session.ts`). |
+| Vuelos desde Sofía | Ella lee **precios guardados** (un precio guardado que falta ya no significa «no hay vuelos»; si faltan, prueba ±7 días) y la tarjeta abre además la **lista en vivo** del buscador para las fechas exactas, que ella no puede leer y por eso te pide mirar la pantalla (PR #110 y #111, 19-11-2026). |
+| Itinerario escrito | El botón da siempre la **guía básica gratuita**. Con IA (Claude Haiku, `/api/itinerary`) solo con sesión y si existen `ANTHROPIC_API_KEY`, `AI_ENABLED=true` y `AI_ITINERARY_ENABLED=true`; el 19-11-2026 **no existe** `ANTHROPIC_API_KEY` en Vercel, así que todos reciben la guía gratuita. Con IA: 10 por persona y día natural de Madrid y 200 al día en toda la web. |
+
+### Variables de Vercel Production (solo nombres; los valores nunca van en documentos)
+
+Comprobadas el 19-11-2026 contra lo que lee el código de `main`: `AI_ENABLED`, `AI_VOICE_ENABLED`, `AI_VOICE_PROVIDER`,
+`AI_VOICE_GLOBAL_WEEK_MINUTES`, `AI_ITINERARY_ENABLED`, `AI_ITINERARY_GLOBAL_DAY_LIMIT`, `AI_REDIS_REST_URL`, `AI_REDIS_REST_TOKEN`,
+`AI_RATE_LIMIT_SECRET`, `ELEVENLABS_ENABLED`, `ELEVENLABS_PRODUCTION_APPROVED`, `ELEVENLABS_AGENT_VERSION_ID`, `ELEVENLABS_API_KEY`,
+`SOFIA_DIAGNOSTIC_ENABLED`, `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`,
+`TRAVELPAYOUTS_API_TOKEN`, `RESEND_API_KEY`, `EMAIL_TEST_RECIPIENT` y `CRON_SECRET`.
+Borradas el 19-11-2026 por obsoletas (el código ya no las lee): `OPENAI_API_KEY`, `AI_VOICE_DAY_LIMIT`, `AI_VOICE_GLOBAL_31DAY_LIMIT`,
+`AI_VOICE_GLOBAL_DAY_LIMIT`, `AI_VOICE_MINUTE_LIMIT`, `AI_ITINERARY_DAY_LIMIT` y `AI_ITINERARY_MINUTE_LIMIT`. Las copias de Preview atadas a la
+rama antigua `codex/sofia-elevenlabs` no se han tocado.
+
+### Versión nueva del agente: orden obligatorio
+
+La versión del agente debe ser idéntica en ElevenLabs, en el código y en la variable `ELEVENLABS_AGENT_VERSION_ID` (solo se lee en despliegues
+nuevos). Si no coinciden, Sofía se pausa con `VOICE_VERSION`. Los cambios solo de código (por ejemplo, el texto que devuelven las herramientas) no
+necesitan nada de esto.
+
+1. El propietario publica en ElevenLabs (rama `sofia-agente-viajes`) y copia el `agtvrsn_…` nuevo.
+2. Una PR en borrador actualiza `lib/voice/preview-target.ts` (la versión vigente pasa a «anterior de Producción»), las pruebas y los documentos.
+3. El propietario cambia `ELEVENLABS_AGENT_VERSION_ID` en Vercel (solo Production), sin Redeploy antes de fusionar.
+4. Con su orden expresa se fusiona la PR (merge commit) y Vercel despliega con todo alineado.
+5. Prueba en destinauta.com con Ctrl+F5 (otro idioma y la barra de minutos de «Mi cuenta»).
+
+### Si algo falla
+
+- Vercel → Deployments → despliegue anterior → **Instant Rollback**, o revertir la PR.
+- Pausar solo la voz: `AI_VOICE_ENABLED=false` y un despliegue nuevo (vuelos, hoteles, destinos e itinerarios siguen funcionando).
+- Leer los registros de `SOFIA_DIAGNOSTIC` (Vercel Hobby guarda aproximadamente una hora) con la guía de `sofia-diagnostic.md`.
+- No reiniciar cuotas ni desactivar la autenticación para resolver incidencias.
+
+### Pendiente del propietario
+
+- **Clave de ElevenLabs de Production:** caduca el 1-12-2026 a las 10:27; hay aviso el 24-11. Si crea una nueva, se pega en `ELEVENLABS_API_KEY` (Production) y se redespliega.
+- Antes de abrir Sofía a más gente: aclarar la licencia comercial de ElevenLabs y el plan Vercel Hobby con enlaces de afiliación (ver «Histórico»).
+- `ANTHROPIC_API_KEY` (de pago): solo si quiere itinerarios escritos con IA para cuentas registradas.
+
+---
+
+# Histórico (31-10-2026): no seguir estos pasos
+
+> **Nota (15-11-2026):** DESTINAUTA ya no usa OpenAI. Sofía funciona solo con ElevenLabs. Las referencias a OpenAI, a `OPENAI_API_KEY`, a
+> la reversión a OpenAI o a un proveedor de repuesto que aparecen más abajo son históricas. Vigente: la sección anterior y
+> [`sofia-solo-elevenlabs.md`](./sofia-solo-elevenlabs.md).
 
 Fecha: 31 de octubre de 2026. Estado: preparación para revisión; **no autoriza publicar, fusionar ni cambiar las cuentas**.
 
