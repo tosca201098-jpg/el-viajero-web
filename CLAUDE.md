@@ -46,6 +46,7 @@ npm run lint && npm run build
 - `app/page.tsx` (~2000 líneas): portada, buscadores, ventana de cada destino y conexión de Sofía. Cámbialo con cuidado y con pruebas.
 - `app/api/`: `travelpayouts/` (vuelos, enlaces de búsqueda), `voice/` y `itinerary/` (IA), `email/`, `cron/`, `sofia-diagnostic/`.
 - `app/vuelos`, `app/vuelos-en-vivo` (lista en vivo dentro de un marco, `noindex`), `app/hoteles`, `app/destinos/*`, `app/temporadas/*`, `app/viajes-baratos/*`.
+- `lib/chat/` + `app/components/GuidedChat.tsx` (chat de texto guiado, sin IA, solo con datos del catálogo; `docs/chat-guiado.md`).
 - `lib/destinations/` (catálogo por país + fotos y encuadres), `lib/travelpayouts/` (aeropuertos por país, búsqueda), `lib/voice/` (Sofía), `lib/supabase/` (cuentas, viajes y vuelos guardados), `lib/i18n/`, `lib/email/`, `lib/stay22/`.
 - `docs/`: una nota por país y por función (`docs/sofia-*.md`, `docs/white-label-flight-search.md`, `docs/stay22-hotels.md`…). Léela antes de tocar esa parte.
 

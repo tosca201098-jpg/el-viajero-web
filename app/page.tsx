@@ -40,6 +40,7 @@ import { buildVoiceTripSummary, buildVoiceDiscoverSummary } from "@/lib/voice/tr
 import { searchVoiceFlights } from "@/lib/voice/voice-flight-search";
 import { liveFlightKey } from "@/lib/voice/live-flights";
 import LiveFlightsFrame from "./components/LiveFlightsFrame";
+import GuidedChat from "./components/GuidedChat";
 import { observeVoiceAuth, type VoiceAuthController, type VoiceAuthState } from "@/lib/voice/auth-client";
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
@@ -2006,6 +2007,23 @@ function abrirPaquete(destino = "") {
         })();`}
       </Script>}
       {authMode && <AuthDialog key={authMode} mode={authMode} onClose={() => setAuthMode(null)} onChangeMode={setAuthMode} />}
+      <GuidedChat
+        onOpenDestination={(id) => {
+          const destination = getDestinationById(id);
+          if (!destination) return;
+          setFlightResultsOpen(false);
+          setModal(null);
+          setDestinoSeleccionado(destination);
+        }}
+        onOpenFlightSearch={() => {
+          setFlightResultsOpen(false);
+          setModal(null);
+          setDestinoSeleccionado(null);
+          const radio = document.getElementById("buscador-vuelos") as HTMLInputElement | null;
+          radio?.click();
+          radio?.parentElement?.scrollIntoView({ behavior: "smooth", block: "center" });
+        }}
+      />
     </main>
   );
 }

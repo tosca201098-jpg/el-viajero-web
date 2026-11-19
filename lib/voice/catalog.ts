@@ -14,6 +14,9 @@ export type VoiceCatalogOptions = {
   month?: unknown;
   /** Free words (beach, museums, snow…). Matched against the catalogue's own texts only. */
   topic?: unknown;
+  /** Optional exact filters used by the written chat: an ISO country code and/or one destination id. */
+  country?: string;
+  id?: string;
 };
 
 let monthNames: Map<string, number> | null = null;
@@ -45,7 +48,7 @@ function parseTopic(value: unknown): string[] | null | false {
 }
 
 type Entry = {
-  id: string; name: string; canonicalName: string; country: string; description: string;
+  id: string; name: string; canonicalName: string; country: string; countryCode?: string; description: string;
   search: string; text: string;
   bestMonths?: number[]; lowSeasonMonths?: number[]; highSeasonMonths?: number[];
   recommendedStay?: string; seasonalityNote?: string; recommendations?: string[];
@@ -76,7 +79,7 @@ export function queryVoiceCatalog(query: unknown, locale: Locale, options: Voice
   const profiles: Entry[] = destinationProfiles.map(p => {
     const text = getDestinationText(p, locale);
     const spanish = getDestinationText(p, 'es');
-    return { id: p.id, name: text.name, country: getDestinationCountryName(p, locale),
+    return { id: p.id, name: text.name, country: getDestinationCountryName(p, locale), countryCode: p.countryCode,
       description: text.description, canonicalName: p.name,
       search: [p.name, p.country, p.countryCode, text.name, ...(p.aliases ?? [])].join(' '),
       text: [text.description, ...text.recommendations, text.seasonalityNote ?? '', text.recommendedStay,
@@ -92,6 +95,9 @@ export function queryVoiceCatalog(query: unknown, locale: Locale, options: Voice
       recommendedStay: d.recommendedStay, seasonalityNote: d.seasonalityNote, recommendations: [...d.recommendations] }));
 
   let matches = [...profiles, ...extras].filter(p => !term || normalizeDestinationName(p.search).includes(term));
+
+  if (options.id) matches = matches.filter(p => p.id === options.id);
+  if (options.country) matches = matches.filter(p => p.countryCode === options.country);
 
   // A destination is only offered for a month when the catalogue lists it among its best months.
   if (month) matches = matches.filter(p => p.bestMonths?.includes(month));
