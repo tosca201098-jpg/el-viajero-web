@@ -426,7 +426,7 @@ test('page: a flight + hotel budget travels with the search but never filters th
 test('page: the effect that runs the voice flight search gives Sofía the summary of the offers on screen', () => {
   const start = source.indexOf('if (!pendingVoiceFlightSearch || pendingVoiceFlightSearch.started) return;');
   const effect = source.slice(start, source.indexOf('}, [pendingVoiceFlightSearch]);', start));
-  assert.match(effect, /runFlightSearch\(pendingVoiceFlightSearch\.query, pendingVoiceFlightSearch\.context\.signal\)/);
+  assert.match(effect, /searchWithNearbyDays\(\(search\) => runFlightSearch\(search, context\.signal\), query\)/);
   assert.match(effect, /"offers" in result/);
   assert.match(effect, /buildVoiceTripSummary\(\{/);
   assert.match(effect, /flightBudget: query\.budget/);
