@@ -132,4 +132,4 @@ El inventario se implementará y comprobará en lotes para mantener revisión vi
 
 ## Fotos propias por ficha (19-11-2026)
 
-46 fichas pasan de la foto compartida por zona a una foto propia de Unsplash, elegida por el propietario entre las candidatas revisadas (lugar leído en la página de cada foto, licencia gratuita de Unsplash, horizontal, al menos 1600 px de ancho y sin repetir ninguna). Las 21 fichas restantes conservan la foto regional de Wikimedia Commons porque no hay una foto libre y fiable de su lugar. Falta revisar el encuadre de cada foto en una Preview de Vercel.
+46 fichas pasan de la foto compartida por zona a una foto propia de Unsplash, elegida por el propietario entre las candidatas revisadas (lugar leído en la página de cada foto, licencia gratuita de Unsplash, horizontal, al menos 1600 px de ancho y sin repetir ninguna). Las 27 fichas restantes conservan la foto regional que ya tenían: 14 porque no hay una foto libre y fiable de su lugar y las demás porque el propietario prefirió mantener la actual. Falta revisar el encuadre de cada foto en una Preview de Vercel.
