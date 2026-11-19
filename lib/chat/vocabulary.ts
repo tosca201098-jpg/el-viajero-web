@@ -49,6 +49,31 @@ export const GREETINGS = [
   'ola', 'bom dia', 'boa tarde', 'bon dia', 'bona tarda', 'ayuda', 'help', 'aide', 'hilfe', 'aiuto', 'ajuda',
 ];
 
+/**
+ * Phrases of a visitor who has not decided where to go («no sé dónde ir», «surprise me»). They only count when the message
+ * names no destination, country, month, season or topic. Normalised like the rest (no accents; «ß» and apostrophes become
+ * spaces, so «weiß» reads «wei» and «don't» reads «don t»).
+ */
+export const UNDECIDED = [
+  'no se donde ir', 'no se a donde ir', 'no se adonde ir', 'no se donde viajar', 'no se a donde viajar', 'no se que destino', 'no se que visitar',
+  'donde ir', 'a donde ir', 'adonde ir', 'donde viajar', 'a donde viajar', 'donde puedo ir', 'a donde puedo ir', 'donde puedo viajar',
+  'recomiendame un destino', 'que me recomiendas', 'que me recomienda', 'que destino me recomiendas', 'que destino elegir', 'sugiereme un destino',
+  'sorprendeme', 'inspirame', 'ideas de viaje', 'ideas de viajes', 'ideas para viajar', 'quiero viajar', 'quiero irme de viaje', 'quiero escaparme',
+  'know where to go', 'know where to travel', 'where to go', 'where should i go', 'where can i go', 'where to travel', 'where should i travel',
+  'surprise me', 'inspire me', 'recommend me a destination', 'recommend a destination', 'suggest a destination', 'what do you recommend',
+  'what would you recommend', 'travel ideas', 'trip ideas', 'i want to travel', 'i d like to travel',
+  'je ne sais pas ou aller', 'je ne sais pas ou partir', 'ou aller', 'ou partir', 'ou voyager', 'surprenez moi', 'surprends moi', 'inspirez moi',
+  'que me conseillez vous', 'que me recommandez vous', 'conseillez moi une destination', 'idees de voyage', 'idees de voyages', 'je veux voyager',
+  'ich wei nicht wohin', 'ich weiss nicht wohin', 'wei noch nicht wohin', 'weiss noch nicht wohin', 'wohin reisen', 'wohin soll ich', 'wohin fahren',
+  'uberrasch mich', 'inspiriere mich', 'was empfiehlst du', 'empfiehl mir ein reiseziel', 'reiseideen', 'ich mochte reisen', 'ich will reisen',
+  'non so dove andare', 'dove andare', 'dove viaggiare', 'dove posso andare', 'sorprendimi', 'ispirami', 'cosa mi consigli', 'consigliami una destinazione',
+  'idee di viaggio', 'idee per viaggiare', 'voglio viaggiare',
+  'nao sei para onde ir', 'nao sei onde ir', 'para onde ir', 'onde ir', 'onde viajar', 'para onde posso ir', 'onde posso ir', 'surpreende me', 'surpreenda me',
+  'inspira me', 'o que me recomenda', 'o que me recomendas', 'recomenda me um destino', 'ideias de viagem', 'quero viajar',
+  'no se on anar', 'on anar', 'on viatjar', 'on puc anar', 'sorpren me', 'inspira m', 'que em recomanes', 'que em recomaneu', 'recomana m un desti',
+  'idees de viatge', 'vull viatjar',
+];
+
 export const RELATIVE_MONTH = {
   current: ['este mes', 'this month', 'ce mois', 'ce mois ci', 'diesen monat', 'dieses monat', 'dieser monat', 'questo mese', 'neste mes', 'aquest mes'],
   next: ['proximo mes', 'mes que viene', 'next month', 'mois prochain', 'nachsten monat', 'nachster monat', 'prossimo mese', 'mese prossimo', 'mes que vem', 'proper mes', 'mes que ve'],

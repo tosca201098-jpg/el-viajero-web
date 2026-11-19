@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { answerChat, MAX_CHAT_INPUT, type ChatMonthFit, type ChatPeriod, type ChatPlace, type ChatReply } from "@/lib/chat/guided";
+import type { ChatTopicKey } from "@/lib/chat/vocabulary";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { useLanguage } from "./LanguageProvider";
 
@@ -10,13 +11,15 @@ type Message = { id: number; from: "user" | "bot"; text?: string; reply?: ChatRe
 type Props = {
   /** Opens the destination window of the home page (the same one Sofía opens). */
   onOpenDestination: (id: string) => void;
-  /** Brings the visitor to the flight search of the home page. */
-  onOpenFlightSearch: () => void;
+  /** Brings the visitor to the flight search of the home page; with `discover` it also switches on «I don't know where to go». */
+  onOpenFlightSearch: (options?: { discover?: boolean }) => void;
   /** True while a window of the page (destination, search, results, sign-in) is open: the chat steps aside, keeping its conversation. */
   hidden?: boolean;
 };
 
 const SAMPLES: TranslationKey[] = ["chat.sample1", "chat.sample2", "chat.sample3"];
+/** The topics offered as quick buttons to someone who has not decided where to go. */
+const UNDECIDED_TOPICS: ChatTopicKey[] = ["beach", "mountain", "museums", "nature", "snow", "islands"];
 const actionClass = "min-h-[44px] rounded-xl border border-blue-300 bg-white px-3 py-2 text-left text-sm font-semibold text-blue-800 hover:bg-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500";
 
 /**
@@ -117,6 +120,22 @@ export default function GuidedChat({ onOpenDestination, onOpenFlightSearch, hidd
         return <p>{t("chat.tooLong")}</p>;
       case "unknown":
         return <><p>{t("chat.unknown")}</p>{renderSamples()}</>;
+      case "undecided":
+        return (
+          <>
+            <p>{t("chat.undecided")}</p>
+            <div className="mt-2 flex flex-wrap gap-2">
+              {UNDECIDED_TOPICS.map((topic) => {
+                const label = t(`chat.topic.${topic}` as TranslationKey);
+                return <button key={topic} type="button" onClick={() => submit(label)} className={actionClass}>{cap(label)}</button>;
+              })}
+            </div>
+            <p className="mt-3">{t("chat.undecidedSearch")}</p>
+            <div className="mt-2">
+              <button type="button" onClick={() => { setOpen(false); onOpenFlightSearch({ discover: true }); }} className={actionClass}>{t("chat.openDiscover")}</button>
+            </div>
+          </>
+        );
       case "prices":
         return (
           <>

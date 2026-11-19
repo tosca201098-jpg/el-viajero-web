@@ -2016,10 +2016,11 @@ function abrirPaquete(destino = "") {
           setModal(null);
           setDestinoSeleccionado(destination);
         }}
-        onOpenFlightSearch={() => {
+        onOpenFlightSearch={(options) => {
           setFlightResultsOpen(false);
           setModal(null);
           setDestinoSeleccionado(null);
+          if (options?.discover) setDiscoverMode(true);
           const radio = document.getElementById("buscador-vuelos") as HTMLInputElement | null;
           radio?.click();
           radio?.parentElement?.scrollIntoView({ behavior: "smooth", block: "center" });

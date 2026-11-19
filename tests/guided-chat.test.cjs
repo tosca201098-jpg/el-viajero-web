@@ -195,7 +195,8 @@ test('the catalogue filters added for the chat do not change what Sofía receive
 
 test('all the chat texts exist in the seven languages with the same variables', () => {
   const keys = Object.keys(translations.dictionaries.es).filter(key => key.startsWith('chat.'));
-  assert.ok(keys.length >= 45);
+  assert.ok(keys.length >= 48);
+  for (const key of ['chat.undecided', 'chat.undecidedSearch', 'chat.openDiscover']) assert.ok(keys.includes(key), key);
   for (const key of keys) {
     const variables = text => (text.match(/\{[a-zA-Z]+\}/g) ?? []).sort().join(',');
     for (const code of codes) {
@@ -361,4 +362,87 @@ test('the home page has exactly one chat button, and the comparison tests of the
     // The 16 original cards are still all there, untouched, in the page the other tests compare.
     assert.equal(clean.filter(node => node.type === 'article').length, raw.filter(node => node.type === 'article').length);
   }
+});
+
+test('«no sé dónde ir» and similar phrases are understood in the seven languages and ask what the person feels like', () => {
+  const phrases = {
+    es: ['no sé dónde ir', 'No se donde ir', 'no sé a dónde viajar', 'recomiéndame un destino', 'sorpréndeme', 'ideas de viaje', '¿qué me recomiendas?', 'quiero viajar', 'dónde puedo ir'],
+    en: ["I don't know where to go", 'where should I go?', 'surprise me', 'travel ideas', 'what do you recommend'],
+    fr: ['je ne sais pas où aller', 'où partir ?', 'surprenez-moi', 'idées de voyage'],
+    de: ['ich weiß nicht, wohin', 'Ich weiss noch nicht wohin', 'überrasch mich', 'Reiseideen'],
+    it: ['non so dove andare', 'dove andare?', 'sorprendimi', 'idee di viaggio'],
+    pt: ['não sei para onde ir', 'não sei onde ir', 'surpreende-me', 'ideias de viagem'],
+    ca: ['no sé on anar', 'on puc anar?', 'sorprèn-me', 'idees de viatge'],
+  };
+  for (const [code, list] of Object.entries(phrases)) {
+    for (const phrase of list) assert.deepEqual(Object.assign({}, chat.answerChat(phrase, code, now)), { kind: 'undecided' }, `${code}: ${phrase}`);
+  }
+  // Another language than the page's one also works, as everything else in the chat does.
+  assert.equal(chat.answerChat("I don't know where to go", 'es', now).kind, 'undecided');
+});
+
+test('being undecided never hides what the person did say: a destination, country, month, season or topic is answered first', () => {
+  assert.equal(chat.answerChat('no sé dónde ir en octubre', 'es', now).kind, 'list');
+  assert.equal(chat.answerChat('no sé dónde ir, quiero playa', 'es', now).kind, 'list');
+  assert.equal(chat.answerChat('no sé dónde ir en Italia', 'es', now).kind, 'list');
+  assert.equal(chat.answerChat('no sé si ir a Roma', 'es', now).kind, 'destination');
+  assert.equal(chat.answerChat('where to go in summer', 'en', now).kind, 'list');
+  // Prices, flights and hotels still get the honest note, and the generic words do not turn into «undecided».
+  assert.equal(chat.answerChat('recomiéndame un hotel', 'es', now).kind, 'prices');
+  assert.equal(chat.answerChat('vuelos baratos', 'es', now).kind, 'prices');
+  assert.equal(chat.answerChat('tengo 700 euros', 'es', now).kind, 'prices');
+  assert.equal(chat.answerChat('hola', 'es', now).kind, 'welcome');
+  assert.equal(chat.answerChat('quién ganó la liga', 'es', now).kind, 'unknown');
+});
+
+test('the topic buttons offered to an undecided person are understood as topics in the seven languages', () => {
+  for (const code of codes) {
+    for (const topic of ['beach', 'mountain', 'museums', 'nature', 'snow', 'islands']) {
+      const label = translations.translate(code, `chat.topic.${topic}`);
+      const reply = chat.answerChat(label, code, now);
+      assert.equal(reply.kind, 'list', `${code}: ${label}`);
+      assert.equal(reply.topic, topic, `${code}: ${label}`);
+      assert.ok(reply.places.length > 0);
+    }
+  }
+});
+
+test('an undecided question offers topics and the «I don\'t know where to go» search of the page, and closes the chat for it', () => {
+  const calls = [];
+  const ui = chatHarness('es', { onOpenDestination() {}, onOpenFlightSearch: options => calls.push(options) });
+  ui.button(ui.render(), 'Chat DESTINAUTA').props.onClick();
+  const type = value => ui.all(ui.render(), item => item.type === 'input')[0].props.onChange({ target: { value } });
+  const exact = (tree, label) => ui.all(tree, item => item.type === 'button' && ui.text(item).trim() === label)[0];
+  type('no sé dónde ir');
+  ui.all(ui.render(), item => item.type === 'form')[0].props.onSubmit({ preventDefault() {} });
+  let panel = ui.render();
+  const content = ui.text(panel);
+  assert.ok(content.includes(ui.translate('chat.undecided')) && content.includes(ui.translate('chat.undecidedSearch')));
+  for (const topic of ['beach', 'mountain', 'museums', 'nature', 'snow', 'islands']) {
+    const label = ui.translate(`chat.topic.${topic}`);
+    assert.ok(exact(panel, label.charAt(0).toUpperCase() + label.slice(1)), topic);
+  }
+  // A topic button asks that topic as if it had been typed.
+  exact(panel, 'Playas').props.onClick();
+  panel = ui.render();
+  assert.ok(ui.text(panel).includes(ui.translate('chat.listIntro', { filters: ui.translate('chat.topic.beach') })));
+  assert.ok(ui.all(panel, item => item.type === 'article').length > 0);
+  // The search button asks the page to switch on «No sé dónde ir» and closes the chat.
+  type('no sé dónde ir');
+  ui.all(ui.render(), item => item.type === 'form')[0].props.onSubmit({ preventDefault() {} });
+  ui.button(ui.render(), ui.translate('chat.openDiscover')).props.onClick();
+  assert.deepEqual(calls.map(options => ({ ...options })), [{ discover: true }]);
+  assert.equal(ui.all(ui.render(), item => item.props.role === 'dialog').length, 0);
+  // The price answer still calls the search without switching on «No sé dónde ir».
+  ui.button(ui.render(), 'Chat DESTINAUTA').props.onClick();
+  type('tengo 700 euros');
+  ui.all(ui.render(), item => item.type === 'form')[0].props.onSubmit({ preventDefault() {} });
+  ui.button(ui.render(), ui.translate('chat.searchFlights')).props.onClick();
+  assert.deepEqual(calls.map(options => options === undefined ? null : { ...options }), [{ discover: true }, null]);
+});
+
+test('the page switches on «No sé dónde ir» only when the chat asks for it, and keeps the rest of the search handler', () => {
+  const page = fs.readFileSync(path.join(root, 'app/page.tsx'), 'utf8');
+  assert.match(page, /onOpenFlightSearch=\{\(options\) => \{[\s\S]*?if \(options\?\.discover\) setDiscoverMode\(true\);[\s\S]*?radio\?\.click\(\);/);
+  assert.equal((page.match(/options\?\.discover/g) ?? []).length, 1, 'only the chat handler reads the option');
 });
