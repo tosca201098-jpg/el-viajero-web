@@ -11,6 +11,12 @@ Botón flotante «💬 Chat DESTINAUTA» en la portada (abajo a la derecha). Abr
 - **Un mes, varios meses o una estación** («¿dónde ir en octubre?», «entre mayo y junio», «verano», «este mes», «el mes que viene»).
 - **Un tema** (playas, montaña, nieve y esquí, museos y arte, historia y castillos, naturaleza y senderismo, islas, lagos, gastronomía
   y vino, cultura, auroras y fiordos, termas y spa), solo o combinado con país y mes («playas en Portugal en agosto»).
+- **«No sé dónde ir»** («no sé dónde ir», «recomiéndame un destino», «sorpréndeme», «ideas de viaje», «quiero viajar», «where
+  should I go?», «où partir ?», «wohin?»…, en los siete idiomas; lista `UNDECIDED` de `lib/chat/vocabulary.ts`): el chat responde con
+  seis temas para elegir (playas, montaña, museos, naturaleza, nieve, islas), invita a escribir un mes o un país, y un botón
+  «Abrir «No sé dónde ir»» lleva al buscador de vuelos de la portada con esa opción ya activada (la que pide fechas y presupuesto y
+  propone destinos con los precios del proveedor; el chat no da ninguno). Solo se usa si el mensaje no nombra un destino, país, mes,
+  estación o tema: «no sé dónde ir en octubre» se responde con la lista de octubre.
 - Los nombres de lugar se reconocen por **palabra completa** («Roma» no es «Romaña»), y un nombre que también es una palabra del
   vocabulario (el condado irlandés «Mayo») se lee como esa palabra.
 
@@ -31,6 +37,10 @@ Botón flotante «💬 Chat DESTINAUTA» en la portada (abajo a la derecha). Abr
 - Textos: `chat.*` en `lib/i18n/translations.ts` (7 idiomas). Pruebas: `tests/guided-chat.test.cjs`.
 
 ## Cómo ampliarlo
+- Una frase nueva («no sé dónde ir», «sorpréndeme»…): añadirla a la lista que le corresponde en `lib/chat/vocabulary.ts`, **ya
+  normalizada** (minúsculas, sin acentos; los apóstrofos y la «ß» pasan a espacio: «don't» → `don t`, «weiß» → `wei`) y añadir el caso
+  a `tests/guided-chat.test.cjs`. La lista viva de frases que se han probado y su estado está en el Proyecto
+  (`claude/DESTINAUTA-chat-lista-de-frases.md`).
 - Un tema nuevo: añadirlo a `TOPICS` en `lib/chat/vocabulary.ts` (palabras que escribe la gente en los 7 idiomas + palabras en español
   que aparecen en los textos del catálogo) y su nombre en `chat.topic.<clave>`. Una prueba exige textos en los 7 idiomas.
 - Un país o destino nuevo: no hace falta tocar nada; entra solo cuando está en el catálogo.

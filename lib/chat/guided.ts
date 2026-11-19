@@ -5,7 +5,7 @@ import { getDestinationCountryName, getDestinationText } from '@/lib/destination
 import { formatMonthName } from '@/lib/destinations/seasonality';
 import { queryVoiceCatalog } from '@/lib/voice/catalog';
 import {
-  COUNTRY_ALIASES, GREETINGS, PRICE_WORDS, RELATIVE_MONTH, SEASONS, TOPICS,
+  COUNTRY_ALIASES, GREETINGS, PRICE_WORDS, RELATIVE_MONTH, SEASONS, TOPICS, UNDECIDED,
   type ChatSeasonKey, type ChatTopicKey,
 } from './vocabulary';
 
@@ -24,6 +24,8 @@ export type ChatMonthFit = { month: string; best: boolean; busy: boolean };
 export type ChatPeriod = { months: string[]; season?: ChatSeasonKey };
 export type ChatReply =
   | { kind: 'welcome' | 'unknown' | 'tooLong' | 'prices' }
+  /** The visitor does not know where to go: the chat asks what they feel like and points to the site's «I don't know where to go» search. */
+  | { kind: 'undecided' }
   /** The visitor named one to three destinations. */
   | { kind: 'destination'; places: { place: ChatPlace; fit?: ChatMonthFit }[]; priceNote: boolean }
   /** A country, a period and/or a topic: the destinations of the catalogue that fit, `total` when it is known. */
@@ -202,6 +204,7 @@ export function answerChat(input: string, locale: Locale, now: Date = new Date()
     return { kind: 'list', places: found.places.slice(0, MAX_LIST), total: found.total === null ? null : Math.max(found.total, found.places.length), ...scope, priceNote };
   }
 
+  if (UNDECIDED.some(has)) return { kind: 'undecided' };
   if (priceNote) return { kind: 'prices' };
   if (GREETINGS.some(has)) return { kind: 'welcome' };
   return { kind: 'unknown' };
