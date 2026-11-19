@@ -73,6 +73,10 @@ test('SavedTrips translates every display state while preserving stored trip tex
     if (typeof node === 'object') return flatten(node.children);
     return String(node);
   };
+  const tripLinks = load('lib/supabase/saved-trip-links.ts', {
+    '@/lib/stay22/hotels': load('lib/stay22/hotels.ts', {}, { URLSearchParams }),
+    './saved-flights': load('lib/supabase/saved-flights.ts', {}, { URL }),
+  });
   for (const { code } of translations.locales) {
     const render = (values) => {
       let index = 0;
@@ -85,6 +89,7 @@ test('SavedTrips translates every display state while preserving stored trip tex
         react,
         './LanguageProvider': { useLanguage: () => ({ t: (key, vars) => translations.translate(code, key, vars), text: (value) => translations.translateText(code, value) }) },
         '@/lib/supabase/saved-trips': { listSavedTrips: () => { throw Error('Data fetch during render'); } },
+        '@/lib/supabase/saved-trip-links': tripLinks,
       }, { React: react }).default;
       return flatten(component());
     };
@@ -93,7 +98,7 @@ test('SavedTrips translates every display state while preserving stored trip tex
     assert.ok(render([[], false, '', '', null, 0]).includes(translated('trips.empty')));
     assert.ok(render([[], false, translations.dictionaries.es['trips.loadError'], '', null, 0]).includes(translated('trips.loadError')));
     const list = render([[trip], false, '', translations.dictionaries.es['trips.deleteError'], 'real-id', 0]);
-    for (const key of ['trips.deleteError', 'trips.deleting', 'search.travelers', 'trips.service', 'trips.noDate', 'trips.package']) {
+    for (const key of ['trips.deleteError', 'trips.deleting', 'search.travelers', 'trips.service', 'trips.noDate', 'trips.package', 'trips.viewFlights', 'trips.viewHotels']) {
       assert.ok(list.includes(translated(key)), `${code}: ${key}`);
     }
     assert.ok(list.includes('Mi cuenta'));
