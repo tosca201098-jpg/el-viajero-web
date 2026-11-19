@@ -5,13 +5,30 @@ import type { Itinerary } from '@/lib/itinerary/types';
 
 /** `itinerario` (optional) is an itinerary Sofía wrote, as a JSON string. Without it, the page asks the server (Claude Haiku). */
 export type VoiceItineraryArguments = { destino: string; dias: number; itinerario?: string };
+/** Why the personalised AI itinerary does not exist when only the free basic guide could be shown. */
+export type BasicGuideReason = 'limited' | 'unavailable';
 export type VoiceItineraryResult =
   | { status: 'success'; destination: string; days: number; locale: Locale }
+  // The free basic guide is on screen, but it is NOT the AI itinerary Sofía asked for: `note` tells her exactly what it is.
+  | { status: 'success'; kind: 'basic_guide'; ai_itinerary: BasicGuideReason; destination: string; days: number; locale: Locale; note: string }
   | { status: 'error'; error: 'invalid_arguments' | 'unknown_destination' | 'generation_failed' | 'busy' | 'unavailable' | 'limited' }
   | { status: 'cancelled' };
 export type VoiceItineraryContext = { callId: string; locale: Locale; signal: AbortSignal };
 
 export const MAX_VOICE_ITINERARY_CHARS = 16000;
+
+const BASIC_GUIDE_NOTE = 'The free basic guide for this destination is now on the screen. It is a general guide with the destination\'s '
+  + 'highlights and tips, NOT a personalised day-by-day AI itinerary. Tell the person so, in their language, and invite them to look '
+  + 'at the screen. Do not read out, describe or invent activities, times, prices or opening hours: you cannot see its content. ';
+const BASIC_GUIDE_REASON: Record<BasicGuideReason, string> = {
+  unavailable: 'The personalised AI itinerary is not available right now.',
+  limited: 'The person has already used their personalised AI itineraries for today; they can ask again tomorrow.',
+};
+
+/** What Sofía hears when the planner could only show the free basic guide (it is on screen, so this is not a failure). */
+export function basicGuideResult(reason: BasicGuideReason, destination: string, days: number, locale: Locale): VoiceItineraryResult {
+  return { status: 'success', kind: 'basic_guide', ai_itinerary: reason, destination, days, locale, note: BASIC_GUIDE_NOTE + BASIC_GUIDE_REASON[reason] };
+}
 
 /** Parses and strictly validates an itinerary written by Sofía. Anything else is rejected, never repaired. */
 export function parseVoiceItinerary(raw: unknown, days: number): Itinerary | null {

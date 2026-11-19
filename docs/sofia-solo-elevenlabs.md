@@ -44,7 +44,8 @@ Comportamientos que el asistente de OpenAI tenía en sus instrucciones y que **e
   presupuesto con `tipo_presupuesto`) antes de decir que la búsqueda está en curso.
 - Itinerarios: no pedir origen, vuelos, hoteles, fechas ni viajeros (basta destino y duración); preguntar solo el destino o
   los días que falten; no inventar un itinerario hablado ni decir que está generado antes del resultado de la herramienta;
-  con `success` confirmar brevemente que está en pantalla sin inventar actividades; con `error` explicar el fallo
+  con `success` confirmar brevemente que está en pantalla sin inventar actividades (si trae `kind: "basic_guide"` decir que es la
+  guía básica y no un itinerario con IA, siguiendo su `note`); con `error` explicar el fallo
   (`unknown_destination` → aclarar el destino, `invalid_arguments` → destino y 1 a 7 días, `busy` → esperar,
   `limited` → hoy ya usó sus itinerarios con IA, `unavailable` → disculparse y sugerir el botón «Crear itinerario»);
   con `cancelled` no confirmar éxito.
@@ -95,10 +96,15 @@ con **dos** parámetros: `destino` y `dias` (1 a 7). Después:
 2. El planificador pide el itinerario a `POST /api/itinerary` con la sesión de la persona (solo destino, días e idioma: nunca
    fechas, viajeros ni presupuesto de la página). El servidor lo escribe con Claude Haiku 5.5 con los mismos límites que el
    botón (10 por persona y día natural de Madrid, 200 al día en toda la web; ver `docs/itinerario-ia-haiku.md`).
-3. Solo cuando el itinerario **ya está en pantalla** se responde `success` a Sofía. Si no, Sofía recibe la verdad:
-   `limited` (ya usó sus itinerarios con IA de hoy), `unavailable` (IA apagada, sin sesión válida, fallo, respuesta inválida o más
-   de 70 segundos), `busy`, `unknown_destination`, `invalid_arguments` o `cancelled`. En `limited` y `unavailable` se muestra
-   además la guía gratuita con el aviso correspondiente.
+3. Solo cuando lo que se muestra **ya está en pantalla** se responde a Sofía:
+   - Itinerario con IA en pantalla → `success` (sin más campos).
+   - Solo la **guía básica gratuita** (IA apagada, sin sesión válida, fallo del servidor con guía, ya usó sus itinerarios con IA
+     de hoy) → también `success`, pero con `kind: "basic_guide"`, `ai_itinerary: "unavailable"` o `"limited"` y una `note` (en
+     inglés, escrita en `lib/voice/itinerary.ts`) que le dice que es una guía general, **no** un itinerario personalizado con IA,
+     que mire la pantalla y que no lea ni invente actividades, horarios ni precios. La pantalla baja hasta la guía.
+     (Hasta el 19-11-2026 esto llegaba como `error: unavailable/limited` y Sofía se disculpaba aunque la guía ya estuviera a la vista.)
+   - Si no hay nada que mostrar, Sofía recibe la verdad: `unavailable` (fallo, respuesta inválida o más de 70 segundos), `busy`,
+     `unknown_destination`, `invalid_arguments` o `cancelled`.
 4. Si la conversación termina o se cancela mientras se escribe, la llamada se aborta y no se anuncia nada.
 
 El itinerario sale con el aviso «escrito con IA», con «Guardar en mi cuenta» y «Descargar PDF», igual que el del botón.
