@@ -48,6 +48,8 @@ const countryFlags = new Map<string, string>([
   ['CY', '🇨🇾'],
   ['TR', '🇹🇷'],
   ['AL', '🇦🇱'],
+  ['JP', '🇯🇵'],
+  ['KR', '🇰🇷'],
 ]);
 
 export function flagForCountryCode(countryCode?: string | null): string | undefined {

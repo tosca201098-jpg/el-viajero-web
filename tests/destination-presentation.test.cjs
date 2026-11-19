@@ -420,3 +420,54 @@ test('all fifteen Croatian cards open only after explicit selection and keep the
     assert.equal(tree.filter(n=>n.type==='article').length,16);
   }
 });
+
+// Abre una ficha como lo hace una persona: escribe el destino, elige la sugerencia y pulsa «Ver destino».
+function openCardLikeAPerson(locale,profile){
+  const state=[];let index=0;
+  const hooks={...react,useState(initial){const slot=index++;if(!(slot in state))state[slot]=typeof initial==='function'?initial():initial;
+    return[state[slot],value=>{state[slot]=typeof value==='function'?value(state[slot]):value;}];}};
+  const load=renderLoader(locale,{react:hooks}),Home=load('app/page.tsx').default;
+  const render=()=>{index=0;return nodes(Home());};
+  let tree=render();
+  assert.equal(tree.filter(n=>n.type==='article').length,16);
+  assert.ok(!tree.some(n=>n.props.id==='destination-detail-title'));
+  const input=tree.find(n=>n.props.variant==='main'&&n.props.label===dictionaries.translate(locale,'search.destination'));
+  const display=localization.getDestinationText(profile,locale);
+  input.props.onChange(display.name);
+  input.props.onSelect({type:'city',name:display.name,code:profile.iataCodes[0],country:profile.country,cityName:null,cityCode:null},display.name);
+  tree=render();
+  const button=tree.find(n=>n.type==='button'&&n.props['aria-haspopup']==='dialog'&&n.props['aria-label']===`${dictionaries.translate(locale,'monthly.viewDestination')}: ${display.name}`&&nodes(n).some(child=>child.props.destination?.id===profile.id));
+  assert.ok(button,profile.id+':'+locale);button.props.onClick();tree=render();
+  assert.ok(tree.some(n=>n.props.id==='destination-detail-title'&&text(n)===display.name),profile.id+':'+locale);
+  assert.equal(tree.filter(n=>n.type==='article').length,16);
+  return{tree,display};
+}
+
+test('all fourteen South Korean cards show their flag and the arrival airport (real airport name and reference town) in every language',()=>{
+  const korea=catalog.getDestinationsByCountry('KR'),airports=data('lib/travelpayouts/south-korea-airports.ts');
+  assert.equal(korea.length,14);
+  for(const locale of locales)for(const profile of korea){
+    const{tree}=openCardLikeAPerson(locale,profile);
+    const dialog=tree.find(n=>n.props.role==='dialog');
+    assert.ok(text(dialog).includes('🇰🇷'),profile.id+':'+locale+': flag');
+    assert.ok(!text(dialog).includes('🇫🇷'),profile.id+':'+locale+': never a French default');
+    const arrival=tree.find(n=>n.props['aria-label']===dictionaries.translate(locale,'destinations.arrivalAirport'));
+    assert.ok(arrival,profile.id+':'+locale+': arrival block');
+    for(const code of profile.iataCodes){
+      const airport=airports.southKoreaAirports.find(candidate=>candidate.code===code);
+      assert.ok(airport&&airport.name,code);
+      assert.ok(text(arrival).includes(airport.name)&&text(arrival).includes(code),profile.id+':'+locale+':'+code+': '+text(arrival));
+    }
+    assert.ok(text(arrival).includes(airports.southKoreaAirportTown(profile.iataCodes[0],locale)),profile.id+':'+locale);
+  }
+});
+
+test('Japanese cards show the Japanese flag, never a French default, in every language',()=>{
+  for(const id of ['jp-kobe','jp-tokyo','jp-naha'])for(const locale of locales){
+    const profile=catalog.getDestinationById(id);assert.ok(profile,id);
+    const{tree}=openCardLikeAPerson(locale,profile);
+    const dialog=tree.find(n=>n.props.role==='dialog');
+    assert.ok(text(dialog).includes('🇯🇵'),id+':'+locale+': flag');
+    assert.ok(!text(dialog).includes('🇫🇷'),id+':'+locale+': never a French default');
+  }
+});
