@@ -45,6 +45,17 @@ function makeReact(state, counter) {
   };
 }
 
+// El chat guiado (PR #115) es un botón flotante que se añade a la portada. Aquí se sustituye por una etiqueta y se quita del
+// árbol dibujado, de modo que todas las comparaciones de abajo siguen juzgando SOLO la portada y las fichas de antes: las 16
+// tarjetas, las temporadas y las ventanas. Que el chat existe (una vez, y nada más) lo comprueba tests/guided-chat.test.cjs
+// con `rawHome()`, que devuelve el árbol sin quitar nada.
+const CHAT_TAG = 'guided-chat';
+function withoutChat(node) {
+  if (Array.isArray(node)) return node.filter(item => !(item && item.type === CHAT_TAG)).map(withoutChat);
+  if (!node || typeof node !== 'object' || !('children' in node)) return node;
+  return { ...node, children: withoutChat(node.children) };
+}
+
 function createRenderer(root, locale) {
   const dictionaries = loader(root)('lib/i18n/translations.ts');
   const state = [], counter = { index: 0, sets: [] };
@@ -56,7 +67,7 @@ function createRenderer(root, locale) {
     './voice-panel.module.css': { default: {} }, './components/LanguageProvider': language, './LanguageProvider': language,
     '@/app/components/LanguageProvider': language, './components/AuthDialog': blank, './components/ItineraryPlanner': blank,
     './components/FlightLocationAutocomplete': blank, './components/HeaderAuth': blank, './components/LanguageSelector': blank,
-    '@/app/components/LanguageSelector': blank, '@/lib/supabase/client': { getSupabaseClient: () => null },
+    '@/app/components/LanguageSelector': blank, './components/GuidedChat': { __esModule: true, default: CHAT_TAG }, '@/lib/supabase/client': { getSupabaseClient: () => null },
     '@/lib/supabase/saved-trips': { saveTrip: () => { throw Error('Unexpected save'); } },
   }, { React: react });
   const Home = load('app/page.tsx').default;
@@ -76,8 +87,9 @@ function createRenderer(root, locale) {
   return {
     t: key => dictionaries.translate(locale, key),
     featured, profiles: catalog.destinationProfiles,
-    home: () => { state[slot] = null; return render(); },
-    detail: destination => { state[slot] = destination; const tree = render(); state[slot] = null; return tree; },
+    home: () => { state[slot] = null; return withoutChat(render()); },
+    detail: destination => { state[slot] = destination; const tree = withoutChat(render()); state[slot] = null; return tree; },
+    rawHome: () => { state[slot] = null; return render(); },
   };
 }
 
@@ -205,4 +217,4 @@ function commonFrameSnapshots(root, options = {}) {
   return result;
 }
 
-module.exports = { LOCALES, createRenderer, flatten, serialize, digest, withOriginalFrame, withoutObjectPosition, loadFraming, snapshots, commonFrameSnapshots, withOriginalColors, originalColorsText, LIGHT_WINDOW_CLASSES, loader, makeReact };
+module.exports = { LOCALES, CHAT_TAG, createRenderer, flatten, serialize, digest, withOriginalFrame, withoutObjectPosition, loadFraming, snapshots, commonFrameSnapshots, withOriginalColors, originalColorsText, LIGHT_WINDOW_CLASSES, loader, makeReact };
