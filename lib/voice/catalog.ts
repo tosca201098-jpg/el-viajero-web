@@ -17,6 +17,8 @@ export type VoiceCatalogOptions = {
   /** Optional exact filters used by the written chat: an ISO country code and/or one destination id. */
   country?: string;
   id?: string;
+  /** Written chat only: keeps destinations whose recommended stay (the catalogue's own «2–3 días») is at most this many days. */
+  maxStayDays?: number;
 };
 
 let monthNames: Map<string, number> | null = null;
@@ -52,7 +54,15 @@ type Entry = {
   search: string; text: string;
   bestMonths?: number[]; lowSeasonMonths?: number[]; highSeasonMonths?: number[];
   recommendedStay?: string; seasonalityNote?: string; recommendations?: string[];
+  /** Longest number of days in the catalogue's recommended stay («2–3 días» → 3), when it has one. */
+  stayMaxDays?: number;
 };
+
+/** The largest number written in a recommended stay such as «2–3 días», or undefined when there is none. */
+function stayMaxDays(value: string | undefined): number | undefined {
+  const numbers = (value ?? '').match(/\d+/g);
+  return numbers ? Math.max(...numbers.map(Number)) : undefined;
+}
 
 function spreadByCountry(items: Entry[], limit: number): Entry[] {
   const perCountry = new Map<string, number>();
@@ -86,18 +96,21 @@ export function queryVoiceCatalog(query: unknown, locale: Locale, options: Voice
         spanish.description, ...spanish.recommendations].join(' '),
       bestMonths: p.bestMonths, lowSeasonMonths: p.lowSeasonMonths, highSeasonMonths: p.highSeasonMonths,
       recommendedStay: text.recommendedStay, seasonalityNote: text.seasonalityNote,
-      recommendations: [...text.recommendations] };
+      recommendations: [...text.recommendations], stayMaxDays: stayMaxDays(spanish.recommendedStay) };
   });
   const extras: Entry[] = destinations.filter(d => !profiles.some(p => p.canonicalName === d.name))
     .map(d => ({ id: d.name, name: d.name, canonicalName: d.name, country: d.country, description: d.description,
       search: `${d.name} ${d.country}`, text: [d.description, ...d.recommendations, d.seasonalityNote ?? ''].join(' '),
       bestMonths: d.bestMonths, lowSeasonMonths: d.lowSeasonMonths, highSeasonMonths: d.highSeasonMonths,
-      recommendedStay: d.recommendedStay, seasonalityNote: d.seasonalityNote, recommendations: [...d.recommendations] }));
+      recommendedStay: d.recommendedStay, seasonalityNote: d.seasonalityNote, recommendations: [...d.recommendations],
+      stayMaxDays: stayMaxDays(d.recommendedStay) }));
 
   let matches = [...profiles, ...extras].filter(p => !term || normalizeDestinationName(p.search).includes(term));
 
   if (options.id) matches = matches.filter(p => p.id === options.id);
   if (options.country) matches = matches.filter(p => p.countryCode === options.country);
+  const maxStay = options.maxStayDays;
+  if (typeof maxStay === 'number') matches = matches.filter(p => p.stayMaxDays !== undefined && p.stayMaxDays <= maxStay);
 
   // A destination is only offered for a month when the catalogue lists it among its best months.
   if (month) matches = matches.filter(p => p.bestMonths?.includes(month));
@@ -119,7 +132,7 @@ export function queryVoiceCatalog(query: unknown, locale: Locale, options: Voice
 
   // An open recommendation search (no destination named) shows at most two per country first,
   // so the first page is not filled by whichever country comes first in the catalogue.
-  const page = !term && (month || topic) ? spreadByCountry(matches, MAX_RESULTS) : matches.slice(0, MAX_RESULTS);
+  const page = !term && (month || topic || typeof maxStay === 'number') ? spreadByCountry(matches, MAX_RESULTS) : matches.slice(0, MAX_RESULTS);
   const detailed = matches.length <= DETAIL_THRESHOLD;
   const shown = page.map(p => ({
     id: p.id, name: p.name, country: p.country, description: p.description, canonicalName: p.canonicalName,

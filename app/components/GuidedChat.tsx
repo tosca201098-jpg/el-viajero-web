@@ -12,7 +12,7 @@ type Props = {
   /** Opens the destination window of the home page (the same one Sofía opens). */
   onOpenDestination: (id: string) => void;
   /** Brings the visitor to the flight search of the home page; with `discover` it also switches on «I don't know where to go». */
-  onOpenFlightSearch: (options?: { discover?: boolean }) => void;
+  onOpenFlightSearch: (options?: { discover?: boolean; budget?: number }) => void;
   /** True while a window of the page (destination, search, results, sign-in) is open: the chat steps aside, keeping its conversation. */
   hidden?: boolean;
 };
@@ -57,11 +57,12 @@ export default function GuidedChat({ onOpenDestination, onOpenFlightSearch, hidd
     onOpenDestination(id);
   }
 
-  function filters(country?: string, period?: ChatPeriod, topic?: string) {
+  function filters(country?: string, period?: ChatPeriod, topic?: string, weekend?: boolean) {
     const parts: string[] = [];
     if (country) parts.push(country);
     if (period) parts.push(period.season ? t(`chat.season.${period.season}` as TranslationKey) : period.months.join(" / "));
     if (topic) parts.push(t(`chat.topic.${topic}` as TranslationKey));
+    if (weekend) parts.push(t("chat.stay.weekend"));
     return parts.join(" · ");
   }
 
@@ -136,6 +137,21 @@ export default function GuidedChat({ onOpenDestination, onOpenFlightSearch, hidd
             </div>
           </>
         );
+      case "budget":
+        return (
+          <>
+            <p>{t("chat.budget")}</p>
+            {reply.amount !== undefined && <p className="mt-2">{t("chat.budgetAmount", { amount: reply.amount })}</p>}
+            <div className="mt-2 flex flex-wrap gap-2">
+              <button type="button" onClick={() => { setOpen(false); onOpenFlightSearch(reply.amount !== undefined ? { discover: true, budget: reply.amount } : { discover: true }); }} className={actionClass}>{t("chat.openDiscover")}</button>
+              <button type="button" onClick={() => { setOpen(false); onOpenFlightSearch(); }} className={actionClass}>{t("chat.searchFlights")}</button>
+            </div>
+          </>
+        );
+      case "nodata":
+        return <><p>{t(`chat.nodata.${reply.reason}` as TranslationKey)}</p>{renderSamples()}</>;
+      case "outside":
+        return <><p>{t("chat.outside", { country: reply.country })}</p>{renderSamples()}{reply.priceNote && renderPriceNote()}</>;
       case "prices":
         return (
           <>
@@ -150,14 +166,19 @@ export default function GuidedChat({ onOpenDestination, onOpenFlightSearch, hidd
         return (
           <div className="space-y-2">
             {reply.places.map(({ place, fit }) => renderPlace(place, fit, true))}
+            {reply.days !== undefined && reply.places.length === 1 && (
+              <p className="text-sm text-stone-700">{t("chat.itineraryHint", {
+                days: reply.days === 1 ? t("itinerary.oneDay") : t("itinerary.days", { count: reply.days }), name: reply.places[0].place.name })}</p>
+            )}
             {reply.priceNote && renderPriceNote()}
           </div>
         );
       case "list":
         return (
           <div className="space-y-2">
-            <p className="font-semibold">{t("chat.listIntro", { filters: filters(reply.country, reply.period, reply.topic) })}</p>
+            <p className="font-semibold">{t("chat.listIntro", { filters: filters(reply.country, reply.period, reply.topic, reply.weekend) })}</p>
             {reply.places.map((place) => renderPlace(place, undefined, false))}
+            {reply.weekend && <p className="text-xs text-stone-600">{t("chat.weekendNote")}</p>}
             <p className="text-sm text-stone-700">
               {reply.total !== null && reply.total > reply.places.length
                 ? t("chat.listMore", { shown: reply.places.length, total: reply.total })
@@ -169,7 +190,7 @@ export default function GuidedChat({ onOpenDestination, onOpenFlightSearch, hidd
       case "none":
         return (
           <>
-            <p>{t("chat.none", { filters: filters(reply.country, reply.period, reply.topic) })}</p>
+            <p>{t("chat.none", { filters: filters(reply.country, reply.period, reply.topic, reply.weekend) })}</p>
             {renderSamples()}
             {reply.priceNote && renderPriceNote()}
           </>
