@@ -46,7 +46,10 @@ test('the window of the 16 original destinations is identical in the seven langu
 
 test('the window of every catalog destination is identical in the seven languages', () => {
   for (const locale of LOCALES) {
-    assert.deepEqual(Object.keys(current.profileDetail[locale]), Object.keys(baseline.profileDetail[locale]), locale);
+    // Las fichas de países añadidos después de la huella (p. ej. Japón, en borrador) no están en ella: todas las de la huella
+    // deben seguir estando, en el mismo orden, e idénticas.
+    const baselineIds = Object.keys(baseline.profileDetail[locale]);
+    assert.deepEqual(Object.keys(current.profileDetail[locale]).filter(id => baselineIds.includes(id)), baselineIds, locale);
     const different = Object.keys(baseline.profileDetail[locale]).filter(id => current.profileDetail[locale][id] !== baseline.profileDetail[locale][id]);
     assert.deepEqual(different, [], `${locale}: ${different.slice(0, 5).join(', ')}`);
   }
