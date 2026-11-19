@@ -149,12 +149,12 @@ test('monthly rendering uses the country helper for a future country without add
       '@/lib/destinations/localization': localization,
       '@/lib/destinations/presentation': load('lib/destinations/presentation.ts', { './index': library }),
     }, { React: { createElement } }).default;
-    // Japan is now a registered draft country; use a genuinely future country to
-    // keep this test focused on localization rather than catalog visibility.
-    const fixture = { ...library.destinationProfiles[0], countryCode: 'KR', country: 'Corea del Sur' };
+    // Japan and South Korea are now registered draft countries; use a genuinely
+    // future country to keep this test focused on localization rather than catalog visibility.
+    const fixture = { ...library.destinationProfiles[0], countryCode: 'NZ', country: 'Nueva Zelanda' };
     const tree = component({ month: 4, recommendations: [{ destination: fixture, reason: 'best' }] });
     const text = textNodes(tree);
-    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('KR')), language);
+    assert.ok(text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('NZ')), language);
     assert.ok(!text.includes(new Intl.DisplayNames([language], { type: 'region' }).of('PT')), language);
   }
 });
