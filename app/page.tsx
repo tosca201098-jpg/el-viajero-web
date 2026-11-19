@@ -37,7 +37,9 @@ import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
 import { VoiceSession, type VoiceError, type VoicePhase, type VoiceTurn, type VoiceSearchResult, type VoiceSearchArguments, type VoiceDiscoverArguments, type VoiceDiscoverResult } from "@/lib/voice/session";
 import { buildVoiceTripSummary, buildVoiceDiscoverSummary } from "@/lib/voice/trip-summary";
-import { searchWithNearbyDays } from "@/lib/voice/nearby-days";
+import { searchVoiceFlights } from "@/lib/voice/voice-flight-search";
+import { liveFlightKey } from "@/lib/voice/live-flights";
+import LiveFlightsFrame from "./components/LiveFlightsFrame";
 import { observeVoiceAuth, type VoiceAuthController, type VoiceAuthState } from "@/lib/voice/auth-client";
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
@@ -386,6 +388,8 @@ voiceSearchRef.current = (datos, context) => {
   const [flightFormPrompt, setFlightFormPrompt] = useState<TranslationKey | null>(null);
   const [flightSearch, setFlightSearch] = useState<FlightSearchState>({ status: "idle" });
   const [flightResultsOpen, setFlightResultsOpen] = useState(false);
+  // The provider's live list for the trip Sofía has just searched (search code + the trip it belongs to), shown in the card.
+  const [liveFlights, setLiveFlights] = useState<{ key: string; code: string } | null>(null);
   const [featuredFlightSearch, setFeaturedFlightSearch] = useState<{
     search: string; destination: Destination; context: ItineraryContext;
   } | null>(null);
@@ -849,17 +853,22 @@ function abrirPaquete(destino = "") {
     if (!pendingVoiceFlightSearch || pendingVoiceFlightSearch.started) return;
     pendingVoiceFlightSearch.started = true;
     const { query, complete, context } = pendingVoiceFlightSearch;
-    // No recent price for the exact days is not «no flights»: the days around them are searched once more (see nearby-days.ts).
-    void searchWithNearbyDays((search) => runFlightSearch(search, context.signal), query)
-      .then(({ result, nearbyDays }) => complete("offers" in result
-        ? { status: "success", summary: buildVoiceTripSummary({
-            origin: query.origin, destination: query.destination, departureDate: query.departureDate,
-            returnDate: query.returnDate, travellers: query.travelers, offers: result.offers,
-            ...(query.budget ? { flightBudget: query.budget } : {}),
-            ...(query.combinedBudget ? { combinedBudget: query.combinedBudget } : {}),
-            ...(nearbyDays ? { nearbyDays } : {}),
-          }) }
-        : result));
+    // Saved recent prices for the exact days (what Sofía may say aloud) and, next to them, the provider's live list for the
+    // same trip in the card (what the person sees). No live list and no saved price: the days around them (voice-flight-search.ts).
+    void searchVoiceFlights((search) => runFlightSearch(search, context.signal), query, context.signal)
+      .then(({ result, nearbyDays, liveCode }) => {
+        if (liveCode && !context.signal.aborted) setLiveFlights({ key: liveFlightKey(query), code: liveCode });
+        complete("offers" in result
+          ? { status: "success", summary: buildVoiceTripSummary({
+              origin: query.origin, destination: query.destination, departureDate: query.departureDate,
+              returnDate: query.returnDate, travellers: query.travelers, offers: result.offers,
+              ...(query.budget ? { flightBudget: query.budget } : {}),
+              ...(query.combinedBudget ? { combinedBudget: query.combinedBudget } : {}),
+              ...(nearbyDays ? { nearbyDays } : {}),
+              ...(liveCode ? { liveFlightsOnScreen: true } : {}),
+            }) }
+          : result);
+      });
     setPendingVoiceFlightSearch(null);
   }, [pendingVoiceFlightSearch]);
 
@@ -992,6 +1001,21 @@ function abrirPaquete(destino = "") {
     if (!flightResultsOpen || flightSearch.status !== "success" ||
       (!inDestinationCard && flightSearch.results.length === 0 && !flightSearch.query.budget)) return null;
     const flexible = flightSearch.query.flexDays !== undefined;
+    // Sofía's exact search (no budget, no flexible window) shows the provider's live list instead of the saved prices.
+    if (liveFlights && !flightSearch.query.budget && !flexible && liveFlights.key === liveFlightKey(flightSearch.query)) {
+      return (
+        <section className={inDestinationCard ? windowStyle.flightSection : "mt-5"}>
+          <h3 className={inDestinationCard ? windowStyle.flightHeading : "text-lg font-black text-slate-900 sm:text-xl"}>
+            ✈️ {t("search.liveFlights")}
+          </h3>
+          <p className={inDestinationCard ? windowStyle.flightSummary : "mt-2 text-sm font-semibold text-blue-700"}>
+            {flightSearch.query.origin} → {flightSearch.query.destination} · {formatFlightDate(flightSearch.query.departureDate)} – {formatFlightDate(flightSearch.query.returnDate)} · {t("search.travelers")}: {flightSearch.query.travelers}
+          </p>
+          <p className={inDestinationCard ? windowStyle.flightOfferNote : "mt-2 text-xs leading-5 text-slate-500"}>{t("search.liveFlightsNote")}</p>
+          <LiveFlightsFrame code={liveFlights.code} title={t("search.liveFlights")} className="mt-3" />
+        </section>
+      );
+    }
     return (
       <section className={inDestinationCard ? windowStyle.flightSection : "mt-5"}>
         <h3 className={inDestinationCard ? windowStyle.flightHeading : "text-lg font-black text-slate-900 sm:text-xl"}>
