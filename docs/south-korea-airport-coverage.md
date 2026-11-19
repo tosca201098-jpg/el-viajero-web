@@ -29,4 +29,4 @@ Las imágenes de Busan, Daegu y Seoraksan proceden de Unsplash con autor y enlac
 
 ## Fotos propias por ficha (19-11-2026)
 
-8 fichas (Jeju, Daegu, Sacheon y Jinju, Pohang y Gyeongju, Gunsan, Gwangju, Yeosu y Ulsan) pasan de la foto compartida por zona a una foto propia de Unsplash, elegida por el propietario entre las candidatas revisadas. Cheongju y Wonju y Hoengseong conservan la actual porque no hay una candidata buena. Falta revisar el encuadre en una Preview de Vercel.
+8 fichas (Jeju, Daegu, Sacheon y Jinju, Pohang y Gyeongju, Gunsan, Gwangju, Yeosu y Ulsan) pasan de la foto compartida por zona a una foto propia de Unsplash, elegida por el propietario entre las candidatas revisadas. Cheongju y Wonju y Hoengseong conservan la actual porque no hay una candidata buena, y Seúl, Busan, Muan y Mokpo, y Yangyang y Seoraksan ya tenían una foto propia no repetida. Falta revisar el encuadre en una Preview de Vercel.
