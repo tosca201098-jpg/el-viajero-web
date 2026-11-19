@@ -35,6 +35,10 @@ export type VoiceTripSummary = {
   offersFound: number;
   offers: VoiceFlightSummaryOffer[];
   flightBudget?: { amount: number; type: VoiceBudget['type']; offersWithinBudget: number };
+  /** True when the search found no recent price at all. It never means that there are no flights. */
+  noRecentPrices?: true;
+  /** Set when the offers come from the days around the asked ones: each offer then carries its own real dates. */
+  offersFromNearbyDays?: number;
   combinedBudget?: {
     total: number;
     leftForHotelAfterCheapestFlight: number | null;
@@ -55,9 +59,25 @@ export type VoiceTripSummaryInput = {
   flightBudget?: VoiceBudget;
   /** Budget meant for flight + hotel together: only used for subtraction, never as a flight filter. */
   combinedBudget?: VoiceBudget;
+  /** The exact days had no recent price, so the offers come from up to this many days around them. */
+  nearbyDays?: number;
 };
 
 const MAX_OFFERS = 3;
+
+// The price list only holds prices that travellers' searches found recently. A route or date without any entry is common
+// (Rome, for instance) and says nothing about whether flights exist, so Sofía must never turn it into «no flights».
+const NO_FLIGHTS_WARNING = 'This is NOT the same as having no flights: flights may well exist, the list simply has no price saved. '
+  + 'Never say that there are no flights, that none are available, that they are sold out or that the route does not exist. ';
+const noPriceNote = (budgeted: boolean, nearbyDays?: number) => budgeted
+  ? 'No recent price within the traveller\'s budget was found for this search. ' + NO_FLIGHTS_WARNING
+    + 'Say only that you found no recent price within that budget, and offer a higher budget or other dates. Never guess a price.'
+  : 'No recent price is saved for these dates' + (nearbyDays ? ' or for the days around them (' + nearbyDays + ' days each side)' : '') + '. '
+    + NO_FLIGHTS_WARNING + 'Say only that you have no recent price saved for those dates, and offer to try other dates or another '
+    + 'departure city. Never guess a price.';
+const nearbyNote = (days: number) => 'No recent price is saved for the exact dates the person asked for. The offers below are the real '
+  + 'prices found for nearby days (up to ' + days + ' days around them) and every offer has its own departureDate and returnDate: '
+  + 'always say those real dates and never present them as the dates the person asked for. Never say that there are no flights.';
 const cents = (value: number) => Math.round(value * 100) / 100;
 const dateOnly = (value: unknown) => typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value) ? value.slice(0, 10) : null;
 
@@ -91,6 +111,15 @@ export function buildVoiceTripSummary(input: VoiceTripSummaryInput): VoiceTripSu
       + 'indicative and not a booking guarantee. Hotel prices and availability are NOT known: never state them. '
       + 'You may only say how much of the traveller\'s own budget is left after the real flight price.',
   };
+
+  const nearbyDays = typeof input.nearbyDays === 'number' && input.nearbyDays > 0 ? Math.floor(input.nearbyDays) : 0;
+  if (offers.length === 0) {
+    summary.noRecentPrices = true;
+    summary.note += ' ' + noPriceNote(!!input.flightBudget, nearbyDays || undefined);
+  } else if (nearbyDays) {
+    summary.offersFromNearbyDays = nearbyDays;
+    summary.note += ' ' + nearbyNote(nearbyDays);
+  }
 
   if (input.flightBudget) {
     const perPersonLimit = input.flightBudget.type === 'total'

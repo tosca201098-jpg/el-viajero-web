@@ -37,6 +37,7 @@ import { formatMonthName } from "@/lib/destinations/seasonality";
 import { spanishMonthSlugs } from "@/lib/destinations/months";
 import { VoiceSession, type VoiceError, type VoicePhase, type VoiceTurn, type VoiceSearchResult, type VoiceSearchArguments, type VoiceDiscoverArguments, type VoiceDiscoverResult } from "@/lib/voice/session";
 import { buildVoiceTripSummary, buildVoiceDiscoverSummary } from "@/lib/voice/trip-summary";
+import { searchWithNearbyDays } from "@/lib/voice/nearby-days";
 import { observeVoiceAuth, type VoiceAuthController, type VoiceAuthState } from "@/lib/voice/auth-client";
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
@@ -847,14 +848,16 @@ function abrirPaquete(destino = "") {
   useEffect(() => {
     if (!pendingVoiceFlightSearch || pendingVoiceFlightSearch.started) return;
     pendingVoiceFlightSearch.started = true;
-    const { query, complete } = pendingVoiceFlightSearch;
-    void runFlightSearch(pendingVoiceFlightSearch.query, pendingVoiceFlightSearch.context.signal)
-      .then((result) => complete("offers" in result
+    const { query, complete, context } = pendingVoiceFlightSearch;
+    // No recent price for the exact days is not «no flights»: the days around them are searched once more (see nearby-days.ts).
+    void searchWithNearbyDays((search) => runFlightSearch(search, context.signal), query)
+      .then(({ result, nearbyDays }) => complete("offers" in result
         ? { status: "success", summary: buildVoiceTripSummary({
             origin: query.origin, destination: query.destination, departureDate: query.departureDate,
             returnDate: query.returnDate, travellers: query.travelers, offers: result.offers,
             ...(query.budget ? { flightBudget: query.budget } : {}),
             ...(query.combinedBudget ? { combinedBudget: query.combinedBudget } : {}),
+            ...(nearbyDays ? { nearbyDays } : {}),
           }) }
         : result));
     setPendingVoiceFlightSearch(null);
