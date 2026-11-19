@@ -35,6 +35,62 @@ const photos = {
   okinawa: commons('6/6f/Furuzamami_beach_Okinawa_Zamami.jpg', 'Furuzamami_beach_Okinawa_Zamami.jpg', 'Hashi photo', 'CC BY 3.0', 'https://creativecommons.org/licenses/by/3.0/'),
 } as const;
 type PhotoKey = keyof typeof photos;
+const unsplash = (photoPath: string, pageId: string, credit: string): Photo => ({
+  image: `https://images.unsplash.com/${photoPath}?auto=format&fit=crop&w=1600&q=80`,
+  imageSource: `https://unsplash.com/photos/${pageId}`,
+  imageCredit: credit, imageLicense: 'Unsplash License', imageLicenseUrl: 'https://unsplash.com/license',
+});
+
+// One own photo per card, chosen by the owner on 19-11-2026 from Unsplash (location read on each photo page,
+// free licence, landscape, at least 1600 px wide, no photo repeated). Cards not listed keep the regional photo above.
+const cardPhotos: Readonly<Record<string, Photo>> = {
+  'kobe': unsplash('photo-1607586355793-34ab20949e28', 'WOo1qkKIHiI', 'note thanun'),
+  'ibaraki': unsplash('photo-1655056948890-94c37952bb9c', 'cfBKgi8kAuA', 'Nguyen TP Hai'),
+  'niigata': unsplash('photo-1694116865986-32660110ee0d', 'tW-IF90AHz0', 'Pourya Gohari'),
+  'matsumoto': unsplash('photo-1615305828049-b51220eb0653', 'VRoA-f1R4UI', 'Alexander Schimmeck'),
+  'shizuoka': unsplash('photo-1617153548631-36a64f704ed8', 'pxwOTJI--A0', 'Juliana Barquero'),
+  'sapporo': unsplash('photo-1763814026127-e3149acb3ac5', '9mZRkvQ5jZA', 'Tunafish'),
+  'asahikawa': unsplash('photo-1687784529277-3d3709faec5e', 'QeXB3GITF70', 'Letian Zhang'),
+  'kushiro': unsplash('photo-1624611663713-7a48fbef3e70', 'XYTQ81QARwc', 'Sammy Wong'),
+  'wakkanai': unsplash('photo-1736781932732-209dc31589ed', 'CcAJEKjHWu4', '鱼 鱼'),
+  'memanbetsu': unsplash('photo-1641102368357-b56081aecaa6', 'u9YZVzVSpes', 'Takumasa Sato'),
+  'nakashibetsu': unsplash('photo-1789890878429-7875e8b0bf11', 'HO1wfiD4MS0', 'Dr. C.K. Huang'),
+  'aomori': unsplash('photo-1565011629640-f06313959d04', 'sAR7ek5db8M', 'Kodai Monma'),
+  'misawa': unsplash('photo-1598970398815-0dd6143f19d2', 'Z2M2KkdNLWQ', 'Ken Cheung'),
+  'morioka-hanamaki': unsplash('photo-1736893311800-1ff4263b2ce8', '7w_9iZvxMP4', 'JP Sheard'),
+  'akita': unsplash('photo-1777500393972-607d038904a3', 'OLJOe7W4J70', 'Trac Vu'),
+  'yamagata': unsplash('photo-1774946480276-316e29d7c812', '0qIrJhFwN2g', 'Laszlo Oveges'),
+  'shonai': unsplash('photo-1628929218416-bbaec21deb71', 'tum5tLbRCX8', 'Shino Nakamura'),
+  'fukushima': unsplash('photo-1683469302803-09853f09b9bb', 'Kgr2ZtF8Jvw', 'Kodai Monma'),
+  'toyama': unsplash('photo-1729669373661-629b881d6642', 'mIUWj_1zKUM', 'Zion C'),
+  'kanazawa-komatsu': unsplash('photo-1747547594056-22322b02b3d5', 'HKEfWdXatmg', 'Gang Hao'),
+  'okayama': unsplash('photo-1755199233318-d10434fac092', 'W3lBpGkMh_A', 'Krzysztof'),
+  'iwakuni': unsplash('photo-1652698053545-357f84b69409', 'ZMB_MGxKSHs', 'Shino Nakamura'),
+  'tottori': unsplash('photo-1693188074158-00e5edb3d0ac', 'uG5xy-QiyB8', 'Nakaharu Line'),
+  'yonago': unsplash('photo-1674388277160-46d989067e4d', '9HhPVKdMdsQ', 'jon izt'),
+  'izumo': unsplash('photo-1766933943018-f9e3e2005c49', '1nRc30HgPVQ', 'Yosuke Ota'),
+  'takamatsu': unsplash('photo-1696329938280-5eb678dd4202', 'UCaGli9BqF0', 'H C'),
+  'tokushima': unsplash('photo-1754068693972-647cf32949da', '0evtX1fdcu0', 'Tuan P.'),
+  'matsuyama': unsplash('photo-1759271885778-a5e3e3149470', 'WgtKr8Xyih0', 'Tuan P.'),
+  'kochi': unsplash('photo-1769416077903-8269c1c4a136', 'RMZwuVGbIzI', 'kai muro'),
+  'fukuoka': unsplash('photo-1633234776004-e7e0ea076333', 'IcyptcR56p8', 'Vien Dinh'),
+  'kitakyushu': unsplash('photo-1698791248573-8b25c7797795', 'HFmrBssQEhI', 'Winged Jedi'),
+  'saga': unsplash('photo-1698880119478-0aeddd9f79ed', 'ddVu6uCg3vM', 'Winged Jedi'),
+  'nagasaki': unsplash('photo-1624517608488-05c8419ec931', 'OA7pHiZwda0', 'Tayawee Supan'),
+  'tsushima': unsplash('photo-1685279576959-e710bffbfe05', 'X9eoh7YkQCs', 'Nichika Sakurai'),
+  'goto-fukue': unsplash('photo-1616081784189-80b0fe84ad24', 'eN2R_qNaBa4', 'urusy'),
+  'kumamoto': unsplash('photo-1748877640742-d014ad2719a0', 'RrJFehtvgd4', 'Luo Jin Hong'),
+  'oita-beppu': unsplash('photo-1585441794710-34cfa514f604', 'GaLAiAm7Mvo', 'Ian Kuik'),
+  'miyazaki': unsplash('photo-1785652498880-4d5557403d3e', '5dWiVsh6bBs', 'Zion C'),
+  'yakushima': unsplash('photo-1690476072350-be1db216a0b2', 'H5cFBKV5czo', 'Marek Piwnicki'),
+  'amami-oshima': unsplash('photo-1707854317836-28bd4591c602', 'bL1kdBpSGj4', 'Itsuka Iwaki'),
+  'naha': unsplash('photo-1647336963732-7446b9da7a6f', 'RHd0VtC0bLw', 'Roméo A.'),
+  'kumejima': unsplash('photo-1635509445301-0bba5be02914', 'reN0nWcsjkE', 'erika m'),
+  'miyakojima': unsplash('photo-1664888882993-5bc4b906db5e', 'UHgogyYReFM', 'Shino Nakamura'),
+  'ishigaki': unsplash('photo-1634389655122-fce40ed1d952', 'YEBImi_luJY', 'Yu'),
+  'shirahama': unsplash('photo-1712200574098-2cea61d1f8f7', 'ewnEssASdgA', 'Halogen Condense'),
+  'tajima': unsplash('photo-1768593396716-20cd77c2d15d', 'p9zHR1b1MM8', 'Kate Kasiutich'),
+};
 
 type Climate = 'north' | 'temperate' | 'south' | 'island';
 type Seed = { slug: string; codes: string[]; name: string; aliases: string[]; photo: PhotoKey; climate: Climate; stay: string; recommendations: [string, string, string, string] };
@@ -147,7 +203,7 @@ function destination(seed: Seed): DestinationProfile {
   const calendar = months(seed.climate);
   return {
     id: `jp-${seed.slug}`, slug: seed.slug, countryCode: 'JP', country: 'Japón',
-    ...photos[seed.photo], ...translations.es, translations,
+    ...(cardPhotos[seed.slug] ?? photos[seed.photo]), ...translations.es, translations,
     airports: seed.codes.map(iataCode => ({ iataCode })), iataCodes: seed.codes,
     metropolitanCodes: seed.codes.length > 1 ? [{ HND:'TYO', ITM:'OSA', CTS:'SPK', NGO:'NGO' }[seed.codes[0]]!].filter(Boolean) : [],
     aliases: Array.from(new Set([seed.name, ...seed.aliases])),

@@ -129,3 +129,7 @@ El inventario se implementará y comprobará en lotes para mantener revisión vi
 - Solo se agrupan ciudades con más de un aeropuerto físico que sirve a la misma ciudad: Tokio (HND/NRT), Osaka (ITM/KIX), Sapporo (CTS/OKD) y Nagoya (NGO/NKM). Kobe (UKB) conserva tarjeta propia aunque el proveedor lo asocie al área de Osaka.
 - Oshima, Tarama, Amakusa y otros aeródromos que el proveedor no marca como utilizables quedan fuera de este lote: no se anuncian como destinos de vuelo hasta que haya una fuente de reserva compatible.
 - Todas las fichas son borradores y no modifican las 16 tarjetas de la portada, rutas publicadas, sitemap ni recomendaciones automáticas.
+
+## Fotos propias por ficha (19-11-2026)
+
+46 fichas pasan de la foto compartida por zona a una foto propia de Unsplash, elegida por el propietario entre las candidatas revisadas (lugar leído en la página de cada foto, licencia gratuita de Unsplash, horizontal, al menos 1600 px de ancho y sin repetir ninguna). Las 21 fichas restantes conservan la foto regional de Wikimedia Commons porque no hay una foto libre y fiable de su lugar. Falta revisar el encuadre de cada foto en una Preview de Vercel.

@@ -64,8 +64,8 @@ test('the four metropolitan cards group only their physical airports, while Kobe
 
 test('all cards carry seven complete presentation translations, valid months and credited landscape imagery', () => {
   for (const profile of japan) {
-    assert.match(profile.image, /^https:\/\/commons\.wikimedia\.org\/wiki\/Special:FilePath\//, profile.id);
-    assert.match(profile.imageSource, /^https:\/\/commons\.wikimedia\.org\/wiki\/File:/, profile.id);
+    assert.match(profile.image, /^https:\/\/(commons\.wikimedia\.org\/wiki\/Special:FilePath\/|images\.unsplash\.com\/photo-)/, profile.id);
+    assert.match(profile.imageSource, /^https:\/\/(commons\.wikimedia\.org\/wiki\/File:|unsplash\.com\/photos\/)/, profile.id);
     assert.ok(profile.imageCredit && profile.imageLicense && profile.imageLicenseUrl, profile.id);
     assert.equal(profile.recommendations.length, 4, profile.id);
     assert.equal(new Set(profile.recommendations).size, 4, profile.id);
@@ -89,5 +89,19 @@ test('the local autocomplete preserves city identity with an empty remote result
     assert.ok(suggestions.length, term);
     const chosen = suggestions.find(item => selection.destinationFromPlaceSelection(item)?.id === `jp-${slug}`);
     assert.ok(chosen, term);
+  }
+});
+
+test('the 46 cards with their own Unsplash photo never share it and keep the Unsplash licence data', () => {
+  const own = japan.filter(profile => profile.image.startsWith('https://images.unsplash.com/'));
+  assert.equal(own.length, 46);
+  assert.equal(new Set(own.map(profile => profile.image)).size, own.length);
+  assert.equal(new Set(own.map(profile => profile.imageSource)).size, own.length);
+  for (const profile of own) {
+    assert.match(profile.image, /^https:\/\/images\.unsplash\.com\/photo-[\w-]+\?auto=format&fit=crop&w=1600&q=80$/, profile.id);
+    assert.match(profile.imageSource, /^https:\/\/unsplash\.com\/photos\/[\w-]{11}$/, profile.id);
+    assert.equal(profile.imageLicense, 'Unsplash License', profile.id);
+    assert.equal(profile.imageLicenseUrl, 'https://unsplash.com/license', profile.id);
+    assert.ok(profile.imageCredit, profile.id);
   }
 });
