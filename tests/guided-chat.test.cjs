@@ -327,7 +327,38 @@ test('the first delivery stores and sends nothing: no network, no storage, no co
   assert.match(page, /onOpenDestination=\{\(id\) => \{\s*const destination = getDestinationById\(id\);/);
   const layout = fs.readFileSync(path.join(root, 'app/layout.tsx'), 'utf8');
   assert.equal(/GuidedChat/.test(layout), false, 'not in the layout: the live-flights frame page must never get a chat button');
-  const component = fs.readFileSync(path.join(root, 'app/components/GuidedChat.tsx'), 'utf8');
-  assert.match(component, /z-50/); assert.match(component, /z-\[55\]/);
-  assert.equal(/\bz-\[?(6|7)\d/.test(component), false, 'always below the destination and results windows (z-60 and above)');
+  // The destination window is z-50 and the other windows z-60/z-70: the chat steps aside instead of drawing over them.
+  assert.match(page, /hidden=\{Boolean\(destinoSeleccionado \|\| modal \|\| flightResultsOpen \|\| authMode\)\}/);
+});
+
+test('the chat steps aside while a window of the page is open and keeps its conversation when it comes back', () => {
+  const handlers = { onOpenDestination() {}, onOpenFlightSearch() {}, hidden: false };
+  const ui = chatHarness('es', handlers);
+  ui.button(ui.render(), 'Chat DESTINAUTA').props.onClick();
+  ui.button(ui.render(), ui.translate('chat.sample2')).props.onClick();
+  assert.ok(ui.text(ui.render()).includes('Destinos de DESTINAUTA para: octubre'));
+  handlers.hidden = true;
+  assert.equal(ui.render(), null, 'nothing is drawn over the destination, search or sign-in windows');
+  handlers.hidden = false;
+  const back = ui.render();
+  assert.ok(ui.all(back, item => item.props.role === 'dialog').length === 1, 'still open, as it was');
+  assert.ok(ui.text(back).includes('Destinos de DESTINAUTA para: octubre'), 'the conversation is kept');
+});
+
+test('the home page has exactly one chat button, and the comparison tests of the 16 cards ignore only that button', () => {
+  const helpers = require('./helpers/ficha-snapshots.cjs');
+  for (const locale of ['es', 'en', 'ca']) {
+    const renderer = helpers.createRenderer(root, locale);
+    const raw = helpers.flatten(renderer.rawHome());
+    const chats = raw.filter(node => node.type === helpers.CHAT_TAG);
+    assert.equal(chats.length, 1, `${locale}: one chat on the home page`);
+    assert.equal(typeof chats[0].props.onOpenDestination, 'function');
+    assert.equal(typeof chats[0].props.onOpenFlightSearch, 'function');
+    assert.equal(chats[0].props.hidden, false, 'visible while no window is open');
+    const clean = helpers.flatten(renderer.home());
+    assert.equal(clean.filter(node => node.type === helpers.CHAT_TAG).length, 0);
+    assert.equal(clean.length, raw.length - 1, 'removing the chat removes that single node and nothing else');
+    // The 16 original cards are still all there, untouched, in the page the other tests compare.
+    assert.equal(clean.filter(node => node.type === 'article').length, raw.filter(node => node.type === 'article').length);
+  }
 });

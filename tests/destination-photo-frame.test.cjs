@@ -11,6 +11,10 @@ const root = path.resolve(__dirname, '..');
 // de cada ficha, en los siete idiomas) quedan idénticas carácter por carácter; no cambia nada más. Ver tests/season-cards.test.cjs.
 // PR de Sofía (#38): recalculadas de nuevo solo por el botón del micrófono (espera a la sesión y pide registrarse); devolviendo
 // ese bloque al de main, todas las páginas quedan idénticas carácter por carácter. Ver tests/destination-window-common-frame.test.cjs.
+// PR #115 (chat guiado): la portada ahora monta el botón del chat. Las huellas NO se han recalculado: el ayudante
+// (tests/helpers/ficha-snapshots.cjs) quita ese único elemento del árbol antes de comparar, así que las 16 tarjetas, las temporadas y
+// las ventanas se siguen comparando carácter por carácter con la versión de antes. tests/guided-chat.test.cjs comprueba que el chat
+// aparece una sola vez y que quitarlo elimina solo ese nodo.
 const baseline = JSON.parse(fs.readFileSync(path.join(__dirname, 'fixtures', 'ficha-baseline-before-photo-frame.json'), 'utf8'));
 const FRAME_CLASS = 'relative h-52 max-sm:h-[140px] sm:h-72';
 const text = n => n == null || n === false ? '' : Array.isArray(n) ? n.map(text).join(' ') : typeof n === 'object' ? text(n.children) : String(n);

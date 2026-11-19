@@ -2008,6 +2008,7 @@ function abrirPaquete(destino = "") {
       </Script>}
       {authMode && <AuthDialog key={authMode} mode={authMode} onClose={() => setAuthMode(null)} onChangeMode={setAuthMode} />}
       <GuidedChat
+        hidden={Boolean(destinoSeleccionado || modal || flightResultsOpen || authMode)}
         onOpenDestination={(id) => {
           const destination = getDestinationById(id);
           if (!destination) return;

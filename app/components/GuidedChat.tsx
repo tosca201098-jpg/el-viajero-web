@@ -12,6 +12,8 @@ type Props = {
   onOpenDestination: (id: string) => void;
   /** Brings the visitor to the flight search of the home page. */
   onOpenFlightSearch: () => void;
+  /** True while a window of the page (destination, search, results, sign-in) is open: the chat steps aside, keeping its conversation. */
+  hidden?: boolean;
 };
 
 const SAMPLES: TranslationKey[] = ["chat.sample1", "chat.sample2", "chat.sample3"];
@@ -21,18 +23,20 @@ const actionClass = "min-h-[44px] rounded-xl border border-blue-300 bg-white px-
  * A small written chat that only talks about DESTINAUTA. Every answer comes from the site's own catalogue (see
  * lib/chat/guided.ts): no AI, no cost, and never a price or an availability.
  */
-export default function GuidedChat({ onOpenDestination, onOpenFlightSearch }: Props) {
+export default function GuidedChat({ onOpenDestination, onOpenFlightSearch, hidden = false }: Props) {
   const { language, t } = useLanguage();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [draft, setDraft] = useState("");
   const inputRef = useRef<HTMLInputElement | null>(null);
-  const endRef = useRef<HTMLDivElement | null>(null);
+  const lastQuestionRef = useRef<HTMLDivElement | null>(null);
   const counter = useRef(0);
 
-  useEffect(() => { if (open) inputRef.current?.focus(); }, [open]);
-  useEffect(() => { endRef.current?.scrollIntoView?.({ block: "end" }); }, [messages, open]);
+  useEffect(() => { if (open && !hidden) inputRef.current?.focus(); }, [open, hidden]);
+  // The newest question goes to the top of the list, so its answer is read from its first line.
+  useEffect(() => { lastQuestionRef.current?.scrollIntoView?.({ block: "start" }); }, [messages, open, hidden]);
 
+  const lastQuestionId = [...messages].reverse().find((message) => message.from === "user")?.id;
   const cap = (value: string) => value.charAt(0).toLocaleUpperCase(language) + value.slice(1);
 
   function submit(text: string) {
@@ -154,6 +158,8 @@ export default function GuidedChat({ onOpenDestination, onOpenFlightSearch }: Pr
     }
   }
 
+  if (hidden) return null;
+
   if (!open) {
     return (
       <button type="button" onClick={() => setOpen(true)} aria-label={t("chat.open")}
@@ -179,11 +185,11 @@ export default function GuidedChat({ onOpenDestination, onOpenFlightSearch }: Pr
           {renderSamples()}
         </div>
         {messages.map((message) => message.from === "user" ? (
-          <div key={message.id} className="ml-auto max-w-[85%] break-words rounded-2xl rounded-tr-sm bg-blue-600 p-3 text-white">{message.text}</div>
+          <div key={message.id} ref={message.id === lastQuestionId ? lastQuestionRef : undefined}
+            className="ml-auto max-w-[85%] scroll-mt-2 break-words rounded-2xl rounded-tr-sm bg-blue-600 p-3 text-white">{message.text}</div>
         ) : (
           <div key={message.id} className="max-w-[96%] rounded-2xl rounded-tl-sm bg-white p-3 shadow-sm">{message.reply && renderReply(message.reply)}</div>
         ))}
-        <div ref={endRef} />
       </div>
       <form onSubmit={(event) => { event.preventDefault(); submit(draft); }} className="flex items-center gap-2 border-t border-stone-200 bg-white p-2">
         <input ref={inputRef} value={draft} onChange={(event) => setDraft(event.target.value)} maxLength={MAX_CHAT_INPUT}
