@@ -93,3 +93,18 @@ test('South Korean names and aliases do not collide inside the catalog', () => {
     assert.deepEqual(Array.from(matches, candidate => candidate.id), [profile.id], name);
   }
 });
+
+test('the 8 cards with their own Unsplash photo never share it and keep the Unsplash licence data', () => {
+  const slugs = ['jeju', 'daegu', 'sacheon', 'pohang-gyeongju', 'gunsan', 'gwangju', 'yeosu', 'ulsan'];
+  const own = korea.filter(profile => slugs.includes(profile.slug));
+  assert.equal(own.length, 8);
+  assert.ok(own.every(profile => profile.image.startsWith('https://images.unsplash.com/')));
+  assert.equal(new Set(korea.filter(profile => !slugs.includes(profile.slug)).map(profile => profile.image).filter(image => own.some(item => item.image === image))).size, 0);
+  assert.equal(new Set(own.map(profile => profile.image)).size, own.length);
+  for (const profile of own) {
+    assert.match(profile.imageSource, /^https:\/\/unsplash\.com\/photos\/[\w-]{11}$/, profile.id);
+    assert.equal(profile.imageLicense, 'Unsplash License', profile.id);
+    assert.equal(profile.imageLicenseUrl, 'https://unsplash.com/license', profile.id);
+    assert.ok(profile.imageCredit, profile.id);
+  }
+});

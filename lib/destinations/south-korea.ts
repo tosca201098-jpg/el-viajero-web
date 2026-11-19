@@ -23,6 +23,24 @@ const photos = {
   mountain: { image: 'https://images.unsplash.com/photo-1649668045765-9ba893602b0d?auto=format&fit=crop&w=1600&q=80', imageSource: 'https://unsplash.com/photos/vWve-2po7yg', imageCredit: 'Luna Moon', imageLicense: 'Unsplash License', imageLicenseUrl: 'https://unsplash.com/license' },
 } as const;
 type PhotoKey = keyof typeof photos;
+const unsplash = (photoPath: string, pageId: string, credit: string): Photo => ({
+  image: `https://images.unsplash.com/${photoPath}?auto=format&fit=crop&w=1600&q=80`,
+  imageSource: `https://unsplash.com/photos/${pageId}`,
+  imageCredit: credit, imageLicense: 'Unsplash License', imageLicenseUrl: 'https://unsplash.com/license',
+});
+
+// One own photo per card, chosen by the owner on 19-11-2026 from Unsplash (location read on each photo page,
+// free licence, landscape, at least 1600 px wide, no photo repeated). Cards not listed keep the regional photo above.
+const cardPhotos: Readonly<Record<string, Photo>> = {
+  'jeju': unsplash('photo-1740329289227-9a12b340bed0', '4ka1OQysXoo', 'insung yoon'),
+  'daegu': unsplash('photo-1663670889635-0aabebf112ba', '2OVrcbIyNT0', 'HFNY4'),
+  'sacheon': unsplash('photo-1643067218219-c7abbd7b0c91', 'KoI4W_6l8UQ', 'Finn'),
+  'pohang-gyeongju': unsplash('photo-1774916565698-29e1395b4b18', 'D389D597UKE', 'Laszlo Oveges'),
+  'gunsan': unsplash('photo-1711343959718-737b664fd4b0', 'SCweMiPHQME', 'insung yoon'),
+  'gwangju': unsplash('photo-1592899940134-b5fe9ca259b4', 'GhHZEUChJug', 'National Asian Culture Center'),
+  'yeosu': unsplash('photo-1587121748119-ffb5090f9d82', 'el4I_FaKItE', 'Yoonbae Cho'),
+  'ulsan': unsplash('photo-1731302431007-b24d009e8919', 'uVeAMttYwQU', 'Beautiful World'),
+};
 type Climate = 'temperate' | 'south' | 'island' | 'mountain';
 type Seed = { slug: string; codes: string[]; name: string; aliases: string[]; photo: PhotoKey; climate: Climate; stay: string; recommendations: [string, string, string, string] };
 
@@ -60,7 +78,7 @@ function destination(seed: Seed): DestinationProfile {
     seasonalityNote: `${seasonality[seed.climate][index]} Aeropuerto${seed.codes.length > 1 ? 's' : ''}: ${seed.codes.join(', ')}.`,
   }])) as Record<Locale, DestinationText>;
   const months = calendar(seed.climate);
-  return { id:`kr-${seed.slug}`, slug:seed.slug, countryCode:'KR', country:'Corea del Sur', ...photos[seed.photo], ...translations.es, translations,
+  return { id:`kr-${seed.slug}`, slug:seed.slug, countryCode:'KR', country:'Corea del Sur', ...(cardPhotos[seed.slug] ?? photos[seed.photo]), ...translations.es, translations,
     airports:seed.codes.map(iataCode => ({iataCode})), iataCodes:seed.codes, metropolitanCodes:seed.codes.length > 1 ? ['SEL'] : [],
     aliases:Array.from(new Set([seed.name,...seed.aliases])), bestMonths:months.best, lowSeasonMonths:months.quiet, highSeasonMonths:months.high,
     publication:{status:'draft'} };
