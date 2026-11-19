@@ -32,7 +32,10 @@ test('the detail window of the 16 original destinations only changes the photo f
 });
 
 test('the detail window of every catalog destination only changes the photo frame and title box', () => {
-  assert.deepEqual(Object.keys(current.profileDetail.es), Object.keys(baseline.profileDetail.es));
+  // Los países añadidos después de esta huella (p. ej. Japón, en borrador) no están en ella: se comprueba que todas las fichas
+  // de la huella siguen estando, en el mismo orden; el marco de las fichas nuevas lo comprueba el test siguiente.
+  const baselineIds = Object.keys(baseline.profileDetail.es);
+  assert.deepEqual(Object.keys(current.profileDetail.es).filter(id => baselineIds.includes(id)), baselineIds);
   for (const locale of ['es', 'en']) {
     const different = Object.keys(baseline.profileDetail[locale]).filter(id => current.profileDetail[locale][id] !== baseline.profileDetail[locale][id]);
     assert.deepEqual(different, [], `${locale}: ${different.slice(0, 5).join(', ')}`);
