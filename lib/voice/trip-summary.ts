@@ -39,6 +39,8 @@ export type VoiceTripSummary = {
   noRecentPrices?: true;
   /** Set when the offers come from the days around the asked ones: each offer then carries its own real dates. */
   offersFromNearbyDays?: number;
+  /** True when the provider's live list for these exact days is open on the person's screen (Sofía cannot read it). */
+  liveFlightsOnScreen?: true;
   combinedBudget?: {
     total: number;
     leftForHotelAfterCheapestFlight: number | null;
@@ -61,6 +63,8 @@ export type VoiceTripSummaryInput = {
   combinedBudget?: VoiceBudget;
   /** The exact days had no recent price, so the offers come from up to this many days around them. */
   nearbyDays?: number;
+  /** The live list of flights for these exact days has just been opened on the person's screen. */
+  liveFlightsOnScreen?: boolean;
 };
 
 const MAX_OFFERS = 3;
@@ -75,6 +79,14 @@ const noPriceNote = (budgeted: boolean, nearbyDays?: number) => budgeted
   : 'No recent price is saved for these dates' + (nearbyDays ? ' or for the days around them (' + nearbyDays + ' days each side)' : '') + '. '
     + NO_FLIGHTS_WARNING + 'Say only that you have no recent price saved for those dates, and offer to try other dates or another '
     + 'departure city. Never guess a price.';
+// The live list is the provider's own search for the exact days, drawn in the card. Its prices are current and Sofía cannot read them.
+const liveNote = (offers: number) => 'The live list of flights for these exact dates is now open on the person\'s screen, with the current '
+  + 'prices, which you cannot read: say that you have opened it and ask them to look at the screen for the real prices and options. '
+  + (offers > 0
+    ? 'The prices in this summary are only recent prices saved earlier and may differ: if you mention one, call it a recent price '
+      + 'and say that the screen has the current ones. '
+    : 'You have no saved price of your own for these dates: do not guess any. ')
+  + 'Never say that there are no flights.';
 const nearbyNote = (days: number) => 'No recent price is saved for the exact dates the person asked for. The offers below are the real '
   + 'prices found for nearby days (up to ' + days + ' days around them) and every offer has its own departureDate and returnDate: '
   + 'always say those real dates and never present them as the dates the person asked for. Never say that there are no flights.';
@@ -113,7 +125,11 @@ export function buildVoiceTripSummary(input: VoiceTripSummaryInput): VoiceTripSu
   };
 
   const nearbyDays = typeof input.nearbyDays === 'number' && input.nearbyDays > 0 ? Math.floor(input.nearbyDays) : 0;
-  if (offers.length === 0) {
+  if (input.liveFlightsOnScreen) {
+    summary.liveFlightsOnScreen = true;
+    if (offers.length === 0) summary.noRecentPrices = true;
+    summary.note += ' ' + liveNote(offers.length);
+  } else if (offers.length === 0) {
     summary.noRecentPrices = true;
     summary.note += ' ' + noPriceNote(!!input.flightBudget, nearbyDays || undefined);
   } else if (nearbyDays) {

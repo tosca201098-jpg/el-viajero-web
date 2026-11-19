@@ -156,20 +156,22 @@ test('Rome-like case end to end: no price for the asked days, real prices around
   assert.equal(JSON.stringify(summary).includes('secret.example'), false, 'no affiliate link reaches Sofía');
 });
 
-test('page: the voice search uses the nearby-days helper and nothing else about it changes', () => {
+test('page: the voice search goes through the voice flight search, which uses the nearby-days helper', () => {
   const page = source('app/page.tsx');
-  assert.match(page, /import \{ searchWithNearbyDays \} from "@\/lib\/voice\/nearby-days";/);
+  assert.match(page, /import \{ searchVoiceFlights \} from "@\/lib\/voice\/voice-flight-search";/);
   const start = page.indexOf('if (!pendingVoiceFlightSearch || pendingVoiceFlightSearch.started) return;');
   const effect = page.slice(start, page.indexOf('}, [pendingVoiceFlightSearch]);', start));
   assert.match(effect, /const \{ query, complete, context \} = pendingVoiceFlightSearch;/);
-  assert.match(effect, /searchWithNearbyDays\(\(search\) => runFlightSearch\(search, context\.signal\), query\)/);
+  assert.match(effect, /searchVoiceFlights\(\(search\) => runFlightSearch\(search, context\.signal\), query, context\.signal\)/);
   assert.match(effect, /\.\.\.\(nearbyDays \? \{ nearbyDays \} : \{\}\)/);
-  assert.equal((effect.match(/runFlightSearch\(/g) ?? []).length, 1, 'one call site; the helper decides about the second');
+  assert.equal((effect.match(/runFlightSearch\(/g) ?? []).length, 1, 'one call site; the helpers decide about the second');
   assert.equal(/\bawait\b/.test(effect), false);
+  // The widening itself lives in voice-flight-search.ts, through the helper tested above.
+  assert.match(source('lib/voice/voice-flight-search.ts'), /import \{ searchWithNearbyDays/);
   // The visitor's own form search is untouched: it never goes through the helper.
   const submit = page.slice(page.indexOf('async function launchExactFlightSearch('), page.indexOf('async function discoverDestinations('));
-  assert.equal(submit.includes('searchWithNearbyDays'), false);
-  assert.equal((page.match(/searchWithNearbyDays\(/g) ?? []).length, 1);
+  assert.equal(/searchWithNearbyDays|searchVoiceFlights/.test(submit), false);
+  assert.equal((page.match(/searchWithNearbyDays\(/g) ?? []).length, 0);
   // The summary builder and the helper never reach for the network or for prices of hotels.
   assert.equal(/fetch\(|hotelPrice|XMLHttpRequest/.test(source('lib/voice/nearby-days.ts') + source('lib/voice/trip-summary.ts')), false);
 });
