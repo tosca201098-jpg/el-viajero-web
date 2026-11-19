@@ -17,6 +17,7 @@ import SaveFlightHeart from "./components/SaveFlightHeart";
 import SeasonCards from "./components/SeasonCards";
 import LanguageSelector from "./components/LanguageSelector";
 import { croatiaAirports, croatiaAirportTown } from '@/lib/travelpayouts/croatia-airports';
+import { japanAirportTown } from '@/lib/travelpayouts/japan-airports';
 import DestinationProfileSummary from "./components/DestinationProfileSummary";
 import { getDestinationText, getDestinationCountryName } from '@/lib/destinations/localization';
 import type { Locale } from '@/lib/i18n/translations';
@@ -98,7 +99,7 @@ type DiscoverState =
 function localizedCatalogProfile(destination: Destination | null) {
   const profile = destination && 'id' in destination && typeof destination.id === 'string'
     ? getDestinationById(destination.id) : undefined;
-  return profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'GR', 'SI', 'HR', 'AL', 'TR', 'RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY', 'RO', 'BG', 'MD', 'DK', 'IS', 'FI', 'SE', 'NO', 'IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX'].includes(profile.countryCode) ? profile : undefined;
+  return profile && ['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'GR', 'SI', 'HR', 'AL', 'TR', 'RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY', 'RO', 'BG', 'MD', 'DK', 'IS', 'FI', 'SE', 'NO', 'IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX', 'JP'].includes(profile.countryCode) ? profile : undefined;
 }
 function destinationDisplay(destination: Destination, locale: Locale) {
   const profile = localizedCatalogProfile(destination);
@@ -1594,7 +1595,7 @@ function abrirPaquete(destino = "") {
                   {selectedCatalogProfile.airports.map(airport => (
                     <div key={airport.iataCode} className="mt-2">
                       <p>{(selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirports : selectedCatalogProfile.countryCode === 'FR' ? franceAirports : selectedCatalogProfile.countryCode === 'HR' ? croatiaAirports : greeceAirports).find(item => item.code === airport.iataCode)?.name ?? airport.iataCode} ({airport.iataCode})</p>
-                      <p className="mt-1">{t('destinations.airportTown')}: {(selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirportTown : selectedCatalogProfile.countryCode === 'FR' ? franceAirportTown : selectedCatalogProfile.countryCode === 'HR' ? croatiaAirportTown : greeceAirportTown)(airport.iataCode, language)}</p>
+                      <p className="mt-1">{t('destinations.airportTown')}: {(selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirportTown : selectedCatalogProfile.countryCode === 'FR' ? franceAirportTown : selectedCatalogProfile.countryCode === 'HR' ? croatiaAirportTown : selectedCatalogProfile.countryCode === 'JP' ? japanAirportTown : greeceAirportTown)(airport.iataCode, language)}</p>
                     </div>
                   ))}
                   <p className={windowStyle.airportNote}>{t('destinations.airportTownNote')}</p>
