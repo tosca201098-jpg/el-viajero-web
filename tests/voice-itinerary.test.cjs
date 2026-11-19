@@ -536,23 +536,67 @@ for (const { code } of translations.locales) test(`${code}: a spoken request wit
   } finally { h.session.stop(); b.ui?.unmount(); }
 });
 
-test('when the daily AI allowance is used up or the AI is unavailable Sofía is told the truth and the free guide is shown', async () => {
+test('when the daily AI allowance is used up or the AI is unavailable the free guide is shown and Sofía is told it is only the basic guide', async () => {
   const cases = [
     [{ aiNotice: 'limit' }, 'limited', 'itinerary.aiLimit'],
     [{ aiNotice: 'unavailable' }, 'unavailable', 'itinerary.aiUnavailable'],
     [{ aiOffer: true }, 'unavailable', 'itinerary.aiOffer'],
     [{}, 'unavailable', null],
   ];
-  for (const [extra, error, key] of cases) {
+  for (const [extra, reason, key] of cases) {
     const b = bridge('es', { sessionToken: 'tok', fetchImpl: async (_url, init) => okJson({ guide: guideFor(JSON.parse(init.body)), ...extra }) });
     const h = await connected(b.handle);
     try {
       await h.tool('guide', { destino: 'Madrid', dias: 2 }); await turn(); await b.ui.drain();
-      assert.equal(h.outputs().length, 1); assert.equal(h.outputs()[0].status, 'error'); assert.equal(h.outputs()[0].error, error);
+      assert.equal(h.outputs().length, 1);
+      const result = h.outputs()[0];
+      assert.equal(result.status, 'success'); assert.equal(result.kind, 'basic_guide'); assert.equal(result.ai_itinerary, reason);
+      assert.equal(result.destination, 'Madrid'); assert.equal(result.days, 2); assert.equal(result.locale, 'es');
+      assert.match(result.note, /NOT a personalised day-by-day AI itinerary/); assert.match(result.note, /Do not read out, describe or invent/);
+      assert.match(result.note, reason === 'limited' ? /already used their personalised AI itineraries for today/ : /not available right now/);
       assert.match(b.ui.text(), /Guía básica de Madrid/); assert.ok(!b.ui.text().includes(aiLabel));
       if (key) assert.ok(b.ui.text().includes(aiText(key)));
-      assert.deepEqual(Array.from(b.ui.scrolls), [], 'nothing is announced as an itinerary');
+      assert.deepEqual(Array.from(b.ui.scrolls), ['scroll', 'focus'], 'the guide Sofía points at is brought into view');
     } finally { h.session.stop(); b.ui?.unmount(); }
+  }
+});
+
+test('Sofía is told about the basic guide only once it is on screen, in every language, and never gets prices or content', async () => {
+  for (const { code } of translations.locales) {
+    const gate = deferred();
+    const b = bridge(code, { sessionToken: 'tok', fetchImpl: async (_url, init) => { await gate.promise; return okJson({ guide: guideFor(JSON.parse(init.body)), aiNotice: 'unavailable' }); } });
+    const h = await connected(b.handle, () => code);
+    try {
+      await h.tool('wait-' + code, { destino: 'Madrid', dias: 2 }); await turn(); await b.ui.drain();
+      assert.equal(h.outputs().length, 0, 'nothing is answered while the server is still writing');
+      gate.resolve(); await b.ui.drain();
+      assert.equal(h.outputs().length, 1); assert.equal(h.outputs()[0].kind, 'basic_guide'); assert.equal(h.outputs()[0].locale, code);
+      assert.equal(/\d\s?(€|EUR|\$|USD)|precio|price/i.test(JSON.stringify(h.outputs()[0]).replace(/Do not read out[^"]*/, '')), false);
+    } finally { h.session.stop(); b.ui?.unmount(); }
+  }
+});
+
+test('stopping the conversation before the free guide appears announces nothing and gives no late answer', async () => {
+  const gate = deferred();
+  const b = bridge('es', { sessionToken: 'tok', fetchImpl: async (_url, init) => { await gate.promise; return okJson({ guide: guideFor(JSON.parse(init.body)), aiNotice: 'unavailable' }); } });
+  const h = await connected(b.handle);
+  await h.tool('stop-guide', { destino: 'Madrid', dias: 2 }); await turn(); await b.ui.drain();
+  h.session.stop(); await b.ui.drain();
+  gate.resolve(); await b.ui.drain();
+  assert.equal(h.outputs().length, 0, 'no spoken result after the conversation ended');
+  assert.deepEqual(Array.from(b.ui.scrolls), []);
+  b.ui.unmount();
+});
+
+test('the basic-guide result is built by lib/voice/itinerary.ts, never repeated in the page, and the planner has no other success path', () => {
+  const planner = fs.readFileSync(path.join(root, 'app/components/ItineraryPlanner.tsx'), 'utf8');
+  assert.match(planner, /basicGuideResult\(reason, destination\.name, request\.days, request\.locale\)/);
+  assert.equal(/voice\??\.complete\(\{ status: "error", error: limited/.test(planner), false, 'the old «error» answer for the guide is gone');
+  const { basicGuideResult } = requests;
+  for (const reason of ['limited', 'unavailable']) {
+    const result = basicGuideResult(reason, 'Madrid', 3, 'fr');
+    assert.deepEqual(Object.keys(result).sort(), ['ai_itinerary', 'days', 'destination', 'kind', 'locale', 'note', 'status']);
+    assert.equal(result.status, 'success'); assert.equal(result.ai_itinerary, reason);
   }
 });
 

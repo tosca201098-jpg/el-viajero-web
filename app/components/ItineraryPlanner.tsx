@@ -14,7 +14,7 @@ import { getSupabaseClient } from "@/lib/supabase/client";
 import { saveItinerary } from "@/lib/supabase/saved-itineraries";
 import BasicGuideContent from "./BasicGuideContent";
 import ItineraryContent, { type ItinerarySurface } from "./ItineraryContent";
-import type { VoiceItineraryRequest } from '@/lib/voice/itinerary';
+import { basicGuideResult, type BasicGuideReason, type VoiceItineraryRequest } from '@/lib/voice/itinerary';
 
 export type ItineraryContext = {
   travelers?: number;
@@ -95,6 +95,7 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
   const voiceEffectRef = useRef({ version: 0 });
   const activeVoiceRef = useRef<VoiceItineraryRequest | null>(null);
   const completedVoiceRef = useRef<VoiceItineraryRequest | null>(null);
+  const guideVoiceRef = useRef<{ request: VoiceItineraryRequest; reason: BasicGuideReason } | null>(null);
   const plannerRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
@@ -113,6 +114,19 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
       }
     }
   }, [itinerary, destination.name]);
+
+  // The free guide answers Sofía's request once it is on screen: she is told it is a basic guide, never an AI itinerary.
+  useEffect(() => {
+    if (basicGuide && guideVoiceRef.current) {
+      const { request, reason } = guideVoiceRef.current;
+      guideVoiceRef.current = null;
+      if (!request.signal.aborted) {
+        plannerRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        plannerRef.current?.focus({ preventScroll: true });
+        request.complete(basicGuideResult(reason, destination.name, request.days, request.locale));
+      }
+    }
+  }, [basicGuide, destination.name]);
 
   useEffect(() => {
     const lifecycle = voiceEffectRef.current;
@@ -215,8 +229,9 @@ export default function ItineraryPlanner({ destination, context, voiceRequest, s
         const limited = "aiNotice" in data && data.aiNotice === "limit";
         setAiNote(limited ? "limit" : "aiNotice" in data && data.aiNotice === "unavailable" ? "unavailable"
           : "aiOffer" in data && data.aiOffer === true ? "offer" : null);
-        // The free guide is shown, but the AI itinerary Sofía asked for does not exist: tell her the truth.
-        voice?.complete({ status: "error", error: limited ? "limited" : "unavailable" });
+        // The free guide is shown, but the AI itinerary Sofía asked for does not exist: once the guide is on screen she is
+        // told it is only the basic guide (see the effect on `basicGuide`).
+        if (voice) guideVoiceRef.current = { request: voice, reason: limited ? "limited" : "unavailable" };
       } else throw new Error("Invalid itinerary");
       setSaveStatus("idle");
     } catch {
