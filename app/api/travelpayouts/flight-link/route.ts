@@ -43,7 +43,8 @@ export async function POST(request: Request) {
         url: `/?flightSearch=${flightSearch}&featured=${featuredDestinationSlug(featured)}&departureDate=${input.departureDate}&returnDate=${input.returnDate}` },
       { headers: { 'Cache-Control': 'no-store' } });
     }
-    const profile = known?.iataCodes.includes(destination.code) ? known
+    // The provider may answer with the city code (Seoul SEL, Osaka OSA, Sapporo SPK) while the card lists its airports.
+    const profile = known && [...known.iataCodes, ...(known.metropolitanCodes ?? [])].includes(destination.code) ? known
       : findDestinationProfile({ iataCode: destination.code });
     const profileParam = profile ? `&destinationId=${encodeURIComponent(profile.id)}` : '';
     const dateParams = profile ? `&departureDate=${input.departureDate}&returnDate=${input.returnDate}` : '';
