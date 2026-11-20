@@ -70,13 +70,16 @@ const seasonality: Record<Climate, Seven> = {
 };
 const description = (name: string): Seven => [`${name} combina patrimonio, vida local y paisajes de Corea del Sur para una escapada urbana o regional.`, `${name} combines heritage, local life and South Korean scenery for an urban or regional trip.`, `${name} combine patrimoine, vie locale et paysages de Corée du Sud pour un séjour urbain ou régional.`, `${name} verbindet Kultur, lokales Leben und südkoreanische Landschaften für einen Stadt- oder Regionalurlaub.`, `${name} unisce patrimonio, vita locale e paesaggi della Corea del Sud per un viaggio urbano o regionale.`, `${name} combina património, vida local e paisagens da Coreia do Sul para uma viagem urbana ou regional.`, `${name} combina patrimoni, vida local i paisatges de Corea del Sud per a una escapada urbana o regional.`];
 const days = localize(['días', 'days', 'jours', 'Tage', 'giorni', 'dias', 'dies']);
+// The label that precedes the airport codes in the seasonality note, in the language of the visitor (singular / plural).
+const airportLabel = localize(['Aeropuerto:', 'Airport:', 'Aéroport :', 'Flughafen:', 'Aeroporto:', 'Aeroporto:', 'Aeroport:']);
+const airportsLabel = localize(['Aeropuertos:', 'Airports:', 'Aéroports :', 'Flughäfen:', 'Aeroporti:', 'Aeroportos:', 'Aeroports:']);
 const calendar = (climate: Climate) => climate === 'island' ? { best:[4,5,6,9,10], quiet:[1,2,11], high:[7,8] } : climate === 'mountain' ? { best:[5,6,7,8,9,10], quiet:[1,2,11], high:[7,8] } : { best:[3,4,5,9,10,11], quiet:[1,2,6], high:[7,8] };
 
 function destination(seed: Seed): DestinationProfile {
   const translations = Object.fromEntries(locales.map((locale, index) => [locale, {
     name: seed.name, description: description(seed.name)[index], recommendations: locale === 'es' ? seed.recommendations : southKoreaRecommendations[seed.slug]?.[locale] ?? seed.recommendations,
     recommendedStay: `${seed.stay} ${days[locale]}`,
-    seasonalityNote: `${seasonality[seed.climate][index]} Aeropuerto${seed.codes.length > 1 ? 's' : ''}: ${seed.codes.join(', ')}.`,
+    seasonalityNote: `${seasonality[seed.climate][index]} ${(seed.codes.length > 1 ? airportsLabel : airportLabel)[locale]} ${seed.codes.join(', ')}.`,
   }])) as Record<Locale, DestinationText>;
   const months = calendar(seed.climate);
   return { id:`kr-${seed.slug}`, slug:seed.slug, countryCode:'KR', country:'Corea del Sur', ...(cardPhotos[seed.slug] ?? photos[seed.photo]), ...translations.es, translations,

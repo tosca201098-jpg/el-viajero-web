@@ -169,3 +169,20 @@ test('every Japanese card has its four recommendations translated into the six o
   assert.equal(text('jp-matsuyama', 'es')[3], 'Galería comercial Okaido');
   assert.equal(text('jp-matsuyama', 'en')[3], 'Okaido shopping arcade');
 });
+
+test('the airport line of every seasonality note uses the word of its own language, with the codes and the Spanish text untouched', () => {
+  const one = { es: 'Aeropuerto:', en: 'Airport:', fr: 'Aéroport :', de: 'Flughafen:', it: 'Aeroporto:', pt: 'Aeroporto:', ca: 'Aeroport:' };
+  const many = { es: 'Aeropuertos:', en: 'Airports:', fr: 'Aéroports :', de: 'Flughäfen:', it: 'Aeroporti:', pt: 'Aeroportos:', ca: 'Aeroports:' };
+  for (const profile of japan) {
+    const codes = Array.from(profile.iataCodes).join(', ');
+    for (const locale of locales) {
+      const note = profile.translations[locale].seasonalityNote;
+      const label = (profile.iataCodes.length > 1 ? many : one)[locale];
+      assert.ok(note.endsWith(` ${label} ${codes}.`), `${profile.id}:${locale}: ${note}`);
+      if (locale !== 'es') assert.ok(!/Aeropuerto/.test(note), `${profile.id}:${locale}: still Spanish`);
+    }
+  }
+  assert.ok(japan.find(card => card.id === 'jp-miyakojima').translations.en.seasonalityNote.endsWith(' Airports: MMY, SHI.'));
+  assert.ok(japan.find(card => card.id === 'jp-tokyo').translations.de.seasonalityNote.endsWith(' Flughäfen: HND, NRT.'));
+  assert.ok(japan.find(card => card.id === 'jp-kobe').translations.fr.seasonalityNote.endsWith(' Aéroport : UKB.'));
+});

@@ -187,6 +187,9 @@ const description = (name: string): Seven => [
   `${name} reuneix patrimoni, paisatges i gastronomia local; aquesta fitxa agrupa els llocs més representatius per planificar una escapada.`,
 ];
 const days = localize(['días', 'days', 'jours', 'Tage', 'giorni', 'dias', 'dies']);
+// The label that precedes the airport codes in the seasonality note, in the language of the visitor (singular / plural).
+const airportLabel = localize(['Aeropuerto:', 'Airport:', 'Aéroport :', 'Flughafen:', 'Aeroporto:', 'Aeroporto:', 'Aeroport:']);
+const airportsLabel = localize(['Aeropuertos:', 'Airports:', 'Aéroports :', 'Flughäfen:', 'Aeroporti:', 'Aeroportos:', 'Aeroports:']);
 const months = (climate: Climate) => climate === 'north' ? { best:[5,6,7,8,9], quiet:[1,2,11], high:[7,8] }
   : climate === 'island' ? { best:[4,5,6,9,10], quiet:[1,2,11], high:[7,8] }
   : climate === 'south' ? { best:[3,4,5,10,11], quiet:[1,2,6], high:[7,8] }
@@ -198,7 +201,7 @@ function destination(seed: Seed): DestinationProfile {
     description: description(seed.name)[index],
     recommendations: locale === 'es' ? seed.recommendations : japanRecommendations[seed.slug]?.[locale] ?? seed.recommendations,
     recommendedStay: `${seed.stay} ${days[locale]}`,
-    seasonalityNote: `${seasonalCopy[seed.climate][index]} Aeropuerto${seed.codes.length > 1 ? 's' : ''}: ${seed.codes.join(', ')}.`,
+    seasonalityNote: `${seasonalCopy[seed.climate][index]} ${(seed.codes.length > 1 ? airportsLabel : airportLabel)[locale]} ${seed.codes.join(', ')}.`,
   }])) as Record<Locale, DestinationText>;
   const calendar = months(seed.climate);
   return {
