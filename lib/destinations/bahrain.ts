@@ -1,7 +1,7 @@
-import { asiaCountryDestinations, commonsPhoto, type AsiaSeed, type Seven } from './asia-text';
+import { asiaCountryDestinations, unsplashPhoto, type AsiaSeed, type Seven } from './asia-text';
 import type { DestinationProfile } from './types';
 
-const photo1 = { image: 'https://commons.wikimedia.org/wiki/Special:FilePath/Manama%20Qal%27at%20al-Bahrain%20Courtyard%20%26%20Skyline%201.jpg?width=1600', imageSource: 'https://commons.wikimedia.org/wiki/File:Manama_Qal%27at_al-Bahrain_Courtyard_%26_Skyline_1.jpg', imageCredit: 'Zairon', imageLicense: 'CC BY-SA 4.0', imageLicenseUrl: 'https://creativecommons.org/licenses/by-sa/4.0/' };
+const photo1 = unsplashPhoto('photo-1748066768504-99532da7d1e9', 'wOlMEpBzwHs', 'Ondrej Bocek');
 
 const season1: Seven = ['De noviembre a marzo las temperaturas son más agradables; el verano es muy caluroso.', 'November to March brings more pleasant temperatures; summer is very hot.', 'De novembre à mars, les températures sont plus agréables ; l’été est très chaud.', 'Von November bis März sind die Temperaturen angenehmer; der Sommer ist sehr heiß.', 'Da novembre a marzo le temperature sono più piacevoli; l’estate è molto calda.', 'De novembro a março as temperaturas são mais agradáveis; o verão é muito quente.', 'De novembre a març les temperatures són més agradables; l’estiu és molt calorós.'];
 

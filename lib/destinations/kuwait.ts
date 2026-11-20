@@ -1,7 +1,7 @@
-import { asiaCountryDestinations, commonsPhoto, type AsiaSeed, type Seven } from './asia-text';
+import { asiaCountryDestinations, unsplashPhoto, type AsiaSeed, type Seven } from './asia-text';
 import type { DestinationProfile } from './types';
 
-const photo1 = commonsPhoto('Kuwait City Kuwait Towers Panoramic View 1.jpg', 'Zairon', 'CC BY 4.0', 'https://creativecommons.org/licenses/by/4.0/');
+const photo1 = unsplashPhoto('photo-1578783951217-ca527085dc12', 'ICJkwztWGcI', 'Masrur Rahman');
 
 const season1: Seven = ['De noviembre a marzo suele ser más agradable; en verano el calor es extremo.', 'November to March is usually more pleasant; summer heat is extreme.', 'De novembre à mars, le climat est généralement plus agréable ; la chaleur estivale est extrême.', 'Von November bis März ist es meist angenehmer; im Sommer ist die Hitze extrem.', 'Da novembre a marzo il clima è in genere più piacevole; il caldo estivo è estremo.', 'De novembro a março costuma ser mais agradável; o calor de verão é extremo.', 'De novembre a març sol ser més agradable; la calor de l’estiu és extrema.'];
 

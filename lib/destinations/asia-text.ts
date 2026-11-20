@@ -34,6 +34,15 @@ export function commonsPhoto(title: string, credit: string, license: string, lic
   };
 }
 
+/** Foto de Unsplash (licencia gratuita de Unsplash, sin obligación de citar al autor; el nombre se conserva por cortesía). */
+export function unsplashPhoto(photoPath: string, pageId: string, credit: string): AsiaPhoto {
+  return {
+    image: `https://images.unsplash.com/${photoPath}?auto=format&fit=crop&w=1600&q=80`,
+    imageSource: `https://unsplash.com/photos/${pageId}`,
+    imageCredit: credit, imageLicense: 'Unsplash License', imageLicenseUrl: 'https://unsplash.com/license',
+  };
+}
+
 export type AsiaSeed = {
   slug: string;
   /** Un solo nombre para todos los idiomas. */

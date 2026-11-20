@@ -52,7 +52,7 @@ test('the Gulf lot adds 13 draft cards in five countries, with unique ids and sl
     assert.equal(profile.id, `${profile.countryCode.toLowerCase()}-${profile.slug}`);
     assert.deepEqual({ ...profile.publication }, { status: 'draft' }, profile.id);
     assert.ok(profile.iataCodes.length > 0 && profile.airports.length === profile.iataCodes.length, profile.id);
-    assert.ok(profile.image.startsWith('https://commons.wikimedia.org/') && profile.imageCredit && profile.imageLicense && profile.imageLicenseUrl, profile.id);
+    assert.ok(/^https:\/\/(commons\.wikimedia\.org\/|images\.unsplash\.com\/photo-)/.test(profile.image) && profile.imageCredit && profile.imageLicense && profile.imageLicenseUrl, profile.id);
   }
   assert.deepEqual(Array.from(catalog.getDestinationsByCountry('OM'), profile => profile.id), ['om-muscat', 'om-salalah', 'om-duqm', 'om-sohar']);
 });
@@ -118,13 +118,24 @@ test('every airport of a Gulf card has a public name; names never promise routes
   assert.deepEqual(Array.from(asia.asiaCountryCodes).sort(), Object.keys(gulf).sort());
 });
 
-test('the photo credits of the Gulf cards match the Wikimedia Commons records (checked 21-11-2026)', () => {
-  const expected = { 'om-muscat': ['Christoph Strässler', 'CC BY-SA 2.0'], 'sa-alula': ['Richard Mortel', 'CC BY 2.0'], 'om-duqm': ['Talladac', 'CC BY-SA 4.0'], 'kw-kuwait-city': ['Zairon', 'CC BY 4.0'], 'sa-jeddah': ['Kolaiel', 'CC0'] };
-  for (const [id, [credit, license]] of Object.entries(expected)) {
+test('Gulf photos: 12 cards use Unsplash photos (free licence), Duqm keeps its Commons photo with credit (checked 21-11-2026)', () => {
+  const unsplashIds = {
+    'bh-manama': 'wOlMEpBzwHs', 'kw-kuwait-city': 'ICJkwztWGcI', 'qa-doha': '1UF8ddEalwk', 'om-muscat': 'plMrhMCk4bQ',
+    'om-salalah': 'ci3C0TxhP24', 'om-sohar': 'TXonbLwHHJU', 'sa-riyadh': '_UxsPARhtOg', 'sa-jeddah': '_ABfNIGGsZk',
+    'sa-dammam': 'KW-qmD8hOx4', 'sa-medina': 'rzzS0_pMsD0', 'sa-alula': 'R1gC_gJaJ14', 'sa-abha': 'ImO6__H9wnE',
+  };
+  for (const [id, pageId] of Object.entries(unsplashIds)) {
     const profile = catalog.getDestinationById(id);
-    assert.equal(profile.imageCredit, credit, id); assert.equal(profile.imageLicense, license, id);
+    assert.match(profile.image, /^https:\/\/images\.unsplash\.com\/photo-[\w-]+\?auto=format&fit=crop&w=1600&q=80$/, id);
+    assert.equal(profile.imageSource, `https://unsplash.com/photos/${pageId}`, id);
+    assert.equal(profile.imageLicense, 'Unsplash License', id);
+    assert.equal(profile.imageLicenseUrl, 'https://unsplash.com/license', id);
+    assert.ok(profile.imageCredit, id);
   }
-  assert.ok(catalog.getDestinationById('om-muscat').imageLicenseUrl.endsWith('/by-sa/2.0/'));
+  assert.equal(new Set(Object.keys(unsplashIds).map(id => catalog.getDestinationById(id).image)).size, 12, 'no photo is repeated');
+  const duqm = catalog.getDestinationById('om-duqm');
+  assert.ok(duqm.image.startsWith('https://commons.wikimedia.org/'));
+  assert.equal(duqm.imageCredit, 'Talladac'); assert.equal(duqm.imageLicense, 'CC BY-SA 4.0');
   assert.equal(catalog.getDestinationById('sa-alula').translations.es.name, 'AlUla');
 });
 

@@ -1,10 +1,10 @@
-import { asiaCountryDestinations, commonsPhoto, type AsiaSeed, type Seven } from './asia-text';
+import { asiaCountryDestinations, commonsPhoto, unsplashPhoto, type AsiaSeed, type Seven } from './asia-text';
 import type { DestinationProfile } from './types';
 
-const photo1 = commonsPhoto('Sunset over Muscat1.jpg', 'Christoph Strässler', 'CC BY-SA 2.0', 'https://creativecommons.org/licenses/by-sa/2.0/');
-const photo2 = commonsPhoto('Salalah oman.jpg', 'Syed99975', 'CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/');
+const photo1 = unsplashPhoto('photo-1699855803432-17f4ab468b2d', 'plMrhMCk4bQ', 'Hongbin');
+const photo2 = unsplashPhoto('photo-1693561596793-8a06b850dc68', 'ci3C0TxhP24', 'Marwan Alfarsi');
 const photo3 = commonsPhoto('The Developing City of Duqm.jpg', 'Talladac', 'CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/');
-const photo4 = commonsPhoto('Walking in Sohar.jpg', 'tuttotutto', 'CC BY-SA 2.0', 'https://creativecommons.org/licenses/by-sa/2.0/');
+const photo4 = unsplashPhoto('photo-1744780104683-7d59393fa17b', 'TXonbLwHHJU', 'Jayachandran VS');
 
 const season1: Seven = ['De noviembre a marzo el clima suele ser más agradable; el verano es muy caluroso y húmedo.', 'November to March is usually more pleasant; summer is very hot and humid.', 'De novembre à mars, le climat est généralement plus agréable ; l’été est très chaud et humide.', 'Von November bis März ist das Klima meist angenehmer; der Sommer ist sehr heiß und feucht.', 'Da novembre a marzo il clima è in genere più piacevole; l’estate è molto calda e umida.', 'De novembro a março o clima costuma ser mais agradável; o verão é muito quente e húmido.', 'De novembre a març el clima sol ser més agradable; l’estiu és molt calorós i humit.'];
 const season2: Seven = ['El khareef, entre julio y septiembre, transforma la zona; en invierno el tiempo es más seco y templado.', 'Khareef from July to September transforms the region; winter is drier and mild.', 'Le khareef de juillet à septembre transforme la région ; l’hiver est plus sec et doux.', 'Der Khareef von Juli bis September verwandelt die Region; der Winter ist trockener und mild.', 'Il khareef da luglio a settembre trasforma la regione; l’inverno è più secco e mite.', 'O khareef, de julho a setembro, transforma a região; o inverno é mais seco e ameno.', 'El khareef, de juliol a setembre, transforma la zona; l’hivern és més sec i temperat.'];

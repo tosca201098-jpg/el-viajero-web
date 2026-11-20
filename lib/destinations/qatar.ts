@@ -1,7 +1,7 @@
-import { asiaCountryDestinations, commonsPhoto, type AsiaSeed, type Seven } from './asia-text';
+import { asiaCountryDestinations, unsplashPhoto, type AsiaSeed, type Seven } from './asia-text';
 import type { DestinationProfile } from './types';
 
-const photo1 = commonsPhoto('Doha Skyline 01.jpg', 'Zairon', 'CC BY 4.0', 'https://creativecommons.org/licenses/by/4.0/');
+const photo1 = unsplashPhoto('photo-1669300884869-e6e11c67c031', '1UF8ddEalwk', 'Hongbin');
 
 const season1: Seven = ['De noviembre a marzo las temperaturas son más agradables; el verano es muy caluroso.', 'November to March brings more pleasant temperatures; summer is very hot.', 'De novembre à mars, les températures sont plus agréables ; l’été est très chaud.', 'Von November bis März sind die Temperaturen angenehmer; der Sommer ist sehr heiß.', 'Da novembre a marzo le temperature sono più piacevoli; l’estate è molto calda.', 'De novembro a março as temperaturas são mais agradáveis; o verão é muito quente.', 'De novembre a març les temperatures són més agradables; l’estiu és molt calorós.'];
 

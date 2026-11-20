@@ -1,12 +1,12 @@
-import { asiaCountryDestinations, commonsPhoto, type AsiaSeed, type Seven } from './asia-text';
+import { asiaCountryDestinations, unsplashPhoto, type AsiaSeed, type Seven } from './asia-text';
 import type { DestinationProfile } from './types';
 
-const photo1 = commonsPhoto('Riyadh Skyline.jpg', 'B.alotaby', 'CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/');
-const photo2 = commonsPhoto('Jeddah Corniche Photo.jpg', 'Kolaiel', 'CC0', 'https://creativecommons.org/publicdomain/zero/1.0/');
-const photo3 = commonsPhoto('Corniche Dammam.jpg', 'DonToofee', 'CC BY 2.0', 'https://creativecommons.org/licenses/by/2.0/');
-const photo4 = commonsPhoto('Masjid Nabawi. Medina, Saudi Arabia.jpg', 'Ali Mansuri (Wikimedia Commons: Ali Imran)', 'CC BY-SA 2.5', 'https://creativecommons.org/licenses/by-sa/2.5/');
-const photo5 = commonsPhoto('Al-Ula, Saudi Arabia, seen from the viewpoint (8).jpg', 'Richard Mortel', 'CC BY 2.0', 'https://creativecommons.org/licenses/by/2.0/');
-const photo6 = commonsPhoto('Abha, Saudi Arabia.jpg', 'Java4', 'Public domain', 'https://commons.wikimedia.org/wiki/File:Abha,_Saudi_Arabia.jpg');
+const photo1 = unsplashPhoto('photo-1694018359679-49465b4c0d61', '_UxsPARhtOg', 'Ibrahim Abdullah');
+const photo2 = unsplashPhoto('photo-1586715065342-98d1f6016fd1', '_ABfNIGGsZk', 'mohammed alorabi');
+const photo3 = unsplashPhoto('photo-1578895101408-1a36b834405b', 'KW-qmD8hOx4', 'Akil Imran');
+const photo4 = unsplashPhoto('photo-1591604129939-f1efa4d9f7fa', 'rzzS0_pMsD0', 'Sulthan Auliya');
+const photo5 = unsplashPhoto('photo-1609151712779-4f86b3de7308', 'R1gC_gJaJ14', 'M K');
+const photo6 = unsplashPhoto('photo-1655911153461-d511211b6772', 'ImO6__H9wnE', 'Rikaz Basyouni');
 
 const season1: Seven = ['De noviembre a marzo suele ser más agradable.', 'November to March is usually more pleasant.', 'De novembre à mars, le climat est généralement plus agréable.', 'Von November bis März ist es meist angenehmer.', 'Da novembre a marzo il clima è in genere più piacevole.', 'De novembro a março costuma ser mais agradável.', 'De novembre a març sol ser més agradable.'];
 
