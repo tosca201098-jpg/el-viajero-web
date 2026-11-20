@@ -118,6 +118,8 @@ test('the flag is shown only when there is a reliable country code, and the Fren
   new Function('exports', ts.transpileModule(source('lib/destinations/country-flags.ts'), { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2020 } }).outputText)(mod);
   assert.equal(mod.flagForCountryCode('FR'), '🇫🇷');
   assert.equal(mod.flagForCountryCode('NO'), '🇳🇴');
+  assert.equal(mod.flagForCountryCode('JP'), '🇯🇵');
+  assert.equal(mod.flagForCountryCode('KR'), '🇰🇷');
   for (const unknown of ['ZZ', 'XX', '', 'constructor', 'toString', undefined, null]) assert.equal(mod.flagForCountryCode(unknown), undefined, String(unknown));
   // Solo la ventana de ficha: las tarjetas del buscador tienen su propio código y son de la Fase 4.
   const page = source('app/page.tsx');
