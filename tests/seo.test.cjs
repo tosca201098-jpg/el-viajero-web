@@ -38,3 +38,13 @@ test('robots allows public pages, blocks APIs and announces the official sitemap
   assert.equal(result.rules.disallow, '/api/');
   assert.equal(result.sitemap, 'https://destinauta.com/sitemap.xml');
 });
+
+test('home page variants with query parameters declare the official home as canonical, and no other page is affected', async () => {
+  const nextConfig = require(path.join(root, 'next.config.js'));
+  const rules = await nextConfig.headers();
+  assert.equal(rules.length, 1);
+  assert.equal(rules[0].source, '/');
+  assert.deepEqual(rules[0].headers, [{ key: 'Link', value: `<${seo.siteUrl}/>; rel="canonical"` }]);
+  assert.equal(rules[0].has, undefined);
+  assert.equal(rules[0].missing, undefined);
+});
