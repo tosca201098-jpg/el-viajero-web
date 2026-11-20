@@ -139,3 +139,21 @@ test('every South Korean card has its four recommendations translated into the s
   assert.equal(text('busan', 'fr')[0], 'Plage de Haeundae');
   assert.equal(text('jeju', 'de')[1], 'Jeongbang-Wasserfall');
 });
+
+test('the airport line of every seasonality note uses the word of its own language, with the codes and the Spanish text untouched', () => {
+  const locales = ['es', 'en', 'fr', 'de', 'it', 'pt', 'ca'];
+  const one = { es: 'Aeropuerto:', en: 'Airport:', fr: 'Aéroport :', de: 'Flughafen:', it: 'Aeroporto:', pt: 'Aeroporto:', ca: 'Aeroport:' };
+  const many = { es: 'Aeropuertos:', en: 'Airports:', fr: 'Aéroports :', de: 'Flughäfen:', it: 'Aeroporti:', pt: 'Aeroportos:', ca: 'Aeroports:' };
+  for (const profile of korea) {
+    const codes = Array.from(profile.iataCodes).join(', ');
+    for (const locale of locales) {
+      const note = profile.translations[locale].seasonalityNote;
+      const label = (profile.iataCodes.length > 1 ? many : one)[locale];
+      assert.ok(note.endsWith(` ${label} ${codes}.`), `${profile.id}:${locale}: ${note}`);
+      if (locale !== 'es') assert.ok(!/Aeropuerto/.test(note), `${profile.id}:${locale}: still Spanish`);
+    }
+  }
+  assert.ok(korea.find(card => card.id === 'kr-seoul').translations.en.seasonalityNote.endsWith(' Airports: ICN, GMP.'));
+  assert.ok(korea.find(card => card.id === 'kr-jeju').translations.ca.seasonalityNote.endsWith(' Aeroport: CJU.'));
+  assert.ok(korea.find(card => card.id === 'kr-seoul').translations.es.seasonalityNote.endsWith(' Aeropuertos: ICN, GMP.'));
+});
