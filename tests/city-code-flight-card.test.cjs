@@ -39,6 +39,8 @@ const answers = {
   osaka: [city('OSA', 'Osaka', 'JP')], itm: [city('OSA', 'Osaka', 'JP')], kix: [city('OSA', 'Osaka', 'JP')],
   sapporo: [city('SPK', 'Sapporo', 'JP')], cts: [city('SPK', 'Sapporo', 'JP')],
   jeju: [city('CJU', 'Jeju', 'KR')], cju: [city('CJU', 'Jeju', 'KR')],
+  // Duqm (Omán): el proveedor la nombra con su código de ciudad JNJ, no con el del aeropuerto DQM.
+  duqm: [city('JNJ', 'Duqm', 'OM')], dqm: [city('JNJ', 'Duqm', 'OM')],
 };
 const calls = [];
 const load = loader({ fetch: async input => {
@@ -56,15 +58,15 @@ const [departureDate, returnDate] = [day(30), day(40)];
 const short = date => date.slice(8, 10) + date.slice(5, 7);
 const post = destination => route.POST({ json: async () => ({ origin: 'Madrid', destination, departureDate, returnDate, travelers: 1 }) });
 
-test('the only cards with a city code of their own are Tokyo, Osaka, Sapporo and Seoul', () => {
+test('the only cards with a city code of their own are Tokyo, Osaka, Sapporo, Seoul and Duqm', () => {
   const withCityCode = Array.from(catalog.destinationProfiles)
     .filter(profile => profile.metropolitanCodes.some(code => !profile.iataCodes.includes(code))).map(profile => profile.id).sort();
-  assert.deepEqual(withCityCode, ['jp-osaka', 'jp-sapporo', 'jp-tokyo', 'kr-seoul']);
+  assert.deepEqual(withCityCode, ['jp-osaka', 'jp-sapporo', 'jp-tokyo', 'kr-seoul', 'om-duqm']);
 });
 
 test('exact search links keep the card of Seoul, Osaka and Sapporo, however the visitor typed them', async () => {
   const cases = [['Seúl', 'SEL', 'kr-seoul'], ['Seul', 'SEL', 'kr-seoul'], ['Seoul', 'SEL', 'kr-seoul'], ['Incheon', 'SEL', 'kr-seoul'],
-    ['Osaka', 'OSA', 'jp-osaka'], ['Sapporo', 'SPK', 'jp-sapporo'], ['Jeju', 'CJU', 'kr-jeju']];
+    ['Osaka', 'OSA', 'jp-osaka'], ['Sapporo', 'SPK', 'jp-sapporo'], ['Jeju', 'CJU', 'kr-jeju'], ['Duqm', 'JNJ', 'om-duqm']];
   for (const [typed, code, id] of cases) {
     const response = await post(typed);
     assert.equal(response.status, 200, typed);
@@ -82,7 +84,7 @@ test('the city resolver accepts the provider city code of a card, but only for i
 
 test('the flights page finds the card from the city code, with or without the destination identifier', () => {
   const search = (code, from = 'MAD') => `${from}1003${code}20031`;
-  for (const [code, id] of [['SEL', 'kr-seoul'], ['ICN', 'kr-seoul'], ['GMP', 'kr-seoul'], ['OSA', 'jp-osaka'], ['KIX', 'jp-osaka'], ['SPK', 'jp-sapporo'], ['CJU', 'kr-jeju']]) {
+  for (const [code, id] of [['SEL', 'kr-seoul'], ['ICN', 'kr-seoul'], ['GMP', 'kr-seoul'], ['OSA', 'jp-osaka'], ['KIX', 'jp-osaka'], ['SPK', 'jp-sapporo'], ['CJU', 'kr-jeju'], ['JNJ', 'om-duqm'], ['DQM', 'om-duqm']]) {
     assert.equal(flightProfileForSearch(search(code), id)?.id, id, `${code} with identifier`);
     assert.equal(flightProfileForSearch(search(code), undefined)?.id, id, `${code} without identifier`);
   }

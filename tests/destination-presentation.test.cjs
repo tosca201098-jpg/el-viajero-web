@@ -24,6 +24,8 @@ const presentation={...data('lib/destinations/presentation.ts'),...data('lib/des
 const dictionaries=data('lib/i18n/translations.ts'),localization=data('lib/destinations/localization.ts');
 const monthly=data('lib/destinations/monthly.ts');
 const locales=['es','en','fr','de','it','pt','ca'];
+// Países de Asia del catálogo (todos menos Japón y Corea del Sur): sus fichas nacen como borrador y no salen solas en la portada.
+const ASIAN=['AF','AM','AZ','BH','BD','BT','BN','KH','CN','GE','IN','ID','IR','IQ','IL','JO','KZ','KW','KG','LA','LB','MY','MV','MN','MM','NP','KP','OM','PK','PH','QA','SA','SG','LK','SY','TW','TJ','TH','TL','TM','AE','UZ','VN','YE'];
 const react={createElement:(type,props,...children)=>({type,props:props??{},children:children.flat(Infinity)}),
   useState:initial=>[initial,()=>{}],useRef:initial=>({current:initial}),useEffect:()=>{}};
 function nodes(n){if(!n||typeof n!=='object')return[];if(Array.isArray(n))return n.flatMap(nodes);return[n,...(n.children??[]).flatMap(nodes)];}
@@ -43,7 +45,7 @@ function renderLoader(locale='es',extra={}) {
 
 test('automatic catalog recommendations hide added France profiles; all profiles remain available',()=>{
   assert.equal(catalog.destinationProfiles.length,expectedCatalogTotal(catalog));
-  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR','SI','HR','AL','TR','RS','BA','ME','MK','XK','MT','CY','RO','BG','MD','DK','IS','FI','SE','NO','IE','EE','LV','LT','LU','GI','JE','GG','IM','FO','AX','JP','KR'].includes(d.countryCode));
+  for(const d of catalog.destinationProfiles)assert.equal(presentation.canShowDestinationAutomatically(d),!['FR','IT','GB','DE','NL','BE','CH','AT','CZ','PL','HU','SK','GR','SI','HR','AL','TR','RS','BA','ME','MK','XK','MT','CY','RO','BG','MD','DK','IS','FI','SE','NO','IE','EE','LV','LT','LU','GI','JE','GG','IM','FO','AX','JP','KR',...ASIAN].includes(d.countryCode));
   assert.equal(presentation.canShowDestinationAutomatically({country:' Francia '}),false);
   assert.equal(presentation.canShowDestinationAutomatically({country:'España'}),true);
   assert.equal(presentation.canShowDestinationAutomatically({country:'Portugal'}),true);
@@ -126,7 +128,7 @@ test('all twelve monthly pages keep every ES/PT card in its original order in al
       const tree=Monthly({month,recommendations});
       const cards=nodes(tree).filter(n=>n.type==='article');
       const actual=cards.map(card=>nodes(card).find(n=>n.type==='h2').children.join(''));
-      const expected=recommendations.filter(r=>!['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'GR', 'SI', 'HR', 'AL', 'TR', 'RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY', 'RO', 'BG', 'MD', 'DK', 'IS', 'FI', 'SE', 'NO', 'IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX','JP','KR'].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
+      const expected=recommendations.filter(r=>!['FR', 'IT', 'GB', 'DE', 'NL', 'BE', 'CH', 'AT', 'CZ', 'PL', 'HU', 'SK', 'GR', 'SI', 'HR', 'AL', 'TR', 'RS', 'BA', 'ME', 'MK', 'XK', 'MT', 'CY', 'RO', 'BG', 'MD', 'DK', 'IS', 'FI', 'SE', 'NO', 'IE', 'EE', 'LV', 'LT', 'LU', 'GI', 'JE', 'GG', 'IM', 'FO', 'AX','JP','KR',...ASIAN].includes(r.destination.countryCode)).map(r=>localization.getDestinationText(r.destination,locale).name);
       assert.deepEqual(actual,Array.from(expected),`${locale}:${month}`);
       // Fuera de la ficha ya no hay botón «Buscar vuelos»: está dentro de cada destino. «Ver destino» se mantiene.
       assert.ok(!nodes(tree).some(n=>String(n.props?.href??'').includes('primaveraServicio')),`${locale}:${month}`);
@@ -508,4 +510,27 @@ test('Japanese and South Korean cards show their recommendations in the language
       });
     }
   }
+});
+
+test('all thirteen Gulf cards (Bahrain, Kuwait, Qatar, Oman, Saudi Arabia) open like a person would: own flag, arrival airport, one name; every card in Spanish, one per country in every language',()=>{
+  const flags={BH:'🇧🇭',KW:'🇰🇼',QA:'🇶🇦',OM:'🇴🇲',SA:'🇸🇦'},airports=data('lib/travelpayouts/asia-airports.ts');
+  const gulf=Object.keys(flags).flatMap(code=>Array.from(catalog.getDestinationsByCountry(code)));
+  assert.equal(gulf.length,13);
+  const check=(locale,profile)=>{
+    const{tree,display}=openCardLikeAPerson(locale,profile);
+    assert.equal(display.name,profile.name,profile.id+':'+locale+': the name is not translated');
+    const dialog=tree.find(n=>n.props.role==='dialog');
+    assert.ok(text(dialog).includes(flags[profile.countryCode]),profile.id+':'+locale+': flag');
+    assert.ok(!text(dialog).includes('🇫🇷'),profile.id+':'+locale+': never a French default');
+    const arrival=tree.find(n=>n.props['aria-label']===dictionaries.translate(locale,'destinations.arrivalAirport'));
+    assert.ok(arrival,profile.id+':'+locale+': arrival block');
+    for(const code of profile.iataCodes){
+      const airport=airports.asiaAirports.find(candidate=>candidate.code===code);
+      assert.ok(airport&&airport.name,code);
+      assert.ok(text(arrival).includes(airport.name)&&text(arrival).includes(code),profile.id+':'+locale+':'+code+': '+text(arrival));
+    }
+    assert.ok(text(arrival).includes(airports.asiaAirportTown(profile.iataCodes[0],locale)),profile.id+':'+locale);
+  };
+  for(const profile of gulf)check('es',profile);
+  for(const id of['bh-manama','kw-kuwait-city','qa-doha','om-duqm','sa-medina'])for(const locale of locales.filter(locale=>locale!=='es'))check(locale,catalog.getDestinationById(id));
 });
