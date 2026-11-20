@@ -12,10 +12,11 @@ export const SOFIA_PREVIEW_VERSION_ID = SOFIA_PRODUCTION_VERSION_ID;
 // Pins anteriores: ya no se consultan ni se emiten; Preview solo los admite como valor de la variable de entorno.
 export const SOFIA_PREVIOUS_PRODUCTION_VERSION_ID = 'agtvrsn_0601m7jz66wvf83ambtr3s819vfv';
 export const SOFIA_PREVIOUS_PREVIEW_VERSION_ID = 'agtvrsn_1101m6cddd37ewmtkrth2xr64n0m';
+export const SOFIA_BONUS_PREVIEW = 'claude/sofia-minutos-extra';
 
 export function sofiaPreviewTarget(env: Record<string, string | undefined>) {
   if (env.VERCEL !== '1' || env.VERCEL_ENV !== 'preview' ||
-      env.VERCEL_GIT_COMMIT_REF !== 'codex/sofia-elevenlabs' ||
+      !['codex/sofia-elevenlabs', SOFIA_BONUS_PREVIEW].includes(env.VERCEL_GIT_COMMIT_REF ?? '') ||
       env.VERCEL_GIT_REPO_OWNER !== 'tosca201098-jpg' ||
       env.VERCEL_GIT_REPO_SLUG !== 'el-viajero-web') return null;
   return { agentId: SOFIA_PREVIEW_AGENT_ID, versionId: SOFIA_PREVIEW_VERSION_ID };

@@ -4,16 +4,17 @@ import { useEffect, useState } from "react";
 import { getSupabaseClient } from "@/lib/supabase/client";
 import { useLanguage } from "./LanguageProvider";
 
-type Minutes = { limitSeconds: number; usedSeconds: number; remainingSeconds: number; resetsAt: number };
+type Minutes = { limitSeconds: number; usedSeconds: number; remainingSeconds: number; resetsAt: number; bonusTrial: boolean };
 
 function parseMinutes(data: unknown): Minutes | null {
   if (!data || typeof data !== "object") return null;
-  const { period, limitSeconds, usedSeconds, remainingSeconds, resetsAt } = data as Record<string, unknown>;
+  const { period, limitSeconds, usedSeconds, remainingSeconds, resetsAt, bonusTrial } = data as Record<string, unknown>;
   if (period !== "week" && period !== "fortnight" && period !== "month") return null;
   if (![limitSeconds, usedSeconds, remainingSeconds, resetsAt].every(value => typeof value === "number" && Number.isInteger(value) && value >= 0) ||
-      (limitSeconds as number) < 1 || (remainingSeconds as number) > (limitSeconds as number)) return null;
+      (bonusTrial !== true && (limitSeconds as number) < 1) ||
+      (remainingSeconds as number) > (limitSeconds as number)) return null;
   return { limitSeconds: limitSeconds as number, usedSeconds: usedSeconds as number,
-    remainingSeconds: remainingSeconds as number, resetsAt: resetsAt as number };
+    remainingSeconds: remainingSeconds as number, resetsAt: resetsAt as number, bonusTrial: bonusTrial === true };
 }
 
 /** "8 min 20 s", "10 min" or "45 s": the units read the same in the seven languages. */
@@ -69,7 +70,8 @@ export default function VoiceMinutesBar() {
     );
   }
 
-  const share = Math.round((minutes.remainingSeconds / minutes.limitSeconds) * 100);
+  const meterMax = Math.max(1, minutes.limitSeconds);
+  const share = Math.round((minutes.remainingSeconds / meterMax) * 100);
   const bar = minutes.remainingSeconds === 0 ? "bg-red-600" : share <= 25 ? "bg-amber-500" : "bg-blue-600";
   let date = "";
   try {
@@ -83,14 +85,14 @@ export default function VoiceMinutesBar() {
     <div className="mt-4 rounded-2xl border border-stone-200 bg-white/60 p-4">
       <p id="voice-minutes-title" className="text-sm font-semibold">{title}</p>
       <div
-        role="progressbar" aria-labelledby="voice-minutes-title" aria-valuemin={0} aria-valuemax={minutes.limitSeconds}
+        role="progressbar" aria-labelledby="voice-minutes-title" aria-valuemin={0} aria-valuemax={meterMax}
         aria-valuenow={minutes.remainingSeconds} aria-valuetext={summary}
         className="mt-2 h-3 w-full overflow-hidden rounded-full bg-stone-200"
       >
         <div className={`h-full rounded-full transition-[width] ${bar}`} style={{ width: `${share}%` }} />
       </div>
       <p className="mt-2 text-sm font-medium text-stone-800">{summary}</p>
-      {date && <p className="mt-0.5 text-xs text-stone-600">{t("account.voiceMinutes.resets", { date })}</p>}
+      {date && !minutes.bonusTrial && <p className="mt-0.5 text-xs text-stone-600">{t("account.voiceMinutes.resets", { date })}</p>}
     </div>
   );
 }

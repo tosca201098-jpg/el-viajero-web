@@ -25,9 +25,10 @@ return {1, 0}
 `;
 
 // Server-only: the anonymous account reference of an admitted voice request. It is never derived from client input.
-const voiceUsers = new WeakMap<Request, string>();
+const voiceUsers = new WeakMap<Request, { reference: string; accountId: string }>();
 /** Anonymous, stable per-account reference (HMAC of the verified user id). It is what ElevenLabs stores as `user_id`. */
-export function voiceUserReference(request: Request): string | undefined { return voiceUsers.get(request); }
+export function voiceUserReference(request: Request): string | undefined { return voiceUsers.get(request)?.reference; }
+export function voiceAccountId(request: Request): string | undefined { return voiceUsers.get(request)?.accountId; }
 function userReference(secret: string, userId: string) {
   return 'u_' + createHmac('sha256', secret).update('elevenlabs-user:' + userId).digest('hex').slice(0, 32);
 }
@@ -143,7 +144,7 @@ export async function admitAiRequest(request: Request, service: AiService): Prom
     if (allowed !== 1 || retry !== 0) throw new Error('invalid_quota_result');
     if (!voiceLike) return null;
     if (request.signal.aborted) return denial(503, 'ai_unavailable');
-    voiceUsers.set(request, userReference(secret, voiceUser.userId));
+    voiceUsers.set(request, { reference: userReference(secret, voiceUser.userId), accountId: voiceUser.userId });
     return null;
   } catch {
     if (voiceLike) previewDiagnostic(signal?.aborted ? 'ADMISSION_REDIS_TIMEOUT' : stage);

@@ -3,6 +3,7 @@ import { sofiaConfigurationFailures } from '@/lib/voice/config-failures';
 import { isLocale } from '@/lib/i18n/translations';
 import { admitAiRequest, voiceUserReference } from '@/lib/ai/admission';
 import { BudgetError, checkVoiceBudget } from '@/lib/voice/voice-minutes';
+import { bonusPreviewEnabled, isBonusPreview, readBonusPreview } from '@/lib/voice/bonus-preview';
 import { validConcurrencyLimit } from '@/lib/voice/limits';
 import {
   sofiaPreviewTarget, sofiaProductionTarget, SOFIA_PREVIOUS_PREVIEW_VERSION_ID, SOFIA_PREVIOUS_PRODUCTION_VERSION_ID,
@@ -79,6 +80,8 @@ export async function POST(request: Request) {
     const key = process.env.ELEVENLABS_API_KEY;
     const configuredVersion = process.env.ELEVENLABS_AGENT_VERSION_ID;
     const previewTarget = sofiaPreviewTarget(process.env);
+    const bonusPreview = isBonusPreview(process.env);
+    if (bonusPreview && !bonusPreviewEnabled(process.env)) return unavailable('VOICE_FLAGS');
     const target = previewTarget ?? sofiaProductionTarget(process.env);
     // This reviewed Preview upgrade pins its version in code. Accept only its
     // previous pin or the new pin in Preview configuration; Production is unchanged.
@@ -95,8 +98,16 @@ export async function POST(request: Request) {
     if (target && version !== target.versionId) return unavailable('VOICE_VERSION');
     const denied = await admitAiRequest(request, 'voice');
     if (denied) return denied;
-    const userRef = voiceUserReference(request);
+    let userRef = voiceUserReference(request);
     if (!userRef) return unavailable('VOICE_REQUEST');
+    let bonusTrialSeconds: number | undefined;
+    if (bonusPreview) {
+      try {
+        const trial = await readBonusPreview(request, process.env);
+        userRef = trial.userRef;
+        bonusTrialSeconds = trial.bonusTrialSeconds;
+      } catch { return unavailable('VOICE_BONUS_STORAGE'); }
+    }
     const headers = { 'xi-api-key': key };
     signal = AbortSignal.timeout(10000);
     // Verify the immutable version we will request; never run an unreviewed moving HEAD.
@@ -112,10 +123,10 @@ export async function POST(request: Request) {
       const refused = unavailable('VOICE_CHECK_CONFIG'); previewDiagnosticDetail(['agent_or_version_id']); return refused;
     }
     // The allowance is decided below (voice minutes); the provider's own daily setting is only a last backstop.
-    if (!safeSofiaConfiguration(config, !!sofiaPreviewTarget(process.env))) {
+    if (!safeSofiaConfiguration(config, !!previewTarget && !bonusPreview)) {
       // The log names which checks failed (constants only), so a refused agent can be fixed without guessing.
       const refused = unavailable('VOICE_CHECK_CONFIG');
-      previewDiagnosticDetail(sofiaConfigurationFailures(config, !!sofiaPreviewTarget(process.env)));
+      previewDiagnosticDetail(sofiaConfigurationFailures(config, !!previewTarget && !bonusPreview));
       return refused;
     }
     // Voice minutes: the real conversation time of this account (this Madrid period) and of the whole site (this Madrid
@@ -124,7 +135,7 @@ export async function POST(request: Request) {
     // running conversation may still use.
     let budget;
     try {
-      budget = await checkVoiceBudget({ env: process.env, apiKey: key, agentId, userRef, now: Date.now(),
+      budget = await checkVoiceBudget({ env: process.env, apiKey: key, agentId, userRef, now: Date.now(), bonusTrialSeconds,
         liveReserveSeconds: config.conversation_config.conversation.max_duration_seconds });
     } catch (error) { return unavailable(error instanceof BudgetError ? error.code : 'VOICE_BUDGET_MALFORMED'); }
     if (!budget.ok) return budgetDenied(budget.reason === 'user' ? 'ai_minutes_limit' : 'ai_site_weekly_limit', budget.resetsAt);

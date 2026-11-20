@@ -21,6 +21,8 @@ const SITE_MINUTES_CEILING = 1000;
 const PAGE_SIZE = 100;
 const MAX_PAGES = 5;
 const LIVE_GRACE_SECONDS = 120;
+// Earliest possible date of the isolated bonus trial. Trial extras never reset on a month boundary.
+const BONUS_TRIAL_START = Date.UTC(2026, 10, 20) / 1000;
 
 export class BudgetError extends Error {
   constructor(readonly code: PreviewDiagnosticCode) { super('voice_budget'); }
@@ -115,6 +117,8 @@ async function sumConversations(input: {
 
 type Input = {
   env: Record<string, string | undefined>; apiKey: string; agentId: string; userRef: string; now: number;
+  /** Preview only. It models an exhausted free balance with a real administrator grant, capped to five minutes. */
+  bonusTrialSeconds?: number;
   /** The agent's verified maximum conversation length in seconds; see `sumConversations`. */
   liveReserveSeconds?: number;
 };
@@ -123,11 +127,13 @@ type Input = {
 export async function userPeriod(input: Input): Promise<UserPeriod> {
   const limits = voiceLimits(input.env);
   const period = madridVoicePeriod(input.now, limits.period);
+  const limitSeconds = input.bonusTrialSeconds ?? limits.userSeconds;
   const user = await sumConversations({ apiKey: input.apiKey, agentId: input.agentId, userRef: input.userRef,
-    since: period.startsAt, nowSeconds: Math.floor(input.now / 1000), signal: AbortSignal.timeout(8000) });
-  const usedSeconds = user.overflow ? limits.userSeconds : Math.min(user.seconds, limits.userSeconds);
-  return { period: limits.period, limitSeconds: limits.userSeconds, usedSeconds,
-    remainingSeconds: limits.userSeconds - usedSeconds, resetsAt: period.endsAt };
+    since: input.bonusTrialSeconds === undefined ? period.startsAt : BONUS_TRIAL_START,
+    nowSeconds: Math.floor(input.now / 1000), signal: AbortSignal.timeout(8000) });
+  const usedSeconds = user.overflow ? limitSeconds : Math.min(user.seconds, limitSeconds);
+  return { period: limits.period, limitSeconds, usedSeconds,
+    remainingSeconds: limitSeconds - usedSeconds, resetsAt: period.endsAt };
 }
 
 /**
@@ -138,17 +144,19 @@ export async function checkVoiceBudget(input: Input): Promise<VoiceBudget> {
   const limits = voiceLimits(input.env);
   const period = madridVoicePeriod(input.now, limits.period);
   const week = madridVoiceWeek(input.now);
+  const limitSeconds = input.bonusTrialSeconds ?? limits.userSeconds;
   const signal = AbortSignal.timeout(8000);
   const base = { apiKey: input.apiKey, agentId: input.agentId, nowSeconds: Math.floor(input.now / 1000), signal,
     ...(input.liveReserveSeconds === undefined ? {} : { reserveSeconds: input.liveReserveSeconds }) };
   const [user, site] = await Promise.all([
-    sumConversations({ ...base, userRef: input.userRef, since: period.startsAt }),
+    sumConversations({ ...base, userRef: input.userRef, since: input.bonusTrialSeconds === undefined ? period.startsAt : BONUS_TRIAL_START }),
     sumConversations({ ...base, since: week.startsAt }),
   ]);
-  const userLeft = user.overflow ? 0 : limits.userSeconds - user.seconds;
+  const userLeft = user.overflow ? 0 : limitSeconds - user.seconds;
   const siteLeft = site.overflow ? 0 : limits.siteSeconds - site.seconds;
   if (userLeft < VOICE_MIN_USEFUL_SECONDS) return { ok: false, reason: 'user', resetsAt: period.endsAt };
   if (siteLeft < VOICE_MIN_USEFUL_SECONDS) return { ok: false, reason: 'site', resetsAt: week.endsAt };
-  return { ok: true, sessionSeconds: Math.min(userLeft, siteLeft, input.liveReserveSeconds ?? VOICE_CONVERSATION_MAX_SECONDS),
-    remainingSeconds: userLeft, limitSeconds: limits.userSeconds, period: limits.period, resetsAt: period.endsAt };
+  return { ok: true, sessionSeconds: Math.min(userLeft, siteLeft, input.liveReserveSeconds ?? VOICE_CONVERSATION_MAX_SECONDS,
+    input.bonusTrialSeconds === undefined ? Infinity : 60),
+    remainingSeconds: userLeft, limitSeconds, period: limits.period, resetsAt: period.endsAt };
 }

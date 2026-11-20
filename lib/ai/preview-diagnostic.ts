@@ -34,6 +34,7 @@ const codes = [
   'VOICE_BUDGET_TIMEOUT',
   'VOICE_BUDGET_USER',
   'VOICE_BUDGET_SITE',
+  'VOICE_BONUS_STORAGE',
   'VOICE_REQUEST',
 ] as const;
 export type PreviewDiagnosticCode = typeof codes[number];
@@ -43,7 +44,7 @@ export type PreviewDiagnosticCode = typeof codes[number];
 // The code is only a constant from the list above: never a message, a key, an address or a person's data, and it
 // never reaches the browser.
 function diagnosticScope(env: Record<string, string | undefined>) {
-  if (env.VERCEL_ENV === 'preview' && env.VERCEL_GIT_COMMIT_REF === 'codex/sofia-elevenlabs') return true;
+  if (env.VERCEL_ENV === 'preview' && ['codex/sofia-elevenlabs', 'claude/sofia-minutos-extra'].includes(env.VERCEL_GIT_COMMIT_REF ?? '')) return true;
   return env.VERCEL === '1' && env.VERCEL_ENV === 'production' && env.VERCEL_GIT_COMMIT_REF === 'main' &&
     env.VERCEL_GIT_REPO_OWNER === 'tosca201098-jpg' && env.VERCEL_GIT_REPO_SLUG === 'el-viajero-web';
 }
