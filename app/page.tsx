@@ -17,7 +17,7 @@ import SaveFlightHeart from "./components/SaveFlightHeart";
 import SeasonCards from "./components/SeasonCards";
 import LanguageSelector from "./components/LanguageSelector";
 import { croatiaAirports, croatiaAirportTown } from '@/lib/travelpayouts/croatia-airports';
-import { japanAirportTown } from '@/lib/travelpayouts/japan-airports';
+import { japanAirports, japanAirportTown } from '@/lib/travelpayouts/japan-airports';
 import { southKoreaAirports, southKoreaAirportTown } from '@/lib/travelpayouts/south-korea-airports';
 import DestinationProfileSummary from "./components/DestinationProfileSummary";
 import { getDestinationText, getDestinationCountryName } from '@/lib/destinations/localization';
@@ -1590,12 +1590,12 @@ function abrirPaquete(destino = "") {
               <p className={windowStyle.description}>
                 {text(selectedDisplay?.description ?? destinoSeleccionado.description)}
               </p>
-              {(selectedCatalogProfile?.countryCode === 'KR' || selectedCatalogProfile?.countryCode === 'GR' || selectedCatalogProfile?.countryCode === 'SI' || (selectedCatalogProfile?.countryCode === 'HR' && selectedCatalogProfile.airports.length > 0) || (selectedCatalogProfile?.countryCode === 'FR' && selectedCatalogProfile.airports.some(airport => franceAirports.some(item => item.code === airport.iataCode)))) && (
+              {(selectedCatalogProfile?.countryCode === 'KR' || selectedCatalogProfile?.countryCode === 'JP' || selectedCatalogProfile?.countryCode === 'GR' || selectedCatalogProfile?.countryCode === 'SI' || (selectedCatalogProfile?.countryCode === 'HR' && selectedCatalogProfile.airports.length > 0) || (selectedCatalogProfile?.countryCode === 'FR' && selectedCatalogProfile.airports.some(airport => franceAirports.some(item => item.code === airport.iataCode)))) && (
                 <section className={windowStyle.infoCard} aria-label={t('destinations.arrivalAirport')}>
                   <h3 className={windowStyle.infoTitle}>✈️ {t('destinations.arrivalAirport')}</h3>
                   {selectedCatalogProfile.airports.map(airport => (
                     <div key={airport.iataCode} className="mt-2">
-                      <p>{(selectedCatalogProfile.countryCode === 'KR' ? southKoreaAirports : selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirports : selectedCatalogProfile.countryCode === 'FR' ? franceAirports : selectedCatalogProfile.countryCode === 'HR' ? croatiaAirports : greeceAirports).find(item => item.code === airport.iataCode)?.name ?? airport.iataCode} ({airport.iataCode})</p>
+                      <p>{(selectedCatalogProfile.countryCode === 'KR' ? southKoreaAirports : selectedCatalogProfile.countryCode === 'JP' ? japanAirports : selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirports : selectedCatalogProfile.countryCode === 'FR' ? franceAirports : selectedCatalogProfile.countryCode === 'HR' ? croatiaAirports : greeceAirports).find(item => item.code === airport.iataCode)?.name ?? airport.iataCode} ({airport.iataCode})</p>
                       <p className="mt-1">{t('destinations.airportTown')}: {(selectedCatalogProfile.countryCode === 'KR' ? southKoreaAirportTown : selectedCatalogProfile.countryCode === 'SI' ? sloveniaAirportTown : selectedCatalogProfile.countryCode === 'FR' ? franceAirportTown : selectedCatalogProfile.countryCode === 'HR' ? croatiaAirportTown : selectedCatalogProfile.countryCode === 'JP' ? japanAirportTown : greeceAirportTown)(airport.iataCode, language)}</p>
                     </div>
                   ))}

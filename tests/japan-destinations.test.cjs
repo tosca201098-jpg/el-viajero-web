@@ -62,6 +62,19 @@ test('the four metropolitan cards group only their physical airports, while Kobe
   assert.notEqual(catalog.findDestinationProfile({ iataCode: 'UKB' }).id, 'jp-osaka');
 });
 
+test('every one of the 77 Japanese airports has a real, unique English airport name instead of the provisional card label', () => {
+  const names = expectedCodes.map(code => [code, airports.japanAirports.find(airport => airport.code === code)?.name]);
+  for (const [code, name] of names) {
+    assert.ok(name, code);
+    assert.ok(!name.includes(' — '), `${code}: ${name}`);
+    assert.match(name, /Airport|Airfield/, code);
+  }
+  assert.equal(new Set(names.map(([, name]) => name)).size, 77);
+  assert.equal(airports.japanAirports.find(airport => airport.code === 'KCZ').name, 'Kochi Ryoma Airport');
+  assert.equal(airports.japanAirports.find(airport => airport.code === 'IWK').name, 'Iwakuni Kintaikyo Airport');
+  assert.equal(airports.japanAirports.find(airport => airport.code === 'SHI').name, 'Shimojishima Airport');
+});
+
 test('all cards carry seven complete presentation translations, valid months and credited landscape imagery', () => {
   for (const profile of japan) {
     assert.match(profile.image, /^https:\/\/(commons\.wikimedia\.org\/wiki\/Special:FilePath\/|images\.unsplash\.com\/photo-)/, profile.id);
