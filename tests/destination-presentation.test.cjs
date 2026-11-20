@@ -493,3 +493,19 @@ test('Japanese cards show the arrival airport (real airport name, code and refer
     const profile=catalog.getDestinationById(id);assert.ok(profile,id);check(locale,profile);
   }
 });
+
+test('Japanese and South Korean cards show their recommendations in the language of the page, not in Spanish',()=>{
+  for(const id of['jp-kobe','jp-tokyo','jp-matsuyama','kr-seoul','kr-jeju','kr-busan']){
+    const profile=catalog.getDestinationById(id);assert.ok(profile,id);
+    for(const locale of locales){
+      const{tree}=openCardLikeAPerson(locale,profile);
+      const dialog=text(tree.find(n=>n.props.role==='dialog'));
+      const shown=localization.getDestinationText(profile,locale).recommendations;
+      assert.equal(shown.length,4,id+':'+locale);
+      for(const place of shown)assert.ok(dialog.includes(place),id+':'+locale+': '+place);
+      if(locale!=='es')profile.translations.es.recommendations.forEach((spanish,index)=>{
+        if(shown[index]!==spanish&&!shown[index].includes(spanish))assert.ok(!dialog.includes(spanish),id+':'+locale+': Spanish text left: '+spanish);
+      });
+    }
+  }
+});

@@ -134,3 +134,38 @@ test('the 46 cards with their own Unsplash photo never share it and keep the Uns
     assert.ok(profile.imageCredit, profile.id);
   }
 });
+
+const spanishWords = {
+  // Palabras españolas que no existen (con esa forma) en cada idioma: si salen, la recomendación quedó sin traducir.
+  en: 'Castillo|Santuario|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Fortaleza|Jardín|Telef[ée]rico|Monte|Cabo|Parque|Museo|Mercado|Costa|Lago|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  fr: 'Castillo|Santuario|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Fortaleza|Jardín|Telef[ée]rico|Monte|Cabo|Parque|Museo|Mercado|Costa|Lago|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  de: 'Castillo|Santuario|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Fortaleza|Jardín|Telef[ée]rico|Monte|Cabo|Parque|Museo|Mercado|Costa|Lago|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  it: 'Castillo|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Fortaleza|Jardín|Telef[ée]rico|Cabo|Parque|Mercado|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  pt: 'Castillo|Santuario|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Jardín|Museo|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  ca: 'Castillo|Santuario|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Fortaleza|Jardín|Telef[ée]rico|Monte|Cabo|Parque|Museo|Mercado|Lago|Palacio|Aldea|Pueblo|Plaza',
+};
+const untranslated = locale => new RegExp(`(?<![\\p{L}])(?:${spanishWords[locale]})(?![\\p{L}])`, 'u');
+
+test('every Japanese card has its four recommendations translated into the six other languages, with the Spanish list untouched', () => {
+  assert.equal(japan.length, 72);
+  for (const profile of japan) {
+    const spanish = Array.from(profile.translations.es.recommendations);
+    assert.deepEqual(Array.from(profile.recommendations), spanish, profile.id + ': top-level list stays Spanish');
+    for (const locale of locales.filter(locale => locale !== 'es')) {
+      const list = Array.from(profile.translations[locale].recommendations);
+      assert.equal(list.length, 4, `${profile.id}:${locale}`);
+      assert.ok(list.every(place => typeof place === 'string' && place.trim().length > 1), `${profile.id}:${locale}`);
+      assert.equal(new Set(list).size, 4, `${profile.id}:${locale}: four different places`);
+      for (const place of list) assert.ok(!untranslated(locale).test(place), `${profile.id}:${locale}: still Spanish → ${place}`);
+    }
+  }
+  const text = (id, locale) => Array.from(catalog.getDestinationById(id).translations[locale].recommendations);
+  assert.deepEqual(text('jp-tokyo', 'en'), ['Meiji Shrine', 'Shibuya Crossing', 'Asakusa and Sensō-ji', 'Tokyo Skytree']);
+  assert.deepEqual(text('jp-kobe', 'fr'), ['Port de Kobe', 'Kitano Ijinkan', 'Mont Rokkō', 'Quartier de Nankinmachi']);
+  assert.equal(text('jp-osaka', 'de')[0], 'Burg Osaka');
+  assert.equal(text('jp-naha', 'ca')[0], 'Castell de Shuri');
+  assert.equal(text('jp-miyakojima', 'pt')[0], 'Praia de Yonaha Maehama');
+  // Okaido es una galería comercial, no un canal: corregido en español y en los demás idiomas.
+  assert.equal(text('jp-matsuyama', 'es')[3], 'Galería comercial Okaido');
+  assert.equal(text('jp-matsuyama', 'en')[3], 'Okaido shopping arcade');
+});

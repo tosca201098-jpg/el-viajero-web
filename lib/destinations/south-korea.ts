@@ -1,5 +1,6 @@
 import type { Locale } from '@/lib/i18n/translations';
 import type { DestinationProfile, DestinationText } from './types';
+import { southKoreaRecommendations } from './south-korea-recommendations';
 
 const locales: Locale[] = ['es', 'en', 'fr', 'de', 'it', 'pt', 'ca'];
 type Seven = [string, string, string, string, string, string, string];
@@ -73,7 +74,7 @@ const calendar = (climate: Climate) => climate === 'island' ? { best:[4,5,6,9,10
 
 function destination(seed: Seed): DestinationProfile {
   const translations = Object.fromEntries(locales.map((locale, index) => [locale, {
-    name: seed.name, description: description(seed.name)[index], recommendations: seed.recommendations,
+    name: seed.name, description: description(seed.name)[index], recommendations: locale === 'es' ? seed.recommendations : southKoreaRecommendations[seed.slug]?.[locale] ?? seed.recommendations,
     recommendedStay: `${seed.stay} ${days[locale]}`,
     seasonalityNote: `${seasonality[seed.climate][index]} Aeropuerto${seed.codes.length > 1 ? 's' : ''}: ${seed.codes.join(', ')}.`,
   }])) as Record<Locale, DestinationText>;
