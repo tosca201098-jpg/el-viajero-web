@@ -8,7 +8,7 @@ const season1: Seven = ['De noviembre a marzo suele ser más agradable; en veran
 const seeds: AsiaSeed[] = [
   {
     slug: 'kuwait-city', name: 'Ciudad de Kuwait', codes: ['KWI'], photo: photo1, stay: '2–4',
-    description: ['Capital costera entre rascacielos, museos, zocos y el paseo del golfo Pérsico.', 'A coastal capital of skyscrapers, museums, souks and the Persian Gulf promenade.', 'Capitale côtière entre gratte-ciel, musées, souks et promenade du golfe Persique.', 'Küstenhauptstadt mit Wolkenkratzern, Museen, Souks und Promenade am Persischen Golf.', 'Capitale costiera tra grattacieli, musei, souk e passeggiata sul Golfo Persico.', 'Capital costeira de arranha-céus, museus, souks e passeio do golfo Pérsico.', 'Capital costanera d’edificis alts, museus, socs i passeig del golf Pèrsic.'],
+    description: ['Capital costera entre rascacielos, museos, zocos y el paseo del golfo Pérsico.', 'A coastal capital of skyscrapers, museums, souks and the Persian Gulf promenade.', 'Capitale côtière entre gratte-ciel, musées, souks et promenade du golfe Persique.', 'Küstenhauptstadt mit Wolkenkratzern, Museen, Souks und Promenade am Persischen Golf.', 'Capitale costiera tra grattacieli, musei, souk e passeggiata sul Golfo Persico.', 'Capital costeira de arranha-céus, museus, souks e passeio do golfo Pérsico.', 'Capital costanera de gratacels, museus, socs i passeig del golf Pèrsic.'],
     recommendations: [
       ['Torres de Kuwait', 'Kuwait Towers', 'Tours du Koweït', 'Kuwait-Türme', 'Torri del Kuwait', 'Torres do Kuwait', 'Torres de Kuwait'],
       ['Gran Mezquita', 'Grand Mosque', 'Grande Mosquée', 'Große Moschee', 'Grande Moschea', 'Grande Mesquita', 'Gran Mesquita'],

@@ -1,7 +1,7 @@
 import { asiaCountryDestinations, commonsPhoto, type AsiaSeed, type Seven } from './asia-text';
 import type { DestinationProfile } from './types';
 
-const photo1 = commonsPhoto('Sunset over Muscat1.jpg', 'Christoph Strässler', 'CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/');
+const photo1 = commonsPhoto('Sunset over Muscat1.jpg', 'Christoph Strässler', 'CC BY-SA 2.0', 'https://creativecommons.org/licenses/by-sa/2.0/');
 const photo2 = commonsPhoto('Salalah oman.jpg', 'Syed99975', 'CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/');
 const photo3 = commonsPhoto('The Developing City of Duqm.jpg', 'Talladac', 'CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/');
 const photo4 = commonsPhoto('Walking in Sohar.jpg', 'tuttotutto', 'CC BY-SA 2.0', 'https://creativecommons.org/licenses/by-sa/2.0/');

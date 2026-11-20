@@ -9,5 +9,5 @@ export const asiaAirportNames: Readonly<Record<string, string>> = {
   DOH: 'Hamad International Airport',
   MCT: 'Muscat International Airport', SLL: 'Salalah International Airport', DQM: 'Duqm Airport', OHS: 'Sohar Airport',
   RUH: 'King Khalid International Airport', JED: 'King Abdulaziz International Airport', DMM: 'King Fahd International Airport',
-  MED: 'Prince Mohammad bin Abdulaziz International Airport', ULH: 'AlUla International Airport', AHB: 'Abha International Airport',
+  MED: 'Prince Mohammad bin Abdulaziz International Airport', ULH: 'Al-Ula International Airport', AHB: 'Abha International Airport',
 };

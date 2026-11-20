@@ -4,8 +4,8 @@ import type { DestinationProfile } from './types';
 const photo1 = commonsPhoto('Riyadh Skyline.jpg', 'B.alotaby', 'CC BY-SA 4.0', 'https://creativecommons.org/licenses/by-sa/4.0/');
 const photo2 = commonsPhoto('Jeddah Corniche Photo.jpg', 'Kolaiel', 'CC0', 'https://creativecommons.org/publicdomain/zero/1.0/');
 const photo3 = commonsPhoto('Corniche Dammam.jpg', 'DonToofee', 'CC BY 2.0', 'https://creativecommons.org/licenses/by/2.0/');
-const photo4 = commonsPhoto('Masjid Nabawi. Medina, Saudi Arabia.jpg', 'Ali Mansuri', 'CC BY-SA 2.5', 'https://creativecommons.org/licenses/by-sa/2.5/');
-const photo5 = commonsPhoto('Al-Ula, Saudi Arabia, seen from the viewpoint (8).jpg', 'Prof. Mortel', 'CC BY 2.0', 'https://creativecommons.org/licenses/by/2.0/');
+const photo4 = commonsPhoto('Masjid Nabawi. Medina, Saudi Arabia.jpg', 'Ali Mansuri (Wikimedia Commons: Ali Imran)', 'CC BY-SA 2.5', 'https://creativecommons.org/licenses/by-sa/2.5/');
+const photo5 = commonsPhoto('Al-Ula, Saudi Arabia, seen from the viewpoint (8).jpg', 'Richard Mortel', 'CC BY 2.0', 'https://creativecommons.org/licenses/by/2.0/');
 const photo6 = commonsPhoto('Abha, Saudi Arabia.jpg', 'Java4', 'Public domain', 'https://commons.wikimedia.org/wiki/File:Abha,_Saudi_Arabia.jpg');
 
 const season1: Seven = ['De noviembre a marzo suele ser más agradable.', 'November to March is usually more pleasant.', 'De novembre à mars, le climat est généralement plus agréable.', 'Von November bis März ist es meist angenehmer.', 'Da novembre a marzo il clima è in genere più piacevole.', 'De novembro a março costuma ser mais agradável.', 'De novembre a març sol ser més agradable.'];

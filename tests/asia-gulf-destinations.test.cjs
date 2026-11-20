@@ -118,6 +118,16 @@ test('every airport of a Gulf card has a public name; names never promise routes
   assert.deepEqual(Array.from(asia.asiaCountryCodes).sort(), Object.keys(gulf).sort());
 });
 
+test('the photo credits of the Gulf cards match the Wikimedia Commons records (checked 21-11-2026)', () => {
+  const expected = { 'om-muscat': ['Christoph Strässler', 'CC BY-SA 2.0'], 'sa-alula': ['Richard Mortel', 'CC BY 2.0'], 'om-duqm': ['Talladac', 'CC BY-SA 4.0'], 'kw-kuwait-city': ['Zairon', 'CC BY 4.0'], 'sa-jeddah': ['Kolaiel', 'CC0'] };
+  for (const [id, [credit, license]] of Object.entries(expected)) {
+    const profile = catalog.getDestinationById(id);
+    assert.equal(profile.imageCredit, credit, id); assert.equal(profile.imageLicense, license, id);
+  }
+  assert.ok(catalog.getDestinationById('om-muscat').imageLicenseUrl.endsWith('/by-sa/2.0/'));
+  assert.equal(catalog.getDestinationById('sa-alula').translations.es.name, 'AlUla');
+});
+
 test('the Asian airport and place helpers find Gulf airports by code, official name or alias, and cities by name', () => {
   assert.deepEqual(Array.from(asia.asiaAirportsForTerm('DOH'), item => item.code), ['DOH']);
   assert.deepEqual(Array.from(asia.asiaAirportsForTerm('Hamad International Airport'), item => item.code), ['DOH']);
