@@ -47,8 +47,10 @@ export async function resolveCity(input: string): Promise<City | null> {
         (typeof place.country_code === 'string' && normalize(place.country_code) === normalize(countryInput)))
     );
 
+    // The provider names Seoul, Osaka and Sapporo by their city code, which is not one of the airports of the card.
     const byIata = destinationProfile && cities.find((place) =>
-      place.country_code === profileCountryCode && destinationProfile.iataCodes.includes(place.code as string));
+      place.country_code === profileCountryCode &&
+      [...destinationProfile.iataCodes, ...(destinationProfile.metropolitanCodes ?? [])].includes(place.code as string));
     if (byIata) return { name: byIata.name as string, code: byIata.code as string };
 
     if (!nameMatch && term === cityInput) {
