@@ -38,9 +38,9 @@ const selection = load('lib/destinations/selection.ts');
 const presentation = load('lib/destinations/presentation.ts');
 const expectedCodes = 'AKJ AOJ ASJ AXT CTS FKS FSZ FUJ FUK GAJ HAC HIJ HKD HNA HND HSG IBR IKI ISG ITM IWJ IWK IZO KCZ KIJ KIX KKJ KKX KMI KMJ KMQ KOJ KTD KUH KUM MBE MMB MMD MMJ MMY MSJ MYJ NGO NGS NKM NRT NTQ OBO OGN OIR OIT OKA OKD OKE OKI OKJ ONJ RIS RNJ SDJ SHB SHI SHM SYO TAK TJH TKN TKS TNE TOY TSJ TTJ UBJ UEO UKB WKJ YGJ'.split(' ');
 
-test('Japan has 73 draft cards that cover each of the 77 currently flightable provider airports exactly once', () => {
-  assert.equal(japan.length, 73);
-  assert.equal(catalog.getDestinationsByCountry('JP').length, 73);
+test('Japan has 72 draft cards that cover each of the 77 currently flightable provider airports exactly once', () => {
+  assert.equal(japan.length, 72);
+  assert.equal(catalog.getDestinationsByCountry('JP').length, 72);
   assert.equal(catalog.destinationProfiles.length, expectedCatalogTotal(catalog));
   assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.id)).size, catalog.destinationProfiles.length);
   assert.equal(new Set(catalog.destinationProfiles.map(profile => profile.slug)).size, catalog.destinationProfiles.length);
@@ -60,6 +60,21 @@ test('the four metropolitan cards group only their physical airports, while Kobe
   assert.deepEqual(Array.from(catalog.getDestinationById('jp-nagoya').iataCodes), ['NGO', 'NKM']);
   assert.equal(catalog.findDestinationProfile({ iataCode: 'UKB' }).id, 'jp-kobe');
   assert.notEqual(catalog.findDestinationProfile({ iataCode: 'UKB' }).id, 'jp-osaka');
+});
+
+test('Miyakojima is one card with both of its airports, no invented metropolitan code, and Shimojishima is found through it', () => {
+  const profile = catalog.getDestinationById('jp-miyakojima');
+  assert.deepEqual(Array.from(profile.iataCodes), ['MMY', 'SHI']);
+  assert.deepEqual(Array.from(profile.airports, airport => airport.iataCode), ['MMY', 'SHI']);
+  assert.deepEqual(Array.from(profile.metropolitanCodes), []);
+  assert.ok(!catalog.getDestinationById('jp-shimojishima'));
+  assert.equal(catalog.findDestinationProfile({ iataCode: 'MMY' }).id, 'jp-miyakojima');
+  assert.equal(catalog.findDestinationProfile({ iataCode: 'SHI' }).id, 'jp-miyakojima');
+  assert.equal(japan.filter(card => card.iataCodes.includes('SHI')).length, 1);
+  for (const alias of ['Shimojishima', 'Shimoji-shima', 'Shimojishima Airport', 'Miyako', 'Miyako Airport'])
+    assert.ok(profile.aliases.includes(alias), alias);
+  assert.equal(profile.recommendations.length, 4);
+  for (const locale of locales) assert.ok(profile.translations[locale].seasonalityNote.includes('MMY, SHI'), locale);
 });
 
 test('every one of the 77 Japanese airports has a real, unique English airport name instead of the provisional card label', () => {
@@ -94,7 +109,8 @@ test('all cards carry seven complete presentation translations, valid months and
 
 test('the local autocomplete preserves city identity with an empty remote result', async () => {
   const route = loader({ fetch: async () => ({ ok: true, json: async () => [] }) })('app/api/travelpayouts/places/route.ts');
-  const cases = { HND: 'tokyo', NRT: 'tokyo', ITM: 'osaka', KIX: 'osaka', UKB: 'kobe', CTS: 'sapporo', NKM: 'nagoya', ISG: 'ishigaki', OGN: 'yonaguni', TJH: 'tajima' };
+  const cases = { HND: 'tokyo', NRT: 'tokyo', ITM: 'osaka', KIX: 'osaka', UKB: 'kobe', CTS: 'sapporo', NKM: 'nagoya', ISG: 'ishigaki', OGN: 'yonaguni', TJH: 'tajima',
+    MMY: 'miyakojima', SHI: 'miyakojima', Shimojishima: 'miyakojima' };
   for (const [term, slug] of Object.entries(cases)) {
     const response = await route.GET(new Request(`https://example.test/api/travelpayouts/places?term=${term}`));
     assert.equal(response.status, 200, term);
