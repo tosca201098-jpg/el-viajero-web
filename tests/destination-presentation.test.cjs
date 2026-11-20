@@ -471,3 +471,25 @@ test('Japanese cards show the Japanese flag, never a French default, in every la
     assert.ok(!text(dialog).includes('🇫🇷'),id+':'+locale+': never a French default');
   }
 });
+
+test('Japanese cards show the arrival airport (real airport name, code and reference town); every card in Spanish, a sample in every language',()=>{
+  const japan=catalog.getDestinationsByCountry('JP'),airports=data('lib/travelpayouts/japan-airports.ts');
+  assert.ok(japan.length>=72);
+  const check=(locale,profile)=>{
+    const{tree}=openCardLikeAPerson(locale,profile);
+    const dialog=tree.find(n=>n.props.role==='dialog');
+    assert.ok(text(dialog).includes('🇯🇵'),profile.id+':'+locale+': flag');
+    const arrival=tree.find(n=>n.props['aria-label']===dictionaries.translate(locale,'destinations.arrivalAirport'));
+    assert.ok(arrival,profile.id+':'+locale+': arrival block');
+    for(const code of profile.iataCodes){
+      const airport=airports.japanAirports.find(candidate=>candidate.code===code);
+      assert.ok(airport&&airport.name&&!airport.name.includes(' — '),code+': a real airport name, not the provisional one');
+      assert.ok(text(arrival).includes(airport.name)&&text(arrival).includes(code),profile.id+':'+locale+':'+code+': '+text(arrival));
+      assert.ok(text(arrival).includes(airports.japanAirportTown(code,locale)),profile.id+':'+locale+':'+code+': town');
+    }
+  };
+  for(const profile of japan)check('es',profile);
+  for(const id of ['jp-kobe','jp-tokyo','jp-osaka','jp-naha','jp-sapporo','jp-yakushima'])for(const locale of locales.filter(locale=>locale!=='es')){
+    const profile=catalog.getDestinationById(id);assert.ok(profile,id);check(locale,profile);
+  }
+});
