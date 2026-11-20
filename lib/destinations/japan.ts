@@ -1,5 +1,6 @@
 import type { Locale } from '@/lib/i18n/translations';
 import type { DestinationProfile, DestinationText } from './types';
+import { japanRecommendations } from './japan-recommendations';
 
 /**
  * Japan's airport catalogue is deliberately city- and island-based: HND/NRT,
@@ -138,7 +139,7 @@ const seeds: Seed[] = [
   {slug:'hagi-iwami',codes:['IWJ'],name:'Hagi e Iwami',aliases:['Hagi','Iwami','Hagi-Iwami'],photo:'hiroshima',climate:'temperate',stay:'2–3',recommendations:['Ciudad del castillo de Hagi','Costa de Iwami','Santuario Taikodani','Aguas termales Tsuwano']},
   {slug:'takamatsu',codes:['TAK'],name:'Takamatsu',aliases:['Takamatsu','Takamatsu Airport'],photo:'shikoku',climate:'temperate',stay:'2–3',recommendations:['Jardín Ritsurin','Castillo de Takamatsu','Isla Naoshima','Puerto de Takamatsu']},
   {slug:'tokushima',codes:['TKS'],name:'Tokushima',aliases:['Tokushima','Awaodori','Tokushima Airport'],photo:'shikoku',climate:'temperate',stay:'2–3',recommendations:['Monte Bizan','Estrecho de Naruto','Festival Awa Odori','Valle de Iya']},
-  {slug:'matsuyama',codes:['MYJ'],name:'Matsuyama',aliases:['Matsuyama','Matsuyama Airport'],photo:'shikoku',climate:'temperate',stay:'2–3',recommendations:['Dōgo Onsen','Castillo de Matsuyama','Templo Ishite-ji','Canal Okaido']},
+  {slug:'matsuyama',codes:['MYJ'],name:'Matsuyama',aliases:['Matsuyama','Matsuyama Airport'],photo:'shikoku',climate:'temperate',stay:'2–3',recommendations:['Dōgo Onsen','Castillo de Matsuyama','Templo Ishite-ji','Galería comercial Okaido']},
   {slug:'kochi',codes:['KCZ'],name:'Kōchi',aliases:['Kochi','Kōchi','Kochi Ryoma'],photo:'shikoku',climate:'temperate',stay:'2–3',recommendations:['Castillo de Kōchi','Mercado Hirome','Río Shimanto','Cabo Muroto']},
   {slug:'fukuoka',codes:['FUK'],name:'Fukuoka',aliases:['Fukuoka','Fukuoka Airport'],photo:'kagoshima',climate:'south',stay:'3–4',recommendations:['Canal City','Santuario Kushida','Parque Ōhori','Puestos yatai']},
   {slug:'kitakyushu',codes:['KKJ'],name:'Kitakyūshū',aliases:['Kitakyushu','Kitakyūshū','Kokura'],photo:'kagoshima',climate:'south',stay:'2–3',recommendations:['Castillo de Kokura','Mojiko Retro','Monte Sarakura','Mercado Tanga']},
@@ -195,7 +196,7 @@ function destination(seed: Seed): DestinationProfile {
   const translations = Object.fromEntries(locales.map((locale, index) => [locale, {
     name: seed.name,
     description: description(seed.name)[index],
-    recommendations: seed.recommendations,
+    recommendations: locale === 'es' ? seed.recommendations : japanRecommendations[seed.slug]?.[locale] ?? seed.recommendations,
     recommendedStay: `${seed.stay} ${days[locale]}`,
     seasonalityNote: `${seasonalCopy[seed.climate][index]} Aeropuerto${seed.codes.length > 1 ? 's' : ''}: ${seed.codes.join(', ')}.`,
   }])) as Record<Locale, DestinationText>;

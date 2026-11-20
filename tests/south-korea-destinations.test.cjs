@@ -108,3 +108,34 @@ test('the 8 cards with their own Unsplash photo never share it and keep the Unsp
     assert.ok(profile.imageCredit, profile.id);
   }
 });
+
+const spanishWords = {
+  // Palabras españolas que no existen (con esa forma) en cada idioma: si salen, la recomendación quedó sin traducir.
+  en: 'Castillo|Santuario|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Fortaleza|Jardín|Telef[ée]rico|Monte|Cabo|Parque|Museo|Mercado|Costa|Lago|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  fr: 'Castillo|Santuario|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Fortaleza|Jardín|Telef[ée]rico|Monte|Cabo|Parque|Museo|Mercado|Costa|Lago|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  de: 'Castillo|Santuario|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Fortaleza|Jardín|Telef[ée]rico|Monte|Cabo|Parque|Museo|Mercado|Costa|Lago|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  it: 'Castillo|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Fortaleza|Jardín|Telef[ée]rico|Cabo|Parque|Mercado|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  pt: 'Castillo|Santuario|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Cascada|Jardín|Museo|Palacio|Aldea|Pueblo|Plaza|Ermita',
+  ca: 'Castillo|Santuario|Templo|Playa|Puente|Isla|Bahía|Puerto|Cueva|Calle|Barrio|Río|Aguas|Fortaleza|Jardín|Telef[ée]rico|Monte|Cabo|Parque|Museo|Mercado|Lago|Palacio|Aldea|Pueblo|Plaza',
+};
+const untranslated = locale => new RegExp(`(?<![\\p{L}])(?:${spanishWords[locale]})(?![\\p{L}])`, 'u');
+
+test('every South Korean card has its four recommendations translated into the six other languages, with the Spanish list untouched', () => {
+  assert.equal(korea.length, 14);
+  const locales = ['es', 'en', 'fr', 'de', 'it', 'pt', 'ca'];
+  for (const profile of korea) {
+    const spanish = Array.from(profile.translations.es.recommendations);
+    assert.deepEqual(Array.from(profile.recommendations), spanish, profile.id + ': top-level list stays Spanish');
+    for (const locale of locales.filter(locale => locale !== 'es')) {
+      const list = Array.from(profile.translations[locale].recommendations);
+      assert.equal(list.length, 4, `${profile.id}:${locale}`);
+      assert.ok(list.every(place => typeof place === 'string' && place.trim().length > 1), `${profile.id}:${locale}`);
+      assert.equal(new Set(list).size, 4, `${profile.id}:${locale}: four different places`);
+      for (const place of list) assert.ok(!untranslated(locale).test(place), `${profile.id}:${locale}: still Spanish → ${place}`);
+    }
+  }
+  const text = (slug, locale) => Array.from(korea.find(profile => profile.slug === slug).translations[locale].recommendations);
+  assert.deepEqual(text('seoul', 'en'), ['Gyeongbokgung Palace', 'Bukchon Hanok Village', 'N Seoul Tower', 'Cheonggyecheon Stream']);
+  assert.equal(text('busan', 'fr')[0], 'Plage de Haeundae');
+  assert.equal(text('jeju', 'de')[1], 'Jeongbang-Wasserfall');
+});
