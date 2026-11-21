@@ -114,12 +114,22 @@ export default function PrivacidadPage() {
         </p>
       </section>
 
-      <section>
+      <section id="cookies">
         <h2>8. Cookies y almacenamiento en tu dispositivo</h2>
         <p>
-          Usamos almacenamiento en tu navegador para lo imprescindible: recordar el idioma que eliges y mantener tu sesión iniciada. Algunos servicios de terceros que
-          carga la web pueden usar sus propias cookies o tecnologías similares (por ejemplo, el de enlaces de afiliados).{" "}
-          <Review label="revisar con un profesional qué cookies no esenciales hay y si hace falta un aviso con consentimiento" />
+          <strong>Imprescindibles (no necesitan permiso).</strong> Guardamos en tu navegador el idioma que eliges, el aeropuerto de salida que recuerdas en «Viajes por mes»,
+          tu sesión si inicias sesión y tu decisión sobre el aviso de cookies.
+        </p>
+        <p className="mt-3">
+          <strong>Servicios de terceros (solo con tu permiso).</strong> La primera vez que entras te preguntamos si los aceptas. Hasta que contestes no se carga ninguno. Son:
+          el servicio de afiliación y medición de Travelpayouts (convierte los enlaces en enlaces de afiliado y guarda cookies y datos en tu navegador para saber desde qué página
+          se hace una reserva) y un complemento de vídeo de Tavus que se carga en todas las páginas. <Review label="confirmar con el titular si el complemento de Tavus se sigue usando y qué datos guarda" />{" "}
+          Puedes rechazarlos o cambiar de opinión cuando quieras con el enlace «Cookies» que hay al pie de cada página: si los rechazas, borramos las cookies y datos
+          que esos servicios hubieran guardado en este sitio y la web sigue funcionando.
+        </p>
+        <p className="mt-3">
+          <strong>Cuando haces una búsqueda.</strong> Los resultados de vuelos los muestra un componente de Travelpayouts y el mapa de alojamientos uno de Stay22. Se cargan al buscar,
+          porque es el servicio que pides, y pueden guardar sus propias preferencias (por ejemplo, idioma y moneda). <Review label="comprobar con un profesional si esas cookies son imprescindibles o necesitan permiso previo" />
         </p>
       </section>
 

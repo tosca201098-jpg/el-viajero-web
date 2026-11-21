@@ -1,10 +1,10 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import Script from 'next/script';
 import { siteUrl } from '@/lib/seo';
 import LanguageProvider from './components/LanguageProvider';
 import SiteFooter from './components/SiteFooter';
+import CookieConsent from './components/CookieConsent';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -32,33 +32,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="es">
-    <head>
-      <Script
-        id="travelpayouts-drive"
-        strategy="beforeInteractive"
-        data-noptimize="1"
-        data-cfasync="false"
-        data-wpfc-render="false"
-        data-no-defer="1"
-        data-cmp-ab="2"
-        {...{ nowprocket: '', 'seraph-accel-crit': '1' }}
-      >
-        {`(function () {
-          var script = document.createElement("script");
-          script.async = 1;
-          script.setAttribute("data-cmp-ab", "2");
-          script.src = "https://emrldco.com/NTg2MDI1.js?t=586025";
-          document.head.appendChild(script);
-        })();`}
-      </Script>
-    </head>
     <body className={inter.className}>
   
-  <LanguageProvider>{children}<SiteFooter /></LanguageProvider>
-  <Script
-  src="https://unpkg.com/@tavus/embed@latest"
-  strategy="afterInteractive"
-/>
+  <LanguageProvider>{children}<SiteFooter /><CookieConsent /></LanguageProvider>
+
   
   
   

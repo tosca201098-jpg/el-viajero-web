@@ -1,11 +1,13 @@
 "use client";
 
 // Pie de página legal discreto, al final de todas las páginas (se añade desde app/layout.tsx):
-// «Aviso legal · Política de privacidad». No cambia ninguna tarjeta ni el diseño de la página, solo añade esta línea debajo.
+// «Aviso legal · Política de privacidad · Cookies» (el último reabre el aviso de cookies). No cambia ninguna tarjeta ni el diseño de la página, solo añade esta línea debajo.
 
 import Link from "next/link";
 import { useLanguage } from "./LanguageProvider";
 import { footerText } from "@/lib/legal/footer-texts";
+import { cookieText } from "@/lib/consent/texts";
+import { OPEN_CONSENT_EVENT } from "@/lib/consent/cookies";
 
 const linkClass = "inline-flex min-h-[44px] items-center rounded px-2 underline-offset-2 hover:text-blue-700 hover:underline focus-visible:ring-2 focus-visible:ring-blue-600";
 
@@ -18,6 +20,8 @@ export default function SiteFooter() {
         <Link href="/aviso-legal" hrefLang="es" className={linkClass}>{footerText(language, "legal")}</Link>
         <span aria-hidden="true">·</span>
         <Link href="/privacidad" hrefLang="es" className={linkClass}>{footerText(language, "privacy")}</Link>
+        <span aria-hidden="true">·</span>
+        <button type="button" data-cookie-settings onClick={() => window.dispatchEvent(new Event(OPEN_CONSENT_EVENT))} className={linkClass + " underline"}>{cookieText(language, "footer")}</button>
       </nav>
     </footer>
   );
