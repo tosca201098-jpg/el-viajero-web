@@ -115,7 +115,7 @@ test('every airport of a Gulf card has a public name; names never promise routes
   assert.equal(asia.asiaAirports.find(item => item.code === 'MCT').city_code, 'MCT');
   for (const locale of locales) assert.equal(asia.asiaAirportTown('MCT', locale), 'Mascate', locale);
   assert.equal(asia.asiaAirportTown('ZZZ', 'es'), 'ZZZ');
-  assert.deepEqual(Array.from(asia.asiaCountryCodes).sort(), Object.keys(gulf).sort());
+  for (const country of Object.keys(gulf)) assert.ok(asia.asiaCountryCodes.includes(country), country);
 });
 
 test('Gulf photos: 12 cards use Unsplash photos (free licence), Duqm keeps its Commons photo with credit (checked 21-11-2026)', () => {

@@ -534,3 +534,26 @@ test('all thirteen Gulf cards (Bahrain, Kuwait, Qatar, Oman, Saudi Arabia) open 
   for(const profile of gulf)check('es',profile);
   for(const id of['bh-manama','kw-kuwait-city','qa-doha','om-duqm','sa-medina'])for(const locale of locales.filter(locale=>locale!=='es'))check(locale,catalog.getDestinationById(id));
 });
+
+test('all ten lot 2 cards (United Arab Emirates, Lebanon, Jordan, Israel) open like a person would: own flag, arrival airport, one name; every card in Spanish, one per country in every language',()=>{
+  const flags={AE:'🇦🇪',LB:'🇱🇧',JO:'🇯🇴',IL:'🇮🇱'},airports=data('lib/travelpayouts/asia-airports.ts');
+  const lot2=Object.keys(flags).flatMap(code=>Array.from(catalog.getDestinationsByCountry(code)));
+  assert.equal(lot2.length,10);
+  const check=(locale,profile)=>{
+    const{tree,display}=openCardLikeAPerson(locale,profile);
+    assert.equal(display.name,profile.name,profile.id+':'+locale+': the name is not translated');
+    const dialog=tree.find(n=>n.props.role==='dialog');
+    assert.ok(text(dialog).includes(flags[profile.countryCode]),profile.id+':'+locale+': flag');
+    assert.ok(!text(dialog).includes('🇫🇷'),profile.id+':'+locale+': never a French default');
+    const arrival=tree.find(n=>n.props['aria-label']===dictionaries.translate(locale,'destinations.arrivalAirport'));
+    assert.ok(arrival,profile.id+':'+locale+': arrival block');
+    for(const code of profile.iataCodes){
+      const airport=airports.asiaAirports.find(candidate=>candidate.code===code);
+      assert.ok(airport&&airport.name,code);
+      assert.ok(text(arrival).includes(airport.name)&&text(arrival).includes(code),profile.id+':'+locale+':'+code+': '+text(arrival));
+    }
+    assert.ok(text(arrival).includes(airports.asiaAirportTown(profile.iataCodes[0],locale)),profile.id+':'+locale);
+  };
+  for(const profile of lot2)check('es',profile);
+  for(const id of['ae-dubai','ae-abu-dhabi','lb-beirut','jo-aqaba','il-tel-aviv'])for(const locale of locales.filter(locale=>locale!=='es'))check(locale,catalog.getDestinationById(id));
+});
