@@ -14,7 +14,7 @@ const linkClass = "inline-flex min-h-[44px] items-center rounded px-2 underline-
 export default function SiteFooter() {
   const { language } = useLanguage();
   return (
-    <footer className="relative z-10 px-4 pb-4 pt-2 text-center text-xs text-stone-600">
+    <footer className="relative z-10 px-4 pb-24 pt-2 text-center text-xs text-stone-600">
       <nav aria-label={footerText(language, "nav")} className="flex flex-wrap items-center justify-center gap-x-3">
         {/* Los textos legales están en español: hrefLang lo indica a lectores de pantalla y buscadores. */}
         <Link href="/aviso-legal" hrefLang="es" className={linkClass}>{footerText(language, "legal")}</Link>
