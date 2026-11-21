@@ -121,11 +121,10 @@ export default function PrivacidadPage() {
           tu sesión si inicias sesión y tu decisión sobre el aviso de cookies.
         </p>
         <p className="mt-3">
-          <strong>Servicios de terceros (solo con tu permiso).</strong> La primera vez que entras te preguntamos si los aceptas. Hasta que contestes no se carga ninguno. Son:
+          <strong>Servicios de terceros (solo con tu permiso).</strong> La primera vez que entras te preguntamos si los aceptas. Hasta que contestes no se carga ninguno. Es
           el servicio de afiliación y medición de Travelpayouts (convierte los enlaces en enlaces de afiliado y guarda cookies y datos en tu navegador para saber desde qué página
-          se hace una reserva) y un complemento de vídeo de Tavus que se carga en todas las páginas. <Review label="confirmar con el titular si el complemento de Tavus se sigue usando y qué datos guarda" />{" "}
-          Puedes rechazarlos o cambiar de opinión cuando quieras con el enlace «Cookies» que hay al pie de cada página: si los rechazas, borramos las cookies y datos
-          que esos servicios hubieran guardado en este sitio y la web sigue funcionando.
+          se hace una reserva). Puedes rechazarlo o cambiar de opinión cuando quieras con el enlace «Cookies» que hay al pie de cada página: si lo rechazas, borramos las cookies y datos
+          que ese servicio hubiera guardado en este sitio y la web sigue funcionando.
         </p>
         <p className="mt-3">
           <strong>Cuando haces una búsqueda.</strong> Los resultados de vuelos los muestra un componente de Travelpayouts y el mapa de alojamientos uno de Stay22. Se cargan al buscar,

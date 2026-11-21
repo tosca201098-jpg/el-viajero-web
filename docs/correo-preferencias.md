@@ -33,7 +33,7 @@ Archivos: `supabase/migrations/20261117000000_create_email_preferences.sql` y su
 ## Antes de empezar a enviar correos (lista de control)
 - [ ] Rellenar `OWNER_DATA` y `LEGAL_UPDATED` en `lib/legal/owner.ts`; revisión por un profesional; después `LEGAL_IS_DRAFT = false` (quita el aviso de borrador, los «[REVISAR]» y permite indexar).
 - [ ] Decidir si se añade un pie de página discreto con «Privacidad» y «Aviso legal» (no se ha tocado la portada).
-- [ ] Revisar si la web usa cookies no esenciales (Travelpayouts, Tavus, Stay22…) y si hace falta aviso de cookies.
+- [ ] Revisar si la web usa cookies no esenciales (Travelpayouts, Stay22…; Tavus se quitó el 21-11-2026 porque ya no se usa) y si hace falta aviso de cookies.
 - [ ] Elegir el servicio de envío (se sugirió Resend), verificar el dominio (DNS) y crear la baja con un clic.
 - [ ] `EMAIL_SERVICE_LIVE = true` en `lib/email-preferences/options.ts`: quita el aviso «todavía no enviamos correos» del cuestionario y de la política. Revisar el texto del permiso y, si cambia, cambiar `EMAIL_CONSENT_VERSION`.
 - [ ] Guardar el histórico de precios (hoy `monthly_prices` solo guarda el último precio por ruta).

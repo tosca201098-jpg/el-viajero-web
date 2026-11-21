@@ -1,4 +1,4 @@
-// Aviso de cookies: los servicios de terceros (Travelpayouts «drive» y Tavus) solo se cargan si la persona los acepta.
+// Aviso de cookies: los servicios de terceros (Travelpayouts «drive») solo se cargan si la persona los acepta.
 // Antes estaban fijos en app/layout.tsx y se cargaban en todas las páginas sin preguntar.
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
@@ -109,11 +109,10 @@ test('the third-party scripts are added only by loadThirdPartyScripts, once each
   };
   const doc = makeDoc();
   assert.equal(doc.nodes.length, 0, 'antes de aceptar no hay ningún script');
-  assert.deepEqual(Array.from(scripts.loadThirdPartyScripts(doc)), ['travelpayouts-drive', 'tavus-embed']);
+  assert.deepEqual(Array.from(scripts.loadThirdPartyScripts(doc)), ['travelpayouts-drive']);
   assert.deepEqual(Array.from(scripts.loadThirdPartyScripts(doc)), [], 'no se duplican');
-  assert.equal(doc.nodes.length, 2);
+  assert.equal(doc.nodes.length, 1);
   assert.equal(doc.nodes[0].src, 'https://emrldco.com/NTg2MDI1.js?t=586025'); assert.equal(doc.nodes[0].attrs['data-cmp-ab'], '2');
-  assert.equal(doc.nodes[1].src, 'https://unpkg.com/@tavus/embed@latest');
   assert.ok(doc.nodes.every(node => node.async === true));
   const layout = read('app/layout.tsx');
   for (const piece of ['emrldco.com', 'unpkg.com', 'next/script', '<Script']) assert.ok(!layout.includes(piece), `${piece}: no fijo en el layout`);
@@ -151,6 +150,6 @@ test('the footer reopens the banner, and the privacy page explains the cookies a
   assert.match(read('app/components/CookieConsent.tsx'), /addEventListener\(OPEN_CONSENT_EVENT/);
   const privacy = read('app/privacidad/page.tsx');
   assert.match(privacy, /<section id="cookies">/);
-  for (const piece of ['Imprescindibles', 'Travelpayouts', 'Tavus', 'Stay22', 'Cookies']) assert.ok(privacy.includes(piece), piece);
+  for (const piece of ['Imprescindibles', 'Travelpayouts', 'Stay22', 'Cookies']) assert.ok(privacy.includes(piece), piece);
   assert.doesNotMatch(read('app/page.tsx'), /CookieConsent|cookie-consent/, 'la portada y sus 16 tarjetas no se tocan');
 });

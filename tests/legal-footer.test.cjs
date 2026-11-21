@@ -91,7 +91,7 @@ test('the layout adds it once, after the content and inside the language provide
   assert.match(layout, /import SiteFooter from '\.\/components\/SiteFooter';/);
   assert.match(layout, /<LanguageProvider>\{children\}<SiteFooter \/><CookieConsent \/><\/LanguageProvider>/);
   assert.doesNotMatch(layout, /privacidad|aviso-legal/, 'el layout solo conoce el componente, no las rutas');
-  // Lo demás del layout sigue como estaba (metadatos, idioma). Los scripts de Travelpayouts y Tavus ya no están fijos aquí: solo se cargan con permiso (lib/consent/scripts.ts).
+  // Lo demás del layout sigue como estaba (metadatos, idioma). El script de Travelpayouts ya no está fijo aquí (y el de Tavus se quitó: ya no se usa): solo se cargan con permiso (lib/consent/scripts.ts).
   for (const piece of ["html lang=\"es\"", 'siteUrl', 'LanguageProvider']) assert.ok(layout.includes(piece), piece);
   for (const piece of ['travelpayouts-drive', 'emrldco.com', '@tavus/embed', 'next/script']) assert.ok(!layout.includes(piece), `${piece}: ya no se carga sin permiso`);
 });
