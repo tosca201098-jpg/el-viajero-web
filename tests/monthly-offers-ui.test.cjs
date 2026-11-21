@@ -124,9 +124,11 @@ test('lee el aeropuerto recordado, lo consulta y dibuja los dos bloques con prec
   assert.ok(headings.includes('Internacional'));
   const cards = flatten(tree).filter((node) => node.type === 'article');
   assert.equal(cards.length, 7, 'solo hay tarjetas de los 7 destinos con precio real');
-  const pricedLinks = flatten(tree).filter((node) => node.type === 'a' && typeof node.props.href === 'string' && node.props.href.startsWith('https://www.aviasales.com/'));
+  // Los enlaces «Ver oferta» son enlaces de afiliado de Travelpayouts que llevan al enlace de Aviasales (no dependen del script de cookies).
+  const pricedLinks = flatten(tree).filter((node) => node.type === 'a' && typeof node.props.href === 'string' && node.props.href.startsWith('https://emrldco.com/re?'));
   assert.equal(pricedLinks.length, 7);
   for (const link of pricedLinks) {
+    assert.match(decodeURIComponent(new URL(link.props.href).searchParams.get('u')), /^https:\/\/www\.aviasales\.com\//);
     assert.equal(link.props.target, '_blank');
     assert.match(link.props.rel, /sponsored/);
     assert.match(link.props.rel, /noopener/);

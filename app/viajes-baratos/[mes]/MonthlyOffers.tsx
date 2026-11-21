@@ -3,6 +3,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import Link from "next/link";
 import { useLanguage } from "@/app/components/LanguageProvider";
+import { affiliateOfferHref } from "@/lib/travelpayouts/affiliate";
 import {
   CARDS_PER_BLOCK, DEFAULT_ORIGIN_CODE, MONTHLY_ORIGINS, ORIGIN_STORAGE_KEY, findMonthlyOrigin, formatTripRange,
   type MonthlyCard, type MonthlyOffersResponse,
@@ -71,7 +72,7 @@ function OfferCards({ cards, zone }: { cards: MonthlyCard[]; zone: "spain" | "in
               <h3 className="text-xl font-black leading-tight text-stone-900">{text.name}</h3>
               <p className="mt-1 text-sm text-stone-600">{text.country}</p>
               {card.offerUrl ? (
-                <a href={card.offerUrl} target="_blank" rel="noopener noreferrer sponsored" className="mt-3 flex items-end justify-between gap-2 rounded-xl bg-blue-50 px-3 py-2 hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
+                <a href={affiliateOfferHref(card.offerUrl)} target="_blank" rel="noopener noreferrer sponsored" className="mt-3 flex items-end justify-between gap-2 rounded-xl bg-blue-50 px-3 py-2 hover:bg-blue-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600">
                   <span className="min-w-0">{priceBlock}</span>
                   <span className="shrink-0 pb-0.5 text-xs font-bold text-blue-700">{t("search.viewOffer")} →</span>
                 </a>

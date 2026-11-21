@@ -71,7 +71,9 @@ test('the footer is one discreet line with the two legal links, in the language 
     assert.ok(links[1].includes(`>${escape(texts.footerText(locale, 'privacy'))}<`), `${locale}: «${texts.footerText(locale, 'privacy')}»`);
     for (const link of links) assert.match(link, /hrefLang="es"/, 'los textos legales están en español');
     assert.match(html, /min-h-\[44px\]/, 'zona de toque cómoda en el móvil');
-    assert.doesNotMatch(html, /<button|<img|<input|<script/, 'solo texto y enlaces');
+    assert.equal((html.match(/<button\b/g) || []).length, 1, `${locale}: un único botón, el de «Cookies»`);
+    assert.match(html, /<button[^>]*data-cookie-settings[^>]*>[^<]+<\/button>/, `${locale}: botón que reabre el aviso de cookies`);
+    assert.doesNotMatch(html, /<img|<input|<script/, 'solo texto, enlaces y el botón de cookies');
   }
 });
 
@@ -79,16 +81,19 @@ test('the footer stays at the end of the page: not fixed, not sticky, no state',
   const source = read('app/components/SiteFooter.tsx');
   assert.doesNotMatch(source, /\bfixed\b|\bsticky\b|\babsolute\b|useState|useEffect|fetch\(/);
   assert.match(source, /text-xs text-stone-600/);
+  // En la portada hay capas de fondo fijas (z-0) que se pintan encima de un pie sin posición: quedaba tapado y sin poder pulsarse.
+  assert.match(source, /<footer className="relative z-10 /, 'el pie va por encima de las capas de fondo');
 });
 
 test('the layout adds it once, after the content and inside the language provider, and nothing else changes in it', () => {
   const layout = read('app/layout.tsx');
   assert.equal((layout.match(/<SiteFooter \/>/g) || []).length, 1);
   assert.match(layout, /import SiteFooter from '\.\/components\/SiteFooter';/);
-  assert.match(layout, /<LanguageProvider>\{children\}<SiteFooter \/><\/LanguageProvider>/);
+  assert.match(layout, /<LanguageProvider>\{children\}<SiteFooter \/><CookieConsent \/><\/LanguageProvider>/);
   assert.doesNotMatch(layout, /privacidad|aviso-legal/, 'el layout solo conoce el componente, no las rutas');
-  // Lo demás del layout sigue como estaba (scripts de Travelpayouts y Tavus, metadatos, idioma).
-  for (const piece of ['travelpayouts-drive', '@tavus/embed@latest', "html lang=\"es\"", 'siteUrl', 'LanguageProvider']) assert.ok(layout.includes(piece), piece);
+  // Lo demás del layout sigue como estaba (metadatos, idioma). El script de Travelpayouts ya no está fijo aquí (y el de Tavus se quitó: ya no se usa): solo se cargan con permiso (lib/consent/scripts.ts).
+  for (const piece of ["html lang=\"es\"", 'siteUrl', 'LanguageProvider']) assert.ok(layout.includes(piece), piece);
+  for (const piece of ['travelpayouts-drive', 'emrldco.com', '@tavus/embed', 'next/script']) assert.ok(!layout.includes(piece), `${piece}: ya no se carga sin permiso`);
 });
 
 test('the links point to pages that exist, and the home page and its cards are untouched', () => {

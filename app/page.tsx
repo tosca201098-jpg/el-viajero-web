@@ -48,6 +48,7 @@ import { observeVoiceAuth, type VoiceAuthController, type VoiceAuthState } from 
 import { flightSearchErrorKey } from "@/lib/travelpayouts/search-feedback";
 import { featuredDestinationForSearch } from "@/lib/travelpayouts/featured-flight";
 import { hotelDefaults, hotelFlightDefaults, hotelsHref, validHotelSearch } from "@/lib/stay22/hotels";
+import { affiliateOfferHref } from "@/lib/travelpayouts/affiliate";
 import { itineraryContextForFlightSearch } from "@/lib/travelpayouts/flight-profile";
 import { listenAskSofia } from "@/lib/voice/ask-sofia";
 import { createVoiceItineraryRequest, parseVoiceItinerary, type VoiceItineraryRequest, type VoiceItineraryArguments, type VoiceItineraryContext, type VoiceItineraryResult } from "@/lib/voice/itinerary";
@@ -1074,7 +1075,7 @@ function abrirPaquete(destino = "") {
                 return offerTrip && <SaveFlightHeart key={JSON.stringify(offerTrip)} trip={offerTrip} className="mt-3" />;
               })()}
               {flight.offerUrl && (
-                <a href={flight.offerUrl} target="_blank" rel="noopener noreferrer sponsored" className={inDestinationCard
+                <a href={affiliateOfferHref(flight.offerUrl)} target="_blank" rel="noopener noreferrer sponsored" className={inDestinationCard
                   ? windowStyle.flightOfferLink
                   : "mt-3 inline-flex min-h-[44px] items-center rounded-lg border border-blue-500 px-3 py-1 text-xs font-bold text-blue-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600"}>
                   {t("search.viewOffer")}
