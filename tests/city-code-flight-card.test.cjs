@@ -41,6 +41,8 @@ const answers = {
   jeju: [city('CJU', 'Jeju', 'KR')], cju: [city('CJU', 'Jeju', 'KR')],
   // Duqm (Omán): el proveedor la nombra con su código de ciudad JNJ, no con el del aeropuerto DQM.
   duqm: [city('JNJ', 'Duqm', 'OM')], dqm: [city('JNJ', 'Duqm', 'OM')],
+  // Bakú (Azerbaiyán): el proveedor la nombra con su código de ciudad BAK, no con el del aeropuerto GYD.
+  baku: [city('BAK', 'Bakú', 'AZ')], 'bakú': [city('BAK', 'Bakú', 'AZ')], gyd: [city('BAK', 'Bakú', 'AZ')],
 };
 const calls = [];
 const load = loader({ fetch: async input => {
@@ -58,15 +60,15 @@ const [departureDate, returnDate] = [day(30), day(40)];
 const short = date => date.slice(8, 10) + date.slice(5, 7);
 const post = destination => route.POST({ json: async () => ({ origin: 'Madrid', destination, departureDate, returnDate, travelers: 1 }) });
 
-test('the only cards with a city code of their own are Tokyo, Osaka, Sapporo, Seoul and Duqm', () => {
+test('the only cards with a city code of their own are Baku, Tokyo, Osaka, Sapporo, Seoul and Duqm', () => {
   const withCityCode = Array.from(catalog.destinationProfiles)
     .filter(profile => profile.metropolitanCodes.some(code => !profile.iataCodes.includes(code))).map(profile => profile.id).sort();
-  assert.deepEqual(withCityCode, ['jp-osaka', 'jp-sapporo', 'jp-tokyo', 'kr-seoul', 'om-duqm']);
+  assert.deepEqual(withCityCode, ['az-baku', 'jp-osaka', 'jp-sapporo', 'jp-tokyo', 'kr-seoul', 'om-duqm']);
 });
 
 test('exact search links keep the card of Seoul, Osaka and Sapporo, however the visitor typed them', async () => {
   const cases = [['Seúl', 'SEL', 'kr-seoul'], ['Seul', 'SEL', 'kr-seoul'], ['Seoul', 'SEL', 'kr-seoul'], ['Incheon', 'SEL', 'kr-seoul'],
-    ['Osaka', 'OSA', 'jp-osaka'], ['Sapporo', 'SPK', 'jp-sapporo'], ['Jeju', 'CJU', 'kr-jeju'], ['Duqm', 'JNJ', 'om-duqm']];
+    ['Osaka', 'OSA', 'jp-osaka'], ['Sapporo', 'SPK', 'jp-sapporo'], ['Jeju', 'CJU', 'kr-jeju'], ['Duqm', 'JNJ', 'om-duqm'], ['Baku', 'BAK', 'az-baku']];
   for (const [typed, code, id] of cases) {
     const response = await post(typed);
     assert.equal(response.status, 200, typed);
