@@ -128,7 +128,7 @@ export default function PrivacidadPage() {
         </p>
         <p className="mt-3">
           <strong>Cuando haces una búsqueda.</strong> Los resultados de vuelos los muestra un componente de Travelpayouts y el mapa de alojamientos uno de Stay22. Se cargan al buscar,
-          porque es el servicio que pides, y pueden guardar sus propias preferencias (por ejemplo, idioma y moneda). <Review label="comprobar con un profesional si esas cookies son imprescindibles o necesitan permiso previo" />
+          porque es el servicio que pides, y guardan en tu navegador sus propias preferencias (por ejemplo, idioma y moneda). El componente de vuelos guarda además cookies de medición de su proveedor, que no podemos desactivar desde aquí. <Review label="comprobar con un profesional si esas cookies del componente de vuelos necesitan permiso previo (hoy se cargan al buscar aunque se hayan rechazado los servicios de terceros)" />
         </p>
       </section>
 
