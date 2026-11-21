@@ -89,5 +89,5 @@ export function itineraryQualityIssues(itinerary: Itinerary): QualityIssue[] {
   }
   if (list.some((item) => UNSAFE_ACTIVITY.test(`${item.name} ${item.description}`))) issues.add("unsafe_activity");
 
-  return [...issues];
+  return Array.from(issues);
 }
