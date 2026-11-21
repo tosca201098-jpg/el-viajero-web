@@ -81,6 +81,8 @@ test('the footer stays at the end of the page: not fixed, not sticky, no state',
   const source = read('app/components/SiteFooter.tsx');
   assert.doesNotMatch(source, /\bfixed\b|\bsticky\b|\babsolute\b|useState|useEffect|fetch\(/);
   assert.match(source, /text-xs text-stone-600/);
+  // En la portada hay capas de fondo fijas (z-0) que se pintan encima de un pie sin posición: quedaba tapado y sin poder pulsarse.
+  assert.match(source, /<footer className="relative z-10 /, 'el pie va por encima de las capas de fondo');
 });
 
 test('the layout adds it once, after the content and inside the language provider, and nothing else changes in it', () => {
