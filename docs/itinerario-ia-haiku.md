@@ -26,6 +26,18 @@ Un valor inválido o por encima del techo **bloquea la IA** (el visitante ve la 
 
 Para **apagarlo** basta poner `AI_ITINERARY_ENABLED=false` (o quitar la clave): todos vuelven a la guía gratuita.
 
+## Controles de calidad (itinerario más completo y fiable)
+
+Además de la estructura (días exactos, mañana/tarde/noche, consejos), cada respuesta de la IA pasa por `lib/itinerary/quality.ts` antes de enseñarse:
+
+- **Sin contenido repetido:** no se admiten actividades, descripciones, títulos de día ni consejos repetidos (se comparan sin mayúsculas, tildes ni signos).
+- **Sin datos que no podemos verificar:** se rechazan precios y monedas, «gratis» y descuentos, horas exactas y horarios de apertura, disponibilidad de entradas y garantías (en los siete idiomas).
+- **Sin actividades inseguras:** se rechazan actividades con drogas, prostitución o ilegalidad. Los consejos pueden advertir de ellas («evita los taxis ilegales»).
+- Si algo falla, la persona recibe la **guía gratuita** con el aviso de siempre. No hay reintentos automáticos, así que **una respuesta rechazada también cuenta en el límite diario** (la reserva se hace antes de llamar a Anthropic).
+- En los registros del servidor solo se escribe un código fijo, por ejemplo `Itinerary AI result quality:price_claim`; nunca el texto de la respuesta.
+
+Lo que **no** se puede comprobar por código y solo se pide en las instrucciones a la IA: que los días agrupen lugares cercanos, que haya 2 actividades por tramo cuando el destino lo permita, que los consejos sean útiles y que los lugares existan. Por eso el itinerario con IA sigue llevando el aviso «comprueba horarios, precios y reservas».
+
 ## Seguridad y privacidad
 
 - La clave solo se lee en el servidor, solo se envía a `https://api.anthropic.com/v1/messages` en la cabecera `x-api-key`, sin redirecciones ni reintentos, con un límite de 50 segundos.
